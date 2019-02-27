@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import BottomPanel from "./inc/BottomPanel";
-import Welcome from "./Welcome/Welcome";
 import { Platform, StyleSheet, Text, View } from "react-native";
 
 const API_URL = "http://127.0.0.1:8000/";
@@ -17,9 +15,15 @@ export default class App extends Component {
     await this.setState({ userData: user });
 
     if (user.email_token) {
-      this.props.navigation.navigate("FindUsers", {
-        user: this.state.userData
-      });
+      if (this.state.userData.verified === 1) {
+        this.props.navigation.navigate("FindUsers", {
+          user: this.state.userData
+        });
+      } else {
+        this.props.navigation.navigate("ConfirmAccount", {
+          user: this.state.userData
+        });
+      }
     }
 
     console.log(["App state", this.state]);
@@ -32,7 +36,10 @@ export default class App extends Component {
         setUserData: this.setUserData
       });
     } else {
-      this.props.navigation.navigate("FindUsers");
+      this.props.navigation.navigate("RedirectAuth", {
+        API_URL: API_URL,
+        setUserData: this.setUserData
+      });
     }
   }
   render() {

@@ -4,6 +4,7 @@ import Main from "./app/Main";
 import Welcome from "./app/Welcome/Welcome";
 import Login from "./app/Auth/Login";
 import Register from "./app/Auth/Register";
+import ConfirmAccount from "./app/ConfirmAccount/ConfirmAccount";
 import FindUsers from "./app/FindUsers/FindUsers";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
@@ -26,6 +27,7 @@ const RootStack = createStackNavigator(
     Login: Login,
     Register: Register,
     Main: Main,
+    ConfirmAccount: ConfirmAccount,
     FindUsers: FindUsers
   },
   {
