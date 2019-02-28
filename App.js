@@ -6,6 +6,7 @@ import Login from "./app/Auth/Login";
 import Register from "./app/Auth/Register";
 import ConfirmAccount from "./app/ConfirmAccount/ConfirmAccount";
 import FindUsers from "./app/FindUsers/FindUsers";
+import FillNecessaryInfo from "./app/FillNecessaryInfo/FillNecessaryInfo";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 const instructions = Platform.select({
@@ -28,7 +29,8 @@ const RootStack = createStackNavigator(
     Register: Register,
     Main: Main,
     ConfirmAccount: ConfirmAccount,
-    FindUsers: FindUsers
+    FindUsers: FindUsers,
+    FillNecessaryInfo: FillNecessaryInfo
   },
   {
     initialRouteName: "Main"
