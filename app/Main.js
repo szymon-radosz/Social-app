@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
+import axios from "axios";
 
 const API_URL = "http://127.0.0.1:8000/";
 
@@ -10,6 +11,33 @@ export default class App extends Component {
 
     this.setUserData = this.setUserData.bind(this);
     this.checkUserStatus = this.checkUserStatus.bind(this);
+    this.setUserFilledInfo = this.setUserFilledInfo.bind(this);
+  }
+
+  setUserFilledInfo() {
+    try {
+      let userEmailName = this.state.userData[0].email;
+
+      console.log(userEmailName);
+
+      let formData = new FormData();
+      formData.append("userEmail", userEmailName);
+
+      axios
+        .post(API_URL + "/api/setUserFilledInfo", formData)
+        .then(async response => {
+          console.log(response);
+
+          await this.setState({ userData: response.data.user });
+
+          this.checkUserStatus();
+        })
+        .catch(function(error) {
+          console.log(error.message);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   checkUserStatus() {
@@ -30,7 +58,9 @@ export default class App extends Component {
       this.state.userData[0].user_filled_info === 0
     ) {
       this.props.navigation.navigate("FillNecessaryInfo", {
-        user: this.state.userData
+        user: this.state.userData,
+        API_URL: API_URL,
+        setUserFilledInfo: this.setUserFilledInfo
       });
     }
   }

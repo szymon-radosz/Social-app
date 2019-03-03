@@ -12,7 +12,10 @@
     "react": "16.6.3",
     "react-native": "0.58.5",
     "react-native-config": "^0.11.7",
+    "react-native-datepicker": "^1.7.2",
     "react-native-gesture-handler": "^1.0.16",
+    "react-native-image-picker": "^0.28.0",
+    "react-native-maps": "https://github.com/react-community/react-native-maps.git",
     "react-navigation": "^3.3.0"
   },
   "devDependencies": {
