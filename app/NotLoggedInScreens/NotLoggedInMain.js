@@ -4,7 +4,7 @@ import axios from "axios";
 
 const API_URL = "http://127.0.0.1:8000/";
 
-export default class App extends Component {
+export default class NotLoggedInMain extends Component {
   constructor(props) {
     super(props);
     this.state = { userLoggedIn: false, userData: [] };
@@ -46,7 +46,7 @@ export default class App extends Component {
       this.state.userData[0].user_filled_info === 1
     ) {
       console.log("verified");
-      this.props.navigation.navigate("FindUsers", {
+      this.props.navigation.navigate("LoggedInMain", {
         user: this.state.userData
       });
     } else if (this.state.userData[0].verified === 0) {
@@ -76,11 +76,6 @@ export default class App extends Component {
   componentDidMount() {
     if (!this.state.userLoggedIn) {
       this.props.navigation.navigate("Welcome", {
-        API_URL: API_URL,
-        setUserData: this.setUserData
-      });
-    } else {
-      this.props.navigation.navigate("RedirectAuth", {
         API_URL: API_URL,
         setUserData: this.setUserData
       });

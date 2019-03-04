@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, Button, Text, View } from "react-native";
+import BottomPanel from "./../inc/BottomPanel";
 
 export default class FindUsers extends Component {
   constructor(props) {
