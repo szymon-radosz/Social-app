@@ -66,10 +66,21 @@ export default class LoggedInMain extends Component {
   render() {
     return (
       <View>
-        {this.state.openFindUsers && <FindUsers API_URL={this.state.API_URL} />}
-        {this.state.openAuctions && <Auctions API_URL={this.state.API_URL} />}
-        {this.state.openEvents && <Events API_URL={this.state.API_URL} />}
-        {this.state.openProfile && <Profile API_URL={this.state.API_URL} />}
+        {this.state.openFindUsers && (
+          <FindUsers
+            API_URL={this.props.navigation.getParam("API_URL")}
+            user={this.props.navigation.getParam("user")[0]}
+          />
+        )}
+        {this.state.openAuctions && (
+          <Auctions API_URL={this.props.navigation.getParam("API_URL")} />
+        )}
+        {this.state.openEvents && (
+          <Events API_URL={this.props.navigation.getParam("API_URL")} />
+        )}
+        {this.state.openProfile && (
+          <Profile API_URL={this.props.navigation.getParam("API_URL")} />
+        )}
         <BottomPanel
           openFindUsers={this.openFindUsers}
           openAuctions={this.openAuctions}

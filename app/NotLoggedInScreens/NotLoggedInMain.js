@@ -47,7 +47,8 @@ export default class NotLoggedInMain extends Component {
     ) {
       console.log("verified");
       this.props.navigation.navigate("LoggedInMain", {
-        user: this.state.userData
+        user: this.state.userData,
+        API_URL: API_URL
       });
     } else if (this.state.userData[0].verified === 0) {
       this.props.navigation.navigate("ConfirmAccount", {
