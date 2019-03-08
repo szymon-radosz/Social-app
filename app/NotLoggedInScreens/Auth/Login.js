@@ -5,7 +5,8 @@ import {
   Text,
   View,
   Button,
-  TextInput
+  TextInput,
+  TouchableHighlight
 } from "react-native";
 import axios from "axios";
 import { createStackNavigator, createAppContainer } from "react-navigation";
@@ -16,10 +17,10 @@ export default class Login extends Component {
     this.state = { email: "", password: "" };
   }
 
-  componentDidMount() {
+  /*componentDidMount() {
     console.log(["Login", this.props.navigation.state]);
     console.log(["State", this.props.navigation.state.params.API_URL]);
-  }
+  }*/
 
   loginUser() {
     if (this.state.email && this.state.password) {
@@ -72,34 +73,95 @@ export default class Login extends Component {
   }
   render() {
     return (
-      <View>
-        <Text>Logowanie</Text>
+      <View style={styles.container}>
+        <Text style={styles.headerText}>Logowanie</Text>
 
         <TextInput
-          style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+          style={styles.input}
+          placeholder="E-mail"
+          placeholderTextColor="#919191"
           onChangeText={email => this.setState({ email })}
           value={this.state.email}
         />
 
         <TextInput
-          style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+          style={styles.input}
+          placeholder="Hasło"
+          placeholderTextColor="#919191"
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
         />
+        <TouchableHighlight style={styles.loginBtn}>
+          <Button
+            title="Zaloguj"
+            color="#fff"
+            onPress={() => this.loginUser()}
+          />
+        </TouchableHighlight>
 
-        <Button title="Zaloguj" onPress={() => this.loginUser()} />
+        <Text style={styles.askDesc}>Nie masz konta? </Text>
 
-        <Text>Nie masz konta? </Text>
-        <Button
-          title="Zarejestruj się za darmo"
-          onPress={() =>
-            this.props.navigation.navigate("Register", {
-              API_URL: this.props.navigation.getParam("API_URL", ""),
-              setUserData: this.props.navigation.getParam("setUserData")
-            })
-          }
-        />
+        <TouchableHighlight style={styles.registerBtn}>
+          <Button
+            title="Zarejestruj się za darmo"
+            color="#e07b8d"
+            onPress={() =>
+              this.props.navigation.navigate("Register", {
+                API_URL: this.props.navigation.getParam("API_URL", ""),
+                setUserData: this.props.navigation.getParam("setUserData")
+              })
+            }
+          />
+        </TouchableHighlight>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, alignItems: "center" },
+  headerText: {
+    textAlign: "center",
+    color: "#333",
+    fontWeight: "600",
+    fontSize: 24,
+    marginTop: 40,
+    paddingBottom: 20
+  },
+  logoDesc: {
+    textAlign: "center",
+    color: "#333",
+    fontWeight: "500",
+    fontSize: 16,
+    paddingBottom: 30
+  },
+  input: {
+    width: "90%",
+    marginBottom: 10,
+    borderRadius: 5,
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    paddingLeft: 10,
+    paddingRight: 10
+  },
+  loginBtn: {
+    height: 45,
+    width: 180,
+    marginTop: 10,
+    borderRadius: 30,
+    borderColor: "#e07b8d",
+    borderWidth: 2,
+    backgroundColor: "#e07b8d",
+    color: "#fff",
+    marginBottom: 30
+  },
+  askDesc: {
+    fontSize: 14,
+    fontWeight: "300"
+  },
+  registerBtn: {
+    fontSize: 16,
+    fontWeight: "600"
+  }
+});

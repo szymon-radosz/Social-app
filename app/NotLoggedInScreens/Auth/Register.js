@@ -6,6 +6,7 @@ import {
   Text,
   View,
   Button,
+  TouchableHighlight,
   Alert
 } from "react-native";
 import axios from "axios";
@@ -53,46 +54,111 @@ export default class Register extends Component {
 
   render() {
     return (
-      <View>
-        <Text>Rejestracja</Text>
+      <View style={styles.container}>
+        <Text style={styles.headerText}>Rejestracja</Text>
 
         <TextInput
-          style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+          style={styles.input}
+          placeholder="Imię"
+          placeholderTextColor="#919191"
           onChangeText={name => this.setState({ name })}
           value={this.state.name}
         />
 
         <TextInput
-          style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+          style={styles.input}
+          placeholder="E-mail"
+          placeholderTextColor="#919191"
           onChangeText={email => this.setState({ email })}
           value={this.state.email}
         />
 
         <TextInput
-          style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+          style={styles.input}
+          placeholder="Hasło"
+          placeholderTextColor="#919191"
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
         />
 
         <TextInput
-          style={{ height: 40, borderColor: "gray", borderWidth: 1 }}
+          style={styles.input}
+          placeholder="Potwierdź hasło"
+          placeholderTextColor="#919191"
           onChangeText={passwordConf => this.setState({ passwordConf })}
           value={this.state.passwordConf}
         />
+        <TouchableHighlight style={styles.loginBtn}>
+          <Button
+            title="Zarejestruj mnie"
+            color="#fff"
+            onPress={() => this.registerUser()}
+          />
+        </TouchableHighlight>
 
-        <Button title="Zarejestruj mnie" onPress={() => this.registerUser()} />
+        <Text style={styles.askDesc}>Posiadasz juz konto? </Text>
 
-        <Text>Posiadasz juz konto? </Text>
-        <Button
-          title="Zaloguj się"
-          onPress={() =>
-            this.props.navigation.navigate("Login", {
-              API_URL: this.props.navigation.getParam("API_URL", ""),
-              setUserData: this.props.navigation.getParam("setUserData")
-            })
-          }
-        />
+        <TouchableHighlight style={styles.registerBtn}>
+          <Button
+            title="Zaloguj się"
+            color="#e07b8d"
+            onPress={() =>
+              this.props.navigation.navigate("Login", {
+                API_URL: this.props.navigation.getParam("API_URL", ""),
+                setUserData: this.props.navigation.getParam("setUserData")
+              })
+            }
+          />
+        </TouchableHighlight>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, alignItems: "center" },
+  headerText: {
+    textAlign: "center",
+    color: "#333",
+    fontWeight: "600",
+    fontSize: 24,
+    marginTop: 40,
+    paddingBottom: 20
+  },
+  logoDesc: {
+    textAlign: "center",
+    color: "#333",
+    fontWeight: "500",
+    fontSize: 16,
+    paddingBottom: 30
+  },
+  input: {
+    width: "90%",
+    marginBottom: 10,
+    borderRadius: 5,
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    paddingLeft: 10,
+    paddingRight: 10
+  },
+  loginBtn: {
+    height: 45,
+    width: 180,
+    marginTop: 10,
+    borderRadius: 30,
+    borderColor: "#e07b8d",
+    borderWidth: 2,
+    backgroundColor: "#e07b8d",
+    color: "#fff",
+    marginBottom: 30
+  },
+  askDesc: {
+    fontSize: 14,
+    fontWeight: "300"
+  },
+  registerBtn: {
+    fontSize: 16,
+    fontWeight: "600"
+  }
+});
