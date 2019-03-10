@@ -150,15 +150,11 @@ const styles = StyleSheet.create({
     borderColor: "#e07b8d",
     borderWidth: 2,
     backgroundColor: "#e07b8d",
-    color: "#fff",
     marginBottom: 30
   },
   askDesc: {
     fontSize: 14,
     fontWeight: "300"
   },
-  registerBtn: {
-    fontSize: 16,
-    fontWeight: "600"
-  }
+  registerBtn: {}
 });

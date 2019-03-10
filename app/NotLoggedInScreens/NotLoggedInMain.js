@@ -16,7 +16,7 @@ export default class NotLoggedInMain extends Component {
 
   setUserFilledInfo() {
     try {
-      let userEmailName = this.state.userData[0].email;
+      let userEmailName = this.state.userData.email;
 
       console.log(userEmailName);
 
@@ -28,7 +28,7 @@ export default class NotLoggedInMain extends Component {
         .then(async response => {
           console.log(response);
 
-          await this.setState({ userData: response.data.user });
+          await this.setState({ userData: response.data.user[0] });
 
           this.checkUserStatus();
         })
@@ -41,22 +41,24 @@ export default class NotLoggedInMain extends Component {
   }
 
   checkUserStatus() {
+    //console.log(["checkUserStatus", this.state.userData[0].verified]);
+    console.log(["checkUserStatus", this.state.userData.verified]);
     if (
-      this.state.userData[0].verified === 1 &&
-      this.state.userData[0].user_filled_info === 1
+      this.state.userData.verified === 1 &&
+      this.state.userData.user_filled_info === 1
     ) {
       console.log("verified");
       this.props.navigation.navigate("LoggedInMain", {
         user: this.state.userData,
         API_URL: API_URL
       });
-    } else if (this.state.userData[0].verified === 0) {
+    } else if (this.state.userData.verified === 0) {
       this.props.navigation.navigate("ConfirmAccount", {
         user: this.state.userData
       });
     } else if (
-      this.state.userData[0].verified === 1 &&
-      this.state.userData[0].user_filled_info === 0
+      this.state.userData.verified === 1 &&
+      this.state.userData.user_filled_info === 0
     ) {
       this.props.navigation.navigate("FillNecessaryInfo", {
         user: this.state.userData,
@@ -69,12 +71,13 @@ export default class NotLoggedInMain extends Component {
   async setUserData(user) {
     await this.setState({ userData: user });
 
-    this.checkUserStatus();
-
     console.log(["App state", this.state]);
+
+    this.checkUserStatus();
   }
 
   componentDidMount() {
+    console.log(["comp", this.state.userData]);
     if (!this.state.userLoggedIn) {
       this.props.navigation.navigate("Welcome", {
         API_URL: API_URL,

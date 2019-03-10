@@ -55,17 +55,39 @@ export default class FindUsers extends Component {
   render() {
     return (
       <View>
-        <Text>
-          Poznaj inne e-mamy w Twojej okolicy. Możesz edytować swoje dane w
-          zakładce "Profil".
+        <Text style={styles.pageTitle}>
+          Poznaj inne e-mamy w Twojej okolicy.
+        </Text>
+
+        <Text style={styles.pageSubTitle}>
+          Możesz edytować swoje dane w zakładce "Profil".
         </Text>
 
         {this.state.userList &&
           this.state.userList.map(user => {
-            console.log(`${this.props.API_URL}/userPhotos/${user.photo_path}`);
+            //console.log(`${this.props.API_URL}/userPhotos/${user.photo_path}`);
             return <UserOnList API_URL={this.props.API_URL} user={user} />;
           })}
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, justifyContent: "center", alignItems: "center" },
+  pageTitle: {
+    textAlign: "center",
+    color: "#333",
+    fontWeight: "600",
+    fontSize: 18,
+    paddingBottom: 10,
+    paddingTop: 10
+  },
+  pageSubTitle: {
+    textAlign: "center",
+    color: "#333",
+    fontWeight: "400",
+    fontSize: 14,
+    paddingBottom: 20
+  }
+});

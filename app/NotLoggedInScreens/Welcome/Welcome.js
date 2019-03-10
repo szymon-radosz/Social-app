@@ -20,7 +20,7 @@ export default class Welcome extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.logo}>E-mamy.pl</Text>
+        <Text style={styles.logo}>E-mamy</Text>
         <Text style={styles.logoDesc}>Pomocnik kazdej mamy</Text>
 
         <TouchableHighlight style={styles.loginBtn}>
@@ -76,19 +76,16 @@ const styles = StyleSheet.create({
     borderColor: "#e07b8d",
     borderWidth: 2,
     backgroundColor: "#fff",
-    color: "#fff",
     marginTop: 20,
     marginBottom: 20
   },
   registerBtn: {
     height: 45,
     width: 180,
-
     borderRadius: 30,
     borderColor: "#e07b8d",
     borderWidth: 2,
     backgroundColor: "#e07b8d",
-    color: "#fff",
     marginBottom: 20
   }
 });

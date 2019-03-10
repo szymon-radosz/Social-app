@@ -53,7 +53,7 @@ export default class FillNecessaryInfo extends Component {
   saveHobbies() {
     try {
       let API_URL = this.props.navigation.getParam("API_URL", "");
-      let userEmailName = this.props.navigation.getParam("user")[0].email;
+      let userEmailName = this.props.navigation.getParam("user").email;
 
       this.state.hobbies.map(hobby => {
         if (hobby.active) {
@@ -111,7 +111,7 @@ export default class FillNecessaryInfo extends Component {
             hobbies: [...prevState.hobbies, hobbyObj]
           }));
 
-          console.log(this.state);
+          //console.log(this.state);
         });
       })
       .catch(function(error) {
@@ -137,13 +137,13 @@ export default class FillNecessaryInfo extends Component {
       kids: [...prevState.kids, kidObj]
     }));
 
-    console.log(["kids", this.state]);
+    //console.log(["kids", this.state]);
   }
 
   async handleChange(name, value) {
     await this.setState(() => ({ [name]: value }));
 
-    console.log(this.state);
+    //console.log(this.state);
   }
 
   handleChoosePhoto() {
@@ -162,13 +162,13 @@ export default class FillNecessaryInfo extends Component {
 
   fileUpload() {
     try {
-      console.log([
+      /*console.log([
         "photo: ",
         this.state,
         this.props.navigation.getParam("API_URL", "")
-      ]);
+      ]);*/
       let API_URL = this.props.navigation.getParam("API_URL", "");
-      let userEmailName = this.props.navigation.getParam("user")[0].email;
+      let userEmailName = this.props.navigation.getParam("user").email;
 
       let formData = new FormData();
       formData.append("file", this.state.photo.uri);
@@ -191,9 +191,10 @@ export default class FillNecessaryInfo extends Component {
   }
 
   saveUserData() {
+    console.log(this.props.navigation.getParam("user"));
     try {
       let API_URL = this.props.navigation.getParam("API_URL", "");
-      let userEmailName = this.props.navigation.getParam("user")[0].email;
+      let userEmailName = this.props.navigation.getParam("user").email;
 
       let formData = new FormData();
       formData.append("userEmail", userEmailName);
@@ -216,7 +217,7 @@ export default class FillNecessaryInfo extends Component {
   saveUserKids() {
     try {
       let API_URL = this.props.navigation.getParam("API_URL", "");
-      let userEmailName = this.props.navigation.getParam("user")[0].email;
+      let userEmailName = this.props.navigation.getParam("user").email;
 
       this.state.kids.map(kid => {
         let formData = new FormData();

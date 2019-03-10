@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Button, Image, Text, View } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  Button,
+  Image,
+  Text,
+  View,
+  TouchableHighlight
+} from "react-native";
 import axios from "axios";
 
 export default class UserOnList extends Component {
@@ -52,24 +60,58 @@ export default class UserOnList extends Component {
       );
     } else {
       return (
-        <View>
+        <View style={styles.userContainer}>
           <Image
-            style={{ width: 50, height: 50 }}
+            style={styles.userListImage}
             source={{
               uri: `${this.props.API_URL}userPhotos/${
                 this.props.user.photo_path
               }`
             }}
           />
-          <Text>
+          <Text style={styles.userListText}>
             {this.props.user.name}, {this.props.user.age}
           </Text>
-          <Button
-            title="Podgląd"
-            onPress={() => this.changeShowUserDetails()}
-          />
+          <TouchableHighlight style={styles.showUserDetails}>
+            <Button
+              title="Podgląd"
+              color="#fff"
+              onPress={() => this.changeShowUserDetails()}
+            />
+          </TouchableHighlight>
         </View>
       );
     }
   }
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, justifyContent: "center", alignItems: "center" },
+  userListImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 50
+  },
+  userListText: {
+    fontSize: 16,
+    textAlign: "center",
+    color: "#333",
+    fontWeight: "400"
+  },
+  userContainer: {
+    borderRadius: 5,
+    borderColor: "#e07b8d",
+    borderWidth: 1,
+    padding: 5
+  },
+  showUserDetails: {
+    height: 35,
+    width: 100,
+    marginTop: 10,
+    borderRadius: 30,
+    borderColor: "#e07b8d",
+    borderWidth: 2,
+    backgroundColor: "#e07b8d",
+    marginBottom: 10
+  }
+});

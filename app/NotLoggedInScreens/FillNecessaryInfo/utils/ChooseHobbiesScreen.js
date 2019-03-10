@@ -5,7 +5,9 @@ import {
   Button,
   Text,
   View,
-  TextInput
+  TextInput,
+  TouchableHighlight,
+  TouchableOpacity
 } from "react-native";
 
 export default class ChooseHobbiesScreen extends Component {
@@ -17,24 +19,109 @@ export default class ChooseHobbiesScreen extends Component {
   render() {
     return (
       <View>
-        <Text>Wybierz hobby</Text>
-        {this.props.hobbies &&
-          this.props.hobbies.map((hobby, i) => {
-            console.log(["hobby: ", hobby]);
-            return (
-              <Text
-                key={i}
-                onPress={() => this.props.changeHobbyStatus(hobby.keyId)}
-              >
-                {hobby.name} - {hobby.active}
-              </Text>
-            );
-          })}
-
-        <Button title="Zapisz profil" onPress={this.props.submitData} />
-
-        <Button title="Wróć" onPress={this.props.prevStep} />
+        <Text style={styles.headerText}>Wybierz swoje hobby.</Text>
+        <View style={styles.hobbiesContainer}>
+          {this.props.hobbies &&
+            this.props.hobbies.map((hobby, i) => {
+              //console.log(["hobby: ", hobby]);
+              return (
+                <TouchableOpacity
+                  onPress={() => this.props.changeHobbyStatus(hobby.keyId)}
+                  style={
+                    hobby.active
+                      ? styles.activeHobbyContainer
+                      : styles.hobbyContainer
+                  }
+                >
+                  <Text key={i}>{hobby.name}</Text>
+                </TouchableOpacity>
+              );
+            })}
+        </View>
+        <View style={styles.btnContainer}>
+          <TouchableHighlight style={styles.nextBtn}>
+            <Button
+              title="Zapisz profil"
+              color="#fff"
+              onPress={this.props.submitData}
+            />
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.previousBtn}>
+            <Button
+              title="Wróć"
+              color="#e07b8d"
+              onPress={this.props.prevStep}
+            />
+          </TouchableHighlight>
+        </View>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, alignItems: "center" },
+  headerText: {
+    textAlign: "center",
+    color: "#333",
+    fontWeight: "600",
+    fontSize: 22,
+    paddingBottom: 20,
+    paddingTop: 20
+  },
+  hobbiesContainer: {
+    //justifyContent: "center",
+    flexDirection: "row",
+    flexWrap: "wrap"
+    //flex: 1
+  },
+  btnContainer: {
+    justifyContent: "center",
+    flexDirection: "column"
+  },
+  hobbyContainer: {
+    width: 100,
+    height: 100,
+    margin: 10,
+    //justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#333",
+    borderRadius: 5
+  },
+  activeHobbyContainer: {
+    width: 100,
+    height: 100,
+    margin: 10,
+    //justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#e07b8d",
+    borderRadius: 5
+  },
+
+  previousBtn: {
+    height: 45,
+    width: 180,
+    borderRadius: 30,
+    borderColor: "#e07b8d",
+    borderWidth: 2,
+    backgroundColor: "#fff",
+    marginTop: 20,
+    marginBottom: 20,
+    marginLeft: "auto",
+    marginRight: "auto"
+  },
+  nextBtn: {
+    height: 45,
+    width: 180,
+    borderRadius: 30,
+    borderColor: "#e07b8d",
+    borderWidth: 2,
+    backgroundColor: "#e07b8d",
+    marginTop: 20,
+    marginBottom: 10,
+    marginLeft: "auto",
+    marginRight: "auto"
+  }
+});

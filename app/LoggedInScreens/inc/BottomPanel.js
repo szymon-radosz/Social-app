@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     color: "red",
     fontWeight: "bold",
     backgroundColor: "#fff",
-    fontSize: 10
+    fontSize: 8
   },
   bottomPanel: {
     borderTopWidth: 2,

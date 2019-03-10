@@ -34,7 +34,7 @@ export default class Login extends Component {
             password: this.state.password
           })
           .then(function(response) {
-            console.log(response.data);
+            //console.log(response.data);
 
             if (response.data.user.token) {
               let token = response.data.user.token;
@@ -52,7 +52,7 @@ export default class Login extends Component {
               axios
                 .post(API_URL + "/api/details", {}, { headers: config })
                 .then(function(response2) {
-                  console.log(response2.data);
+                  console.log(["details", response2.data]);
 
                   navProps.setUserData(response2.data.user);
                 })
@@ -153,15 +153,11 @@ const styles = StyleSheet.create({
     borderColor: "#e07b8d",
     borderWidth: 2,
     backgroundColor: "#e07b8d",
-    color: "#fff",
     marginBottom: 30
   },
   askDesc: {
     fontSize: 14,
     fontWeight: "300"
   },
-  registerBtn: {
-    fontSize: 16,
-    fontWeight: "600"
-  }
+  registerBtn: {}
 });
