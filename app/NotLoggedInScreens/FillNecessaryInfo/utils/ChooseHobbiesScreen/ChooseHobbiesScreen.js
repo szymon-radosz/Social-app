@@ -31,8 +31,9 @@ export default class ChooseHobbiesScreen extends Component {
                       ? styles.activeHobbyContainer
                       : styles.hobbyContainer
                   }
+                  key={i}
                 >
-                  <Text key={i}>{hobby.name}</Text>
+                  <Text>{hobby.name}</Text>
                 </TouchableOpacity>
               );
             })}

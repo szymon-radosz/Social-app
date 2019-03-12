@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import styles from "./style";
+import FlashMessage, { showMessage } from "react-native-flash-message";
 
 export default class Register extends Component {
   constructor(props) {
@@ -18,7 +19,24 @@ export default class Register extends Component {
   }
 
   registerUser() {
-    if (this.state.password === this.state.passwordConf) {
+    if (
+      !this.state.name ||
+      !this.state.email ||
+      !this.state.password ||
+      !this.state.passwordConf
+    ) {
+      showMessage({
+        message: "Wszystkie pola są wymagane.",
+        type: "danger",
+        duration: 2000
+      });
+    } else if (this.state.password !== this.state.passwordConf) {
+      showMessage({
+        message: "Hasło i potwierdzenie hasła muszą być identyczne.",
+        type: "danger",
+        duration: 2000
+      });
+    } else if (this.state.password === this.state.passwordConf) {
       try {
         console.log([this.state.name, this.state.email, this.state.password]);
         let API_URL = this.props.navigation.getParam("API_URL", "");
@@ -33,6 +51,13 @@ export default class Register extends Component {
           .then(function(response) {
             console.log(["register", response]);
             //console.log(response.data);
+
+            showMessage({
+              message:
+                "Sprawdź swoją skrzynkę mailową i potwierdź swoje konto przez otrzymaną od nas wiadomość.",
+              type: "success",
+              duration: 5000
+            });
 
             navProps.setUserData(response.data.user);
           })
@@ -109,6 +134,7 @@ export default class Register extends Component {
             }
           />
         </TouchableHighlight>
+        <FlashMessage ref="registerFlashMessage" />
       </View>
     );
   }

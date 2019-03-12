@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import styles from "./style.js";
 import axios from "axios";
-import AlertSuccess from "./../../../Alert/AlertSuccess";
+import FlashMessage, { showMessage } from "react-native-flash-message";
 
 export default class Login extends Component {
   constructor(props) {
@@ -22,7 +22,25 @@ export default class Login extends Component {
   }*/
 
   loginUser() {
-    if (this.state.email && this.state.password) {
+    if (this.state.email && !this.state.password) {
+      showMessage({
+        message: "Podaj swoje hasło.",
+        type: "danger",
+        duration: 2000
+      });
+    } else if (!this.state.email && this.state.password) {
+      showMessage({
+        message: "Podaj swój adres e-mail.",
+        type: "danger",
+        duration: 2000
+      });
+    } else if (!this.state.email && !this.state.password) {
+      showMessage({
+        message: "Podaj swój adres e-mail i hasło.",
+        type: "danger",
+        duration: 2000
+      });
+    } else if (this.state.email && this.state.password) {
       try {
         let API_URL = this.props.navigation.getParam("API_URL", "");
         let navProps = this.props.navigation.state.params;
@@ -57,6 +75,12 @@ export default class Login extends Component {
                 })
                 .catch(function(error) {
                   console.log(error);
+
+                  showMessage({
+                    message: "Sprawdź poprawność swoich danych.",
+                    type: "danger",
+                    duration: 2000
+                  });
                 });
             } else {
               console.log("Nie ma tokena");
@@ -64,6 +88,12 @@ export default class Login extends Component {
           })
           .catch(function(error) {
             console.log(error);
+
+            showMessage({
+              message: "Sprawdź poprawność swoich danych.",
+              type: "danger",
+              duration: 2000
+            });
           });
       } catch (e) {
         console.log(e);
@@ -112,6 +142,7 @@ export default class Login extends Component {
             }
           />
         </TouchableHighlight>
+        <FlashMessage ref="loginFlashMessage" />
       </View>
     );
   }

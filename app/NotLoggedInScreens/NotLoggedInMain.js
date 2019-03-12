@@ -91,24 +91,6 @@ export default class NotLoggedInMain extends Component {
     }
   }
   render() {
-    return (
-      <View>
-        {this.state.alertWarning && this.state.alertMessage && (
-          <Text
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
-            ALERT
-          </Text>
-        )}
-      </View>
-    );
+    return <View />;
   }
 }
