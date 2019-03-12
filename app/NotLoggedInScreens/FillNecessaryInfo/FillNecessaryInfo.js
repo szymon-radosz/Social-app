@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Button, Text, View } from "react-native";
-import AgeDescScreen from "./utils/AgeDescScreen";
-import PhotoScreen from "./utils/PhotoScreen";
-import CoordsScreen from "./utils/CoordsScreen";
-import ChooseKidsScreen from "./utils/ChooseKidsScreen";
-import ChooseHobbiesScreen from "./utils/ChooseHobbiesScreen";
+import { View } from "react-native";
+import AgeDescScreen from "./utils/AgeDescScreen/AgeDescScreen";
+import PhotoScreen from "./utils/PhotoScreen/PhotoScreen";
+import CoordsScreen from "./utils/CoordsScreen/CoordsScreen";
+import ChooseKidsScreen from "./utils/ChooseKidsScreen/ChooseKidsScreen";
+import ChooseHobbiesScreen from "./utils/ChooseHobbiesScreen/ChooseHobbiesScreen";
 import ImagePicker from "react-native-image-picker";
 import axios from "axios";
 
@@ -260,7 +260,6 @@ export default class FillNecessaryInfo extends Component {
   render() {
     return (
       <View>
-        {/*<Text>Uzupełnij niezbędne dane, aby lepiej korzystać z E-mamy.</Text>*/}
         {this.state.actualStep === 1 && (
           <AgeDescScreen
             handleChange={this.handleChange}

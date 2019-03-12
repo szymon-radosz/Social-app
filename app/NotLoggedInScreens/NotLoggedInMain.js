@@ -7,7 +7,12 @@ const API_URL = "http://127.0.0.1:8000/";
 export default class NotLoggedInMain extends Component {
   constructor(props) {
     super(props);
-    this.state = { userLoggedIn: false, userData: [] };
+    this.state = {
+      userLoggedIn: false,
+      userData: [],
+      alertSuccess: true,
+      alertMessage: "dsds"
+    };
 
     this.setUserData = this.setUserData.bind(this);
     this.checkUserStatus = this.checkUserStatus.bind(this);
@@ -42,12 +47,12 @@ export default class NotLoggedInMain extends Component {
 
   checkUserStatus() {
     //console.log(["checkUserStatus", this.state.userData[0].verified]);
-    console.log(["checkUserStatus", this.state.userData.verified]);
+    //console.log(["checkUserStatus", this.state.userData.verified]);
     if (
       this.state.userData.verified === 1 &&
       this.state.userData.user_filled_info === 1
     ) {
-      console.log("verified");
+      //console.log("verified");
       this.props.navigation.navigate("LoggedInMain", {
         user: this.state.userData,
         API_URL: API_URL
@@ -71,13 +76,13 @@ export default class NotLoggedInMain extends Component {
   async setUserData(user) {
     await this.setState({ userData: user });
 
-    console.log(["App state", this.state]);
+    //console.log(["App state", this.state]);
 
     this.checkUserStatus();
   }
 
   componentDidMount() {
-    console.log(["comp", this.state.userData]);
+    //console.log(["comp", this.state.userData]);
     if (!this.state.userLoggedIn) {
       this.props.navigation.navigate("Welcome", {
         API_URL: API_URL,
@@ -86,6 +91,24 @@ export default class NotLoggedInMain extends Component {
     }
   }
   render() {
-    return <View />;
+    return (
+      <View>
+        {this.state.alertWarning && this.state.alertMessage && (
+          <Text
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            ALERT
+          </Text>
+        )}
+      </View>
+    );
   }
 }

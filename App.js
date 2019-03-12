@@ -2,16 +2,11 @@ import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import NotLoggedInMain from "./app/NotLoggedInScreens/NotLoggedInMain";
 import Welcome from "./app/NotLoggedInScreens/Welcome/Welcome";
-import Login from "./app/NotLoggedInScreens/Auth/Login";
-import Register from "./app/NotLoggedInScreens/Auth/Register";
+import Login from "./app/NotLoggedInScreens/Auth/Login/Login";
+import Register from "./app/NotLoggedInScreens/Auth/Register/Register";
 import ConfirmAccount from "./app/NotLoggedInScreens/ConfirmAccount/ConfirmAccount";
 import FillNecessaryInfo from "./app/NotLoggedInScreens/FillNecessaryInfo/FillNecessaryInfo";
 import LoggedInMain from "./app/LoggedInScreens/LoggedInMain";
-/*import FindUsers from "./app/LoggedInScreens/FindUsers/FindUsers";
-import Profile from "./app/LoggedInScreens/Profile/Profile";
-import Events from "./app/LoggedInScreens/Events/Events";
-import BottomPanel from "./app/LoggedInScreens/inc/BottomPanel";
-import Auctions from "./app/LoggedInScreens/Auctions/Auctions";*/
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 const instructions = Platform.select({
