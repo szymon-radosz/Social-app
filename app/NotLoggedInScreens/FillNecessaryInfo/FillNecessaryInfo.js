@@ -128,14 +128,16 @@ export default class FillNecessaryInfo extends Component {
   }
 
   async addKid() {
-    let kidObj = {
-      name: this.state.actualKidName,
-      dateOfBirth: this.state.actualKidDate
-    };
+    if (this.state.actualKidName) {
+      let kidObj = {
+        name: this.state.actualKidName,
+        dateOfBirth: this.state.actualKidDate
+      };
 
-    await this.setState(prevState => ({
-      kids: [...prevState.kids, kidObj]
-    }));
+      await this.setState(prevState => ({
+        kids: [...prevState.kids, kidObj]
+      }));
+    }
 
     //console.log(["kids", this.state]);
   }

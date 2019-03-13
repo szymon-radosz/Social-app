@@ -65,7 +65,13 @@ export default class LoggedInMain extends Component {
 
   render() {
     return (
-      <View>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "column",
+          justifyContent: "space-between"
+        }}
+      >
         {this.state.openFindUsers && (
           <FindUsers
             API_URL={this.props.navigation.getParam("API_URL")}

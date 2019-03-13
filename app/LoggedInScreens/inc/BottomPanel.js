@@ -1,19 +1,18 @@
 import React, { Component } from "react";
-import { AppRegistry, Text, View, Button, StyleSheet } from "react-native";
-
-const styles = StyleSheet.create({
-  buttonBottom: {
-    color: "red",
-    fontWeight: "bold",
-    backgroundColor: "#fff",
-    fontSize: 8
-  },
-  bottomPanel: {
-    borderTopWidth: 2,
-    flexDirection: "row",
-    alignSelf: "flex-start"
-  }
-});
+import {
+  TouchableOpacity,
+  View,
+  Text,
+  Button,
+  Image,
+  ImageButton
+} from "react-native";
+import styles from "./style";
+import network from "./../../assets/images/network.png";
+import sell from "./../../assets/images/sell.png";
+import message from "./../../assets/images/message.png";
+import forum from "./../../assets/images/forum.png";
+import profile from "./../../assets/images/profile.png";
 
 const API_URL = "http://127.0.0.1:8000/";
 
@@ -33,52 +32,46 @@ export default class BottomPanel extends Component {
   render() {
     return (
       <View style={styles.bottomPanel}>
-        <Button
-          onPress={() => this.props.openFindUsers()}
-          title="Poznaj"
-          color="#424242"
-          fontWeight="bold"
-          backgroundColor="#fff"
-          fontSize={10}
-        />
-        <Button
-          onPress={() => this.props.openAuctions()}
-          title="Giełda"
-          color="#424242"
-          fontWeight="bold"
-          backgroundColor="#fff"
-          fontSize={10}
-          //accessibilityLabel="Learn more about this purple button"
-        />
-        <Button
-          //onPress={onPressLearnMore}
-          title="Jak to działa?"
-          color="#424242"
-          fontWeight="bold"
-          backgroundColor="#fff"
-          fontSize={10}
-          //accessibilityLabel="Learn more about this purple button"
-        />
-        <Button
-          onPress={() => this.props.openEvents()}
-          title="Wydarzenia"
-          color="#424242"
-          fontWeight="bold"
-          backgroundColor="#fff"
-          fontSize={10}
-          style={styles.buttonBottom}
-          //accessibilityLabel="Learn more about this purple button"
-        />
-        <Button
-          onPress={() => this.props.openFProfile()}
-          title="Profil"
-          color="#424242"
-          fontWeight="bold"
-          backgroundColor="#fff"
-          fontSize={10}
-          style={styles.buttonBottom}
-          //accessibilityLabel="Learn more about this purple button"
-        />
+        <TouchableOpacity onPress={() => this.props.openFindUsers()}>
+          <Image
+            style={styles.buttonImage}
+            source={network}
+            resizeMode="contain"
+          />
+          <Text style={styles.buttonText}>POZNAJ</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.props.openAuctions()}>
+          <Image
+            style={styles.buttonImage}
+            source={sell}
+            resizeMode="contain"
+          />
+          <Text style={styles.buttonText}>TARG</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.props.openEvents()}>
+          <Image
+            style={styles.buttonImage}
+            source={message}
+            resizeMode="contain"
+          />
+          <Text style={styles.buttonText}>WIADOMOŚCI</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image
+            style={styles.buttonImage}
+            source={forum}
+            resizeMode="contain"
+          />
+          <Text style={styles.buttonText}>FORUM</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.props.openFProfile()}>
+          <Image
+            style={styles.buttonImage}
+            source={profile}
+            resizeMode="contain"
+          />
+          <Text style={styles.buttonText}>PROFIL</Text>
+        </TouchableOpacity>
       </View>
     );
   }
