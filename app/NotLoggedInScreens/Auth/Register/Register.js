@@ -100,6 +100,7 @@ export default class Register extends Component {
         <TextInput
           style={styles.input}
           placeholder="Hasło"
+          secureTextEntry={true}
           placeholderTextColor="#919191"
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
@@ -108,6 +109,7 @@ export default class Register extends Component {
         <TextInput
           style={styles.input}
           placeholder="Potwierdź hasło"
+          secureTextEntry={true}
           placeholderTextColor="#919191"
           onChangeText={passwordConf => this.setState({ passwordConf })}
           value={this.state.passwordConf}

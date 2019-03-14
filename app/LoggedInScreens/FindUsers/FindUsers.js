@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, Button, Image, Text, View } from "react-native";
 import axios from "axios";
-import UserOnList from "./utils/UserOnList";
+import UserOnList from "./utils/UserOnList/UserOnList";
 
 export default class FindUsers extends Component {
   constructor(props) {
@@ -13,8 +13,8 @@ export default class FindUsers extends Component {
     this.loadUsersNearCoords = this.loadUsersNearCoords.bind(this);
   }
 
-  componentDidMount() {
-    //console.log(this.props.user);
+  async componentDidMount() {
+    console.log(["find users mount", this.props.user]);
 
     if (
       this.props.user &&
@@ -63,11 +63,21 @@ export default class FindUsers extends Component {
           Możesz edytować swoje dane w zakładce "Profil".
         </Text>
 
-        {this.state.userList &&
-          this.state.userList.map(user => {
-            //console.log(`${this.props.API_URL}/userPhotos/${user.photo_path}`);
-            return <UserOnList API_URL={this.props.API_URL} user={user} />;
-          })}
+        <View
+          style={{
+            flexWrap: "wrap",
+            alignItems: "flex-start",
+            flexDirection: "row"
+          }}
+        >
+          {this.state.userList &&
+            this.state.userList.map((user, i) => {
+              //console.log(`${this.props.API_URL}/userPhotos/${user.photo_path}`);
+              return (
+                <UserOnList API_URL={this.props.API_URL} key={i} user={user} />
+              );
+            })}
+        </View>
       </View>
     );
   }

@@ -75,7 +75,7 @@ export default class LoggedInMain extends Component {
         {this.state.openFindUsers && (
           <FindUsers
             API_URL={this.props.navigation.getParam("API_URL")}
-            user={this.props.navigation.getParam("user")[0]}
+            user={this.props.navigation.getParam("user")}
           />
         )}
         {this.state.openAuctions && (
