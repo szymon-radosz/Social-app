@@ -23,5 +23,17 @@ export default (styles = StyleSheet.create({
   buttonText: {
     fontSize: 10,
     textAlign: "center"
+  },
+  unreadedMessagesNotificationContainer: {
+    position: "absolute",
+    right: 0,
+    top: -10
+  },
+  unreadedMessagesNotificationDot: { width: 20, height: 20 },
+  unreadedMessagesNotificationDotText: {
+    position: "absolute",
+    color: "#fff",
+    left: 5,
+    top: 2
   }
 }));

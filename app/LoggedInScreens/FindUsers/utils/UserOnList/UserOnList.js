@@ -34,7 +34,7 @@ export default class UserOnList extends Component {
   }
 
   sendMessage() {
-    console.log("send");
+    console.log(["send", this.props.user.id]);
   }
 
   setShowUserDetails() {
@@ -51,6 +51,10 @@ export default class UserOnList extends Component {
 
   hideShowUserMessageBox() {
     this.setState({ showUserMessageBox: false, showUserDetails: true });
+  }
+
+  componentDidMount() {
+    console.log(this.props.user.id);
   }
 
   render() {

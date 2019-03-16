@@ -92,6 +92,7 @@ export default class LoggedInMain extends Component {
           openAuctions={this.openAuctions}
           openEvents={this.openEvents}
           openProfile={this.openProfile}
+          user={this.props.navigation.getParam("user")}
         />
       </View>
     );

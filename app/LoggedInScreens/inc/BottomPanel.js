@@ -13,6 +13,7 @@ import sell from "./../../assets/images/sell.png";
 import message from "./../../assets/images/message.png";
 import forum from "./../../assets/images/forum.png";
 import profile from "./../../assets/images/profile.png";
+import dot from "./../../assets/images/dot.png";
 
 const API_URL = "http://127.0.0.1:8000/";
 
@@ -54,6 +55,21 @@ export default class BottomPanel extends Component {
             source={message}
             resizeMode="contain"
           />
+          {this.props.user.unreadedConversationMessage &&
+            this.props.user.unreadedConversationMessageAmount && (
+              <TouchableOpacity
+                style={styles.unreadedMessagesNotificationContainer}
+              >
+                <Image
+                  source={dot}
+                  style={styles.unreadedMessagesNotificationDot}
+                  //resizeMode="contain"
+                />
+                <Text style={styles.unreadedMessagesNotificationDotText}>
+                  {this.props.user.unreadedConversationMessageAmount}
+                </Text>
+              </TouchableOpacity>
+            )}
           <Text style={styles.buttonText}>WIADOMOŚCI</Text>
         </TouchableOpacity>
         <TouchableOpacity>
