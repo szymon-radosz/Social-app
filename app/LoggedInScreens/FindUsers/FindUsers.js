@@ -73,9 +73,17 @@ export default class FindUsers extends Component {
           {this.state.userList &&
             this.state.userList.map((user, i) => {
               //console.log(`${this.props.API_URL}/userPhotos/${user.photo_path}`);
-              return (
-                <UserOnList API_URL={this.props.API_URL} key={i} user={user} />
-              );
+
+              if (user.id != this.props.user.id) {
+                return (
+                  <UserOnList
+                    API_URL={this.props.API_URL}
+                    key={i}
+                    user={user}
+                    sender_id={this.props.user.id}
+                  />
+                );
+              }
             })}
         </View>
       </View>

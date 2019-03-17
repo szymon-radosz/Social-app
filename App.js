@@ -8,7 +8,6 @@ import ConfirmAccount from "./app/NotLoggedInScreens/ConfirmAccount/ConfirmAccou
 import FillNecessaryInfo from "./app/NotLoggedInScreens/FillNecessaryInfo/FillNecessaryInfo";
 import LoggedInMain from "./app/LoggedInScreens/LoggedInMain";
 import { createStackNavigator, createAppContainer } from "react-navigation";
-import FlashMessage from "react-native-flash-message";
 
 const instructions = Platform.select({
   ios: "Press Cmd+R to reload,\n" + "Cmd+D or shake for dev menu",

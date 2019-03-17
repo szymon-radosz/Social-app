@@ -10,12 +10,8 @@ import {
   TouchableHighlight
 } from "react-native";
 import axios from "axios";
-import { Dimensions } from "react-native";
-
-const fullWidth = Dimensions.get("window").width;
-const fullHeight = Dimensions.get("window").height;
-
 import styles from "./style";
+import Alert from "./../../../../Alert/Alert";
 
 export default class UserOnList extends Component {
   constructor(props) {
@@ -23,7 +19,9 @@ export default class UserOnList extends Component {
     this.state = {
       showUserDetails: false,
       showUserMessageBox: false,
-      message: ""
+      message: "",
+      alertMessage: "",
+      alertType: ""
     };
 
     this.setShowUserDetails = this.setShowUserDetails.bind(this);
@@ -35,6 +33,38 @@ export default class UserOnList extends Component {
 
   sendMessage() {
     console.log(["send", this.props.user.id]);
+
+    let API_URL = this.props.API_URL;
+    let sender_id = this.props.sender_id;
+    let receiver_id = this.props.user.id;
+    let message = this.state.message;
+
+    //console.log([API_URL, sender_id, receiver_id, message]);
+
+    let that = this;
+
+    axios
+      .post(API_URL + "/api/saveConversation", {
+        sender_id: sender_id,
+        receiver_id: receiver_id,
+        message: message
+      })
+      .then(function(response2) {
+        console.log(["details", response2.data]);
+
+        that.setState({
+          alertType: "success",
+          alertMessage: "Poprawnie wysłano nową wiadomość"
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+
+        that.setState({
+          alertType: "danger",
+          alertMessage: "Nie udało się wysłać wiadomości"
+        });
+      });
   }
 
   setShowUserDetails() {
@@ -160,6 +190,12 @@ export default class UserOnList extends Component {
               </TouchableHighlight>
             </View>
           </View>
+          {this.state.alertMessage != "" && (
+            <Alert
+              alertType={this.state.alertType}
+              alertMessage={this.state.alertMessage}
+            />
+          )}
         </View>
       );
     } else {

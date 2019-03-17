@@ -8,37 +8,44 @@ import {
 } from "react-native";
 import styles from "./style.js";
 import axios from "axios";
-import FlashMessage, { showMessage } from "react-native-flash-message";
+import Alert from "./../../../Alert/Alert";
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = { email: "", password: "" };
+    this.state = {
+      email: "",
+      password: "",
+      alertMessage: "",
+      alertType: "",
+      showAlert: false
+    };
+
+    this.hideAlert = this.hideAlert.bind(this);
   }
 
-  /*componentDidMount() {
-    console.log(["Login", this.props.navigation.state]);
-    console.log(["State", this.props.navigation.state.params.API_URL]);
-  }*/
+  hideAlert() {
+    this.setState({ showAlert: false });
+  }
 
   loginUser() {
     if (this.state.email && !this.state.password) {
-      showMessage({
-        message: "Podaj swoje hasło.",
-        type: "danger",
-        duration: 2000
+      this.setState({
+        showAlert: true,
+        alertType: "danger",
+        alertMessage: "Podaj swoje hasło."
       });
     } else if (!this.state.email && this.state.password) {
-      showMessage({
-        message: "Podaj swój adres e-mail.",
-        type: "danger",
-        duration: 2000
+      this.setState({
+        showAlert: true,
+        alertType: "danger",
+        alertMessage: "Podaj swój adres e-mail."
       });
     } else if (!this.state.email && !this.state.password) {
-      showMessage({
-        message: "Podaj swój adres e-mail i hasło.",
-        type: "danger",
-        duration: 2000
+      this.setState({
+        showAlert: true,
+        alertType: "danger",
+        alertMessage: "Podaj swój adres e-mail i hasło."
       });
     } else if (this.state.email && this.state.password) {
       try {
@@ -76,10 +83,10 @@ export default class Login extends Component {
                 .catch(function(error) {
                   console.log(error);
 
-                  showMessage({
-                    message: "Sprawdź poprawność swoich danych.",
-                    type: "danger",
-                    duration: 2000
+                  this.setState({
+                    showAlert: true,
+                    alertType: "danger",
+                    alertMessage: "Sprawdź poprawność swoich danych."
                   });
                 });
             } else {
@@ -89,10 +96,10 @@ export default class Login extends Component {
           .catch(function(error) {
             console.log(error);
 
-            showMessage({
-              message: "Sprawdź poprawność swoich danych.",
-              type: "danger",
-              duration: 2000
+            this.setState({
+              showAlert: true,
+              alertType: "danger",
+              alertMessage: "Sprawdź poprawność swoich danych."
             });
           });
       } catch (e) {
@@ -143,7 +150,12 @@ export default class Login extends Component {
             }
           />
         </TouchableHighlight>
-        <FlashMessage ref="loginFlashMessage" />
+        {this.state.showAlert != false && (
+          <Alert
+            alertType={this.state.alertType}
+            alertMessage={this.state.alertMessage}
+          />
+        )}
       </View>
     );
   }

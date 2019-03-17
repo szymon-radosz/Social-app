@@ -8,12 +8,20 @@ import {
 } from "react-native";
 import axios from "axios";
 import styles from "./style";
-import FlashMessage, { showMessage } from "react-native-flash-message";
+import Alert from "./../../../Alert/Alert";
 
 export default class Register extends Component {
   constructor(props) {
     super(props);
-    this.state = { name: "", email: "", password: "", passwordConf: "" };
+    this.state = {
+      name: "",
+      email: "",
+      password: "",
+      passwordConf: "",
+      alertMessage: "",
+      alertType: "",
+      showAlert: false
+    };
 
     this.registerUser = this.registerUser.bind(this);
   }
@@ -25,16 +33,16 @@ export default class Register extends Component {
       !this.state.password ||
       !this.state.passwordConf
     ) {
-      showMessage({
-        message: "Wszystkie pola są wymagane.",
-        type: "danger",
-        duration: 2000
+      this.setState({
+        showAlert: true,
+        alertType: "danger",
+        alertMessage: "Wszystkie pola są wymagane."
       });
     } else if (this.state.password !== this.state.passwordConf) {
-      showMessage({
-        message: "Hasło i potwierdzenie hasła muszą być identyczne.",
-        type: "danger",
-        duration: 2000
+      this.setState({
+        showAlert: true,
+        alertType: "danger",
+        alertMessage: "Hasło i potwierdzenie hasła muszą być identyczne."
       });
     } else if (this.state.password === this.state.passwordConf) {
       try {
@@ -52,11 +60,11 @@ export default class Register extends Component {
             console.log(["register", response]);
             //console.log(response.data);
 
-            showMessage({
-              message:
-                "Sprawdź swoją skrzynkę mailową i potwierdź swoje konto przez otrzymaną od nas wiadomość.",
-              type: "success",
-              duration: 5000
+            this.setState({
+              showAlert: true,
+              alertType: "success",
+              alertMessage:
+                "Sprawdź swoją skrzynkę mailową i potwierdź swoje konto przez otrzymaną od nas wiadomość."
             });
 
             navProps.setUserData(response.data.user);
@@ -136,7 +144,12 @@ export default class Register extends Component {
             }
           />
         </TouchableHighlight>
-        <FlashMessage ref="registerFlashMessage" />
+        {this.state.showAlert != false && (
+          <Alert
+            alertType={this.state.alertType}
+            alertMessage={this.state.alertMessage}
+          />
+        )}
       </View>
     );
   }
