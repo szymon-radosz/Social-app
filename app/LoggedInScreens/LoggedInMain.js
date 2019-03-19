@@ -99,7 +99,10 @@ export default class LoggedInMain extends Component {
           <Auctions API_URL={this.props.navigation.getParam("API_URL")} />
         )}
         {this.state.openMessages && (
-          <Messages API_URL={this.props.navigation.getParam("API_URL")} />
+          <Messages
+            API_URL={this.props.navigation.getParam("API_URL")}
+            user={this.props.navigation.getParam("user")}
+          />
         )}
         {this.state.openForum && (
           <Forum API_URL={this.props.navigation.getParam("API_URL")} />
