@@ -3,7 +3,8 @@ import { Platform, StyleSheet, Button, Text, View } from "react-native";
 import BottomPanel from "./inc/BottomPanel";
 import FindUsers from "./FindUsers/FindUsers";
 import Auctions from "./Auctions/Auctions";
-import Events from "./Events/Events";
+import Messages from "./Messages/Messages";
+import Forum from "./Forum/Forum";
 import Profile from "./Profile/Profile";
 
 export default class LoggedInMain extends Component {
@@ -12,14 +13,16 @@ export default class LoggedInMain extends Component {
     this.state = {
       openFindUsers: true,
       openAuctions: false,
-      openEvents: false,
+      openMessages: false,
       openProfile: false,
+      openForum: false,
       API_URL: ""
     };
 
     this.openFindUsers = this.openFindUsers.bind(this);
     this.openAuctions = this.openAuctions.bind(this);
-    this.openEvents = this.openEvents.bind(this);
+    this.openMessages = this.openMessages.bind(this);
+    this.openForum = this.openForum.bind(this);
     this.openProfile = this.openProfile.bind(this);
   }
 
@@ -31,7 +34,8 @@ export default class LoggedInMain extends Component {
     this.setState({
       openFindUsers: true,
       openAuctions: false,
-      openEvents: false,
+      openMessages: false,
+      openForum: false,
       openProfile: false
     });
   }
@@ -40,16 +44,28 @@ export default class LoggedInMain extends Component {
     this.setState({
       openFindUsers: false,
       openAuctions: true,
-      openEvents: false,
+      openMessages: false,
+      openForum: false,
       openProfile: false
     });
   }
 
-  openEvents() {
+  openMessages() {
     this.setState({
       openFindUsers: false,
       openAuctions: false,
-      openEvents: true,
+      openMessages: true,
+      openForum: false,
+      openProfile: false
+    });
+  }
+
+  openForum() {
+    this.setState({
+      openFindUsers: false,
+      openAuctions: false,
+      openMessages: false,
+      openForum: true,
       openProfile: false
     });
   }
@@ -58,7 +74,8 @@ export default class LoggedInMain extends Component {
     this.setState({
       openFindUsers: false,
       openAuctions: false,
-      openEvents: false,
+      openMessages: false,
+      openForum: false,
       openProfile: true
     });
   }
@@ -81,8 +98,11 @@ export default class LoggedInMain extends Component {
         {this.state.openAuctions && (
           <Auctions API_URL={this.props.navigation.getParam("API_URL")} />
         )}
-        {this.state.openEvents && (
-          <Events API_URL={this.props.navigation.getParam("API_URL")} />
+        {this.state.openMessages && (
+          <Messages API_URL={this.props.navigation.getParam("API_URL")} />
+        )}
+        {this.state.openForum && (
+          <Forum API_URL={this.props.navigation.getParam("API_URL")} />
         )}
         {this.state.openProfile && (
           <Profile API_URL={this.props.navigation.getParam("API_URL")} />
@@ -90,8 +110,9 @@ export default class LoggedInMain extends Component {
         <BottomPanel
           openFindUsers={this.openFindUsers}
           openAuctions={this.openAuctions}
-          openEvents={this.openEvents}
+          openMessages={this.openMessages}
           openProfile={this.openProfile}
+          openForum={this.openForum}
           user={this.props.navigation.getParam("user")}
         />
       </View>

@@ -49,7 +49,7 @@ export default class BottomPanel extends Component {
           />
           <Text style={styles.buttonText}>TARG</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.props.openEvents()}>
+        <TouchableOpacity onPress={() => this.props.openMessages()}>
           <Image
             style={styles.buttonImage}
             source={message}
@@ -72,7 +72,7 @@ export default class BottomPanel extends Component {
             )}
           <Text style={styles.buttonText}>WIADOMOŚCI</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => this.props.openForum()}>
           <Image
             style={styles.buttonImage}
             source={forum}
@@ -80,7 +80,7 @@ export default class BottomPanel extends Component {
           />
           <Text style={styles.buttonText}>FORUM</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.props.openFProfile()}>
+        <TouchableOpacity onPress={() => this.props.openProfile()}>
           <Image
             style={styles.buttonImage}
             source={profile}
