@@ -7,10 +7,40 @@ export default class Messages extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messagesList: []
+      messagesList: [],
+      openConversationDetails: false,
+      openConversationDetailsId: "",
+      openConversationMessages: []
     };
 
     this.getMessages = this.getMessages.bind(this);
+    this.openConversationDetails = this.openConversationDetails.bind(this);
+  }
+
+  openConversationDetails(id) {
+    console.log("openConversationDetails");
+
+    let API_URL = this.props.API_URL;
+    let conversation_id = id;
+
+    let that = this;
+
+    axios
+      .post(API_URL + "/api/showConversationDetails", {
+        conversation_id: conversation_id
+      })
+      .then(function(response) {
+        console.log(response);
+
+        that.setState({
+          openConversationDetailsId: id,
+          openConversationDetails: true,
+          openConversationMessages: response.data.conversationData[0].messages
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   }
 
   getMessages() {
@@ -56,7 +86,18 @@ export default class Messages extends Component {
                   key={i}
                   conversation={conversation}
                   API_URL={this.props.API_URL}
+                  openConversationDetails={this.openConversationDetails}
                 />
+              );
+            })}
+
+          {this.state.openConversationDetails &&
+            this.state.openConversationMessages.map((message, i) => {
+              return (
+                <Text>
+                  {message.message}
+                  {message.sender_id}
+                </Text>
               );
             })}
         </View>

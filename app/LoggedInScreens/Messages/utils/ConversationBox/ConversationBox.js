@@ -6,28 +6,36 @@ import {
   Text,
   View,
   TouchableOpacity,
+  TouchableHighlight,
   Image
 } from "react-native";
 
 const ConversationBox = props => {
   console.log(["props", props]);
   return (
-    <View>
-      <TouchableOpacity>
-        <Image
-          style={{ width: 45, height: 45 }}
-          source={{
-            uri: `${props.API_URL}userPhotos/${
-              props.conversation.receiverPhotoPath
-            }`
-          }}
-          resizeMode="contain"
-        />
-      </TouchableOpacity>
-      <Text>{props.conversation.receiverEmail}</Text>
-      <Text>{props.conversation.messages[0].updated_at}</Text>
-      <Text>{props.conversation.messages[0].message}</Text>
-    </View>
+    <TouchableHighlight
+      onPress={() => {
+        console.log("pressed");
+        props.openConversationDetails(props.conversation.id);
+      }}
+    >
+      <View style={{ borderWidth: 1, width: "100%" }}>
+        <TouchableOpacity>
+          <Image
+            style={{ width: 45, height: 45 }}
+            source={{
+              uri: `${props.API_URL}userPhotos/${
+                props.conversation.receiverPhotoPath
+              }`
+            }}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+        <Text>{props.conversation.receiverEmail}</Text>
+        <Text>{props.conversation.messages[0].updated_at}</Text>
+        <Text>{props.conversation.messages[0].message}</Text>
+      </View>
+    </TouchableHighlight>
   );
 };
 
