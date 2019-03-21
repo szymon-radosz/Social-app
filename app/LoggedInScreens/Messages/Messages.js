@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, Button, Text, View } from "react-native";
-import ConversationBox from "./utils/ConversationBox/ConversationBox";
+import SingleConversationBox from "./utils/ConversationDetails/SingleConversationBox/SingleConversationBox";
+import ConversationDetails from "./utils/ConversationDetails/ConversationDetails";
 import axios from "axios";
 
 export default class Messages extends Component {
@@ -10,7 +11,11 @@ export default class Messages extends Component {
       messagesList: [],
       openConversationDetails: false,
       openConversationDetailsId: "",
-      openConversationMessages: []
+      openConversationMessages: [],
+      receiverId: 0,
+      receiverEmail: "",
+      receiverName: "",
+      receiverPhotoPath: ""
     };
 
     this.getMessages = this.getMessages.bind(this);
@@ -18,8 +23,6 @@ export default class Messages extends Component {
   }
 
   openConversationDetails(id) {
-    console.log("openConversationDetails");
-
     let API_URL = this.props.API_URL;
     let conversation_id = id;
 
@@ -54,9 +57,15 @@ export default class Messages extends Component {
         user_id: user_id
       })
       .then(function(response) {
-        console.log(response);
+        console.log(["getMessages", response]);
 
-        that.setState({ messagesList: response.data.conversationData });
+        that.setState({
+          messagesList: response.data.conversationData,
+          receiverId: response.data.conversationData[0].receiverId,
+          receiverName: response.data.conversationData[0].receiverName,
+          receiverEmail: response.data.conversationData[0].receiverEmail,
+          receiverPhotoPath: response.data.conversationData[0].receiverPhotoPath
+        });
       })
       .catch(function(error) {
         console.log(error);
@@ -80,9 +89,10 @@ export default class Messages extends Component {
           }}
         >
           {this.state.messagesList &&
+            !this.state.openConversationDetails &&
             this.state.messagesList.map((conversation, i) => {
               return (
-                <ConversationBox
+                <SingleConversationBox
                   key={i}
                   conversation={conversation}
                   API_URL={this.props.API_URL}
@@ -91,15 +101,17 @@ export default class Messages extends Component {
               );
             })}
 
-          {this.state.openConversationDetails &&
-            this.state.openConversationMessages.map((message, i) => {
-              return (
-                <Text>
-                  {message.message}
-                  {message.sender_id}
-                </Text>
-              );
-            })}
+          {this.state.openConversationDetails && (
+            <ConversationDetails
+              messages={this.state.openConversationMessages}
+              senderId={this.props.user.id}
+              receiverId={this.state.receiverId}
+              receiverName={this.state.receiverName}
+              receiverEmail={this.state.receiverEmail}
+              receiverPhotoPath={this.state.receiverPhotoPath}
+              API_URL={this.props.API_URL}
+            />
+          )}
         </View>
       </View>
     );
