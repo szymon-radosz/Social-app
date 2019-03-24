@@ -4,13 +4,43 @@ import { Platform, StyleSheet, Button, Text, View } from "react-native";
 export default class SingleConversationMessage extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isCurrentUserTheSender: false
+    };
+
+    console.log(["single message", this.props]);
+  }
+
+  componentDidMount() {
+    if (this.props.currentUser.id === this.props.message.sender_id) {
+      console.log("isCurrentUserTheSender");
+      this.setState({ isCurrentUserTheSender: true });
+    }
   }
 
   render() {
     return (
       <View>
-        <Text>{this.props.message.message}</Text>
+        <Text
+          style={
+            this.state.isCurrentUserTheSender
+              ? {
+                  width: "80%",
+                  textAlign: "right",
+                  alignSelf: "flex-end",
+                  backgroundColor: "#ccc",
+                  fontSize: 12
+                }
+              : {
+                  width: "80%",
+                  marginLeft: 0,
+                  backgroundColor: "green",
+                  fontSize: 12
+                }
+          }
+        >
+          {this.props.message.message}
+        </Text>
         <View style={{ borderBottomWidth: 1 }} />
       </View>
     );

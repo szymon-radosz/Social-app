@@ -20,13 +20,39 @@ export default class ConversationDetails extends Component {
     };
   }
 
+  static getDerivedStateFromProps(props, state) {
+    // Any time the current user changes,
+    // Reset any parts of state that are tied to that user.
+    // In this simple example, that's just the email.
+
+    console.log(["getDerivedStateFromProps", props.messages]);
+    if (props.messages !== state.messages) {
+      return {
+        messages: props.messages
+      };
+    }
+    return null;
+  }
+
   componentDidMount() {
     console.log(["ConversationDetails", this.props]);
   }
 
+  /*componentDidUpdate() {
+    this.setState({ messages: this.props.messages });
+    console.log("Conversation details update", this.props);
+  }*/
+
   render() {
     return (
-      <View>
+      <View
+        style={{
+          width: "100%",
+          flex: 1,
+          flexDirection: "column",
+          justifyContent: "space-between"
+        }}
+      >
         <TouchableOpacity>
           <Image
             style={{ width: 45, height: 45 }}
@@ -45,6 +71,7 @@ export default class ConversationDetails extends Component {
             return (
               <SingleConversationMessage
                 message={message}
+                currentUser={this.props.currentUser}
                 key={i}
                 receiverName={this.props.receiverName}
                 receiverEmail={this.props.receiverEmail}
@@ -52,12 +79,19 @@ export default class ConversationDetails extends Component {
               />
             );
           })}
-        <SendMessageBox
-          senderId={this.props.senderId}
-          receiverId={this.props.receiverId}
-          conversationId={this.state.messages[0].conversation_id}
-          API_URL={this.props.API_URL}
-        />
+        {this.state.messages && this.state.messages[0].conversation_id && (
+          <SendMessageBox
+            style={{ alignSelf: "flex-end", position: "absolute", bottom: 35 }}
+            senderId={this.props.currentUser.id}
+            receiverId={this.props.receiverId}
+            conversationId={this.state.messages[0].conversation_id}
+            API_URL={this.props.API_URL}
+            sendMessage={this.props.sendMessage}
+            receiverName={this.props.receiverName}
+            receiverEmail={this.props.receiverEmail}
+            receiverPhotoPath={this.props.receiverPhotoPath}
+          />
+        )}
       </View>
     );
   }

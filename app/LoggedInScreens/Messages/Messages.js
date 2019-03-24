@@ -20,9 +20,17 @@ export default class Messages extends Component {
 
     this.getMessages = this.getMessages.bind(this);
     this.openConversationDetails = this.openConversationDetails.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
   }
 
-  openConversationDetails(id) {
+  //open conversation details from list of conversations
+  openConversationDetails(
+    id,
+    receiverId,
+    receiverName,
+    receiverEmail,
+    receiverPhotoPath
+  ) {
     let API_URL = this.props.API_URL;
     let conversation_id = id;
 
@@ -38,7 +46,11 @@ export default class Messages extends Component {
         that.setState({
           openConversationDetailsId: id,
           openConversationDetails: true,
-          openConversationMessages: response.data.conversationData[0].messages
+          openConversationMessages: response.data.conversationData[0].messages,
+          receiverId: receiverId,
+          receiverName: receiverName,
+          receiverEmail: receiverEmail,
+          receiverPhotoPath: receiverPhotoPath
         });
       })
       .catch(function(error) {
@@ -46,6 +58,47 @@ export default class Messages extends Component {
       });
   }
 
+  //send new message inside conversation details
+  sendMessage(
+    sender_id,
+    receiver_id,
+    receiverName,
+    receiverEmail,
+    receiverPhotoPath,
+    message,
+    conversation_id,
+    status
+  ) {
+    console.log([sender_id, receiver_id, message, conversation_id, status]);
+    let API_URL = this.props.API_URL;
+
+    let that = this;
+
+    axios
+      .post(API_URL + "/api/saveMessage", {
+        sender_id: sender_id,
+        receiver_id: receiver_id,
+        message: message,
+        conversation_id: conversation_id,
+        status: status
+      })
+      .then(function(response) {
+        console.log(["send message box", response]);
+
+        that.openConversationDetails(
+          conversation_id,
+          receiver_id,
+          receiverName,
+          receiverEmail,
+          receiverPhotoPath
+        );
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
+  //load all conversation with messages for them
   getMessages() {
     let API_URL = this.props.API_URL;
     let user_id = this.props.user.id;
@@ -60,11 +113,7 @@ export default class Messages extends Component {
         console.log(["getMessages", response]);
 
         that.setState({
-          messagesList: response.data.conversationData,
-          receiverId: response.data.conversationData[0].receiverId,
-          receiverName: response.data.conversationData[0].receiverName,
-          receiverEmail: response.data.conversationData[0].receiverEmail,
-          receiverPhotoPath: response.data.conversationData[0].receiverPhotoPath
+          messagesList: response.data.conversationData
         });
       })
       .catch(function(error) {
@@ -91,10 +140,11 @@ export default class Messages extends Component {
           {this.state.messagesList &&
             !this.state.openConversationDetails &&
             this.state.messagesList.map((conversation, i) => {
+              console.log(["conversation[i]", conversation[0]]);
               return (
                 <SingleConversationBox
                   key={i}
-                  conversation={conversation}
+                  conversation={conversation[0]}
                   API_URL={this.props.API_URL}
                   openConversationDetails={this.openConversationDetails}
                 />
@@ -104,12 +154,13 @@ export default class Messages extends Component {
           {this.state.openConversationDetails && (
             <ConversationDetails
               messages={this.state.openConversationMessages}
-              senderId={this.props.user.id}
+              currentUser={this.props.user}
               receiverId={this.state.receiverId}
               receiverName={this.state.receiverName}
               receiverEmail={this.state.receiverEmail}
               receiverPhotoPath={this.state.receiverPhotoPath}
               API_URL={this.props.API_URL}
+              sendMessage={this.sendMessage}
             />
           )}
         </View>

@@ -15,8 +15,13 @@ const ConversationBox = props => {
   return (
     <TouchableHighlight
       onPress={() => {
-        console.log("pressed");
-        props.openConversationDetails(props.conversation.id);
+        props.openConversationDetails(
+          props.conversation.id,
+          props.conversation.receiverId,
+          props.conversation.receiverName,
+          props.conversation.receiverEmail,
+          props.conversation.receiverPhotoPath
+        );
       }}
     >
       <View style={{ borderWidth: 1, width: "100%" }}>

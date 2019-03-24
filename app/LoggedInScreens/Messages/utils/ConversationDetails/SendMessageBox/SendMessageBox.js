@@ -16,34 +16,6 @@ export default class SendMessageBox extends Component {
     this.state = {
       message: ""
     };
-
-    this.sendMessage = this.sendMessage.bind(this);
-  }
-
-  sendMessage() {
-    let sender_id = this.props.senderId;
-    let receiver_id = this.props.receiverId;
-    let message = this.state.message;
-    let conversation_id = this.props.conversationId;
-    let status = 0;
-    let API_URL = this.props.API_URL;
-
-    let that = this;
-
-    axios
-      .post(API_URL + "/api/saveMessage", {
-        sender_id: sender_id,
-        receiver_id: receiver_id,
-        message: message,
-        conversation_id: conversation_id,
-        status: status
-      })
-      .then(function(response) {
-        console.log(["send message box", response]);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
   }
 
   render() {
@@ -64,7 +36,18 @@ export default class SendMessageBox extends Component {
           <Button
             title="Wyślij"
             color="#000"
-            onPress={() => this.sendMessage()}
+            onPress={() =>
+              this.props.sendMessage(
+                this.props.senderId,
+                this.props.receiverId,
+                this.props.receiverName,
+                this.props.receiverEmail,
+                this.props.receiverPhotoPath,
+                this.state.message,
+                this.props.conversationId,
+                0
+              )
+            }
           />
         </TouchableHighlight>
       </View>
