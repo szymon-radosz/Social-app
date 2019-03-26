@@ -38,7 +38,13 @@ const ConversationBox = props => {
         </TouchableOpacity>
         <Text>{props.conversation.receiverEmail}</Text>
         <Text>{props.conversation.messages[0].updated_at}</Text>
-        <Text>{props.conversation.messages[0].message}</Text>
+        <Text
+          style={{
+            color: props.conversation.userHadUnreadedMessages ? "blue" : "#000"
+          }}
+        >
+          {props.conversation.messages[0].message}
+        </Text>
       </View>
     </TouchableHighlight>
   );
