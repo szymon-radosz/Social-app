@@ -18,6 +18,8 @@ export default class ConversationDetails extends Component {
     this.state = {
       messages: this.props.messages
     };
+
+    console.log(["det", this.props]);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -36,6 +38,11 @@ export default class ConversationDetails extends Component {
 
   componentDidMount() {
     console.log(["ConversationDetails", this.props]);
+
+    this.props.clearUserUnreadedMessages(
+      this.props.currentUser.id,
+      this.state.messages[0].conversation_id
+    );
   }
 
   /*componentDidUpdate() {

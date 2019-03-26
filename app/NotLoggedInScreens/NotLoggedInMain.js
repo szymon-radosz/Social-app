@@ -17,6 +17,7 @@ export default class NotLoggedInMain extends Component {
     this.setUserData = this.setUserData.bind(this);
     this.checkUserStatus = this.checkUserStatus.bind(this);
     this.setUserFilledInfo = this.setUserFilledInfo.bind(this);
+    this.clearUserUnreadedMessages = this.clearUserUnreadedMessages.bind(this);
   }
 
   setUserFilledInfo() {
@@ -45,6 +46,58 @@ export default class NotLoggedInMain extends Component {
     }
   }
 
+  async clearUserUnreadedMessages(userId, conversationId) {
+    console.log(["clearUserUnreadedMessages", userId, conversationId]);
+    /*let newUserState = this.state.userData;
+
+    newUserState.unreadedConversationMessage = false;
+    newUserState.unreadedConversationMessageAmount = 0;
+
+    await this.setState({ userData: newUserState });
+
+    this.checkUserStatus();*/
+
+    try {
+      let userEmailName = this.state.userData.email;
+
+      console.log(userEmailName);
+
+      let formData = new FormData();
+      formData.append("userId", userId);
+      formData.append("conversationId", conversationId);
+
+      let that = this;
+
+      axios
+        .post(API_URL + "/api/setUserMessagesStatus", formData)
+        .then(async response => {
+          console.log(response);
+
+          let newUserState = this.state.userData;
+
+          newUserState.unreadedConversationMessage =
+            response.data.userUnreadedMessages;
+          newUserState.unreadedConversationMessageAmount =
+            response.data.userUnreadedMessagesCount;
+
+          await that.setState({ userData: newUserState });
+
+          that.checkUserStatus();
+
+          //await this.setState({ userData: response.data.user[0] });
+
+          //this.checkUserStatus();
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+
+    console.log(this.state.userData);
+  }
+
   checkUserStatus() {
     //console.log(["checkUserStatus", this.state.userData[0].verified]);
     //console.log(["checkUserStatus", this.state.userData.verified]);
@@ -55,7 +108,8 @@ export default class NotLoggedInMain extends Component {
       //console.log("verified");
       this.props.navigation.navigate("LoggedInMain", {
         user: this.state.userData,
-        API_URL: API_URL
+        API_URL: API_URL,
+        clearUserUnreadedMessages: this.clearUserUnreadedMessages
       });
     } else if (this.state.userData.verified === 0) {
       this.props.navigation.navigate("ConfirmAccount", {

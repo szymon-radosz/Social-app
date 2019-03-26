@@ -102,6 +102,9 @@ export default class LoggedInMain extends Component {
           <Messages
             API_URL={this.props.navigation.getParam("API_URL")}
             user={this.props.navigation.getParam("user")}
+            clearUserUnreadedMessages={this.props.navigation.getParam(
+              "clearUserUnreadedMessages"
+            )}
           />
         )}
         {this.state.openForum && (

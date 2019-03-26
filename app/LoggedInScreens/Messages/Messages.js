@@ -18,6 +18,8 @@ export default class Messages extends Component {
       receiverPhotoPath: ""
     };
 
+    console.log(["mess", this.props]);
+
     this.getMessages = this.getMessages.bind(this);
     this.openConversationDetails = this.openConversationDetails.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
@@ -123,6 +125,10 @@ export default class Messages extends Component {
 
   componentDidMount() {
     this.getMessages();
+
+    //let userId = this.props.user.id;
+
+    //this.props.clearUserUnreadedMessages(userId);
   }
 
   render() {
@@ -161,6 +167,7 @@ export default class Messages extends Component {
               receiverPhotoPath={this.state.receiverPhotoPath}
               API_URL={this.props.API_URL}
               sendMessage={this.sendMessage}
+              clearUserUnreadedMessages={this.props.clearUserUnreadedMessages}
             />
           )}
         </View>
