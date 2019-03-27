@@ -21,7 +21,8 @@ export default class UserOnList extends Component {
       showUserMessageBox: false,
       message: "",
       alertMessage: "",
-      alertType: ""
+      alertType: "",
+      usersAreInTheSameConversation: false
     };
 
     this.setShowUserDetails = this.setShowUserDetails.bind(this);
@@ -56,6 +57,8 @@ export default class UserOnList extends Component {
           alertType: "success",
           alertMessage: "Poprawnie wysłano nową wiadomość"
         });
+
+        that.setShowUserDetails();
       })
       .catch(function(error) {
         console.log(error);
@@ -68,6 +71,39 @@ export default class UserOnList extends Component {
   }
 
   setShowUserDetails() {
+    //check if users are in the same conversation - start messaging
+    let API_URL = this.props.API_URL;
+    let searchedUser = this.props.sender_id;
+    let loggedInUser = this.props.user.id;
+
+    let that = this;
+
+    axios
+      .post(API_URL + "/api/checkIfUsersBelongsToConversation", {
+        searchedUser: searchedUser,
+        loggedInUser: loggedInUser
+      })
+      .then(function(response) {
+        console.log(["checkIfUsersBelongsToConversation", response.data]);
+
+        that.setState({
+          usersAreInTheSameConversation:
+            response.data.usersAreInTheSameConversation
+        });
+        /*that.setState({
+          alertType: "success",
+          alertMessage: "Poprawnie wysłano nową wiadomość"
+        });*/
+      })
+      .catch(function(error) {
+        console.log(error);
+
+        that.setState({
+          alertType: "danger",
+          alertMessage: "Nie udało się pobrać danych o uzytkowniku"
+        });
+      });
+
     this.setState({ showUserDetails: true, showUserMessageBox: false });
   }
 
@@ -138,15 +174,28 @@ export default class UserOnList extends Component {
                     return <Text>{hobby.name} </Text>;
                   })}
               </View>
+              {this.state.usersAreInTheSameConversation && (
+                <Text>
+                  Jesteś już w trakcie rozmowy z {this.props.user.name}
+                </Text>
+              )}
               <View style={styles.userDetailsRedirectMessageBtnContainer}>
                 <TouchableHighlight
                   style={styles.userDetailsRedirectMessageBtn}
                 >
-                  <Button
-                    title="Pomachaj"
-                    color="#fff"
-                    onPress={() => this.setShowUserMessageBox()}
-                  />
+                  {this.state.usersAreInTheSameConversation ? (
+                    <Button
+                      title="Przejdź do wiadomości"
+                      color="#fff"
+                      onPress={() => this.props.openMessages()}
+                    />
+                  ) : (
+                    <Button
+                      title="Pomachaj"
+                      color="#fff"
+                      onPress={() => this.setShowUserMessageBox()}
+                    />
+                  )}
                 </TouchableHighlight>
               </View>
             </View>

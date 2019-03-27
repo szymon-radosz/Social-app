@@ -81,6 +81,7 @@ export default class FindUsers extends Component {
                     key={i}
                     user={user}
                     sender_id={this.props.user.id}
+                    openMessages={this.props.openMessages}
                   />
                 );
               }

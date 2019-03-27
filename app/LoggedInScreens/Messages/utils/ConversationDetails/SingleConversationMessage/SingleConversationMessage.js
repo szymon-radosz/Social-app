@@ -1,14 +1,29 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Button, Text, View } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  Button,
+  TouchableOpacity,
+  Text,
+  View
+} from "react-native";
 
 export default class SingleConversationMessage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCurrentUserTheSender: false
+      isCurrentUserTheSender: false,
+      showMessageDate: false
     };
 
+    this.setMessageDate = this.setMessageDate.bind(this);
+
     console.log(["single message", this.props]);
+  }
+
+  setMessageDate() {
+    console.log("setMessageDate");
+    this.setState({ showMessageDate: !this.state.showMessageDate });
   }
 
   componentDidMount() {
@@ -21,26 +36,44 @@ export default class SingleConversationMessage extends Component {
   render() {
     return (
       <View>
-        <Text
-          style={
-            this.state.isCurrentUserTheSender
-              ? {
-                  width: "80%",
-                  textAlign: "right",
-                  alignSelf: "flex-end",
-                  backgroundColor: "#ccc",
-                  fontSize: 12
-                }
-              : {
-                  width: "80%",
-                  marginLeft: 0,
-                  backgroundColor: "green",
-                  fontSize: 12
-                }
-          }
+        <TouchableOpacity
+          onPress={() => {
+            this.setMessageDate();
+          }}
         >
-          {this.props.message.message}
-        </Text>
+          <Text
+            style={
+              this.state.isCurrentUserTheSender
+                ? {
+                    width: "80%",
+                    textAlign: "right",
+                    alignSelf: "flex-end",
+                    backgroundColor: "#ccc",
+                    fontSize: 12
+                  }
+                : {
+                    width: "80%",
+                    marginLeft: 0,
+                    backgroundColor: "green",
+                    fontSize: 12
+                  }
+            }
+          >
+            {this.props.message.message}
+          </Text>
+        </TouchableOpacity>
+        {this.state.showMessageDate && (
+          <Text
+            style={{
+              width: "80%",
+              textAlign: "right",
+              alignSelf: "flex-end",
+              fontSize: 12
+            }}
+          >
+            {this.props.message.created_at}
+          </Text>
+        )}
         <View style={{ borderBottomWidth: 1 }} />
       </View>
     );

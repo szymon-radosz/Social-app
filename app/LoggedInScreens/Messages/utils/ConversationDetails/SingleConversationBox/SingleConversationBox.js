@@ -36,7 +36,7 @@ const ConversationBox = props => {
             resizeMode="contain"
           />
         </TouchableOpacity>
-        <Text>{props.conversation.receiverEmail}</Text>
+        <Text>{props.conversation.receiverName}</Text>
         <Text>{props.conversation.messages[0].updated_at}</Text>
         <Text
           style={{
