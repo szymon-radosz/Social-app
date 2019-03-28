@@ -11,6 +11,7 @@ import {
 import SendMessageBox from "./SendMessageBox/SendMessageBox";
 import SingleConversationMessage from "./SingleConversationMessage/SingleConversationMessage";
 import axios from "axios";
+import styles from "./style";
 
 export default class ConversationDetails extends Component {
   constructor(props) {
@@ -52,17 +53,10 @@ export default class ConversationDetails extends Component {
 
   render() {
     return (
-      <View
-        style={{
-          width: "100%",
-          flex: 1,
-          flexDirection: "column",
-          justifyContent: "space-between"
-        }}
-      >
+      <View style={styles.viewContainer}>
         <TouchableOpacity>
           <Image
-            style={{ width: 45, height: 45 }}
+            style={styles.image}
             source={{
               uri: `${this.props.API_URL}userPhotos/${
                 this.props.receiverPhotoPath
@@ -88,7 +82,7 @@ export default class ConversationDetails extends Component {
           })}
         {this.state.messages && this.state.messages[0].conversation_id && (
           <SendMessageBox
-            style={{ alignSelf: "flex-end", position: "absolute", bottom: 35 }}
+            style={styles.sendMessage}
             senderId={this.props.currentUser.id}
             receiverId={this.props.receiverId}
             conversationId={this.state.messages[0].conversation_id}
@@ -103,22 +97,3 @@ export default class ConversationDetails extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center" },
-  pageTitle: {
-    textAlign: "center",
-    color: "#333",
-    fontWeight: "600",
-    fontSize: 18,
-    paddingBottom: 10,
-    paddingTop: 10
-  },
-  pageSubTitle: {
-    textAlign: "center",
-    color: "#333",
-    fontWeight: "400",
-    fontSize: 14,
-    paddingBottom: 20
-  }
-});

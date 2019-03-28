@@ -7,6 +7,7 @@ import {
   Text,
   View
 } from "react-native";
+import styles from "./style";
 
 export default class SingleConversationMessage extends Component {
   constructor(props) {
@@ -44,33 +45,15 @@ export default class SingleConversationMessage extends Component {
           <Text
             style={
               this.state.isCurrentUserTheSender
-                ? {
-                    width: "80%",
-                    textAlign: "right",
-                    alignSelf: "flex-end",
-                    backgroundColor: "#ccc",
-                    fontSize: 12
-                  }
-                : {
-                    width: "80%",
-                    marginLeft: 0,
-                    backgroundColor: "green",
-                    fontSize: 12
-                  }
+                ? styles.senderBox
+                : styles.receiverBox
             }
           >
             {this.props.message.message}
           </Text>
         </TouchableOpacity>
         {this.state.showMessageDate && (
-          <Text
-            style={{
-              width: "80%",
-              textAlign: "right",
-              alignSelf: "flex-end",
-              fontSize: 12
-            }}
-          >
+          <Text style={styles.messageDate}>
             {this.props.message.created_at}
           </Text>
         )}
@@ -79,22 +62,3 @@ export default class SingleConversationMessage extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center" },
-  pageTitle: {
-    textAlign: "center",
-    color: "#333",
-    fontWeight: "600",
-    fontSize: 18,
-    paddingBottom: 10,
-    paddingTop: 10
-  },
-  pageSubTitle: {
-    textAlign: "center",
-    color: "#333",
-    fontWeight: "400",
-    fontSize: 14,
-    paddingBottom: 20
-  }
-});

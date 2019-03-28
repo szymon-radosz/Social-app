@@ -3,6 +3,7 @@ import { Platform, StyleSheet, Button, Text, View } from "react-native";
 import SingleConversationBox from "./utils/ConversationDetails/SingleConversationBox/SingleConversationBox";
 import ConversationDetails from "./utils/ConversationDetails/ConversationDetails";
 import axios from "axios";
+import styles from "./style";
 
 export default class Messages extends Component {
   constructor(props) {
@@ -136,13 +137,7 @@ export default class Messages extends Component {
       <View>
         <Text style={styles.pageTitle}>Wiadomości</Text>
 
-        <View
-          style={{
-            flexWrap: "wrap",
-            alignItems: "flex-start",
-            flexDirection: "row"
-          }}
-        >
+        <View style={styles.messagesList}>
           {this.state.messagesList &&
             !this.state.openConversationDetails &&
             this.state.messagesList.map((conversation, i) => {
@@ -175,22 +170,3 @@ export default class Messages extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center" },
-  pageTitle: {
-    textAlign: "center",
-    color: "#333",
-    fontWeight: "600",
-    fontSize: 18,
-    paddingBottom: 10,
-    paddingTop: 10
-  },
-  pageSubTitle: {
-    textAlign: "center",
-    color: "#333",
-    fontWeight: "400",
-    fontSize: 14,
-    paddingBottom: 20
-  }
-});

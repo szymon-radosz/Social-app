@@ -9,6 +9,7 @@ import {
   TouchableHighlight,
   Image
 } from "react-native";
+import styles from "./style";
 
 const ConversationBox = props => {
   console.log(["props", props]);
@@ -24,10 +25,10 @@ const ConversationBox = props => {
         );
       }}
     >
-      <View style={{ borderWidth: 1, width: "100%" }}>
+      <View style={styles.conversationBoxContainer}>
         <TouchableOpacity>
           <Image
-            style={{ width: 45, height: 45 }}
+            style={styles.image}
             source={{
               uri: `${props.API_URL}userPhotos/${
                 props.conversation.receiverPhotoPath
@@ -39,11 +40,16 @@ const ConversationBox = props => {
         <Text>{props.conversation.receiverName}</Text>
         <Text>{props.conversation.messages[0].updated_at}</Text>
         <Text
-          style={{
-            color: props.conversation.userHadUnreadedMessages ? "blue" : "#000"
-          }}
+          style={
+            props.conversation.userHadUnreadedMessages
+              ? styles.unreadedConversation
+              : styles.readedConversation
+          }
         >
-          {props.conversation.messages[0].message}
+          {
+            props.conversation.messages[props.conversation.messages.length - 1]
+              .message
+          }
         </Text>
       </View>
     </TouchableHighlight>
