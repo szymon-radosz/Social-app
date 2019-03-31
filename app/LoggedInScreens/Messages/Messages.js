@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Button, Text, View } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  Button,
+  Text,
+  View
+} from "react-native";
 import SingleConversationBox from "./utils/ConversationDetails/SingleConversationBox/SingleConversationBox";
 import ConversationDetails from "./utils/ConversationDetails/ConversationDetails";
 import axios from "axios";
@@ -24,6 +31,7 @@ export default class Messages extends Component {
     this.getMessages = this.getMessages.bind(this);
     this.openConversationDetails = this.openConversationDetails.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
+    this.getAuctionMessages = this.getAuctionMessages.bind(this);
   }
 
   //open conversation details from list of conversations
@@ -124,6 +132,29 @@ export default class Messages extends Component {
       });
   }
 
+  getAuctionMessages() {
+    let API_URL = this.props.API_URL;
+    let user_id = this.props.user.id;
+
+    let that = this;
+
+    axios
+      .post(API_URL + "/api/showUserConversations", {
+        user_id: user_id,
+        showProductsConversations: true
+      })
+      .then(function(response) {
+        console.log(["getMessages", response]);
+
+        that.setState({
+          messagesList: response.data.conversationData
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
   componentDidMount() {
     this.getMessages();
 
@@ -136,6 +167,14 @@ export default class Messages extends Component {
     return (
       <View>
         <Text style={styles.pageTitle}>Wiadomości</Text>
+
+        <TouchableOpacity onPress={this.getMessages}>
+          <Text>Prywatne</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={this.getAuctionMessages}>
+          <Text>Targ</Text>
+        </TouchableOpacity>
 
         <View style={styles.messagesList}>
           {this.state.messagesList &&
