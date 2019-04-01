@@ -53,7 +53,9 @@ export default class UserOnList extends Component {
               <Button
                 title="Wyślij"
                 color="#fff"
-                //onPress={() => this.sendMessage()}
+                onPress={() =>
+                  this.props.sendNewConversationProduct(this.state.message)
+                }
               />
             </TouchableHighlight>
           </View>

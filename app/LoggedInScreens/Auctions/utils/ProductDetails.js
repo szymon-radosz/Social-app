@@ -23,10 +23,13 @@ export default class ProductDetails extends Component {
     };
 
     this.getProductDetails = this.getProductDetails.bind(this);
-    this.changeShowProductMessageBox = this.changeShowProductMessageBox.bind(
+    this.checkIfUsersBelongToConversationProduct = this.checkIfUsersBelongToConversationProduct.bind(
       this
     );
-    this.checkIfUsersBelongToConversationProduct = this.checkIfUsersBelongToConversationProduct.bind(
+    this.sendNewConversationProduct = this.sendNewConversationProduct.bind(
+      this
+    );
+    this.changeShowProductMessageBox = this.changeShowProductMessageBox.bind(
       this
     );
   }
@@ -101,6 +104,40 @@ export default class ProductDetails extends Component {
       });
   }
 
+  sendNewConversationProduct(message) {
+    if (message) {
+      let API_URL = this.props.API_URL;
+      let senderId = this.props.currentUser.id;
+      let receiverId = this.state.productDetails[0].user_id;
+      let productId = this.state.productDetails[0].id;
+
+      console.log([senderId, receiverId, productId, message]);
+
+      let that = this;
+
+      axios
+        .post(API_URL + "/api/saveConversationProduct", {
+          sender_id: senderId,
+          receiver_id: receiverId,
+          message: message,
+          product_id: productId
+        })
+        .then(function(response) {
+          console.log(["saveConversationProduct", response.data]);
+
+          if (response.data.conversation) {
+            that.setState({
+              usersAreInTheSameConversation: true,
+              showProductMessageBox: false
+            });
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+  }
+
   componentDidMount() {
     //load all products based on user coords
     this.getProductDetails();
@@ -110,7 +147,14 @@ export default class ProductDetails extends Component {
   render() {
     return (
       <View>
-        {this.state.productDetails[0] && !this.state.showProductMessageBox ? (
+        {this.state.showProductMessageBox ? (
+          <ProductMessageBox
+            currentUser={this.props.currentUser}
+            product={this.state.productDetails[0]}
+            changeShowProductMessageBox={this.changeShowProductMessageBox}
+            sendNewConversationProduct={this.sendNewConversationProduct}
+          />
+        ) : this.state.productDetails[0] ? (
           <View>
             <TouchableOpacity>
               <Image
@@ -177,13 +221,7 @@ export default class ProductDetails extends Component {
               </TouchableHighlight>
             )}
           </View>
-        ) : (
-          <ProductMessageBox
-            currentUser={this.props.currentUser}
-            product={this.state.productDetails[0]}
-            changeShowProductMessageBox={this.changeShowProductMessageBox}
-          />
-        )}
+        ) : null}
       </View>
     );
   }
