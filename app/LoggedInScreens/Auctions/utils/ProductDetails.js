@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import styles from "./style";
 import ProductMessageBox from "./ProductMessageBox";
+import ProductVoteBox from "./ProductVoteBox";
 
 export default class ProductDetails extends Component {
   constructor(props) {
@@ -19,7 +20,10 @@ export default class ProductDetails extends Component {
     this.state = {
       productDetails: [],
       showProductMessageBox: false,
-      usersAreInTheSameConversation: false
+      showVoteBox: false,
+      foundVoteUserList: [],
+      usersAreInTheSameConversation: false,
+      productClosed: false
     };
 
     this.getProductDetails = this.getProductDetails.bind(this);
@@ -32,10 +36,43 @@ export default class ProductDetails extends Component {
     this.changeShowProductMessageBox = this.changeShowProductMessageBox.bind(
       this
     );
+    this.changeVoteBox = this.changeVoteBox.bind(this);
+    this.searchUsersByName = this.searchUsersByName.bind(this);
+  }
+
+  searchUsersByName(name) {
+    let API_URL = this.props.API_URL;
+
+    if (name) {
+      let that = this;
+
+      axios
+        .post(API_URL + "/api/loadUserByName", {
+          name: name
+        })
+        .then(function(response) {
+          console.log(["searchUsersByName", response]);
+
+          that.setState({
+            foundVoteUserList: []
+          });
+
+          that.setState({
+            foundVoteUserList: response.data.userList
+          });
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
   }
 
   changeShowProductMessageBox() {
     this.setState({ showProductMessageBox: !this.state.showProductMessageBox });
+  }
+
+  changeVoteBox() {
+    this.setState({ showVoteBox: !this.state.showVoteBox });
   }
 
   getProductDetails() {
@@ -128,7 +165,8 @@ export default class ProductDetails extends Component {
           if (response.data.conversation) {
             that.setState({
               usersAreInTheSameConversation: true,
-              showProductMessageBox: false
+              showProductMessageBox: false,
+              showVoteBox: false
             });
           }
         })
@@ -147,12 +185,22 @@ export default class ProductDetails extends Component {
   render() {
     return (
       <View>
-        {this.state.showProductMessageBox ? (
+        {this.state.showProductMessageBox && !this.state.showVoteBox ? (
           <ProductMessageBox
             currentUser={this.props.currentUser}
             product={this.state.productDetails[0]}
             changeShowProductMessageBox={this.changeShowProductMessageBox}
             sendNewConversationProduct={this.sendNewConversationProduct}
+          />
+        ) : !this.state.showProductMessageBox && this.state.showVoteBox ? (
+          <ProductVoteBox
+            currentUser={this.props.currentUser}
+            product={this.state.productDetails[0]}
+            API_URL={this.props.API_URL}
+            changeVoteBox={this.changeVoteBox}
+            searchUsersByName={this.searchUsersByName}
+            foundVoteUserList={this.state.foundVoteUserList}
+            getProductDetails={this.getProductDetails}
           />
         ) : this.state.productDetails[0] ? (
           <View>
@@ -200,10 +248,11 @@ export default class ProductDetails extends Component {
                 this.props.currentUser.id &&
               this.state.usersAreInTheSameConversation ? (
               <Text>Jestescie juz w konwersacji dotyczacej produktu</Text>
-            ) : (
+            ) : this.state.productDetails[0].status != 1 ? (
               <TouchableHighlight>
                 <Button
                   title="Zamknij Sprzedaz"
+                  onPress={() => this.changeVoteBox()}
                   color="#000"
                   /*onPress={() =>
           this.props.sendMessage(
@@ -219,6 +268,8 @@ export default class ProductDetails extends Component {
         }*/
                 />
               </TouchableHighlight>
+            ) : (
+              <Text>Sprzedaz produktu zakonczona</Text>
             )}
           </View>
         ) : null}
