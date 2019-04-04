@@ -21,7 +21,7 @@ export default StyleSheet.create({
   userDetailsModalContentContainer: {
     backgroundColor: "#fff",
     width: fullWidth - 40,
-    height: fullHeight / 2,
+    height: fullHeight - 300,
     position: "absolute",
     top: fullHeight / 6,
     left: 20,
@@ -95,7 +95,7 @@ export default StyleSheet.create({
     marginBottom: 20
   },
   userMessageTextArea: {
-    height: 80,
+    height: 40,
     borderWidth: 1,
     marginLeft: 10,
     marginRight: 10,

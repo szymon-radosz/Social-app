@@ -1,8 +1,16 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Button, Text, View } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  TouchableHighlight,
+  Button,
+  Text,
+  View
+} from "react-native";
 import axios from "axios";
 import SingleAuctionOnList from "./utils/SingleAuctionOnList";
 import ProductDetails from "./utils/ProductDetails";
+import AddNewProductBox from "./utils/AddNewProductBox";
 import styles from "./style";
 
 export default class Auctions extends Component {
@@ -18,6 +26,14 @@ export default class Auctions extends Component {
 
     this.getProducts = this.getProducts.bind(this);
     this.setSelectedProduct = this.setSelectedProduct.bind(this);
+    this.changeDisplayNewProductBox = this.changeDisplayNewProductBox.bind(
+      this
+    );
+  }
+
+  changeDisplayNewProductBox() {
+    this.setState({ displayNewProductBox: !this.state.displayNewProductBox });
+    this.getProducts();
   }
 
   getProducts() {
@@ -33,7 +49,7 @@ export default class Auctions extends Component {
         lng: userLng
       })
       .then(function(response) {
-        console.log(["getAuctionProducts", response]);
+        //console.log(["getAuctionProducts", response]);
 
         that.setState({
           productList: response.data.productList
@@ -45,7 +61,7 @@ export default class Auctions extends Component {
   }
 
   setSelectedProduct(id, productUserId) {
-    console.log(["setSelectedProduct", id, productUserId]);
+    //console.log(["setSelectedProduct", id, productUserId]);
 
     this.setState({
       selectedProductId: id,
@@ -62,11 +78,18 @@ export default class Auctions extends Component {
   render() {
     return (
       <View>
-        {!this.state.displayProductDetails && (
+        {!this.state.displayProductDetails && !this.state.displayNewProductBox && (
           <View>
             <Text style={styles.pageTitle}>
               Targ - sprzedawaj niepotrzebne rzeczy i kupuj od innych.
             </Text>
+            <TouchableHighlight>
+              <Button
+                title="Dodaj produkt"
+                onPress={() => this.changeDisplayNewProductBox()}
+                color="#000"
+              />
+            </TouchableHighlight>
             <View style={styles.productList}>
               {this.state.productList &&
                 this.state.productList.map((product, i) => {
@@ -81,6 +104,14 @@ export default class Auctions extends Component {
                 })}
             </View>
           </View>
+        )}
+
+        {this.state.displayNewProductBox && (
+          <AddNewProductBox
+            currentUser={this.props.user}
+            API_URL={this.props.API_URL}
+            changeDisplayNewProductBox={this.changeDisplayNewProductBox}
+          />
         )}
 
         {this.state.displayProductDetails && (
