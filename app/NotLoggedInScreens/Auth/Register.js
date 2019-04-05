@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import styles from "./style";
-import Alert from "./../../../Alert/Alert";
+import Alert from "./../../Alert/Alert";
 
 export default class Register extends Component {
   constructor(props) {

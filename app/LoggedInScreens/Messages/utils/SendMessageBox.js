@@ -1,14 +1,11 @@
 import React, { Component } from "react";
 import {
-  Platform,
-  StyleSheet,
   Button,
   TextInput,
   TouchableHighlight,
   Text,
   View
 } from "react-native";
-import axios from "axios";
 
 export default class SendMessageBox extends Component {
   constructor(props) {

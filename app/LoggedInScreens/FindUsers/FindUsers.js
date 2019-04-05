@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, Button, Image, Text, View } from "react-native";
 import axios from "axios";
-import UserOnList from "./utils/UserOnList/UserOnList";
+import UserOnList from "./utils/UserOnList";
 
 export default class FindUsers extends Component {
   constructor(props) {

@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import styles from "./style.js";
 import axios from "axios";
-import Alert from "./../../../Alert/Alert";
+import Alert from "./../../Alert/Alert";
 
 export default class Login extends Component {
   constructor(props) {
@@ -51,11 +51,13 @@ export default class Login extends Component {
       try {
         let API_URL = this.props.navigation.getParam("API_URL", "");
         let navProps = this.props.navigation.state.params;
+        let email = this.state.email;
+        let password = this.state.password;
 
         axios
           .post(API_URL + "/api/login", {
-            email: this.state.email,
-            password: this.state.password
+            email: email,
+            password: password
           })
           .then(function(response) {
             //console.log(response.data);

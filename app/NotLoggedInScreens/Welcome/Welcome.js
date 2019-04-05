@@ -1,22 +1,11 @@
 import React, { Component } from "react";
-import {
-  Platform,
-  StyleSheet,
-  Button,
-  Text,
-  View,
-  TouchableHighlight
-} from "react-native";
+import { Button, Text, View, TouchableHighlight } from "react-native";
 import styles from "./style.js";
 
 export default class Welcome extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-  }
-
-  componentDidMount() {
-    console.log(["welcome", this.props.navigation.state]);
   }
 
   render() {

@@ -18,26 +18,11 @@ export default StyleSheet.create({
     paddingBottom: 10,
     paddingTop: 20
   },
-  subText: {
-    textAlign: "center",
-    color: "#333",
-    fontWeight: "400",
-    fontSize: 14,
-    paddingTop: 5,
-    paddingBottom: 5
+  map: {
+    width: "100%",
+    height: 250
   },
-  input: {
-    width: "90%",
-    marginBottom: 10,
-    borderRadius: 5,
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    paddingLeft: 10,
-    paddingRight: 10,
-    marginLeft: "auto",
-    marginRight: "auto"
-  },
+
   dataPicker: {
     width: "90%",
     marginBottom: 10,
@@ -56,6 +41,56 @@ export default StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto"
   },
+  hobbiesContainer: {
+    //justifyContent: "center",
+    flexDirection: "row",
+    flexWrap: "wrap"
+    //flex: 1
+  },
+  btnContainer: {
+    justifyContent: "center",
+    flexDirection: "column"
+  },
+  hobbyContainer: {
+    width: 100,
+    height: 100,
+    margin: 10,
+    //justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#333",
+    borderRadius: 5
+  },
+  activeHobbyContainer: {
+    width: 100,
+    height: 100,
+    margin: 10,
+    //justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#e07b8d",
+    borderRadius: 5
+  },
+  subText: {
+    textAlign: "center",
+    color: "#333",
+    fontWeight: "400",
+    fontSize: 14,
+    paddingTop: 10,
+    paddingBottom: 5
+  },
+  input: {
+    width: "90%",
+    marginBottom: 10,
+    borderRadius: 5,
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginLeft: "auto",
+    marginRight: "auto"
+  },
   previousBtn: {
     height: 45,
     width: 180,
@@ -64,9 +99,7 @@ export default StyleSheet.create({
     borderWidth: 2,
     backgroundColor: "#fff",
     marginTop: 20,
-    marginBottom: 20,
-    marginLeft: "auto",
-    marginRight: "auto"
+    marginBottom: 20
   },
   nextBtn: {
     height: 45,

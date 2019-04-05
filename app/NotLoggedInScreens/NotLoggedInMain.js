@@ -48,14 +48,6 @@ export default class NotLoggedInMain extends Component {
 
   async clearUserUnreadedMessages(userId, conversationId) {
     console.log(["clearUserUnreadedMessages", userId, conversationId]);
-    /*let newUserState = this.state.userData;
-
-    newUserState.unreadedConversationMessage = false;
-    newUserState.unreadedConversationMessageAmount = 0;
-
-    await this.setState({ userData: newUserState });
-
-    this.checkUserStatus();*/
 
     try {
       let userEmailName = this.state.userData.email;
@@ -128,6 +120,7 @@ export default class NotLoggedInMain extends Component {
   }
 
   async setUserData(user) {
+    console.log(user);
     await this.setState({ userData: user });
 
     //console.log(["App state", this.state]);

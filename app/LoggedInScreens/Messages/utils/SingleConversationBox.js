@@ -1,15 +1,12 @@
 import React, { Component } from "react";
 import {
-  Platform,
-  StyleSheet,
-  Button,
   Text,
   View,
   TouchableOpacity,
   TouchableHighlight,
   Image
 } from "react-native";
-import styles from "./style";
+import styles from "./../style";
 
 const ConversationBox = props => {
   console.log(["props", props]);

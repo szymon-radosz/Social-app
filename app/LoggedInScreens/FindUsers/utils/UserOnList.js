@@ -10,8 +10,8 @@ import {
   TouchableHighlight
 } from "react-native";
 import axios from "axios";
-import styles from "./style";
-import Alert from "./../../../../Alert/Alert";
+import styles from "./../style";
+import Alert from "./../../../Alert/Alert";
 
 export default class UserOnList extends Component {
   constructor(props) {

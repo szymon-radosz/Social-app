@@ -1,13 +1,6 @@
 import React, { Component } from "react";
-import {
-  Platform,
-  StyleSheet,
-  Button,
-  TouchableOpacity,
-  Text,
-  View
-} from "react-native";
-import styles from "./style";
+import { TouchableOpacity, Text, View } from "react-native";
+import styles from "./../style";
 
 export default class SingleConversationMessage extends Component {
   constructor(props) {
@@ -18,8 +11,6 @@ export default class SingleConversationMessage extends Component {
     };
 
     this.setMessageDate = this.setMessageDate.bind(this);
-
-    console.log(["single message", this.props]);
   }
 
   setMessageDate() {

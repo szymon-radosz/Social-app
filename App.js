@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import NotLoggedInMain from "./app/NotLoggedInScreens/NotLoggedInMain";
 import Welcome from "./app/NotLoggedInScreens/Welcome/Welcome";
-import Login from "./app/NotLoggedInScreens/Auth/Login/Login";
-import Register from "./app/NotLoggedInScreens/Auth/Register/Register";
+import Login from "./app/NotLoggedInScreens/Auth/Login";
+import Register from "./app/NotLoggedInScreens/Auth/Register";
 import ConfirmAccount from "./app/NotLoggedInScreens/ConfirmAccount/ConfirmAccount";
 import FillNecessaryInfo from "./app/NotLoggedInScreens/FillNecessaryInfo/FillNecessaryInfo";
 import LoggedInMain from "./app/LoggedInScreens/LoggedInMain";
@@ -29,13 +29,8 @@ const RootStack = createStackNavigator(
     Register: Register,
     NotLoggedInMain: NotLoggedInMain,
     ConfirmAccount: ConfirmAccount,
-    //FindUsers: FindUsers,
     FillNecessaryInfo: FillNecessaryInfo,
     LoggedInMain: LoggedInMain
-    /*Profile: Profile,
-    Events: Events,
-    Auctions: Auctions,
-    BottomPanel: BottomPanel*/
   },
   {
     initialRouteName: "NotLoggedInMain"

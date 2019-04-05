@@ -6,7 +6,7 @@ import {
   TextInput,
   TouchableHighlight
 } from "react-native";
-import styles from "./style";
+import styles from "./../style";
 
 export default class AgeDescScreen extends Component {
   constructor(props) {

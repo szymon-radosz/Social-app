@@ -1,17 +1,8 @@
 import React, { Component } from "react";
-import {
-  Platform,
-  StyleSheet,
-  Button,
-  Text,
-  View,
-  TouchableOpacity,
-  Image
-} from "react-native";
-import SendMessageBox from "./SendMessageBox/SendMessageBox";
-import SingleConversationMessage from "./SingleConversationMessage/SingleConversationMessage";
-import axios from "axios";
-import styles from "./style";
+import { Text, View, TouchableOpacity, Image } from "react-native";
+import SendMessageBox from "./SendMessageBox";
+import SingleConversationMessage from "./SingleConversationMessage";
+import styles from "./../style";
 
 export default class ConversationDetails extends Component {
   constructor(props) {

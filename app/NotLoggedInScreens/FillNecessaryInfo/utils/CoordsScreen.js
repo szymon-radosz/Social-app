@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Text, View, TouchableHighlight } from "react-native";
-import styles from "./style";
+import styles from "./../style";
 import MapView, {
   Marker,
   ProviderPropType,

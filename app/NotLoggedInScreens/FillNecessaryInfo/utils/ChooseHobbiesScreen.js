@@ -3,11 +3,10 @@ import {
   Button,
   Text,
   View,
-  TextInput,
   TouchableHighlight,
   TouchableOpacity
 } from "react-native";
-import styles from "./style";
+import styles from "./../style";
 
 export default class ChooseHobbiesScreen extends Component {
   constructor(props) {

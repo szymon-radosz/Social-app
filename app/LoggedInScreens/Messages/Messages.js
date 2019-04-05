@@ -1,14 +1,7 @@
 import React, { Component } from "react";
-import {
-  Platform,
-  StyleSheet,
-  TouchableOpacity,
-  Button,
-  Text,
-  View
-} from "react-native";
-import SingleConversationBox from "./utils/ConversationDetails/SingleConversationBox/SingleConversationBox";
-import ConversationDetails from "./utils/ConversationDetails/ConversationDetails";
+import { TouchableOpacity, Text, View } from "react-native";
+import SingleConversationBox from "./utils/SingleConversationBox";
+import ConversationDetails from "./utils/ConversationDetails";
 import axios from "axios";
 import styles from "./style";
 

@@ -7,7 +7,7 @@ import {
   TouchableHighlight
 } from "react-native";
 import DatePicker from "react-native-datepicker";
-import styles from "./style";
+import styles from "./../style";
 
 export default class ChooseKidsScreen extends Component {
   constructor(props) {
