@@ -12,7 +12,7 @@ import {
 import styles from "./style";
 
 const SingleAuctionOnList = props => {
-  console.log(["SingleAuctionOnList", props]);
+  //console.log(["SingleAuctionOnList", props]);
   return (
     <TouchableHighlight
       onPress={() => {

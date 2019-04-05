@@ -7,47 +7,35 @@ import MapView, {
   PROVIDER_GOOGLE
 } from "react-native-maps";
 
-export default class CoordsScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+const CoordsScreen = props => {
+  return (
+    <View>
+      <Text style={styles.headerText}>
+        Wybierz okolicę swojego miejsca zamieszkania.
+      </Text>
 
-  render() {
-    return (
-      <View>
-        <Text style={styles.headerText}>
-          Wybierz okolicę swojego miejsca zamieszkania.
-        </Text>
+      <MapView
+        customMapStyle={mapStyle}
+        style={styles.map}
+        scrollEnabled={true}
+        zoomEnabled={true}
+        onRegionChange={props.onRegionChange}
+        initialRegion={props.region}
+      >
+        <Marker coordinate={props.region} />
+      </MapView>
 
-        <MapView
-          //provider={this.props.provider}
-          customMapStyle={mapStyle}
-          style={styles.map}
-          scrollEnabled={true}
-          zoomEnabled={true}
-          /*pitchEnabled={false}
-          rotateEnabled={false}*/
-          onRegionChange={this.props.onRegionChange}
-          initialRegion={this.props.region}
-        >
-          <Marker
-            //title="This is a title"
-            //description="This is a description"
-            coordinate={this.props.region}
-          />
-        </MapView>
+      <TouchableHighlight style={styles.nextBtn}>
+        <Button title="Dalej" color="#fff" onPress={props.nextStep} />
+      </TouchableHighlight>
+      <TouchableHighlight style={styles.previousBtn}>
+        <Button title="Wróć" color="#e07b8d" onPress={props.prevStep} />
+      </TouchableHighlight>
+    </View>
+  );
+};
 
-        <TouchableHighlight style={styles.nextBtn}>
-          <Button title="Dalej" color="#fff" onPress={this.props.nextStep} />
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.previousBtn}>
-          <Button title="Wróć" color="#e07b8d" onPress={this.props.prevStep} />
-        </TouchableHighlight>
-      </View>
-    );
-  }
-}
+export default CoordsScreen;
 
 const mapStyle = [
   {

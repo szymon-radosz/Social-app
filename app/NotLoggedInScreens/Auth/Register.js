@@ -50,6 +50,8 @@ export default class Register extends Component {
         let API_URL = this.props.navigation.getParam("API_URL", "");
         let navProps = this.props.navigation.state.params;
 
+        let that = this;
+
         axios
           .post(API_URL + "/api/register", {
             name: this.state.name,
@@ -60,7 +62,7 @@ export default class Register extends Component {
             console.log(["register", response]);
             //console.log(response.data);
 
-            this.setState({
+            that.setState({
               showAlert: true,
               alertType: "success",
               alertMessage:
@@ -78,10 +80,6 @@ export default class Register extends Component {
     } else {
       console.log("passwords dont match");
     }
-  }
-
-  componentDidMount() {
-    console.log(this.props.navigation.getParam("API_URL", ""));
   }
 
   render() {

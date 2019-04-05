@@ -57,12 +57,11 @@ export default class FillNecessaryInfo extends Component {
 
       this.state.hobbies.map(hobby => {
         if (hobby.active) {
-          let formData = new FormData();
-          formData.append("userEmail", userEmailName);
-          formData.append("hobby_id", hobby.id);
-
           axios
-            .post(API_URL + "/api/saveHobbyUser", formData)
+            .post(API_URL + "/api/saveHobbyUser", {
+              userEmail: userEmailName,
+              hobby_id: hobby.id
+            })
             .then(response => console.log(response))
             .catch(function(error) {
               console.log(error.message);

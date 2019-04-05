@@ -9,7 +9,6 @@ import {
 import styles from "./../style";
 
 const ConversationBox = props => {
-  console.log(["props", props]);
   return (
     <TouchableHighlight
       onPress={() => {
