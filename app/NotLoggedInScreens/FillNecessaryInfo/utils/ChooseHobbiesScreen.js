@@ -7,6 +7,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import styles from "./../style";
+import { v4 as uuid } from "uuid";
 
 const ChooseHobbiesScreen = props => {
   return (
@@ -24,7 +25,7 @@ const ChooseHobbiesScreen = props => {
                     ? styles.activeHobbyContainer
                     : styles.hobbyContainer
                 }
-                key={i}
+                key={uuid()}
               >
                 <Text>{hobby.name}</Text>
               </TouchableOpacity>

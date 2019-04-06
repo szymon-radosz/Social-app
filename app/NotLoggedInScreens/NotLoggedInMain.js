@@ -26,13 +26,12 @@ export default class NotLoggedInMain extends Component {
 
       console.log(userEmailName);
 
-      let formData = new FormData();
-      formData.append("userEmail", userEmailName);
-
       let that = this;
 
       axios
-        .post(API_URL + "/api/setUserFilledInfo", formData)
+        .post(API_URL + "/api/setUserFilledInfo", {
+          userEmail: userEmailName
+        })
         .then(async response => {
           if (response.data.status === "OK") {
             console.log(response);
@@ -58,14 +57,13 @@ export default class NotLoggedInMain extends Component {
 
       console.log(userEmailName);
 
-      let formData = new FormData();
-      formData.append("userId", userId);
-      formData.append("conversationId", conversationId);
-
       let that = this;
 
       axios
-        .post(API_URL + "/api/setUserMessagesStatus", formData)
+        .post(API_URL + "/api/setUserMessagesStatus", {
+          userId: userId,
+          conversationId: conversationId
+        })
         .then(async response => {
           if (response.data.status === "OK") {
             console.log(response);

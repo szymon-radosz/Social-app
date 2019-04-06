@@ -169,25 +169,23 @@ export default class FillNecessaryInfo extends Component {
 
   fileUpload() {
     try {
-      /*console.log([
-        "photo: ",
-        this.state,
-        this.props.navigation.getParam("API_URL", "")
-      ]);*/
       let API_URL = this.props.navigation.getParam("API_URL", "");
       let userEmailName = this.props.navigation.getParam("user").email;
 
-      let formData = new FormData();
-      formData.append("file", this.state.photo.uri);
-      formData.append("fileName", userEmailName.split("@")[0]);
-      formData.append("userEmail", userEmailName);
-
       axios
-        .post(API_URL + "/api/uploadUserPhoto", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data"
+        .post(
+          API_URL + "/api/uploadUserPhoto",
+          {
+            file: this.state.photo.uri,
+            fileName: userEmailName.split("@")[0],
+            userEmail: userEmailName
+          },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
           }
-        })
+        )
         .then(response => {
           if (response.data.status === "OK") {
             console.log(response);
@@ -207,15 +205,14 @@ export default class FillNecessaryInfo extends Component {
       let API_URL = this.props.navigation.getParam("API_URL", "");
       let userEmailName = this.props.navigation.getParam("user").email;
 
-      let formData = new FormData();
-      formData.append("userEmail", userEmailName);
-      formData.append("age", this.state.age);
-      formData.append("desc", this.state.desc);
-      formData.append("lat", this.state.region.latitude);
-      formData.append("lng", this.state.region.longitude);
-
       axios
-        .post(API_URL + "/api/updateUserInfo", formData)
+        .post(API_URL + "/api/updateUserInfo", {
+          userEmail: userEmailName,
+          age: this.state.age,
+          desc: this.state.desc,
+          lat: this.state.region.latitude,
+          lng: this.state.region.longitude
+        })
         .then(response => {
           if (response.data.status === "OK") {
             console.log(response);
@@ -235,13 +232,12 @@ export default class FillNecessaryInfo extends Component {
       let userEmailName = this.props.navigation.getParam("user").email;
 
       this.state.kids.map(kid => {
-        let formData = new FormData();
-        formData.append("userEmail", userEmailName);
-        formData.append("name", kid.name);
-        formData.append("dateOfBirth", kid.dateOfBirth);
-
         axios
-          .post(API_URL + "/api/saveKid", formData)
+          .post(API_URL + "/api/saveKid", {
+            userEmail: userEmailName,
+            name: kid.name,
+            dateOfBirth: kid.dateOfBirth
+          })
           .then(response => {
             if (response.data.status === "OK") {
               console.log(response);

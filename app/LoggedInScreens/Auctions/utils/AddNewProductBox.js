@@ -17,6 +17,7 @@ import styles from "./style";
 import Alert from "./../../../Alert/Alert";
 import ImagePicker from "react-native-image-picker";
 //import ImagePicker from "react-native-image-crop-picker";
+import { v4 as uuid } from "uuid";
 
 export default class AddNewProductBox extends Component {
   constructor(props) {
@@ -201,7 +202,7 @@ export default class AddNewProductBox extends Component {
               <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
                 {this.state.categories.map((category, i) => {
                   return (
-                    <View style={{ flexDirection: "row" }}>
+                    <View style={{ flexDirection: "row" }} key={uuid()}>
                       <TouchableHighlight
                         onPress={() => this.setCategoryId(category.id)}
                         style={
@@ -398,6 +399,7 @@ export default class AddNewProductBox extends Component {
                 this.state.photos.map((photo, i) => {
                   return (
                     <Image
+                      key={uuid()}
                       style={{ width: 50, height: 50 }}
                       source={{ uri: this.state.photos[i] }}
                     />

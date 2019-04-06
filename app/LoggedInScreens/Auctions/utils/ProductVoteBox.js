@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import styles from "./style";
 import Alert from "./../../../Alert/Alert";
+import { v4 as uuid } from "uuid";
 
 export default class ProductVoteBox extends Component {
   static getDerivedStateFromProps(props, current_state) {
@@ -172,6 +173,7 @@ export default class ProductVoteBox extends Component {
                   if (user.id != this.props.currentUser.id) {
                     return (
                       <Text
+                        key={uuid()}
                         onPress={() =>
                           this.setSelectedUserData(
                             user.id,

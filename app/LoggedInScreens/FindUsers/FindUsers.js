@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Platform, StyleSheet, Button, Image, Text, View } from "react-native";
 import axios from "axios";
 import UserOnList from "./utils/UserOnList";
+import { v4 as uuid } from "uuid";
 
 export default class FindUsers extends Component {
   constructor(props) {
@@ -80,7 +81,7 @@ export default class FindUsers extends Component {
                 return (
                   <UserOnList
                     API_URL={this.props.API_URL}
-                    key={i}
+                    key={uuid()}
                     user={user}
                     sender_id={this.props.user.id}
                     openMessages={this.props.openMessages}

@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity, Image } from "react-native";
 import SendMessageBox from "./SendMessageBox";
 import SingleConversationMessage from "./SingleConversationMessage";
 import styles from "./../style";
+import { v4 as uuid } from "uuid";
 
 export default class ConversationDetails extends Component {
   constructor(props) {
@@ -64,7 +65,7 @@ export default class ConversationDetails extends Component {
               <SingleConversationMessage
                 message={message}
                 currentUser={this.props.currentUser}
-                key={i}
+                key={uuid()}
                 receiverName={this.props.receiverName}
                 receiverEmail={this.props.receiverEmail}
                 receiverPhotoPath={this.props.receiverPhotoPath}

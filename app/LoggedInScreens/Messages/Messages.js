@@ -4,6 +4,7 @@ import SingleConversationBox from "./utils/SingleConversationBox";
 import ConversationDetails from "./utils/ConversationDetails";
 import axios from "axios";
 import styles from "./style";
+import { v4 as uuid } from "uuid";
 
 export default class Messages extends Component {
   constructor(props) {
@@ -184,7 +185,7 @@ export default class Messages extends Component {
               console.log(["conversation[i]", conversation[0]]);
               return (
                 <SingleConversationBox
-                  key={i}
+                  key={uuid()}
                   conversation={conversation[0]}
                   API_URL={this.props.API_URL}
                   openConversationDetails={this.openConversationDetails}

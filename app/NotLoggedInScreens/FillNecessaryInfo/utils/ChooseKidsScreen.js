@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import DatePicker from "react-native-datepicker";
 import styles from "./../style";
+import { v4 as uuid } from "uuid";
 
 const ChooseKidsScreen = props => {
   return (
@@ -63,7 +64,7 @@ const ChooseKidsScreen = props => {
       {props.kids &&
         props.kids.map((kid, i) => {
           return (
-            <Text key={i} style={styles.subText}>
+            <Text key={uuid()} style={styles.subText}>
               {kid.name} - {kid.dateOfBirth}
             </Text>
           );

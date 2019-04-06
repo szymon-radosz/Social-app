@@ -12,6 +12,7 @@ import SingleAuctionOnList from "./utils/SingleAuctionOnList";
 import ProductDetails from "./utils/ProductDetails";
 import AddNewProductBox from "./utils/AddNewProductBox";
 import styles from "./style";
+import { v4 as uuid } from "uuid";
 
 export default class Auctions extends Component {
   constructor(props) {
@@ -96,9 +97,11 @@ export default class Auctions extends Component {
             <View style={styles.productList}>
               {this.state.productList &&
                 this.state.productList.map((product, i) => {
+                  console.log(["uuid", uuid()]);
                   return (
                     <SingleAuctionOnList
                       product={product}
+                      key={uuid()}
                       API_URL={this.props.API_URL}
                       setSelectedProduct={this.setSelectedProduct}
                     />

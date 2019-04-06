@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import styles from "./../style";
 import Alert from "./../../../Alert/Alert";
+import { v4 as uuid } from "uuid";
 
 export default class UserOnList extends Component {
   constructor(props) {
@@ -162,7 +163,7 @@ export default class UserOnList extends Component {
                 {this.props.user.kids.length > 0 &&
                   this.props.user.kids.map(kid => {
                     return (
-                      <Text>
+                      <Text key={uuid()}>
                         {kid.name} - {kid.date_of_birth}
                       </Text>
                     );
@@ -174,7 +175,7 @@ export default class UserOnList extends Component {
                 )}
                 {this.props.user.hobbies.length > 0 &&
                   this.props.user.hobbies.map(hobby => {
-                    return <Text>{hobby.name} </Text>;
+                    return <Text key={uuid()}>{hobby.name} </Text>;
                   })}
               </View>
               {this.state.usersAreInTheSameConversation && (
