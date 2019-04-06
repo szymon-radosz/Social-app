@@ -76,11 +76,10 @@ export default class AddNewProductBox extends Component {
     axios
       .get(API_URL + "/api/getCategories")
       .then(function(response) {
-        console.log(["getCategories", response]);
-
-        if (response.data.categories) {
+        if (response.data.status === "OK") {
+          console.log(["getCategories", response]);
           that.setState({
-            categories: response.data.categories
+            categories: response.data.result
           });
         }
       })
@@ -156,9 +155,11 @@ export default class AddNewProductBox extends Component {
         photos: photosArray
       })
       .then(function(response) {
-        console.log(["saveProduct", response]);
+        if (response.data.status === "OK") {
+          console.log(["saveProduct", response]);
 
-        that.props.changeDisplayNewProductBox();
+          that.props.changeDisplayNewProductBox();
+        }
       })
       .catch(function(error) {
         console.log(error);
@@ -166,6 +167,7 @@ export default class AddNewProductBox extends Component {
   }
 
   componentDidMount() {
+    console.log(["currentUser", this.props.currentUser]);
     this.getCategories();
   }
   render() {

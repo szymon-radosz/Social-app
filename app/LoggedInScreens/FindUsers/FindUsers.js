@@ -32,7 +32,7 @@ export default class FindUsers extends Component {
       let lat = this.props.user.lattitude;
       let lng = this.props.user.longitude;
 
-      let self = this;
+      let that = this;
 
       axios
         .post(API_URL + "/api/loadUsersNearCoords", {
@@ -40,9 +40,11 @@ export default class FindUsers extends Component {
           lng: lng
         })
         .then(function(response) {
-          console.log(response.data);
+          if (response.data.status === "OK") {
+            console.log(response.data);
 
-          self.setState({ userList: response.data.userList });
+            that.setState({ userList: response.data.result });
+          }
         })
         .catch(function(error) {
           console.log(error);

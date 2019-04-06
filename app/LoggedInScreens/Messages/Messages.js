@@ -45,17 +45,19 @@ export default class Messages extends Component {
         conversation_id: conversation_id
       })
       .then(function(response) {
-        console.log(response);
+        if (response.data.status === "OK") {
+          console.log(response);
 
-        that.setState({
-          openConversationDetailsId: id,
-          openConversationDetails: true,
-          openConversationMessages: response.data.conversationData[0].messages,
-          receiverId: receiverId,
-          receiverName: receiverName,
-          receiverEmail: receiverEmail,
-          receiverPhotoPath: receiverPhotoPath
-        });
+          that.setState({
+            openConversationDetailsId: id,
+            openConversationDetails: true,
+            openConversationMessages: response.data.result[0].messages,
+            receiverId: receiverId,
+            receiverName: receiverName,
+            receiverEmail: receiverEmail,
+            receiverPhotoPath: receiverPhotoPath
+          });
+        }
       })
       .catch(function(error) {
         console.log(error);
@@ -87,15 +89,17 @@ export default class Messages extends Component {
         status: status
       })
       .then(function(response) {
-        console.log(["send message box", response]);
+        if (response.data.status === "OK") {
+          console.log(["send message box", response]);
 
-        that.openConversationDetails(
-          conversation_id,
-          receiver_id,
-          receiverName,
-          receiverEmail,
-          receiverPhotoPath
-        );
+          that.openConversationDetails(
+            conversation_id,
+            receiver_id,
+            receiverName,
+            receiverEmail,
+            receiverPhotoPath
+          );
+        }
       })
       .catch(function(error) {
         console.log(error);
@@ -114,11 +118,13 @@ export default class Messages extends Component {
         user_id: user_id
       })
       .then(function(response) {
-        console.log(["getMessages", response]);
+        if (response.data.status === "OK") {
+          console.log(["getMessages", response]);
 
-        that.setState({
-          messagesList: response.data.conversationData
-        });
+          that.setState({
+            messagesList: response.data.result.conversationData
+          });
+        }
       })
       .catch(function(error) {
         console.log(error);
@@ -137,11 +143,13 @@ export default class Messages extends Component {
         showProductsConversations: true
       })
       .then(function(response) {
-        console.log(["getMessages", response]);
+        if (response.data.status === "OK") {
+          console.log(["getMessages", response]);
 
-        that.setState({
-          messagesList: response.data.conversationData
-        });
+          that.setState({
+            messagesList: response.data.result.conversationData
+          });
+        }
       })
       .catch(function(error) {
         console.log(error);

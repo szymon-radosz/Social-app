@@ -49,11 +49,14 @@ export default class Auctions extends Component {
         lng: userLng
       })
       .then(function(response) {
-        //console.log(["getAuctionProducts", response]);
+        console.log(["loadProductBasedOnCoords", userLat, userLng]);
+        if (response.data.status === "OK") {
+          //console.log(["getAuctionProducts", response]);
 
-        that.setState({
-          productList: response.data.productList
-        });
+          that.setState({
+            productList: response.data.result
+          });
+        }
       })
       .catch(function(error) {
         console.log(error);

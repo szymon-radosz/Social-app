@@ -62,7 +62,11 @@ export default class FillNecessaryInfo extends Component {
               userEmail: userEmailName,
               hobby_id: hobby.id
             })
-            .then(response => console.log(response))
+            .then(response => {
+              if (response.data.status === "OK") {
+                console.log(response);
+              }
+            })
             .catch(function(error) {
               console.log(error.message);
             });
@@ -98,20 +102,22 @@ export default class FillNecessaryInfo extends Component {
     axios
       .get(API_URL + "/api/hobbiesList")
       .then(response => {
-        response.data.hobbiesList.map((hobby, i) => {
-          let hobbyObj = {
-            name: hobby.name,
-            id: hobby.id,
-            keyId: i,
-            active: false
-          };
+        if (response.data.status === "OK") {
+          response.data.result.map((hobby, i) => {
+            let hobbyObj = {
+              name: hobby.name,
+              id: hobby.id,
+              keyId: i,
+              active: false
+            };
 
-          this.setState(prevState => ({
-            hobbies: [...prevState.hobbies, hobbyObj]
-          }));
+            this.setState(prevState => ({
+              hobbies: [...prevState.hobbies, hobbyObj]
+            }));
 
-          //console.log(this.state);
-        });
+            //console.log(this.state);
+          });
+        }
       })
       .catch(function(error) {
         console.log(error.message);
@@ -182,7 +188,11 @@ export default class FillNecessaryInfo extends Component {
             "Content-Type": "multipart/form-data"
           }
         })
-        .then(response => console.log(response))
+        .then(response => {
+          if (response.data.status === "OK") {
+            console.log(response);
+          }
+        })
         .catch(function(error) {
           console.log(error.message);
         });
@@ -206,7 +216,11 @@ export default class FillNecessaryInfo extends Component {
 
       axios
         .post(API_URL + "/api/updateUserInfo", formData)
-        .then(response => console.log(response))
+        .then(response => {
+          if (response.data.status === "OK") {
+            console.log(response);
+          }
+        })
         .catch(function(error) {
           console.log(error.message);
         });
@@ -228,7 +242,11 @@ export default class FillNecessaryInfo extends Component {
 
         axios
           .post(API_URL + "/api/saveKid", formData)
-          .then(response => console.log(response))
+          .then(response => {
+            if (response.data.status === "OK") {
+              console.log(response);
+            }
+          })
           .catch(function(error) {
             console.log(error.message);
           });

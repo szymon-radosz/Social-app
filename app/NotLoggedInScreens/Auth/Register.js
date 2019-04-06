@@ -60,16 +60,18 @@ export default class Register extends Component {
           })
           .then(function(response) {
             console.log(["register", response]);
-            //console.log(response.data);
+            console.log(response.data);
 
-            that.setState({
-              showAlert: true,
-              alertType: "success",
-              alertMessage:
-                "Sprawdź swoją skrzynkę mailową i potwierdź swoje konto przez otrzymaną od nas wiadomość."
-            });
+            if (response.data.status === "OK") {
+              that.setState({
+                showAlert: true,
+                alertType: "success",
+                alertMessage:
+                  "Sprawdź swoją skrzynkę mailową i potwierdź swoje konto przez otrzymaną od nas wiadomość."
+              });
 
-            navProps.setUserData(response.data.user);
+              navProps.setUserData(response.data.user);
+            }
           })
           .catch(function(error) {
             console.log(error);

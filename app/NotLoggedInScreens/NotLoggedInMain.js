@@ -29,14 +29,18 @@ export default class NotLoggedInMain extends Component {
       let formData = new FormData();
       formData.append("userEmail", userEmailName);
 
+      let that = this;
+
       axios
         .post(API_URL + "/api/setUserFilledInfo", formData)
         .then(async response => {
-          console.log(response);
+          if (response.data.status === "OK") {
+            console.log(response);
 
-          await this.setState({ userData: response.data.user[0] });
+            await that.setState({ userData: response.data.result[0] });
 
-          this.checkUserStatus();
+            that.checkUserStatus();
+          }
         })
         .catch(function(error) {
           console.log(error.message);
@@ -63,22 +67,20 @@ export default class NotLoggedInMain extends Component {
       axios
         .post(API_URL + "/api/setUserMessagesStatus", formData)
         .then(async response => {
-          console.log(response);
+          if (response.data.status === "OK") {
+            console.log(response);
 
-          let newUserState = this.state.userData;
+            let newUserState = that.state.userData;
 
-          newUserState.unreadedConversationMessage =
-            response.data.userUnreadedMessages;
-          newUserState.unreadedConversationMessageAmount =
-            response.data.userUnreadedMessagesCount;
+            newUserState.unreadedConversationMessage =
+              response.data.result.userUnreadedMessages;
+            newUserState.unreadedConversationMessageAmount =
+              response.data.result.userUnreadedMessagesCount;
 
-          await that.setState({ userData: newUserState });
+            await that.setState({ userData: newUserState });
 
-          that.checkUserStatus();
-
-          //await this.setState({ userData: response.data.user[0] });
-
-          //this.checkUserStatus();
+            that.checkUserStatus();
+          }
         })
         .catch(function(error) {
           console.log(error);

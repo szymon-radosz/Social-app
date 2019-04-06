@@ -51,14 +51,16 @@ export default class UserOnList extends Component {
         message: message
       })
       .then(function(response2) {
-        console.log(["details", response2.data]);
+        if (response2.data.status === "OK") {
+          console.log(["details", response2.data]);
 
-        that.setState({
-          alertType: "success",
-          alertMessage: "Poprawnie wysłano nową wiadomość"
-        });
+          that.setState({
+            alertType: "success",
+            alertMessage: "Poprawnie wysłano nową wiadomość"
+          });
 
-        that.setShowUserDetails();
+          that.setShowUserDetails();
+        }
       })
       .catch(function(error) {
         console.log(error);
@@ -84,16 +86,17 @@ export default class UserOnList extends Component {
         loggedInUser: loggedInUser
       })
       .then(function(response) {
-        console.log(["checkIfUsersBelongsToConversation", response.data]);
+        if (response.data.status === "OK") {
+          console.log(["checkIfUsersBelongsToConversation", response.data]);
 
-        that.setState({
-          usersAreInTheSameConversation:
-            response.data.usersAreInTheSameConversation
-        });
-        /*that.setState({
-          alertType: "success",
-          alertMessage: "Poprawnie wysłano nową wiadomość"
-        });*/
+          that.setState({
+            usersAreInTheSameConversation: response.data.result
+          });
+          /*that.setState({
+            alertType: "success",
+            alertMessage: "Poprawnie wysłano nową wiadomość"
+          });*/
+        }
       })
       .catch(function(error) {
         console.log(error);

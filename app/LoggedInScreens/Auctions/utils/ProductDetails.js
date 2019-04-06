@@ -51,15 +51,17 @@ export default class ProductDetails extends Component {
           name: name
         })
         .then(function(response) {
-          console.log(["searchUsersByName", response]);
+          if (response.data.status === "OK") {
+            console.log(["searchUsersByName", response.data]);
 
-          that.setState({
-            foundVoteUserList: []
-          });
+            that.setState({
+              foundVoteUserList: []
+            });
 
-          that.setState({
-            foundVoteUserList: response.data.userList
-          });
+            that.setState({
+              foundVoteUserList: response.data.result
+            });
+          }
         })
         .catch(function(error) {
           console.log(error);
@@ -86,11 +88,13 @@ export default class ProductDetails extends Component {
         productId: productId
       })
       .then(function(response) {
-        console.log(["getProductDetails", response]);
+        if (response.data.status === "OK") {
+          console.log(["getProductDetails", response]);
 
-        that.setState({
-          productDetails: response.data.productDetails
-        });
+          that.setState({
+            productDetails: response.data.result
+          });
+        }
       })
       .catch(function(error) {
         console.log(error);
@@ -120,16 +124,20 @@ export default class ProductDetails extends Component {
         productId: productId
       })
       .then(function(response) {
-        console.log(["checkIfUsersBelongToConversationProduct", response.data]);
+        if (response.data.status === "OK") {
+          console.log([
+            "checkIfUsersBelongToConversationProduct",
+            response.data
+          ]);
 
-        that.setState({
-          usersAreInTheSameConversation:
-            response.data.usersAreInTheSameConversation
-        });
-        /*that.setState({
-          alertType: "success",
-          alertMessage: "Poprawnie wysłano nową wiadomość"
-        });*/
+          that.setState({
+            usersAreInTheSameConversation: response.data.result
+          });
+          /*that.setState({
+            alertType: "success",
+            alertMessage: "Poprawnie wysłano nową wiadomość"
+          });*/
+        }
       })
       .catch(function(error) {
         console.log(error);
@@ -160,9 +168,9 @@ export default class ProductDetails extends Component {
           product_id: productId
         })
         .then(function(response) {
-          console.log(["saveConversationProduct", response.data]);
+          if (response.data.status === "OK") {
+            console.log(["saveConversationProduct", response.data.result]);
 
-          if (response.data.conversation) {
             that.setState({
               usersAreInTheSameConversation: true,
               showProductMessageBox: false,

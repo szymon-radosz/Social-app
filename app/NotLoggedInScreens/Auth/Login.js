@@ -53,16 +53,16 @@ export default class Login extends Component {
         let navProps = this.props.navigation.state.params;
         let email = this.state.email;
         let password = this.state.password;
-
+        let that = this;
         axios
           .post(API_URL + "/api/login", {
             email: email,
             password: password
           })
           .then(function(response) {
-            //console.log(response.data);
+            console.log(response.data);
 
-            if (response.data.user.token) {
+            if (response.data.status === "OK") {
               let token = response.data.user.token;
 
               //console.log(["token", `Bearer ${token}`]);
@@ -80,12 +80,14 @@ export default class Login extends Component {
                 .then(function(response2) {
                   console.log(["details", response2.data]);
 
-                  navProps.setUserData(response2.data.user);
+                  if (response2.data.status === "OK") {
+                    navProps.setUserData(response2.data.result);
+                  }
                 })
                 .catch(function(error) {
                   console.log(error);
 
-                  this.setState({
+                  that.setState({
                     showAlert: true,
                     alertType: "danger",
                     alertMessage: "Sprawdź poprawność swoich danych."
@@ -98,7 +100,7 @@ export default class Login extends Component {
           .catch(function(error) {
             console.log(error);
 
-            this.setState({
+            that.setState({
               showAlert: true,
               alertType: "danger",
               alertMessage: "Sprawdź poprawność swoich danych."

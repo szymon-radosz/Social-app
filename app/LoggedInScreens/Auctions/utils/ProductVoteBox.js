@@ -88,8 +88,8 @@ export default class ProductVoteBox extends Component {
         productId: productId
       })
       .then(function(response) {
-        if (response.data.closedProduct) {
-          console.log(["zamknąłeś produkt", response.data.vote]);
+        if (response.data.status === "OK") {
+          console.log(["zamknąłeś produkt", response.data.result]);
           that.props.changeVoteBox();
           that.props.getProductDetails();
         }
@@ -109,24 +109,24 @@ export default class ProductVoteBox extends Component {
     ]);
 
     let API_URL = this.props.API_URL;
-    let user_id = this.state.selectedUserData.id;
+    let userId = this.state.selectedUserData.id;
     let vote = this.state.userVote;
     let message = this.state.voteComment;
-    let author_id = this.props.currentUser.id;
+    let authorId = this.props.currentUser.id;
     let productId = this.props.product.id;
 
     let that = this;
 
     axios
       .post(API_URL + "/api/saveVote", {
-        user_id: user_id,
+        userId: userId,
         vote: vote,
         message: message,
-        author_id: author_id
+        authorId: authorId
       })
       .then(function(response) {
-        if (response.data.vote) {
-          console.log(["zapisałeś głos", response.data.vote]);
+        if (response.data.status === "OK") {
+          console.log(["zapisałeś głos", response.data.result]);
           that.closeProduct(productId);
         }
       })
