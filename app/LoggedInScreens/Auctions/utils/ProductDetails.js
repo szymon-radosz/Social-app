@@ -118,7 +118,7 @@ export default class ProductDetails extends Component {
     let that = this;
 
     axios
-      .post(API_URL + "/api/checkIfUsersBelongsToConversation", {
+      .post(API_URL + "/api/checkIfUsersBelongsToProductConversation", {
         searchedUser: searchedUser,
         loggedInUser: loggedInUser,
         productId: productId
@@ -162,10 +162,10 @@ export default class ProductDetails extends Component {
 
       axios
         .post(API_URL + "/api/saveConversationProduct", {
-          sender_id: senderId,
-          receiver_id: receiverId,
+          senderId: senderId,
+          receiverId: receiverId,
           message: message,
-          product_id: productId
+          productId: productId
         })
         .then(function(response) {
           if (response.data.status === "OK") {
@@ -233,47 +233,31 @@ export default class ProductDetails extends Component {
             {this.state.productDetails[0].user_id !=
               this.props.currentUser.id &&
             !this.state.usersAreInTheSameConversation ? (
-              <TouchableHighlight>
-                <Button
-                  title="Wyślij wiadomość"
-                  color="#000"
-                  onPress={this.changeShowProductMessageBox}
-                  /*onPress={() =>
-              this.props.sendMessage(
-                this.props.senderId,
-                this.props.receiverId,
-                this.props.receiverName,
-                this.props.receiverEmail,
-                this.props.receiverPhotoPath,
-                this.state.message,
-                this.props.conversationId,
-                0
+              this.state.productDetails[0].status != 1 ? (
+                <TouchableHighlight>
+                  <Button
+                    title="Wyślij wiadomość"
+                    color="#000"
+                    onPress={this.changeShowProductMessageBox}
+                  />
+                </TouchableHighlight>
+              ) : (
+                <Text>Produkt sprzedany</Text>
               )
-            }*/
-                />
-              </TouchableHighlight>
             ) : this.state.productDetails[0].user_id !=
                 this.props.currentUser.id &&
               this.state.usersAreInTheSameConversation ? (
-              <Text>Jestescie juz w konwersacji dotyczacej produktu</Text>
+              this.state.productDetails[0].status == 1 ? (
+                <Text>Produkt sprzedany, jesteście w konwersacji</Text>
+              ) : (
+                <Text>Jestescie juz w konwersacji dotyczacej produktu</Text>
+              )
             ) : this.state.productDetails[0].status != 1 ? (
               <TouchableHighlight>
                 <Button
                   title="Zamknij Sprzedaz"
                   onPress={() => this.changeVoteBox()}
                   color="#000"
-                  /*onPress={() =>
-          this.props.sendMessage(
-            this.props.senderId,
-            this.props.receiverId,
-            this.props.receiverName,
-            this.props.receiverEmail,
-            this.props.receiverPhotoPath,
-            this.state.message,
-            this.props.conversationId,
-            0
-          )
-        }*/
                 />
               </TouchableHighlight>
             ) : (

@@ -83,7 +83,7 @@ export default class FindUsers extends Component {
                     API_URL={this.props.API_URL}
                     key={uuid()}
                     user={user}
-                    sender_id={this.props.user.id}
+                    senderId={this.props.user.id}
                     openMessages={this.props.openMessages}
                   />
                 );

@@ -37,8 +37,8 @@ export default class UserOnList extends Component {
     console.log(["send", this.props.user.id]);
 
     let API_URL = this.props.API_URL;
-    let sender_id = this.props.sender_id;
-    let receiver_id = this.props.user.id;
+    let senderId = this.props.senderId;
+    let receiverId = this.props.user.id;
     let message = this.state.message;
 
     //console.log([API_URL, sender_id, receiver_id, message]);
@@ -47,11 +47,12 @@ export default class UserOnList extends Component {
 
     axios
       .post(API_URL + "/api/saveConversation", {
-        sender_id: sender_id,
-        receiver_id: receiver_id,
+        senderId: senderId,
+        receiverId: receiverId,
         message: message
       })
       .then(function(response2) {
+        console.log(response2);
         if (response2.data.status === "OK") {
           console.log(["details", response2.data]);
 
@@ -61,6 +62,11 @@ export default class UserOnList extends Component {
           });
 
           that.setShowUserDetails();
+        } else if (response2.data.status === "ERR") {
+          that.setState({
+            alertType: "warning",
+            alertMessage: response2.data.result
+          });
         }
       })
       .catch(function(error) {
@@ -76,7 +82,7 @@ export default class UserOnList extends Component {
   setShowUserDetails() {
     //check if users are in the same conversation - start messaging
     let API_URL = this.props.API_URL;
-    let searchedUser = this.props.sender_id;
+    let searchedUser = this.props.senderId;
     let loggedInUser = this.props.user.id;
 
     let that = this;
@@ -88,7 +94,12 @@ export default class UserOnList extends Component {
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(["checkIfUsersBelongsToConversation", response.data]);
+          console.log([
+            "checkIfUsersBelongsToConversation",
+            response.data,
+            loggedInUser,
+            searchedUser
+          ]);
 
           that.setState({
             usersAreInTheSameConversation: response.data.result
@@ -204,6 +215,12 @@ export default class UserOnList extends Component {
               </View>
             </View>
           </View>
+          {this.state.alertMessage != "" && (
+            <Alert
+              alertType={this.state.alertType}
+              alertMessage={this.state.alertMessage}
+            />
+          )}
         </View>
       );
     } else if (this.state.showUserMessageBox) {
@@ -272,6 +289,13 @@ export default class UserOnList extends Component {
               onPress={() => this.setShowUserDetails()}
             />
           </TouchableHighlight>
+
+          {this.state.alertMessage != "" && (
+            <Alert
+              alertType={this.state.alertType}
+              alertMessage={this.state.alertMessage}
+            />
+          )}
         </View>
       );
     }
