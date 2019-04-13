@@ -52,6 +52,8 @@ export default class Register extends Component {
 
         let that = this;
 
+        console.log(API_URL);
+
         axios
           .post(API_URL + "/api/register", {
             name: this.state.name,

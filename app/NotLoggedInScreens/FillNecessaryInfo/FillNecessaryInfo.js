@@ -161,6 +161,7 @@ export default class FillNecessaryInfo extends Component {
       quality: 1.0
     };
     ImagePicker.launchImageLibrary(options, response => {
+      console.log(response);
       if (response.uri) {
         this.setState({ photo: response });
       }
@@ -172,6 +173,12 @@ export default class FillNecessaryInfo extends Component {
       let API_URL = this.props.navigation.getParam("API_URL", "");
       let userEmailName = this.props.navigation.getParam("user").email;
 
+      console.log([
+        this.state.photo.uri,
+        userEmailName.split("@")[0],
+        userEmailName
+      ]);
+
       axios
         .post(
           API_URL + "/api/uploadUserPhoto",
@@ -179,14 +186,15 @@ export default class FillNecessaryInfo extends Component {
             file: this.state.photo.uri,
             fileName: userEmailName.split("@")[0],
             userEmail: userEmailName
-          },
-          {
+          }
+          /* {
             headers: {
               "Content-Type": "multipart/form-data"
             }
-          }
+          }*/
         )
         .then(response => {
+          console.log(["fileUpload", response]);
           if (response.data.status === "OK") {
             console.log(response);
           }
