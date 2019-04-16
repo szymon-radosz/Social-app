@@ -121,8 +121,13 @@ export default class FillNecessaryInfo extends Component<
             )}
           />
         )}
-        {openForum && <Forum API_URL={navigation.getParam("API_URL")} />}
-        {openProfile && <Profile API_URL={navigation.getParam("API_URL")} />}
+        {openForum && (
+          <Forum
+            API_URL={navigation.getParam("API_URL")}
+            user={navigation.getParam("user")}
+          />
+        )}
+        {openProfile && <Profile />}
         <BottomPanel
           openFindUsers={this.openFindUsers}
           openAuctions={this.openAuctions}
