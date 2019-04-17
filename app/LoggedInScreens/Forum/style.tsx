@@ -3,7 +3,8 @@ import {
   ViewStyle,
   TextStyle,
   ImageStyle,
-  Dimensions
+  Dimensions,
+  View
 } from "react-native";
 
 interface Style {
@@ -13,6 +14,9 @@ interface Style {
   mainModalContainer: TextStyle;
   userDetailsModalContentContainer: ViewStyle;
   relative: ViewStyle;
+  postDetailsContainer: ViewStyle;
+  postDetailsComment: ViewStyle;
+  image: ImageStyle;
 }
 
 const fullWidth = Dimensions.get("window").width;
@@ -22,7 +26,6 @@ export default StyleSheet.create<Style>({
   container: {
     flex: 1,
     justifyContent: "center",
-
     alignSelf: "stretch"
   },
   singlePostContainer: {
@@ -59,5 +62,14 @@ export default StyleSheet.create<Style>({
   },
   relative: {
     position: "relative"
-  }
+  },
+  postDetailsContainer: {
+    padding: 10
+  },
+  postDetailsComment: {
+    marginBottom: 10,
+    padding: 10,
+    borderWidth: 1
+  },
+  image: { width: 50, height: 50 }
 });
