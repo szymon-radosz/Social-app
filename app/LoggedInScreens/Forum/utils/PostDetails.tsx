@@ -14,6 +14,7 @@ import Alert from "./../../../Alert/Alert";
 import { v4 as uuid } from "uuid";
 import styles from "./../style";
 import axios from "axios";
+import SavePostComment from "./SavePostComment";
 
 interface PostDetailsState {
   postTitle: string;
@@ -55,6 +56,7 @@ export default class PostDetails extends Component<
     this.getPostById = this.getPostById.bind(this);
     this.savePostVote = this.savePostVote.bind(this);
     this.getPostComments = this.getPostComments.bind(this);
+    this.saveComment = this.saveComment.bind(this);
   }
 
   getPostById = (): void => {
@@ -179,6 +181,32 @@ export default class PostDetails extends Component<
       });
   };
 
+  saveComment = (postId: number, userId: number, body: string): void => {
+    let API_URL = this.props.API_URL;
+
+    console.log(["saveComment", postId, userId, body]);
+    let that = this;
+
+    axios
+      .post(API_URL + "/api/savePostComment", {
+        body: body,
+        userId: userId,
+        postId: postId
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          console.log(["savePostComment", response]);
+
+          that.getPostComments();
+        } else {
+          console.log(response.data.result);
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+
   componentDidMount = (): void => {
     console.log(this.props.postDetailsId);
     this.getPostById();
@@ -253,6 +281,12 @@ export default class PostDetails extends Component<
                   </View>
                 );
               })}
+
+              <SavePostComment
+                saveComment={this.saveComment}
+                postId={this.props.postDetailsId}
+                user={this.props.user}
+              />
             </ScrollView>
           </View>
         </View>

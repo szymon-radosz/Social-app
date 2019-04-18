@@ -17,6 +17,7 @@ interface Style {
   postDetailsContainer: ViewStyle;
   postDetailsComment: ViewStyle;
   image: ImageStyle;
+  activePostCategory: TextStyle;
 }
 
 const fullWidth = Dimensions.get("window").width;
@@ -71,5 +72,6 @@ export default StyleSheet.create<Style>({
     padding: 10,
     borderWidth: 1
   },
+  activePostCategory: { color: "blue" },
   image: { width: 50, height: 50 }
 });
