@@ -15,32 +15,29 @@ import { v4 as uuid } from "uuid";
 import styles from "./../style";
 import axios from "axios";
 
-interface SavePostState {
-  title: string;
-  description: string;
-  categoryId: number;
-  categories: any;
+interface SortByCategoryState {
+  categories: [];
 }
 
-interface SavePostProps {
+interface SortByCategoryProps {
   API_URL: string;
   user: any;
-  savePost: any;
-  setShowSavePost: any;
+  setShowSortByCategory: any;
+  getPostByCategoryId: any;
+  showSortByCategoryId: number;
 }
 
-export default class SavePost extends Component<SavePostProps, SavePostState> {
-  constructor(props: SavePostProps) {
+export default class SortByCategory extends Component<
+  SortByCategoryProps,
+  SortByCategoryState
+> {
+  constructor(props: SortByCategoryProps) {
     super(props);
     this.state = {
-      title: "",
-      description: "",
-      categories: [],
-      categoryId: 0
+      categories: []
     };
 
     this.getCategories = this.getCategories.bind(this);
-    this.selectCategoryId = this.selectCategoryId.bind(this);
   }
 
   getCategories = (): void => {
@@ -65,11 +62,6 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
     }
   };
 
-  selectCategoryId = (categoryId: number): void => {
-    this.setState({ categoryId: categoryId });
-    console.log(categoryId);
-  };
-
   componentDidMount = (): void => {
     this.getCategories();
   };
@@ -85,55 +77,28 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
               <Button
                 title="X"
                 color="#000"
-                onPress={() => this.props.setShowSavePost()}
+                onPress={() => this.props.setShowSortByCategory()}
               />
             </TouchableHighlight>
 
             <ScrollView style={styles.postDetailsContainer}>
-              <TextInput
-                multiline={false}
-                onChangeText={title => this.setState({ title })}
-                value={this.state.title}
-                placeholder="Temat"
-                placeholderTextColor="#333"
-              />
-
-              <TextInput
-                multiline={false}
-                onChangeText={description => this.setState({ description })}
-                value={this.state.description}
-                placeholder="Treść postu"
-                placeholderTextColor="#333"
-              />
-
               {categories.map((category: any, i: number) => {
                 return (
                   <TouchableHighlight>
                     <Button
                       title={category.name}
-                      onPress={() => this.selectCategoryId(category.id)}
+                      onPress={() =>
+                        this.props.getPostByCategoryId(category.id, true)
+                      }
                       color={
-                        category.id === this.state.categoryId ? "blue" : "#000"
+                        category.id === this.props.showSortByCategoryId
+                          ? "blue"
+                          : "#000"
                       }
                     />
                   </TouchableHighlight>
                 );
               })}
-
-              <TouchableHighlight>
-                <Button
-                  title="Dodaj"
-                  onPress={() =>
-                    this.props.savePost(
-                      this.state.title,
-                      this.state.description,
-                      this.props.user.id,
-                      this.state.categoryId
-                    )
-                  }
-                  color="#000"
-                />
-              </TouchableHighlight>
             </ScrollView>
           </View>
         </View>
