@@ -10,7 +10,7 @@ import {
   View
 } from "react-native";
 import axios from "axios";
-import styles from "./style";
+import styles from "./../style";
 import ProductMessageBox from "./ProductMessageBox";
 import ProductVoteBox from "./ProductVoteBox";
 

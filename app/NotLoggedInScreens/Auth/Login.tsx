@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableHighlight
 } from "react-native";
+import { peachColor } from "./../../assets/global/globalStyles";
 import styles from "./style";
 import axios from "axios";
 import Alert from "./../../Alert/Alert";
@@ -160,7 +161,7 @@ export default class Login extends Component<
         <TouchableHighlight style={styles.subMainBtn}>
           <Button
             title="Zarejestruj się za darmo"
-            color="#e07b8d"
+            color={peachColor}
             onPress={() =>
               navigation.navigate("Register", {
                 API_URL: navigation.getParam("API_URL", ""),

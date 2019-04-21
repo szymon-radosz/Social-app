@@ -6,6 +6,7 @@ import {
   Button,
   TouchableHighlight
 } from "react-native";
+import { peachColor } from "./../../assets/global/globalStyles";
 import axios from "axios";
 import styles from "./style";
 import Alert from "./../../Alert/Alert";
@@ -158,7 +159,7 @@ export default class Register extends Component<
         <TouchableHighlight style={styles.subMainBtn}>
           <Button
             title="Zaloguj się"
-            color="#e07b8d"
+            color={peachColor}
             onPress={() =>
               navigation.navigate("Login", {
                 API_URL: navigation.getParam("API_URL", ""),

@@ -5,12 +5,22 @@ import {
   ViewStyle,
   ImageStyle
 } from "react-native";
+import {
+  pageTitleWhite,
+  peachColor,
+  darkGrayColor,
+  btnFullWidth,
+  lightBorderRadius,
+  fontSizeBig,
+  fontSizeMedium
+} from "./../../assets/global/globalStyles";
 const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;
 
 interface Style {
-  pageTitle: TextStyle;
+  pageTitle: any;
   pageSubTitle: TextStyle;
+  userListContainer: ViewStyle;
   mainModalContainer: ViewStyle;
   userDetailsModalContentContainer: ViewStyle;
   relative: ViewStyle;
@@ -27,8 +37,8 @@ interface Style {
   userMessageTextArea: ViewStyle;
   userMessageBtn: TextStyle;
   userListSingleUserContainer: TextStyle;
+  userDetails: ViewStyle;
   userListSingleUserImage: ImageStyle;
-  userListSingleUserBtn: TextStyle;
   container: ViewStyle;
   userListImage: ImageStyle;
   userListText: TextStyle;
@@ -37,19 +47,18 @@ interface Style {
 }
 
 export default StyleSheet.create<Style>({
-  pageTitle: {
-    textAlign: "center",
-    color: "#333",
-    fontWeight: "600",
-    fontSize: 18,
-    paddingBottom: 10,
-    paddingTop: 10
+  pageTitle: pageTitleWhite,
+  userListContainer: {
+    width: "100%",
+    /*position: "relative",*/
+    flex: 1,
+    margin: 8
   },
   pageSubTitle: {
     textAlign: "center",
-    color: "#333",
+    color: darkGrayColor,
     fontWeight: "400",
-    fontSize: 14,
+    fontSize: fontSizeMedium,
     paddingBottom: 20
   },
   mainModalContainer: {
@@ -57,21 +66,29 @@ export default StyleSheet.create<Style>({
     height: fullHeight,
     backgroundColor: "rgba(0,0,0,0.5)",
     position: "absolute",
-    top: -80,
+    top: -120,
     zIndex: 5
   },
   userDetailsModalContentContainer: {
     backgroundColor: "#fff",
     width: fullWidth - 40,
-    height: fullHeight / 2,
+    //height: fullHeight - 300,
     position: "absolute",
-    top: fullHeight / 6,
+    top: 40,
     left: 20,
     zIndex: 10,
-    borderRadius: 5
+    borderRadius: lightBorderRadius
   },
   relative: {
-    position: "relative"
+    position: "relative",
+    width: "100%"
+  },
+  userDetails: {
+    position: "absolute",
+    zIndex: 20,
+    top: 0,
+    width: fullWidth,
+    backgroundColor: "#fff"
   },
   userDetailsHeader: {
     position: "relative",
@@ -85,10 +102,10 @@ export default StyleSheet.create<Style>({
     height: 100,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 5
+    borderRadius: lightBorderRadius
   },
   userDetailsHeaderText: {
-    fontSize: 20,
+    fontSize: fontSizeBig,
     marginTop: 10,
     marginBottom: 20
   },
@@ -98,7 +115,7 @@ export default StyleSheet.create<Style>({
     paddingBottom: 10
   },
   userDetailsContentHeader: {
-    fontSize: 16,
+    fontSize: fontSizeMedium,
     fontWeight: "600"
   },
   userDetailsContentHobbyContainer: {
@@ -110,30 +127,18 @@ export default StyleSheet.create<Style>({
     alignItems: "center",
     justifyContent: "center"
   },
-  userDetailsRedirectMessageBtn: {
-    height: 35,
-    width: 120,
-    marginTop: 10,
-    borderRadius: 30,
-    borderColor: "#e07b8d",
-    borderWidth: 2,
-    backgroundColor: "#e07b8d",
-    marginBottom: 30,
-    alignItems: "center",
-    justifyContent: "center"
-  },
+  userDetailsRedirectMessageBtn: btnFullWidth,
   buttonCloseModal: {
     position: "absolute",
     top: 0,
-    right: 0,
+    left: 0,
     zIndex: 11,
-    borderLeftWidth: 1,
-    borderBottomWidth: 1,
-    borderLeftColor: "#7f7f7f",
-    borderBottomColor: "#7f7f7f"
+    paddingRight: 3,
+    backgroundColor: peachColor,
+    borderBottomRightRadius: lightBorderRadius
   },
   userMessageHeader: {
-    fontSize: 20,
+    fontSize: fontSizeBig,
     marginBottom: 20
   },
   userMessageTextArea: {
@@ -141,31 +146,30 @@ export default StyleSheet.create<Style>({
     borderWidth: 1,
     marginLeft: 10,
     marginRight: 10,
-    borderRadius: 5,
+    borderRadius: lightBorderRadius,
     padding: 5
   },
   userMessageBtn: {
     height: 35,
     width: 120,
     marginTop: 10,
-    borderRadius: 30,
-    borderColor: "#e07b8d",
+    borderRadius: lightBorderRadius,
+    borderColor: peachColor,
     borderWidth: 2,
-    backgroundColor: "#e07b8d",
+    backgroundColor: peachColor,
     marginBottom: 30,
     alignItems: "center",
     justifyContent: "center",
     marginLeft: 10
   },
   userListSingleUserContainer: {
-    width: "46%",
+    width: "96%",
     margin: "2%",
     borderWidth: 1,
     alignItems: "center",
     justifyContent: "center",
     padding: 10,
-    borderRadius: 5,
-    position: "relative",
+    borderRadius: lightBorderRadius,
     height: 180
   },
   userListSingleUserImage: {
@@ -173,21 +177,11 @@ export default StyleSheet.create<Style>({
     height: 80,
     marginBottom: 10,
     marginTop: 20,
-    borderRadius: 5
+    borderRadius: lightBorderRadius
   },
-  userListSingleUserBtn: {
-    height: 35,
-    width: 120,
-    marginTop: 10,
-    borderRadius: 30,
-    borderColor: "#e07b8d",
-    borderWidth: 2,
-    backgroundColor: "#e07b8d",
-    marginBottom: 30,
-    alignItems: "center",
-    justifyContent: "center"
-  },
+
   container: {
+    position: "relative",
     flexWrap: "wrap",
     alignItems: "flex-start",
     flexDirection: "row"
@@ -195,17 +189,17 @@ export default StyleSheet.create<Style>({
   userListImage: {
     width: 50,
     height: 50,
-    borderRadius: 50
+    borderRadius: lightBorderRadius
   },
   userListText: {
-    fontSize: 16,
+    fontSize: fontSizeMedium,
     textAlign: "center",
-    color: "#333",
+    color: darkGrayColor,
     fontWeight: "400"
   },
   userContainer: {
-    borderRadius: 5,
-    borderColor: "#e07b8d",
+    borderRadius: lightBorderRadius,
+    borderColor: peachColor,
     borderWidth: 1,
     padding: 5
   },
@@ -213,10 +207,10 @@ export default StyleSheet.create<Style>({
     height: 35,
     width: 100,
     marginTop: 10,
-    borderRadius: 30,
-    borderColor: "#e07b8d",
+    borderRadius: lightBorderRadius,
+    borderColor: peachColor,
     borderWidth: 2,
-    backgroundColor: "#e07b8d",
+    backgroundColor: peachColor,
     marginBottom: 10
   }
 });

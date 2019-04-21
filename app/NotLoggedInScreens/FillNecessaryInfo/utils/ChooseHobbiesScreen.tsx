@@ -4,11 +4,13 @@ import {
   Text,
   View,
   TouchableHighlight,
+  ImageBackground,
   TouchableOpacity
 } from "react-native";
 import styles from "./../style";
 // @ts-ignore
 import { v4 as uuid } from "uuid";
+import fillInfoBg from "./../../../assets/images/fillInfoBgMin.jpg";
 
 interface ChooseHobbiesScreenProps {
   hobbies: any;
@@ -23,7 +25,11 @@ export default class ChooseHobbiesScreen extends Component<
   render() {
     return (
       <View>
-        <Text style={styles.headerText}>Wybierz swoje hobby.</Text>
+        <ImageBackground source={fillInfoBg} style={{ width: "100%" }}>
+          <Text style={styles.headerText}>
+            Wybierz swoje{"\n"}zainteresowania
+          </Text>
+        </ImageBackground>
         <View style={styles.hobbiesContainer}>
           {this.props.hobbies &&
             this.props.hobbies.map(
@@ -57,11 +63,7 @@ export default class ChooseHobbiesScreen extends Component<
             />
           </TouchableHighlight>
           <TouchableHighlight style={styles.previousBtn}>
-            <Button
-              title="Wróć"
-              color="#e07b8d"
-              onPress={this.props.prevStep}
-            />
+            <Button title="< Wróć" color="#fff" onPress={this.props.prevStep} />
           </TouchableHighlight>
         </View>
       </View>

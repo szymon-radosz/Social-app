@@ -9,7 +9,7 @@ import {
   TouchableHighlight,
   Image
 } from "react-native";
-import styles from "./style";
+import styles from "./../style";
 
 interface SingleAuctionOnListProps {
   setSelectedProduct: any;
@@ -36,11 +36,12 @@ export default class SingleAuctionOnList extends Component<
             this.props.product.user_id
           );
         }}
+        style={styles.productListSingleProductContainer}
       >
-        <View style={styles.conversationBoxContainer}>
+        <View>
           <TouchableOpacity>
             <Image
-              style={styles.image}
+              style={styles.productListSingleProductImage}
               source={{
                 uri: `${this.props.API_URL}productPhotos/${
                   this.props.product.product_photos[0].path

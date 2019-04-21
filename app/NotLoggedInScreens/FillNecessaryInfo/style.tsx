@@ -1,8 +1,17 @@
 import { StyleSheet, TextStyle, ViewStyle, ImageStyle } from "react-native";
-
+import {
+  pageTitleWhite,
+  peachColor,
+  darkGrayColor,
+  btnFullWidth,
+  lightBorderRadius,
+  fontSizeBig,
+  fontSizeMedium,
+  fontSizeSmall
+} from "./../../assets/global/globalStyles";
 interface Style {
   container: ViewStyle;
-  headerText: TextStyle;
+  headerText: any;
   headerTwoText: TextStyle;
   map: ViewStyle;
   dataPicker: ViewStyle;
@@ -12,6 +21,8 @@ interface Style {
   hobbyContainer: ViewStyle;
   activeHobbyContainer: ViewStyle;
   subText: TextStyle;
+  infoContainer: ViewStyle;
+  kidsInfoContainer: ViewStyle;
   input: ViewStyle;
   previousBtn: ViewStyle;
   nextBtn: ViewStyle;
@@ -19,17 +30,10 @@ interface Style {
 
 export default StyleSheet.create<Style>({
   container: { flex: 1, alignItems: "center" },
-  headerText: {
-    textAlign: "center",
-    color: "#333",
-    fontWeight: "600",
-    fontSize: 22,
-    paddingBottom: 20,
-    paddingTop: 20
-  },
+  headerText: pageTitleWhite,
   headerTwoText: {
     textAlign: "center",
-    color: "#333",
+    color: darkGrayColor,
     fontWeight: "600",
     fontSize: 16,
     paddingBottom: 10,
@@ -37,24 +41,24 @@ export default StyleSheet.create<Style>({
   },
   map: {
     width: "100%",
-    height: 250
+    height: 250,
+    marginTop: 15
   },
-
   dataPicker: {
-    width: "90%",
+    width: "100%",
     marginBottom: 10,
-    borderRadius: 5,
+    borderRadius: lightBorderRadius,
     height: 40,
     borderColor: "gray",
     borderWidth: 1,
-    paddingLeft: 10,
-    paddingRight: 10,
+
     marginLeft: "auto",
     marginRight: "auto"
   },
   image: {
     width: 200,
     height: 200,
+    marginTop: 15,
     marginLeft: "auto",
     marginRight: "auto"
   },
@@ -75,8 +79,8 @@ export default StyleSheet.create<Style>({
     //justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#333",
-    borderRadius: 5
+    borderColor: darkGrayColor,
+    borderRadius: lightBorderRadius
   },
   activeHobbyContainer: {
     width: 100,
@@ -85,49 +89,35 @@ export default StyleSheet.create<Style>({
     //justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#e07b8d",
-    borderRadius: 5
+    borderColor: peachColor,
+    borderRadius: lightBorderRadius
+  },
+  infoContainer: {
+    paddingLeft: 10,
+    paddingRight: 10
+  },
+  kidsInfoContainer: {
+    marginTop: 10
   },
   subText: {
-    textAlign: "center",
-    color: "#333",
+    textAlign: "left",
+    color: darkGrayColor,
     fontWeight: "400",
-    fontSize: 14,
+    fontSize: fontSizeSmall,
     paddingTop: 10,
     paddingBottom: 5
   },
   input: {
-    width: "90%",
+    width: "100%",
     marginBottom: 10,
-    borderRadius: 5,
+    borderRadius: lightBorderRadius,
     height: 40,
     borderColor: "gray",
-    borderWidth: 1,
     paddingLeft: 10,
-    paddingRight: 10,
+    borderWidth: 1,
     marginLeft: "auto",
     marginRight: "auto"
   },
-  previousBtn: {
-    height: 45,
-    width: 180,
-    borderRadius: 30,
-    borderColor: "#e07b8d",
-    borderWidth: 2,
-    backgroundColor: "#fff",
-    marginTop: 20,
-    marginBottom: 20
-  },
-  nextBtn: {
-    height: 45,
-    width: 180,
-    borderRadius: 30,
-    borderColor: "#e07b8d",
-    borderWidth: 2,
-    backgroundColor: "#e07b8d",
-    marginTop: 20,
-    marginBottom: 10,
-    marginLeft: "auto",
-    marginRight: "auto"
-  }
+  previousBtn: btnFullWidth,
+  nextBtn: btnFullWidth
 });

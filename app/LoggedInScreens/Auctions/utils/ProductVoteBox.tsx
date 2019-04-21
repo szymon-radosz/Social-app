@@ -10,7 +10,7 @@ import {
   TouchableHighlight
 } from "react-native";
 import axios from "axios";
-import styles from "./style";
+import styles from "./../style";
 import Alert from "./../../../Alert/Alert";
 import { v4 as uuid } from "uuid";
 

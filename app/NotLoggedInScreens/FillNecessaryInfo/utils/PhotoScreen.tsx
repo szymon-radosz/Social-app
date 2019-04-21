@@ -1,6 +1,14 @@
 import React, { Component } from "react";
-import { Button, Text, View, Image, TouchableHighlight } from "react-native";
+import {
+  Button,
+  Text,
+  View,
+  Image,
+  TouchableHighlight,
+  ImageBackground
+} from "react-native";
 import styles from "./../style";
+import fillInfoBg from "./../../../assets/images/fillInfoBgMin.jpg";
 
 interface PhotoScreenProps {
   photo: any;
@@ -13,7 +21,9 @@ export default class PhotoScreen extends Component<PhotoScreenProps> {
   render() {
     return (
       <View>
-        <Text style={styles.headerText}>Wybierz zdjecie profilowe.</Text>
+        <ImageBackground source={fillInfoBg} style={{ width: "100%" }}>
+          <Text style={styles.headerText}>Dodaj zdjęcie{"\n"}profilowe</Text>
+        </ImageBackground>
 
         {this.props.photo && (
           <Image source={{ uri: this.props.photo.uri }} style={styles.image} />
@@ -28,12 +38,16 @@ export default class PhotoScreen extends Component<PhotoScreenProps> {
 
         {this.props.photo && (
           <TouchableHighlight style={styles.nextBtn}>
-            <Button title="Dalej" color="#fff" onPress={this.props.nextStep} />
+            <Button
+              title="Dalej >"
+              color="#fff"
+              onPress={this.props.nextStep}
+            />
           </TouchableHighlight>
         )}
 
         <TouchableHighlight style={styles.previousBtn}>
-          <Button title="Wróć" color="#e07b8d" onPress={this.props.prevStep} />
+          <Button title="< Wróć" color="#fff" onPress={this.props.prevStep} />
         </TouchableHighlight>
       </View>
     );

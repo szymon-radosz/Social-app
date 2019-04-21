@@ -1,4 +1,12 @@
 import { StyleSheet, ViewStyle, TextStyle } from "react-native";
+import {
+  peachColor,
+  darkGrayColor,
+  lightBorderRadius,
+  fontSizeBig,
+  fontSizeMedium,
+  fontSizeSmall
+} from "./../../assets/global/globalStyles";
 
 //TextStyle for elements which contains e.g. fontWeight, textAlign
 //ViewStyle for elements which contains e.g. backgroundColor, borderStyle
@@ -16,23 +24,23 @@ export default StyleSheet.create<Style>({
   container: { flex: 1, alignItems: "center" },
   headerText: {
     textAlign: "center",
-    color: "#333",
+    color: darkGrayColor,
     fontWeight: "600",
-    fontSize: 24,
+    fontSize: fontSizeBig,
     marginTop: 40,
     paddingBottom: 20
   },
   logoDesc: {
     textAlign: "center",
-    color: "#333",
+    color: darkGrayColor,
     fontWeight: "500",
-    fontSize: 16,
+    fontSize: fontSizeMedium,
     paddingBottom: 30
   },
   input: {
     width: "90%",
     marginBottom: 10,
-    borderRadius: 5,
+    borderRadius: lightBorderRadius,
     height: 40,
     borderColor: "gray",
     borderWidth: 1,
@@ -43,17 +51,17 @@ export default StyleSheet.create<Style>({
     height: 45,
     width: 180,
     marginTop: 10,
-    borderRadius: 30,
-    borderColor: "#e07b8d",
+    borderRadius: lightBorderRadius,
+    borderColor: peachColor,
     borderWidth: 2,
-    backgroundColor: "#e07b8d",
+    backgroundColor: peachColor,
     marginBottom: 30
   },
   subMainBtn: {
-    color: "#e07b8d"
+    color: peachColor
   },
   askDesc: {
-    fontSize: 14,
+    fontSize: fontSizeSmall,
     fontWeight: "300"
   }
 });
