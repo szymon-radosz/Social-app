@@ -1,13 +1,5 @@
 import React, { Component } from "react";
-import {
-  Platform,
-  ImageBackground,
-  StyleSheet,
-  Button,
-  Image,
-  Text,
-  View
-} from "react-native";
+import { Platform, ImageBackground, Text, View } from "react-native";
 import axios from "axios";
 import findUsersBg from "./../../assets/images/findUsersBgMin.jpg";
 import UserOnList from "./utils/UserOnList";
@@ -19,7 +11,6 @@ import styles from "./style";
 
 interface FindUsersState {
   userList: any;
-
   showUserDetails: boolean;
   showUserMessageBox: boolean;
   message: string;
@@ -55,13 +46,11 @@ export default class FindUsers extends Component<
       alertMessage: "",
       alertType: "",
       usersAreInTheSameConversation: false,
-
       userDetailsData: [],
       userDetailsId: 0
     };
 
     this.loadUsersNearCoords = this.loadUsersNearCoords.bind(this);
-
     this.setShowUserDetails = this.setShowUserDetails.bind(this);
     this.hideShowUserDetails = this.hideShowUserDetails.bind(this);
     this.setShowUserMessageBox = this.setShowUserMessageBox.bind(this);
@@ -75,13 +64,9 @@ export default class FindUsers extends Component<
   };
 
   sendMessage = (message: string): void => {
-    console.log(["send", this.props.user.id]);
-
     let API_URL = this.props.API_URL;
     let senderId = this.props.user.id;
     let receiverId = this.state.userDetailsId;
-
-    //console.log([API_URL, sender_id, receiver_id, message]);
 
     let that = this;
 
@@ -94,8 +79,6 @@ export default class FindUsers extends Component<
       .then(function(response2) {
         console.log(response2);
         if (response2.data.status === "OK") {
-          console.log(["details", response2.data]);
-
           that.setState({
             alertType: "success",
             alertMessage: "Poprawnie wysłano nową wiadomość"
@@ -119,15 +102,15 @@ export default class FindUsers extends Component<
       });
   };
 
-  setShowUserDetails = (userId: number): void => {
+  setShowUserDetails = async (userId: number) => {
     //check if users are in the same conversation - start messaging
     let API_URL = this.props.API_URL;
     /*let searchedUser = userId;*/
     let loggedInUser = this.props.user.id;
 
-    console.log(["setShowUserDetails", userId]);
-
     let that = this;
+
+    await this.setState({ userDetailsId: 0, userDetailsData: [] });
 
     axios
       .post(API_URL + "/api/loadUserById", {
@@ -135,7 +118,6 @@ export default class FindUsers extends Component<
         loggedInUser: loggedInUser
       })
       .then(function(response) {
-        console.log(["loadUserByIdRes", response]);
         if (response.data.status === "OK") {
           console.log(["loadUserById", response.data.result.user]);
 
@@ -155,36 +137,6 @@ export default class FindUsers extends Component<
           alertMessage: "Nie udało się pobrać danych o uzytkowniku"
         });
       });
-
-    /*axios
-      .post(API_URL + "/api/checkIfUsersBelongsToConversation", {
-        searchedUser: searchedUser,
-        loggedInUser: loggedInUser
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-          console.log([
-            "checkIfUsersBelongsToConversation",
-            response.data,
-            loggedInUser,
-            searchedUser
-          ]);
-
-          that.setState({
-            usersAreInTheSameConversation: response.data.result
-          });
-          
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-
-        that.setState({
-          alertType: "danger",
-          alertMessage: "Nie udało się pobrać danych o uzytkowniku"
-        });
-      });*/
-
     this.setState({ showUserDetails: true, showUserMessageBox: false });
   };
 
@@ -198,19 +150,6 @@ export default class FindUsers extends Component<
 
   hideShowUserMessageBox = (): void => {
     this.setState({ showUserMessageBox: false, showUserDetails: true });
-  };
-
-  componentDidMount = (): void => {
-    console.log(["find users mount", this.props.user]);
-
-    if (
-      this.props.user &&
-      this.props.user.lattitude &&
-      this.props.user.longitude
-    ) {
-      this.loadUsersNearCoords();
-    }
-    //this.loadUsersNearCoords();
   };
 
   loadUsersNearCoords = (): void => {
@@ -241,6 +180,17 @@ export default class FindUsers extends Component<
     }
   };
 
+  componentDidMount = (): void => {
+    if (
+      this.props.user &&
+      this.props.user.lattitude &&
+      this.props.user.longitude
+    ) {
+      this.loadUsersNearCoords();
+    }
+    //this.loadUsersNearCoords();
+  };
+
   render() {
     const {
       userList,
@@ -260,10 +210,6 @@ export default class FindUsers extends Component<
           </Text>
         </ImageBackground>
 
-        {/* 
-  przenieść metody z userOnList i w state przechowywać selectedUserId i selectedUserData
-  jak ktoś wybierze podgląd usera to blokuje mapowanie userList i wysw info
-*/}
         <View style={styles.container}>
           {showUserDetails && !showUserMessageBox && userDetailsData && (
             <UserDetails

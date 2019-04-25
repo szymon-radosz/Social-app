@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   Text,
+  Dimensions,
   Image,
   View
 } from "react-native";
@@ -21,6 +22,7 @@ interface ProductDetailsProps {
   currentUser: {
     id: number;
   };
+  setDisplayProductDetails: any;
 }
 
 interface ProductDetailsState {
@@ -231,6 +233,13 @@ export default class ProductDetails extends Component<
           />
         ) : this.state.productDetails[0] ? (
           <View>
+            <TouchableHighlight style={styles.buttonCloseModal}>
+              <Button
+                title="<"
+                color="#fff"
+                onPress={() => this.props.setDisplayProductDetails()}
+              />
+            </TouchableHighlight>
             <TouchableOpacity>
               <Image
                 style={styles.image}
@@ -242,6 +251,7 @@ export default class ProductDetails extends Component<
                 resizeMode="contain"
               />
             </TouchableOpacity>
+
             <Text>{this.state.productDetails[0].name}</Text>
             <Text>
               Kategoria: {this.state.productDetails[0].categoryName[0].name}

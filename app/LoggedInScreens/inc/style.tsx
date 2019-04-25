@@ -1,5 +1,5 @@
 import { StyleSheet, ViewStyle, TextStyle, ImageStyle } from "react-native";
-
+import { peachColor, darkGrayColor } from "./../../assets/global/globalStyles";
 interface Style {
   buttonBottom: TextStyle;
   bottomPanel: ViewStyle;
@@ -12,9 +12,9 @@ interface Style {
 
 export default StyleSheet.create<Style>({
   buttonBottom: {
-    color: "red",
+    color: peachColor,
     fontWeight: "bold",
-    backgroundColor: "#fff",
+    backgroundColor: darkGrayColor,
     fontSize: 8
   },
   bottomPanel: {
@@ -42,7 +42,7 @@ export default StyleSheet.create<Style>({
   unreadedMessagesNotificationDot: { width: 20, height: 20 },
   unreadedMessagesNotificationDotText: {
     position: "absolute",
-    color: "#fff",
+    color: darkGrayColor,
     left: 5,
     top: 2
   }

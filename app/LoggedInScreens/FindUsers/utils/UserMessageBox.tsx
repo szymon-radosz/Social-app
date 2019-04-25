@@ -3,7 +3,6 @@ import {
   Platform,
   TextInput,
   Button,
-  Image,
   Text,
   View,
   TouchableHighlight
@@ -39,7 +38,7 @@ export default class UserMessageBox extends Component<
       <View style={styles.relative}>
         <TouchableHighlight style={styles.buttonCloseModal}>
           <Button
-            title="X"
+            title="<"
             color="#fff"
             onPress={() => this.props.hideShowUserMessageBox()}
           />

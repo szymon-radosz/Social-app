@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   Platform,
-  TextInput,
   Button,
   Image,
   Text,
@@ -9,10 +8,8 @@ import {
   TouchableHighlight
 } from "react-native";
 import { peachColor } from "./../../../assets/global/globalStyles";
-import axios from "axios";
 import styles from "./../style";
 import Alert from "./../../../Alert/Alert";
-import { v4 as uuid } from "uuid";
 
 interface UserOnListState {}
 
@@ -42,10 +39,6 @@ export default class UserOnList extends Component<
     super(props);
     this.state = {};
   }
-
-  componentDidMount = (): void => {
-    console.log(["UserOnList", this.props.user.id]);
-  };
 
   render() {
     return (

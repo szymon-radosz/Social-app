@@ -16,10 +16,14 @@ const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;
 
 interface Style {
+  productOnListTextName: TextStyle;
+  productOnListTextCategory: TextStyle;
+  productOnListTextPrice: TextStyle;
   conversationBoxContainer: ViewStyle;
   image: ImageStyle;
   unreadedConversation: TextStyle;
   readedConversation: TextStyle;
+  productOnListTextContainer: TextStyle;
   mainModalContainer: TextStyle;
   userDetailsModalContentContainer: ViewStyle;
   relative: ViewStyle;
@@ -52,6 +56,15 @@ interface Style {
 }
 
 export default StyleSheet.create<Style>({
+  productOnListTextName: {
+    textAlign: "center"
+  },
+  productOnListTextCategory: {
+    textAlign: "center"
+  },
+  productOnListTextPrice: {
+    textAlign: "center"
+  },
   pageTitle: pageTitleBlack,
   pageSubTitle: {
     textAlign: "center",
@@ -66,21 +79,18 @@ export default StyleSheet.create<Style>({
     flexDirection: "row"
   },
   productListSingleProductContainer: {
+    padding: 10,
     width: "46%",
     margin: "2%",
     borderWidth: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
-    borderRadius: lightBorderRadius,
-    position: "relative",
-    height: 180
+    borderRadius: lightBorderRadius
   },
   productListSingleProductImage: {
     width: 80,
     height: 80,
-    marginBottom: 10,
-    marginTop: 20,
+
+    marginLeft: "auto",
+    marginRight: "auto",
     borderRadius: lightBorderRadius
   },
   productListSingleProductBtn: {
@@ -219,6 +229,9 @@ export default StyleSheet.create<Style>({
     borderRadius: 5,
     position: "relative",
     height: 180
+  },
+  productOnListTextContainer: {
+    textAlign: "center"
   },
   userListSingleUserImage: {
     width: 80,

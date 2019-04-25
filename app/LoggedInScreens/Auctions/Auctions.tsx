@@ -50,6 +50,7 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
     this.changeDisplayNewProductBox = this.changeDisplayNewProductBox.bind(
       this
     );
+    this.setDisplayProductDetails = this.setDisplayProductDetails.bind(this);
   }
 
   changeDisplayNewProductBox = (): void => {
@@ -59,7 +60,11 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
     //the state may not change immediately after setState is called.
     //That means you should not rely on the current state when calling
     //setState — since you can’t be sure what that state will be!
-    this.setState({ displayNewProductBox: !this.state.displayNewProductBox });
+    //this.setState({ displayNewProductBox: !this.state.displayNewProductBox });
+
+    this.setState(prevState => ({
+      displayNewProductBox: !prevState.displayNewProductBox
+    }));
     this.getProducts();
   };
 
@@ -90,6 +95,12 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
       });
   };
 
+  setDisplayProductDetails = (): void => {
+    this.setState(prevState => ({
+      displayProductDetails: !prevState.displayProductDetails
+    }));
+  };
+
   setSelectedProduct = (id: number, productUserId: number) => {
     //console.log(["setSelectedProduct", id, productUserId]);
 
@@ -115,12 +126,11 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
     } = this.state;
     return (
       <View>
+        <ImageBackground source={auctionsBg} style={{ width: "100%" }}>
+          <Text style={styles.pageTitle}>Sprzedawaj i{"\n"}kupuj</Text>
+        </ImageBackground>
         {!displayProductDetails && !displayNewProductBox && (
           <View>
-            <ImageBackground source={auctionsBg} style={{ width: "100%" }}>
-              <Text style={styles.pageTitle}>Sprzedawaj i{"\n"}kupuj</Text>
-            </ImageBackground>
-
             <View style={styles.container}>
               {productList &&
                 productList.map((product: any, i: number) => {
@@ -153,6 +163,7 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
             API_URL={this.props.API_URL}
             productId={selectedProductId}
             productUserId={selectedProductUserId}
+            setDisplayProductDetails={this.setDisplayProductDetails}
           />
         )}
 

@@ -43,8 +43,8 @@ export default class UserOnList extends Component<
           <View style={styles.relative}>
             <TouchableHighlight style={styles.buttonCloseModal}>
               <Button
-                title="X"
-                color="#000"
+                title="<"
+                color="#fff"
                 onPress={() => this.props.changeShowProductMessageBox()}
               />
             </TouchableHighlight>

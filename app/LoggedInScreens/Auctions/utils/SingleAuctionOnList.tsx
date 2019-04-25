@@ -50,9 +50,17 @@ export default class SingleAuctionOnList extends Component<
               resizeMode="contain"
             />
           </TouchableOpacity>
-          <Text>{this.props.product.name}</Text>
-          <Text>{this.props.product.categoryName[0].name}</Text>
-          <Text>{this.props.product.price}</Text>
+          <View style={styles.productOnListTextContainer}>
+            <Text style={styles.productOnListTextName}>
+              {this.props.product.name}
+            </Text>
+            <Text style={styles.productOnListTextCategory}>
+              Kategoria: {this.props.product.categoryName[0].name}
+            </Text>
+            <Text style={styles.productOnListTextPrice}>
+              Cena: {this.props.product.price} zł
+            </Text>
+          </View>
         </View>
       </TouchableHighlight>
     );
