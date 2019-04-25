@@ -15,6 +15,28 @@ import styles from "./../style";
 import ProductMessageBox from "./ProductMessageBox";
 import ProductVoteBox from "./ProductVoteBox";
 
+import Lightbox from "react-native-lightbox";
+import Carousel from "react-native-looped-carousel";
+
+const WINDOW_WIDTH = Dimensions.get("window").width;
+
+const renderCarousel = (API_URL: string, imageArray: any): any => (
+  <Carousel style={{ width: WINDOW_WIDTH, height: WINDOW_WIDTH }}>
+    {imageArray.map((image: any, i: number) => {
+      console.log(API_URL, image);
+      return (
+        <Image
+          style={{ flex: 1 }}
+          resizeMode="contain"
+          source={{
+            uri: `${API_URL}productPhotos/${image.path}`
+          }}
+        />
+      );
+    })}
+  </Carousel>
+);
+
 interface ProductDetailsProps {
   API_URL: string;
   productId: number;
@@ -240,23 +262,35 @@ export default class ProductDetails extends Component<
                 onPress={() => this.props.setDisplayProductDetails()}
               />
             </TouchableHighlight>
-            <TouchableOpacity>
+
+            <Lightbox
+              springConfig={{ tension: 15, friction: 7 }}
+              swipeToDismiss={false}
+              renderContent={() =>
+                renderCarousel(
+                  this.props.API_URL,
+                  this.state.productDetails[0].product_photos
+                )
+              }
+            >
               <Image
                 style={styles.image}
+                resizeMode="contain"
                 source={{
                   uri: `${this.props.API_URL}productPhotos/${
                     this.state.productDetails[0].product_photos[0].path
                   }`
                 }}
-                resizeMode="contain"
               />
-            </TouchableOpacity>
+            </Lightbox>
 
             <Text>{this.state.productDetails[0].name}</Text>
             <Text>
               Kategoria: {this.state.productDetails[0].categoryName[0].name}
             </Text>
+
             <Text>Cena: {this.state.productDetails[0].price} zł</Text>
+
             {this.state.productDetails[0].user_id !=
               this.props.currentUser.id &&
             !this.state.usersAreInTheSameConversation ? (
