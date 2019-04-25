@@ -310,96 +310,130 @@ export default class ProductDetails extends Component<
                 onPress={() => this.props.setDisplayProductDetails()}
               />
             </TouchableHighlight>
+            <View style={styles.productDetailsHeader}>
+              <Lightbox
+                springConfig={{ tension: 15, friction: 7 }}
+                swipeToDismiss={false}
+                renderContent={() =>
+                  renderCarousel(
+                    this.props.API_URL,
+                    this.state.productDetails[0].product_photos
+                  )
+                }
+              >
+                <Image
+                  style={styles.productDetailsImage}
+                  resizeMode="contain"
+                  source={{
+                    uri: `${this.props.API_URL}productPhotos/${
+                      this.state.productDetails[0].product_photos[0].path
+                    }`
+                  }}
+                />
+              </Lightbox>
 
-            <Lightbox
-              springConfig={{ tension: 15, friction: 7 }}
-              swipeToDismiss={false}
-              renderContent={() =>
-                renderCarousel(
-                  this.props.API_URL,
-                  this.state.productDetails[0].product_photos
-                )
-              }
-            >
-              <Image
-                style={styles.image}
-                resizeMode="contain"
-                source={{
-                  uri: `${this.props.API_URL}productPhotos/${
-                    this.state.productDetails[0].product_photos[0].path
-                  }`
-                }}
-              />
-            </Lightbox>
-
-            <Text>{this.state.productDetails[0].name}</Text>
-            <Text>
-              Kategoria: {this.state.productDetails[0].categoryName[0].name}
-            </Text>
-
-            {this.state.productDetails[0].child_gender === "girl" && (
-              <Text>Płeć dziecka: Dziewczynka</Text>
-            )}
-
-            {this.state.productDetails[0].child_gender === "boy" && (
-              <Text>Płeć dziecka: Chłopiec</Text>
-            )}
-
-            {this.state.productDetails[0].users && (
-              <Text>
-                Dodane przez: {this.state.productDetails[0].users.name} (
-                {this.state.productDetails[0].users.email})
+              <Text style={styles.productHeaderText}>
+                {this.state.productDetails[0].name}
               </Text>
-            )}
+            </View>
+            <View style={styles.productContent}>
+              <Text style={styles.productContentText}>
+                <Text style={styles.bold}>Kategoria:</Text>{" "}
+                {this.state.productDetails[0].categoryName[0].name}
+              </Text>
 
-            {this.state.productLocation &&
-              !this.state.productLocation.notFoundFullName && (
-                <Text>
-                  W poblizu: {this.state.productLocation.cityArea},{" "}
-                  {this.state.productLocation.cityCode}{" "}
-                  {this.state.productLocation.city},{" "}
-                  {this.state.productLocation.countryArea},{" "}
-                  {this.state.productLocation.country}
+              {this.state.productDetails[0].child_gender === "girl" && (
+                <Text style={styles.productContentText}>
+                  <Text style={styles.bold}>Płeć dziecka:</Text> Dziewczynka
                 </Text>
               )}
 
-            {this.state.productLocation &&
-              this.state.productLocation.notFoundFullName && (
-                <Text>
-                  W poblizu: {this.state.productLocation.notFoundFullName}
+              {this.state.productDetails[0].child_gender === "boy" && (
+                <Text style={styles.productContentText}>
+                  <Text style={styles.bold}>Płeć dziecka:</Text> Chłopiec
                 </Text>
               )}
 
-            <Text>Cena: {this.state.productDetails[0].price} zł</Text>
+              {this.state.productDetails[0].users && (
+                <Text style={styles.productContentText}>
+                  <Text style={styles.bold}>Dodane przez:</Text>{" "}
+                  {this.state.productDetails[0].users.name} (
+                  {this.state.productDetails[0].users.email})
+                </Text>
+              )}
 
+              {this.state.productLocation &&
+                !this.state.productLocation.notFoundFullName && (
+                  <Text style={styles.productContentText}>
+                    <Text style={styles.bold}>W poblizu:</Text>{" "}
+                    {this.state.productLocation.cityArea},{" "}
+                    {this.state.productLocation.cityCode}{" "}
+                    {this.state.productLocation.city},{" "}
+                    {this.state.productLocation.countryArea},{" "}
+                    {this.state.productLocation.country}
+                  </Text>
+                )}
+
+              {this.state.productLocation &&
+                this.state.productLocation.notFoundFullName && (
+                  <Text style={styles.productContentText}>
+                    <Text style={styles.bold}>W poblizu:</Text>{" "}
+                    {this.state.productLocation.notFoundFullName}
+                  </Text>
+                )}
+
+              <Text style={styles.productContentText}>
+                {" "}
+                <Text style={styles.bold}>Cena:</Text>{" "}
+                {this.state.productDetails[0].price} zł
+              </Text>
+            </View>
             {this.state.productDetails[0].user_id !=
               this.props.currentUser.id &&
             !this.state.usersAreInTheSameConversation ? (
               this.state.productDetails[0].status != 1 ? (
-                <TouchableHighlight>
+                <TouchableHighlight style={styles.productDetailsBtn}>
                   <Button
                     title="Wyślij wiadomość"
-                    color="#000"
+                    color="#fff"
                     onPress={this.changeShowProductMessageBox}
                   />
                 </TouchableHighlight>
               ) : (
-                <Text>Produkt sprzedany</Text>
+                <TouchableHighlight style={styles.productDetailsBtn}>
+                  <Button
+                    title="Produkt sprzedany"
+                    color="#fff"
+                    onPress={this.changeShowProductMessageBox}
+                  />
+                </TouchableHighlight>
               )
             ) : this.state.productDetails[0].user_id !=
                 this.props.currentUser.id &&
               this.state.usersAreInTheSameConversation ? (
               this.state.productDetails[0].status == 1 ? (
-                <Text>Produkt sprzedany, jesteście w konwersacji</Text>
+                <TouchableHighlight style={styles.productDetailsBtn}>
+                  <Button
+                    title="Produkt sprzedany, jesteście w konwersacji"
+                    onPress={() => this.changeVoteBox()}
+                    color="#fff"
+                  />
+                </TouchableHighlight>
               ) : (
-                <Text>Jestescie juz w konwersacji dotyczacej produktu</Text>
+                <TouchableHighlight style={styles.productDetailsBtn}>
+                  <Button
+                    title="Jestescie juz w konwersacji"
+                    onPress={() => this.changeVoteBox()}
+                    color="#fff"
+                  />
+                </TouchableHighlight>
               )
             ) : this.state.productDetails[0].status != 1 ? (
-              <TouchableHighlight>
+              <TouchableHighlight style={styles.productDetailsBtn}>
                 <Button
                   title="Zamknij Sprzedaz"
                   onPress={() => this.changeVoteBox()}
-                  color="#000"
+                  color="#fff"
                 />
               </TouchableHighlight>
             ) : (

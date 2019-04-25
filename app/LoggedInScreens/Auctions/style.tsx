@@ -3,14 +3,17 @@ import {
   Dimensions,
   ViewStyle,
   TextStyle,
-  ImageStyle
+  ImageStyle,
+  View
 } from "react-native";
 import {
   pageTitleBlack,
   darkGrayColor,
   fontSizeMedium,
   lightBorderRadius,
-  peachColor
+  fontSizeBig,
+  peachColor,
+  btnFullWidth
 } from "./../../assets/global/globalStyles";
 const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;
@@ -19,16 +22,20 @@ interface Style {
   productOnListTextName: TextStyle;
   productOnListTextCategory: TextStyle;
   productOnListTextPrice: TextStyle;
+  productHeaderText: TextStyle;
+  bold: TextStyle;
   conversationBoxContainer: ViewStyle;
   image: ImageStyle;
   unreadedConversation: TextStyle;
   readedConversation: TextStyle;
+  productContentText: ViewStyle;
   productOnListTextContainer: TextStyle;
   mainModalContainer: TextStyle;
   userDetailsModalContentContainer: ViewStyle;
   relative: ViewStyle;
   userDetailsHeader: ViewStyle;
   userDetailsImage: ViewStyle;
+  productDetailsHeader: ViewStyle;
   userDetailsHeaderText: TextStyle;
   userDetailsContent: ViewStyle;
   userDetailsContentHeader: TextStyle;
@@ -45,9 +52,12 @@ interface Style {
   userListImage: ImageStyle;
   userListText: TextStyle;
   userContainer: TextStyle;
+  productContent: ViewStyle;
   showUserDetails: TextStyle;
   container: ViewStyle;
+  productDetailsImage: ImageStyle;
   pageTitle: any;
+  productDetailsBtn: any;
   pageSubTitle: TextStyle;
   productList: ViewStyle;
   productListSingleProductContainer: ViewStyle;
@@ -59,6 +69,8 @@ export default StyleSheet.create<Style>({
   productOnListTextName: {
     textAlign: "center"
   },
+
+  productDetailsBtn: btnFullWidth,
   productOnListTextCategory: {
     textAlign: "center"
   },
@@ -184,15 +196,32 @@ export default StyleSheet.create<Style>({
     alignItems: "center",
     justifyContent: "center"
   },
+  productHeaderText: {
+    fontSize: fontSizeBig,
+    marginTop: 10,
+    marginBottom: 20
+  },
+  bold: {
+    fontWeight: "bold"
+  },
+  productDetailsHeader: {
+    position: "relative",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 30
+  },
+  productContentText: {
+    marginBottom: 8
+  },
   buttonCloseModal: {
     position: "absolute",
     top: 0,
-    right: 0,
+    left: 0,
     zIndex: 11,
-    borderLeftWidth: 1,
-    borderBottomWidth: 1,
-    borderLeftColor: "#7f7f7f",
-    borderBottomColor: "#7f7f7f"
+    paddingRight: 3,
+    backgroundColor: peachColor,
+    borderBottomRightRadius: lightBorderRadius
   },
   userMessageHeader: {
     fontSize: 20,
@@ -205,6 +234,18 @@ export default StyleSheet.create<Style>({
     marginRight: 10,
     borderRadius: 5,
     padding: 5
+  },
+  productDetailsImage: {
+    width: 100,
+    height: 100,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: lightBorderRadius
+  },
+  productContent: {
+    width: "90%",
+    marginLeft: "auto",
+    marginRight: "auto"
   },
   userMessageBtn: {
     height: 35,
