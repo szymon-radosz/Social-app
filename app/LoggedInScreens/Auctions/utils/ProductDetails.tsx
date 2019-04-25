@@ -14,9 +14,13 @@ import axios from "axios";
 import styles from "./../style";
 import ProductMessageBox from "./ProductMessageBox";
 import ProductVoteBox from "./ProductVoteBox";
+import Geocode from "react-geocode";
 
 import Lightbox from "react-native-lightbox";
 import Carousel from "react-native-looped-carousel";
+
+// set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
+Geocode.setApiKey("AIzaSyDk3FIFmkVy87I4hq2fdJ1x6H_mDa96I30");
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 
@@ -56,6 +60,7 @@ interface ProductDetailsState {
   productClosed: boolean;
   alertType: string;
   alertMessage: string;
+  productLocation: any;
 }
 
 export default class ProductDetails extends Component<
@@ -72,7 +77,8 @@ export default class ProductDetails extends Component<
       usersAreInTheSameConversation: false,
       productClosed: false,
       alertType: "",
-      alertMessage: ""
+      alertMessage: "",
+      productLocation: []
     };
 
     this.getProductDetails = this.getProductDetails.bind(this);
@@ -140,6 +146,48 @@ export default class ProductDetails extends Component<
         if (response.data.status === "OK") {
           console.log(["getProductDetails", response]);
 
+          Geocode.fromLatLng(
+            response.data.result[0].lat,
+            response.data.result[0].lng
+          ).then(
+            (res: any) => {
+              let addressObj;
+              if (
+                res.results[0].address_components[2] &&
+                res.results[0].address_components[3] &&
+                res.results[0].address_components[5] &&
+                res.results[0].address_components[7]
+              ) {
+                console.log(["addressObj", res.results[0]]);
+                const cityArea = res.results[0].address_components[2].long_name;
+                const city = res.results[0].address_components[3].long_name;
+                const countryArea =
+                  res.results[0].address_components[5].long_name;
+                const country = "Polska";
+                const cityCode = res.results[0].address_components[7].long_name;
+
+                addressObj = {
+                  cityArea: cityArea,
+                  city: city,
+                  countryArea: countryArea,
+                  country: country,
+                  cityCode: cityCode
+                };
+              } else {
+                addressObj = {
+                  notFoundFullName: res.results[0].formatted_address
+                };
+              }
+
+              console.log(addressObj);
+
+              that.setState({ productLocation: addressObj });
+            },
+            (error: any) => {
+              console.error(error);
+            }
+          );
+
           that.setState({
             productDetails: response.data.result
           });
@@ -201,7 +249,7 @@ export default class ProductDetails extends Component<
       let receiverId = this.state.productDetails[0].user_id;
       let productId = this.state.productDetails[0].id;
 
-      console.log([senderId, receiverId, productId, message]);
+      //console.log([senderId, receiverId, productId, message]);
 
       let that = this;
 
@@ -214,7 +262,7 @@ export default class ProductDetails extends Component<
         })
         .then(function(response) {
           if (response.data.status === "OK") {
-            console.log(["saveConversationProduct", response.data.result]);
+            //console.log(["saveConversationProduct", response.data.result]);
 
             that.setState({
               usersAreInTheSameConversation: true,
@@ -288,6 +336,39 @@ export default class ProductDetails extends Component<
             <Text>
               Kategoria: {this.state.productDetails[0].categoryName[0].name}
             </Text>
+
+            {this.state.productDetails[0].child_gender === "girl" && (
+              <Text>Płeć dziecka: Dziewczynka</Text>
+            )}
+
+            {this.state.productDetails[0].child_gender === "boy" && (
+              <Text>Płeć dziecka: Chłopiec</Text>
+            )}
+
+            {this.state.productDetails[0].users && (
+              <Text>
+                Dodane przez: {this.state.productDetails[0].users.name} (
+                {this.state.productDetails[0].users.email})
+              </Text>
+            )}
+
+            {this.state.productLocation &&
+              !this.state.productLocation.notFoundFullName && (
+                <Text>
+                  W poblizu: {this.state.productLocation.cityArea},{" "}
+                  {this.state.productLocation.cityCode}{" "}
+                  {this.state.productLocation.city},{" "}
+                  {this.state.productLocation.countryArea},{" "}
+                  {this.state.productLocation.country}
+                </Text>
+              )}
+
+            {this.state.productLocation &&
+              this.state.productLocation.notFoundFullName && (
+                <Text>
+                  W poblizu: {this.state.productLocation.notFoundFullName}
+                </Text>
+              )}
 
             <Text>Cena: {this.state.productDetails[0].price} zł</Text>
 
