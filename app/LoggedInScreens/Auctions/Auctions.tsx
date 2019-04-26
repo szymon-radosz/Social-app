@@ -24,6 +24,7 @@ interface AuctionsProps {
     longitude: number;
     id: number;
   };
+  openMessages: any;
 }
 
 interface AuctionsState {
@@ -161,6 +162,7 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
           <ProductDetails
             currentUser={this.props.user}
             API_URL={this.props.API_URL}
+            openMessages={this.props.openMessages}
             productId={selectedProductId}
             productUserId={selectedProductUserId}
             setDisplayProductDetails={this.setDisplayProductDetails}

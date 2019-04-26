@@ -110,6 +110,7 @@ export default class FillNecessaryInfo extends Component<
           <Auctions
             API_URL={navigation.getParam("API_URL")}
             user={navigation.getParam("user")}
+            openMessages={this.openMessages}
           />
         )}
         {openMessages && (

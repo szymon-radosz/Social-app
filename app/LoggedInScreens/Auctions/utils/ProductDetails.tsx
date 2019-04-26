@@ -49,6 +49,7 @@ interface ProductDetailsProps {
     id: number;
   };
   setDisplayProductDetails: any;
+  openMessages: any;
 }
 
 interface ProductDetailsState {
@@ -415,7 +416,7 @@ export default class ProductDetails extends Component<
                 <TouchableHighlight style={styles.productDetailsBtn}>
                   <Button
                     title="Produkt sprzedany, jesteście w konwersacji"
-                    onPress={() => this.changeVoteBox()}
+                    onPress={() => this.props.openMessages()}
                     color="#fff"
                   />
                 </TouchableHighlight>
@@ -423,7 +424,7 @@ export default class ProductDetails extends Component<
                 <TouchableHighlight style={styles.productDetailsBtn}>
                   <Button
                     title="Jestescie juz w konwersacji"
-                    onPress={() => this.changeVoteBox()}
+                    onPress={() => this.props.openMessages()}
                     color="#fff"
                   />
                 </TouchableHighlight>
