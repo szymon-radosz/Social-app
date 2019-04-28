@@ -47,7 +47,6 @@ export default class SingleAuctionOnList extends Component<
                   this.props.product.product_photos[0].path
                 }`
               }}
-              resizeMode="contain"
             />
           </TouchableOpacity>
           <View style={styles.productOnListTextContainer}>

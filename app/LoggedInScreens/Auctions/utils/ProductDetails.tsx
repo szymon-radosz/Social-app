@@ -315,6 +315,7 @@ export default class ProductDetails extends Component<
               <Lightbox
                 springConfig={{ tension: 15, friction: 7 }}
                 swipeToDismiss={false}
+                backgroundColor="rgba(0,0,0,0.7)"
                 renderContent={() =>
                   renderCarousel(
                     this.props.API_URL,
@@ -324,7 +325,6 @@ export default class ProductDetails extends Component<
               >
                 <Image
                   style={styles.productDetailsImage}
-                  resizeMode="contain"
                   source={{
                     uri: `${this.props.API_URL}productPhotos/${
                       this.state.productDetails[0].product_photos[0].path
@@ -332,6 +332,10 @@ export default class ProductDetails extends Component<
                   }}
                 />
               </Lightbox>
+
+              {this.state.productDetails[0].product_photos.length > 1 && (
+                <Text>Zobacz więcej zdjęć</Text>
+              )}
 
               <Text style={styles.productHeaderText}>
                 {this.state.productDetails[0].name}
@@ -438,7 +442,11 @@ export default class ProductDetails extends Component<
                 />
               </TouchableHighlight>
             ) : (
-              <Text>Sprzedaz produktu zakonczona</Text>
+              <View style={styles.productContent}>
+                <Text style={styles.productContentText}>
+                  <Text style={styles.bold}>Sprzedaż produktu zakończona</Text>
+                </Text>
+              </View>
             )}
           </View>
         ) : null}

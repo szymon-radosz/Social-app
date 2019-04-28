@@ -6,7 +6,8 @@ import {
   Image,
   Text,
   View,
-  TouchableHighlight
+  TouchableHighlight,
+  ScrollView
 } from "react-native";
 import axios from "axios";
 import styles from "./../style";
@@ -195,268 +196,312 @@ export default class AddNewProductBox extends Component<
   };
   render() {
     return (
-      <View style={styles.mainModalContainer}>
-        <View style={styles.userDetailsModalContentContainer}>
-          <View style={styles.relative}>
-            <TouchableHighlight style={styles.buttonCloseModal}>
-              <Button
-                title="X"
-                color="#000"
-                onPress={() => this.props.changeDisplayNewProductBox()}
-              />
-            </TouchableHighlight>
-            <View style={styles.userDetailsHeader}>
-              <Text style={styles.userMessageHeader}>Dodaj nowy produkt</Text>
-            </View>
+      <ScrollView style={styles.relative}>
+        <TouchableHighlight style={styles.buttonCloseModal}>
+          <Button
+            title="<"
+            color="#fff"
+            onPress={() => this.props.changeDisplayNewProductBox()}
+          />
+        </TouchableHighlight>
+        <View style={styles.userDetailsHeader}>
+          <Text style={styles.userMessageHeader}>Dodaj nowy produkt</Text>
+        </View>
 
-            <TextInput
-              multiline={false}
-              onChangeText={name => this.setState({ name })}
-              value={this.state.name}
-              placeholder="Nazwa"
-              placeholderTextColor="#333"
-              style={styles.userMessageTextArea}
-            />
+        <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
+          <TextInput
+            multiline={false}
+            onChangeText={name => this.setState({ name })}
+            value={this.state.name}
+            placeholder="Nazwa"
+            placeholderTextColor="#333"
+            style={styles.userMessageTextArea}
+          />
+        </View>
 
-            <View>
-              <Text>Kategoria</Text>
-              <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-                {this.state.categories.map((category: any, i: number) => {
-                  return (
-                    <View style={{ flexDirection: "row" }} key={uuid()}>
-                      <TouchableHighlight
-                        onPress={() => this.setCategoryId(category.id)}
-                        style={
-                          this.state.selectedCategoryId == category.id
-                            ? {
-                                width: 30,
-                                height: 30,
-                                borderWidth: 1,
-                                backgroundColor: "red"
-                              }
-                            : {
-                                width: 30,
-                                height: 30,
-                                borderWidth: 1,
-                                backgroundColor: "white"
-                              }
-                        }
-                      >
-                        <Button
-                          title="v"
-                          color="#000"
-                          onPress={() => this.setCategoryId(category.id)}
-                        />
-                      </TouchableHighlight>
-
-                      <Text
-                        style={{ marginTop: 5 }}
-                        onPress={() => this.setCategoryId(category.id)}
-                      >
-                        {category.name}
-                      </Text>
-                    </View>
-                  );
-                })}
-              </View>
-            </View>
-
-            <View>
-              <Text>Płeć dziecka</Text>
-              <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-                <View style={{ flexDirection: "row" }}>
+        <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
+          <Text style={{ paddingBottom: 5 }}>Kategoria</Text>
+          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+            {this.state.categories.map((category: any, i: number) => {
+              return (
+                <View style={{ flexDirection: "row" }} key={uuid()}>
                   <TouchableHighlight
-                    onPress={() => this.setGender("boy")}
+                    onPress={() => this.setCategoryId(category.id)}
                     style={
-                      this.state.maleGender
+                      this.state.selectedCategoryId == category.id
                         ? {
-                            width: 30,
-                            height: 30,
+                            width: 20,
+                            height: 20,
                             borderWidth: 1,
-                            backgroundColor: "red"
+                            backgroundColor: "#f7b67e",
+                            borderColor: "#f7b67e",
+                            borderRadius: 20,
+                            marginRight: 5
                           }
                         : {
-                            width: 30,
-                            height: 30,
+                            width: 20,
+                            height: 20,
                             borderWidth: 1,
-                            backgroundColor: "white"
+                            backgroundColor: "white",
+                            borderRadius: 20,
+                            marginRight: 5
                           }
                     }
                   >
                     <Button
-                      title="v"
+                      title=""
                       color="#000"
-                      onPress={() => this.setGender("boy")}
+                      onPress={() => this.setCategoryId(category.id)}
                     />
                   </TouchableHighlight>
 
                   <Text
-                    style={{ marginTop: 5 }}
-                    onPress={() => this.setGender("boy")}
+                    style={{ marginTop: 2, marginRight: 15 }}
+                    onPress={() => this.setCategoryId(category.id)}
                   >
-                    Chłopiec
+                    {category.name}
                   </Text>
                 </View>
-                <View style={{ flexDirection: "row" }}>
-                  <TouchableHighlight
-                    onPress={() => this.setGender("girl")}
-                    style={
-                      this.state.femaleGender
-                        ? {
-                            width: 30,
-                            height: 30,
-                            borderWidth: 1,
-                            backgroundColor: "red"
-                          }
-                        : {
-                            width: 30,
-                            height: 30,
-                            borderWidth: 1,
-                            backgroundColor: "white"
-                          }
-                    }
-                  >
-                    <Button
-                      title="v"
-                      color="#000"
-                      onPress={() => this.setGender("girl")}
-                    />
-                  </TouchableHighlight>
-
-                  <Text
-                    onPress={() => this.setGender("girl")}
-                    style={{ marginTop: 5 }}
-                  >
-                    Dziewczynka
-                  </Text>
-                </View>
-              </View>
-            </View>
-
-            <TextInput
-              multiline={false}
-              onChangeText={price => this.setState({ price })}
-              value={this.state.price}
-              placeholder="Cena w zł"
-              placeholderTextColor="#333"
-              style={styles.userMessageTextArea}
-            />
-
-            <View>
-              <Text>Stan produktu</Text>
-              <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-                <View style={{ flexDirection: "row" }}>
-                  <TouchableHighlight
-                    onPress={() => this.setProductState("new")}
-                    style={
-                      this.state.newProduct
-                        ? {
-                            width: 30,
-                            height: 30,
-                            borderWidth: 1,
-                            backgroundColor: "red"
-                          }
-                        : {
-                            width: 30,
-                            height: 30,
-                            borderWidth: 1,
-                            backgroundColor: "white"
-                          }
-                    }
-                  >
-                    <Button
-                      title="v"
-                      color="#000"
-                      onPress={() => this.setProductState("new")}
-                    />
-                  </TouchableHighlight>
-
-                  <Text
-                    style={{ marginTop: 5 }}
-                    onPress={() => this.setProductState("new")}
-                  >
-                    Nowe
-                  </Text>
-                </View>
-                <View style={{ flexDirection: "row" }}>
-                  <TouchableHighlight
-                    onPress={() => this.setProductState("secondHand")}
-                    style={
-                      this.state.secondHandProduct
-                        ? {
-                            width: 30,
-                            height: 30,
-                            borderWidth: 1,
-                            backgroundColor: "red"
-                          }
-                        : {
-                            width: 30,
-                            height: 30,
-                            borderWidth: 1,
-                            backgroundColor: "white"
-                          }
-                    }
-                  >
-                    <Button
-                      title="v"
-                      color="#000"
-                      onPress={() => this.setProductState("secondHand")}
-                    />
-                  </TouchableHighlight>
-
-                  <Text
-                    onPress={() => this.setProductState("secondHand")}
-                    style={{ marginTop: 5 }}
-                  >
-                    Uzywane
-                  </Text>
-                </View>
-              </View>
-            </View>
-
-            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-              {this.state.photos &&
-                this.state.photos.map((photo: string, i: number) => {
-                  return (
-                    <Image
-                      key={uuid()}
-                      style={{ width: 50, height: 50 }}
-                      source={{ uri: this.state.photos[i] }}
-                    />
-                  );
-                })}
-            </View>
-
-            {this.state.photos.length <= 3 && (
-              <TouchableHighlight
-                style={{ width: 50, height: 50, backgroundColor: "#000" }}
-              >
-                <Button
-                  title="+"
-                  color="#fff"
-                  onPress={this.handleChoosePhoto}
-                />
-              </TouchableHighlight>
-            )}
-
-            <TouchableHighlight style={styles.userMessageBtn}>
-              <Button
-                title="Dodaj"
-                onPress={() => {
-                  this.addNewProduct();
-                }}
-                color="#fff"
-              />
-            </TouchableHighlight>
+              );
+            })}
           </View>
         </View>
+
+        <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
+          <Text style={{ paddingBottom: 5 }}>Płeć dziecka</Text>
+          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+            <View style={{ flexDirection: "row" }}>
+              <TouchableHighlight
+                onPress={() => this.setGender("boy")}
+                style={
+                  this.state.maleGender
+                    ? {
+                        width: 20,
+                        height: 20,
+                        borderWidth: 1,
+                        backgroundColor: "#f7b67e",
+                        borderColor: "#f7b67e",
+                        borderRadius: 20,
+                        marginRight: 5
+                      }
+                    : {
+                        width: 20,
+                        height: 20,
+                        borderWidth: 1,
+                        backgroundColor: "white",
+                        borderRadius: 20,
+                        marginRight: 5
+                      }
+                }
+              >
+                <Button
+                  title=""
+                  color="#000"
+                  onPress={() => this.setGender("boy")}
+                />
+              </TouchableHighlight>
+
+              <Text
+                style={{ marginTop: 2, marginRight: 15 }}
+                onPress={() => this.setGender("boy")}
+              >
+                Chłopiec
+              </Text>
+            </View>
+            <View style={{ flexDirection: "row" }}>
+              <TouchableHighlight
+                onPress={() => this.setGender("girl")}
+                style={
+                  this.state.femaleGender
+                    ? {
+                        width: 20,
+                        height: 20,
+                        borderWidth: 1,
+                        backgroundColor: "#f7b67e",
+                        borderColor: "#f7b67e",
+                        borderRadius: 20,
+                        marginRight: 5
+                      }
+                    : {
+                        width: 20,
+                        height: 20,
+                        borderWidth: 1,
+                        backgroundColor: "white",
+                        borderRadius: 20,
+                        marginRight: 5
+                      }
+                }
+              >
+                <Button
+                  title=""
+                  color="#000"
+                  onPress={() => this.setGender("girl")}
+                />
+              </TouchableHighlight>
+
+              <Text
+                onPress={() => this.setGender("girl")}
+                style={{ marginTop: 2, marginRight: 15 }}
+              >
+                Dziewczynka
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
+          <Text style={{ paddingBottom: 5 }}>Cena</Text>
+          <TextInput
+            multiline={false}
+            onChangeText={price => this.setState({ price })}
+            value={this.state.price}
+            placeholder="Cena w zł"
+            placeholderTextColor="#333"
+            style={styles.userMessageTextArea}
+          />
+        </View>
+
+        <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
+          <Text style={{ paddingBottom: 5 }}>Stan produktu</Text>
+          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+            <View style={{ flexDirection: "row" }}>
+              <TouchableHighlight
+                onPress={() => this.setProductState("new")}
+                style={
+                  this.state.newProduct
+                    ? {
+                        width: 20,
+                        height: 20,
+                        borderWidth: 1,
+                        backgroundColor: "#f7b67e",
+                        borderColor: "#f7b67e",
+                        borderRadius: 20,
+                        marginRight: 5
+                      }
+                    : {
+                        width: 20,
+                        height: 20,
+                        borderWidth: 1,
+                        backgroundColor: "white",
+                        borderRadius: 20,
+                        marginRight: 5
+                      }
+                }
+              >
+                <Button
+                  title=""
+                  color="#000"
+                  onPress={() => this.setProductState("new")}
+                />
+              </TouchableHighlight>
+
+              <Text
+                style={{ marginTop: 2, marginRight: 15 }}
+                onPress={() => this.setProductState("new")}
+              >
+                Nowe
+              </Text>
+            </View>
+            <View style={{ flexDirection: "row" }}>
+              <TouchableHighlight
+                onPress={() => this.setProductState("secondHand")}
+                style={
+                  this.state.secondHandProduct
+                    ? {
+                        width: 20,
+                        height: 20,
+                        borderWidth: 1,
+                        backgroundColor: "#f7b67e",
+                        borderColor: "#f7b67e",
+                        borderRadius: 20,
+                        marginRight: 5
+                      }
+                    : {
+                        width: 20,
+                        height: 20,
+                        borderWidth: 1,
+                        backgroundColor: "white",
+                        borderRadius: 20,
+                        marginRight: 5
+                      }
+                }
+              >
+                <Button
+                  title=""
+                  color="#000"
+                  onPress={() => this.setProductState("secondHand")}
+                />
+              </TouchableHighlight>
+
+              <Text
+                onPress={() => this.setProductState("secondHand")}
+                style={{ marginTop: 2, marginRight: 15 }}
+              >
+                Uzywane
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        {this.state.photos.length <= 3 && (
+          <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
+            <Text style={{ paddingBottom: 5 }}>Dodaj zdjęcia</Text>
+            <TouchableHighlight
+              style={{
+                width: 50,
+                height: 50,
+                paddingTop: 5,
+                borderRadius: 6,
+                backgroundColor: "#f7b67e"
+              }}
+            >
+              <Button title="+" color="#333" onPress={this.handleChoosePhoto} />
+            </TouchableHighlight>
+          </View>
+        )}
+
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            paddingLeft: 10,
+            paddingRight: 10,
+            marginBottom: 10
+          }}
+        >
+          {this.state.photos &&
+            this.state.photos.map((photo: string, i: number) => {
+              return (
+                <Image
+                  key={uuid()}
+                  style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: 6,
+                    marginRight: 10
+                  }}
+                  source={{ uri: this.state.photos[i] }}
+                />
+              );
+            })}
+        </View>
+
+        <TouchableHighlight style={styles.productDetailsBtn}>
+          <Button
+            title="Dodaj"
+            onPress={() => {
+              this.addNewProduct();
+            }}
+            color="#fff"
+          />
+        </TouchableHighlight>
         {this.state.alertMessage != "" && (
           <Alert
             alertType={this.state.alertType}
             alertMessage={this.state.alertMessage}
           />
         )}
-      </View>
+      </ScrollView>
     );
   }
 }

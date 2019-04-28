@@ -7,7 +7,8 @@ import {
   Image,
   Text,
   View,
-  TouchableHighlight
+  TouchableHighlight,
+  TouchableOpacity
 } from "react-native";
 import axios from "axios";
 import styles from "./../style";
@@ -180,102 +181,204 @@ export default class ProductVoteBox extends Component<
       userVote
     } = this.state;
     return (
-      <View style={styles.mainModalContainer}>
-        <View style={styles.userDetailsModalContentContainer}>
-          <View style={styles.relative}>
-            <TouchableHighlight style={styles.buttonCloseModal}>
-              <Button
-                title="X"
-                color="#000"
-                onPress={() => this.props.changeVoteBox()}
-              />
-            </TouchableHighlight>
-            <View style={styles.userDetailsHeader}>
-              <Text style={styles.userMessageHeader}>
-                Wystaw ocenę kupującemu
+      <View style={styles.relative}>
+        <TouchableHighlight style={styles.buttonCloseModal}>
+          <Button
+            title="<"
+            color="#fff"
+            onPress={() => this.props.changeVoteBox()}
+          />
+        </TouchableHighlight>
+        <View style={styles.userDetailsHeader}>
+          <Text style={styles.userMessageHeader}>Wystaw ocenę kupującemu</Text>
+        </View>
+
+        <TextInput
+          onChangeText={name => {
+            this.clearFoundVoteUserList();
+            this.setState({
+              showfoundVoteUserList: true
+            });
+            this.props.searchUsersByName(name);
+          }}
+          placeholder="Szukaj uzytkownika po imieniu..."
+          placeholderTextColor="#333"
+          style={styles.userMessageTextArea}
+        />
+
+        <View style={{ padding: 10 }}>
+          {showfoundVoteUserList &&
+            foundVoteUserList &&
+            foundVoteUserList.map((user: any, i: number) => {
+              if (user.id != this.props.currentUser.id) {
+                return (
+                  <TouchableOpacity
+                    key={uuid()}
+                    onPress={() =>
+                      this.setSelectedUserData(
+                        user.id,
+                        user.name,
+                        user.age,
+                        user.email
+                      )
+                    }
+                  >
+                    <View
+                      style={{
+                        width: "100%",
+                        borderWidth: 1,
+                        borderRadius: 6,
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        padding: 10,
+                        marginBottom: 5
+                      }}
+                    >
+                      <Image
+                        style={{ width: 50, height: 50 }}
+                        source={{
+                          uri: `${this.props.API_URL}userPhotos/${
+                            user.photo_path
+                          }`
+                        }}
+                      />
+                      <View style={{ paddingLeft: 10, paddingRight: 10 }}>
+                        <Text>
+                          {user.name}, {user.age}
+                        </Text>
+                        <Text>{user.email}</Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                );
+              }
+            })}
+        </View>
+
+        {selectedUserData.name && (
+          <View style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 10 }}>
+            <Text>
+              Oceń współpracę z {selectedUserData.name} (
+              {selectedUserData.email})
+            </Text>
+
+            <View
+              style={{
+                width: "100%",
+                marginTop: 10,
+                flexDirection: "row",
+                flexWrap: "wrap"
+              }}
+            >
+              <Text
+                style={{
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  paddingLeft: 15,
+                  paddingRight: 15,
+                  marginRight: 5,
+                  borderWidth: 1,
+                  borderRadius: 6
+                }}
+                onPress={() => this.setUserVote(1)}
+              >
+                1
+              </Text>
+              <Text
+                style={{
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  paddingLeft: 15,
+                  paddingRight: 15,
+                  marginRight: 5,
+                  borderWidth: 1,
+                  borderRadius: 6
+                }}
+                onPress={() => this.setUserVote(2)}
+              >
+                2
+              </Text>
+              <Text
+                style={{
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  paddingLeft: 15,
+                  paddingRight: 15,
+                  marginRight: 5,
+                  borderWidth: 1,
+                  borderRadius: 6
+                }}
+                onPress={() => this.setUserVote(3)}
+              >
+                3
+              </Text>
+              <Text
+                style={{
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  paddingLeft: 15,
+                  paddingRight: 15,
+                  marginRight: 5,
+                  borderWidth: 1,
+                  borderRadius: 6
+                }}
+                onPress={() => this.setUserVote(4)}
+              >
+                4
+              </Text>
+              <Text
+                style={{
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  paddingLeft: 15,
+                  paddingRight: 15,
+                  marginRight: 5,
+                  borderWidth: 1,
+                  borderRadius: 6
+                }}
+                onPress={() => this.setUserVote(5)}
+              >
+                5
               </Text>
             </View>
+          </View>
+        )}
+
+        {userVote != 0 && (
+          <View>
+            <Text
+              style={{
+                paddingLeft: 10,
+                paddingRight: 10,
+                marginTop: 20,
+                paddingBottom: 10
+              }}
+            >
+              Twoja ocena: {userVote}
+            </Text>
 
             <TextInput
-              onChangeText={name => {
-                this.clearFoundVoteUserList();
+              multiline={true}
+              numberOfLines={10}
+              onChangeText={voteComment => {
                 this.setState({
-                  showfoundVoteUserList: true
+                  voteComment
                 });
-                this.props.searchUsersByName(name);
               }}
-              placeholder="Szukaj uzytkownika po imieniu..."
+              placeholder="Napisz komentarz do opinii..."
               placeholderTextColor="#333"
               style={styles.userMessageTextArea}
             />
 
-            <View>
-              {showfoundVoteUserList &&
-                foundVoteUserList &&
-                foundVoteUserList.map((user: any, i: number) => {
-                  if (user.id != this.props.currentUser.id) {
-                    return (
-                      <Text
-                        key={uuid()}
-                        onPress={() =>
-                          this.setSelectedUserData(
-                            user.id,
-                            user.name,
-                            user.age,
-                            user.email
-                          )
-                        }
-                      >
-                        {user.name}, {user.age}, {user.email}
-                      </Text>
-                    );
-                  }
-                })}
-            </View>
-
-            {selectedUserData.name && (
-              <View>
-                <Text>
-                  Oceń współpracę z {selectedUserData.name} (
-                  {selectedUserData.email})
-                </Text>
-
-                <Text onPress={() => this.setUserVote(1)}>1</Text>
-                <Text onPress={() => this.setUserVote(2)}>2</Text>
-                <Text onPress={() => this.setUserVote(3)}>3</Text>
-                <Text onPress={() => this.setUserVote(4)}>4</Text>
-                <Text onPress={() => this.setUserVote(5)}>5</Text>
-              </View>
-            )}
-
-            {userVote != 0 && (
-              <View>
-                <Text>Twoja ocena: {userVote}</Text>
-
-                <TextInput
-                  multiline={true}
-                  numberOfLines={10}
-                  onChangeText={voteComment => {
-                    this.setState({
-                      voteComment
-                    });
-                  }}
-                  placeholder="Napisz komentarz do opinii..."
-                  placeholderTextColor="#333"
-                  style={styles.userMessageTextArea}
-                />
-
-                <TouchableHighlight style={styles.userMessageBtn}>
-                  <Button
-                    title="Wyślij"
-                    color="#fff"
-                    onPress={() => this.sendVote()}
-                  />
-                </TouchableHighlight>
-              </View>
-            )}
+            <TouchableHighlight style={styles.productDetailsBtn}>
+              <Button
+                title="Wyślij"
+                color="#fff"
+                onPress={() => this.sendVote()}
+              />
+            </TouchableHighlight>
           </View>
-        </View>
+        )}
         {alertMessage != "" && (
           <Alert alertType={alertType} alertMessage={alertMessage} />
         )}

@@ -100,7 +100,7 @@ export default StyleSheet.create<Style>({
   productListSingleProductImage: {
     width: 80,
     height: 80,
-
+    marginBottom: 10,
     marginLeft: "auto",
     marginRight: "auto",
     borderRadius: lightBorderRadius
@@ -230,14 +230,13 @@ export default StyleSheet.create<Style>({
   userMessageTextArea: {
     height: 40,
     borderWidth: 1,
-    marginLeft: 10,
-    marginRight: 10,
-    borderRadius: 5,
+    borderRadius: lightBorderRadius,
     padding: 5
   },
   productDetailsImage: {
     width: 100,
     height: 100,
+    marginBottom: 10,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: lightBorderRadius
