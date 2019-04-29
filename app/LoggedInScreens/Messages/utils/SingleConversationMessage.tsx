@@ -70,11 +70,17 @@ export default class SingleConversationMessage extends Component<
           </Text>
         </TouchableOpacity>
         {showMessageDate && (
-          <Text style={styles.messageDate}>
-            {this.props.message.created_at}
+          <Text
+            style={
+              isCurrentUserTheSender
+                ? styles.messageDateSender
+                : styles.messageDateReceiver
+            }
+          >
+            Data dodania: {this.props.message.created_at}
           </Text>
         )}
-        <View style={{ borderBottomWidth: 1 }} />
+        {/*<View style={{ borderBottomWidth: 1 }} />*/}
       </View>
     );
   }

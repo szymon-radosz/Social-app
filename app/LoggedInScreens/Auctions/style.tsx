@@ -67,7 +67,8 @@ interface Style {
 
 export default StyleSheet.create<Style>({
   productOnListTextName: {
-    textAlign: "center"
+    textAlign: "center",
+    fontWeight: "bold"
   },
 
   productDetailsBtn: btnFullWidth,

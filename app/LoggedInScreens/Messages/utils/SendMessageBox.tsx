@@ -6,6 +6,7 @@ import {
   Text,
   View
 } from "react-native";
+import styles from "./../style";
 
 interface SendMessageBoxState {
   message: string;
@@ -35,21 +36,30 @@ export default class SendMessageBox extends Component<
   render() {
     return (
       <View>
-        <Text>
+        {/*<Text>
           {this.props.senderId};{this.props.receiverId};
           {this.props.conversationId}
-        </Text>
+        </Text>*/}
 
         <TextInput
-          placeholder="Odpowiedź..."
+          style={{
+            marginTop: 30,
+            marginLeft: 10,
+            marginRight: 10,
+            padding: 10,
+            height: 40,
+            borderWidth: 1,
+            borderRadius: 6
+          }}
+          placeholder="Napisz odpowiedź..."
           placeholderTextColor="#919191"
           onChangeText={message => this.setState({ message })}
           value={this.state.message}
         />
-        <TouchableHighlight>
+        <TouchableHighlight style={styles.sendMessageBtn}>
           <Button
             title="Wyślij"
-            color="#000"
+            color="#fff"
             onPress={() =>
               this.props.sendMessage(
                 this.props.senderId,

@@ -4,6 +4,16 @@ export const lightBorderRadius = 6;
 export const fontSizeBig = 24;
 export const fontSizeMedium = 20;
 export const fontSizeSmall = 16;
+export const btnFullActiveWidthContainer = {
+  height: 35,
+  width: "100%",
+  marginTop: 5,
+  marginBottom: 5,
+  borderRadius: lightBorderRadius,
+  borderColor: peachColor,
+  borderWidth: 2,
+  backgroundColor: peachColor
+};
 export const btnFullWidth = {
   height: 45,
   width: "94%",
@@ -15,6 +25,16 @@ export const btnFullWidth = {
   borderColor: peachColor,
   borderWidth: 2,
   backgroundColor: peachColor
+};
+export const btnFullWidthContainer = {
+  height: 35,
+  width: "100%",
+  marginTop: 5,
+  marginBottom: 5,
+  borderRadius: lightBorderRadius,
+  borderColor: peachColor,
+  borderWidth: 2,
+  backgroundColor: "#fff"
 };
 export const pageTitleBlack = {
   textAlign: "left",

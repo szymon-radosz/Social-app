@@ -4,6 +4,8 @@ import {
   Button,
   Text,
   TouchableHighlight,
+  ImageBackground,
+  TouchableOpacity,
   ScrollView,
   View
 } from "react-native";
@@ -11,7 +13,8 @@ import axios from "axios";
 import SinglePostOnList from "./utils/SinglePostOnList";
 import PostDetails from "./utils/PostDetails";
 import SavePost from "./utils/SavePost";
-import SortByCategory from "./utils/SortByCategory";
+import SingleCategory from "./utils/SingleCategory";
+import forumBg from "./../../assets/images/forumBgMin.jpg";
 import styles from "./style";
 
 interface ForumProps {
@@ -26,6 +29,7 @@ interface ForumState {
   showPostDetailsId: number;
   postList: any;
   showSortByCategoryId: number;
+  showPosts: boolean;
 }
 export default class Forum extends Component<ForumProps, ForumState> {
   constructor(props: ForumProps) {
@@ -36,6 +40,7 @@ export default class Forum extends Component<ForumProps, ForumState> {
       showSortByCategory: false,
       showPostDetailsId: 0,
       showSortByCategoryId: 0,
+      showPosts: false,
       postList: []
     };
 
@@ -64,10 +69,18 @@ export default class Forum extends Component<ForumProps, ForumState> {
     }));
   };
 
-  setShowSortByCategory = (): void => {
-    this.setState(prevState => ({
-      showSortByCategory: !prevState.showSortByCategory
-    }));
+  setShowSortByCategory = (hidePost: boolean): void => {
+    if (hidePost) {
+      this.setState(prevState => ({
+        showSortByCategory: !prevState.showSortByCategory,
+        showPosts: false
+      }));
+    } else {
+      this.setState(prevState => ({
+        showSortByCategory: !prevState.showSortByCategory,
+        showPosts: true
+      }));
+    }
   };
 
   getPostByCategoryId = (categoryId: number, closeModal: boolean): void => {
@@ -85,11 +98,12 @@ export default class Forum extends Component<ForumProps, ForumState> {
           that.setState({ postList: [] });
           that.setState({
             showSortByCategoryId: categoryId,
-            postList: response.data.result
+            postList: response.data.result,
+            showPosts: true
           });
 
           if (closeModal) {
-            that.setShowSortByCategory();
+            that.setShowSortByCategory(false);
           }
 
           console.log(response.data);
@@ -171,38 +185,35 @@ export default class Forum extends Component<ForumProps, ForumState> {
   };
 
   componentDidMount = (): void => {
-    this.getPosts();
+    /*this.getPosts();*/
+
+    this.setState({ showSortByCategory: true });
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <TouchableHighlight>
-          <Button
-            title="Sortowanie"
-            onPress={(): void => {
-              this.setShowSortByCategory();
-            }}
-            color="#000"
-          />
-        </TouchableHighlight>
-        <Text>Posty</Text>
+        <ImageBackground source={forumBg} style={{ width: "100%" }}>
+          <Text style={styles.pageTitle}>
+            Podziel się swoją
+            {"\n"}wiedzą.
+          </Text>
+        </ImageBackground>
 
-        {this.state.showPostDetails &&
-          this.state.showPostDetailsId &&
-          !this.state.showSavePost &&
-          !this.state.showSortByCategory && (
-            <PostDetails
-              postDetailsId={this.state.showPostDetailsId}
-              API_URL={this.props.API_URL}
-              user={this.props.user}
-              setShowPostDetails={this.setShowPostDetails}
-            />
-          )}
+        <View style={{ width: "100%" }}>
+          {this.state.showPostDetails &&
+            this.state.showPostDetailsId &&
+            !this.state.showSavePost &&
+            !this.state.showSortByCategory && (
+              <PostDetails
+                postDetailsId={this.state.showPostDetailsId}
+                API_URL={this.props.API_URL}
+                user={this.props.user}
+                setShowPostDetails={this.setShowPostDetails}
+              />
+            )}
 
-        {!this.state.showPostDetails &&
-          !this.state.showSortByCategory &&
-          this.state.showSavePost && (
+          {!this.state.showPostDetails && this.state.showSavePost && (
             <SavePost
               API_URL={this.props.API_URL}
               user={this.props.user}
@@ -211,20 +222,32 @@ export default class Forum extends Component<ForumProps, ForumState> {
             />
           )}
 
-        {!this.state.showPostDetails &&
-          !this.state.showSavePost &&
-          this.state.showSortByCategory && (
-            <SortByCategory
-              API_URL={this.props.API_URL}
-              user={this.props.user}
-              getPostByCategoryId={this.getPostByCategoryId}
-              showSortByCategoryId={this.state.showSortByCategoryId}
-              setShowSortByCategory={this.setShowSortByCategory}
-            />
-          )}
+          {!this.state.showPostDetails &&
+            !this.state.showSavePost &&
+            this.state.showSortByCategory && (
+              <SingleCategory
+                API_URL={this.props.API_URL}
+                user={this.props.user}
+                getPostByCategoryId={this.getPostByCategoryId}
+              />
+            )}
 
-        <ScrollView>
           {this.state.postList &&
+            this.state.showPosts &&
+            !this.state.showPostDetails && (
+              <TouchableOpacity style={styles.buttonCloseModal}>
+                <Button
+                  title="<"
+                  onPress={() => {
+                    this.setShowSortByCategory(true);
+                  }}
+                  color="#fff"
+                />
+              </TouchableOpacity>
+            )}
+          {this.state.postList &&
+            this.state.showPosts &&
+            !this.state.showPostDetails &&
             this.state.postList.map(
               (
                 post: {
@@ -239,6 +262,7 @@ export default class Forum extends Component<ForumProps, ForumState> {
                 return (
                   <SinglePostOnList
                     getPostDetails={this.getPostDetails}
+                    showPosts={this.state.showPosts}
                     key={i}
                     post={post}
                   />
@@ -246,14 +270,14 @@ export default class Forum extends Component<ForumProps, ForumState> {
               }
             )}
 
-          <TouchableHighlight style={styles.buttonCloseModal}>
+          <TouchableHighlight style={styles.addPostBtn}>
             <Button
               title="Dodaj post"
-              color="#000"
+              color="#fff"
               onPress={() => this.setShowSavePost()}
             />
           </TouchableHighlight>
-        </ScrollView>
+        </View>
       </View>
     );
   }

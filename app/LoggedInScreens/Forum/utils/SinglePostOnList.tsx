@@ -15,6 +15,7 @@ import styles from "./../style";
 interface SinglePostOnListState {}
 
 interface SinglePostOnListProps {
+  showPosts: boolean;
   post: {
     title: string;
     comments: any;

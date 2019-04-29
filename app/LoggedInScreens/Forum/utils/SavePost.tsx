@@ -78,65 +78,61 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
     let { categories } = this.state;
 
     return (
-      <View style={styles.mainModalContainer}>
-        <View style={styles.userDetailsModalContentContainer}>
-          <View style={styles.relative}>
-            <TouchableHighlight style={styles.buttonCloseModal}>
-              <Button
-                title="X"
-                color="#000"
-                onPress={() => this.props.setShowSavePost()}
-              />
-            </TouchableHighlight>
+      <View style={styles.relative}>
+        <TouchableHighlight style={styles.buttonCloseModal}>
+          <Button
+            title="X"
+            color="#000"
+            onPress={() => this.props.setShowSavePost()}
+          />
+        </TouchableHighlight>
 
-            <ScrollView style={styles.postDetailsContainer}>
-              <TextInput
-                multiline={false}
-                onChangeText={title => this.setState({ title })}
-                value={this.state.title}
-                placeholder="Temat"
-                placeholderTextColor="#333"
-              />
+        <ScrollView style={styles.postDetailsContainer}>
+          <TextInput
+            multiline={false}
+            onChangeText={title => this.setState({ title })}
+            value={this.state.title}
+            placeholder="Temat"
+            placeholderTextColor="#333"
+          />
 
-              <TextInput
-                multiline={false}
-                onChangeText={description => this.setState({ description })}
-                value={this.state.description}
-                placeholder="Treść postu"
-                placeholderTextColor="#333"
-              />
+          <TextInput
+            multiline={false}
+            onChangeText={description => this.setState({ description })}
+            value={this.state.description}
+            placeholder="Treść postu"
+            placeholderTextColor="#333"
+          />
 
-              {categories.map((category: any, i: number) => {
-                return (
-                  <TouchableHighlight>
-                    <Button
-                      title={category.name}
-                      onPress={() => this.selectCategoryId(category.id)}
-                      color={
-                        category.id === this.state.categoryId ? "blue" : "#000"
-                      }
-                    />
-                  </TouchableHighlight>
-                );
-              })}
-
+          {categories.map((category: any, i: number) => {
+            return (
               <TouchableHighlight>
                 <Button
-                  title="Dodaj"
-                  onPress={() =>
-                    this.props.savePost(
-                      this.state.title,
-                      this.state.description,
-                      this.props.user.id,
-                      this.state.categoryId
-                    )
+                  title={category.name}
+                  onPress={() => this.selectCategoryId(category.id)}
+                  color={
+                    category.id === this.state.categoryId ? "blue" : "#000"
                   }
-                  color="#000"
                 />
               </TouchableHighlight>
-            </ScrollView>
-          </View>
-        </View>
+            );
+          })}
+
+          <TouchableHighlight>
+            <Button
+              title="Dodaj"
+              onPress={() =>
+                this.props.savePost(
+                  this.state.title,
+                  this.state.description,
+                  this.props.user.id,
+                  this.state.categoryId
+                )
+              }
+              color="#000"
+            />
+          </TouchableHighlight>
+        </ScrollView>
       </View>
     );
   }

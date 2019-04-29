@@ -69,29 +69,43 @@ export default class ConversationDetails extends Component<
     const { messages } = this.state;
     return (
       <View style={styles.viewContainer}>
-        <TouchableOpacity>
-          <Image
-            style={styles.image}
-            source={{
-              uri: `${this.props.API_URL}userPhotos/${
-                this.props.receiverPhotoPath
-              }`
-            }}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-        <Text>receiver:{this.props.receiverName}</Text>
-        <Text>Sender: {this.props.senderId}</Text>
-        {messages &&
-          messages.map((message: any, i: number) => {
-            return (
-              <SingleConversationMessage
-                message={message}
-                currentUser={this.props.currentUser}
-                key={uuid()}
-              />
-            );
-          })}
+        <View style={styles.filterBtnContainer}>
+          <TouchableOpacity>
+            <Image
+              style={{
+                width: 50,
+                height: 50,
+                marginTop: 10,
+                marginLeft: 10,
+                marginRight: 10,
+                borderRadius: 6
+              }}
+              source={{
+                uri: `${this.props.API_URL}userPhotos/${
+                  this.props.receiverPhotoPath
+                }`
+              }}
+            />
+          </TouchableOpacity>
+          <Text style={{ marginTop: 15 }}>
+            Rozmowa z {this.props.receiverName}
+            {"\n"}
+            {this.props.receiverEmail}
+          </Text>
+        </View>
+        {/* <Text>Sender: {this.props.senderId}</Text>*/}
+        <View style={{ marginTop: 30 }}>
+          {messages &&
+            messages.map((message: any, i: number) => {
+              return (
+                <SingleConversationMessage
+                  message={message}
+                  currentUser={this.props.currentUser}
+                  key={uuid()}
+                />
+              );
+            })}
+        </View>
         {messages && messages[0].conversation_id && (
           <SendMessageBox
             senderId={this.props.currentUser.id}

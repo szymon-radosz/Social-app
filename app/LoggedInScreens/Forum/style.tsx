@@ -6,6 +6,15 @@ import {
   Dimensions,
   View
 } from "react-native";
+import {
+  pageTitleWhite,
+  peachColor,
+  darkGrayColor,
+  btnFullWidth,
+  lightBorderRadius,
+  fontSizeBig,
+  fontSizeMedium
+} from "./../../assets/global/globalStyles";
 
 interface Style {
   container: ViewStyle;
@@ -14,10 +23,12 @@ interface Style {
   mainModalContainer: TextStyle;
   userDetailsModalContentContainer: ViewStyle;
   relative: ViewStyle;
+  addPostBtn: any;
   postDetailsContainer: ViewStyle;
   postDetailsComment: ViewStyle;
   image: ImageStyle;
   activePostCategory: TextStyle;
+  pageTitle: any;
 }
 
 const fullWidth = Dimensions.get("window").width;
@@ -25,10 +36,13 @@ const fullHeight = Dimensions.get("window").height;
 
 export default StyleSheet.create<Style>({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    alignSelf: "stretch"
+    position: "relative",
+    flexWrap: "wrap",
+    alignItems: "flex-start",
+    flexDirection: "row"
   },
+  pageTitle: pageTitleWhite,
+  addPostBtn: btnFullWidth,
   singlePostContainer: {
     borderWidth: 1,
     marginBottom: 5
@@ -36,12 +50,11 @@ export default StyleSheet.create<Style>({
   buttonCloseModal: {
     position: "absolute",
     top: 0,
-    right: 0,
+    left: 0,
     zIndex: 11,
-    borderLeftWidth: 1,
-    borderBottomWidth: 1,
-    borderLeftColor: "#7f7f7f",
-    borderBottomColor: "#7f7f7f"
+    paddingRight: 3,
+    backgroundColor: peachColor,
+    borderBottomRightRadius: lightBorderRadius
   },
   mainModalContainer: {
     width: fullWidth,
@@ -65,7 +78,9 @@ export default StyleSheet.create<Style>({
     position: "relative"
   },
   postDetailsContainer: {
-    padding: 10
+    padding: 10,
+    width: "100%",
+    borderWidth: 1
   },
   postDetailsComment: {
     marginBottom: 10,

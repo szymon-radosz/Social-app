@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { TouchableOpacity, Text, View } from "react-native";
+import { TouchableOpacity, Text, ImageBackground, View } from "react-native";
 import SingleConversationBox from "./utils/SingleConversationBox";
 import ConversationDetails from "./utils/ConversationDetails";
 import axios from "axios";
 import styles from "./style";
 import { v4 as uuid } from "uuid";
+import messagesBgMin from "./../../assets/images/messagesBgMin.jpg";
 
 interface MessagesState {
   messagesList: any;
@@ -14,7 +15,9 @@ interface MessagesState {
   receiverId: number;
   receiverEmail: string;
   receiverName: string;
+  showFilterPanel: boolean;
   receiverPhotoPath: string;
+  displayPrivateMessages: boolean;
 }
 
 interface MessagesProps {
@@ -39,7 +42,9 @@ export default class FillNecessaryInfo extends Component<
       receiverId: 0,
       receiverEmail: "",
       receiverName: "",
-      receiverPhotoPath: ""
+      showFilterPanel: false,
+      receiverPhotoPath: "",
+      displayPrivateMessages: false
     };
 
     this.getMessages = this.getMessages.bind(this);
@@ -76,7 +81,8 @@ export default class FillNecessaryInfo extends Component<
             receiverId: receiverId,
             receiverName: receiverName,
             receiverEmail: receiverEmail,
-            receiverPhotoPath: receiverPhotoPath
+            receiverPhotoPath: receiverPhotoPath,
+            showFilterPanel: false
           });
         }
       })
@@ -143,7 +149,8 @@ export default class FillNecessaryInfo extends Component<
           console.log(["getMessages", response]);
 
           that.setState({
-            messagesList: response.data.result.conversationData
+            messagesList: response.data.result.conversationData,
+            displayPrivateMessages: true
           });
         }
       })
@@ -168,7 +175,8 @@ export default class FillNecessaryInfo extends Component<
           console.log(["getMessages", response]);
 
           that.setState({
-            messagesList: response.data.result.conversationData
+            messagesList: response.data.result.conversationData,
+            displayPrivateMessages: false
           });
         }
       })
@@ -179,22 +187,68 @@ export default class FillNecessaryInfo extends Component<
 
   componentDidMount = (): void => {
     this.getMessages();
+    this.setState({ displayPrivateMessages: true, showFilterPanel: true });
   };
 
   render() {
+    const { displayPrivateMessages, showFilterPanel } = this.state;
     return (
       <View>
-        <Text style={styles.pageTitle}>Wiadomości</Text>
+        <ImageBackground source={messagesBgMin} style={{ width: "100%" }}>
+          <Text style={styles.pageTitle}>Twoje{"\n"}Wiadomości</Text>
+        </ImageBackground>
 
-        <TouchableOpacity onPress={this.getMessages}>
-          <Text>Prywatne</Text>
-        </TouchableOpacity>
+        {showFilterPanel && (
+          <View>
+            <Text style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 10 }}>
+              Pokaż wiadomości
+            </Text>
+            <View style={styles.filterBtnContainer}>
+              <View style={styles.singleButtonCol2Container}>
+                <TouchableOpacity
+                  onPress={this.getMessages}
+                  style={
+                    displayPrivateMessages
+                      ? styles.filterBtnActive
+                      : styles.filterBtn
+                  }
+                >
+                  <Text
+                    style={
+                      displayPrivateMessages
+                        ? styles.filterBtnTextActive
+                        : styles.filterBtnText
+                    }
+                  >
+                    Prywatne
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.singleButtonCol2Container}>
+                <TouchableOpacity
+                  onPress={this.getAuctionMessages}
+                  style={
+                    !displayPrivateMessages
+                      ? styles.filterBtnActive
+                      : styles.filterBtn
+                  }
+                >
+                  <Text
+                    style={
+                      !displayPrivateMessages
+                        ? styles.filterBtnTextActive
+                        : styles.filterBtnText
+                    }
+                  >
+                    Dotyczące przedmiotów
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        )}
 
-        <TouchableOpacity onPress={this.getAuctionMessages}>
-          <Text>Targ</Text>
-        </TouchableOpacity>
-
-        <View style={styles.messagesList}>
+        <View style={styles.container}>
           {this.state.messagesList &&
             !this.state.openConversationDetails &&
             this.state.messagesList.map((conversation: any, i: number) => {

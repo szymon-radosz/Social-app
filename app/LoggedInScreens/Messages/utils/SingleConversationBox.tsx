@@ -50,21 +50,27 @@ export default class SingleConversationBox extends Component<
             this.props.conversation.receiverPhotoPath
           );
         }}
+        style={styles.productListSingleProductContainer}
       >
-        <View style={styles.conversationBoxContainer}>
+        <View>
           <TouchableOpacity>
             <Image
-              style={styles.image}
+              style={styles.productListSingleProductImage}
               source={{
                 uri: `${this.props.API_URL}userPhotos/${
                   this.props.conversation.receiverPhotoPath
                 }`
               }}
-              resizeMode="contain"
             />
           </TouchableOpacity>
-          <Text>{this.props.conversation.receiverName}</Text>
-          <Text>{this.props.conversation.messages[0].updated_at}</Text>
+          <Text
+            style={{ fontWeight: "bold", textAlign: "center", color: "#333" }}
+          >
+            {this.props.conversation.receiverName}
+          </Text>
+          <Text style={{ textAlign: "center", color: "#333" }}>
+            {this.props.conversation.messages[0].updated_at}
+          </Text>
           <Text
             style={
               this.props.conversation.userHadUnreadedMessages
