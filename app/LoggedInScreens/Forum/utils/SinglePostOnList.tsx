@@ -6,11 +6,14 @@ import {
   Image,
   Text,
   View,
-  TouchableHighlight
+  TouchableHighlight,
+  TouchableOpacity
 } from "react-native";
 import Alert from "./../../../Alert/Alert";
 import { v4 as uuid } from "uuid";
 import styles from "./../style";
+import comment from "./../../../assets/images/comment.png";
+import like from "./../../../assets/images/like.png";
 
 interface SinglePostOnListState {}
 
@@ -45,10 +48,49 @@ export default class SinglePostOnList extends Component<
         onPress={() => this.props.getPostDetails(this.props.post.id)}
       >
         <View style={styles.singlePostContainer}>
-          <Text>{this.props.post.title}</Text>
-          <Text>{this.props.post.created_at}</Text>
-          <Text>Komentarze: {this.props.post.comments.length}</Text>
-          <Text>Głosy: {this.props.post.votes.length}</Text>
+          <View>
+            <Text style={{ fontSize: 18 }}>{this.props.post.title}</Text>
+            <Text style={{ fontSize: 12 }}>{this.props.post.created_at}</Text>
+          </View>
+          <View>
+            <View
+              style={{
+                flexWrap: "wrap",
+                alignItems: "center",
+                flexDirection: "row",
+                marginBottom: 5
+              }}
+            >
+              <Text style={{ color: "#f7b67e", fontSize: 18 }}>
+                {this.props.post.votes.length}
+              </Text>
+              <TouchableOpacity>
+                <Image
+                  style={{ height: 20 }}
+                  resizeMode="contain"
+                  source={like}
+                />
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                flexWrap: "wrap",
+                alignItems: "center",
+                flexDirection: "row"
+              }}
+            >
+              <Text style={{ color: "#f7b67e", fontSize: 18 }}>
+                {this.props.post.comments.length}
+              </Text>
+              <TouchableOpacity>
+                <Image
+                  style={{ height: 20 }}
+                  resizeMode="contain"
+                  source={comment}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       </TouchableHighlight>
     );

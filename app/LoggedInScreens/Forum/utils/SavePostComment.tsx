@@ -45,16 +45,23 @@ export default class SavePostComment extends Component<
   render() {
     return (
       <View>
-        <Text>Napisz komentarz:</Text>
         <TextInput
+          style={{
+            borderWidth: 1,
+            borderRadius: 6,
+            marginLeft: 10,
+            marginRight: 10,
+            marginTop: 10,
+            padding: 10
+          }}
           multiline={false}
           onChangeText={message => this.setState({ message })}
           value={this.state.message}
-          placeholder="..."
+          placeholder="Napisz komentarz ..."
           placeholderTextColor="#333"
         />
 
-        <TouchableHighlight>
+        <TouchableHighlight style={styles.addCommentBtn}>
           <Button
             title="Wyślij"
             onPress={(): void => {
@@ -65,7 +72,7 @@ export default class SavePostComment extends Component<
               );
               this.clearMessageText();
             }}
-            color="#000"
+            color="#fff"
           />
         </TouchableHighlight>
       </View>

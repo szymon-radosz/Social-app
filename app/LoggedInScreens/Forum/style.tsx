@@ -23,6 +23,7 @@ interface Style {
   mainModalContainer: TextStyle;
   userDetailsModalContentContainer: ViewStyle;
   relative: ViewStyle;
+  addCommentBtn: any;
   addPostBtn: any;
   postDetailsContainer: ViewStyle;
   postDetailsComment: ViewStyle;
@@ -43,9 +44,18 @@ export default StyleSheet.create<Style>({
   },
   pageTitle: pageTitleWhite,
   addPostBtn: btnFullWidth,
+  addCommentBtn: btnFullWidth,
   singlePostContainer: {
     borderWidth: 1,
-    marginBottom: 5
+    marginBottom: 5,
+    marginLeft: 10,
+    marginRight: 10,
+    padding: 10,
+    borderRadius: 6,
+    flexWrap: "wrap",
+    alignItems: "flex-start",
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   buttonCloseModal: {
     position: "absolute",
@@ -78,15 +88,14 @@ export default StyleSheet.create<Style>({
     position: "relative"
   },
   postDetailsContainer: {
-    padding: 10,
-    width: "100%",
-    borderWidth: 1
+    width: "100%"
   },
   postDetailsComment: {
     marginBottom: 10,
     padding: 10,
-    borderWidth: 1
+    borderWidth: 1,
+    borderRadius: 6
   },
   activePostCategory: { color: "blue" },
-  image: { width: 50, height: 50 }
+  image: { width: 50, height: 50, borderRadius: 6 }
 });

@@ -30,6 +30,7 @@ interface ForumState {
   postList: any;
   showSortByCategoryId: number;
   showPosts: boolean;
+  categoryName: string;
 }
 export default class Forum extends Component<ForumProps, ForumState> {
   constructor(props: ForumProps) {
@@ -41,6 +42,7 @@ export default class Forum extends Component<ForumProps, ForumState> {
       showPostDetailsId: 0,
       showSortByCategoryId: 0,
       showPosts: false,
+      categoryName: "",
       postList: []
     };
 
@@ -59,7 +61,11 @@ export default class Forum extends Component<ForumProps, ForumState> {
     if (this.state.showSortByCategoryId === 0) {
       this.getPosts();
     } else {
-      this.getPostByCategoryId(this.state.showSortByCategoryId, false);
+      this.getPostByCategoryId(
+        this.state.showSortByCategoryId,
+        this.state.categoryName,
+        false
+      );
     }
   };
 
@@ -83,10 +89,16 @@ export default class Forum extends Component<ForumProps, ForumState> {
     }
   };
 
-  getPostByCategoryId = (categoryId: number, closeModal: boolean): void => {
+  getPostByCategoryId = (
+    categoryId: number,
+    categoryName: string,
+    closeModal: boolean
+  ): void => {
     let API_URL = this.props.API_URL;
 
     let that = this;
+
+    console.log(["getPostByCategoryId", categoryName]);
 
     axios
       .post(API_URL + "/api/getPostByCategoryId", {
@@ -97,6 +109,7 @@ export default class Forum extends Component<ForumProps, ForumState> {
           //console.log(["getAuctionProducts", response]);
           that.setState({ postList: [] });
           that.setState({
+            categoryName: categoryName,
             showSortByCategoryId: categoryId,
             postList: response.data.result,
             showPosts: true
@@ -106,7 +119,7 @@ export default class Forum extends Component<ForumProps, ForumState> {
             that.setShowSortByCategory(false);
           }
 
-          console.log(response.data);
+          console.log(["getPostByCategoryId", response.data]);
         }
       })
       .catch(function(error) {
@@ -235,16 +248,30 @@ export default class Forum extends Component<ForumProps, ForumState> {
           {this.state.postList &&
             this.state.showPosts &&
             !this.state.showPostDetails && (
-              <TouchableOpacity style={styles.buttonCloseModal}>
-                <Button
-                  title="<"
-                  onPress={() => {
-                    this.setShowSortByCategory(true);
+              <View>
+                <TouchableOpacity style={styles.buttonCloseModal}>
+                  <Button
+                    title="<"
+                    onPress={() => {
+                      this.setShowSortByCategory(true);
+                    }}
+                    color="#fff"
+                  />
+                </TouchableOpacity>
+
+                <Text
+                  style={{
+                    paddingTop: 15,
+                    paddingBottom: 20,
+                    fontSize: 18,
+                    textAlign: "center"
                   }}
-                  color="#fff"
-                />
-              </TouchableOpacity>
+                >
+                  Kategoria: {this.state.categoryName}
+                </Text>
+              </View>
             )}
+
           {this.state.postList &&
             this.state.showPosts &&
             !this.state.showPostDetails &&
@@ -270,13 +297,17 @@ export default class Forum extends Component<ForumProps, ForumState> {
               }
             )}
 
-          <TouchableHighlight style={styles.addPostBtn}>
-            <Button
-              title="Dodaj post"
-              color="#fff"
-              onPress={() => this.setShowSavePost()}
-            />
-          </TouchableHighlight>
+          {!this.state.showPostDetails &&
+            !this.state.showSavePost &&
+            this.state.showSortByCategory && (
+              <TouchableHighlight style={styles.addPostBtn}>
+                <Button
+                  title="Dodaj post"
+                  color="#fff"
+                  onPress={() => this.setShowSavePost()}
+                />
+              </TouchableHighlight>
+            )}
         </View>
       </View>
     );

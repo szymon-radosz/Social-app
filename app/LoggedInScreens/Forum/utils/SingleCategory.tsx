@@ -70,17 +70,42 @@ export default class SingleCategory extends Component<
     return (
       <View style={styles.relative}>
         <ScrollView style={styles.postDetailsContainer}>
-          {categories.map((category: any, i: number) => {
-            return (
-              <TouchableHighlight
-                onPress={() =>
-                  this.props.getPostByCategoryId(category.id, true)
-                }
-              >
-                <View style={{ borderWidth: 1, width: "100%" }}>
-                  <Text>{category.name}</Text>
-                  <Text>{category.posts.length} Posty</Text>
-                  {/*<Button
+          <Text
+            style={{
+              textAlign: "center",
+              fontSize: 18,
+              marginTop: 10,
+              marginBottom: 20
+            }}
+          >
+            Kategorie
+          </Text>
+          <View style={{ marginLeft: 10, marginRight: 10 }}>
+            {categories.map((category: any, i: number) => {
+              return (
+                <TouchableHighlight
+                  onPress={() =>
+                    this.props.getPostByCategoryId(
+                      category.id,
+                      category.name,
+                      true
+                    )
+                  }
+                >
+                  <View
+                    style={{
+                      borderWidth: 1,
+                      width: "100%",
+                      marginBottom: 10,
+                      padding: 10,
+                      borderRadius: 6
+                    }}
+                  >
+                    <Text>{category.name}</Text>
+                    <Text style={{ fontSize: 10 }}>
+                      {category.posts.length} Posty
+                    </Text>
+                    {/*<Button
                   title={category.name}
                  
                   color={
@@ -89,10 +114,11 @@ export default class SingleCategory extends Component<
                       : "#000"
                   }
                 />*/}
-                </View>
-              </TouchableHighlight>
-            );
-          })}
+                  </View>
+                </TouchableHighlight>
+              );
+            })}
+          </View>
         </ScrollView>
       </View>
     );

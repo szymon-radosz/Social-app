@@ -15,6 +15,8 @@ import { v4 as uuid } from "uuid";
 import styles from "./../style";
 import axios from "axios";
 import SavePostComment from "./SavePostComment";
+import like from "./../../../assets/images/like.png";
+import comment from "./../../../assets/images/comment.png";
 
 interface PostDetailsState {
   postTitle: string;
@@ -224,18 +226,28 @@ export default class PostDetails extends Component<
       comments
     } = this.state;
     return (
-      <View style={styles.mainModalContainer}>
-        <View style={styles.userDetailsModalContentContainer}>
-          <View style={styles.relative}>
-            <TouchableHighlight style={styles.buttonCloseModal}>
-              <Button
-                title="X"
-                color="#000"
-                onPress={() => this.props.setShowPostDetails()}
-              />
-            </TouchableHighlight>
+      <View style={{ position: "relative" }}>
+        <TouchableHighlight style={styles.buttonCloseModal}>
+          <Button
+            title="<"
+            color="#fff"
+            onPress={() => this.props.setShowPostDetails()}
+          />
+        </TouchableHighlight>
 
-            <ScrollView style={styles.postDetailsContainer}>
+        <ScrollView style={styles.postDetailsContainer}>
+          <View style={{ padding: 10 }}>
+            <View
+              style={{
+                marginLeft: 35,
+                marginTop: 10,
+                marginBottom: 20,
+                position: "relative",
+                flexWrap: "wrap",
+                alignItems: "flex-start",
+                flexDirection: "row"
+              }}
+            >
               <TouchableOpacity>
                 <Image
                   style={styles.image}
@@ -244,52 +256,191 @@ export default class PostDetails extends Component<
                   }}
                 />
               </TouchableOpacity>
-              <Text>
-                {authorName} ({authorEmail})
+              <View style={{ paddingLeft: 10 }}>
+                <Text style={{ fontSize: 16 }}>{authorName}</Text>
+                <Text style={{ fontSize: 12 }}>{authorEmail}</Text>
+              </View>
+            </View>
+            <Text style={{ fontSize: 16, marginBottom: 5 }}>{postTitle}</Text>
+            <Text style={{ marginBottom: 10 }}>{postDesc}</Text>
+            <Text style={{ marginBottom: 5, fontSize: 12 }}>
+              Utworzono: {postDate}
+            </Text>
+            <View
+              style={{
+                flexWrap: "wrap",
+                alignItems: "center",
+                flexDirection: "row",
+                marginBottom: 5,
+                marginTop: 5
+              }}
+            >
+              <View
+                style={{
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  marginBottom: 5
+                }}
+              >
+                <Text style={{ color: "#f7b67e", fontSize: 18 }}>
+                  {postVotes}
+                </Text>
+                <TouchableOpacity>
+                  <Image
+                    style={{ height: 20 }}
+                    resizeMode="contain"
+                    source={like}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View
+                style={{
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  flexDirection: "row"
+                }}
+              >
+                <Text style={{ color: "#f7b67e", fontSize: 18 }}>
+                  {comments.length}
+                </Text>
+                <TouchableOpacity>
+                  <Image
+                    style={{ height: 20 }}
+                    resizeMode="contain"
+                    source={comment}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <TouchableHighlight
+              style={{
+                height: 35,
+                width: 180,
+                marginTop: 5,
+                fontSize: 10,
+                borderRadius: 6,
+                borderColor: "#f7b67e",
+                borderWidth: 2,
+                backgroundColor: "#f7b67e",
+                marginBottom: 20,
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+              onPress={() => this.savePostVote()}
+            >
+              <Text style={{ color: "#fff", fontWeight: "bold" }}>
+                To mi się podoba!
               </Text>
-              <Text>Utworzono: {postDate}</Text>
-              <Text>{postTitle}</Text>
-              <Text>{postDesc}</Text>
-              <Text>Głosy: {postVotes}</Text>
-              <TouchableHighlight>
-                <Button
-                  title="Zagłosuj"
-                  onPress={() => this.savePostVote()}
-                  color="#000"
-                />
-              </TouchableHighlight>
-
-              {comments.map((comment: any, i: number) => {
-                return (
-                  <View style={styles.postDetailsComment}>
-                    <Text>
-                      {comment.users.name} ({comment.users.email})
-                    </Text>
-                    <Text>{comment.created_at}</Text>
-
-                    <Text>{comment.body}</Text>
-
-                    <Text>Głosy: {comment.votes.length}</Text>
-
-                    <TouchableHighlight>
-                      <Button
-                        title="Zagłosuj"
-                        onPress={() => this.saveCommentVote(comment.id)}
-                        color="#000"
+            </TouchableHighlight>
+            {/* <Text>Głosy: {postVotes}</Text>
+          <TouchableHighlight>
+            <Button
+              title="Zagłosuj"
+              onPress={() => this.savePostVote()}
+              color="#000"
+            />
+            </TouchableHighlight>*/}
+            <Text style={{ marginBottom: 10 }}>Komentarze:</Text>
+            {comments.map((comment: any, i: number) => {
+              return (
+                <View style={styles.postDetailsComment}>
+                  <View
+                    style={{
+                      flexWrap: "wrap",
+                      alignItems: "center",
+                      flexDirection: "row"
+                    }}
+                  >
+                    <TouchableOpacity>
+                      <Image
+                        style={styles.image}
+                        source={{
+                          uri: `${this.props.API_URL}userPhotos/${
+                            comment.users.photo_path
+                          }`
+                        }}
                       />
-                    </TouchableHighlight>
+                    </TouchableOpacity>
+                    <View style={{ marginLeft: 10 }}>
+                      <Text>{comment.users.name}</Text>
+                      <Text>{comment.users.email}</Text>
+                    </View>
                   </View>
-                );
-              })}
+                  <Text style={{ marginTop: 10, marginBottom: 10 }}>
+                    {comment.body}
+                  </Text>
+                  <Text style={{ marginBottom: 5, fontSize: 12 }}>
+                    {comment.created_at}
+                  </Text>
 
-              <SavePostComment
-                saveComment={this.saveComment}
-                postId={this.props.postDetailsId}
-                user={this.props.user}
-              />
-            </ScrollView>
+                  <View
+                    style={{
+                      flexWrap: "wrap",
+                      alignItems: "center",
+                      flexDirection: "row",
+                      marginBottom: 5,
+                      marginTop: 5
+                    }}
+                  >
+                    <View
+                      style={{
+                        flexWrap: "wrap",
+                        alignItems: "center",
+                        flexDirection: "row",
+                        marginBottom: 5
+                      }}
+                    >
+                      <Text style={{ color: "#f7b67e", fontSize: 18 }}>
+                        {comment.votes.length}
+                      </Text>
+                      <TouchableOpacity>
+                        <Image
+                          style={{ height: 20 }}
+                          resizeMode="contain"
+                          source={like}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+
+                  <TouchableHighlight
+                    style={{
+                      height: 35,
+                      width: 180,
+                      marginTop: 5,
+                      fontSize: 10,
+                      borderRadius: 6,
+                      borderColor: "#f7b67e",
+                      borderWidth: 2,
+                      backgroundColor: "#f7b67e",
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }}
+                    onPress={() => this.saveCommentVote(comment.id)}
+                  >
+                    <Text style={{ color: "#fff", fontWeight: "bold" }}>
+                      To mi się podoba!
+                    </Text>
+                  </TouchableHighlight>
+
+                  {/*<TouchableHighlight>
+                  <Button
+                    title="Zagłosuj"
+                    onPress={() => this.saveCommentVote(comment.id)}
+                    color="#000"
+                  />
+                </TouchableHighlight>*/}
+                </View>
+              );
+            })}
           </View>
-        </View>
+          <SavePostComment
+            saveComment={this.saveComment}
+            postId={this.props.postDetailsId}
+            user={this.props.user}
+          />
+        </ScrollView>
       </View>
     );
   }
