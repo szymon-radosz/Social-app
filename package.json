@@ -21,6 +21,7 @@
     "react-native-lightbox": "^0.8.0",
     "react-native-looped-carousel": "^0.1.13",
     "react-native-maps": "https://github.com/react-community/react-native-maps.git",
+    "react-native-snap-carousel": "^3.7.5",
     "react-navigation": "^3.3.0",
     "uuid": "^3.3.2"
   },

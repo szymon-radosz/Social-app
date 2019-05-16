@@ -12,6 +12,8 @@ import styles from "./../style";
 import Alert from "./../../../Alert/Alert";
 import { v4 as uuid } from "uuid";
 
+const leftArrow: any = require("./../../../assets/images/leftArrow.png");
+
 interface UserDetailsState {}
 
 interface UserDetailsProps {
@@ -41,11 +43,13 @@ export default class UserDetails extends Component<
   render() {
     return (
       <View style={styles.userDetails}>
-        <TouchableHighlight style={styles.buttonCloseModal}>
-          <Button
-            title="<"
-            color="#fff"
-            onPress={() => this.props.hideShowUserDetails()}
+        <TouchableHighlight
+          style={styles.buttonCloseModal}
+          onPress={() => this.props.hideShowUserDetails()}
+        >
+          <Image
+            style={{ width: 30, resizeMode: "contain" }}
+            source={leftArrow}
           />
         </TouchableHighlight>
         <View style={styles.userDetailsHeader}>

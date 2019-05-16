@@ -10,8 +10,12 @@ import {
 import { peachColor } from "./../../../assets/global/globalStyles";
 import styles from "./../style";
 import Alert from "./../../../Alert/Alert";
+import Geocode from "react-geocode";
+import rightArrowBlack from "./../../../assets/images/rightArrowBlack.png";
 
-interface UserOnListState {}
+interface UserOnListState {
+  locationDetails: any;
+}
 
 interface UserOnListProps {
   setUserDetailsId: any;
@@ -22,6 +26,8 @@ interface UserOnListProps {
     age: string;
     kids: any;
     hobbies: any;
+    lattitude: number;
+    longitude: number;
   };
   API_URL: string;
   senderId: number;
@@ -37,7 +43,51 @@ export default class UserOnList extends Component<
 > {
   constructor(props: UserOnListProps) {
     super(props);
-    this.state = {};
+    this.state = {
+      locationDetails: []
+    };
+  }
+
+  componentDidMount() {
+    let that = this;
+
+    Geocode.fromLatLng(
+      this.props.user.lattitude,
+      this.props.user.longitude
+    ).then(
+      (res: any) => {
+        let addressObj;
+        console.log(res.results[0]);
+        if (
+          res.results[0].address_components[2].long_name &&
+          res.results[0].address_components[3].long_name
+        ) {
+          console.log([
+            "addressObj",
+            res.results[0].address_components[2].long_name,
+            res.results[0].address_components[3].long_name
+          ]);
+          let cityDistrict = res.results[0].address_components[2].long_name;
+          let city = res.results[0].address_components[3].long_name;
+
+          addressObj = {
+            cityDistrict: cityDistrict,
+            city: city
+          };
+
+          console.log(addressObj);
+        } else {
+          addressObj = {
+            notFoundFullName: res.results[0].formatted_address
+          };
+        }
+
+        that.setState({ locationDetails: addressObj });
+      },
+      (error: any) => {
+        console.error(error);
+      }
+    );
   }
 
   render() {
@@ -52,19 +102,38 @@ export default class UserOnList extends Component<
               }`
             }}
           />
-          <Text style={styles.userListText}>
-            {this.props.user.name}, {this.props.user.age}
-          </Text>
-          <TouchableHighlight>
-            <Button
-              title="Podgląd"
-              color={peachColor}
+          <View style={styles.userListTextContainer}>
+            <View>
+              <Text style={styles.userListText}>
+                {this.props.user.name}, {this.props.user.age}
+              </Text>
+              <View>
+                {this.state.locationDetails.cityDistrict &&
+                  this.state.locationDetails.city && (
+                    <Text style={styles.userTextLocation}>
+                      {this.state.locationDetails.cityDistrict}
+                      {", "}
+                      {this.state.locationDetails.city}
+                    </Text>
+                  )}
+              </View>
+            </View>
+            <TouchableHighlight
               onPress={() => {
                 this.props.setShowUserDetails(this.props.user.id);
                 this.props.setUserDetailsId(this.props.user.id);
               }}
-            />
-          </TouchableHighlight>
+            >
+              <Image
+                style={{
+                  height: 20,
+                  resizeMode: "contain",
+                  justifyContent: "flex-start"
+                }}
+                source={rightArrowBlack}
+              />
+            </TouchableHighlight>
+          </View>
 
           {this.props.alertMessage != "" && (
             <Alert

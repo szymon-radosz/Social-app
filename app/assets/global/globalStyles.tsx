@@ -36,6 +36,17 @@ export const btnFullWidthContainer = {
   borderWidth: 2,
   backgroundColor: "#fff"
 };
+export const btnFullWidthFilledContainer = {
+  height: 35,
+  width: "100%",
+  marginTop: 5,
+  fontSize: 12,
+  marginBottom: 5,
+  borderRadius: lightBorderRadius,
+  borderColor: peachColor,
+  borderWidth: 2,
+  backgroundColor: peachColor
+};
 export const pageTitleBlack = {
   textAlign: "left",
   color: darkGrayColor,

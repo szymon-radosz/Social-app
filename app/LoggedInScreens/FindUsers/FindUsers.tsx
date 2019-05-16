@@ -1,11 +1,20 @@
 import React, { Component } from "react";
-import { Platform, ImageBackground, Text, View } from "react-native";
+import {
+  Platform,
+  ImageBackground,
+  Text,
+  View,
+  Button,
+  TouchableHighlight
+} from "react-native";
 import axios from "axios";
 import findUsersBg from "./../../assets/images/findUsersBgMin.jpg";
 import UserOnList from "./utils/UserOnList";
 import UserDetails from "./utils/UserDetails";
 import UserMessageBox from "./utils/UserMessageBox";
-
+import Carousel from "react-native-snap-carousel";
+import FilterModal from "./../inc/FilterModal";
+import { btnFullWidthFilledContainer } from "./../../assets/global/globalStyles";
 import { v4 as uuid } from "uuid";
 import styles from "./style";
 
@@ -19,6 +28,13 @@ interface FindUsersState {
   usersAreInTheSameConversation: boolean;
   userDetailsData: any;
   userDetailsId: number;
+  filterOptions: any;
+  filterDistance: number;
+  filterChildAge: string;
+  filterChildGender: string;
+  filterHobby: string;
+  showFilterModal: boolean;
+  filterData: any;
 }
 
 interface FindUsersProps {
@@ -39,7 +55,12 @@ export default class FindUsers extends Component<
     super(props);
     this.state = {
       userList: [],
-
+      filterData: [{ text: "test1" }, { text: "test2" }],
+      filterDistance: 0,
+      filterChildAge: "",
+      filterChildGender: "",
+      filterHobby: "",
+      showFilterModal: false,
       showUserDetails: false,
       showUserMessageBox: false,
       message: "",
@@ -47,7 +68,25 @@ export default class FindUsers extends Component<
       alertType: "",
       usersAreInTheSameConversation: false,
       userDetailsData: [],
-      userDetailsId: 0
+      userDetailsId: 0,
+      filterOptions: [
+        {
+          title: "Odległosć",
+          index: 0
+        },
+        {
+          title: "Wiek dziecka",
+          index: 1
+        },
+        {
+          title: "Płeć dziecka",
+          index: 2
+        },
+        {
+          title: "Hobby",
+          index: 2
+        }
+      ]
     };
 
     this.loadUsersNearCoords = this.loadUsersNearCoords.bind(this);
@@ -57,6 +96,34 @@ export default class FindUsers extends Component<
     this.hideShowUserMessageBox = this.hideShowUserMessageBox.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.setUserDetailsId = this.setUserDetailsId.bind(this);
+    this.setShowFilterModal = this.setShowFilterModal.bind(this);
+    this.renderItem = this.renderItem.bind(this);
+  }
+
+  setShowFilterModal = (): void => {
+    console.log("setShowFilterModal");
+    this.setState({ showFilterModal: !this.state.showFilterModal });
+  };
+
+  renderItem(item: any, index: any) {
+    console.log(item.item);
+    return (
+      <TouchableHighlight
+        style={btnFullWidthFilledContainer}
+        onPress={() => this.setShowFilterModal()}
+      >
+        <Text
+          style={{
+            fontSize: 14,
+            textAlign: "center",
+            lineHeight: 30,
+            color: "#333"
+          }}
+        >
+          {item.item.title}
+        </Text>
+      </TouchableHighlight>
+    );
   }
 
   setUserDetailsId = (id: number) => {
@@ -235,6 +302,35 @@ export default class FindUsers extends Component<
           {!showUserMessageBox &&
             !showUserDetails &&
             userList &&
+            this.state.showFilterModal && (
+              <FilterModal filterOptions={this.state.filterData} />
+            )}
+
+          {!showUserMessageBox &&
+            !showUserDetails &&
+            userList &&
+            !this.state.showFilterModal && (
+              <View>
+                <Text style={{ paddingLeft: 10, paddingTop: 10 }}>
+                  Filtruj wyniki
+                </Text>
+                <View style={{ paddingLeft: 10, paddingRight: 10 }}>
+                  <Carousel
+                    layout={"default"}
+                    activeSlideAlignment={"start"}
+                    data={this.state.filterOptions}
+                    renderItem={this.renderItem}
+                    itemWidth={100}
+                    sliderWidth={styles.fullWidth}
+                  />
+                </View>
+              </View>
+            )}
+
+          {!showUserMessageBox &&
+            !showUserDetails &&
+            userList &&
+            !this.state.showFilterModal &&
             userList.map((user: any, i: number) => {
               //console.log(`${this.props.API_URL}/userPhotos/${user.photo_path}`);
 

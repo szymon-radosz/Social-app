@@ -12,6 +12,7 @@ import {
   btnFullWidth,
   lightBorderRadius,
   fontSizeBig,
+  fontSizeSmall,
   fontSizeMedium
 } from "./../../assets/global/globalStyles";
 const fullWidth = Dimensions.get("window").width;
@@ -27,6 +28,7 @@ interface Style {
   userDetailsHeader: TextStyle;
   userDetailsImage: ImageStyle;
   userDetailsHeaderText: TextStyle;
+  userTextLocation: TextStyle;
   userDetailsContent: ViewStyle;
   userDetailsContentHeader: TextStyle;
   userDetailsContentHobbyContainer: ViewStyle;
@@ -42,17 +44,25 @@ interface Style {
   container: ViewStyle;
   userListImage: ImageStyle;
   userListText: TextStyle;
+  userListTextContainer: ViewStyle;
   userContainer: TextStyle;
   showUserDetails: TextStyle;
+  fullWidth: any;
+  fullHeight: any;
 }
 
 export default StyleSheet.create<Style>({
   pageTitle: pageTitleWhite,
   userListContainer: {
     width: "100%",
-    /*position: "relative",*/
-    flex: 1,
-    margin: 8
+    marginTop: 8,
+    marginLeft: 8,
+    marginRight: 8
+  },
+  fullWidth: fullWidth,
+  fullHeight: fullHeight,
+  userTextLocation: {
+    fontSize: 10
   },
   pageSubTitle: {
     textAlign: "center",
@@ -127,15 +137,26 @@ export default StyleSheet.create<Style>({
     alignItems: "center",
     justifyContent: "center"
   },
+  userListTextContainer: {
+    paddingLeft: 10,
+    width: "85%",
+    flexWrap: "wrap",
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
   userDetailsRedirectMessageBtn: btnFullWidth,
   buttonCloseModal: {
     position: "absolute",
-    top: 0,
-    left: 0,
+    top: -110,
+    left: 10,
+    width: 40,
+    height: 40,
     zIndex: 11,
     paddingRight: 3,
     backgroundColor: peachColor,
-    borderBottomRightRadius: lightBorderRadius
+    //borderBottomRightRadius: lightBorderRadius
+    borderRadius: 50
   },
   userMessageHeader: {
     fontSize: fontSizeBig,
@@ -164,27 +185,28 @@ export default StyleSheet.create<Style>({
   },
   userListSingleUserContainer: {
     width: "96%",
-    margin: "2%",
     borderWidth: 1,
+    flexWrap: "wrap",
     alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
+    flexDirection: "row",
+    justifyContent: "space-around",
     borderRadius: lightBorderRadius,
-    height: 180
+    paddingLeft: 10,
+    paddingRight: 10
   },
   userListSingleUserImage: {
-    width: 80,
-    height: 80,
+    width: 50,
+    height: 50,
     marginBottom: 10,
     marginTop: 10,
-    borderRadius: lightBorderRadius
+    borderRadius: 25
   },
 
   container: {
-    position: "relative",
-    flexWrap: "wrap",
+    position: "relative"
+    /*flexWrap: "wrap",
     alignItems: "flex-start",
-    flexDirection: "row"
+    flexDirection: "row"*/
   },
   userListImage: {
     width: 50,
@@ -192,8 +214,8 @@ export default StyleSheet.create<Style>({
     borderRadius: lightBorderRadius
   },
   userListText: {
-    fontSize: fontSizeMedium,
-    textAlign: "center",
+    fontSize: fontSizeSmall,
+    textAlign: "left",
     color: darkGrayColor,
     fontWeight: "400"
   },
