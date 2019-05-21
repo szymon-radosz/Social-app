@@ -1,13 +1,26 @@
 import React, { Component } from "react";
-import { TouchableOpacity, View, Text, Button, Image } from "react-native";
+import {
+  TouchableOpacity,
+  TouchableHighlight,
+  View,
+  Text,
+  Button,
+  Image
+} from "react-native";
 import styles from "./style";
 
 interface FilterModalProps {
   filterOptions: any;
+  closeFilter: any;
+  filterModalName: string;
+  filterResults: any;
 }
 
 interface FilterModalState {
-  selectedResult: string;
+  selectedResultName: string;
+  selectedResultValue: string;
+  selectedData: any;
+  selectedResultId: any;
 }
 
 export default class FilterModal extends Component<
@@ -17,21 +30,116 @@ export default class FilterModal extends Component<
   constructor(props: FilterModalProps) {
     super(props);
     this.state = {
-      selectedResult: ""
+      selectedResultName: "",
+      selectedResultValue: "",
+      selectedResultId: null,
+      selectedData: []
     };
+
+    this.setSelectedResult = this.setSelectedResult.bind(this);
+  }
+
+  setSelectedResult = (selectedResultValue: string, index: number): void => {
+    this.setState({
+      selectedResultValue: selectedResultValue,
+      selectedResultId: index
+    });
+  };
+
+  componentDidMount() {
+    let filterModalName = this.props.filterModalName;
+
+    console.log(this.props.filterOptions);
+
+    if (filterModalName === "Odległość") {
+      this.setState({
+        selectedData: this.props.filterOptions.distance,
+        selectedResultName: "Odległość"
+      });
+    } else if (filterModalName === "Wiek dziecka") {
+      this.setState({
+        selectedData: this.props.filterOptions.childAge,
+        selectedResultName: "Wiek dziecka"
+      });
+    } else if (filterModalName === "Płeć dziecka") {
+      this.setState({
+        selectedData: this.props.filterOptions.childGender,
+        selectedResultName: "Płeć dziecka"
+      });
+    } else if (filterModalName === "Hobby") {
+      this.setState({
+        selectedData: this.props.filterOptions.hobby,
+        selectedResultName: "Hobby"
+      });
+    }
   }
 
   render() {
     return (
       <View>
-        {this.props.filterOptions &&
-          this.props.filterOptions.map((option: any, i: number) => {
-            return (
-              <TouchableOpacity>
-                <Text>{option.text}</Text>
-              </TouchableOpacity>
-            );
-          })}
+        <TouchableHighlight style={styles.buttonCloseModal}>
+          <Button
+            title="<"
+            color="#fff"
+            onPress={() => this.props.closeFilter()}
+          />
+        </TouchableHighlight>
+
+        <View style={{ padding: 10 }}>
+          <Text
+            style={{
+              paddingLeft: 40,
+              paddingRight: 40,
+              fontSize: 16
+            }}
+          >
+            <Text style={{ fontWeight: "bold" }}>Filtruj:</Text>{" "}
+            {this.props.filterModalName}
+            {this.state.selectedResultValue && " - "}
+            {this.state.selectedResultValue}
+          </Text>
+          <View style={{ paddingTop: 30 }}>
+            {this.state.selectedData &&
+              this.state.selectedData.map((option: any, i: number) => {
+                return (
+                  <TouchableOpacity
+                    style={
+                      this.state.selectedResultId === i
+                        ? {
+                            borderRadius: 6,
+                            borderWidth: 1,
+                            marginBottom: 5,
+                            padding: 10,
+                            borderColor: "orange"
+                          }
+                        : {
+                            borderRadius: 6,
+                            borderWidth: 1,
+                            marginBottom: 5,
+                            padding: 10
+                          }
+                    }
+                    onPress={() => this.setSelectedResult(option.text, i)}
+                  >
+                    <Text>{option.text}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+          </View>
+        </View>
+
+        <TouchableHighlight style={styles.productDetailsBtn}>
+          <Button
+            title="Filtruj"
+            onPress={() =>
+              this.props.filterResults(
+                this.state.selectedResultName,
+                this.state.selectedResultValue
+              )
+            }
+            color="#fff"
+          />
+        </TouchableHighlight>
       </View>
     );
   }

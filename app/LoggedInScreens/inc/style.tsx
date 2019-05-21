@@ -1,5 +1,11 @@
 import { StyleSheet, ViewStyle, TextStyle, ImageStyle } from "react-native";
-import { peachColor, darkGrayColor } from "./../../assets/global/globalStyles";
+import {
+  peachColor,
+  darkGrayColor,
+  lightBorderRadius,
+  btnFullWidth
+} from "./../../assets/global/globalStyles";
+
 interface Style {
   buttonBottom: TextStyle;
   bottomPanel: ViewStyle;
@@ -8,9 +14,12 @@ interface Style {
   unreadedMessagesNotificationContainer: ViewStyle;
   unreadedMessagesNotificationDot: ImageStyle;
   unreadedMessagesNotificationDotText: TextStyle;
+  buttonCloseModal: ViewStyle;
+  productDetailsBtn: any;
 }
 
 export default StyleSheet.create<Style>({
+  productDetailsBtn: btnFullWidth,
   buttonBottom: {
     color: peachColor,
     fontWeight: "bold",
@@ -45,5 +54,14 @@ export default StyleSheet.create<Style>({
     color: darkGrayColor,
     left: 5,
     top: 2
+  },
+  buttonCloseModal: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    zIndex: 11,
+    paddingRight: 3,
+    backgroundColor: peachColor,
+    borderBottomRightRadius: lightBorderRadius
   }
 });

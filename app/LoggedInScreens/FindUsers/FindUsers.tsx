@@ -29,12 +29,18 @@ interface FindUsersState {
   userDetailsData: any;
   userDetailsId: number;
   filterOptions: any;
-  filterDistance: number;
+  filterDistance: string;
   filterChildAge: string;
   filterChildGender: string;
-  filterHobby: string;
+  filterHobbyName: string;
   showFilterModal: boolean;
-  filterData: any;
+  filterData: {
+    distance: any;
+    childAge: any;
+    childGender: any;
+    hobby: any;
+  };
+  filterModalName: string;
 }
 
 interface FindUsersProps {
@@ -55,12 +61,33 @@ export default class FindUsers extends Component<
     super(props);
     this.state = {
       userList: [],
-      filterData: [{ text: "test1" }, { text: "test2" }],
-      filterDistance: 0,
+      filterData: {
+        distance: [
+          { text: "1km" },
+          { text: "2km" },
+          { text: "5km" },
+          { text: "10km" },
+          { text: "50km" },
+          { text: "100km" }
+        ],
+        childAge: [
+          { text: "0-6 miesięcy" },
+          { text: "7-12 miesięcy" },
+          { text: "1-2 lat" },
+          { text: "2-4 lat" },
+          { text: "4-8 lat" },
+          { text: "8-12 lat" },
+          { text: "12-16 lat" }
+        ],
+        childGender: [{ text: "dziewczynka" }, { text: "chłopiec" }],
+        hobby: []
+      },
+      filterDistance: "",
       filterChildAge: "",
       filterChildGender: "",
-      filterHobby: "",
+      filterHobbyName: "",
       showFilterModal: false,
+      filterModalName: "",
       showUserDetails: false,
       showUserMessageBox: false,
       message: "",
@@ -71,7 +98,7 @@ export default class FindUsers extends Component<
       userDetailsId: 0,
       filterOptions: [
         {
-          title: "Odległosć",
+          title: "Odległość",
           index: 0
         },
         {
@@ -98,11 +125,232 @@ export default class FindUsers extends Component<
     this.setUserDetailsId = this.setUserDetailsId.bind(this);
     this.setShowFilterModal = this.setShowFilterModal.bind(this);
     this.renderItem = this.renderItem.bind(this);
+    this.getHobbiesList = this.getHobbiesList.bind(this);
+    this.getFilteredUserList = this.getFilteredUserList.bind(this);
+    this.filterResults = this.filterResults.bind(this);
+    this.removeFilter = this.removeFilter.bind(this);
   }
 
-  setShowFilterModal = (): void => {
+  filterResults = (filterName: string, filterValue: string): void => {
+    if (filterName === "Odległość") {
+      console.log(["filterResult", filterValue]);
+      this.getFilteredUserList(
+        filterValue,
+        this.state.filterChildAge,
+        this.state.filterChildGender,
+        this.state.filterHobbyName,
+        true
+      );
+    } else if (filterName === "Wiek dziecka") {
+      console.log(["filterResult", filterValue]);
+      this.getFilteredUserList(
+        this.state.filterDistance,
+        filterValue,
+        this.state.filterChildGender,
+        this.state.filterHobbyName,
+        true
+      );
+    } else if (filterName === "Płeć dziecka") {
+      console.log(["filterResult", filterValue]);
+      this.getFilteredUserList(
+        this.state.filterDistance,
+        this.state.filterChildAge,
+        filterValue,
+        this.state.filterHobbyName,
+        true
+      );
+    } else if (filterName === "Hobby") {
+      console.log(["filterResult", filterValue]);
+      this.getFilteredUserList(
+        this.state.filterDistance,
+        this.state.filterChildAge,
+        this.state.filterChildGender,
+        filterValue,
+        true
+      );
+    }
+  };
+
+  removeFilter = (filterName: string): void => {
+    if (filterName === "Odległość") {
+      console.log(["filterResult", filterName]);
+      this.getFilteredUserList(
+        "",
+        this.state.filterChildAge,
+        this.state.filterChildGender,
+        this.state.filterHobbyName,
+        false
+      );
+    } else if (filterName === "Wiek dziecka") {
+      console.log(["filterResult", filterName]);
+      this.getFilteredUserList(
+        this.state.filterDistance,
+        "",
+        this.state.filterChildGender,
+        this.state.filterHobbyName,
+        false
+      );
+    } else if (filterName === "Płeć dziecka") {
+      console.log(["filterResult", filterName]);
+      this.getFilteredUserList(
+        this.state.filterDistance,
+        this.state.filterChildAge,
+        "",
+        this.state.filterHobbyName,
+        false
+      );
+    } else if (filterName === "Hobby") {
+      console.log(["filterResult", filterName]);
+      this.getFilteredUserList(
+        this.state.filterDistance,
+        this.state.filterChildAge,
+        this.state.filterChildGender,
+        "",
+        false
+      );
+    }
+  };
+
+  setShowFilterModal = (selectedName = ""): void => {
     console.log("setShowFilterModal");
-    this.setState({ showFilterModal: !this.state.showFilterModal });
+
+    if (selectedName !== "") {
+      if (selectedName === "Hobby") {
+        console.log("selectedName: hobby");
+        this.getHobbiesList();
+      } else {
+        this.setState({
+          showFilterModal: !this.state.showFilterModal,
+          filterModalName: selectedName
+        });
+      }
+    } else {
+      this.setState({ showFilterModal: !this.state.showFilterModal });
+    }
+  };
+
+  getFilteredUserList = (
+    distance: string,
+    childAge: string,
+    childGender: string,
+    hobbyName: string,
+    showFilterModal: boolean
+  ): void => {
+    let API_URL = this.props.API_URL;
+    let userLat = this.props.user.lattitude;
+    let userLng = this.props.user.longitude;
+
+    console.log([distance, childAge, childGender, hobbyName, showFilterModal]);
+
+    let that = this;
+
+    if (distance || childAge || childGender || hobbyName) {
+      axios
+        .post(API_URL + "/api/loadUsersFilter", {
+          distance: distance,
+          childAge: childAge,
+          childGender: childGender,
+          hobbyName: hobbyName,
+          currentUserLat: userLat,
+          currentUserLng: userLng
+        })
+        .then(function(response) {
+          console.log(["loadUsersFilter", response.data]);
+          if (response.data.status === "OK") {
+            //console.log(["getAuctionProducts", response]);
+            let newDistance = "";
+            let newChildAge = "";
+            let newChildGender = "";
+            let newHobby = "";
+
+            response.data.resultParameters.map(
+              (resultParameter: any, i: number) => {
+                console.log(resultParameter);
+                //resultParameter.default means we get that parameter to loadUsersFilter
+                if (
+                  resultParameter.name === "distance" &&
+                  resultParameter.default === false
+                ) {
+                  newDistance = resultParameter.value;
+                } else if (
+                  resultParameter.name === "childAge" &&
+                  resultParameter.default === false
+                ) {
+                  newChildAge = resultParameter.value;
+                } else if (
+                  resultParameter.name === "childGender" &&
+                  resultParameter.default === false
+                ) {
+                  newChildGender = resultParameter.value;
+                } else if (
+                  resultParameter.name === "hobby" &&
+                  resultParameter.default === false
+                ) {
+                  newHobby = resultParameter.value;
+                }
+              }
+            );
+
+            console.log([newDistance, newChildAge, newChildGender, newHobby]);
+            if (showFilterModal) {
+              that.setState({
+                userList: response.data.result,
+                filterDistance: newDistance,
+                filterChildAge: newChildAge,
+                filterChildGender: newChildGender,
+                filterHobbyName: newHobby,
+                showFilterModal: !that.state.showFilterModal
+              });
+            } else {
+              that.setState({
+                userList: response.data.result,
+                filterDistance: newDistance,
+                filterChildAge: newChildAge,
+                filterChildGender: newChildGender,
+                filterHobbyName: newHobby
+              });
+            }
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    } else {
+      this.loadUsersNearCoords();
+    }
+  };
+
+  getHobbiesList = (): void => {
+    let API_URL = this.props.API_URL;
+
+    let that = this;
+
+    axios
+      .get(API_URL + "/api/hobbiesList")
+      .then(function(response) {
+        console.log(["getHobbiesList", response.data]);
+        if (response.data.status === "OK") {
+          let hobby: any = [];
+
+          response.data.result.map(async (element: any, i: number) => {
+            let hobbyObj = { text: element.name };
+
+            await hobby.push(hobbyObj);
+          });
+          console.log(["responseFinished", hobby]);
+
+          let filterData = that.state.filterData;
+          filterData.hobby = hobby;
+          that.setState({
+            filterData: filterData,
+            showFilterModal: !that.state.showFilterModal,
+            filterModalName: "Hobby"
+          });
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   };
 
   renderItem(item: any, index: any) {
@@ -110,14 +358,14 @@ export default class FindUsers extends Component<
     return (
       <TouchableHighlight
         style={btnFullWidthFilledContainer}
-        onPress={() => this.setShowFilterModal()}
+        onPress={() => this.setShowFilterModal(item.item.title)}
       >
         <Text
           style={{
             fontSize: 14,
             textAlign: "center",
             lineHeight: 30,
-            color: "#333"
+            color: "#fff"
           }}
         >
           {item.item.title}
@@ -236,7 +484,13 @@ export default class FindUsers extends Component<
           if (response.data.status === "OK") {
             console.log(response.data);
 
-            that.setState({ userList: response.data.result });
+            that.setState({
+              userList: response.data.result,
+              filterDistance: "",
+              filterChildAge: "",
+              filterChildGender: "",
+              filterHobbyName: ""
+            });
           }
         })
         .catch(function(error) {
@@ -255,7 +509,6 @@ export default class FindUsers extends Component<
     ) {
       this.loadUsersNearCoords();
     }
-    //this.loadUsersNearCoords();
   };
 
   render() {
@@ -303,7 +556,12 @@ export default class FindUsers extends Component<
             !showUserDetails &&
             userList &&
             this.state.showFilterModal && (
-              <FilterModal filterOptions={this.state.filterData} />
+              <FilterModal
+                filterOptions={this.state.filterData}
+                closeFilter={this.setShowFilterModal}
+                filterModalName={this.state.filterModalName}
+                filterResults={this.filterResults}
+              />
             )}
 
           {!showUserMessageBox &&
@@ -326,6 +584,69 @@ export default class FindUsers extends Component<
                 </View>
               </View>
             )}
+
+          {this.state.filterDistance ||
+          this.state.filterChildAge ||
+          this.state.filterChildGender ||
+          this.state.filterHobbyName ? (
+            <Text style={styles.activeFiltersText}>Aktywne filtry: </Text>
+          ) : null}
+
+          {this.state.filterDistance ? (
+            <View style={styles.removeFilterBtnContainer}>
+              <Text style={styles.removeFilterText}>
+                Odległość - {this.state.filterDistance}
+              </Text>
+              <TouchableHighlight
+                style={styles.removeFilterBtn}
+                onPress={() => this.removeFilter("Odległość")}
+              >
+                <Text style={styles.removeFilterBtnText}>-</Text>
+              </TouchableHighlight>
+            </View>
+          ) : null}
+
+          {this.state.filterChildAge ? (
+            <View style={styles.removeFilterBtnContainer}>
+              <Text style={styles.removeFilterText}>
+                Wiek dziecka - {this.state.filterChildAge}
+              </Text>
+              <TouchableHighlight
+                style={styles.removeFilterBtn}
+                onPress={() => this.removeFilter("Wiek dziecka")}
+              >
+                <Text style={styles.removeFilterBtnText}>-</Text>
+              </TouchableHighlight>
+            </View>
+          ) : null}
+
+          {this.state.filterChildGender ? (
+            <View style={styles.removeFilterBtnContainer}>
+              <Text style={styles.removeFilterText}>
+                Płeć dziecka - {this.state.filterChildGender}
+              </Text>
+              <TouchableHighlight
+                style={styles.removeFilterBtn}
+                onPress={() => this.removeFilter("Płeć dziecka")}
+              >
+                <Text style={styles.removeFilterBtnText}>-</Text>
+              </TouchableHighlight>
+            </View>
+          ) : null}
+
+          {this.state.filterHobbyName ? (
+            <View style={styles.removeFilterBtnContainer}>
+              <Text style={styles.removeFilterText}>
+                Hobby - {this.state.filterHobbyName}
+              </Text>
+              <TouchableHighlight
+                style={styles.removeFilterBtn}
+                onPress={() => this.removeFilter("Hobby")}
+              >
+                <Text style={styles.removeFilterBtnText}>-</Text>
+              </TouchableHighlight>
+            </View>
+          ) : null}
 
           {!showUserMessageBox &&
             !showUserDetails &&
