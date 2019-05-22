@@ -125,7 +125,7 @@ export default StyleSheet.create<Style>({
   pageTitle: pageTitleWhite,
   conversationBoxContainer: { borderWidth: 1, width: "100%" },
   image: { width: 45, height: 45 },
-  unreadedConversation: { color: peachColor, textAlign: "left" },
+  unreadedConversation: { color: peachColor, textAlign: "left", fontSize: 12 },
   readedConversation: { color: "#333", textAlign: "left", fontSize: 12 },
   senderBox: {
     width: "80%",

@@ -127,12 +127,14 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
     } = this.state;
     return (
       <View>
-        <ImageBackground source={auctionsBg} style={{ width: "100%" }}>
-          <Text style={styles.pageTitle}>Sprzedawaj i{"\n"}kupuj</Text>
-        </ImageBackground>
+        {!displayProductDetails && !displayNewProductBox && (
+          <ImageBackground source={auctionsBg} style={{ width: "100%" }}>
+            <Text style={styles.pageTitle}>Sprzedawaj i{"\n"}kupuj</Text>
+          </ImageBackground>
+        )}
         {!displayProductDetails && !displayNewProductBox && (
           <View>
-            <View style={styles.container}>
+            <View style={{ padding: 10 }}>
               {productList &&
                 productList.map((product: any, i: number) => {
                   console.log(["uuid", uuid()]);

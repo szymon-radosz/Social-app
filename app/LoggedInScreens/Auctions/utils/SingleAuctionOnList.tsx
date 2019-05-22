@@ -36,10 +36,16 @@ export default class SingleAuctionOnList extends Component<
             this.props.product.user_id
           );
         }}
-        style={styles.productListSingleProductContainer}
       >
-        <View>
-          <TouchableOpacity>
+        <View style={styles.productListSingleProductContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              this.props.setSelectedProduct(
+                this.props.product.id,
+                this.props.product.user_id
+              );
+            }}
+          >
             <Image
               style={styles.productListSingleProductImage}
               source={{
@@ -49,7 +55,7 @@ export default class SingleAuctionOnList extends Component<
               }}
             />
           </TouchableOpacity>
-          <View style={styles.productOnListTextContainer}>
+          <View style={styles.productListSingleProductTextContainer}>
             <Text style={styles.productOnListTextName}>
               {this.props.product.name}
             </Text>

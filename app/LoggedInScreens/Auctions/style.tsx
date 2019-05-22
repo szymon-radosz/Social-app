@@ -21,6 +21,7 @@ const fullHeight = Dimensions.get("window").height;
 interface Style {
   productOnListTextName: TextStyle;
   productOnListTextCategory: TextStyle;
+  productListSingleProductTextContainer: ViewStyle;
   productOnListTextPrice: TextStyle;
   productHeaderText: TextStyle;
   bold: TextStyle;
@@ -67,16 +68,20 @@ interface Style {
 
 export default StyleSheet.create<Style>({
   productOnListTextName: {
-    textAlign: "center",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    textAlign: "left",
+    color: "#333"
   },
-
   productDetailsBtn: btnFullWidth,
   productOnListTextCategory: {
-    textAlign: "center"
+    color: "#333",
+    textAlign: "left",
+    fontSize: 12
   },
   productOnListTextPrice: {
-    textAlign: "center"
+    color: "#333",
+    textAlign: "left",
+    fontSize: 12
   },
   pageTitle: pageTitleBlack,
   pageSubTitle: {
@@ -91,20 +96,29 @@ export default StyleSheet.create<Style>({
     alignItems: "flex-start",
     flexDirection: "row"
   },
+  productListSingleProductTextContainer: {
+    paddingLeft: 10,
+    width: "75%"
+  },
   productListSingleProductContainer: {
-    padding: 10,
-    width: "46%",
-    margin: "2%",
+    width: "100%",
     borderWidth: 1,
-    borderRadius: lightBorderRadius
+    flexWrap: "wrap",
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    borderRadius: lightBorderRadius,
+    marginBottom: 10,
+    paddingLeft: 10
   },
   productListSingleProductImage: {
-    width: 80,
-    height: 80,
+    width: 50,
+    height: 50,
     marginBottom: 10,
+    marginTop: 10,
     marginLeft: "auto",
     marginRight: "auto",
-    borderRadius: lightBorderRadius
+    borderRadius: 25
   },
   productListSingleProductBtn: {
     height: 35,
