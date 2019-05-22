@@ -210,6 +210,7 @@ export default StyleSheet.create<Style>({
   },
   removeFilterBtnContainer: {
     margin: 5,
+    paddingLeft: 5,
     flexDirection: "row",
     flexWrap: "wrap"
   },

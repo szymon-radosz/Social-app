@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { TouchableOpacity, Text, View } from "react-native";
 import styles from "./../style";
+import moment from "moment";
+import "moment/locale/pl";
 
 interface SingleConversationMessageState {
   isCurrentUserTheSender: boolean;
@@ -54,6 +56,8 @@ export default class SingleConversationMessage extends Component<
 
   render() {
     const { isCurrentUserTheSender, showMessageDate } = this.state;
+
+    const messageDate = moment(this.props.message.created_at).format("LLL");
     return (
       <View>
         <TouchableOpacity
@@ -77,7 +81,7 @@ export default class SingleConversationMessage extends Component<
                 : styles.messageDateReceiver
             }
           >
-            Data dodania: {this.props.message.created_at}
+            Data dodania: {messageDate}
           </Text>
         )}
         {/*<View style={{ borderBottomWidth: 1 }} />*/}

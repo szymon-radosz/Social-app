@@ -22,10 +22,12 @@ interface Style {
   productListSingleProductContainer: ViewStyle;
   singleButtonCol2Container: ViewStyle;
   filterBtnContainer: ViewStyle;
+  messageDetailsContainer: ViewStyle;
   messagesList: ViewStyle;
   productListSingleProductImage: ImageStyle;
   userListContainer: ViewStyle;
-  filterBtnActive: any;
+  filterBtnActive: TextStyle;
+  productListSingleProductTextContainer: ViewStyle;
   conversationBoxContainer: ViewStyle;
   image: ImageStyle;
   unreadedConversation: TextStyle;
@@ -38,9 +40,14 @@ interface Style {
   viewContainer: ViewStyle;
   sendMessageBtn: any;
   sendMessage: ViewStyle;
+  messageListContainer: ViewStyle;
 }
 
 export default StyleSheet.create<Style>({
+  messageListContainer: {
+    paddingLeft: 10,
+    paddingRight: 10
+  },
   container: {
     position: "relative",
     flexWrap: "wrap",
@@ -48,16 +55,33 @@ export default StyleSheet.create<Style>({
     flexDirection: "row"
   },
   sendMessageBtn: btnFullWidth,
-  filterBtnText: { color: "#333", textAlign: "center", paddingTop: 7 },
-  filterBtnTextActive: { color: "#fff", textAlign: "center", paddingTop: 7 },
-  filterBtnActive: btnFullActiveWidthContainer,
+  filterBtnText: { color: "#9F9F9F", textAlign: "center", paddingTop: 7 },
+  filterBtnTextActive: { color: "#000", textAlign: "center", paddingTop: 7 },
+  filterBtnActive: {
+    borderBottomColor: peachColor,
+    borderBottomWidth: 3,
+    paddingBottom: 20
+  },
   filterBtnContainer: {
     position: "relative",
     flexWrap: "wrap",
     alignItems: "flex-start",
-    flexDirection: "row"
+    flexDirection: "row",
+    borderBottomColor: "#E5E5E5",
+    borderBottomWidth: 1,
+    marginBottom: 10
   },
-  filterBtn: btnFullWidthContainer,
+  filterBtn: { paddingBottom: 20 },
+  messageDetailsContainer: {
+    position: "relative",
+    flexWrap: "wrap",
+    alignItems: "flex-start",
+    flexDirection: "row",
+    paddingBottom: 10,
+    borderBottomColor: "#E5E5E5",
+    borderBottomWidth: 1,
+    marginBottom: 5
+  },
   pageSubTitle: {
     textAlign: "center",
     color: "#333",
@@ -66,12 +90,16 @@ export default StyleSheet.create<Style>({
     paddingBottom: 20
   },
   productListSingleProductImage: {
-    width: 80,
-    height: 80,
+    width: 50,
+    height: 50,
     marginBottom: 10,
-    marginLeft: "auto",
-    marginRight: "auto",
-    borderRadius: lightBorderRadius
+    marginTop: 10,
+    paddingLeft: 10,
+    borderRadius: 25
+  },
+  productListSingleProductTextContainer: {
+    paddingLeft: 10,
+    width: "85%"
   },
   userListSingleUserContainer: {
     width: "96%",
@@ -97,8 +125,8 @@ export default StyleSheet.create<Style>({
   pageTitle: pageTitleWhite,
   conversationBoxContainer: { borderWidth: 1, width: "100%" },
   image: { width: 45, height: 45 },
-  unreadedConversation: { color: peachColor, textAlign: "center" },
-  readedConversation: { color: "#333", textAlign: "center" },
+  unreadedConversation: { color: peachColor, textAlign: "left" },
+  readedConversation: { color: "#333", textAlign: "left", fontSize: 12 },
   senderBox: {
     width: "80%",
     textAlign: "right",
@@ -112,15 +140,21 @@ export default StyleSheet.create<Style>({
     borderRadius: 10
   },
   productListSingleProductContainer: {
-    padding: 10,
-    width: "46%",
-    margin: "2%",
+    width: "100%",
     borderWidth: 1,
-    borderRadius: lightBorderRadius
+    flexWrap: "wrap",
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    borderRadius: lightBorderRadius,
+    marginBottom: 10,
+    paddingLeft: 10
   },
   singleButtonCol2Container: {
     width: "46%",
-    margin: "2%"
+    marginLeft: "2%",
+    marginRight: "2%",
+    marginTop: "3%"
   },
   receiverBox: {
     width: "80%",
@@ -137,7 +171,7 @@ export default StyleSheet.create<Style>({
     width: "80%",
     textAlign: "right",
     alignSelf: "flex-end",
-    fontSize: 12,
+    fontSize: 10,
     marginRight: 10
   },
   messageDateReceiver: {
@@ -148,10 +182,10 @@ export default StyleSheet.create<Style>({
     marginLeft: 10
   },
   viewContainer: {
-    width: "100%",
-    flex: 1,
+    width: "100%"
+    /*flex: 1,
     flexDirection: "column",
-    justifyContent: "space-between"
+    justifyContent: "space-between"*/
   },
   sendMessage: {}
 });

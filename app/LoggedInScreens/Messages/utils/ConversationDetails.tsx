@@ -69,7 +69,7 @@ export default class ConversationDetails extends Component<
     const { messages } = this.state;
     return (
       <View style={styles.viewContainer}>
-        <View style={styles.filterBtnContainer}>
+        <View style={styles.messageDetailsContainer}>
           <TouchableOpacity>
             <Image
               style={{
@@ -78,7 +78,7 @@ export default class ConversationDetails extends Component<
                 marginTop: 10,
                 marginLeft: 10,
                 marginRight: 10,
-                borderRadius: 6
+                borderRadius: 25
               }}
               source={{
                 uri: `${this.props.API_URL}userPhotos/${
@@ -94,7 +94,7 @@ export default class ConversationDetails extends Component<
           </Text>
         </View>
         {/* <Text>Sender: {this.props.senderId}</Text>*/}
-        <View style={{ marginTop: 30 }}>
+        <View>
           {messages &&
             messages.map((message: any, i: number) => {
               return (

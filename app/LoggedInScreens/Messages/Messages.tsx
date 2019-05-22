@@ -194,15 +194,14 @@ export default class FillNecessaryInfo extends Component<
     const { displayPrivateMessages, showFilterPanel } = this.state;
     return (
       <View>
-        <ImageBackground source={messagesBgMin} style={{ width: "100%" }}>
-          <Text style={styles.pageTitle}>Twoje{"\n"}Wiadomości</Text>
-        </ImageBackground>
+        {!this.state.openConversationDetails && (
+          <ImageBackground source={messagesBgMin} style={{ width: "100%" }}>
+            <Text style={styles.pageTitle}>Twoje{"\n"}Wiadomości</Text>
+          </ImageBackground>
+        )}
 
         {showFilterPanel && (
           <View>
-            <Text style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 10 }}>
-              Pokaż wiadomości
-            </Text>
             <View style={styles.filterBtnContainer}>
               <View style={styles.singleButtonCol2Container}>
                 <TouchableOpacity
@@ -240,7 +239,7 @@ export default class FillNecessaryInfo extends Component<
                         : styles.filterBtnText
                     }
                   >
-                    Dotyczące przedmiotów
+                    Targ
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -248,7 +247,7 @@ export default class FillNecessaryInfo extends Component<
           </View>
         )}
 
-        <View style={styles.container}>
+        <View style={styles.messageListContainer}>
           {this.state.messagesList &&
             !this.state.openConversationDetails &&
             this.state.messagesList.map((conversation: any, i: number) => {
@@ -262,22 +261,22 @@ export default class FillNecessaryInfo extends Component<
                 />
               );
             })}
-
-          {this.state.openConversationDetails && (
-            <ConversationDetails
-              messages={this.state.openConversationMessages}
-              currentUser={this.props.user}
-              receiverId={this.state.receiverId}
-              receiverName={this.state.receiverName}
-              receiverEmail={this.state.receiverEmail}
-              receiverPhotoPath={this.state.receiverPhotoPath}
-              API_URL={this.props.API_URL}
-              // @ts-ignore
-              sendMessage={this.sendMessage}
-              clearUserUnreadedMessages={this.props.clearUserUnreadedMessages}
-            />
-          )}
         </View>
+
+        {this.state.openConversationDetails && (
+          <ConversationDetails
+            messages={this.state.openConversationMessages}
+            currentUser={this.props.user}
+            receiverId={this.state.receiverId}
+            receiverName={this.state.receiverName}
+            receiverEmail={this.state.receiverEmail}
+            receiverPhotoPath={this.state.receiverPhotoPath}
+            API_URL={this.props.API_URL}
+            // @ts-ignore
+            sendMessage={this.sendMessage}
+            clearUserUnreadedMessages={this.props.clearUserUnreadedMessages}
+          />
+        )}
       </View>
     );
   }

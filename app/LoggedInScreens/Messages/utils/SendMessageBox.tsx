@@ -40,10 +40,17 @@ export default class SendMessageBox extends Component<
           {this.props.senderId};{this.props.receiverId};
           {this.props.conversationId}
         </Text>*/}
+        <View
+          style={{
+            borderTopColor: "#E5E5E5",
+            borderTopWidth: 1,
+            marginTop: 5
+          }}
+        />
 
         <TextInput
           style={{
-            marginTop: 30,
+            marginTop: 10,
             marginLeft: 10,
             marginRight: 10,
             padding: 10,

@@ -523,12 +523,16 @@ export default class FindUsers extends Component<
     } = this.state;
     return (
       <View>
-        <ImageBackground source={findUsersBg} style={{ width: "100%" }}>
-          <Text style={styles.pageTitle}>
-            Poznaj mamy
-            {"\n"}w okolicy.
-          </Text>
-        </ImageBackground>
+        {!this.state.showFilterModal &&
+          !showUserDetails &&
+          !showUserMessageBox && (
+            <ImageBackground source={findUsersBg} style={{ width: "100%" }}>
+              <Text style={styles.pageTitle}>
+                Poznaj mamy
+                {"\n"}w okolicy.
+              </Text>
+            </ImageBackground>
+          )}
 
         <View style={styles.container}>
           {showUserDetails && !showUserMessageBox && userDetailsData && (
@@ -555,18 +559,6 @@ export default class FindUsers extends Component<
           {!showUserMessageBox &&
             !showUserDetails &&
             userList &&
-            this.state.showFilterModal && (
-              <FilterModal
-                filterOptions={this.state.filterData}
-                closeFilter={this.setShowFilterModal}
-                filterModalName={this.state.filterModalName}
-                filterResults={this.filterResults}
-              />
-            )}
-
-          {!showUserMessageBox &&
-            !showUserDetails &&
-            userList &&
             !this.state.showFilterModal && (
               <View>
                 <Text style={{ paddingLeft: 10, paddingTop: 10 }}>
@@ -588,11 +580,13 @@ export default class FindUsers extends Component<
           {this.state.filterDistance ||
           this.state.filterChildAge ||
           this.state.filterChildGender ||
-          this.state.filterHobbyName ? (
-            <Text style={styles.activeFiltersText}>Aktywne filtry: </Text>
-          ) : null}
+          this.state.filterHobbyName
+            ? !this.state.showFilterModal && (
+                <Text style={styles.activeFiltersText}>Aktywne filtry: </Text>
+              )
+            : null}
 
-          {this.state.filterDistance ? (
+          {this.state.filterDistance && !this.state.showFilterModal ? (
             <View style={styles.removeFilterBtnContainer}>
               <Text style={styles.removeFilterText}>
                 Odległość - {this.state.filterDistance}
@@ -606,7 +600,7 @@ export default class FindUsers extends Component<
             </View>
           ) : null}
 
-          {this.state.filterChildAge ? (
+          {this.state.filterChildAge && !this.state.showFilterModal ? (
             <View style={styles.removeFilterBtnContainer}>
               <Text style={styles.removeFilterText}>
                 Wiek dziecka - {this.state.filterChildAge}
@@ -620,7 +614,7 @@ export default class FindUsers extends Component<
             </View>
           ) : null}
 
-          {this.state.filterChildGender ? (
+          {this.state.filterChildGender && !this.state.showFilterModal ? (
             <View style={styles.removeFilterBtnContainer}>
               <Text style={styles.removeFilterText}>
                 Płeć dziecka - {this.state.filterChildGender}
@@ -634,7 +628,7 @@ export default class FindUsers extends Component<
             </View>
           ) : null}
 
-          {this.state.filterHobbyName ? (
+          {this.state.filterHobbyName && !this.state.showFilterModal ? (
             <View style={styles.removeFilterBtnContainer}>
               <Text style={styles.removeFilterText}>
                 Hobby - {this.state.filterHobbyName}
@@ -647,6 +641,18 @@ export default class FindUsers extends Component<
               </TouchableHighlight>
             </View>
           ) : null}
+
+          {!showUserMessageBox &&
+            !showUserDetails &&
+            userList &&
+            this.state.showFilterModal && (
+              <FilterModal
+                filterOptions={this.state.filterData}
+                closeFilter={this.setShowFilterModal}
+                filterModalName={this.state.filterModalName}
+                filterResults={this.filterResults}
+              />
+            )}
 
           {!showUserMessageBox &&
             !showUserDetails &&
