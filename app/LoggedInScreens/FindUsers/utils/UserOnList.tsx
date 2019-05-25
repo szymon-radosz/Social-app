@@ -92,57 +92,64 @@ export default class UserOnList extends Component<
 
   render() {
     return (
-      <View style={styles.userListContainer}>
-        <View style={styles.userListSingleUserContainer}>
-          <Image
-            style={styles.userListSingleUserImage}
-            source={{
-              uri: `${this.props.API_URL}userPhotos/${
-                this.props.user.photo_path
-              }`
-            }}
-          />
-          <View style={styles.userListTextContainer}>
-            <View>
-              <Text style={styles.userListText}>
-                {this.props.user.name}, {this.props.user.age}
-              </Text>
-              <View>
-                {this.state.locationDetails.cityDistrict &&
-                  this.state.locationDetails.city && (
-                    <Text style={styles.userTextLocation}>
-                      {this.state.locationDetails.cityDistrict}
-                      {", "}
-                      {this.state.locationDetails.city}
-                    </Text>
-                  )}
-              </View>
-            </View>
-            <TouchableHighlight
-              onPress={() => {
-                this.props.setShowUserDetails(this.props.user.id);
-                this.props.setUserDetailsId(this.props.user.id);
+      <TouchableHighlight
+        onPress={() => {
+          this.props.setShowUserDetails(this.props.user.id);
+          this.props.setUserDetailsId(this.props.user.id);
+        }}
+      >
+        <View style={styles.userListContainer}>
+          <View style={styles.userListSingleUserContainer}>
+            <Image
+              style={styles.userListSingleUserImage}
+              source={{
+                uri: `${this.props.API_URL}userPhotos/${
+                  this.props.user.photo_path
+                }`
               }}
-            >
-              <Image
-                style={{
-                  height: 20,
-                  resizeMode: "contain",
-                  justifyContent: "flex-start"
-                }}
-                source={rightArrowBlack}
-              />
-            </TouchableHighlight>
-          </View>
-
-          {this.props.alertMessage != "" && (
-            <Alert
-              alertType={this.props.alertType}
-              alertMessage={this.props.alertMessage}
             />
-          )}
+            <View style={styles.userListTextContainer}>
+              <View>
+                <Text style={styles.userListText}>
+                  {this.props.user.name}, {this.props.user.age}
+                </Text>
+                <View>
+                  {this.state.locationDetails.cityDistrict &&
+                    this.state.locationDetails.city && (
+                      <Text style={styles.userTextLocation}>
+                        {this.state.locationDetails.cityDistrict}
+                        {", "}
+                        {this.state.locationDetails.city}
+                      </Text>
+                    )}
+                </View>
+              </View>
+              <TouchableHighlight
+                onPress={() => {
+                  this.props.setShowUserDetails(this.props.user.id);
+                  this.props.setUserDetailsId(this.props.user.id);
+                }}
+              >
+                <Image
+                  style={{
+                    height: 20,
+                    resizeMode: "contain",
+                    justifyContent: "flex-start"
+                  }}
+                  source={rightArrowBlack}
+                />
+              </TouchableHighlight>
+            </View>
+
+            {this.props.alertMessage != "" && (
+              <Alert
+                alertType={this.props.alertType}
+                alertMessage={this.props.alertMessage}
+              />
+            )}
+          </View>
         </View>
-      </View>
+      </TouchableHighlight>
     );
   }
 }

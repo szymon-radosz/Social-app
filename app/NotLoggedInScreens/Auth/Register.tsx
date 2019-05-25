@@ -111,7 +111,9 @@ export default class Register extends Component<
     } = this.state;
     return (
       <View style={styles.container}>
-        <Text style={styles.headerText}>Rejestracja</Text>
+        <Text
+          style={styles.headerText}
+        >{`Dołącz do naszej \nspołeczności!`}</Text>
 
         <TextInput
           style={styles.input}
@@ -148,7 +150,7 @@ export default class Register extends Component<
         />
         <TouchableHighlight style={styles.mainBtn}>
           <Button
-            title="Zarejestruj mnie"
+            title="Zarejestruj"
             color="#fff"
             onPress={() => this.registerUser()}
           />

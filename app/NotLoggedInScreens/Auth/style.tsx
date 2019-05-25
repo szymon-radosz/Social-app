@@ -24,11 +24,11 @@ export default StyleSheet.create<Style>({
   container: { flex: 1, alignItems: "center" },
   headerText: {
     textAlign: "center",
-    color: darkGrayColor,
+    color: "#000",
     fontWeight: "600",
     fontSize: fontSizeBig,
-    marginTop: 40,
-    paddingBottom: 20
+    marginTop: 50,
+    paddingBottom: 50
   },
   logoDesc: {
     textAlign: "center",
@@ -42,8 +42,8 @@ export default StyleSheet.create<Style>({
     marginBottom: 10,
     borderRadius: lightBorderRadius,
     height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
+    borderColor: "#d8d8d8",
+    borderWidth: 2,
     paddingLeft: 10,
     paddingRight: 10
   },

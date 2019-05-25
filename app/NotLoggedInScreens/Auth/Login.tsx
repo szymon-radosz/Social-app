@@ -130,7 +130,7 @@ export default class Login extends Component<
 
     return (
       <View style={styles.container}>
-        <Text style={styles.headerText}>Logowanie</Text>
+        <Text style={styles.headerText}>{`Miło Cię widzieć \nponownie!`}</Text>
 
         <TextInput
           style={styles.input}
@@ -160,7 +160,7 @@ export default class Login extends Component<
 
         <TouchableHighlight style={styles.subMainBtn}>
           <Button
-            title="Zarejestruj się za darmo"
+            title="Zarejestruj się"
             color={peachColor}
             onPress={() =>
               navigation.navigate("Register", {

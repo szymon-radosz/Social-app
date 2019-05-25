@@ -26,6 +26,7 @@ interface FindUsersState {
   alertMessage: string;
   alertType: string;
   usersAreInTheSameConversation: boolean;
+  usersFriendshipStatus: string;
   userDetailsData: any;
   userDetailsId: number;
   filterOptions: any;
@@ -94,6 +95,7 @@ export default class FindUsers extends Component<
       alertMessage: "",
       alertType: "",
       usersAreInTheSameConversation: false,
+      usersFriendshipStatus: "",
       userDetailsData: [],
       userDetailsId: 0,
       filterOptions: [
@@ -129,6 +131,8 @@ export default class FindUsers extends Component<
     this.getFilteredUserList = this.getFilteredUserList.bind(this);
     this.filterResults = this.filterResults.bind(this);
     this.removeFilter = this.removeFilter.bind(this);
+    this.inviteFriend = this.inviteFriend.bind(this);
+    this.confirmFriend = this.confirmFriend.bind(this);
   }
 
   filterResults = (filterName: string, filterValue: string): void => {
@@ -452,6 +456,26 @@ export default class FindUsers extends Component<
           alertMessage: "Nie udało się pobrać danych o uzytkowniku"
         });
       });
+
+    //check friendship status
+    axios
+      .post(API_URL + "/api/checkFriend", {
+        senderId: loggedInUser,
+        receiverId: userId
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          console.log(["checkFriend", response.data.result.friendship]);
+
+          that.setState({
+            usersFriendshipStatus: response.data.result.friendship
+          });
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
     this.setState({ showUserDetails: true, showUserMessageBox: false });
   };
 
@@ -465,6 +489,54 @@ export default class FindUsers extends Component<
 
   hideShowUserMessageBox = (): void => {
     this.setState({ showUserMessageBox: false, showUserDetails: true });
+  };
+
+  confirmFriend = (senderId: number, receiverId: number): void => {
+    let API_URL = this.props.API_URL;
+
+    let that = this;
+
+    axios
+      .post(API_URL + "/api/confirmFriend", {
+        senderId: senderId,
+        receiverId: receiverId
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          console.log(["confirmFriend", response.data.result.confirmed]);
+
+          that.setState({
+            usersFriendshipStatus: "confirmed"
+          });
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+
+  inviteFriend = (senderId: number, receiverId: number): void => {
+    let API_URL = this.props.API_URL;
+
+    let that = this;
+
+    axios
+      .post(API_URL + "/api/inviteFriend", {
+        senderId: senderId,
+        receiverId: receiverId
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          console.log(["inviteFriend", response.data.result]);
+
+          that.setState({
+            usersFriendshipStatus: "not confirmed by second person"
+          });
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   };
 
   loadUsersNearCoords = (): void => {
@@ -541,10 +613,14 @@ export default class FindUsers extends Component<
               API_URL={this.props.API_URL}
               user={userDetailsData}
               usersAreInTheSameConversation={usersAreInTheSameConversation}
+              usersFriendshipStatus={this.state.usersFriendshipStatus}
               openMessages={this.props.openMessages}
               setShowUserMessageBox={this.setShowUserMessageBox}
               alertMessage={alertMessage}
               alertType={alertType}
+              inviteFriend={this.inviteFriend}
+              confirmFriend={this.confirmFriend}
+              loggedInUserId={this.props.user.id}
             />
           )}
           {showUserMessageBox && !showUserDetails && userDetailsData && (

@@ -206,12 +206,14 @@ export default class Forum extends Component<ForumProps, ForumState> {
   render() {
     return (
       <View style={styles.container}>
-        <ImageBackground source={forumBg} style={{ width: "100%" }}>
-          <Text style={styles.pageTitle}>
-            Podziel się swoją
-            {"\n"}wiedzą.
-          </Text>
-        </ImageBackground>
+        {!this.state.showPostDetails && !this.state.showPosts && (
+          <ImageBackground source={forumBg} style={{ width: "100%" }}>
+            <Text style={styles.pageTitle}>
+              Podziel się swoją
+              {"\n"}wiedzą.
+            </Text>
+          </ImageBackground>
+        )}
 
         <View style={{ width: "100%" }}>
           {this.state.showPostDetails &&

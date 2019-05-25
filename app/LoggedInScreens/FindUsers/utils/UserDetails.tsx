@@ -11,20 +11,26 @@ import {
 import styles from "./../style";
 import Alert from "./../../../Alert/Alert";
 import { v4 as uuid } from "uuid";
+import moment from "moment";
+import "moment/locale/pl";
 
 const leftArrow: any = require("./../../../assets/images/leftArrow.png");
 
 interface UserDetailsState {}
 
 interface UserDetailsProps {
+  loggedInUserId: number;
   hideShowUserDetails: any;
   API_URL: string;
   user: any;
   usersAreInTheSameConversation: boolean;
+  usersFriendshipStatus: string;
   openMessages: any;
   setShowUserMessageBox: any;
   alertMessage: string;
   alertType: string;
+  inviteFriend: any;
+  confirmFriend: any;
 }
 
 export default class UserDetails extends Component<
@@ -72,12 +78,26 @@ export default class UserDetails extends Component<
           {this.props.user.kids &&
             this.props.user.kids.length > 0 &&
             this.props.user.kids.map(
-              (kid: { name: string; date_of_birth: string }) => {
-                return (
-                  <Text key={uuid()}>
-                    {kid.name} - {kid.date_of_birth}
-                  </Text>
-                );
+              (kid: {
+                name: string;
+                date_of_birth: string;
+                child_gender: string;
+              }) => {
+                if (kid.child_gender === "male") {
+                  return (
+                    <Text key={uuid()}>
+                      {kid.name} - chłopiec - ur.{" "}
+                      {moment(kid.date_of_birth).format("LL")}
+                    </Text>
+                  );
+                } else {
+                  return (
+                    <Text key={uuid()}>
+                      {kid.name} - dziewczynka - ur.{" "}
+                      {moment(kid.date_of_birth).format("LL")}
+                    </Text>
+                  );
+                }
               }
             )}
         </View>
@@ -111,6 +131,59 @@ export default class UserDetails extends Component<
                 onPress={() => this.props.setShowUserMessageBox()}
               />
             )}
+          </TouchableHighlight>
+        </View>
+        <View style={styles.userDetailsRedirectMessageBtnContainer}>
+          <TouchableHighlight style={styles.userDetailsRedirectMessageBtn}>
+            <View>
+              {this.props.usersFriendshipStatus ===
+                "friendship doesnt exist" && (
+                <Button
+                  title="Zaproś do znajomych"
+                  color="#fff"
+                  onPress={() =>
+                    this.props.inviteFriend(
+                      this.props.loggedInUserId,
+                      this.props.user.id
+                    )
+                  }
+                />
+              )}
+
+              {this.props.usersFriendshipStatus ===
+                "not confirmed by first person" && (
+                <Button
+                  title="Zaakceptuj zaproszenie do znajomych"
+                  color="#fff"
+                  onPress={() =>
+                    this.props.confirmFriend(
+                      this.props.loggedInUserId,
+                      this.props.user.id
+                    )
+                  }
+                />
+              )}
+
+              {this.props.usersFriendshipStatus ===
+                "not confirmed by second person" && (
+                <Button
+                  title="Wysłano zaproszenie do znajomych"
+                  color="#fff"
+                  onPress={() => {
+                    console.log("Wysłano zaproszenie do znajomych");
+                  }}
+                />
+              )}
+              {this.props.usersFriendshipStatus === "confirmed" && (
+                <Button
+                  title="Jesteście znajomymi"
+                  color="#fff"
+                  onPress={() => {
+                    console.log("Jesteście znajomymi");
+                  }}
+                />
+              )}
+            </View>
           </TouchableHighlight>
         </View>
 

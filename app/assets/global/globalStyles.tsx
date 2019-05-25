@@ -18,7 +18,7 @@ export const btnFullWidth = {
   height: 45,
   width: "94%",
   marginTop: 15,
-  marginBottom: 15,
+  marginBottom: 0,
   marginLeft: "3%",
   marginRight: "3%",
   borderRadius: lightBorderRadius,
