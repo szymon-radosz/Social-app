@@ -539,6 +539,30 @@ export default class FindUsers extends Component<
       });
   };
 
+  /*inviteFriend = (senderId: number, receiverId: number): void => {
+    let API_URL = this.props.API_URL;
+
+    let that = this;
+
+    axios
+      .post(API_URL + "/api/inviteFriend", {
+        senderId: senderId,
+        receiverId: receiverId
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          console.log(["inviteFriend", response.data.result]);
+
+          that.setState({
+            usersFriendshipStatus: "not confirmed by second person"
+          });
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };*/
+
   loadUsersNearCoords = (): void => {
     try {
       let API_URL = this.props.API_URL;

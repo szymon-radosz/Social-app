@@ -36,7 +36,7 @@ export default StyleSheet.create<Style>({
   },
   inActiveWelcomeSlideRect: {
     backgroundColor: "#e5e5e5",
-    width: 35,
+    width: 15,
     marginTop: 100
   },
   welcomeSlide: {
