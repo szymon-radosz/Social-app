@@ -1,10 +1,12 @@
-import React, { Component } from "react";
+import React, { Component, Suspense } from "react";
 import { Platform, Text, View, TouchableHighlight } from "react-native";
 import ProfileHeader from "./utils/ProfileHeader";
 import ProfileOptions from "./utils/ProfileOptions";
 import styles from "./style";
 import Geocode from "react-geocode";
 import axios from "axios";
+
+const UserPreview = React.lazy(() => import("./utils/UserPreview"));
 
 interface ProfileState {
   locationDetails: any;
@@ -34,12 +36,11 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
 
     this.getUserLocationInfo = this.getUserLocationInfo.bind(this);
     this.getAmountOfFriends = this.getAmountOfFriends.bind(this);
+    this.setShowProfilePreview = this.setShowProfilePreview.bind(this);
     console.log(["profile", props]);
   }
 
   componentDidMount() {
-    let that = this;
-
     this.getUserLocationInfo(
       this.props.user.lattitude,
       this.props.user.longitude
@@ -47,6 +48,11 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
 
     this.getAmountOfFriends(this.props.user.id);
   }
+
+  setShowProfilePreview = (): void => {
+    this.setState({ showProfilePreview: !this.state.showProfilePreview });
+    console.log("setShowProfilePreview");
+  };
 
   getUserLocationInfo = (lattitude: number, longitude: number) => {
     let that = this;
@@ -119,7 +125,25 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
           countFriends={this.state.countFriends}
           countKids={this.props.user.kids.length}
         />
-        <ProfileOptions />
+        {!this.state.showProfilePreview &&
+          !this.state.showEditUserData &&
+          !this.state.showFriendList &&
+          !this.state.showAuctionHistory && (
+            <ProfileOptions
+              setShowProfilePreview={this.setShowProfilePreview}
+            />
+          )}
+        {this.state.showProfilePreview &&
+          !this.state.showEditUserData &&
+          !this.state.showFriendList &&
+          !this.state.showAuctionHistory && (
+            <Suspense fallback={<Text>Wczytywanie...</Text>}>
+              <UserPreview
+                hobbies={this.props.user.hobbies}
+                kids={this.props.user.kids}
+              />
+            </Suspense>
+          )}
       </View>
     );
   }

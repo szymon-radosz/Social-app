@@ -27,6 +27,13 @@ interface Style {
   profileHeaderSingleInfoContainerMainText: TextStyle;
   profileHeaderSingleInfoContainerSubText: TextStyle;
   buttonOption: any;
+  userPreviewSectionContainer: ViewStyle;
+  userPreviewSectionHeaderContainer: ViewStyle;
+  userPreviewSectionHeaderImage: ImageStyle;
+  userPreviewSectionHeaderText: TextStyle;
+  userPreviewSectionListText: TextStyle;
+  userPreviewListItemContainer: ViewStyle;
+  userPreviewListItemImage: ImageStyle;
 }
 
 const fullWidth = Dimensions.get("window").width;
@@ -85,5 +92,41 @@ export default StyleSheet.create<Style>({
     marginRight: "auto"
   },
   buttonOption: btnFullWidth,
-  pageTitle: pageTitleWhite
+  pageTitle: pageTitleWhite,
+  userPreviewSectionContainer: {
+    paddingLeft: 10,
+    paddingRight: 10
+  },
+  userPreviewSectionHeaderContainer: {
+    flexWrap: "wrap",
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    marginBottom: 5,
+    marginTop: 20
+  },
+  userPreviewSectionHeaderImage: {
+    width: 45,
+    height: 45
+  },
+  userPreviewSectionHeaderText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    paddingLeft: 20
+  },
+  userPreviewSectionListText: {
+    fontSize: 16
+  },
+  userPreviewListItemContainer: {
+    flexWrap: "wrap",
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    paddingLeft: 65
+  },
+  userPreviewListItemImage: {
+    width: 15,
+    height: 15,
+    marginRight: 10
+  }
 });

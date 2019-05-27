@@ -6,7 +6,7 @@ const ProfileOptions = (props: any) => (
   <View>
     <TouchableHighlight
       style={styles.buttonOption}
-      onPress={() => console.log("test")}
+      onPress={() => props.setShowProfilePreview()}
     >
       <Text
         style={{
