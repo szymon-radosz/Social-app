@@ -1,8 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
 import {
-  Platform,
-  StyleSheet,
-  Button,
   Text,
   View,
   TouchableOpacity,
@@ -11,7 +8,7 @@ import {
 } from "react-native";
 import styles from "./../style";
 
-interface SingleAuctionOnListProps {
+const SingleAuctionOnList = (props: {
   setSelectedProduct: any;
   product: {
     id: number;
@@ -22,52 +19,39 @@ interface SingleAuctionOnListProps {
     price: number;
   };
   API_URL: string;
-}
-
-export default class SingleAuctionOnList extends Component<
-  SingleAuctionOnListProps
-> {
-  render() {
-    return (
-      <TouchableHighlight
-        onPress={() => {
-          this.props.setSelectedProduct(
-            this.props.product.id,
-            this.props.product.user_id
-          );
-        }}
-      >
-        <View style={styles.productListSingleProductContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              this.props.setSelectedProduct(
-                this.props.product.id,
-                this.props.product.user_id
-              );
+}): any => {
+  return (
+    <TouchableHighlight
+      onPress={() => {
+        props.setSelectedProduct(props.product.id, props.product.user_id);
+      }}
+    >
+      <View style={styles.productListSingleProductContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            props.setSelectedProduct(props.product.id, props.product.user_id);
+          }}
+        >
+          <Image
+            style={styles.productListSingleProductImage}
+            source={{
+              uri: `${props.API_URL}productPhotos/${
+                props.product.product_photos[0].path
+              }`
             }}
-          >
-            <Image
-              style={styles.productListSingleProductImage}
-              source={{
-                uri: `${this.props.API_URL}productPhotos/${
-                  this.props.product.product_photos[0].path
-                }`
-              }}
-            />
-          </TouchableOpacity>
-          <View style={styles.productListSingleProductTextContainer}>
-            <Text style={styles.productOnListTextName}>
-              {this.props.product.name}
-            </Text>
-            <Text style={styles.productOnListTextCategory}>
-              Kategoria: {this.props.product.categoryName[0].name}
-            </Text>
-            <Text style={styles.productOnListTextPrice}>
-              Cena: {this.props.product.price} zł
-            </Text>
-          </View>
+          />
+        </TouchableOpacity>
+        <View style={styles.productListSingleProductTextContainer}>
+          <Text style={styles.productOnListTextName}>{props.product.name}</Text>
+          <Text style={styles.productOnListTextCategory}>
+            Kategoria: {props.product.categoryName[0].name}
+          </Text>
+          <Text style={styles.productOnListTextPrice}>
+            Cena: {props.product.price} zł
+          </Text>
         </View>
-      </TouchableHighlight>
-    );
-  }
-}
+      </View>
+    </TouchableHighlight>
+  );
+};
+export default SingleAuctionOnList;

@@ -1,13 +1,5 @@
 import React, { Component } from "react";
-import {
-  Platform,
-  Button,
-  Image,
-  Text,
-  View,
-  TouchableHighlight
-} from "react-native";
-import { peachColor } from "./../../../assets/global/globalStyles";
+import { Image, Text, View, TouchableHighlight } from "react-native";
 import styles from "./../style";
 import Alert from "./../../../Alert/Alert";
 import Geocode from "react-geocode";
@@ -59,7 +51,9 @@ export default class UserOnList extends Component<
         let addressObj;
         console.log(res.results[0]);
         if (
+          res.results[0].address_components[2] &&
           res.results[0].address_components[2].long_name &&
+          res.results[0].address_components[3] &&
           res.results[0].address_components[3].long_name
         ) {
           console.log([
@@ -75,7 +69,7 @@ export default class UserOnList extends Component<
             city: city
           };
 
-          console.log(addressObj);
+          //console.log(addressObj);
         } else {
           addressObj = {
             notFoundFullName: res.results[0].formatted_address
@@ -91,6 +85,7 @@ export default class UserOnList extends Component<
   }
 
   render() {
+    const { locationDetails } = this.state;
     return (
       <TouchableHighlight
         onPress={() => {
@@ -114,14 +109,13 @@ export default class UserOnList extends Component<
                   {this.props.user.name}, {this.props.user.age}
                 </Text>
                 <View>
-                  {this.state.locationDetails.cityDistrict &&
-                    this.state.locationDetails.city && (
-                      <Text style={styles.userTextLocation}>
-                        {this.state.locationDetails.cityDistrict}
-                        {", "}
-                        {this.state.locationDetails.city}
-                      </Text>
-                    )}
+                  {locationDetails.cityDistrict && locationDetails.city && (
+                    <Text style={styles.userTextLocation}>
+                      {locationDetails.cityDistrict}
+                      {", "}
+                      {locationDetails.city}
+                    </Text>
+                  )}
                 </View>
               </View>
               <TouchableHighlight

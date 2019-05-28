@@ -1,12 +1,9 @@
 import React, { Component } from "react";
-import { Platform, Button, Text, View } from "react-native";
+import { Platform, View } from "react-native";
 import styles from "./style";
+import LoggedInScreens from "./utils/LoggedInScreens";
 import BottomPanel from "./inc/BottomPanel";
-import FindUsers from "./FindUsers/FindUsers";
-import Auctions from "./Auctions/Auctions";
-import Messages from "./Messages/Messages";
-import Forum from "./Forum/Forum";
-import Profile from "./Profile/Profile";
+
 import NavigationScreenInterface from "./../interfaces/NavigationScreenInterface";
 
 interface LoggedInMainState {
@@ -31,14 +28,14 @@ export default class FillNecessaryInfo extends Component<
       openForum: false
     };
 
-    this.openFindUsers = this.openFindUsers.bind(this);
-    this.openAuctions = this.openAuctions.bind(this);
-    this.openMessages = this.openMessages.bind(this);
-    this.openForum = this.openForum.bind(this);
-    this.openProfile = this.openProfile.bind(this);
+    this.setOpenFindUsers = this.setOpenFindUsers.bind(this);
+    this.setOpenAuctions = this.setOpenAuctions.bind(this);
+    this.setOpenMessages = this.setOpenMessages.bind(this);
+    this.setOpenForum = this.setOpenForum.bind(this);
+    this.setOpenProfile = this.setOpenProfile.bind(this);
   }
 
-  openFindUsers = (): void => {
+  setOpenFindUsers = (): void => {
     this.setState({
       openFindUsers: true,
       openAuctions: false,
@@ -48,7 +45,7 @@ export default class FillNecessaryInfo extends Component<
     });
   };
 
-  openAuctions = (): void => {
+  setOpenAuctions = (): void => {
     this.setState({
       openFindUsers: false,
       openAuctions: true,
@@ -58,7 +55,7 @@ export default class FillNecessaryInfo extends Component<
     });
   };
 
-  openMessages = (): void => {
+  setOpenMessages = (): void => {
     this.setState({
       openFindUsers: false,
       openAuctions: false,
@@ -68,7 +65,7 @@ export default class FillNecessaryInfo extends Component<
     });
   };
 
-  openForum = (): void => {
+  setOpenForum = (): void => {
     this.setState({
       openFindUsers: false,
       openAuctions: false,
@@ -78,7 +75,7 @@ export default class FillNecessaryInfo extends Component<
     });
   };
 
-  openProfile = (): void => {
+  setOpenProfile = (): void => {
     this.setState({
       openFindUsers: false,
       openAuctions: false,
@@ -99,47 +96,25 @@ export default class FillNecessaryInfo extends Component<
     } = this.state;
     return (
       <View style={styles.container}>
-        {openFindUsers && (
-          <FindUsers
-            API_URL={navigation.getParam("API_URL")}
-            user={navigation.getParam("user")}
-            openMessages={this.openMessages}
-          />
-        )}
-        {openAuctions && (
-          <Auctions
-            API_URL={navigation.getParam("API_URL")}
-            user={navigation.getParam("user")}
-            openMessages={this.openMessages}
-          />
-        )}
-        {openMessages && (
-          <Messages
-            API_URL={navigation.getParam("API_URL")}
-            user={navigation.getParam("user")}
-            clearUserUnreadedMessages={navigation.getParam(
-              "clearUserUnreadedMessages"
-            )}
-          />
-        )}
-        {openForum && (
-          <Forum
-            API_URL={navigation.getParam("API_URL")}
-            user={navigation.getParam("user")}
-          />
-        )}
-        {openProfile && (
-          <Profile
-            API_URL={navigation.getParam("API_URL")}
-            user={navigation.getParam("user")}
-          />
-        )}
+        <LoggedInScreens
+          openFindUsers={openFindUsers}
+          openAuctions={openAuctions}
+          openMessages={openMessages}
+          openProfile={openProfile}
+          openForum={openForum}
+          API_URL={navigation.getParam("API_URL")}
+          user={navigation.getParam("user")}
+          clearUserUnreadedMessages={navigation.getParam(
+            "clearUserUnreadedMessages"
+          )}
+          setOpenMessages={this.setOpenMessages}
+        />
         <BottomPanel
-          openFindUsers={this.openFindUsers}
-          openAuctions={this.openAuctions}
-          openMessages={this.openMessages}
-          openProfile={this.openProfile}
-          openForum={this.openForum}
+          openFindUsers={this.setOpenFindUsers}
+          openAuctions={this.setOpenAuctions}
+          openMessages={this.setOpenMessages}
+          openProfile={this.setOpenProfile}
+          openForum={this.setOpenForum}
           user={navigation.getParam("user")}
         />
       </View>

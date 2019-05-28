@@ -113,30 +113,38 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
   };
 
   render() {
+    const {
+      locationDetails,
+      countFriends,
+      showProfilePreview,
+      showEditUserData,
+      showFriendList,
+      showAuctionHistory
+    } = this.state;
     return (
       <View>
         <ProfileHeader
           API_URL={this.props.API_URL}
           avatar={this.props.user.photo_path}
           name={this.props.user.name}
-          cityDistrict={this.state.locationDetails.cityDistrict}
-          city={this.state.locationDetails.city}
+          cityDistrict={locationDetails.cityDistrict}
+          city={locationDetails.city}
           age={this.props.user.age}
-          countFriends={this.state.countFriends}
+          countFriends={countFriends}
           countKids={this.props.user.kids.length}
         />
-        {!this.state.showProfilePreview &&
-          !this.state.showEditUserData &&
-          !this.state.showFriendList &&
-          !this.state.showAuctionHistory && (
+        {!showProfilePreview &&
+          !showEditUserData &&
+          !showFriendList &&
+          !showAuctionHistory && (
             <ProfileOptions
               setShowProfilePreview={this.setShowProfilePreview}
             />
           )}
-        {this.state.showProfilePreview &&
-          !this.state.showEditUserData &&
-          !this.state.showFriendList &&
-          !this.state.showAuctionHistory && (
+        {showProfilePreview &&
+          !showEditUserData &&
+          !showFriendList &&
+          !showAuctionHistory && (
             <Suspense fallback={<Text>Wczytywanie...</Text>}>
               <UserPreview
                 hobbies={this.props.user.hobbies}

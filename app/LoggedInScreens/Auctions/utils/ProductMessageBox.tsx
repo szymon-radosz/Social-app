@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import {
-  Platform,
-  StyleSheet,
   TextInput,
   Button,
   Image,
@@ -9,7 +7,6 @@ import {
   View,
   TouchableHighlight
 } from "react-native";
-import axios from "axios";
 import styles from "./../style";
 import Alert from "./../../../Alert/Alert";
 

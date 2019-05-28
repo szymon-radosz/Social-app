@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Platform, Text, View } from "react-native";
+import { View } from "react-native";
 import axios from "axios";
 import NavigationScreenInterface from "./../interfaces/NavigationScreenInterface";
 
@@ -66,11 +66,11 @@ export default class NotLoggedInMain extends Component<
   ) => {
     //console.log(["clearUserUnreadedMessages", userId, conversationId]);
 
-    const { userData } = this.state;
+    //const { userData } = this.state;
 
     try {
       const { userData } = this.state;
-      let userEmailName = userData.email;
+      //let userEmailName = userData.email;
 
       //console.log(userEmailName);
 

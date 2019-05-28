@@ -1,22 +1,17 @@
-import React, { Component } from "react";
-import {
-  Platform,
-  ImageBackground,
-  Text,
-  View,
-  Button,
-  TouchableHighlight
-} from "react-native";
+import React, { Component, Suspense } from "react";
+import { ImageBackground, Text, View, TouchableHighlight } from "react-native";
 import axios from "axios";
 import findUsersBg from "./../../assets/images/findUsersBgMin.jpg";
 import UserOnList from "./utils/UserOnList";
-import UserDetails from "./utils/UserDetails";
-import UserMessageBox from "./utils/UserMessageBox";
 import Carousel from "react-native-snap-carousel";
-import FilterModal from "./../inc/FilterModal";
 import { btnFullWidthFilledContainer } from "./../../assets/global/globalStyles";
 import { v4 as uuid } from "uuid";
 import styles from "./style";
+
+const UserDetails = React.lazy(() => import("./utils/UserDetails"));
+const UserMessageBox = React.lazy(() => import("./utils/UserMessageBox"));
+const FilterModal = React.lazy(() => import("./../inc/FilterModal"));
+const ActiveFilters = React.lazy(() => import("./utils/ActiveFilters"));
 
 interface FindUsersState {
   userList: any;
@@ -42,6 +37,7 @@ interface FindUsersState {
     hobby: any;
   };
   filterModalName: string;
+  userMessage: string;
 }
 
 interface FindUsersProps {
@@ -61,6 +57,7 @@ export default class FindUsers extends Component<
   constructor(props: FindUsersProps) {
     super(props);
     this.state = {
+      userMessage: "",
       userList: [],
       filterData: {
         distance: [
@@ -133,42 +130,49 @@ export default class FindUsers extends Component<
     this.removeFilter = this.removeFilter.bind(this);
     this.inviteFriend = this.inviteFriend.bind(this);
     this.confirmFriend = this.confirmFriend.bind(this);
+    this.setUserMessage = this.setUserMessage.bind(this);
   }
 
   filterResults = (filterName: string, filterValue: string): void => {
+    const {
+      filterChildAge,
+      filterChildGender,
+      filterHobbyName,
+      filterDistance
+    } = this.state;
     if (filterName === "Odległość") {
       console.log(["filterResult", filterValue]);
       this.getFilteredUserList(
         filterValue,
-        this.state.filterChildAge,
-        this.state.filterChildGender,
-        this.state.filterHobbyName,
+        filterChildAge,
+        filterChildGender,
+        filterHobbyName,
         true
       );
     } else if (filterName === "Wiek dziecka") {
       console.log(["filterResult", filterValue]);
       this.getFilteredUserList(
-        this.state.filterDistance,
+        filterDistance,
         filterValue,
-        this.state.filterChildGender,
-        this.state.filterHobbyName,
+        filterChildGender,
+        filterHobbyName,
         true
       );
     } else if (filterName === "Płeć dziecka") {
       console.log(["filterResult", filterValue]);
       this.getFilteredUserList(
-        this.state.filterDistance,
-        this.state.filterChildAge,
+        filterDistance,
+        filterChildAge,
         filterValue,
-        this.state.filterHobbyName,
+        filterHobbyName,
         true
       );
     } else if (filterName === "Hobby") {
       console.log(["filterResult", filterValue]);
       this.getFilteredUserList(
-        this.state.filterDistance,
-        this.state.filterChildAge,
-        this.state.filterChildGender,
+        filterDistance,
+        filterChildAge,
+        filterChildGender,
         filterValue,
         true
       );
@@ -176,39 +180,46 @@ export default class FindUsers extends Component<
   };
 
   removeFilter = (filterName: string): void => {
+    const {
+      filterChildAge,
+      filterChildGender,
+      filterHobbyName,
+      filterDistance
+    } = this.state;
+
     if (filterName === "Odległość") {
       console.log(["filterResult", filterName]);
       this.getFilteredUserList(
         "",
-        this.state.filterChildAge,
-        this.state.filterChildGender,
-        this.state.filterHobbyName,
+        filterChildAge,
+        filterChildGender,
+        filterHobbyName,
         false
       );
     } else if (filterName === "Wiek dziecka") {
       console.log(["filterResult", filterName]);
       this.getFilteredUserList(
-        this.state.filterDistance,
+        filterDistance,
         "",
-        this.state.filterChildGender,
-        this.state.filterHobbyName,
+        filterChildGender,
+        filterHobbyName,
         false
       );
     } else if (filterName === "Płeć dziecka") {
       console.log(["filterResult", filterName]);
       this.getFilteredUserList(
-        this.state.filterDistance,
-        this.state.filterChildAge,
+        filterDistance,
+        filterChildAge,
         "",
-        this.state.filterHobbyName,
+        filterHobbyName,
         false
       );
     } else if (filterName === "Hobby") {
       console.log(["filterResult", filterName]);
       this.getFilteredUserList(
-        this.state.filterDistance,
-        this.state.filterChildAge,
-        this.state.filterChildGender,
+        filterDistance,
+        filterChildAge,
+        filterChildGender,
         "",
         false
       );
@@ -539,30 +550,6 @@ export default class FindUsers extends Component<
       });
   };
 
-  /*inviteFriend = (senderId: number, receiverId: number): void => {
-    let API_URL = this.props.API_URL;
-
-    let that = this;
-
-    axios
-      .post(API_URL + "/api/inviteFriend", {
-        senderId: senderId,
-        receiverId: receiverId
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-          console.log(["inviteFriend", response.data.result]);
-
-          that.setState({
-            usersFriendshipStatus: "not confirmed by second person"
-          });
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  };*/
-
   loadUsersNearCoords = (): void => {
     try {
       let API_URL = this.props.API_URL;
@@ -597,6 +584,10 @@ export default class FindUsers extends Component<
     }
   };
 
+  setUserMessage = (message: string): void => {
+    this.setState({ userMessage: message });
+  };
+
   componentDidMount = (): void => {
     if (
       this.props.user &&
@@ -615,51 +606,65 @@ export default class FindUsers extends Component<
       alertType,
       showUserMessageBox,
       usersAreInTheSameConversation,
-      userDetailsData
+      userDetailsData,
+      usersFriendshipStatus,
+      userMessage,
+      showFilterModal,
+      filterOptions,
+      filterDistance,
+      filterChildAge,
+      filterChildGender,
+      filterHobbyName,
+      filterData,
+      filterModalName
     } = this.state;
     return (
       <View>
-        {!this.state.showFilterModal &&
-          !showUserDetails &&
-          !showUserMessageBox && (
-            <ImageBackground source={findUsersBg} style={{ width: "100%" }}>
-              <Text style={styles.pageTitle}>
-                Poznaj mamy
-                {"\n"}w okolicy.
-              </Text>
-            </ImageBackground>
-          )}
+        {!showFilterModal && !showUserDetails && !showUserMessageBox && (
+          <ImageBackground source={findUsersBg} style={{ width: "100%" }}>
+            <Text style={styles.pageTitle}>
+              Poznaj mamy
+              {"\n"}w okolicy.
+            </Text>
+          </ImageBackground>
+        )}
 
         <View style={styles.container}>
           {showUserDetails && !showUserMessageBox && userDetailsData && (
-            <UserDetails
-              hideShowUserDetails={this.hideShowUserDetails}
-              API_URL={this.props.API_URL}
-              user={userDetailsData}
-              usersAreInTheSameConversation={usersAreInTheSameConversation}
-              usersFriendshipStatus={this.state.usersFriendshipStatus}
-              openMessages={this.props.openMessages}
-              setShowUserMessageBox={this.setShowUserMessageBox}
-              alertMessage={alertMessage}
-              alertType={alertType}
-              inviteFriend={this.inviteFriend}
-              confirmFriend={this.confirmFriend}
-              loggedInUserId={this.props.user.id}
-            />
+            <Suspense fallback={<Text>Wczytywanie...</Text>}>
+              <UserDetails
+                hideShowUserDetails={this.hideShowUserDetails}
+                API_URL={this.props.API_URL}
+                user={userDetailsData}
+                usersAreInTheSameConversation={usersAreInTheSameConversation}
+                usersFriendshipStatus={usersFriendshipStatus}
+                openMessages={this.props.openMessages}
+                setShowUserMessageBox={this.setShowUserMessageBox}
+                alertMessage={alertMessage}
+                alertType={alertType}
+                inviteFriend={this.inviteFriend}
+                confirmFriend={this.confirmFriend}
+                loggedInUserId={this.props.user.id}
+              />
+            </Suspense>
           )}
           {showUserMessageBox && !showUserDetails && userDetailsData && (
-            <UserMessageBox
-              hideShowUserMessageBox={this.hideShowUserMessageBox}
-              sendMessage={this.sendMessage}
-              alertMessage={alertMessage}
-              alertType={alertType}
-            />
+            <Suspense fallback={<Text>Wczytywanie...</Text>}>
+              <UserMessageBox
+                hideShowUserMessageBox={this.hideShowUserMessageBox}
+                sendMessage={this.sendMessage}
+                setUserMessage={this.setUserMessage}
+                userMessage={userMessage}
+                alertMessage={alertMessage}
+                alertType={alertType}
+              />
+            </Suspense>
           )}
 
           {!showUserMessageBox &&
             !showUserDetails &&
             userList &&
-            !this.state.showFilterModal && (
+            !showFilterModal && (
               <View>
                 <Text style={{ paddingLeft: 10, paddingTop: 10 }}>
                   Filtruj wyniki
@@ -668,7 +673,7 @@ export default class FindUsers extends Component<
                   <Carousel
                     layout={"default"}
                     activeSlideAlignment={"start"}
-                    data={this.state.filterOptions}
+                    data={filterOptions}
                     renderItem={this.renderItem}
                     itemWidth={100}
                     sliderWidth={styles.fullWidth}
@@ -677,87 +682,35 @@ export default class FindUsers extends Component<
               </View>
             )}
 
-          {this.state.filterDistance ||
-          this.state.filterChildAge ||
-          this.state.filterChildGender ||
-          this.state.filterHobbyName
-            ? !this.state.showFilterModal && (
-                <Text style={styles.activeFiltersText}>Aktywne filtry: </Text>
-              )
-            : null}
-
-          {this.state.filterDistance && !this.state.showFilterModal ? (
-            <View style={styles.removeFilterBtnContainer}>
-              <Text style={styles.removeFilterText}>
-                Odległość - {this.state.filterDistance}
-              </Text>
-              <TouchableHighlight
-                style={styles.removeFilterBtn}
-                onPress={() => this.removeFilter("Odległość")}
-              >
-                <Text style={styles.removeFilterBtnText}>-</Text>
-              </TouchableHighlight>
-            </View>
-          ) : null}
-
-          {this.state.filterChildAge && !this.state.showFilterModal ? (
-            <View style={styles.removeFilterBtnContainer}>
-              <Text style={styles.removeFilterText}>
-                Wiek dziecka - {this.state.filterChildAge}
-              </Text>
-              <TouchableHighlight
-                style={styles.removeFilterBtn}
-                onPress={() => this.removeFilter("Wiek dziecka")}
-              >
-                <Text style={styles.removeFilterBtnText}>-</Text>
-              </TouchableHighlight>
-            </View>
-          ) : null}
-
-          {this.state.filterChildGender && !this.state.showFilterModal ? (
-            <View style={styles.removeFilterBtnContainer}>
-              <Text style={styles.removeFilterText}>
-                Płeć dziecka - {this.state.filterChildGender}
-              </Text>
-              <TouchableHighlight
-                style={styles.removeFilterBtn}
-                onPress={() => this.removeFilter("Płeć dziecka")}
-              >
-                <Text style={styles.removeFilterBtnText}>-</Text>
-              </TouchableHighlight>
-            </View>
-          ) : null}
-
-          {this.state.filterHobbyName && !this.state.showFilterModal ? (
-            <View style={styles.removeFilterBtnContainer}>
-              <Text style={styles.removeFilterText}>
-                Hobby - {this.state.filterHobbyName}
-              </Text>
-              <TouchableHighlight
-                style={styles.removeFilterBtn}
-                onPress={() => this.removeFilter("Hobby")}
-              >
-                <Text style={styles.removeFilterBtnText}>-</Text>
-              </TouchableHighlight>
-            </View>
-          ) : null}
+          <Suspense fallback={<Text>Wczytywanie...</Text>}>
+            <ActiveFilters
+              filterDistance={filterDistance}
+              filterChildAge={filterChildAge}
+              filterChildGender={filterChildGender}
+              filterHobbyName={filterHobbyName}
+              showFilterModal={showFilterModal}
+              removeFilter={this.removeFilter}
+            />
+          </Suspense>
 
           {!showUserMessageBox &&
             !showUserDetails &&
             userList &&
-            this.state.showFilterModal && (
-              <FilterModal
-                filterOptions={this.state.filterData}
-                closeFilter={this.setShowFilterModal}
-                filterModalName={this.state.filterModalName}
-                filterResults={this.filterResults}
-              />
+            showFilterModal && (
+              <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                <FilterModal
+                  filterOptions={filterData}
+                  closeFilter={this.setShowFilterModal}
+                  filterModalName={filterModalName}
+                  filterResults={this.filterResults}
+                />
+              </Suspense>
             )}
 
           {!showUserMessageBox &&
             !showUserDetails &&
             userList &&
-            !this.state.showFilterModal &&
+            !showFilterModal &&
             userList.map((user: any, i: number) => {
               //console.log(`${this.props.API_URL}/userPhotos/${user.photo_path}`);
 

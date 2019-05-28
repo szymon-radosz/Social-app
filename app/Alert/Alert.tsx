@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Platform, Button, Text, View, TouchableHighlight } from "react-native";
+import { Button, Text, View, TouchableHighlight } from "react-native";
 import styles from "./style";
 
 interface AlertProps {

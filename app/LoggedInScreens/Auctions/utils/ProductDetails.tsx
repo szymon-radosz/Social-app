@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import {
-  Platform,
-  StyleSheet,
   Button,
-  TouchableOpacity,
   TouchableHighlight,
   Text,
   Dimensions,
@@ -15,7 +12,6 @@ import styles from "./../style";
 import ProductMessageBox from "./ProductMessageBox";
 import ProductVoteBox from "./ProductVoteBox";
 import Geocode from "react-geocode";
-
 import Lightbox from "react-native-lightbox";
 import Carousel from "react-native-looped-carousel";
 
@@ -285,24 +281,32 @@ export default class ProductDetails extends Component<
   };
 
   render() {
+    const {
+      showProductMessageBox,
+      showVoteBox,
+      productDetails,
+      foundVoteUserList,
+      productLocation,
+      usersAreInTheSameConversation
+    } = this.state;
     return (
       <View>
-        {this.state.showProductMessageBox && !this.state.showVoteBox ? (
+        {showProductMessageBox && !showVoteBox ? (
           <ProductMessageBox
             changeShowProductMessageBox={this.changeShowProductMessageBox}
             sendNewConversationProduct={this.sendNewConversationProduct}
           />
-        ) : !this.state.showProductMessageBox && this.state.showVoteBox ? (
+        ) : !showProductMessageBox && showVoteBox ? (
           <ProductVoteBox
             currentUser={this.props.currentUser}
-            product={this.state.productDetails[0]}
+            product={productDetails[0]}
             API_URL={this.props.API_URL}
             changeVoteBox={this.changeVoteBox}
             searchUsersByName={this.searchUsersByName}
-            foundVoteUserList={this.state.foundVoteUserList}
+            foundVoteUserList={foundVoteUserList}
             getProductDetails={this.getProductDetails}
           />
-        ) : this.state.productDetails[0] ? (
+        ) : productDetails[0] ? (
           <View>
             <TouchableHighlight style={styles.buttonCloseModal}>
               <Button
@@ -319,7 +323,7 @@ export default class ProductDetails extends Component<
                 renderContent={() =>
                   renderCarousel(
                     this.props.API_URL,
-                    this.state.productDetails[0].product_photos
+                    productDetails[0].product_photos
                   )
                 }
               >
@@ -327,76 +331,71 @@ export default class ProductDetails extends Component<
                   style={styles.productDetailsImage}
                   source={{
                     uri: `${this.props.API_URL}productPhotos/${
-                      this.state.productDetails[0].product_photos[0].path
+                      productDetails[0].product_photos[0].path
                     }`
                   }}
                 />
               </Lightbox>
 
-              {this.state.productDetails[0].product_photos.length > 1 && (
+              {productDetails[0].product_photos.length > 1 && (
                 <Text>Zobacz więcej zdjęć</Text>
               )}
 
               <Text style={styles.productHeaderText}>
-                {this.state.productDetails[0].name}
+                {productDetails[0].name}
               </Text>
             </View>
             <View style={styles.productContent}>
               <Text style={styles.productContentText}>
                 <Text style={styles.bold}>Kategoria:</Text>{" "}
-                {this.state.productDetails[0].categoryName[0].name}
+                {productDetails[0].categoryName[0].name}
               </Text>
 
-              {this.state.productDetails[0].child_gender === "girl" && (
+              {productDetails[0].child_gender === "girl" && (
                 <Text style={styles.productContentText}>
                   <Text style={styles.bold}>Płeć dziecka:</Text> Dziewczynka
                 </Text>
               )}
 
-              {this.state.productDetails[0].child_gender === "boy" && (
+              {productDetails[0].child_gender === "boy" && (
                 <Text style={styles.productContentText}>
                   <Text style={styles.bold}>Płeć dziecka:</Text> Chłopiec
                 </Text>
               )}
 
-              {this.state.productDetails[0].users && (
+              {productDetails[0].users && (
                 <Text style={styles.productContentText}>
                   <Text style={styles.bold}>Dodane przez:</Text>{" "}
-                  {this.state.productDetails[0].users.name} (
-                  {this.state.productDetails[0].users.email})
+                  {productDetails[0].users.name} (
+                  {productDetails[0].users.email})
                 </Text>
               )}
 
-              {this.state.productLocation &&
-                !this.state.productLocation.notFoundFullName && (
-                  <Text style={styles.productContentText}>
-                    <Text style={styles.bold}>W poblizu:</Text>{" "}
-                    {this.state.productLocation.cityArea},{" "}
-                    {this.state.productLocation.cityCode}{" "}
-                    {this.state.productLocation.city},{" "}
-                    {this.state.productLocation.countryArea},{" "}
-                    {this.state.productLocation.country}
-                  </Text>
-                )}
+              {productLocation && !productLocation.notFoundFullName && (
+                <Text style={styles.productContentText}>
+                  <Text style={styles.bold}>W poblizu:</Text>{" "}
+                  {productLocation.cityArea}, {productLocation.cityCode}{" "}
+                  {productLocation.city}, {productLocation.countryArea},{" "}
+                  {productLocation.country}
+                </Text>
+              )}
 
-              {this.state.productLocation &&
-                this.state.productLocation.notFoundFullName && (
-                  <Text style={styles.productContentText}>
-                    <Text style={styles.bold}>W poblizu:</Text>{" "}
-                    {this.state.productLocation.notFoundFullName}
-                  </Text>
-                )}
+              {productLocation && productLocation.notFoundFullName && (
+                <Text style={styles.productContentText}>
+                  <Text style={styles.bold}>W poblizu:</Text>{" "}
+                  {productLocation.notFoundFullName}
+                </Text>
+              )}
 
               <Text style={styles.productContentText}>
                 {" "}
-                <Text style={styles.bold}>Cena:</Text>{" "}
-                {this.state.productDetails[0].price} zł
+                <Text style={styles.bold}>Cena:</Text> {productDetails[0].price}{" "}
+                zł
               </Text>
             </View>
-            {this.state.productDetails[0].user_id !=
-              this.props.currentUser.id &&
-            !this.state.usersAreInTheSameConversation ? (
-              this.state.productDetails[0].status != 1 ? (
+            {productDetails[0].user_id != this.props.currentUser.id &&
+            !usersAreInTheSameConversation ? (
+              productDetails[0].status != 1 ? (
                 <TouchableHighlight style={styles.productDetailsBtn}>
                   <Button
                     title="Wyślij wiadomość"
@@ -413,10 +412,9 @@ export default class ProductDetails extends Component<
                   />
                 </TouchableHighlight>
               )
-            ) : this.state.productDetails[0].user_id !=
-                this.props.currentUser.id &&
-              this.state.usersAreInTheSameConversation ? (
-              this.state.productDetails[0].status == 1 ? (
+            ) : productDetails[0].user_id != this.props.currentUser.id &&
+              usersAreInTheSameConversation ? (
+              productDetails[0].status == 1 ? (
                 <TouchableHighlight style={styles.productDetailsBtn}>
                   <Button
                     title="Produkt sprzedany, jesteście w konwersacji"
@@ -433,7 +431,7 @@ export default class ProductDetails extends Component<
                   />
                 </TouchableHighlight>
               )
-            ) : this.state.productDetails[0].status != 1 ? (
+            ) : productDetails[0].status != 1 ? (
               <TouchableHighlight style={styles.productDetailsBtn}>
                 <Button
                   title="Zamknij Sprzedaz"

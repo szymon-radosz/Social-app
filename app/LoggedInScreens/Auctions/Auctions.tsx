@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import {
-  Platform,
-  StyleSheet,
   TouchableHighlight,
   ImageBackground,
   Button,
@@ -146,7 +144,6 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
                       setSelectedProduct={this.setSelectedProduct}
                     />
                   );
-                  //return <Text>{product.name}</Text>;
                 })}
             </View>
 

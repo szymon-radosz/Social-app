@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import {
-  Platform,
-  TextInput,
   Button,
   Image,
   Text,
@@ -10,8 +8,6 @@ import {
   TouchableOpacity,
   ScrollView
 } from "react-native";
-import Alert from "./../../../Alert/Alert";
-import { v4 as uuid } from "uuid";
 import styles from "./../style";
 import axios from "axios";
 import SavePostComment from "./SavePostComment";
@@ -28,6 +24,7 @@ interface PostDetailsState {
   authorEmail: string;
   authorPhotoPath: string;
   comments: any;
+  commentMessage: string;
 }
 
 interface PostDetailsProps {
@@ -52,14 +49,25 @@ export default class PostDetails extends Component<
       authorName: "",
       authorEmail: "",
       authorPhotoPath: "",
-      comments: []
+      comments: [],
+      commentMessage: ""
     };
 
     this.getPostById = this.getPostById.bind(this);
     this.savePostVote = this.savePostVote.bind(this);
     this.getPostComments = this.getPostComments.bind(this);
     this.saveComment = this.saveComment.bind(this);
+    this.setCommentMessage = this.setCommentMessage.bind(this);
+    this.clearCommentMessage = this.clearCommentMessage.bind(this);
   }
+
+  setCommentMessage = (message: string): void => {
+    this.setState({ commentMessage: message });
+  };
+
+  clearCommentMessage = (): void => {
+    this.setState({ commentMessage: "" });
+  };
 
   getPostById = (): void => {
     try {
@@ -223,7 +231,8 @@ export default class PostDetails extends Component<
       authorName,
       authorEmail,
       authorPhotoPath,
-      comments
+      comments,
+      commentMessage
     } = this.state;
     return (
       <View style={{ position: "relative" }}>
@@ -333,14 +342,7 @@ export default class PostDetails extends Component<
                 To mi się podoba!
               </Text>
             </TouchableHighlight>
-            {/* <Text>Głosy: {postVotes}</Text>
-          <TouchableHighlight>
-            <Button
-              title="Zagłosuj"
-              onPress={() => this.savePostVote()}
-              color="#000"
-            />
-            </TouchableHighlight>*/}
+
             <Text style={{ marginBottom: 10 }}>Komentarze:</Text>
             {comments.map((comment: any, i: number) => {
               return (
@@ -423,14 +425,6 @@ export default class PostDetails extends Component<
                       To mi się podoba!
                     </Text>
                   </TouchableHighlight>
-
-                  {/*<TouchableHighlight>
-                  <Button
-                    title="Zagłosuj"
-                    onPress={() => this.saveCommentVote(comment.id)}
-                    color="#000"
-                  />
-                </TouchableHighlight>*/}
                 </View>
               );
             })}
@@ -439,6 +433,9 @@ export default class PostDetails extends Component<
             saveComment={this.saveComment}
             postId={this.props.postDetailsId}
             user={this.props.user}
+            setCommentMessage={this.setCommentMessage}
+            commentMessage={commentMessage}
+            clearCommentMessage={this.clearCommentMessage}
           />
         </ScrollView>
       </View>

@@ -18,6 +18,7 @@ interface MessagesState {
   showFilterPanel: boolean;
   receiverPhotoPath: string;
   displayPrivateMessages: boolean;
+  userMessage: string;
 }
 
 interface MessagesProps {
@@ -44,14 +45,20 @@ export default class FillNecessaryInfo extends Component<
       receiverName: "",
       showFilterPanel: false,
       receiverPhotoPath: "",
-      displayPrivateMessages: false
+      displayPrivateMessages: false,
+      userMessage: ""
     };
 
     this.getMessages = this.getMessages.bind(this);
     this.openConversationDetails = this.openConversationDetails.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.getAuctionMessages = this.getAuctionMessages.bind(this);
+    this.setUserMessage = this.setUserMessage.bind(this);
   }
+
+  setUserMessage = (message: string): void => {
+    this.setState({ userMessage: message });
+  };
 
   //open conversation details from list of conversations
   openConversationDetails = (
@@ -191,10 +198,21 @@ export default class FillNecessaryInfo extends Component<
   };
 
   render() {
-    const { displayPrivateMessages, showFilterPanel } = this.state;
+    const {
+      displayPrivateMessages,
+      showFilterPanel,
+      messagesList,
+      openConversationDetails,
+      openConversationMessages,
+      receiverId,
+      receiverName,
+      receiverEmail,
+      receiverPhotoPath,
+      userMessage
+    } = this.state;
     return (
       <View>
-        {!this.state.openConversationDetails && (
+        {!openConversationDetails && (
           <ImageBackground source={messagesBgMin} style={{ width: "100%" }}>
             <Text style={styles.pageTitle}>Twoje{"\n"}Wiadomości</Text>
           </ImageBackground>
@@ -248,9 +266,9 @@ export default class FillNecessaryInfo extends Component<
         )}
 
         <View style={styles.messageListContainer}>
-          {this.state.messagesList &&
-            !this.state.openConversationDetails &&
-            this.state.messagesList.map((conversation: any, i: number) => {
+          {messagesList &&
+            !openConversationDetails &&
+            messagesList.map((conversation: any, i: number) => {
               console.log(["conversation[i]", conversation[0]]);
               return (
                 <SingleConversationBox
@@ -263,18 +281,19 @@ export default class FillNecessaryInfo extends Component<
             })}
         </View>
 
-        {this.state.openConversationDetails && (
+        {openConversationDetails && (
           <ConversationDetails
-            messages={this.state.openConversationMessages}
+            messages={openConversationMessages}
             currentUser={this.props.user}
-            receiverId={this.state.receiverId}
-            receiverName={this.state.receiverName}
-            receiverEmail={this.state.receiverEmail}
-            receiverPhotoPath={this.state.receiverPhotoPath}
+            receiverId={receiverId}
+            receiverName={receiverName}
+            receiverEmail={receiverEmail}
+            receiverPhotoPath={receiverPhotoPath}
             API_URL={this.props.API_URL}
-            // @ts-ignore
             sendMessage={this.sendMessage}
             clearUserUnreadedMessages={this.props.clearUserUnreadedMessages}
+            setUserMessage={this.setUserMessage}
+            userMessage={userMessage}
           />
         )}
       </View>

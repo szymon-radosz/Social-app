@@ -1,17 +1,5 @@
 import React, { Component } from "react";
-import {
-  Platform,
-  TextInput,
-  Button,
-  Image,
-  Text,
-  View,
-  TouchableHighlight,
-  TouchableOpacity,
-  ScrollView
-} from "react-native";
-import Alert from "../../../Alert/Alert";
-import { v4 as uuid } from "uuid";
+import { Text, View, TouchableHighlight, ScrollView } from "react-native";
 import styles from "../style";
 import axios from "axios";
 
@@ -105,15 +93,6 @@ export default class SingleCategory extends Component<
                     <Text style={{ fontSize: 10 }}>
                       {category.posts.length} Posty
                     </Text>
-                    {/*<Button
-                  title={category.name}
-                 
-                  color={
-                    category.id === this.props.showSingleCategoryId
-                      ? "blue"
-                      : "#000"
-                  }
-                />*/}
                   </View>
                 </TouchableHighlight>
               );

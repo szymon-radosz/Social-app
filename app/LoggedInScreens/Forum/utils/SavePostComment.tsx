@@ -1,81 +1,50 @@
-import React, { Component } from "react";
-import {
-  Platform,
-  TextInput,
-  Button,
-  Image,
-  Text,
-  View,
-  TouchableHighlight,
-  TouchableOpacity,
-  ScrollView
-} from "react-native";
-import Alert from "./../../../Alert/Alert";
-import { v4 as uuid } from "uuid";
+import React from "react";
+import { TextInput, Button, View, TouchableHighlight } from "react-native";
 import styles from "./../style";
-import axios from "axios";
 
-interface SavePostCommentState {
-  message: string;
-}
-
-interface SavePostCommentProps {
+const SavePostComment = (props: {
+  setCommentMessage: any;
+  commentMessage: string;
   postId: number;
-  user: any;
-  saveComment: any;
-}
-
-export default class SavePostComment extends Component<
-  SavePostCommentProps,
-  SavePostCommentState
-> {
-  constructor(props: SavePostCommentProps) {
-    super(props);
-    this.state = {
-      message: ""
-    };
-
-    this.clearMessageText = this.clearMessageText.bind(this);
-  }
-
-  clearMessageText = (): void => {
-    this.setState({ message: "" });
+  user: {
+    id: number;
   };
+  saveComment: any;
+  clearCommentMessage: any;
+}): any => {
+  return (
+    <View>
+      <TextInput
+        style={{
+          borderWidth: 1,
+          borderRadius: 6,
+          marginLeft: 10,
+          marginRight: 10,
+          marginTop: 10,
+          padding: 10
+        }}
+        multiline={false}
+        onChangeText={message => props.setCommentMessage(message)}
+        value={props.commentMessage}
+        placeholder="Napisz komentarz ..."
+        placeholderTextColor="#333"
+      />
 
-  render() {
-    return (
-      <View>
-        <TextInput
-          style={{
-            borderWidth: 1,
-            borderRadius: 6,
-            marginLeft: 10,
-            marginRight: 10,
-            marginTop: 10,
-            padding: 10
+      <TouchableHighlight style={styles.addCommentBtn}>
+        <Button
+          title="Wyślij"
+          onPress={(): void => {
+            props.saveComment(
+              props.postId,
+              props.user.id,
+              props.commentMessage
+            );
+            props.clearCommentMessage();
           }}
-          multiline={false}
-          onChangeText={message => this.setState({ message })}
-          value={this.state.message}
-          placeholder="Napisz komentarz ..."
-          placeholderTextColor="#333"
+          color="#fff"
         />
-
-        <TouchableHighlight style={styles.addCommentBtn}>
-          <Button
-            title="Wyślij"
-            onPress={(): void => {
-              this.props.saveComment(
-                this.props.postId,
-                this.props.user.id,
-                this.state.message
-              );
-              this.clearMessageText();
-            }}
-            color="#fff"
-          />
-        </TouchableHighlight>
-      </View>
-    );
-  }
-}
+      </TouchableHighlight>
+    </View>
+  );
+};
+export default SavePostComment;

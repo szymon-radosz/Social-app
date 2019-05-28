@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {
-  Platform,
   TextInput,
   Button,
   Image,
@@ -195,6 +194,19 @@ export default class AddNewProductBox extends Component<
     this.getCategories();
   };
   render() {
+    const {
+      name,
+      categories,
+      selectedCategoryId,
+      maleGender,
+      femaleGender,
+      price,
+      newProduct,
+      secondHandProduct,
+      photos,
+      alertMessage,
+      alertType
+    } = this.state;
     return (
       <ScrollView style={styles.relative}>
         <TouchableHighlight style={styles.buttonCloseModal}>
@@ -212,7 +224,7 @@ export default class AddNewProductBox extends Component<
           <TextInput
             multiline={false}
             onChangeText={name => this.setState({ name })}
-            value={this.state.name}
+            value={name}
             placeholder="Nazwa"
             placeholderTextColor="#333"
             style={styles.userMessageTextArea}
@@ -222,13 +234,13 @@ export default class AddNewProductBox extends Component<
         <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
           <Text style={{ paddingBottom: 5 }}>Kategoria</Text>
           <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-            {this.state.categories.map((category: any, i: number) => {
+            {categories.map((category: any, i: number) => {
               return (
                 <View style={{ flexDirection: "row" }} key={uuid()}>
                   <TouchableHighlight
                     onPress={() => this.setCategoryId(category.id)}
                     style={
-                      this.state.selectedCategoryId == category.id
+                      selectedCategoryId == category.id
                         ? {
                             width: 20,
                             height: 20,
@@ -274,7 +286,7 @@ export default class AddNewProductBox extends Component<
               <TouchableHighlight
                 onPress={() => this.setGender("boy")}
                 style={
-                  this.state.maleGender
+                  maleGender
                     ? {
                         width: 20,
                         height: 20,
@@ -312,7 +324,7 @@ export default class AddNewProductBox extends Component<
               <TouchableHighlight
                 onPress={() => this.setGender("girl")}
                 style={
-                  this.state.femaleGender
+                  femaleGender
                     ? {
                         width: 20,
                         height: 20,
@@ -354,7 +366,7 @@ export default class AddNewProductBox extends Component<
           <TextInput
             multiline={false}
             onChangeText={price => this.setState({ price })}
-            value={this.state.price}
+            value={price}
             placeholder="Cena w zł"
             placeholderTextColor="#333"
             style={styles.userMessageTextArea}
@@ -368,7 +380,7 @@ export default class AddNewProductBox extends Component<
               <TouchableHighlight
                 onPress={() => this.setProductState("new")}
                 style={
-                  this.state.newProduct
+                  newProduct
                     ? {
                         width: 20,
                         height: 20,
@@ -406,7 +418,7 @@ export default class AddNewProductBox extends Component<
               <TouchableHighlight
                 onPress={() => this.setProductState("secondHand")}
                 style={
-                  this.state.secondHandProduct
+                  secondHandProduct
                     ? {
                         width: 20,
                         height: 20,
@@ -443,7 +455,7 @@ export default class AddNewProductBox extends Component<
           </View>
         </View>
 
-        {this.state.photos.length <= 3 && (
+        {photos.length <= 3 && (
           <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
             <Text style={{ paddingBottom: 5 }}>Dodaj zdjęcia</Text>
             <TouchableHighlight
@@ -469,8 +481,8 @@ export default class AddNewProductBox extends Component<
             marginBottom: 10
           }}
         >
-          {this.state.photos &&
-            this.state.photos.map((photo: string, i: number) => {
+          {photos &&
+            photos.map((photo: string, i: number) => {
               return (
                 <Image
                   key={uuid()}
@@ -480,7 +492,7 @@ export default class AddNewProductBox extends Component<
                     borderRadius: 6,
                     marginRight: 10
                   }}
-                  source={{ uri: this.state.photos[i] }}
+                  source={{ uri: photos[i] }}
                 />
               );
             })}
@@ -495,11 +507,8 @@ export default class AddNewProductBox extends Component<
             color="#fff"
           />
         </TouchableHighlight>
-        {this.state.alertMessage != "" && (
-          <Alert
-            alertType={this.state.alertType}
-            alertMessage={this.state.alertMessage}
-          />
+        {alertMessage != "" && (
+          <Alert alertType={alertType} alertMessage={alertMessage} />
         )}
       </ScrollView>
     );

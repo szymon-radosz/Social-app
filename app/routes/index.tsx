@@ -8,17 +8,6 @@ import ConfirmAccount from "./../NotLoggedInScreens/ConfirmAccount/ConfirmAccoun
 import FillNecessaryInfo from "./../NotLoggedInScreens/FillNecessaryInfo/FillNecessaryInfo";
 import LoggedInMain from "./../LoggedInScreens/LoggedInMain";
 
-/*
-export enum ROUTES {
-    Welcome = "Welcome",
-    Login = "Login",
-    Register = "Register",
-    NotLoggedInMain = "NotLoggedInMain",
-    ConfirmAccount = "ConfirmAccount",
-    FillNecessaryInfo = "FillNecessaryInfo",
-    LoggedInMain = "LoggedInMain"
-}*/
-
 const MainStack = createStackNavigator(
   {
     Welcome: Welcome,

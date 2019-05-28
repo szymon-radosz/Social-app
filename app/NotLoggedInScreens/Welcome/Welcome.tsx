@@ -24,7 +24,7 @@ export default class Welcome extends Component<
 > {
   constructor(props: WelcomeProps) {
     super(props);
-    console.log(props);
+    //console.log(props);
 
     this.state = {
       slides: [

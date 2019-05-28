@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Platform, Button, Text, View } from "react-native";
+import { Button, Text, View } from "react-native";
 import NavigationScreenInterface from "./../../interfaces/NavigationScreenInterface";
 
 export default class ConfirmAccount extends Component<

@@ -75,6 +75,12 @@ export default class FilterModal extends Component<
   }
 
   render() {
+    const {
+      selectedResultValue,
+      selectedData,
+      selectedResultId,
+      selectedResultName
+    } = this.state;
     return (
       <View>
         <TouchableHighlight style={styles.buttonCloseModal}>
@@ -95,16 +101,16 @@ export default class FilterModal extends Component<
           >
             <Text style={{ fontWeight: "bold" }}>Filtruj:</Text>{" "}
             {this.props.filterModalName}
-            {this.state.selectedResultValue && " - "}
-            {this.state.selectedResultValue}
+            {selectedResultValue && " - "}
+            {selectedResultValue}
           </Text>
           <View style={{ paddingTop: 30 }}>
-            {this.state.selectedData &&
-              this.state.selectedData.map((option: any, i: number) => {
+            {selectedData &&
+              selectedData.map((option: any, i: number) => {
                 return (
                   <TouchableOpacity
                     style={
-                      this.state.selectedResultId === i
+                      selectedResultId === i
                         ? {
                             borderRadius: 6,
                             borderWidth: 1,
@@ -132,10 +138,7 @@ export default class FilterModal extends Component<
           <Button
             title="Filtruj"
             onPress={() =>
-              this.props.filterResults(
-                this.state.selectedResultName,
-                this.state.selectedResultValue
-              )
+              this.props.filterResults(selectedResultName, selectedResultValue)
             }
             color="#fff"
           />

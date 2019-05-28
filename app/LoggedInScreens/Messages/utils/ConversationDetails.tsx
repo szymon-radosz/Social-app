@@ -18,10 +18,11 @@ interface ConversationDetailsProps {
   API_URL: string;
   receiverPhotoPath: string;
   receiverName: string;
-  senderId: number;
   receiverEmail: string;
   receiverId: number;
-  sendMessage: void;
+  sendMessage: any;
+  setUserMessage: any;
+  userMessage: string;
 }
 
 export default class ConversationDetails extends Component<
@@ -59,11 +60,6 @@ export default class ConversationDetails extends Component<
       this.state.messages[0].conversation_id
     );
   };
-
-  /*componentDidUpdate() {
-    this.setState({ messages: this.props.messages });
-    console.log("Conversation details update", this.props);
-  }*/
 
   render() {
     const { messages } = this.state;
@@ -115,6 +111,8 @@ export default class ConversationDetails extends Component<
             receiverName={this.props.receiverName}
             receiverEmail={this.props.receiverEmail}
             receiverPhotoPath={this.props.receiverPhotoPath}
+            setUserMessage={this.props.setUserMessage}
+            userMessage={this.props.userMessage}
           />
         )}
       </View>

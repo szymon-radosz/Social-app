@@ -204,9 +204,18 @@ export default class Forum extends Component<ForumProps, ForumState> {
   };
 
   render() {
+    const {
+      showPostDetails,
+      showPostDetailsId,
+      showSavePost,
+      showSortByCategory,
+      showPosts,
+      postList,
+      categoryName
+    } = this.state;
     return (
       <View style={styles.container}>
-        {!this.state.showPostDetails && !this.state.showPosts && (
+        {!showPostDetails && !showPosts && (
           <ImageBackground source={forumBg} style={{ width: "100%" }}>
             <Text style={styles.pageTitle}>
               Podziel się swoją
@@ -216,19 +225,19 @@ export default class Forum extends Component<ForumProps, ForumState> {
         )}
 
         <View style={{ width: "100%" }}>
-          {this.state.showPostDetails &&
-            this.state.showPostDetailsId &&
-            !this.state.showSavePost &&
-            !this.state.showSortByCategory && (
+          {showPostDetails &&
+            showPostDetailsId &&
+            !showSavePost &&
+            !showSortByCategory && (
               <PostDetails
-                postDetailsId={this.state.showPostDetailsId}
+                postDetailsId={showPostDetailsId}
                 API_URL={this.props.API_URL}
                 user={this.props.user}
                 setShowPostDetails={this.setShowPostDetails}
               />
             )}
 
-          {!this.state.showPostDetails && this.state.showSavePost && (
+          {!showPostDetails && showSavePost && (
             <SavePost
               API_URL={this.props.API_URL}
               user={this.props.user}
@@ -237,47 +246,43 @@ export default class Forum extends Component<ForumProps, ForumState> {
             />
           )}
 
-          {!this.state.showPostDetails &&
-            !this.state.showSavePost &&
-            this.state.showSortByCategory && (
-              <SingleCategory
-                API_URL={this.props.API_URL}
-                user={this.props.user}
-                getPostByCategoryId={this.getPostByCategoryId}
-              />
-            )}
+          {!showPostDetails && !showSavePost && showSortByCategory && (
+            <SingleCategory
+              API_URL={this.props.API_URL}
+              user={this.props.user}
+              getPostByCategoryId={this.getPostByCategoryId}
+            />
+          )}
 
-          {this.state.postList &&
-            this.state.showPosts &&
-            !this.state.showPostDetails && (
-              <View>
-                <TouchableOpacity style={styles.buttonCloseModal}>
-                  <Button
-                    title="<"
-                    onPress={() => {
-                      this.setShowSortByCategory(true);
-                    }}
-                    color="#fff"
-                  />
-                </TouchableOpacity>
-
-                <Text
-                  style={{
-                    paddingTop: 15,
-                    paddingBottom: 20,
-                    fontSize: 18,
-                    textAlign: "center"
+          {postList && showPosts && !showPostDetails && (
+            <View>
+              <TouchableOpacity style={styles.buttonCloseModal}>
+                <Button
+                  title="<"
+                  onPress={() => {
+                    this.setShowSortByCategory(true);
                   }}
-                >
-                  Kategoria: {this.state.categoryName}
-                </Text>
-              </View>
-            )}
+                  color="#fff"
+                />
+              </TouchableOpacity>
 
-          {this.state.postList &&
-            this.state.showPosts &&
-            !this.state.showPostDetails &&
-            this.state.postList.map(
+              <Text
+                style={{
+                  paddingTop: 15,
+                  paddingBottom: 20,
+                  fontSize: 18,
+                  textAlign: "center"
+                }}
+              >
+                Kategoria: {categoryName}
+              </Text>
+            </View>
+          )}
+
+          {postList &&
+            showPosts &&
+            !showPostDetails &&
+            postList.map(
               (
                 post: {
                   title: string;
@@ -291,7 +296,7 @@ export default class Forum extends Component<ForumProps, ForumState> {
                 return (
                   <SinglePostOnList
                     getPostDetails={this.getPostDetails}
-                    showPosts={this.state.showPosts}
+                    showPosts={showPosts}
                     key={i}
                     post={post}
                   />
@@ -299,17 +304,15 @@ export default class Forum extends Component<ForumProps, ForumState> {
               }
             )}
 
-          {!this.state.showPostDetails &&
-            !this.state.showSavePost &&
-            this.state.showSortByCategory && (
-              <TouchableHighlight style={styles.addPostBtn}>
-                <Button
-                  title="Dodaj post"
-                  color="#fff"
-                  onPress={() => this.setShowSavePost()}
-                />
-              </TouchableHighlight>
-            )}
+          {!showPostDetails && !showSavePost && showSortByCategory && (
+            <TouchableHighlight style={styles.addPostBtn}>
+              <Button
+                title="Dodaj post"
+                color="#fff"
+                onPress={() => this.setShowSavePost()}
+              />
+            </TouchableHighlight>
+          )}
         </View>
       </View>
     );
