@@ -1,12 +1,12 @@
 import { createAppContainer, createStackNavigator } from "react-navigation";
 
-import NotLoggedInMain from "./../NotLoggedInScreens/NotLoggedInMain";
-import Welcome from "./../NotLoggedInScreens/Welcome/Welcome";
-import Login from "./../NotLoggedInScreens/Auth/Login";
-import Register from "./../NotLoggedInScreens/Auth/Register";
-import ConfirmAccount from "./../NotLoggedInScreens/ConfirmAccount/ConfirmAccount";
-import FillNecessaryInfo from "./../NotLoggedInScreens/FillNecessaryInfo/FillNecessaryInfo";
-import LoggedInMain from "./../LoggedInScreens/LoggedInMain";
+import NotLoggedInMain from "./../components/NotLoggedInScreens/NotLoggedInMain";
+import Welcome from "./../components/NotLoggedInScreens/WelcomeScreen/Welcome";
+import Login from "./../components/NotLoggedInScreens/Auth/Login";
+import Register from "./../components/NotLoggedInScreens/Auth/Register";
+import ConfirmAccount from "./../components/NotLoggedInScreens/ConfirmAccount/ConfirmAccount";
+import FillNecessaryInfo from "./../components/NotLoggedInScreens/FillNecessaryInfoScreen/FillNecessaryInfo";
+import LoggedInMain from "./../components/LoggedInScreens/LoggedInMain";
 
 const MainStack = createStackNavigator(
   {
