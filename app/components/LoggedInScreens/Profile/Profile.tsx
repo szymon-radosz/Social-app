@@ -2,8 +2,10 @@ import React, { Component, Suspense } from "react";
 import { Text, View } from "react-native";
 import ProfileHeader from "./utils/ProfileHeader";
 import ProfileOptions from "./utils/ProfileOptions";
+import UserFriendsList from "./utils/UserFriendsList";
 import Geocode from "react-geocode";
 import axios from "axios";
+import styles from "./style";
 
 const UserPreview = React.lazy(() => import("./utils/UserPreview"));
 
@@ -12,13 +14,16 @@ interface ProfileState {
   countFriends: number;
   showProfilePreview: boolean;
   showEditUserData: boolean;
-  showFriendList: boolean;
   showAuctionHistory: boolean;
+  showUserFriendsList: boolean;
+  showUserFriendId: number;
+  userFriendsList: any;
 }
 
 interface ProfileProps {
   user: any;
   API_URL: string;
+  showUserFriends: boolean;
 }
 
 export default class Profile extends Component<ProfileProps, ProfileState> {
@@ -29,17 +34,22 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
       countFriends: 0,
       showProfilePreview: false,
       showEditUserData: false,
-      showFriendList: false,
-      showAuctionHistory: false
+      showAuctionHistory: false,
+      showUserFriendsList: false,
+      showUserFriendId: 0,
+      userFriendsList: []
     };
 
     this.getUserLocationInfo = this.getUserLocationInfo.bind(this);
     this.getAmountOfFriends = this.getAmountOfFriends.bind(this);
     this.setShowProfilePreview = this.setShowProfilePreview.bind(this);
+    this.loadUserFriendsList = this.loadUserFriendsList.bind(this);
+    this.changeShowUserFriendsList = this.changeShowUserFriendsList.bind(this);
     console.log(["profile", props]);
   }
 
   componentDidMount() {
+    console.log("this.props.showUserFriends", this.props.showUserFriends);
     this.getUserLocationInfo(
       this.props.user.lattitude,
       this.props.user.longitude
@@ -47,6 +57,33 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
 
     this.getAmountOfFriends(this.props.user.id);
   }
+
+  changeShowUserFriendsList = (): void => {
+    this.setState({ showUserFriendsList: !this.state.showUserFriendsList });
+  };
+
+  loadUserFriendsList = (): void => {
+    let userId = this.props.user.id;
+    let that = this;
+
+    axios
+      .post(this.props.API_URL + "/api/friendsList", {
+        userId: userId
+      })
+      .then(async function(response) {
+        if (response.data.status === "OK") {
+          console.log(["friendsList", response.data.result.friendsList]);
+
+          await that.setState({
+            userFriendsList: response.data.result.friendsList,
+            showUserFriendsList: true
+          });
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
 
   setShowProfilePreview = (): void => {
     this.setState({ showProfilePreview: !this.state.showProfilePreview });
@@ -117,7 +154,8 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
       countFriends,
       showProfilePreview,
       showEditUserData,
-      showFriendList,
+      showUserFriendsList,
+      userFriendsList,
       showAuctionHistory
     } = this.state;
     return (
@@ -134,15 +172,16 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
         />
         {!showProfilePreview &&
           !showEditUserData &&
-          !showFriendList &&
+          !showUserFriendsList &&
           !showAuctionHistory && (
             <ProfileOptions
               setShowProfilePreview={this.setShowProfilePreview}
+              loadUserFriendsList={this.loadUserFriendsList}
             />
           )}
         {showProfilePreview &&
           !showEditUserData &&
-          !showFriendList &&
+          !showUserFriendsList &&
           !showAuctionHistory && (
             <Suspense fallback={<Text>Wczytywanie...</Text>}>
               <UserPreview
@@ -150,6 +189,20 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
                 kids={this.props.user.kids}
               />
             </Suspense>
+          )}
+        {!showProfilePreview &&
+          !showEditUserData &&
+          showUserFriendsList &&
+          !showAuctionHistory &&
+          userFriendsList && (
+            <View>
+              <Text style={styles.optionHeader}>Moje znajome</Text>
+              <UserFriendsList
+                userFriendsList={userFriendsList}
+                loggedInUser={this.props.user.id}
+                API_URL={this.props.API_URL}
+              />
+            </View>
           )}
       </View>
     );

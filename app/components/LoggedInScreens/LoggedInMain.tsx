@@ -18,6 +18,7 @@ interface LoggedInMainState {
   openMessages: boolean;
   openProfile: boolean;
   openForum: boolean;
+  openUserFriendsList: boolean;
 }
 
 export default class FillNecessaryInfo extends Component<
@@ -31,7 +32,8 @@ export default class FillNecessaryInfo extends Component<
       openAuctions: false,
       openMessages: false,
       openProfile: false,
-      openForum: false
+      openForum: false,
+      openUserFriendsList: false
     };
 
     this.setOpenFindUsers = this.setOpenFindUsers.bind(this);
@@ -114,6 +116,7 @@ export default class FillNecessaryInfo extends Component<
             "clearUserUnreadedMessages"
           )}
           setOpenMessages={this.setOpenMessages}
+          setOpenProfile={this.setOpenProfile}
         />
         <BottomPanel
           openFindUsers={this.setOpenFindUsers}

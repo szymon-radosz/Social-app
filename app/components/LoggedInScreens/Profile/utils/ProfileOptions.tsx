@@ -38,7 +38,7 @@ const ProfileOptions = (props: any) => (
 
     <TouchableHighlight
       style={styles.buttonOption}
-      onPress={() => console.log("test")}
+      onPress={() => props.loadUserFriendsList()}
     >
       <Text
         style={{

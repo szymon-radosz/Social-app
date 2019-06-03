@@ -13,6 +13,7 @@ const LoggedInScreens = (props: any) => (
         API_URL={props.API_URL}
         user={props.user}
         openMessages={props.setOpenMessages}
+        setOpenProfile={props.setOpenProfile}
       />
     )}
     {props.openAuctions && (
@@ -30,7 +31,13 @@ const LoggedInScreens = (props: any) => (
       />
     )}
     {props.openForum && <Forum API_URL={props.API_URL} user={props.user} />}
-    {props.openProfile && <Profile API_URL={props.API_URL} user={props.user} />}
+    {props.openProfile && (
+      <Profile
+        API_URL={props.API_URL}
+        user={props.user}
+        showUserFriends={props.showUserFriends ? true : false}
+      />
+    )}
   </View>
 );
 

@@ -7,7 +7,10 @@ import {
 } from "react-native";
 import {
   pageTitleWhite,
-  btnFullWidth
+  btnFullWidth,
+  lightBorderRadius,
+  fontSizeSmall,
+  darkGrayColor
 } from "./../../../assets/global/globalStyles";
 
 interface Style {
@@ -28,6 +31,12 @@ interface Style {
   userPreviewSectionListText: TextStyle;
   userPreviewListItemContainer: ViewStyle;
   userPreviewListItemImage: ImageStyle;
+  userListContainer: ViewStyle;
+  userListSingleUserContainer: ViewStyle;
+  userListSingleUserImage: ImageStyle;
+  userListTextContainer: ViewStyle;
+  userListText: TextStyle;
+  optionHeader: TextStyle;
 }
 
 const fullWidth = Dimensions.get("window").width;
@@ -122,5 +131,50 @@ export default StyleSheet.create<Style>({
     width: 15,
     height: 15,
     marginRight: 10
+  },
+  userListContainer: {
+    width: "100%",
+    marginTop: 8,
+    marginLeft: 8,
+    marginRight: 8
+  },
+  userListSingleUserContainer: {
+    width: "96%",
+    borderWidth: 1,
+    flexWrap: "wrap",
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    borderRadius: lightBorderRadius,
+    paddingLeft: 10,
+    paddingRight: 10
+  },
+  userListSingleUserImage: {
+    width: 50,
+    height: 50,
+    marginBottom: 10,
+    marginTop: 10,
+    borderRadius: 25
+  },
+  userListTextContainer: {
+    paddingLeft: 10,
+    width: "85%",
+    flexWrap: "wrap",
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  userListText: {
+    fontSize: fontSizeSmall,
+    textAlign: "left",
+    color: darkGrayColor,
+    fontWeight: "400"
+  },
+  optionHeader: {
+    fontSize: 18,
+    textAlign: "center",
+    fontWeight: "bold",
+    paddingTop: 20,
+    paddingBottom: 10
   }
 });

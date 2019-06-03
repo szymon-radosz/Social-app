@@ -48,6 +48,7 @@ interface FindUsersProps {
     longitude: number;
   };
   openMessages: any;
+  setOpenProfile: any;
 }
 
 export default class FindUsers extends Component<
@@ -639,6 +640,7 @@ export default class FindUsers extends Component<
                 usersAreInTheSameConversation={usersAreInTheSameConversation}
                 usersFriendshipStatus={usersFriendshipStatus}
                 openMessages={this.props.openMessages}
+                setOpenProfile={this.props.setOpenProfile}
                 setShowUserMessageBox={this.setShowUserMessageBox}
                 alertMessage={alertMessage}
                 alertType={alertType}

@@ -28,6 +28,7 @@ const UserDetails = (props: {
   confirmFriend: any;
   alertMessage: string;
   alertType: string;
+  setOpenProfile: any;
 }): any => {
   return (
     <View style={styles.userDetails}>
@@ -152,7 +153,7 @@ const UserDetails = (props: {
                 title="Jesteście znajomymi"
                 color="#fff"
                 onPress={() => {
-                  console.log("Jesteście znajomymi");
+                  props.setOpenProfile();
                 }}
               />
             )}
