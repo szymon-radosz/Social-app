@@ -53,7 +53,7 @@ const ProfileOptions = (props: any) => (
     </TouchableHighlight>
     <TouchableHighlight
       style={styles.buttonOption}
-      onPress={() => console.log("test")}
+      onPress={() => props.getUserAuctionList()}
     >
       <Text
         style={{

@@ -19,6 +19,8 @@ interface LoggedInMainState {
   openProfile: boolean;
   openForum: boolean;
   openFindUserId: number;
+  openAuctionId: number;
+  openAuctionUserId: number;
 }
 
 export default class FillNecessaryInfo extends Component<
@@ -33,7 +35,9 @@ export default class FillNecessaryInfo extends Component<
       openMessages: false,
       openProfile: false,
       openForum: false,
-      openFindUserId: 0
+      openFindUserId: 0,
+      openAuctionId: 0,
+      openAuctionUserId: 0
     };
 
     this.setOpenFindUsers = this.setOpenFindUsers.bind(this);
@@ -55,13 +59,16 @@ export default class FillNecessaryInfo extends Component<
     });
   };
 
-  setOpenAuctions = (): void => {
+  setOpenAuctions = (auctionId: number, auctionUserId: number): void => {
+    console.log(["setOpenAuctions", auctionId, auctionUserId]);
     this.setState({
       openFindUsers: false,
       openAuctions: true,
       openMessages: false,
       openForum: false,
-      openProfile: false
+      openProfile: false,
+      openAuctionId: auctionId,
+      openAuctionUserId: auctionUserId
     });
   };
 
@@ -103,7 +110,9 @@ export default class FillNecessaryInfo extends Component<
       openMessages,
       openProfile,
       openForum,
-      openFindUserId
+      openFindUserId,
+      openAuctionId,
+      openAuctionUserId
     } = this.state;
     return (
       <View style={styles.container}>
@@ -114,6 +123,8 @@ export default class FillNecessaryInfo extends Component<
           openProfile={openProfile}
           openForum={openForum}
           openFindUserId={openFindUserId}
+          openAuctionId={openAuctionId}
+          openAuctionUserId={openAuctionUserId}
           API_URL={navigation.getParam("API_URL")}
           user={navigation.getParam("user")}
           clearUserUnreadedMessages={navigation.getParam(
@@ -122,6 +133,7 @@ export default class FillNecessaryInfo extends Component<
           setOpenMessages={this.setOpenMessages}
           setOpenProfile={this.setOpenProfile}
           setOpenFindUsers={this.setOpenFindUsers}
+          setOpenAuctions={this.setOpenAuctions}
         />
         <BottomPanel
           openFindUsers={this.setOpenFindUsers}

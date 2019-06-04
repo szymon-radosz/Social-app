@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import ProfileHeader from "./utils/ProfileHeader";
 import ProfileOptions from "./utils/ProfileOptions";
 import UserFriendsList from "./utils/UserFriendsList";
+import UserAuctionsList from "./utils/UserAuctionsList";
 import Geocode from "react-geocode";
 import axios from "axios";
 import styles from "./style";
@@ -18,6 +19,7 @@ interface ProfileState {
   showUserFriendsList: boolean;
   showUserFriendId: number;
   userFriendsList: any;
+  userAuctionList: any;
 }
 
 interface ProfileProps {
@@ -25,6 +27,7 @@ interface ProfileProps {
   API_URL: string;
   showUserFriends: boolean;
   setOpenFindUsers: any;
+  setOpenAuctions: any;
 }
 
 export default class Profile extends Component<ProfileProps, ProfileState> {
@@ -38,7 +41,8 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
       showAuctionHistory: false,
       showUserFriendsList: false,
       showUserFriendId: 0,
-      userFriendsList: []
+      userFriendsList: [],
+      userAuctionList: []
     };
 
     this.getUserLocationInfo = this.getUserLocationInfo.bind(this);
@@ -46,6 +50,7 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
     this.setShowProfilePreview = this.setShowProfilePreview.bind(this);
     this.loadUserFriendsList = this.loadUserFriendsList.bind(this);
     this.changeShowUserFriendsList = this.changeShowUserFriendsList.bind(this);
+    this.getUserAuctionList = this.getUserAuctionList.bind(this);
     console.log(["profile", props]);
   }
 
@@ -129,6 +134,28 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
     );
   };
 
+  getUserAuctionList = (): void => {
+    let that = this;
+
+    axios
+      .post(this.props.API_URL + "/api/loadUserProductList", {
+        userId: this.props.user.id
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          console.log(["loadUserProductList", response.data.result]);
+
+          that.setState({
+            userAuctionList: response.data.result,
+            showAuctionHistory: true
+          });
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+
   getAmountOfFriends = (id: number): void => {
     console.log(["id: ", id]);
     let that = this;
@@ -157,7 +184,8 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
       showEditUserData,
       showUserFriendsList,
       userFriendsList,
-      showAuctionHistory
+      showAuctionHistory,
+      userAuctionList
     } = this.state;
     return (
       <View>
@@ -178,6 +206,7 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
             <ProfileOptions
               setShowProfilePreview={this.setShowProfilePreview}
               loadUserFriendsList={this.loadUserFriendsList}
+              getUserAuctionList={this.getUserAuctionList}
             />
           )}
         {showProfilePreview &&
@@ -203,6 +232,22 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
                 loggedInUser={this.props.user.id}
                 API_URL={this.props.API_URL}
                 setOpenFindUsers={this.props.setOpenFindUsers}
+              />
+            </View>
+          )}
+
+        {!showProfilePreview &&
+          !showEditUserData &&
+          !showUserFriendsList &&
+          showAuctionHistory &&
+          userAuctionList && (
+            <View>
+              <Text style={styles.optionHeader}>Wystawione aukcje</Text>
+              <UserAuctionsList
+                userAuctionList={userAuctionList}
+                loggedInUser={this.props.user.id}
+                API_URL={this.props.API_URL}
+                setOpenAuctions={this.props.setOpenAuctions}
               />
             </View>
           )}

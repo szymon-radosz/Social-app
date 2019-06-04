@@ -22,6 +22,8 @@ const LoggedInScreens = (props: any) => (
         API_URL={props.API_URL}
         user={props.user}
         openMessages={props.setOpenMessages}
+        openAuctionId={props.openAuctionId}
+        openAuctionUserId={props.openAuctionUserId}
       />
     )}
     {props.openMessages && (
@@ -38,6 +40,7 @@ const LoggedInScreens = (props: any) => (
         user={props.user}
         showUserFriends={props.showUserFriends ? true : false}
         setOpenFindUsers={props.setOpenFindUsers}
+        setOpenAuctions={props.setOpenAuctions}
       />
     )}
   </View>

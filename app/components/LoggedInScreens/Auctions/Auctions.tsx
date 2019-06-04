@@ -23,6 +23,8 @@ interface AuctionsProps {
     id: number;
   };
   openMessages: any;
+  openAuctionId: number;
+  openAuctionUserId: number;
 }
 
 interface AuctionsState {
@@ -113,6 +115,19 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
   componentDidMount = (): void => {
     //load all products based on user coords
     this.getProducts();
+
+    console.log(["this.props.openAuctionId", this.props.openAuctionId]);
+    if (
+      this.props.openAuctionId &&
+      this.props.openAuctionId !== 0 &&
+      this.props.openAuctionUserId &&
+      this.props.openAuctionUserId !== 0
+    ) {
+      this.setSelectedProduct(
+        this.props.openAuctionId,
+        this.props.openAuctionUserId
+      );
+    }
   };
 
   render() {

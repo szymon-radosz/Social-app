@@ -37,6 +37,12 @@ interface Style {
   userListTextContainer: ViewStyle;
   userListText: TextStyle;
   optionHeader: TextStyle;
+  productListSingleProductContainer: ViewStyle;
+  productListSingleProductImage: ImageStyle;
+  productListSingleProductTextContainer: ViewStyle;
+  productOnListTextName: TextStyle;
+  productOnListTextCategory: TextStyle;
+  productOnListTextPrice: TextStyle;
 }
 
 const fullWidth = Dimensions.get("window").width;
@@ -176,5 +182,44 @@ export default StyleSheet.create<Style>({
     fontWeight: "bold",
     paddingTop: 20,
     paddingBottom: 10
+  },
+  productListSingleProductContainer: {
+    width: "100%",
+    borderWidth: 1,
+    flexWrap: "wrap",
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    borderRadius: lightBorderRadius,
+    marginBottom: 10,
+    paddingLeft: 10
+  },
+  productListSingleProductImage: {
+    width: 50,
+    height: 50,
+    marginBottom: 10,
+    marginTop: 10,
+    marginLeft: "auto",
+    marginRight: "auto",
+    borderRadius: 25
+  },
+  productListSingleProductTextContainer: {
+    paddingLeft: 10,
+    width: "75%"
+  },
+  productOnListTextName: {
+    fontWeight: "bold",
+    textAlign: "left",
+    color: "#333"
+  },
+  productOnListTextCategory: {
+    color: "#333",
+    textAlign: "left",
+    fontSize: 12
+  },
+  productOnListTextPrice: {
+    color: "#333",
+    textAlign: "left",
+    fontSize: 12
   }
 });
