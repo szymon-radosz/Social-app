@@ -5,7 +5,7 @@ import styles from "./../style";
 const SingleUserFriendList = (props: any) => (
   <TouchableHighlight
     onPress={() => {
-      console.log(`${props.API_URL}userPhotos/${props.user.photo_path}`);
+      props.setOpenFindUsers(props.user.id);
     }}
   >
     <View style={styles.userListContainer}>

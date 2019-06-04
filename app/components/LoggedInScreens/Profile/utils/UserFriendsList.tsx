@@ -8,6 +8,7 @@ const UserFriendsList = (props: any) =>
         <SingleUserFriendList
           user={friendsPair.users_invited_me}
           API_URL={props.API_URL}
+          setOpenFindUsers={props.setOpenFindUsers}
         />
       );
     } else if (friendsPair.users_invited_by_me.id !== props.loggedInUser) {
@@ -15,6 +16,7 @@ const UserFriendsList = (props: any) =>
         <SingleUserFriendList
           user={friendsPair.users_invited_by_me}
           API_URL={props.API_URL}
+          setOpenFindUsers={props.setOpenFindUsers}
         />
       );
     }

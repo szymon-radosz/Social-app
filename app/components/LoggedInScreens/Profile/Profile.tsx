@@ -24,6 +24,7 @@ interface ProfileProps {
   user: any;
   API_URL: string;
   showUserFriends: boolean;
+  setOpenFindUsers: any;
 }
 
 export default class Profile extends Component<ProfileProps, ProfileState> {
@@ -201,6 +202,7 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
                 userFriendsList={userFriendsList}
                 loggedInUser={this.props.user.id}
                 API_URL={this.props.API_URL}
+                setOpenFindUsers={this.props.setOpenFindUsers}
               />
             </View>
           )}

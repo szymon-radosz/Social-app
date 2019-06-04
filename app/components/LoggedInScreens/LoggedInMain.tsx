@@ -18,7 +18,7 @@ interface LoggedInMainState {
   openMessages: boolean;
   openProfile: boolean;
   openForum: boolean;
-  openUserFriendsList: boolean;
+  openFindUserId: number;
 }
 
 export default class FillNecessaryInfo extends Component<
@@ -33,7 +33,7 @@ export default class FillNecessaryInfo extends Component<
       openMessages: false,
       openProfile: false,
       openForum: false,
-      openUserFriendsList: false
+      openFindUserId: 0
     };
 
     this.setOpenFindUsers = this.setOpenFindUsers.bind(this);
@@ -43,13 +43,15 @@ export default class FillNecessaryInfo extends Component<
     this.setOpenProfile = this.setOpenProfile.bind(this);
   }
 
-  setOpenFindUsers = (): void => {
+  setOpenFindUsers = (id: number): void => {
+    console.log(["setOpenFindUsers", id]);
     this.setState({
       openFindUsers: true,
       openAuctions: false,
       openMessages: false,
       openForum: false,
-      openProfile: false
+      openProfile: false,
+      openFindUserId: id
     });
   };
 
@@ -100,7 +102,8 @@ export default class FillNecessaryInfo extends Component<
       openAuctions,
       openMessages,
       openProfile,
-      openForum
+      openForum,
+      openFindUserId
     } = this.state;
     return (
       <View style={styles.container}>
@@ -110,6 +113,7 @@ export default class FillNecessaryInfo extends Component<
           openMessages={openMessages}
           openProfile={openProfile}
           openForum={openForum}
+          openFindUserId={openFindUserId}
           API_URL={navigation.getParam("API_URL")}
           user={navigation.getParam("user")}
           clearUserUnreadedMessages={navigation.getParam(
@@ -117,6 +121,7 @@ export default class FillNecessaryInfo extends Component<
           )}
           setOpenMessages={this.setOpenMessages}
           setOpenProfile={this.setOpenProfile}
+          setOpenFindUsers={this.setOpenFindUsers}
         />
         <BottomPanel
           openFindUsers={this.setOpenFindUsers}

@@ -49,6 +49,7 @@ interface FindUsersProps {
   };
   openMessages: any;
   setOpenProfile: any;
+  openFindUserId: number;
 }
 
 export default class FindUsers extends Component<
@@ -597,6 +598,13 @@ export default class FindUsers extends Component<
     ) {
       this.loadUsersNearCoords();
     }
+
+    console.log(["this.props.openFindUserId", this.props.openFindUserId]);
+    if (this.props.openFindUserId && this.props.openFindUserId !== 0) {
+      this.setShowUserDetails(this.props.openFindUserId);
+    }
+
+    //console.log(["openFindUserId", this.props.openFindUserId]);
   };
 
   render() {
