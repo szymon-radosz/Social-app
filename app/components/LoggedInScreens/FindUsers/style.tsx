@@ -13,7 +13,12 @@ import {
   lightBorderRadius,
   fontSizeBig,
   fontSizeSmall,
-  fontSizeMedium
+  fontSizeMedium,
+  userListContainer,
+  userListSingleUserContainer,
+  userListSingleUserImage,
+  userListTextContainer,
+  userListText
 } from "./../../../assets/global/globalStyles";
 const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;
@@ -21,7 +26,7 @@ const fullHeight = Dimensions.get("window").height;
 interface Style {
   pageTitle: any;
   pageSubTitle: TextStyle;
-  userListContainer: ViewStyle;
+  userListContainer: any;
   mainModalContainer: ViewStyle;
   userDetailsModalContentContainer: ViewStyle;
   relative: ViewStyle;
@@ -35,7 +40,7 @@ interface Style {
   removeFilterText: ViewStyle;
   userDetailsContent: ViewStyle;
   userDetailsContentHeader: TextStyle;
-  userDetailsContentHobbyContainer: ViewStyle;
+  userDetailsContentHobbyContainer: TextStyle;
   userDetailsRedirectMessageBtnContainer: TextStyle;
   userDetailsRedirectMessageBtn: TextStyle;
   buttonCloseModal: ViewStyle;
@@ -43,13 +48,13 @@ interface Style {
   userMessageTextArea: ViewStyle;
   activeFiltersText: ViewStyle;
   userMessageBtn: TextStyle;
-  userListSingleUserContainer: TextStyle;
+  userListSingleUserContainer: any;
   userDetails: ViewStyle;
-  userListSingleUserImage: ImageStyle;
+  userListSingleUserImage: any;
   container: ViewStyle;
   userListImage: ImageStyle;
-  userListText: TextStyle;
-  userListTextContainer: ViewStyle;
+  userListText: any;
+  userListTextContainer: any;
   userContainer: TextStyle;
   showUserDetails: TextStyle;
   fullWidth: any;
@@ -58,12 +63,7 @@ interface Style {
 
 export default StyleSheet.create<Style>({
   pageTitle: pageTitleWhite,
-  userListContainer: {
-    width: "100%",
-    marginTop: 8,
-    marginLeft: 8,
-    marginRight: 8
-  },
+  userListContainer: userListContainer,
   fullWidth: fullWidth,
   fullHeight: fullHeight,
   userTextLocation: {
@@ -136,20 +136,15 @@ export default StyleSheet.create<Style>({
   userDetailsContentHobbyContainer: {
     paddingLeft: 15,
     paddingRight: 15,
-    paddingBottom: 10
+    paddingBottom: 0,
+    paddingTop: 30,
+    textAlign: "center"
   },
   userDetailsRedirectMessageBtnContainer: {
     alignItems: "center",
     justifyContent: "center"
   },
-  userListTextContainer: {
-    paddingLeft: 10,
-    width: "85%",
-    flexWrap: "wrap",
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between"
-  },
+  userListTextContainer: userListTextContainer,
   userDetailsRedirectMessageBtn: btnFullWidth,
   buttonCloseModal: {
     position: "absolute",
@@ -218,25 +213,8 @@ export default StyleSheet.create<Style>({
     paddingTop: 10,
     paddingLeft: 10
   },
-  userListSingleUserContainer: {
-    width: "96%",
-    borderWidth: 1,
-    flexWrap: "wrap",
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    borderRadius: lightBorderRadius,
-    paddingLeft: 10,
-    paddingRight: 10
-  },
-  userListSingleUserImage: {
-    width: 50,
-    height: 50,
-    marginBottom: 10,
-    marginTop: 10,
-    borderRadius: 25
-  },
-
+  userListSingleUserContainer: userListSingleUserContainer,
+  userListSingleUserImage: userListSingleUserImage,
   container: {
     position: "relative"
     /*flexWrap: "wrap",
@@ -248,12 +226,7 @@ export default StyleSheet.create<Style>({
     height: 50,
     borderRadius: lightBorderRadius
   },
-  userListText: {
-    fontSize: fontSizeSmall,
-    textAlign: "left",
-    color: darkGrayColor,
-    fontWeight: "400"
-  },
+  userListText: userListText,
   userContainer: {
     borderRadius: lightBorderRadius,
     borderColor: peachColor,

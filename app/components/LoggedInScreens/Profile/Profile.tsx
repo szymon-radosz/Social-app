@@ -1,6 +1,6 @@
 import React, { Component, Suspense } from "react";
 import { Text, View } from "react-native";
-import ProfileHeader from "./utils/ProfileHeader";
+import ProfileHeader from "./../SharedComponents/ProfileHeader";
 import ProfileOptions from "./utils/ProfileOptions";
 import UserFriendsList from "./utils/UserFriendsList";
 import UserAuctionsList from "./utils/UserAuctionsList";
@@ -8,7 +8,9 @@ import Geocode from "react-geocode";
 import axios from "axios";
 import styles from "./style";
 
-const UserPreview = React.lazy(() => import("./utils/UserPreview"));
+const UserPreview = React.lazy(() =>
+  import("./../SharedComponents/UserPreview")
+);
 
 interface ProfileState {
   locationDetails: any;

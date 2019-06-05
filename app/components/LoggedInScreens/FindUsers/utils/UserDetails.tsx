@@ -1,7 +1,16 @@
 import React from "react";
-import { Button, Image, Text, View, TouchableHighlight } from "react-native";
+import {
+  Button,
+  Image,
+  Text,
+  View,
+  TouchableHighlight,
+  ScrollView
+} from "react-native";
 import styles from "./../style";
 import Alert from "./../../../../Alert/Alert";
+import ProfileHeader from "./../../SharedComponents/ProfileHeader";
+import UserPreview from "./../../SharedComponents/UserPreview";
 import { v4 as uuid } from "uuid";
 import moment from "moment";
 import "moment/locale/pl";
@@ -29,69 +38,36 @@ const UserDetails = (props: {
   alertMessage: string;
   alertType: string;
   setOpenProfile: any;
+  locationDetails: any;
 }): any => {
   return (
-    <View style={styles.userDetails}>
-      <TouchableHighlight
-        style={styles.buttonCloseModal}
-        onPress={() => props.hideShowUserDetails()}
-      >
-        <Image
-          style={{ width: 30, resizeMode: "contain" }}
-          source={leftArrow}
-        />
-      </TouchableHighlight>
-      <View style={styles.userDetailsHeader}>
-        <Image
-          style={styles.userDetailsImage}
-          source={{
-            uri: `${props.API_URL}userPhotos/${props.user.photo_path}`
-          }}
-        />
-        <Text style={styles.userDetailsHeaderText}>
-          {props.user.name}, {props.user.age}
-        </Text>
-      </View>
-      <View style={styles.userDetailsContent}>
-        {props.user.kids && props.user.kids.length > 0 && (
-          <Text style={styles.userDetailsContentHeader}>Dzieci: </Text>
-        )}
-        {props.user.kids &&
-          props.user.kids.length > 0 &&
-          props.user.kids.map(
-            (kid: {
-              name: string;
-              date_of_birth: string;
-              child_gender: string;
-            }) => {
-              if (kid.child_gender === "male") {
-                return (
-                  <Text key={uuid()}>
-                    {kid.name} - chłopiec - ur.{" "}
-                    {moment(kid.date_of_birth).format("LL")}
-                  </Text>
-                );
-              } else {
-                return (
-                  <Text key={uuid()}>
-                    {kid.name} - dziewczynka - ur.{" "}
-                    {moment(kid.date_of_birth).format("LL")}
-                  </Text>
-                );
-              }
-            }
-          )}
-      </View>
-      <View style={styles.userDetailsContentHobbyContainer}>
-        {props.user.hobbies && props.user.hobbies.length > 0 && (
-          <Text style={styles.userDetailsContentHeader}>Hobby: </Text>
-        )}
-        {props.user.hobbies &&
-          props.user.hobbies.length > 0 &&
-          props.user.hobbies.map((hobby: any) => {
-            return <Text key={uuid()}>{hobby.name} </Text>;
-          })}
-      </View>
+    <ScrollView style={styles.userDetails}>
+      <ProfileHeader
+        API_URL={props.API_URL}
+        avatar={props.user.photo_path}
+        name={props.user.name}
+        cityDistrict={props.locationDetails.cityDistrict}
+        city={props.locationDetails.city}
+        age={props.user.age}
+        countFriends={2}
+        countKids={
+          props.user.kids && props.user.kids.length > 0
+            ? props.user.kids.length
+            : 0
+        }
+      />
+
+      <UserPreview
+        hobbies={
+          props.user.hobbies && props.user.hobbies.length > 0
+            ? props.user.hobbies
+            : null
+        }
+        kids={
+          props.user.kids && props.user.kids.length > 0 ? props.user.kids : null
+        }
+      />
+
       {props.usersAreInTheSameConversation && (
         <Text style={styles.userDetailsContentHobbyContainer}>
           Jesteś już w trakcie rozmowy z {props.user.name}
@@ -164,7 +140,7 @@ const UserDetails = (props: {
       {props.alertMessage != "" && (
         <Alert alertType={props.alertType} alertMessage={props.alertMessage} />
       )}
-    </View>
+    </ScrollView>
   );
 };
 export default UserDetails;

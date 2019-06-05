@@ -12,16 +12,22 @@ import {
   lightBorderRadius,
   fontSizeBig,
   peachColor,
-  btnFullWidth
+  btnFullWidth,
+  productListSingleProductContainer,
+  productListSingleProductImage,
+  productListSingleProductTextContainer,
+  productOnListTextName,
+  productOnListTextCategory,
+  productOnListTextPrice
 } from "./../../../assets/global/globalStyles";
 const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;
 
 interface Style {
-  productOnListTextName: TextStyle;
-  productOnListTextCategory: TextStyle;
-  productListSingleProductTextContainer: ViewStyle;
-  productOnListTextPrice: TextStyle;
+  productOnListTextName: any;
+  productOnListTextCategory: any;
+  productListSingleProductTextContainer: any;
+  productOnListTextPrice: any;
   productHeaderText: TextStyle;
   bold: TextStyle;
   conversationBoxContainer: ViewStyle;
@@ -60,28 +66,16 @@ interface Style {
   productDetailsBtn: any;
   pageSubTitle: TextStyle;
   productList: ViewStyle;
-  productListSingleProductContainer: ViewStyle;
-  productListSingleProductImage: ImageStyle;
+  productListSingleProductContainer: any;
+  productListSingleProductImage: any;
   productListSingleProductBtn: TextStyle;
 }
 
 export default StyleSheet.create<Style>({
-  productOnListTextName: {
-    fontWeight: "bold",
-    textAlign: "left",
-    color: "#333"
-  },
+  productOnListTextName: productOnListTextName,
   productDetailsBtn: btnFullWidth,
-  productOnListTextCategory: {
-    color: "#333",
-    textAlign: "left",
-    fontSize: 12
-  },
-  productOnListTextPrice: {
-    color: "#333",
-    textAlign: "left",
-    fontSize: 12
-  },
+  productOnListTextCategory: productOnListTextCategory,
+  productOnListTextPrice: productOnListTextPrice,
   pageTitle: pageTitleBlack,
   pageSubTitle: {
     textAlign: "center",
@@ -95,30 +89,9 @@ export default StyleSheet.create<Style>({
     alignItems: "flex-start",
     flexDirection: "row"
   },
-  productListSingleProductTextContainer: {
-    paddingLeft: 10,
-    width: "75%"
-  },
-  productListSingleProductContainer: {
-    width: "100%",
-    borderWidth: 1,
-    flexWrap: "wrap",
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    borderRadius: lightBorderRadius,
-    marginBottom: 10,
-    paddingLeft: 10
-  },
-  productListSingleProductImage: {
-    width: 50,
-    height: 50,
-    marginBottom: 10,
-    marginTop: 10,
-    marginLeft: "auto",
-    marginRight: "auto",
-    borderRadius: 25
-  },
+  productListSingleProductTextContainer: productListSingleProductTextContainer,
+  productListSingleProductContainer: productListSingleProductContainer,
+  productListSingleProductImage: productListSingleProductImage,
   productListSingleProductBtn: {
     height: 35,
     width: 120,
