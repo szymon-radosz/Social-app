@@ -12,6 +12,14 @@ const UserPreview = React.lazy(() =>
   import("./../SharedComponents/UserPreview")
 );
 
+interface NavigationScreenInterface {
+  navigation: {
+    navigate: any;
+    getParam: any;
+    state: any;
+  };
+}
+
 interface ProfileState {
   locationDetails: any;
   countFriends: number;
@@ -30,9 +38,14 @@ interface ProfileProps {
   showUserFriends: boolean;
   setOpenFindUsers: any;
   setOpenAuctions: any;
+  navigation: any;
 }
 
-export default class Profile extends Component<ProfileProps, ProfileState> {
+export default class Profile extends Component<
+  ProfileProps,
+  ProfileState,
+  NavigationScreenInterface
+> {
   constructor(props: ProfileProps) {
     super(props);
     this.state = {
@@ -57,6 +70,7 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
   }
 
   componentDidMount() {
+    console.log(["Profilenavigation", this.props.navigation]);
     console.log("this.props.showUserFriends", this.props.showUserFriends);
     this.getUserLocationInfo(
       this.props.user.lattitude,
@@ -209,6 +223,9 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
               setShowProfilePreview={this.setShowProfilePreview}
               loadUserFriendsList={this.loadUserFriendsList}
               getUserAuctionList={this.getUserAuctionList}
+              navigation={this.props.navigation}
+              user={this.props.user}
+              API_URL={this.props.API_URL}
             />
           )}
         {showProfilePreview &&
@@ -217,6 +234,7 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
           !showAuctionHistory && (
             <Suspense fallback={<Text>Wczytywanie...</Text>}>
               <UserPreview
+                description={this.props.user.description}
                 hobbies={this.props.user.hobbies}
                 kids={this.props.user.kids}
               />
@@ -244,7 +262,7 @@ export default class Profile extends Component<ProfileProps, ProfileState> {
           showAuctionHistory &&
           userAuctionList && (
             <View>
-              <Text style={styles.optionHeader}>Wystawione aukcje</Text>
+              <Text style={styles.optionHeader}>Wystawione przedmioty</Text>
               <UserAuctionsList
                 userAuctionList={userAuctionList}
                 loggedInUser={this.props.user.id}

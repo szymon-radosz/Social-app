@@ -50,7 +50,7 @@ const AgeDescScreen = (props: {
         </TextInput>
       </View>
 
-      {props.age.length > 0 && (
+      {props.age != 0 && (
         <TouchableHighlight style={styles.nextBtn}>
           <Button title="Dalej" color="#fff" onPress={props.nextStep} />
         </TouchableHighlight>

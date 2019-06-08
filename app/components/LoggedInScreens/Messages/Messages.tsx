@@ -29,10 +29,7 @@ interface MessagesProps {
   clearUserUnreadedMessages: any;
 }
 
-export default class FillNecessaryInfo extends Component<
-  MessagesProps,
-  MessagesState
-> {
+export default class Messages extends Component<MessagesProps, MessagesState> {
   constructor(props: MessagesProps) {
     super(props);
     this.state = {

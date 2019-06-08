@@ -66,6 +66,7 @@ const UserDetails = (props: {
         kids={
           props.user.kids && props.user.kids.length > 0 ? props.user.kids : null
         }
+        description={props.user.description}
       />
 
       {props.usersAreInTheSameConversation && (

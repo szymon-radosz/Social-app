@@ -23,7 +23,7 @@ interface LoggedInMainState {
   openAuctionUserId: number;
 }
 
-export default class FillNecessaryInfo extends Component<
+export default class LoggedInMain extends Component<
   NavigationScreenInterface,
   LoggedInMainState
 > {
@@ -125,6 +125,7 @@ export default class FillNecessaryInfo extends Component<
           openFindUserId={openFindUserId}
           openAuctionId={openAuctionId}
           openAuctionUserId={openAuctionUserId}
+          navigation={navigation}
           API_URL={navigation.getParam("API_URL")}
           user={navigation.getParam("user")}
           clearUserUnreadedMessages={navigation.getParam(

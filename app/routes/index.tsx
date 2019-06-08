@@ -5,7 +5,7 @@ import Welcome from "./../components/NotLoggedInScreens/WelcomeScreen/Welcome";
 import Login from "./../components/NotLoggedInScreens/Auth/Login";
 import Register from "./../components/NotLoggedInScreens/Auth/Register";
 import ConfirmAccount from "./../components/NotLoggedInScreens/ConfirmAccount/ConfirmAccount";
-import FillNecessaryInfo from "./../components/NotLoggedInScreens/FillNecessaryInfoScreen/FillNecessaryInfo";
+import FillNecessaryInfo from "./../components/NotLoggedInScreens/EditProfileInfo/EditProfileInfo";
 import LoggedInMain from "./../components/LoggedInScreens/LoggedInMain";
 
 const MainStack = createStackNavigator(

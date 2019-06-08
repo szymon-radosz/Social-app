@@ -33,7 +33,8 @@ export default StyleSheet.create<Style>({
     flexDirection: "row",
     justifyContent: "space-between",
     alignSelf: "flex-start",
-    width: "100%"
+    width: "100%",
+    backgroundColor: "#fff"
   },
   buttonImage: {
     height: 25,

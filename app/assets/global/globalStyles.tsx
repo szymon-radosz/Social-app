@@ -229,3 +229,10 @@ export const userPreviewListItemImage = {
 export const userPreviewSectionListText = {
   fontSize: 16
 };
+export const userPreviewDescription = {
+  fontSize: 14,
+  paddingTop: 10,
+  paddingLeft: 10,
+  paddingRight: 10,
+  textAlign: "center"
+};

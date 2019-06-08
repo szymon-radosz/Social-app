@@ -15,7 +15,10 @@ const PhotoScreen = (props: {
   handleChoosePhoto: any;
   nextStep: any;
   prevStep: any;
+  userSavedPhoto: string;
+  API_URL: string;
 }): any => {
+  console.log([props.API_URL, props.userSavedPhoto]);
   return (
     <View>
       <ImageBackground source={fillInfoBg} style={{ width: "100%" }}>
@@ -27,6 +30,13 @@ const PhotoScreen = (props: {
       {props.photo && (
         <Image source={{ uri: props.photo.uri }} style={styles.image} />
       )}
+
+      {props.userSavedPhoto && props.API_URL && !props.photo && (
+        <Image
+          source={{ uri: `${props.API_URL}userPhotos/${props.userSavedPhoto}` }}
+          style={styles.image}
+        />
+      )}
       <TouchableHighlight style={styles.nextBtn}>
         <Button
           title="Wybierz zdjęcie"
@@ -35,11 +45,12 @@ const PhotoScreen = (props: {
         />
       </TouchableHighlight>
 
-      {props.photo && (
-        <TouchableHighlight style={styles.nextBtn}>
-          <Button title="Dalej" color="#fff" onPress={props.nextStep} />
-        </TouchableHighlight>
-      )}
+      {props.photo ||
+        (props.userSavedPhoto && (
+          <TouchableHighlight style={styles.nextBtn}>
+            <Button title="Dalej" color="#fff" onPress={props.nextStep} />
+          </TouchableHighlight>
+        ))}
 
       <TouchableHighlight style={styles.previousBtn}>
         <Button title="Wróć" color="#fff" onPress={props.prevStep} />

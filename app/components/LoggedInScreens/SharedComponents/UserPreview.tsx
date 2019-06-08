@@ -10,11 +10,15 @@ import {
   userPreviewSectionHeaderText,
   userPreviewListItemContainer,
   userPreviewListItemImage,
-  userPreviewSectionListText
+  userPreviewSectionListText,
+  userPreviewDescription
 } from "./../../../assets/global/globalStyles";
 
 const UserPreview = (props: any) => (
   <View>
+    {props.description && (
+      <Text style={userPreviewDescription}>{props.description}</Text>
+    )}
     <View style={userPreviewSectionContainer}>
       <View style={userPreviewSectionHeaderContainer}>
         <Image style={userPreviewSectionHeaderImage} source={bike} />

@@ -27,6 +27,7 @@ interface FillNecessaryInfoState {
   actualKidDate: string;
   actualKidGender: string;
   region: any;
+  userSavedPhoto: string;
 }
 
 export default class FillNecessaryInfo extends Component<
@@ -42,6 +43,7 @@ export default class FillNecessaryInfo extends Component<
       hobbies: [],
       actualStep: 1,
       photo: null,
+      userSavedPhoto: "",
       actualKidName: "",
       actualKidDate: "2016-05-15",
       actualKidGender: "female",
@@ -69,10 +71,87 @@ export default class FillNecessaryInfo extends Component<
     this.changeHobbyStatus = this.changeHobbyStatus.bind(this);
     this.saveHobbies = this.saveHobbies.bind(this);
     this.setGender = this.setGender.bind(this);
+    this.cleanUserKids = this.cleanUserKids.bind(this);
+    this.cleanUserHobbies = this.cleanUserHobbies.bind(this);
   }
 
   componentDidMount = (): void => {
+    const navigation = this.props.navigation;
+
+    console.log(navigation.getParam("user").age);
+
+    if (navigation.getParam("user")) {
+      console.log(
+        navigation.getParam("user").age,
+        navigation.getParam("user").description,
+        navigation.getParam("user").hobbies,
+        navigation.getParam("user").photo_path,
+        navigation.getParam("user").lattitude
+      );
+      this.setState({
+        age: navigation.getParam("user").age,
+        desc: navigation.getParam("user").description
+          ? navigation.getParam("user").description
+          : "",
+        userSavedPhoto: navigation.getParam("user").photo_path,
+        region: {
+          latitude: navigation.getParam("user").lattitude,
+          longitude: navigation.getParam("user").longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421
+        }
+      });
+    }
+
     this.getAllHobbies();
+  };
+
+  cleanUserHobbies = (): void => {
+    const navigation = this.props.navigation;
+
+    try {
+      let API_URL = navigation.getParam("API_URL", "");
+      let userId = navigation.getParam("user").id;
+
+      axios
+        .post(API_URL + "/api/cleanUserHobbies", {
+          userId: userId
+        })
+        .then(response => {
+          if (response.data.status === "OK") {
+            console.log(["cleanUserHobbies", response.data]);
+          }
+        })
+        .catch(function(error) {
+          console.log(error.message);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  cleanUserKids = (): void => {
+    const navigation = this.props.navigation;
+
+    try {
+      let API_URL = navigation.getParam("API_URL", "");
+      let userId = navigation.getParam("user").id;
+
+      axios
+        .post(API_URL + "/api/cleanUserKids", {
+          userId: userId
+        })
+        .then(response => {
+          if (response.data.status === "OK") {
+            console.log(["cleanUserKids", response.data]);
+          }
+        })
+        .catch(function(error) {
+          console.log(error.message);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   setGender = (gender: string): void => {
@@ -327,13 +406,17 @@ export default class FillNecessaryInfo extends Component<
     }));
   };
 
-  submitData = (): void => {
+  submitData = async () => {
     let navProps = this.props.navigation.state.params;
 
-    this.saveUserData();
-    this.fileUpload();
-    this.saveUserKids();
-    this.saveHobbies();
+    //first remove user kids and hobbies and save new data
+    await this.cleanUserKids();
+    await this.cleanUserHobbies();
+
+    await this.saveUserData();
+    await this.fileUpload();
+    await this.saveUserKids();
+    await this.saveHobbies();
 
     navProps.setUserFilledInfo();
   };
@@ -349,7 +432,8 @@ export default class FillNecessaryInfo extends Component<
       actualKidName,
       hobbies,
       actualStep,
-      actualKidGender
+      actualKidGender,
+      userSavedPhoto
     } = this.state;
     return (
       <View>
@@ -368,6 +452,8 @@ export default class FillNecessaryInfo extends Component<
             prevStep={this.prevStep}
             photo={photo}
             handleChoosePhoto={this.handleChoosePhoto}
+            API_URL={this.props.navigation.getParam("API_URL", "")}
+            userSavedPhoto={userSavedPhoto}
           />
         )}
 

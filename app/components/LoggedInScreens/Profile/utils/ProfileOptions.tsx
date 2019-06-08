@@ -22,7 +22,17 @@ const ProfileOptions = (props: any) => (
 
     <TouchableHighlight
       style={styles.buttonOption}
-      onPress={() => console.log("test")}
+      onPress={() => {
+        {
+          props.navigation &&
+            props.navigation.navigate("NotLoggedInMain", {
+              user: props.user,
+              editProfileData: true
+            });
+
+          console.log(["ProfileOptions navigation", props.navigation]);
+        }
+      }}
     >
       <Text
         style={{
@@ -63,7 +73,7 @@ const ProfileOptions = (props: any) => (
           color: "#fff"
         }}
       >
-        Historia aukcji
+        Wystawione przedmioty
       </Text>
     </TouchableHighlight>
   </View>

@@ -15,6 +15,7 @@ interface NavigationScreenInterface {
     navigate: any;
     getParam: any;
     state: any;
+    setParams: any;
   };
 }
 
@@ -38,6 +39,8 @@ export default class NotLoggedInMain extends Component<
   }
 
   setUserFilledInfo = (): void => {
+    const navigation = this.props.navigation;
+
     try {
       let userEmailName = this.state.userData.email;
 
@@ -54,6 +57,8 @@ export default class NotLoggedInMain extends Component<
             console.log(response);
 
             await that.setState({ userData: response.data.result[0] });
+
+            await navigation.setParams({ editProfileData: false });
 
             that.checkUserStatus();
           }
@@ -148,10 +153,28 @@ export default class NotLoggedInMain extends Component<
 
   componentDidMount = (): void => {
     const navigation = this.props.navigation;
+
     if (!this.state.userLoggedIn) {
       navigation.navigate("Welcome", {
         API_URL: API_URL,
         setUserData: this.setUserData
+      });
+    }
+  };
+
+  componentDidUpdate = (): void => {
+    const navigation = this.props.navigation;
+
+    console.log([
+      "navigation.getParam('editProfileData')",
+      navigation.getParam("editProfileData")
+    ]);
+
+    if (navigation.getParam("editProfileData") === true) {
+      navigation.navigate("FillNecessaryInfo", {
+        user: navigation.getParam("user"),
+        API_URL: API_URL,
+        setUserFilledInfo: this.setUserFilledInfo
       });
     }
   };

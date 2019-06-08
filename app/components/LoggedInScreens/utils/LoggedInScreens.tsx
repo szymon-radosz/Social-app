@@ -41,6 +41,7 @@ const LoggedInScreens = (props: any) => (
         showUserFriends={props.showUserFriends ? true : false}
         setOpenFindUsers={props.setOpenFindUsers}
         setOpenAuctions={props.setOpenAuctions}
+        navigation={props.navigation}
       />
     )}
   </View>
