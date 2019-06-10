@@ -295,7 +295,7 @@ export default class PostDetails extends Component<
                 <Text style={{ color: "#f7b67e", fontSize: 18 }}>
                   {postVotes}
                 </Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => this.savePostVote()}>
                   <Image
                     style={{ height: 20 }}
                     resizeMode="contain"
@@ -322,26 +322,6 @@ export default class PostDetails extends Component<
                 </TouchableOpacity>
               </View>
             </View>
-            <TouchableHighlight
-              style={{
-                height: 35,
-                width: 180,
-                marginTop: 5,
-                fontSize: 10,
-                borderRadius: 6,
-                borderColor: "#f7b67e",
-                borderWidth: 2,
-                backgroundColor: "#f7b67e",
-                marginBottom: 20,
-                alignItems: "center",
-                justifyContent: "center"
-              }}
-              onPress={() => this.savePostVote()}
-            >
-              <Text style={{ color: "#fff", fontWeight: "bold" }}>
-                To mi się podoba!
-              </Text>
-            </TouchableHighlight>
 
             <Text style={{ marginBottom: 10 }}>Komentarze:</Text>
             {comments.map((comment: any, i: number) => {
@@ -367,13 +347,11 @@ export default class PostDetails extends Component<
                     <View style={{ marginLeft: 10 }}>
                       <Text>{comment.users.name}</Text>
                       <Text>{comment.users.email}</Text>
+                      <Text>{comment.created_at}</Text>
                     </View>
                   </View>
                   <Text style={{ marginTop: 10, marginBottom: 10 }}>
                     {comment.body}
-                  </Text>
-                  <Text style={{ marginBottom: 5, fontSize: 12 }}>
-                    {comment.created_at}
                   </Text>
 
                   <View
@@ -396,7 +374,9 @@ export default class PostDetails extends Component<
                       <Text style={{ color: "#f7b67e", fontSize: 18 }}>
                         {comment.votes.length}
                       </Text>
-                      <TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => this.saveCommentVote(comment.id)}
+                      >
                         <Image
                           style={{ height: 20 }}
                           resizeMode="contain"
@@ -405,26 +385,6 @@ export default class PostDetails extends Component<
                       </TouchableOpacity>
                     </View>
                   </View>
-
-                  <TouchableHighlight
-                    style={{
-                      height: 35,
-                      width: 180,
-                      marginTop: 5,
-                      fontSize: 10,
-                      borderRadius: 6,
-                      borderColor: "#f7b67e",
-                      borderWidth: 2,
-                      backgroundColor: "#f7b67e",
-                      alignItems: "center",
-                      justifyContent: "center"
-                    }}
-                    onPress={() => this.saveCommentVote(comment.id)}
-                  >
-                    <Text style={{ color: "#fff", fontWeight: "bold" }}>
-                      To mi się podoba!
-                    </Text>
-                  </TouchableHighlight>
                 </View>
               );
             })}

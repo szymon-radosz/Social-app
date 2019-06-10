@@ -73,18 +73,18 @@ export default class FillNecessaryInfo extends Component<
     this.setGender = this.setGender.bind(this);
     this.cleanUserKids = this.cleanUserKids.bind(this);
     this.cleanUserHobbies = this.cleanUserHobbies.bind(this);
+    this.removeKidFromState = this.removeKidFromState.bind(this);
   }
 
-  componentDidMount = (): void => {
+  componentDidMount = async () => {
     const navigation = this.props.navigation;
-
-    console.log(navigation.getParam("user").age);
 
     if (navigation.getParam("user")) {
       console.log(
         navigation.getParam("user").age,
         navigation.getParam("user").description,
         navigation.getParam("user").hobbies,
+        navigation.getParam("user").kids,
         navigation.getParam("user").photo_path,
         navigation.getParam("user").lattitude
       );
@@ -101,9 +101,31 @@ export default class FillNecessaryInfo extends Component<
           longitudeDelta: 0.0421
         }
       });
-    }
 
-    this.getAllHobbies();
+      await this.getAllHobbies();
+
+      //if user want to edit profile and have some kids, then we format that kids array and assign it to state
+      if (navigation.getParam("user").kids.length > 0) {
+        navigation.getParam("user").kids.map(async (kid: any, i: number) => {
+          let kidObj = {
+            name: kid.name,
+            dateOfBirth: kid.date_of_birth,
+            childGender: kid.child_gender
+          };
+
+          await this.setState(prevState => ({
+            kids: [...prevState.kids, kidObj]
+          }));
+        });
+      }
+    }
+  };
+
+  removeKidFromState = (kidName: string): void => {
+    console.log(["removeKidFromState", this.state.kids]);
+    this.setState(prevState => ({
+      kids: prevState.kids.filter((kid: any) => kid.name !== kidName)
+    }));
   };
 
   cleanUserHobbies = (): void => {
@@ -212,19 +234,47 @@ export default class FillNecessaryInfo extends Component<
   getAllHobbies = (): void => {
     const navigation = this.props.navigation;
     let API_URL = navigation.getParam("API_URL", "");
+    let activeHobbies: { name: string }[] = [];
+    //if user want to edit profile and have some hobbies, then we format that hobbies array and set active hobbies
+    if (navigation.getParam("user").hobbies.length > 0) {
+      navigation.getParam("user").hobbies.map(async (hobby: any, i: number) => {
+        let activeHobbyObj = {
+          name: hobby.name
+        };
+        activeHobbies.push(activeHobbyObj);
+      });
+
+      console.log(activeHobbies);
+    }
 
     axios
       .get(API_URL + "/api/hobbiesList")
       .then(response => {
         if (response.data.status === "OK") {
+          //loop through existing state list of all hobbies and check if name is element of activeHobbies
           response.data.result.map(
             (hobby: { name: string; id: number }, i: number) => {
-              let hobbyObj = {
-                name: hobby.name,
-                id: hobby.id,
-                keyId: i,
-                active: false
-              };
+              let hobbyObj = {};
+
+              if (
+                activeHobbies.filter(
+                  activeHobby => activeHobby.name === hobby.name
+                ).length > 0
+              ) {
+                hobbyObj = {
+                  name: hobby.name,
+                  id: hobby.id,
+                  keyId: i,
+                  active: true
+                };
+              } else {
+                hobbyObj = {
+                  name: hobby.name,
+                  id: hobby.id,
+                  keyId: i,
+                  active: false
+                };
+              }
 
               this.setState(prevState => ({
                 hobbies: [...prevState.hobbies, hobbyObj]
@@ -478,6 +528,7 @@ export default class FillNecessaryInfo extends Component<
             setActualKidDate={this.setActualKidDate}
             setGender={this.setGender}
             actualKidGender={actualKidGender}
+            removeKidFromState={this.removeKidFromState}
           />
         )}
 

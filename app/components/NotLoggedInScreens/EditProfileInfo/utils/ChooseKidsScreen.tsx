@@ -25,6 +25,7 @@ const ChooseKidsScreen = (props: {
   setGender: any;
   actualKidGender: string;
   actualKidName: string;
+  removeKidFromState: any;
 }): any => {
   return (
     <ScrollView>
@@ -176,13 +177,25 @@ const ChooseKidsScreen = (props: {
             ) => {
               if (kid.childGender === "male") {
                 return (
-                  <Text key={uuid()} style={styles.subText}>
+                  <Text
+                    onPress={() => {
+                      props.removeKidFromState(kid.name);
+                    }}
+                    key={uuid()}
+                    style={styles.subText}
+                  >
                     {kid.name} - chłopiec - {kid.dateOfBirth}
                   </Text>
                 );
               } else if (kid.childGender === "female") {
                 return (
-                  <Text key={uuid()} style={styles.subText}>
+                  <Text
+                    onPress={() => {
+                      props.removeKidFromState(kid.name);
+                    }}
+                    key={uuid()}
+                    style={styles.subText}
+                  >
                     {kid.name} - dziewczynka - {kid.dateOfBirth}
                   </Text>
                 );
