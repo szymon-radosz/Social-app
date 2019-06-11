@@ -4,7 +4,7 @@ import NotLoggedInMain from "./../components/NotLoggedInScreens/NotLoggedInMain"
 import Welcome from "./../components/NotLoggedInScreens/WelcomeScreen/Welcome";
 import Login from "./../components/NotLoggedInScreens/Auth/Login";
 import Register from "./../components/NotLoggedInScreens/Auth/Register";
-import ConfirmAccount from "./../components/NotLoggedInScreens/ConfirmAccount/ConfirmAccount";
+import ConfirmAccount from "./../components/NotLoggedInScreens/Auth/ConfirmAccount";
 import FillNecessaryInfo from "./../components/NotLoggedInScreens/EditProfileInfo/EditProfileInfo";
 import LoggedInMain from "./../components/LoggedInScreens/LoggedInMain";
 

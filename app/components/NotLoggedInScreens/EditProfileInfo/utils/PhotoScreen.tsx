@@ -18,7 +18,6 @@ const PhotoScreen = (props: {
   userSavedPhoto: string;
   API_URL: string;
 }): any => {
-  console.log([props.API_URL, props.userSavedPhoto]);
   return (
     <View>
       <ImageBackground source={fillInfoBg} style={{ width: "100%" }}>
@@ -27,7 +26,7 @@ const PhotoScreen = (props: {
 
       <Text style={styles.fillInfoHeader}>Dodaj swoje zdjęcie profilowe</Text>
 
-      {props.photo && !props.userSavedPhoto && (
+      {props.photo && (
         <Image source={{ uri: props.photo.uri }} style={styles.image} />
       )}
 
@@ -45,12 +44,11 @@ const PhotoScreen = (props: {
         />
       </TouchableHighlight>
 
-      {props.photo ||
-        (props.userSavedPhoto && (
-          <TouchableHighlight style={styles.nextBtn}>
-            <Button title="Dalej" color="#fff" onPress={props.nextStep} />
-          </TouchableHighlight>
-        ))}
+      {props.photo || props.userSavedPhoto ? (
+        <TouchableHighlight style={styles.nextBtn}>
+          <Button title="Dalej" color="#fff" onPress={props.nextStep} />
+        </TouchableHighlight>
+      ) : null}
 
       <TouchableHighlight style={styles.previousBtn}>
         <Button title="Wróć" color="#fff" onPress={props.prevStep} />

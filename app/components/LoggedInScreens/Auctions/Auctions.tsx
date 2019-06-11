@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Suspense } from "react";
 import {
   TouchableHighlight,
   ImageBackground,
@@ -10,10 +10,11 @@ import { btnFullWidth } from "./../../../assets/global/globalStyles";
 import axios from "axios";
 import auctionsBg from "./../../../assets/images/auctionsBgMin.jpg";
 import SingleAuctionOnList from "./utils/SingleAuctionOnList";
-import ProductDetails from "./utils/ProductDetails";
-import AddNewProductBox from "./utils/AddNewProductBox";
 import styles from "./style";
 import { v4 as uuid } from "uuid";
+
+const ProductDetails = React.lazy(() => import("./utils/ProductDetails"));
+const AddNewProductBox = React.lazy(() => import("./utils/AddNewProductBox"));
 
 interface AuctionsProps {
   API_URL: string;
@@ -173,22 +174,26 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
         )}
 
         {displayProductDetails && (
-          <ProductDetails
-            currentUser={this.props.user}
-            API_URL={this.props.API_URL}
-            openMessages={this.props.openMessages}
-            productId={selectedProductId}
-            productUserId={selectedProductUserId}
-            setDisplayProductDetails={this.setDisplayProductDetails}
-          />
+          <Suspense fallback={<Text>Wczytywanie...</Text>}>
+            <ProductDetails
+              currentUser={this.props.user}
+              API_URL={this.props.API_URL}
+              openMessages={this.props.openMessages}
+              productId={selectedProductId}
+              productUserId={selectedProductUserId}
+              setDisplayProductDetails={this.setDisplayProductDetails}
+            />
+          </Suspense>
         )}
 
         {displayNewProductBox && (
-          <AddNewProductBox
-            currentUser={this.props.user}
-            API_URL={this.props.API_URL}
-            changeDisplayNewProductBox={this.changeDisplayNewProductBox}
-          />
+          <Suspense fallback={<Text>Wczytywanie...</Text>}>
+            <AddNewProductBox
+              currentUser={this.props.user}
+              API_URL={this.props.API_URL}
+              changeDisplayNewProductBox={this.changeDisplayNewProductBox}
+            />
+          </Suspense>
         )}
       </View>
     );

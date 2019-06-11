@@ -1,11 +1,14 @@
-import React, { Component } from "react";
+import React, { Component, Suspense } from "react";
 import { TouchableOpacity, Text, ImageBackground, View } from "react-native";
 import SingleConversationBox from "./utils/SingleConversationBox";
-import ConversationDetails from "./utils/ConversationDetails";
 import axios from "axios";
 import styles from "./style";
 import { v4 as uuid } from "uuid";
 import messagesBgMin from "./../../../assets/images/messagesBgMin.jpg";
+
+const ConversationDetails = React.lazy(() =>
+  import("./utils/ConversationDetails")
+);
 
 interface MessagesState {
   messagesList: any;
@@ -279,19 +282,21 @@ export default class Messages extends Component<MessagesProps, MessagesState> {
         </View>
 
         {openConversationDetails && (
-          <ConversationDetails
-            messages={openConversationMessages}
-            currentUser={this.props.user}
-            receiverId={receiverId}
-            receiverName={receiverName}
-            receiverEmail={receiverEmail}
-            receiverPhotoPath={receiverPhotoPath}
-            API_URL={this.props.API_URL}
-            sendMessage={this.sendMessage}
-            clearUserUnreadedMessages={this.props.clearUserUnreadedMessages}
-            setUserMessage={this.setUserMessage}
-            userMessage={userMessage}
-          />
+          <Suspense fallback={<Text>Wczytywanie...</Text>}>
+            <ConversationDetails
+              messages={openConversationMessages}
+              currentUser={this.props.user}
+              receiverId={receiverId}
+              receiverName={receiverName}
+              receiverEmail={receiverEmail}
+              receiverPhotoPath={receiverPhotoPath}
+              API_URL={this.props.API_URL}
+              sendMessage={this.sendMessage}
+              clearUserUnreadedMessages={this.props.clearUserUnreadedMessages}
+              setUserMessage={this.setUserMessage}
+              userMessage={userMessage}
+            />
+          </Suspense>
         )}
       </View>
     );

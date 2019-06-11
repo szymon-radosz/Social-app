@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Suspense } from "react";
 import {
   Button,
   Text,
@@ -9,11 +9,12 @@ import {
 } from "react-native";
 import axios from "axios";
 import SinglePostOnList from "./utils/SinglePostOnList";
-import PostDetails from "./utils/PostDetails";
-import SavePost from "./utils/SavePost";
-import SingleCategory from "./utils/SingleCategory";
 import forumBg from "./../../../assets/images/forumBgMin.jpg";
 import styles from "./style";
+
+const PostDetails = React.lazy(() => import("./utils/PostDetails"));
+const SavePost = React.lazy(() => import("./utils/SavePost"));
+const SingleCategory = React.lazy(() => import("./utils/SingleCategory"));
 
 interface ForumProps {
   API_URL: string;
@@ -227,29 +228,35 @@ export default class Forum extends Component<ForumProps, ForumState> {
             showPostDetailsId &&
             !showSavePost &&
             !showSortByCategory && (
-              <PostDetails
-                postDetailsId={showPostDetailsId}
-                API_URL={this.props.API_URL}
-                user={this.props.user}
-                setShowPostDetails={this.setShowPostDetails}
-              />
+              <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                <PostDetails
+                  postDetailsId={showPostDetailsId}
+                  API_URL={this.props.API_URL}
+                  user={this.props.user}
+                  setShowPostDetails={this.setShowPostDetails}
+                />
+              </Suspense>
             )}
 
           {!showPostDetails && showSavePost && (
-            <SavePost
-              API_URL={this.props.API_URL}
-              user={this.props.user}
-              savePost={this.savePost}
-              setShowSavePost={this.setShowSavePost}
-            />
+            <Suspense fallback={<Text>Wczytywanie...</Text>}>
+              <SavePost
+                API_URL={this.props.API_URL}
+                user={this.props.user}
+                savePost={this.savePost}
+                setShowSavePost={this.setShowSavePost}
+              />
+            </Suspense>
           )}
 
           {!showPostDetails && !showSavePost && showSortByCategory && (
-            <SingleCategory
-              API_URL={this.props.API_URL}
-              user={this.props.user}
-              getPostByCategoryId={this.getPostByCategoryId}
-            />
+            <Suspense fallback={<Text>Wczytywanie...</Text>}>
+              <SingleCategory
+                API_URL={this.props.API_URL}
+                user={this.props.user}
+                getPostByCategoryId={this.getPostByCategoryId}
+              />
+            </Suspense>
           )}
 
           {postList && showPosts && !showPostDetails && (

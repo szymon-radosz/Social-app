@@ -11,7 +11,11 @@ import moment from "moment";
 import "moment/locale/pl";
 import like from "./../../../../assets/images/like.png";
 
-const SinglePostOnList = (props: { post: any; getPostDetails: any }): any => {
+const SinglePostOnList = (props: {
+  post: any;
+  getPostDetails: any;
+  showPosts: boolean;
+}): any => {
   const postDate = moment(props.post.created_at).format("LLL");
   return (
     <TouchableHighlight onPress={() => props.getPostDetails(props.post.id)}>

@@ -1,12 +1,15 @@
-import React, { Component } from "react";
-import { View } from "react-native";
-import AgeDescScreen from "./utils/AgeDescScreen";
-import PhotoScreen from "./utils/PhotoScreen";
-import CoordsScreen from "./utils/CoordsScreen";
-import ChooseKidsScreen from "./utils/ChooseKidsScreen";
-import ChooseHobbiesScreen from "./utils/ChooseHobbiesScreen";
+import React, { Component, Suspense } from "react";
+import { View, Text } from "react-native";
 import ImagePicker from "react-native-image-picker";
 import axios from "axios";
+
+const AgeDescScreen = React.lazy(() => import("./utils/AgeDescScreen"));
+const PhotoScreen = React.lazy(() => import("./utils/PhotoScreen"));
+const CoordsScreen = React.lazy(() => import("./utils/CoordsScreen"));
+const ChooseKidsScreen = React.lazy(() => import("./utils/ChooseKidsScreen"));
+const ChooseHobbiesScreen = React.lazy(() =>
+  import("./utils/ChooseHobbiesScreen")
+);
 
 interface NavigationScreenInterface {
   navigation: {
@@ -488,57 +491,67 @@ export default class FillNecessaryInfo extends Component<
     return (
       <View>
         {actualStep === 1 && (
-          <AgeDescScreen
-            handleChange={this.handleChange}
-            age={age}
-            desc={desc}
-            nextStep={this.nextStep}
-          />
+          <Suspense fallback={<Text>Wczytywanie...</Text>}>
+            <AgeDescScreen
+              handleChange={this.handleChange}
+              age={age}
+              desc={desc}
+              nextStep={this.nextStep}
+            />
+          </Suspense>
         )}
 
         {actualStep === 2 && (
-          <PhotoScreen
-            nextStep={this.nextStep}
-            prevStep={this.prevStep}
-            photo={photo}
-            handleChoosePhoto={this.handleChoosePhoto}
-            API_URL={this.props.navigation.getParam("API_URL", "")}
-            userSavedPhoto={userSavedPhoto}
-          />
+          <Suspense fallback={<Text>Wczytywanie...</Text>}>
+            <PhotoScreen
+              nextStep={this.nextStep}
+              prevStep={this.prevStep}
+              photo={photo}
+              handleChoosePhoto={this.handleChoosePhoto}
+              API_URL={this.props.navigation.getParam("API_URL", "")}
+              userSavedPhoto={userSavedPhoto}
+            />
+          </Suspense>
         )}
 
         {actualStep === 3 && (
-          <CoordsScreen
-            nextStep={this.nextStep}
-            prevStep={this.prevStep}
-            onRegionChange={this.onRegionChange}
-            region={region}
-          />
+          <Suspense fallback={<Text>Wczytywanie...</Text>}>
+            <CoordsScreen
+              nextStep={this.nextStep}
+              prevStep={this.prevStep}
+              onRegionChange={this.onRegionChange}
+              region={region}
+            />
+          </Suspense>
         )}
 
         {actualStep === 4 && (
-          <ChooseKidsScreen
-            nextStep={this.nextStep}
-            prevStep={this.prevStep}
-            setActualKidName={this.setActualKidName}
-            addKid={this.addKid}
-            kids={kids}
-            actualKidDate={actualKidDate}
-            actualKidName={actualKidName}
-            setActualKidDate={this.setActualKidDate}
-            setGender={this.setGender}
-            actualKidGender={actualKidGender}
-            removeKidFromState={this.removeKidFromState}
-          />
+          <Suspense fallback={<Text>Wczytywanie...</Text>}>
+            <ChooseKidsScreen
+              nextStep={this.nextStep}
+              prevStep={this.prevStep}
+              setActualKidName={this.setActualKidName}
+              addKid={this.addKid}
+              kids={kids}
+              actualKidDate={actualKidDate}
+              actualKidName={actualKidName}
+              setActualKidDate={this.setActualKidDate}
+              setGender={this.setGender}
+              actualKidGender={actualKidGender}
+              removeKidFromState={this.removeKidFromState}
+            />
+          </Suspense>
         )}
 
         {actualStep === 5 && (
-          <ChooseHobbiesScreen
-            prevStep={this.prevStep}
-            submitData={this.submitData}
-            hobbies={hobbies}
-            changeHobbyStatus={this.changeHobbyStatus}
-          />
+          <Suspense fallback={<Text>Wczytywanie...</Text>}>
+            <ChooseHobbiesScreen
+              prevStep={this.prevStep}
+              submitData={this.submitData}
+              hobbies={hobbies}
+              changeHobbyStatus={this.changeHobbyStatus}
+            />
+          </Suspense>
         )}
       </View>
     );

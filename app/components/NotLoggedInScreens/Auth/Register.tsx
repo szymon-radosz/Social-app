@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import {
   TextInput,
   Text,
@@ -11,65 +11,31 @@ import axios from "axios";
 import styles from "./style";
 import Alert from "./../../../Alert/Alert";
 
-interface NavigationScreenInterface {
-  navigation: {
-    navigate: any;
-    getParam: any;
-    state: any;
-  };
-}
+const Register = (props: { navigation: any }) => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConf, setPasswordConf] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
 
-interface RegisterState {
-  name: string;
-  email: string;
-  password: string;
-  passwordConf: string;
-  alertMessage: string;
-  alertType: string;
-  showAlert: boolean;
-}
+  const navigation = props.navigation;
 
-export default class Register extends Component<
-  NavigationScreenInterface,
-  RegisterState
-> {
-  constructor(props: NavigationScreenInterface) {
-    super(props);
-    this.state = {
-      name: "",
-      email: "",
-      password: "",
-      passwordConf: "",
-      alertMessage: "",
-      alertType: "",
-      showAlert: false
-    };
-
-    this.registerUser = this.registerUser.bind(this);
-  }
-
-  registerUser = (): void => {
-    const navigation = this.props.navigation;
-    const { name, email, password, passwordConf } = this.state;
+  const registerUser = (): void => {
     if (!name || !email || !password || !passwordConf) {
-      this.setState({
-        showAlert: true,
-        alertType: "danger",
-        alertMessage: "Wszystkie pola są wymagane."
-      });
+      setShowAlert(true);
+      setAlertType("danger");
+      setAlertMessage("Wszystkie pola są wymagane.");
     } else if (password !== passwordConf) {
-      this.setState({
-        showAlert: true,
-        alertType: "danger",
-        alertMessage: "Hasło i potwierdzenie hasła muszą być identyczne."
-      });
+      setShowAlert(true);
+      setAlertType("danger");
+      setAlertMessage("Hasło i potwierdzenie hasła muszą być identyczne.");
     } else if (password === passwordConf) {
       try {
         console.log([name, email, password]);
         let API_URL = navigation.getParam("API_URL", "");
         let navProps = navigation.state.params;
-
-        let that = this;
 
         console.log(API_URL);
 
@@ -84,12 +50,11 @@ export default class Register extends Component<
             console.log(response.data);
 
             if (response.data.status === "OK") {
-              that.setState({
-                showAlert: true,
-                alertType: "success",
-                alertMessage:
-                  "Sprawdź swoją skrzynkę mailową i potwierdź swoje konto przez otrzymaną od nas wiadomość."
-              });
+              setShowAlert(true);
+              setAlertType("success");
+              setAlertMessage(
+                "Sprawdź swoją skrzynkę mailową i potwierdź swoje konto przez otrzymaną od nas wiadomość."
+              );
 
               navProps.setUserData(response.data.user);
             }
@@ -105,82 +70,67 @@ export default class Register extends Component<
     }
   };
 
-  render() {
-    const navigation = this.props.navigation;
-    const {
-      name,
-      email,
-      password,
-      passwordConf,
-      alertMessage,
-      alertType,
-      showAlert
-    } = this.state;
-    return (
-      <View style={styles.container}>
-        <Text
-          style={styles.headerText}
-        >{`Dołącz do naszej \nspołeczności!`}</Text>
+  return (
+    <View style={styles.container}>
+      <Text
+        style={styles.headerText}
+      >{`Dołącz do naszej \nspołeczności!`}</Text>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Imię"
-          placeholderTextColor="#919191"
-          onChangeText={name => this.setState({ name })}
-          value={name}
+      <TextInput
+        style={styles.input}
+        placeholder="Imię"
+        placeholderTextColor="#919191"
+        onChangeText={name => setName(name)}
+        value={name}
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="E-mail"
+        placeholderTextColor="#919191"
+        onChangeText={email => setEmail(email)}
+        value={email}
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Hasło"
+        secureTextEntry={true}
+        placeholderTextColor="#919191"
+        onChangeText={password => setPassword(password)}
+        value={password}
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Potwierdź hasło"
+        secureTextEntry={true}
+        placeholderTextColor="#919191"
+        onChangeText={passwordConf => setPasswordConf(passwordConf)}
+        value={passwordConf}
+      />
+      <TouchableHighlight style={styles.mainBtn}>
+        <Button title="Zarejestruj" color="#fff" onPress={registerUser} />
+      </TouchableHighlight>
+
+      <Text style={styles.askDesc}>Posiadasz juz konto? </Text>
+
+      <TouchableHighlight>
+        <Button
+          title="Zaloguj się"
+          color={peachColor}
+          onPress={() =>
+            navigation.navigate("Login", {
+              API_URL: navigation.getParam("API_URL", ""),
+              setUserData: navigation.getParam("setUserData")
+            })
+          }
         />
-
-        <TextInput
-          style={styles.input}
-          placeholder="E-mail"
-          placeholderTextColor="#919191"
-          onChangeText={email => this.setState({ email })}
-          value={email}
-        />
-
-        <TextInput
-          style={styles.input}
-          placeholder="Hasło"
-          secureTextEntry={true}
-          placeholderTextColor="#919191"
-          onChangeText={password => this.setState({ password })}
-          value={password}
-        />
-
-        <TextInput
-          style={styles.input}
-          placeholder="Potwierdź hasło"
-          secureTextEntry={true}
-          placeholderTextColor="#919191"
-          onChangeText={passwordConf => this.setState({ passwordConf })}
-          value={passwordConf}
-        />
-        <TouchableHighlight style={styles.mainBtn}>
-          <Button
-            title="Zarejestruj"
-            color="#fff"
-            onPress={() => this.registerUser()}
-          />
-        </TouchableHighlight>
-
-        <Text style={styles.askDesc}>Posiadasz juz konto? </Text>
-
-        <TouchableHighlight>
-          <Button
-            title="Zaloguj się"
-            color={peachColor}
-            onPress={() =>
-              navigation.navigate("Login", {
-                API_URL: navigation.getParam("API_URL", ""),
-                setUserData: navigation.getParam("setUserData")
-              })
-            }
-          />
-        </TouchableHighlight>
-        {showAlert != false && (
-          <Alert alertType={alertType} alertMessage={alertMessage} />
-        )}
-      </View>
-    );
-  }
-}
+      </TouchableHighlight>
+      {showAlert != false && (
+        <Alert alertType={alertType} alertMessage={alertMessage} />
+      )}
+    </View>
+  );
+};
+export default Register;

@@ -27,6 +27,7 @@ const UserDetails = (props: {
     age: number;
     kids: any;
     hobbies: any;
+    description: string;
   };
   usersFriendshipStatus: string;
   usersAreInTheSameConversation: boolean;

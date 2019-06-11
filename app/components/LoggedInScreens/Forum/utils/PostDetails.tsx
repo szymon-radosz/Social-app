@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ScrollView
 } from "react-native";
+import SinglePostDetailsComment from "./SinglePostDetailsComment";
 import styles from "./../style";
 import axios from "axios";
 import SavePostComment from "./SavePostComment";
@@ -326,66 +327,11 @@ export default class PostDetails extends Component<
             <Text style={{ marginBottom: 10 }}>Komentarze:</Text>
             {comments.map((comment: any, i: number) => {
               return (
-                <View style={styles.postDetailsComment}>
-                  <View
-                    style={{
-                      flexWrap: "wrap",
-                      alignItems: "center",
-                      flexDirection: "row"
-                    }}
-                  >
-                    <TouchableOpacity>
-                      <Image
-                        style={styles.image}
-                        source={{
-                          uri: `${this.props.API_URL}userPhotos/${
-                            comment.users.photo_path
-                          }`
-                        }}
-                      />
-                    </TouchableOpacity>
-                    <View style={{ marginLeft: 10 }}>
-                      <Text>{comment.users.name}</Text>
-                      <Text>{comment.users.email}</Text>
-                      <Text>{comment.created_at}</Text>
-                    </View>
-                  </View>
-                  <Text style={{ marginTop: 10, marginBottom: 10 }}>
-                    {comment.body}
-                  </Text>
-
-                  <View
-                    style={{
-                      flexWrap: "wrap",
-                      alignItems: "center",
-                      flexDirection: "row",
-                      marginBottom: 5,
-                      marginTop: 5
-                    }}
-                  >
-                    <View
-                      style={{
-                        flexWrap: "wrap",
-                        alignItems: "center",
-                        flexDirection: "row",
-                        marginBottom: 5
-                      }}
-                    >
-                      <Text style={{ color: "#f7b67e", fontSize: 18 }}>
-                        {comment.votes.length}
-                      </Text>
-                      <TouchableOpacity
-                        onPress={() => this.saveCommentVote(comment.id)}
-                      >
-                        <Image
-                          style={{ height: 20 }}
-                          resizeMode="contain"
-                          source={like}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
+                <SinglePostDetailsComment
+                  API_URL={this.props.API_URL}
+                  comment={comment}
+                  saveCommentVote={this.saveCommentVote}
+                />
               );
             })}
           </View>

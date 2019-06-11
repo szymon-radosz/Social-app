@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import {
   Text,
   View,
@@ -11,69 +11,32 @@ import styles from "./style";
 import axios from "axios";
 import Alert from "./../../../Alert/Alert";
 
-interface NavigationScreenInterface {
-  navigation: {
-    navigate: any;
-    getParam: any;
-    state: any;
-  };
-}
+const Login = (props: { navigation: any }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
 
-interface LoginState {
-  email: string;
-  password: string;
-  alertType: string;
-  alertMessage: string;
-  showAlert: boolean;
-}
+  const navigation = props.navigation;
 
-export default class Login extends Component<
-  NavigationScreenInterface,
-  LoginState
-> {
-  constructor(props: NavigationScreenInterface) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-      alertMessage: "",
-      alertType: "",
-      showAlert: false
-    };
-
-    this.hideAlert = this.hideAlert.bind(this);
-  }
-
-  hideAlert = (): void => {
-    this.setState({ showAlert: false });
-  };
-
-  loginUser = (): void => {
-    const navigation = this.props.navigation;
-    const { email, password } = this.state;
+  const loginUser = (): void => {
     if (email && !password) {
-      this.setState({
-        showAlert: true,
-        alertType: "danger",
-        alertMessage: "Podaj swoje hasło."
-      });
+      setShowAlert(true);
+      setAlertType("danger");
+      setAlertMessage("Podaj swoje hasło.");
     } else if (!email && password) {
-      this.setState({
-        showAlert: true,
-        alertType: "danger",
-        alertMessage: "Podaj swój adres e-mail."
-      });
+      setShowAlert(true);
+      setAlertType("danger");
+      setAlertMessage("Podaj swój adres e-mail.");
     } else if (!email && !password) {
-      this.setState({
-        showAlert: true,
-        alertType: "danger",
-        alertMessage: "Podaj swój adres e-mail i hasło."
-      });
+      setShowAlert(true);
+      setAlertType("danger");
+      setAlertMessage("Podaj swój adres e-mail i hasło.");
     } else if (email && password) {
       try {
         let API_URL = navigation.getParam("API_URL", "");
         let navProps = navigation.state.params;
-        let that = this;
         axios
           .post(API_URL + "/api/login", {
             email: email,
@@ -107,11 +70,9 @@ export default class Login extends Component<
                 .catch(function(error) {
                   console.log(error);
 
-                  that.setState({
-                    showAlert: true,
-                    alertType: "danger",
-                    alertMessage: "Sprawdź poprawność swoich danych."
-                  });
+                  setShowAlert(true);
+                  setAlertType("danger");
+                  setAlertMessage("Sprawdź poprawność swoich danych.");
                 });
             } else {
               console.log("Nie ma tokena");
@@ -120,67 +81,58 @@ export default class Login extends Component<
           .catch(function(error) {
             console.log(error);
 
-            that.setState({
-              showAlert: true,
-              alertType: "danger",
-              alertMessage: "Sprawdź poprawność swoich danych."
-            });
+            setShowAlert(true);
+            setAlertType("danger");
+            setAlertMessage("Sprawdź poprawność swoich danych.");
           });
       } catch (e) {
         console.log(e);
       }
     }
   };
-  render() {
-    const navigation = this.props.navigation;
-    const { email, password, alertType, alertMessage, showAlert } = this.state;
 
-    return (
-      <View style={styles.container}>
-        <Text style={styles.headerText}>{`Miło Cię widzieć \nponownie!`}</Text>
+  return (
+    <View style={styles.container}>
+      <Text style={styles.headerText}>{`Miło Cię widzieć \nponownie!`}</Text>
 
-        <TextInput
-          style={styles.input}
-          placeholder="E-mail"
-          placeholderTextColor="#919191"
-          onChangeText={email => this.setState({ email })}
-          value={email}
+      <TextInput
+        style={styles.input}
+        placeholder="E-mail"
+        placeholderTextColor="#919191"
+        onChangeText={email => setEmail(email)}
+        value={email}
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Hasło"
+        secureTextEntry={true}
+        placeholderTextColor="#919191"
+        onChangeText={password => setPassword(password)}
+        value={password}
+      />
+      <TouchableHighlight style={styles.mainBtn}>
+        <Button title="Zaloguj" color="#fff" onPress={loginUser} />
+      </TouchableHighlight>
+
+      <Text style={styles.askDesc}>Nie masz konta? </Text>
+
+      <TouchableHighlight>
+        <Button
+          title="Zarejestruj się"
+          color={peachColor}
+          onPress={() =>
+            navigation.navigate("Register", {
+              API_URL: navigation.getParam("API_URL", ""),
+              setUserData: navigation.getParam("setUserData")
+            })
+          }
         />
-
-        <TextInput
-          style={styles.input}
-          placeholder="Hasło"
-          secureTextEntry={true}
-          placeholderTextColor="#919191"
-          onChangeText={password => this.setState({ password })}
-          value={password}
-        />
-        <TouchableHighlight style={styles.mainBtn}>
-          <Button
-            title="Zaloguj"
-            color="#fff"
-            onPress={() => this.loginUser()}
-          />
-        </TouchableHighlight>
-
-        <Text style={styles.askDesc}>Nie masz konta? </Text>
-
-        <TouchableHighlight>
-          <Button
-            title="Zarejestruj się"
-            color={peachColor}
-            onPress={() =>
-              navigation.navigate("Register", {
-                API_URL: navigation.getParam("API_URL", ""),
-                setUserData: navigation.getParam("setUserData")
-              })
-            }
-          />
-        </TouchableHighlight>
-        {showAlert != false && (
-          <Alert alertType={alertType} alertMessage={alertMessage} />
-        )}
-      </View>
-    );
-  }
-}
+      </TouchableHighlight>
+      {showAlert != false && (
+        <Alert alertType={alertType} alertMessage={alertMessage} />
+      )}
+    </View>
+  );
+};
+export default Login;
