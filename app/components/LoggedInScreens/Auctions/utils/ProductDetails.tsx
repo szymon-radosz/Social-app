@@ -11,12 +11,8 @@ import axios from "axios";
 import styles from "./../style";
 import ProductMessageBox from "./ProductMessageBox";
 import ProductVoteBox from "./ProductVoteBox";
-import Geocode from "react-geocode";
 import Lightbox from "react-native-lightbox";
 import Carousel from "react-native-looped-carousel";
-
-// set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
-Geocode.setApiKey("AIzaSyDk3FIFmkVy87I4hq2fdJ1x6H_mDa96I30");
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 
@@ -142,48 +138,6 @@ export default class ProductDetails extends Component<
       .then(function(response) {
         if (response.data.status === "OK") {
           console.log(["getProductDetails", response]);
-
-          Geocode.fromLatLng(
-            response.data.result[0].lat,
-            response.data.result[0].lng
-          ).then(
-            (res: any) => {
-              let addressObj;
-              if (
-                res.results[0].address_components[2] &&
-                res.results[0].address_components[3] &&
-                res.results[0].address_components[5] &&
-                res.results[0].address_components[7]
-              ) {
-                console.log(["addressObj", res.results[0]]);
-                const cityArea = res.results[0].address_components[2].long_name;
-                const city = res.results[0].address_components[3].long_name;
-                const countryArea =
-                  res.results[0].address_components[5].long_name;
-                const country = "Polska";
-                const cityCode = res.results[0].address_components[7].long_name;
-
-                addressObj = {
-                  cityArea: cityArea,
-                  city: city,
-                  countryArea: countryArea,
-                  country: country,
-                  cityCode: cityCode
-                };
-              } else {
-                addressObj = {
-                  notFoundFullName: res.results[0].formatted_address
-                };
-              }
-
-              console.log(addressObj);
-
-              that.setState({ productLocation: addressObj });
-            },
-            (error: any) => {
-              console.error(error);
-            }
-          );
 
           that.setState({
             productDetails: response.data.result
@@ -380,12 +334,14 @@ export default class ProductDetails extends Component<
                 </Text>
               )}
 
-              {productLocation && productLocation.notFoundFullName && (
-                <Text style={styles.productContentText}>
-                  <Text style={styles.bold}>W poblizu:</Text>{" "}
-                  {productLocation.notFoundFullName}
-                </Text>
-              )}
+              {productLocation &&
+                productLocation.notFoundFullName &&
+                productDetails[0].users.location_string && (
+                  <Text style={styles.productContentText}>
+                    <Text style={styles.bold}>W poblizu:</Text>{" "}
+                    {productDetails[0].users.location_string}
+                  </Text>
+                )}
 
               <Text style={styles.productContentText}>
                 {" "}

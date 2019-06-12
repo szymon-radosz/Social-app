@@ -2,6 +2,7 @@ import React, { Component, Suspense } from "react";
 import { View, Text } from "react-native";
 import ImagePicker from "react-native-image-picker";
 import axios from "axios";
+import Geocode from "react-geocode";
 
 const AgeDescScreen = React.lazy(() => import("./utils/AgeDescScreen"));
 const PhotoScreen = React.lazy(() => import("./utils/PhotoScreen"));
@@ -10,6 +11,9 @@ const ChooseKidsScreen = React.lazy(() => import("./utils/ChooseKidsScreen"));
 const ChooseHobbiesScreen = React.lazy(() =>
   import("./utils/ChooseHobbiesScreen")
 );
+
+// set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
+Geocode.setApiKey("AIzaSyDk3FIFmkVy87I4hq2fdJ1x6H_mDa96I30");
 
 interface NavigationScreenInterface {
   navigation: {
@@ -31,6 +35,7 @@ interface FillNecessaryInfoState {
   actualKidGender: string;
   region: any;
   userSavedPhoto: string;
+  locationString: string;
 }
 
 export default class FillNecessaryInfo extends Component<
@@ -46,6 +51,7 @@ export default class FillNecessaryInfo extends Component<
       hobbies: [],
       actualStep: 1,
       photo: null,
+      locationString: "",
       userSavedPhoto: "",
       actualKidName: "",
       actualKidDate: "2016-05-15",
@@ -77,6 +83,7 @@ export default class FillNecessaryInfo extends Component<
     this.cleanUserKids = this.cleanUserKids.bind(this);
     this.cleanUserHobbies = this.cleanUserHobbies.bind(this);
     this.removeKidFromState = this.removeKidFromState.bind(this);
+    this.userLocationString = this.userLocationString.bind(this);
   }
 
   componentDidMount = async () => {
@@ -350,17 +357,17 @@ export default class FillNecessaryInfo extends Component<
       let API_URL = navigation.getParam("API_URL", "");
       let userEmailName = navigation.getParam("user").email;
 
-      console.log([
+      /*console.log([
         this.state.photo.uri,
         userEmailName.split("@")[0],
         userEmailName
-      ]);
+      ]);*/
 
       axios
         .post(
           API_URL + "/api/uploadUserPhoto",
           {
-            file: this.state.photo.uri,
+            file: this.state.photo.uri ? this.state.photo.uri : "",
             fileName: userEmailName.split("@")[0],
             userEmail: userEmailName
           }
@@ -384,23 +391,59 @@ export default class FillNecessaryInfo extends Component<
     }
   };
 
-  saveUserData = (): void => {
+  userLocationString = async () => {
+    const { region } = this.state;
+
+    let locationString;
+    await Geocode.fromLatLng(region.latitude, region.longitude).then(
+      (res: any) => {
+        if (
+          res.results[0].address_components[2] &&
+          res.results[0].address_components[2].long_name &&
+          res.results[0].address_components[3] &&
+          res.results[0].address_components[3].long_name
+        ) {
+          let cityDistrict = res.results[0].address_components[2].long_name;
+          let city = res.results[0].address_components[3].long_name;
+
+          locationString = `${cityDistrict}, ${city}`;
+          console.log(["Geocode locactionString", locationString]);
+          this.setState({ locationString: locationString });
+
+          //console.log(addressObj);
+        } else {
+          locationString = `${res.results[0].formatted_address}`;
+          console.log(["Geocode locactionString", locationString]);
+          this.setState({ locationString: locationString });
+        }
+      },
+      (error: any) => {
+        console.error(error);
+      }
+    );
+  };
+
+  saveUserData = async () => {
     const navigation = this.props.navigation;
-    const { age, desc, region } = this.state;
+    const { age, desc, region, locationString } = this.state;
+
     //console.log(navigation.getParam("user"));
     try {
       let API_URL = navigation.getParam("API_URL", "");
       let userEmailName = navigation.getParam("user").email;
+      console.log(["saveUserDataCoords", locationString]);
 
-      axios
+      await axios
         .post(API_URL + "/api/updateUserInfo", {
           userEmail: userEmailName,
           age: age,
           desc: desc,
           lat: region.latitude,
-          lng: region.longitude
+          lng: region.longitude,
+          locationString: locationString
         })
         .then(response => {
+          console.log(["updateUserInfo", response]);
           if (response.data.status === "OK") {
             console.log(response);
           }
@@ -463,6 +506,7 @@ export default class FillNecessaryInfo extends Component<
     let navProps = this.props.navigation.state.params;
 
     //first remove user kids and hobbies and save new data
+    await this.userLocationString();
     await this.cleanUserKids();
     await this.cleanUserHobbies();
 

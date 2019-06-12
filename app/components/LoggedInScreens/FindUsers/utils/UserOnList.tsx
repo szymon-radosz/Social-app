@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Image, Text, View, TouchableHighlight } from "react-native";
 import styles from "./../style";
 import Alert from "./../../../../Alert/Alert";
-import Geocode from "react-geocode";
 import rightArrowBlack from "./../../../../assets/images/rightArrowBlack.png";
 
 interface UserOnListState {
@@ -20,6 +19,7 @@ interface UserOnListProps {
     hobbies: any;
     lattitude: number;
     longitude: number;
+    location_string: string;
   };
   API_URL: string;
   senderId: number;
@@ -38,50 +38,6 @@ export default class UserOnList extends Component<
     this.state = {
       locationDetails: []
     };
-  }
-
-  componentDidMount() {
-    let that = this;
-
-    Geocode.fromLatLng(
-      this.props.user.lattitude,
-      this.props.user.longitude
-    ).then(
-      (res: any) => {
-        let addressObj;
-        console.log(res.results[0]);
-        if (
-          res.results[0].address_components[2] &&
-          res.results[0].address_components[2].long_name &&
-          res.results[0].address_components[3] &&
-          res.results[0].address_components[3].long_name
-        ) {
-          console.log([
-            "addressObj",
-            res.results[0].address_components[2].long_name,
-            res.results[0].address_components[3].long_name
-          ]);
-          let cityDistrict = res.results[0].address_components[2].long_name;
-          let city = res.results[0].address_components[3].long_name;
-
-          addressObj = {
-            cityDistrict: cityDistrict,
-            city: city
-          };
-
-          //console.log(addressObj);
-        } else {
-          addressObj = {
-            notFoundFullName: res.results[0].formatted_address
-          };
-        }
-
-        that.setState({ locationDetails: addressObj });
-      },
-      (error: any) => {
-        console.error(error);
-      }
-    );
   }
 
   render() {
@@ -111,9 +67,7 @@ export default class UserOnList extends Component<
                 <View>
                   {locationDetails.cityDistrict && locationDetails.city && (
                     <Text style={styles.userTextLocation}>
-                      {locationDetails.cityDistrict}
-                      {", "}
-                      {locationDetails.city}
+                      {this.props.user.location_string}
                     </Text>
                   )}
                 </View>

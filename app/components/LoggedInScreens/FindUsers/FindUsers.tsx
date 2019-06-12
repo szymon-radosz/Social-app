@@ -7,7 +7,6 @@ import Carousel from "react-native-snap-carousel";
 import { btnFullWidthFilledContainer } from "./../../../assets/global/globalStyles";
 import { v4 as uuid } from "uuid";
 import styles from "./style";
-import Geocode from "react-geocode";
 
 const UserDetails = React.lazy(() => import("./utils/UserDetails"));
 const UserMessageBox = React.lazy(() => import("./utils/UserMessageBox"));
@@ -136,7 +135,6 @@ export default class FindUsers extends Component<
     this.inviteFriend = this.inviteFriend.bind(this);
     this.confirmFriend = this.confirmFriend.bind(this);
     this.setUserMessage = this.setUserMessage.bind(this);
-    this.getUserLocationInfo = this.getUserLocationInfo.bind(this);
   }
 
   filterResults = (filterName: string, filterValue: string): void => {
@@ -463,12 +461,6 @@ export default class FindUsers extends Component<
             usersAreInTheSameConversation:
               response.data.result.checkIfUsersAreInNormalConversation
           });
-
-          //load clicked user location info
-          that.getUserLocationInfo(
-            response.data.result.user.lattitude,
-            response.data.result.user.longitude
-          );
         }
       })
       .catch(function(error) {
@@ -598,44 +590,6 @@ export default class FindUsers extends Component<
 
   setUserMessage = (message: string): void => {
     this.setState({ userMessage: message });
-  };
-
-  getUserLocationInfo = (lattitude: number, longitude: number) => {
-    let that = this;
-    Geocode.fromLatLng(lattitude, longitude).then(
-      (res: any) => {
-        let addressObj;
-        console.log(res.results[0]);
-        if (
-          res.results[0].address_components[2].long_name &&
-          res.results[0].address_components[3].long_name
-        ) {
-          console.log([
-            "addressObj",
-            res.results[0].address_components[2].long_name,
-            res.results[0].address_components[3].long_name
-          ]);
-          let cityDistrict = res.results[0].address_components[2].long_name;
-          let city = res.results[0].address_components[3].long_name;
-
-          addressObj = {
-            cityDistrict: cityDistrict,
-            city: city
-          };
-
-          console.log(addressObj);
-        } else {
-          addressObj = {
-            notFoundFullName: res.results[0].formatted_address
-          };
-        }
-
-        that.setState({ locationDetails: addressObj });
-      },
-      (error: any) => {
-        console.error(error);
-      }
-    );
   };
 
   componentDidMount = (): void => {

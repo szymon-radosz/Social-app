@@ -19,9 +19,7 @@ const ProfileHeader = (props: any) => (
       }}
     />
     <Text style={profileHeaderName}>{props.name}</Text>
-    <Text style={profileHeaderLocation}>
-      {props.cityDistrict}, {props.city}
-    </Text>
+    <Text style={profileHeaderLocation}>{props.locationString}</Text>
     <View style={profileHeaderInfoContainer}>
       <View>
         <Text style={profileHeaderSingleInfoContainerMainText}>

@@ -4,7 +4,6 @@ import ProfileHeader from "./../SharedComponents/ProfileHeader";
 import ProfileOptions from "./utils/ProfileOptions";
 import UserFriendsList from "./utils/UserFriendsList";
 import UserAuctionsList from "./utils/UserAuctionsList";
-import Geocode from "react-geocode";
 import axios from "axios";
 import styles from "./style";
 
@@ -59,8 +58,6 @@ export default class Profile extends Component<
       userFriendsList: [],
       userAuctionList: []
     };
-
-    this.getUserLocationInfo = this.getUserLocationInfo.bind(this);
     this.getAmountOfFriends = this.getAmountOfFriends.bind(this);
     this.setShowProfilePreview = this.setShowProfilePreview.bind(this);
     this.loadUserFriendsList = this.loadUserFriendsList.bind(this);
@@ -70,13 +67,6 @@ export default class Profile extends Component<
   }
 
   componentDidMount() {
-    console.log(["Profilenavigation", this.props.navigation]);
-    console.log("this.props.showUserFriends", this.props.showUserFriends);
-    this.getUserLocationInfo(
-      this.props.user.lattitude,
-      this.props.user.longitude
-    );
-
     this.getAmountOfFriends(this.props.user.id);
   }
 
@@ -110,44 +100,6 @@ export default class Profile extends Component<
   setShowProfilePreview = (): void => {
     this.setState({ showProfilePreview: !this.state.showProfilePreview });
     console.log("setShowProfilePreview");
-  };
-
-  getUserLocationInfo = (lattitude: number, longitude: number) => {
-    let that = this;
-    Geocode.fromLatLng(lattitude, longitude).then(
-      (res: any) => {
-        let addressObj;
-        console.log(res.results[0]);
-        if (
-          res.results[0].address_components[2].long_name &&
-          res.results[0].address_components[3].long_name
-        ) {
-          console.log([
-            "addressObj",
-            res.results[0].address_components[2].long_name,
-            res.results[0].address_components[3].long_name
-          ]);
-          let cityDistrict = res.results[0].address_components[2].long_name;
-          let city = res.results[0].address_components[3].long_name;
-
-          addressObj = {
-            cityDistrict: cityDistrict,
-            city: city
-          };
-
-          console.log(addressObj);
-        } else {
-          addressObj = {
-            notFoundFullName: res.results[0].formatted_address
-          };
-        }
-
-        that.setState({ locationDetails: addressObj });
-      },
-      (error: any) => {
-        console.error(error);
-      }
-    );
   };
 
   getUserAuctionList = (): void => {
@@ -214,6 +166,7 @@ export default class Profile extends Component<
           age={this.props.user.age}
           countFriends={countFriends}
           countKids={this.props.user.kids.length}
+          locationString={this.props.user.location_string}
         />
         {!showProfilePreview &&
           !showEditUserData &&

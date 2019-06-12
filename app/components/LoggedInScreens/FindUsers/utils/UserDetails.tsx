@@ -28,6 +28,7 @@ const UserDetails = (props: {
     kids: any;
     hobbies: any;
     description: string;
+    location_string: string;
   };
   usersFriendshipStatus: string;
   usersAreInTheSameConversation: boolean;
@@ -56,6 +57,7 @@ const UserDetails = (props: {
             ? props.user.kids.length
             : 0
         }
+        locationString={props.user.location_string}
       />
 
       <UserPreview
