@@ -82,11 +82,7 @@ export default class PostDetails extends Component<
           postId: postId
         })
         .then(function(response) {
-          console.log(response);
           if (response.data.status === "OK") {
-            console.log(response.data.result[0]);
-            console.log(response.data.result[0].users.name);
-
             that.setState({
               postTitle: response.data.result[0].title,
               postDesc: response.data.result[0].description,
@@ -113,8 +109,6 @@ export default class PostDetails extends Component<
     let userId = this.props.user.id;
     let postId = this.props.postDetailsId;
 
-    console.log([postId, userId, this.state.authorId]);
-
     let that = this;
 
     if (userId != this.state.authorId) {
@@ -125,8 +119,6 @@ export default class PostDetails extends Component<
         })
         .then(function(response) {
           if (response.data.status === "OK") {
-            console.log(["savePostVote", response]);
-
             that.setState({ postVotes: that.state.postVotes + 1 });
           } else {
             console.log(response.data.result);
@@ -144,8 +136,6 @@ export default class PostDetails extends Component<
     let API_URL = this.props.API_URL;
     let postId = this.props.postDetailsId;
 
-    console.log([postId]);
-
     let that = this;
 
     axios
@@ -154,8 +144,6 @@ export default class PostDetails extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(["getPostCommentsByPostId", response]);
-
           that.setState({ comments: [] });
           that.setState({ comments: response.data.result });
         }
@@ -195,7 +183,6 @@ export default class PostDetails extends Component<
   saveComment = (postId: number, userId: number, body: string): void => {
     let API_URL = this.props.API_URL;
 
-    console.log(["saveComment", postId, userId, body]);
     let that = this;
 
     axios
@@ -209,8 +196,6 @@ export default class PostDetails extends Component<
           console.log(["savePostComment", response]);
 
           that.getPostComments();
-        } else {
-          console.log(response.data.result);
         }
       })
       .catch(function(error) {
@@ -219,7 +204,6 @@ export default class PostDetails extends Component<
   };
 
   componentDidMount = (): void => {
-    console.log(this.props.postDetailsId);
     this.getPostById();
   };
 
@@ -245,19 +229,9 @@ export default class PostDetails extends Component<
           />
         </TouchableHighlight>
 
-        <ScrollView style={styles.postDetailsContainer}>
-          <View style={{ padding: 10 }}>
-            <View
-              style={{
-                marginLeft: 35,
-                marginTop: 10,
-                marginBottom: 20,
-                position: "relative",
-                flexWrap: "wrap",
-                alignItems: "flex-start",
-                flexDirection: "row"
-              }}
-            >
+        <ScrollView>
+          <View style={styles.postDetailsContainerPadding}>
+            <View style={styles.postDetailsContainer}>
               <TouchableOpacity>
                 <Image
                   style={styles.image}
@@ -266,57 +240,38 @@ export default class PostDetails extends Component<
                   }}
                 />
               </TouchableOpacity>
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={{ fontSize: 16 }}>{authorName}</Text>
-                <Text style={{ fontSize: 12 }}>{authorEmail}</Text>
+              <View style={styles.postDetailsAuthorContainer}>
+                <Text style={styles.postDetailsAuthorContainerName}>
+                  {authorName}
+                </Text>
+                <Text style={styles.postDetailsAuthorContainerEmail}>
+                  {authorEmail}
+                </Text>
               </View>
             </View>
-            <Text style={{ fontSize: 16, marginBottom: 5 }}>{postTitle}</Text>
-            <Text style={{ marginBottom: 10 }}>{postDesc}</Text>
-            <Text style={{ marginBottom: 5, fontSize: 12 }}>
+            <Text style={styles.postDetailsTitle}>{postTitle}</Text>
+            <Text style={styles.postDetailsDesc}>{postDesc}</Text>
+            <Text style={styles.postDetailsPostDate}>
               Utworzono: {postDate}
             </Text>
-            <View
-              style={{
-                flexWrap: "wrap",
-                alignItems: "center",
-                flexDirection: "row",
-                marginBottom: 5,
-                marginTop: 5
-              }}
-            >
-              <View
-                style={{
-                  flexWrap: "wrap",
-                  alignItems: "center",
-                  flexDirection: "row",
-                  marginBottom: 5
-                }}
-              >
-                <Text style={{ color: "#f7b67e", fontSize: 18 }}>
-                  {postVotes}
-                </Text>
+            <View style={styles.postDetailsPostVoteContainer}>
+              <View style={styles.postDetailsPostVoteWrapper}>
+                <Text style={styles.postDetailsPostVoteCount}>{postVotes}</Text>
                 <TouchableOpacity onPress={() => this.savePostVote()}>
                   <Image
-                    style={{ height: 20 }}
+                    style={styles.postDetailsPostVoteImage}
                     resizeMode="contain"
                     source={like}
                   />
                 </TouchableOpacity>
               </View>
-              <View
-                style={{
-                  flexWrap: "wrap",
-                  alignItems: "center",
-                  flexDirection: "row"
-                }}
-              >
-                <Text style={{ color: "#f7b67e", fontSize: 18 }}>
+              <View style={styles.postDetailsPostCommentCountWrapper}>
+                <Text style={styles.postDetailsPostCommentCountText}>
                   {comments.length}
                 </Text>
                 <TouchableOpacity>
                   <Image
-                    style={{ height: 20 }}
+                    style={styles.postDetailsPostVoteImage}
                     resizeMode="contain"
                     source={comment}
                   />
@@ -324,7 +279,9 @@ export default class PostDetails extends Component<
               </View>
             </View>
 
-            <Text style={{ marginBottom: 10 }}>Komentarze:</Text>
+            <Text style={styles.postDetailsPostCommentListHeader}>
+              Komentarze:
+            </Text>
             {comments.map((comment: any, i: number) => {
               return (
                 <SinglePostDetailsComment

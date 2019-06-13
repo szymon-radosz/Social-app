@@ -3,7 +3,6 @@ import SingleUserAuctionList from "./SingleUserAuctionList";
 
 const UserAuctionsList = (props: any) =>
   props.userAuctionList.map((product: any, i: number) => {
-    console.log(product);
     return (
       <SingleUserAuctionList
         product={product}

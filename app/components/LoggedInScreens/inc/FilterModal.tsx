@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   TouchableOpacity,
   TouchableHighlight,
@@ -54,39 +54,22 @@ const FilterModal = (props: {
         <Button title="<" color="#fff" onPress={() => props.closeFilter()} />
       </TouchableHighlight>
 
-      <View style={{ padding: 10 }}>
-        <Text
-          style={{
-            paddingLeft: 40,
-            paddingRight: 40,
-            fontSize: 16
-          }}
-        >
-          <Text style={{ fontWeight: "bold" }}>Filtruj:</Text>{" "}
+      <View style={styles.filterModalContainer}>
+        <Text style={styles.filterModalHeaderTextContainer}>
+          <Text style={styles.filterModalHeaderTextBold}>Filtruj:</Text>{" "}
           {props.filterModalName}
           {selectedResultValue && " - "}
           {selectedResultValue}
         </Text>
-        <View style={{ paddingTop: 30 }}>
+        <View style={styles.filterModalOptionContainer}>
           {selectedData &&
             selectedData.map((option: any, i: number) => {
               return (
                 <TouchableOpacity
                   style={
                     selectedResultId === i
-                      ? {
-                          borderRadius: 6,
-                          borderWidth: 1,
-                          marginBottom: 5,
-                          padding: 10,
-                          borderColor: "orange"
-                        }
-                      : {
-                          borderRadius: 6,
-                          borderWidth: 1,
-                          marginBottom: 5,
-                          padding: 10
-                        }
+                      ? styles.filterModalOptionActive
+                      : styles.filterModalOptionInactive
                   }
                   onPress={() => setSelectedResult(option.text, i)}
                 >

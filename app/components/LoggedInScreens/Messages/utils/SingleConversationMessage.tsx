@@ -35,21 +35,13 @@ export default class SingleConversationMessage extends Component<
   }
 
   setMessageDate = (): void => {
-    //old
-    //this.setState({ showMessageDate: !this.state.showMessageDate });
-    //setState — it’s actually asynchronous.
-    //React batches state changes for performance reasons, so
-    //the state may not change immediately after setState is called.
-    //That means you should not rely on the current state when calling
-    //setState — since you can’t be sure what that state will be!
-    this.setState(prevState => ({
-      showMessageDate: !prevState.showMessageDate
-    }));
+    this.setState({
+      showMessageDate: !this.state.showMessageDate
+    });
   };
 
   componentDidMount = (): void => {
     if (this.props.currentUser.id === this.props.message.sender_id) {
-      console.log("isCurrentUserTheSender");
       this.setState({ isCurrentUserTheSender: true });
     }
   };

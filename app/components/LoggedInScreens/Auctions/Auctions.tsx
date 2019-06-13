@@ -148,7 +148,7 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
         )}
         {!displayProductDetails && !displayNewProductBox && (
           <View>
-            <View style={{ padding: 10 }}>
+            <View style={styles.productListContainer}>
               {productList &&
                 productList.map((product: any, i: number) => {
                   console.log(["uuid", uuid()]);

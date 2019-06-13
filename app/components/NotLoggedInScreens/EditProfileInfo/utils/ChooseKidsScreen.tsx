@@ -13,6 +13,7 @@ import DatePicker from "react-native-datepicker";
 import styles from "./../style";
 import { v4 as uuid } from "uuid";
 import fillInfoBg from "./../../../../assets/images/fillInfoBgMin.jpg";
+import style from "../../../LoggedInScreens/style";
 
 const ChooseKidsScreen = (props: {
   setActualKidName: any;
@@ -79,31 +80,16 @@ const ChooseKidsScreen = (props: {
           }}
         />
 
-        <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
-          <Text style={{ paddingBottom: 5 }}>Płeć dziecka</Text>
-          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-            <View style={{ flexDirection: "row" }}>
+        <View style={styles.childGenderContainer}>
+          <Text style={styles.childGenderText}>Płeć dziecka</Text>
+          <View style={styles.checkboxContainer}>
+            <View style={styles.checkboxWrapper}>
               <TouchableHighlight
                 onPress={() => props.setGender("male")}
                 style={
                   props.actualKidGender === "male"
-                    ? {
-                        width: 20,
-                        height: 20,
-                        borderWidth: 1,
-                        backgroundColor: "#f7b67e",
-                        borderColor: "#f7b67e",
-                        borderRadius: 20,
-                        marginRight: 5
-                      }
-                    : {
-                        width: 20,
-                        height: 20,
-                        borderWidth: 1,
-                        backgroundColor: "white",
-                        borderRadius: 20,
-                        marginRight: 5
-                      }
+                    ? styles.activeCheckbox
+                    : styles.inActiveCheckbox
                 }
               >
                 <Button
@@ -114,34 +100,19 @@ const ChooseKidsScreen = (props: {
               </TouchableHighlight>
 
               <Text
-                style={{ marginTop: 2, marginRight: 15 }}
                 onPress={() => props.setGender("male")}
+                style={styles.checkboxText}
               >
                 Chłopiec
               </Text>
             </View>
-            <View style={{ flexDirection: "row" }}>
+            <View style={styles.checkboxWrapper}>
               <TouchableHighlight
                 onPress={() => props.setGender("female")}
                 style={
                   props.actualKidGender === "female"
-                    ? {
-                        width: 20,
-                        height: 20,
-                        borderWidth: 1,
-                        backgroundColor: "#f7b67e",
-                        borderColor: "#f7b67e",
-                        borderRadius: 20,
-                        marginRight: 5
-                      }
-                    : {
-                        width: 20,
-                        height: 20,
-                        borderWidth: 1,
-                        backgroundColor: "white",
-                        borderRadius: 20,
-                        marginRight: 5
-                      }
+                    ? styles.activeCheckbox
+                    : styles.inActiveCheckbox
                 }
               >
                 <Button
@@ -153,7 +124,7 @@ const ChooseKidsScreen = (props: {
 
               <Text
                 onPress={() => props.setGender("female")}
-                style={{ marginTop: 2, marginRight: 15 }}
+                style={styles.checkboxText}
               >
                 Dziewczynka
               </Text>

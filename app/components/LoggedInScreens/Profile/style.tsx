@@ -1,16 +1,7 @@
-import {
-  StyleSheet,
-  ViewStyle,
-  TextStyle,
-  ImageStyle,
-  Dimensions
-} from "react-native";
+import { StyleSheet, ViewStyle, TextStyle, ImageStyle } from "react-native";
 import {
   pageTitleWhite,
   btnFullWidth,
-  lightBorderRadius,
-  fontSizeSmall,
-  darkGrayColor,
   productListSingleProductContainer,
   productListSingleProductImage,
   productListSingleProductTextContainer,
@@ -40,10 +31,8 @@ interface Style {
   productOnListTextName: any;
   productOnListTextCategory: any;
   productOnListTextPrice: any;
+  optionText: TextStyle;
 }
-
-const fullWidth = Dimensions.get("window").width;
-const fullHeight = Dimensions.get("window").height;
 
 export default StyleSheet.create<Style>({
   container: {
@@ -65,6 +54,12 @@ export default StyleSheet.create<Style>({
     fontWeight: "bold",
     paddingTop: 15,
     paddingBottom: 15
+  },
+  optionText: {
+    fontSize: 18,
+    textAlign: "center",
+    lineHeight: 40,
+    color: "#fff"
   },
   productListSingleProductContainer: productListSingleProductContainer,
   productListSingleProductImage: productListSingleProductImage,

@@ -33,8 +33,13 @@ interface Style {
   filterBtn: any;
   viewContainer: ViewStyle;
   sendMessageBtn: any;
-  sendMessage: ViewStyle;
   messageListContainer: ViewStyle;
+  lastMessageDate: TextStyle;
+  conversationReceiverName: TextStyle;
+  sendMessageBoxContainer: ViewStyle;
+  sendMessageBoxInput: ViewStyle;
+  conversationDetailsReceiverImage: ImageStyle;
+  conversationDetailsReceiverName: ViewStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -177,9 +182,39 @@ export default StyleSheet.create<Style>({
   },
   viewContainer: {
     width: "100%"
-    /*flex: 1,
-    flexDirection: "column",
-    justifyContent: "space-between"*/
   },
-  sendMessage: {}
+  lastMessageDate: {
+    textAlign: "left",
+    color: "#333",
+    fontSize: 10,
+    marginTop: 5
+  },
+  conversationReceiverName: {
+    fontWeight: "bold",
+    textAlign: "left",
+    color: "#333"
+  },
+  sendMessageBoxContainer: {
+    borderTopColor: "#E5E5E5",
+    borderTopWidth: 1,
+    marginTop: 5
+  },
+  sendMessageBoxInput: {
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    padding: 10,
+    height: 40,
+    borderWidth: 1,
+    borderRadius: 6
+  },
+  conversationDetailsReceiverImage: {
+    width: 50,
+    height: 50,
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    borderRadius: 25
+  },
+  conversationDetailsReceiverName: { marginTop: 15 }
 });

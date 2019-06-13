@@ -69,6 +69,16 @@ interface Style {
   productListSingleProductContainer: any;
   productListSingleProductImage: any;
   productListSingleProductBtn: TextStyle;
+  productListContainer: ViewStyle;
+  sellerVoteBoxUserListContainer: ViewStyle;
+  sellerVoteBoxUserListSingleUserContainer: ViewStyle;
+  sellerVoteBoxUserListSingleUserImage: ImageStyle;
+  sellerVoteBoxUserListSingleUserTextContainer: ViewStyle;
+  sellerVoteBoxVoteContainerPadding: ViewStyle;
+  sellerVoteBoxVoteContainer: ViewStyle;
+  sellerVoteBoxVoteWrapper: ViewStyle;
+  sellerVoteBoxVote: ViewStyle;
+  sellerVoteBoxVotePreview: ViewStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -305,5 +315,56 @@ export default StyleSheet.create<Style>({
     borderWidth: 2,
     backgroundColor: "#e07b8d",
     marginBottom: 10
+  },
+  productListContainer: { padding: 10 },
+  sellerVoteBoxUserListContainer: { padding: 10 },
+  sellerVoteBoxUserListSingleUserContainer: {
+    width: "100%",
+    borderWidth: 1,
+    borderRadius: 6,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    padding: 10,
+    marginBottom: 5
+  },
+  sellerVoteBoxUserListSingleUserImage: { width: 50, height: 50 },
+  sellerVoteBoxUserListSingleUserTextContainer: {
+    paddingLeft: 10,
+    paddingRight: 10
+  },
+  sellerVoteBoxVoteContainerPadding: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 10
+  },
+  sellerVoteBoxVoteContainer: {
+    width: "100%",
+    marginTop: 10,
+    flexDirection: "row",
+    flexWrap: "wrap"
+  },
+  sellerVoteBoxVoteWrapper: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
+    marginRight: 5,
+    borderWidth: 1,
+    borderRadius: 6
+  },
+  sellerVoteBoxVote: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
+    marginRight: 5,
+    borderWidth: 1,
+    borderRadius: 6
+  },
+  sellerVoteBoxVotePreview: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginTop: 20,
+    paddingBottom: 10
   }
 });

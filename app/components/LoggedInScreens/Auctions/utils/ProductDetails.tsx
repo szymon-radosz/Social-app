@@ -10,7 +10,7 @@ import {
 import axios from "axios";
 import styles from "./../style";
 import ProductMessageBox from "./ProductMessageBox";
-import ProductVoteBox from "./ProductVoteBox";
+import SellerVoteBox from "./SellerVoteBox";
 import Lightbox from "react-native-lightbox";
 import Carousel from "react-native-looped-carousel";
 
@@ -19,7 +19,6 @@ const WINDOW_WIDTH = Dimensions.get("window").width;
 const renderCarousel = (API_URL: string, imageArray: any): any => (
   <Carousel style={{ width: WINDOW_WIDTH, height: WINDOW_WIDTH }}>
     {imageArray.map((image: any, i: number) => {
-      console.log(API_URL, image);
       return (
         <Image
           style={{ flex: 1 }}
@@ -251,7 +250,7 @@ export default class ProductDetails extends Component<
             sendNewConversationProduct={this.sendNewConversationProduct}
           />
         ) : !showProductMessageBox && showVoteBox ? (
-          <ProductVoteBox
+          <SellerVoteBox
             currentUser={this.props.currentUser}
             product={productDetails[0]}
             API_URL={this.props.API_URL}

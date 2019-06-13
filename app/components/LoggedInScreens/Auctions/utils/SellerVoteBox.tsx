@@ -13,7 +13,7 @@ import styles from "./../style";
 import Alert from "./../../../../Alert/Alert";
 import { v4 as uuid } from "uuid";
 
-interface ProductVoteBoxProps {
+interface SellerVoteBoxProps {
   foundVoteUserList: any;
   API_URL: string;
   changeVoteBox: any;
@@ -27,7 +27,7 @@ interface ProductVoteBoxProps {
   };
 }
 
-interface ProductVoteBoxState {
+interface SellerVoteBoxState {
   message: string;
   voteValue: number;
   selectedUser: any;
@@ -40,13 +40,12 @@ interface ProductVoteBoxState {
   voteComment: string;
 }
 
-export default class ProductVoteBox extends Component<
-  ProductVoteBoxProps,
-  ProductVoteBoxState
+export default class SellerVoteBox extends Component<
+  SellerVoteBoxProps,
+  SellerVoteBoxState
 > {
   static getDerivedStateFromProps = (props: any, current_state: any) => {
     if (current_state.foundVoteUserList !== props.foundVoteUserList) {
-      console.log("derivered ProductVoteBox");
       return {
         foundVoteUserList: props.foundVoteUserList
       };
@@ -54,7 +53,7 @@ export default class ProductVoteBox extends Component<
     return null;
   };
 
-  constructor(props: ProductVoteBoxProps) {
+  constructor(props: SellerVoteBoxProps) {
     super(props);
     this.state = {
       message: "",
@@ -204,7 +203,7 @@ export default class ProductVoteBox extends Component<
           style={styles.userMessageTextArea}
         />
 
-        <View style={{ padding: 10 }}>
+        <View style={styles.sellerVoteBoxUserListContainer}>
           {showfoundVoteUserList &&
             foundVoteUserList &&
             foundVoteUserList.map((user: any, i: number) => {
@@ -222,25 +221,21 @@ export default class ProductVoteBox extends Component<
                     }
                   >
                     <View
-                      style={{
-                        width: "100%",
-                        borderWidth: 1,
-                        borderRadius: 6,
-                        flexDirection: "row",
-                        flexWrap: "wrap",
-                        padding: 10,
-                        marginBottom: 5
-                      }}
+                      style={styles.sellerVoteBoxUserListSingleUserContainer}
                     >
                       <Image
-                        style={{ width: 50, height: 50 }}
+                        style={styles.sellerVoteBoxUserListSingleUserImage}
                         source={{
                           uri: `${this.props.API_URL}userPhotos/${
                             user.photo_path
                           }`
                         }}
                       />
-                      <View style={{ paddingLeft: 10, paddingRight: 10 }}>
+                      <View
+                        style={
+                          styles.sellerVoteBoxUserListSingleUserTextContainer
+                        }
+                      >
                         <Text>
                           {user.name}, {user.age}
                         </Text>
@@ -254,86 +249,39 @@ export default class ProductVoteBox extends Component<
         </View>
 
         {selectedUserData.name && (
-          <View style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 10 }}>
+          <View style={styles.sellerVoteBoxVoteContainerPadding}>
             <Text>
               Oceń współpracę z {selectedUserData.name} (
               {selectedUserData.email})
             </Text>
 
-            <View
-              style={{
-                width: "100%",
-                marginTop: 10,
-                flexDirection: "row",
-                flexWrap: "wrap"
-              }}
-            >
+            <View style={styles.sellerVoteBoxVoteContainer}>
               <Text
-                style={{
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  paddingLeft: 15,
-                  paddingRight: 15,
-                  marginRight: 5,
-                  borderWidth: 1,
-                  borderRadius: 6
-                }}
+                style={styles.sellerVoteBoxVote}
                 onPress={() => this.setUserVote(1)}
               >
                 1
               </Text>
               <Text
-                style={{
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  paddingLeft: 15,
-                  paddingRight: 15,
-                  marginRight: 5,
-                  borderWidth: 1,
-                  borderRadius: 6
-                }}
+                style={styles.sellerVoteBoxVote}
                 onPress={() => this.setUserVote(2)}
               >
                 2
               </Text>
               <Text
-                style={{
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  paddingLeft: 15,
-                  paddingRight: 15,
-                  marginRight: 5,
-                  borderWidth: 1,
-                  borderRadius: 6
-                }}
+                style={styles.sellerVoteBoxVote}
                 onPress={() => this.setUserVote(3)}
               >
                 3
               </Text>
               <Text
-                style={{
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  paddingLeft: 15,
-                  paddingRight: 15,
-                  marginRight: 5,
-                  borderWidth: 1,
-                  borderRadius: 6
-                }}
+                style={styles.sellerVoteBoxVote}
                 onPress={() => this.setUserVote(4)}
               >
                 4
               </Text>
               <Text
-                style={{
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  paddingLeft: 15,
-                  paddingRight: 15,
-                  marginRight: 5,
-                  borderWidth: 1,
-                  borderRadius: 6
-                }}
+                style={styles.sellerVoteBoxVote}
                 onPress={() => this.setUserVote(5)}
               >
                 5
@@ -344,14 +292,7 @@ export default class ProductVoteBox extends Component<
 
         {userVote != 0 && (
           <View>
-            <Text
-              style={{
-                paddingLeft: 10,
-                paddingRight: 10,
-                marginTop: 20,
-                paddingBottom: 10
-              }}
-            >
+            <Text style={styles.sellerVoteBoxVotePreview}>
               Twoja ocena: {userVote}
             </Text>
 

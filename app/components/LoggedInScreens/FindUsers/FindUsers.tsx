@@ -726,8 +726,6 @@ export default class FindUsers extends Component<
             userList &&
             !showFilterModal &&
             userList.map((user: any, i: number) => {
-              //console.log(`${this.props.API_URL}/userPhotos/${user.photo_path}`);
-
               if (user.id != this.props.user.id) {
                 return (
                   <UserOnList

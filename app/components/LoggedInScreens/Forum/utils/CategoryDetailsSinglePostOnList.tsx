@@ -11,7 +11,7 @@ import moment from "moment";
 import "moment/locale/pl";
 import like from "./../../../../assets/images/like.png";
 
-const SinglePostOnList = (props: {
+const CategoryDetailsSinglePostOnList = (props: {
   post: any;
   getPostDetails: any;
   showPosts: boolean;
@@ -21,29 +21,27 @@ const SinglePostOnList = (props: {
     <TouchableHighlight onPress={() => props.getPostDetails(props.post.id)}>
       <View style={styles.singlePostContainer}>
         <View>
-          <Text style={{ fontSize: 18 }}>{props.post.title}</Text>
-          <Text style={{ fontSize: 12 }}>{postDate}</Text>
-          <Text style={{ fontSize: 12 }}>
+          <Text style={styles.singlePostTitle}>{props.post.title}</Text>
+          <Text style={styles.singlePostDate}>{postDate}</Text>
+          <Text style={styles.singlePostCommentLength}>
             Komentarze: {props.post.comments.length}
           </Text>
         </View>
 
-        <View
-          style={{
-            flexWrap: "wrap",
-            alignItems: "center",
-            flexDirection: "row"
-          }}
-        >
-          <Text style={{ color: "#f7b67e", fontSize: 18 }}>
+        <View style={styles.singlePostLikeContainer}>
+          <Text style={styles.singlePostLikeContainerVoteLength}>
             {props.post.votes.length}
           </Text>
           <TouchableOpacity>
-            <Image style={{ height: 20 }} resizeMode="contain" source={like} />
+            <Image
+              style={styles.singlePostLikeContainerLikeIcon}
+              resizeMode="contain"
+              source={like}
+            />
           </TouchableOpacity>
         </View>
       </View>
     </TouchableHighlight>
   );
 };
-export default SinglePostOnList;
+export default CategoryDetailsSinglePostOnList;

@@ -52,7 +52,7 @@ export default class Alert extends Component<AlertProps, AlertState> {
           >
             {alertMessage}
           </Text>
-          <TouchableHighlight style={{ position: "absolute", right: 10 }}>
+          <TouchableHighlight style={styles.closeAlert}>
             <Button title="X" color="#fff" onPress={() => this.closeAlert()} />
           </TouchableHighlight>
         </View>

@@ -25,6 +25,13 @@ interface Style {
   previousBtn: ViewStyle;
   nextBtn: ViewStyle;
   fillInfoHeader: TextStyle;
+  activeCheckbox: ViewStyle;
+  inActiveCheckbox: ViewStyle;
+  checkboxWrapper: ViewStyle;
+  checkboxText: ViewStyle;
+  checkboxContainer: ViewStyle;
+  childGenderContainer: ViewStyle;
+  childGenderText: ViewStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -127,5 +134,27 @@ export default StyleSheet.create<Style>({
     marginRight: "auto"
   },
   previousBtn: btnFullWidth,
-  nextBtn: btnFullWidth
+  nextBtn: btnFullWidth,
+  activeCheckbox: {
+    width: 20,
+    height: 20,
+    borderWidth: 1,
+    backgroundColor: "#f7b67e",
+    borderColor: "#f7b67e",
+    borderRadius: 20,
+    marginRight: 5
+  },
+  inActiveCheckbox: {
+    width: 20,
+    height: 20,
+    borderWidth: 1,
+    backgroundColor: "white",
+    borderRadius: 20,
+    marginRight: 5
+  },
+  checkboxContainer: { flexDirection: "row", flexWrap: "wrap" },
+  checkboxWrapper: { flexDirection: "row" },
+  checkboxText: { marginTop: 2, marginRight: 15 },
+  childGenderContainer: { paddingLeft: 10, paddingRight: 10, marginBottom: 10 },
+  childGenderText: { paddingBottom: 5 }
 });

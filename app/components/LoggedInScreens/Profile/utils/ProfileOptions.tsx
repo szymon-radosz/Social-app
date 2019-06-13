@@ -8,16 +8,7 @@ const ProfileOptions = (props: any) => (
       style={styles.buttonOption}
       onPress={() => props.setShowProfilePreview()}
     >
-      <Text
-        style={{
-          fontSize: 18,
-          textAlign: "center",
-          lineHeight: 40,
-          color: "#fff"
-        }}
-      >
-        Jak widzą mnie inni?
-      </Text>
+      <Text style={styles.optionText}>Jak widzą mnie inni?</Text>
     </TouchableHighlight>
 
     <TouchableHighlight
@@ -29,52 +20,23 @@ const ProfileOptions = (props: any) => (
               user: props.user,
               editProfileData: true
             });
-
-          console.log(["ProfileOptions navigation", props.navigation]);
         }
       }}
     >
-      <Text
-        style={{
-          fontSize: 18,
-          textAlign: "center",
-          lineHeight: 40,
-          color: "#fff"
-        }}
-      >
-        Edytuj dane
-      </Text>
+      <Text style={styles.optionText}>Edytuj dane</Text>
     </TouchableHighlight>
 
     <TouchableHighlight
       style={styles.buttonOption}
       onPress={() => props.loadUserFriendsList()}
     >
-      <Text
-        style={{
-          fontSize: 18,
-          textAlign: "center",
-          lineHeight: 40,
-          color: "#fff"
-        }}
-      >
-        Moje znajome
-      </Text>
+      <Text style={styles.optionText}>Moje znajome</Text>
     </TouchableHighlight>
     <TouchableHighlight
       style={styles.buttonOption}
       onPress={() => props.getUserAuctionList()}
     >
-      <Text
-        style={{
-          fontSize: 18,
-          textAlign: "center",
-          lineHeight: 40,
-          color: "#fff"
-        }}
-      >
-        Wystawione przedmioty
-      </Text>
+      <Text style={styles.optionText}>Wystawione przedmioty</Text>
     </TouchableHighlight>
   </View>
 );

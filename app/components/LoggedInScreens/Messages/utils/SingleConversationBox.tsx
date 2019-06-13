@@ -54,9 +54,7 @@ const SingleConversationBox = (props: {
         </TouchableOpacity>
 
         <View style={styles.productListSingleProductTextContainer}>
-          <Text
-            style={{ fontWeight: "bold", textAlign: "left", color: "#333" }}
-          >
+          <Text style={styles.conversationReceiverName}>
             {props.conversation.receiverName}
           </Text>
 
@@ -71,16 +69,7 @@ const SingleConversationBox = (props: {
               props.conversation.messages.length - 1
             ].message.substring(0, 20)}
           </Text>
-          <Text
-            style={{
-              textAlign: "left",
-              color: "#333",
-              fontSize: 10,
-              marginTop: 5
-            }}
-          >
-            {lastMessageDate}
-          </Text>
+          <Text style={styles.lastMessageDate}>{lastMessageDate}</Text>
         </View>
       </View>
     </TouchableHighlight>

@@ -16,6 +16,12 @@ interface Style {
   unreadedMessagesNotificationDotText: TextStyle;
   buttonCloseModal: ViewStyle;
   productDetailsBtn: any;
+  filterModalContainer: ViewStyle;
+  filterModalHeaderTextContainer: TextStyle;
+  filterModalHeaderTextBold: TextStyle;
+  filterModalOptionContainer: ViewStyle;
+  filterModalOptionActive: ViewStyle;
+  filterModalOptionInactive: ViewStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -64,5 +70,26 @@ export default StyleSheet.create<Style>({
     paddingRight: 3,
     backgroundColor: peachColor,
     borderBottomRightRadius: lightBorderRadius
+  },
+  filterModalContainer: { padding: 10 },
+  filterModalHeaderTextContainer: {
+    paddingLeft: 40,
+    paddingRight: 40,
+    fontSize: 16
+  },
+  filterModalHeaderTextBold: { fontWeight: "bold" },
+  filterModalOptionContainer: { paddingTop: 30 },
+  filterModalOptionActive: {
+    borderRadius: 6,
+    borderWidth: 1,
+    marginBottom: 5,
+    padding: 10,
+    borderColor: "orange"
+  },
+  filterModalOptionInactive: {
+    borderRadius: 6,
+    borderWidth: 1,
+    marginBottom: 5,
+    padding: 10
   }
 });

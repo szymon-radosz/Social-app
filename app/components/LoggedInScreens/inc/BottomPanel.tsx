@@ -48,7 +48,6 @@ const BottomPanel = (props: {
               <Image
                 source={dot}
                 style={styles.unreadedMessagesNotificationDot}
-                //resizeMode="contain"
               />
               <Text style={styles.unreadedMessagesNotificationDotText}>
                 {props.user.unreadedConversationMessageAmount}

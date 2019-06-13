@@ -10,6 +10,7 @@ interface Style {
   alertContainer: ViewStyle;
   successContainer: TextStyle;
   dangerContainer: TextStyle;
+  closeAlert: TextStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -40,5 +41,6 @@ export default StyleSheet.create<Style>({
     color: "#fff",
     textAlign: "center",
     backgroundColor: "#cc7897"
-  }
+  },
+  closeAlert: { position: "absolute", right: 10 }
 });

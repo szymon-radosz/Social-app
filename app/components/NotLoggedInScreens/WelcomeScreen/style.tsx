@@ -1,4 +1,11 @@
-import { StyleSheet, TextStyle, ViewStyle, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  TextStyle,
+  ViewStyle,
+  Dimensions,
+  ImageStore,
+  ImageStyle
+} from "react-native";
 import {
   peachColor,
   darkGrayColor,

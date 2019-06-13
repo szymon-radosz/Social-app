@@ -68,14 +68,7 @@ export default class ConversationDetails extends Component<
         <View style={styles.messageDetailsContainer}>
           <TouchableOpacity>
             <Image
-              style={{
-                width: 50,
-                height: 50,
-                marginTop: 10,
-                marginLeft: 10,
-                marginRight: 10,
-                borderRadius: 25
-              }}
+              style={styles.conversationDetailsReceiverImage}
               source={{
                 uri: `${this.props.API_URL}userPhotos/${
                   this.props.receiverPhotoPath
@@ -83,7 +76,7 @@ export default class ConversationDetails extends Component<
               }}
             />
           </TouchableOpacity>
-          <Text style={{ marginTop: 15 }}>
+          <Text style={styles.conversationDetailsReceiverName}>
             Rozmowa z {this.props.receiverName}
             {"\n"}
             {this.props.receiverEmail}

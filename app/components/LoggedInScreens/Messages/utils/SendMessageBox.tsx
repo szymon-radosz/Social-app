@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Button,
-  TextInput,
-  TouchableHighlight,
-  Text,
-  View
-} from "react-native";
+import { Button, TextInput, TouchableHighlight, View } from "react-native";
 import styles from "./../style";
 
 const SendMessageBox = (props: {
@@ -21,24 +15,10 @@ const SendMessageBox = (props: {
 }): any => {
   return (
     <View>
-      <View
-        style={{
-          borderTopColor: "#E5E5E5",
-          borderTopWidth: 1,
-          marginTop: 5
-        }}
-      />
+      <View style={styles.sendMessageBoxContainer} />
 
       <TextInput
-        style={{
-          marginTop: 10,
-          marginLeft: 10,
-          marginRight: 10,
-          padding: 10,
-          height: 40,
-          borderWidth: 1,
-          borderRadius: 6
-        }}
+        style={styles.sendMessageBoxInput}
         placeholder="Napisz odpowiedź..."
         placeholderTextColor="#919191"
         onChangeText={message => props.setUserMessage(message)}

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Image, Text, View, TouchableHighlight } from "react-native";
 import styles from "./../style";
 import Alert from "./../../../../Alert/Alert";
-import rightArrowBlack from "./../../../../assets/images/rightArrowBlack.png";
 
 interface UserOnListState {
   locationDetails: any;
@@ -72,21 +71,6 @@ export default class UserOnList extends Component<
                   )}
                 </View>
               </View>
-              <TouchableHighlight
-                onPress={() => {
-                  this.props.setShowUserDetails(this.props.user.id);
-                  this.props.setUserDetailsId(this.props.user.id);
-                }}
-              >
-                <Image
-                  style={{
-                    height: 20,
-                    resizeMode: "contain",
-                    justifyContent: "flex-start"
-                  }}
-                  source={rightArrowBlack}
-                />
-              </TouchableHighlight>
             </View>
 
             {this.props.alertMessage != "" && (

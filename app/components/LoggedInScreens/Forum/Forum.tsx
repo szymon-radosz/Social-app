@@ -8,13 +8,13 @@ import {
   View
 } from "react-native";
 import axios from "axios";
-import SinglePostOnList from "./utils/SinglePostOnList";
+import CategoryDetailsSinglePostOnList from "./utils/CategoryDetailsSinglePostOnList";
 import forumBg from "./../../../assets/images/forumBgMin.jpg";
 import styles from "./style";
 
 const PostDetails = React.lazy(() => import("./utils/PostDetails"));
 const SavePost = React.lazy(() => import("./utils/SavePost"));
-const SingleCategory = React.lazy(() => import("./utils/SingleCategory"));
+const CategoriesList = React.lazy(() => import("./utils/CategoriesList"));
 
 interface ForumProps {
   API_URL: string;
@@ -197,8 +197,6 @@ export default class Forum extends Component<ForumProps, ForumState> {
   };
 
   componentDidMount = (): void => {
-    /*this.getPosts();*/
-
     this.setState({ showSortByCategory: true });
   };
 
@@ -251,7 +249,7 @@ export default class Forum extends Component<ForumProps, ForumState> {
 
           {!showPostDetails && !showSavePost && showSortByCategory && (
             <Suspense fallback={<Text>Wczytywanie...</Text>}>
-              <SingleCategory
+              <CategoriesList
                 API_URL={this.props.API_URL}
                 user={this.props.user}
                 getPostByCategoryId={this.getPostByCategoryId}
@@ -271,14 +269,7 @@ export default class Forum extends Component<ForumProps, ForumState> {
                 />
               </TouchableOpacity>
 
-              <Text
-                style={{
-                  paddingTop: 15,
-                  paddingBottom: 20,
-                  fontSize: 18,
-                  textAlign: "center"
-                }}
-              >
+              <Text style={styles.categoryHeaderText}>
                 Kategoria: {categoryName}
               </Text>
             </View>
@@ -299,7 +290,7 @@ export default class Forum extends Component<ForumProps, ForumState> {
                 i: number
               ) => {
                 return (
-                  <SinglePostOnList
+                  <CategoryDetailsSinglePostOnList
                     getPostDetails={this.getPostDetails}
                     showPosts={showPosts}
                     key={i}

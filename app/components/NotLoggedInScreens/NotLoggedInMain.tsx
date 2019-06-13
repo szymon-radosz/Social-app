@@ -44,8 +44,6 @@ export default class NotLoggedInMain extends Component<
     try {
       let userEmailName = this.state.userData.email;
 
-      console.log(userEmailName);
-
       let that = this;
 
       axios
@@ -75,15 +73,8 @@ export default class NotLoggedInMain extends Component<
     userId: number,
     conversationId: number
   ) => {
-    //console.log(["clearUserUnreadedMessages", userId, conversationId]);
-
-    //const { userData } = this.state;
-
     try {
       const { userData } = this.state;
-      //let userEmailName = userData.email;
-
-      //console.log(userEmailName);
 
       let that = this;
 
@@ -143,7 +134,6 @@ export default class NotLoggedInMain extends Component<
   };
 
   setUserData = async (user: any) => {
-    //console.log(user);
     await this.setState({ userData: user });
 
     //console.log(["App state", this.state]);
@@ -164,11 +154,6 @@ export default class NotLoggedInMain extends Component<
 
   componentDidUpdate = (): void => {
     const navigation = this.props.navigation;
-
-    console.log([
-      "navigation.getParam('editProfileData')",
-      navigation.getParam("editProfileData")
-    ]);
 
     if (navigation.getParam("editProfileData") === true) {
       navigation.navigate("FillNecessaryInfo", {
