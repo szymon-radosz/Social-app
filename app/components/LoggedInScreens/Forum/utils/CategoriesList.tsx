@@ -3,6 +3,7 @@ import { Text, View, TouchableHighlight, ScrollView } from "react-native";
 import SingleCategoryOnList from "./SingleCategoryOnList";
 import styles from "../style";
 import axios from "axios";
+import { v4 as uuid } from "uuid";
 
 interface CategoriesListState {
   categories: [];
@@ -63,6 +64,7 @@ export default class CategoriesList extends Component<
             {categories.map((category: any, i: number) => {
               return (
                 <SingleCategoryOnList
+                  key={uuid()}
                   getPostByCategoryId={this.props.getPostByCategoryId}
                   category={category}
                 />

@@ -13,6 +13,7 @@ import ProductMessageBox from "./ProductMessageBox";
 import SellerVoteBox from "./SellerVoteBox";
 import Lightbox from "react-native-lightbox";
 import Carousel from "react-native-looped-carousel";
+import { v4 as uuid } from "uuid";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 
@@ -23,6 +24,7 @@ const renderCarousel = (API_URL: string, imageArray: any): any => (
         <Image
           style={{ flex: 1 }}
           resizeMode="contain"
+          key={uuid()}
           source={{
             uri: `${API_URL}productPhotos/${image.path}`
           }}

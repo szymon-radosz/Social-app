@@ -12,6 +12,7 @@ import SinglePostDetailsComment from "./SinglePostDetailsComment";
 import styles from "./../style";
 import axios from "axios";
 import SavePostComment from "./SavePostComment";
+import { v4 as uuid } from "uuid";
 const like: any = require("./../../../../assets/images/like.png");
 const comment: any = require("./../../../../assets/images/comment.png");
 
@@ -286,6 +287,7 @@ export default class PostDetails extends Component<
               return (
                 <SinglePostDetailsComment
                   API_URL={this.props.API_URL}
+                  key={uuid()}
                   comment={comment}
                   saveCommentVote={this.saveCommentVote}
                 />

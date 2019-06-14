@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import CategoryDetailsSinglePostOnList from "./utils/CategoryDetailsSinglePostOnList";
 import styles from "./style";
+import { v4 as uuid } from "uuid";
 const forumBg: any = require("./../../../assets/images/forumBgMin.jpg");
 
 const PostDetails = React.lazy(() => import("./utils/PostDetails"));
@@ -293,7 +294,7 @@ export default class Forum extends Component<ForumProps, ForumState> {
                   <CategoryDetailsSinglePostOnList
                     getPostDetails={this.getPostDetails}
                     showPosts={showPosts}
-                    key={i}
+                    key={uuid()}
                     post={post}
                   />
                 );

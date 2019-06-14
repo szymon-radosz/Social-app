@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import styles from "./../style";
 import axios from "axios";
+import { v4 as uuid } from "uuid";
 
 interface SavePostState {
   title: string;
@@ -104,6 +105,7 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
                 <Button
                   title={category.name}
                   onPress={() => this.selectCategoryId(category.id)}
+                  key={uuid()}
                   color={
                     category.id === this.state.categoryId ? "blue" : "#000"
                   }

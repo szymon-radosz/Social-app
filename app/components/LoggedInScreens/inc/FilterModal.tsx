@@ -7,6 +7,7 @@ import {
   Button
 } from "react-native";
 import styles from "./style";
+import { v4 as uuid } from "uuid";
 
 const FilterModal = (props: {
   filterModalName: string;
@@ -71,6 +72,7 @@ const FilterModal = (props: {
                       ? styles.filterModalOptionActive
                       : styles.filterModalOptionInactive
                   }
+                  key={uuid()}
                   onPress={() => setSelectedResult(option.text, i)}
                 >
                   <Text>{option.text}</Text>

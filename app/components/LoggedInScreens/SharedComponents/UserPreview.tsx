@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View, Image } from "react-native";
 import styles from "./style";
+import { v4 as uuid } from "uuid";
 const bike: any = require("./../../../assets/images/bike.png");
 const maternity: any = require("./../../../assets/images/maternity.png");
 const dotEmpty: any = require("./../../../assets/images/dotEmpty.png");
@@ -18,7 +19,7 @@ const UserPreview = (props: any) => (
       {props.hobbies &&
         props.hobbies.map((hobby: any, i: number) => {
           return (
-            <View style={styles.userPreviewListItemContainer}>
+            <View style={styles.userPreviewListItemContainer} key={uuid()}>
               <Image
                 style={styles.userPreviewListItemImage}
                 source={dotEmpty}
@@ -43,7 +44,7 @@ const UserPreview = (props: any) => (
         props.kids.map((kid: any, i: number) => {
           if (kid.child_gender === "male") {
             return (
-              <View style={styles.userPreviewListItemContainer}>
+              <View style={styles.userPreviewListItemContainer} key={uuid()}>
                 <Image
                   style={styles.userPreviewListItemImage}
                   source={dotEmpty}
