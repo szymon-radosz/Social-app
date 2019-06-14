@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   TextInput,
   Button,
-  Image,
   Text,
   View,
   TouchableHighlight

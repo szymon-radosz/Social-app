@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import axios from "axios";
 import CategoryDetailsSinglePostOnList from "./utils/CategoryDetailsSinglePostOnList";
-import forumBg from "./../../../assets/images/forumBgMin.jpg";
 import styles from "./style";
+const forumBg: any = require("./../../../assets/images/forumBgMin.jpg");
 
 const PostDetails = React.lazy(() => import("./utils/PostDetails"));
 const SavePost = React.lazy(() => import("./utils/SavePost"));

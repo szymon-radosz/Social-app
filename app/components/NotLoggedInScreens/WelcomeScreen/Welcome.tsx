@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { Button, Text, View, Image, TouchableHighlight } from "react-native";
 import styles from "./style";
 import AppIntroSlider from "react-native-app-intro-slider";
-import eco from "./../../../assets/images/eco.png";
-import support from "./../../../assets/images/support.png";
-import conversation from "./../../../assets/images/conversation.png";
-import stroller from "./../../../assets/images/stroller.png";
-import makeUp from "./../../../assets/images/makeUp.png";
+
+const eco: any = require("./../../../assets/images/eco.png");
+const support: any = require("./../../../assets/images/support.png");
+const conversation: any = require("./../../../assets/images/conversation.png");
+const stroller: any = require("./../../../assets/images/stroller.png");
+const makeUp: any = require("./../../../assets/images/makeUp.png");
 
 const Welcome = (props: { navigation: any }) => {
   const [slides, setSlides] = useState([

@@ -1,12 +1,12 @@
 import React, { Component, Suspense } from "react";
 import { ImageBackground, Text, View, TouchableHighlight } from "react-native";
 import axios from "axios";
-import findUsersBg from "./../../../assets/images/findUsersBgMin.jpg";
 import UserOnList from "./utils/UserOnList";
 import Carousel from "react-native-snap-carousel";
 import { btnFullWidthFilledContainer } from "./../../../assets/global/globalStyles";
 import { v4 as uuid } from "uuid";
 import styles from "./style";
+const findUsersBg: any = require("./../../../assets/images/findUsersBgMin.jpg");
 
 const UserDetails = React.lazy(() => import("./utils/UserDetails"));
 const UserMessageBox = React.lazy(() => import("./utils/UserMessageBox"));

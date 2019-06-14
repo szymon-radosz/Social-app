@@ -8,7 +8,7 @@ import {
   ImageBackground
 } from "react-native";
 import styles from "./../style";
-import fillInfoBg from "./../../../../assets/images/fillInfoBgMin.jpg";
+const fillInfoBg: any = require("./../../../../assets/images/fillInfoBgMin.jpg");
 
 const PhotoScreen = (props: {
   photo: any;

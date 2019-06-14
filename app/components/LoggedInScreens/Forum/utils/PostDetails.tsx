@@ -12,8 +12,8 @@ import SinglePostDetailsComment from "./SinglePostDetailsComment";
 import styles from "./../style";
 import axios from "axios";
 import SavePostComment from "./SavePostComment";
-import like from "./../../../../assets/images/like.png";
-import comment from "./../../../../assets/images/comment.png";
+const like: any = require("./../../../../assets/images/like.png");
+const comment: any = require("./../../../../assets/images/comment.png");
 
 interface PostDetailsState {
   postTitle: string;

@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, Text, View, TouchableOpacity } from "react-native";
 import styles from "./../style";
-import like from "./../../../../assets/images/like.png";
+const like: any = require("./../../../../assets/images/like.png");
 
 const SinglePostDetailsComment = (props: {
   API_URL: string;

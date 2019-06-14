@@ -1,43 +1,39 @@
 import React from "react";
 import { Text, View, Image } from "react-native";
-import {
-  profileHeaderContainer,
-  profileHeaderImage,
-  profileHeaderName,
-  profileHeaderLocation,
-  profileHeaderInfoContainer,
-  profileHeaderSingleInfoContainerMainText,
-  profileHeaderSingleInfoContainerSubText
-} from "./../../../assets/global/globalStyles";
+import styles from "./style";
 
 const ProfileHeader = (props: any) => (
-  <View style={profileHeaderContainer}>
+  <View style={styles.profileHeaderContainer}>
     <Image
-      style={profileHeaderImage}
+      style={styles.profileHeaderImage}
       source={{
         uri: `${props.API_URL}userPhotos/${props.avatar}`
       }}
     />
-    <Text style={profileHeaderName}>{props.name}</Text>
-    <Text style={profileHeaderLocation}>{props.locationString}</Text>
-    <View style={profileHeaderInfoContainer}>
+    <Text style={styles.profileHeaderName}>{props.name}</Text>
+    <Text style={styles.profileHeaderLocation}>{props.locationString}</Text>
+    <View style={styles.profileHeaderInfoContainer}>
       <View>
-        <Text style={profileHeaderSingleInfoContainerMainText}>
+        <Text style={styles.profileHeaderSingleInfoContainerMainText}>
           {props.age}
         </Text>
-        <Text style={profileHeaderSingleInfoContainerSubText}>lat</Text>
+        <Text style={styles.profileHeaderSingleInfoContainerSubText}>lat</Text>
       </View>
       <View>
-        <Text style={profileHeaderSingleInfoContainerMainText}>
+        <Text style={styles.profileHeaderSingleInfoContainerMainText}>
           {props.countFriends}
         </Text>
-        <Text style={profileHeaderSingleInfoContainerSubText}>Znajomych</Text>
+        <Text style={styles.profileHeaderSingleInfoContainerSubText}>
+          Znajomych
+        </Text>
       </View>
       <View>
-        <Text style={profileHeaderSingleInfoContainerMainText}>
+        <Text style={styles.profileHeaderSingleInfoContainerMainText}>
           {props.countKids}
         </Text>
-        <Text style={profileHeaderSingleInfoContainerSubText}>Dzieci</Text>
+        <Text style={styles.profileHeaderSingleInfoContainerSubText}>
+          Dzieci
+        </Text>
       </View>
     </View>
   </View>

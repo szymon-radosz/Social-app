@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import styles from "./../style";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import fillInfoBg from "./../../../../assets/images/fillInfoBgMin.jpg";
+const fillInfoBg: any = require("./../../../../assets/images/fillInfoBgMin.jpg");
 
 const mapStyle = [
   {

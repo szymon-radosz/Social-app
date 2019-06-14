@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Button,
-  Image,
   Text,
   View,
   TouchableHighlight,
@@ -11,11 +10,6 @@ import styles from "./../style";
 import Alert from "./../../../../Alert/Alert";
 import ProfileHeader from "./../../SharedComponents/ProfileHeader";
 import UserPreview from "./../../SharedComponents/UserPreview";
-import { v4 as uuid } from "uuid";
-import moment from "moment";
-import "moment/locale/pl";
-
-const leftArrow: any = require("./../../../../assets/images/leftArrow.png");
 
 const UserDetails = (props: {
   hideShowUserDetails: any;

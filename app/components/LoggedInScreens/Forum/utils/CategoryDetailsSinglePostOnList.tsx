@@ -9,7 +9,7 @@ import {
 import styles from "./../style";
 import moment from "moment";
 import "moment/locale/pl";
-import like from "./../../../../assets/images/like.png";
+const like: any = require("./../../../../assets/images/like.png");
 
 const CategoryDetailsSinglePostOnList = (props: {
   post: any;

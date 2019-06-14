@@ -8,10 +8,10 @@ import {
 } from "react-native";
 import { btnFullWidth } from "./../../../assets/global/globalStyles";
 import axios from "axios";
-import auctionsBg from "./../../../assets/images/auctionsBgMin.jpg";
 import SingleAuctionOnList from "./utils/SingleAuctionOnList";
 import styles from "./style";
 import { v4 as uuid } from "uuid";
+const auctionsBg: any = require("./../../../assets/images/auctionsBgMin.jpg");
 
 const ProductDetails = React.lazy(() => import("./utils/ProductDetails"));
 const AddNewProductBox = React.lazy(() => import("./utils/AddNewProductBox"));

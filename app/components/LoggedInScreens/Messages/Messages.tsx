@@ -4,7 +4,7 @@ import SingleConversationBox from "./utils/SingleConversationBox";
 import axios from "axios";
 import styles from "./style";
 import { v4 as uuid } from "uuid";
-import messagesBgMin from "./../../../assets/images/messagesBgMin.jpg";
+const messagesBgMin: any = require("./../../../assets/images/messagesBgMin.jpg");
 
 const ConversationDetails = React.lazy(() =>
   import("./utils/ConversationDetails")

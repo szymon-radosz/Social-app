@@ -12,8 +12,7 @@ import {
 import DatePicker from "react-native-datepicker";
 import styles from "./../style";
 import { v4 as uuid } from "uuid";
-import fillInfoBg from "./../../../../assets/images/fillInfoBgMin.jpg";
-import style from "../../../LoggedInScreens/style";
+const fillInfoBg: any = require("./../../../../assets/images/fillInfoBgMin.jpg");
 
 const ChooseKidsScreen = (props: {
   setActualKidName: any;

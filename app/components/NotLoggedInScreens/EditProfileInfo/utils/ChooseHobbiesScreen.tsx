@@ -10,7 +10,7 @@ import {
 import styles from "./../style";
 // @ts-ignore
 import { v4 as uuid } from "uuid";
-import fillInfoBg from "./../../../../assets/images/fillInfoBgMin.jpg";
+const fillInfoBg: any = require("./../../../../assets/images/fillInfoBgMin.jpg");
 
 const ChooseHobbiesScreen = (props: {
   hobbies: any;
