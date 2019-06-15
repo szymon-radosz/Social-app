@@ -17,6 +17,7 @@ interface Style {
   input: ViewStyle;
   mainBtn: TextStyle;
   askDesc: TextStyle;
+  ResetPasswordHeader: TextStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -59,5 +60,10 @@ export default StyleSheet.create<Style>({
   askDesc: {
     fontSize: fontSizeSmall,
     fontWeight: "300"
+  },
+  ResetPasswordHeader: {
+    fontSize: fontSizeSmall,
+    fontWeight: "300",
+    paddingTop: 20
   }
 });

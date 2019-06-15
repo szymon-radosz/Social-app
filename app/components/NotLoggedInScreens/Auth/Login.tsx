@@ -129,6 +129,22 @@ const Login = (props: { navigation: any }) => {
           }
         />
       </TouchableHighlight>
+
+      <Text style={styles.ResetPasswordHeader}>Resetuj swoje hasło </Text>
+
+      <TouchableHighlight>
+        <Button
+          title="Resetuj"
+          color={peachColor}
+          onPress={() =>
+            navigation.navigate("ResetPassword", {
+              API_URL: navigation.getParam("API_URL", ""),
+              setUserData: navigation.getParam("setUserData")
+            })
+          }
+        />
+      </TouchableHighlight>
+
       {showAlert != false && (
         <Alert alertType={alertType} alertMessage={alertMessage} />
       )}
