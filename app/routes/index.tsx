@@ -9,6 +9,8 @@ import ConfirmAccount from "./../components/NotLoggedInScreens/Auth/ConfirmAccou
 import FillNecessaryInfo from "./../components/NotLoggedInScreens/EditProfileInfo/EditProfileInfo";
 import LoggedInMain from "./../components/LoggedInScreens/LoggedInMain";
 
+import { fadeIn } from "react-navigation-transitions";
+
 const MainStack = createStackNavigator(
   {
     Welcome: Welcome,
@@ -21,7 +23,8 @@ const MainStack = createStackNavigator(
     LoggedInMain: LoggedInMain
   },
   {
-    initialRouteName: "NotLoggedInMain"
+    initialRouteName: "NotLoggedInMain",
+    transitionConfig: () => fadeIn()
   }
 );
 
