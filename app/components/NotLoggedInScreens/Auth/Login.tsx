@@ -115,35 +115,34 @@ const Login = (props: { navigation: any }) => {
         <Button title="Zaloguj" color="#fff" onPress={loginUser} />
       </TouchableHighlight>
 
-      <Text style={styles.askDesc}>Nie masz konta? </Text>
+      <View style={styles.subBtnSection}>
+        <Text style={styles.subBtnSectionAsk}>Nie posiadasz konta? </Text>
+        <TouchableHighlight>
+          <Text
+            style={styles.registerBtn}
+            onPress={() =>
+              navigation.navigate("Register", {
+                API_URL: navigation.getParam("API_URL", ""),
+                setUserData: navigation.getParam("setUserData")
+              })
+            }
+          >
+            Rejestracja
+          </Text>
+        </TouchableHighlight>
+      </View>
 
-      <TouchableHighlight>
-        <Button
-          title="Zarejestruj się"
-          color={peachColor}
-          onPress={() =>
-            navigation.navigate("Register", {
-              API_URL: navigation.getParam("API_URL", ""),
-              setUserData: navigation.getParam("setUserData")
-            })
-          }
-        />
-      </TouchableHighlight>
-
-      <Text style={styles.ResetPasswordHeader}>Resetuj swoje hasło </Text>
-
-      <TouchableHighlight>
-        <Button
-          title="Resetuj"
-          color={peachColor}
-          onPress={() =>
-            navigation.navigate("ResetPassword", {
-              API_URL: navigation.getParam("API_URL", ""),
-              setUserData: navigation.getParam("setUserData")
-            })
-          }
-        />
-      </TouchableHighlight>
+      <Text
+        style={styles.resetPasswordBtn}
+        onPress={() =>
+          navigation.navigate("ResetPassword", {
+            API_URL: navigation.getParam("API_URL", ""),
+            setUserData: navigation.getParam("setUserData")
+          })
+        }
+      >
+        Resetuj hasło
+      </Text>
 
       {showAlert != false && (
         <Alert alertType={alertType} alertMessage={alertMessage} />

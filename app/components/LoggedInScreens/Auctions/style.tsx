@@ -122,7 +122,7 @@ export default StyleSheet.create<Style>({
   conversationBoxContainer: { borderWidth: 1, width: "100%" },
   image: { width: 45, height: 45 },
   unreadedConversation: { color: "blue" },
-  readedConversation: { color: "#000" },
+  readedConversation: { color: "#333" },
   mainModalContainer: {
     width: fullWidth,
     height: fullHeight,

@@ -68,20 +68,22 @@ const ResetPassword = (props: { navigation: any }) => {
         <Button title="Resetuj" color="#fff" onPress={resetPassword} />
       </TouchableHighlight>
 
-      <Text style={styles.askDesc}>Posiadasz już konto?</Text>
-
-      <TouchableHighlight>
-        <Button
-          title="Zaloguj się"
-          color={peachColor}
-          onPress={() =>
-            navigation.navigate("Login", {
-              API_URL: navigation.getParam("API_URL", ""),
-              setUserData: navigation.getParam("setUserData")
-            })
-          }
-        />
-      </TouchableHighlight>
+      <View style={styles.subBtnSection}>
+        <Text style={styles.subBtnSectionAsk}>Posiadasz juz konto? </Text>
+        <TouchableHighlight>
+          <Text
+            style={styles.registerBtn}
+            onPress={() =>
+              navigation.navigate("Login", {
+                API_URL: navigation.getParam("API_URL", ""),
+                setUserData: navigation.getParam("setUserData")
+              })
+            }
+          >
+            Logowanie
+          </Text>
+        </TouchableHighlight>
+      </View>
       {showAlert != false && (
         <Alert alertType={alertType} alertMessage={alertMessage} />
       )}

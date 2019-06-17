@@ -262,7 +262,7 @@ export default class AddNewProductBox extends Component<
                   >
                     <Button
                       title=""
-                      color="#000"
+                      color="#333"
                       onPress={() => this.setCategoryId(category.id)}
                     />
                   </TouchableHighlight>
@@ -308,7 +308,7 @@ export default class AddNewProductBox extends Component<
               >
                 <Button
                   title=""
-                  color="#000"
+                  color="#333"
                   onPress={() => this.setGender("boy")}
                 />
               </TouchableHighlight>
@@ -346,7 +346,7 @@ export default class AddNewProductBox extends Component<
               >
                 <Button
                   title=""
-                  color="#000"
+                  color="#333"
                   onPress={() => this.setGender("girl")}
                 />
               </TouchableHighlight>
@@ -402,7 +402,7 @@ export default class AddNewProductBox extends Component<
               >
                 <Button
                   title=""
-                  color="#000"
+                  color="#333"
                   onPress={() => this.setProductState("new")}
                 />
               </TouchableHighlight>
@@ -440,7 +440,7 @@ export default class AddNewProductBox extends Component<
               >
                 <Button
                   title=""
-                  color="#000"
+                  color="#333"
                   onPress={() => this.setProductState("secondHand")}
                 />
               </TouchableHighlight>

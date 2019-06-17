@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View, TouchableHighlight } from "react-native";
-import styles from "./../style";
+import styles from "./style";
 
 const ActiveFilters = (props: any) => (
   <View>

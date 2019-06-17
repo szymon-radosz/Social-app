@@ -34,10 +34,7 @@ interface Style {
   userDetailsImage: ImageStyle;
   userDetailsHeaderText: TextStyle;
   userTextLocation: TextStyle;
-  removeFilterBtn: ViewStyle;
   removeFilterBtnText: TextStyle;
-  removeFilterBtnContainer: ViewStyle;
-  removeFilterText: ViewStyle;
   userDetailsContent: ViewStyle;
   userDetailsContentHeader: TextStyle;
   userDetailsContentHobbyContainer: TextStyle;
@@ -46,7 +43,6 @@ interface Style {
   buttonCloseModal: ViewStyle;
   userMessageHeader: TextStyle;
   userMessageTextArea: ViewStyle;
-  activeFiltersText: ViewStyle;
   userMessageBtn: TextStyle;
   userListSingleUserContainer: any;
   userDetails: ViewStyle;
@@ -183,36 +179,14 @@ export default StyleSheet.create<Style>({
     justifyContent: "center",
     marginLeft: 10
   },
-  removeFilterBtn: {
-    height: 25,
-    width: 40,
-    borderRadius: lightBorderRadius,
-    borderColor: peachColor,
-    borderWidth: 2,
-    backgroundColor: peachColor,
-    alignItems: "center",
-    justifyContent: "center",
-    marginLeft: 10
-  },
-  removeFilterText: {
-    marginTop: 5
-  },
+
   removeFilterBtnText: {
     fontSize: 14,
     textAlign: "center",
     lineHeight: 15,
     color: "#fff"
   },
-  removeFilterBtnContainer: {
-    margin: 5,
-    paddingLeft: 5,
-    flexDirection: "row",
-    flexWrap: "wrap"
-  },
-  activeFiltersText: {
-    paddingTop: 10,
-    paddingLeft: 10
-  },
+
   userListSingleUserContainer: userListSingleUserContainer,
   userListSingleUserImage: userListSingleUserImage,
   container: {

@@ -55,7 +55,7 @@ export default StyleSheet.create<Style>({
   },
   sendMessageBtn: btnFullWidth,
   filterBtnText: { color: "#9F9F9F", textAlign: "center", paddingTop: 7 },
-  filterBtnTextActive: { color: "#000", textAlign: "center", paddingTop: 7 },
+  filterBtnTextActive: { color: "#333", textAlign: "center", paddingTop: 7 },
   filterBtnActive: {
     borderBottomColor: peachColor,
     borderBottomWidth: 3,

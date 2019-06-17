@@ -1,4 +1,4 @@
-export const peachColor = "#f7b67e";
+export const peachColor = "#f4a157";
 export const darkGrayColor = "#333";
 export const lightBorderRadius = 6;
 export const fontSizeBig = 24;

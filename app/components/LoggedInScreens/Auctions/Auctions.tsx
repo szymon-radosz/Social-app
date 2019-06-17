@@ -151,7 +151,6 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
             <View style={styles.productListContainer}>
               {productList &&
                 productList.map((product: any, i: number) => {
-                  console.log(["uuid", uuid()]);
                   return (
                     <SingleAuctionOnList
                       product={product}

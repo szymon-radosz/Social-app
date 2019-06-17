@@ -53,7 +53,7 @@ export default StyleSheet.create<Style>({
   },
   welcomeSlideText: {
     fontSize: 26,
-    color: "#000",
+    color: "#333",
     textAlign: "center",
     fontWeight: "300",
     marginBottom: 5
@@ -62,7 +62,7 @@ export default StyleSheet.create<Style>({
   fullWidth: fullWidth,
   logo: {
     textAlign: "center",
-    color: "#000",
+    color: "#333",
     fontWeight: "800",
     fontSize: fontSizeBig,
     paddingBottom: 10

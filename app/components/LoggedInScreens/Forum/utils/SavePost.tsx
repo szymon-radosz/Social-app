@@ -77,7 +77,7 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
         <TouchableHighlight style={styles.buttonCloseModal}>
           <Button
             title="X"
-            color="#000"
+            color="#333"
             onPress={() => this.props.setShowSavePost()}
           />
         </TouchableHighlight>
@@ -107,7 +107,7 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
                   onPress={() => this.selectCategoryId(category.id)}
                   key={uuid()}
                   color={
-                    category.id === this.state.categoryId ? "blue" : "#000"
+                    category.id === this.state.categoryId ? "blue" : "#333"
                   }
                 />
               </TouchableHighlight>
@@ -125,7 +125,7 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
                   this.state.categoryId
                 )
               }
-              color="#000"
+              color="#333"
             />
           </TouchableHighlight>
         </ScrollView>

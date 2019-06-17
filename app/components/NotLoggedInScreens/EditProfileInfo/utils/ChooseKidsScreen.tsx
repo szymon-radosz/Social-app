@@ -93,7 +93,7 @@ const ChooseKidsScreen = (props: {
               >
                 <Button
                   title=""
-                  color="#000"
+                  color="#333"
                   onPress={() => props.setGender("male")}
                 />
               </TouchableHighlight>
@@ -116,7 +116,7 @@ const ChooseKidsScreen = (props: {
               >
                 <Button
                   title=""
-                  color="#000"
+                  color="#333"
                   onPress={() => props.setGender("female")}
                 />
               </TouchableHighlight>

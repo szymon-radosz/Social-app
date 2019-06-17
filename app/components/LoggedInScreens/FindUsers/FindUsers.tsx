@@ -11,7 +11,9 @@ const findUsersBg: any = require("./../../../assets/images/findUsersBgMin.jpg");
 const UserDetails = React.lazy(() => import("./utils/UserDetails"));
 const UserMessageBox = React.lazy(() => import("./utils/UserMessageBox"));
 const FilterModal = React.lazy(() => import("./../inc/FilterModal"));
-const ActiveFilters = React.lazy(() => import("./utils/ActiveFilters"));
+const ActiveFilters = React.lazy(() =>
+  import("./../SharedComponents/ActiveFilters")
+);
 
 interface FindUsersState {
   userList: any;
@@ -284,7 +286,6 @@ export default class FindUsers extends Component<
 
             response.data.resultParameters.map(
               (resultParameter: any, i: number) => {
-                console.log(resultParameter);
                 //resultParameter.default means we get that parameter to loadUsersFilter
                 if (
                   resultParameter.name === "distance" &&
@@ -680,10 +681,18 @@ export default class FindUsers extends Component<
             userList &&
             !showFilterModal && (
               <View>
-                <Text style={{ paddingLeft: 10, paddingTop: 10 }}>
+                <Text
+                  style={{ paddingLeft: 10, paddingTop: 10, fontWeight: "600" }}
+                >
                   Filtruj wyniki
                 </Text>
-                <View style={{ paddingLeft: 10, paddingRight: 10 }}>
+                <View
+                  style={{
+                    paddingLeft: 10,
+                    paddingRight: 10,
+                    paddingBottom: 10
+                  }}
+                >
                   <Carousel
                     layout={"default"}
                     activeSlideAlignment={"start"}
@@ -691,6 +700,7 @@ export default class FindUsers extends Component<
                     renderItem={this.renderItem}
                     itemWidth={100}
                     sliderWidth={styles.fullWidth}
+                    removeClippedSubviews={false}
                   />
                 </View>
               </View>
@@ -732,10 +742,6 @@ export default class FindUsers extends Component<
                     API_URL={this.props.API_URL}
                     key={uuid()}
                     user={user}
-                    senderId={this.props.user.id}
-                    openMessages={this.props.openMessages}
-                    alertMessage={alertMessage}
-                    alertType={alertType}
                     setShowUserDetails={this.setShowUserDetails}
                     setUserDetailsId={this.setUserDetailsId}
                   />

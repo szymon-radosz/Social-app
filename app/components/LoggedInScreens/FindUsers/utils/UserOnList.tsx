@@ -1,87 +1,65 @@
-import React, { Component } from "react";
-import { Image, Text, View, TouchableHighlight } from "react-native";
+import React from "react";
+import {
+  Image,
+  Text,
+  View,
+  TouchableHighlight,
+  ScrollView
+} from "react-native";
 import styles from "./../style";
-import Alert from "./../../../../Alert/Alert";
 
-interface UserOnListState {
-  locationDetails: any;
-}
-
-interface UserOnListProps {
+const UserOnList = (props: {
+  API_URL: string;
+  setShowUserDetails: any;
   setUserDetailsId: any;
   user: {
     id: number;
     photo_path: string;
     name: string;
-    age: string;
-    kids: any;
-    hobbies: any;
-    lattitude: number;
-    longitude: number;
+    age: number;
     location_string: string;
+    kids: any;
   };
-  API_URL: string;
-  senderId: number;
-  openMessages: any;
-  setShowUserDetails: any;
-  alertMessage: string;
-  alertType: string;
-}
-
-export default class UserOnList extends Component<
-  UserOnListProps,
-  UserOnListState
-> {
-  constructor(props: UserOnListProps) {
-    super(props);
-    this.state = {
-      locationDetails: []
-    };
-  }
-
-  render() {
-    const { locationDetails } = this.state;
-    return (
-      <TouchableHighlight
-        onPress={() => {
-          this.props.setShowUserDetails(this.props.user.id);
-          this.props.setUserDetailsId(this.props.user.id);
-        }}
-      >
-        <View style={styles.userListContainer}>
-          <View style={styles.userListSingleUserContainer}>
-            <Image
-              style={styles.userListSingleUserImage}
-              source={{
-                uri: `${this.props.API_URL}userPhotos/${
-                  this.props.user.photo_path
-                }`
-              }}
-            />
-            <View style={styles.userListTextContainer}>
+}) => {
+  return (
+    <TouchableHighlight
+      onPress={() => {
+        props.setShowUserDetails(props.user.id);
+        props.setUserDetailsId(props.user.id);
+      }}
+    >
+      <ScrollView style={styles.userListContainer}>
+        <View style={styles.userListSingleUserContainer}>
+          <Image
+            style={styles.userListSingleUserImage}
+            source={{
+              uri: `${props.API_URL}userPhotos/${props.user.photo_path}`
+            }}
+          />
+          <View style={styles.userListTextContainer}>
+            <View>
+              <Text style={styles.userListText}>
+                {props.user.name}, {props.user.age}
+              </Text>
               <View>
-                <Text style={styles.userListText}>
-                  {this.props.user.name}, {this.props.user.age}
+                <Text style={styles.userTextLocation}>
+                  {props.user.location_string ? props.user.location_string : ""}
                 </Text>
-                <View>
-                  {locationDetails.cityDistrict && locationDetails.city && (
-                    <Text style={styles.userTextLocation}>
-                      {this.props.user.location_string}
-                    </Text>
-                  )}
-                </View>
+              </View>
+              <View>
+                <Text style={styles.userTextLocation}>
+                  {props.user.kids.length > 0
+                    ? props.user.kids.length === 1
+                      ? "1 dziecko"
+                      : `${props.user.kids.length} dzieci`
+                    : null}
+                </Text>
               </View>
             </View>
-
-            {this.props.alertMessage != "" && (
-              <Alert
-                alertType={this.props.alertType}
-                alertMessage={this.props.alertMessage}
-              />
-            )}
           </View>
         </View>
-      </TouchableHighlight>
-    );
-  }
-}
+      </ScrollView>
+    </TouchableHighlight>
+  );
+};
+export default UserOnList;

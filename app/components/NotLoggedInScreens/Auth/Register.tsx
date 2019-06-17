@@ -113,20 +113,23 @@ const Register = (props: { navigation: any }) => {
         <Button title="Zarejestruj" color="#fff" onPress={registerUser} />
       </TouchableHighlight>
 
-      <Text style={styles.askDesc}>Posiadasz juz konto? </Text>
+      <View style={styles.subBtnSection}>
+        <Text style={styles.subBtnSectionAsk}>Posiadasz juz konto? </Text>
+        <TouchableHighlight>
+          <Text
+            style={styles.registerBtn}
+            onPress={() =>
+              navigation.navigate("Login", {
+                API_URL: navigation.getParam("API_URL", ""),
+                setUserData: navigation.getParam("setUserData")
+              })
+            }
+          >
+            Logowanie
+          </Text>
+        </TouchableHighlight>
+      </View>
 
-      <TouchableHighlight>
-        <Button
-          title="Zaloguj się"
-          color={peachColor}
-          onPress={() =>
-            navigation.navigate("Login", {
-              API_URL: navigation.getParam("API_URL", ""),
-              setUserData: navigation.getParam("setUserData")
-            })
-          }
-        />
-      </TouchableHighlight>
       {showAlert != false && (
         <Alert alertType={alertType} alertMessage={alertMessage} />
       )}
