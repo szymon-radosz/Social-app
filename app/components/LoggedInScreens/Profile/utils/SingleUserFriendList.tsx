@@ -21,6 +21,22 @@ const SingleUserFriendList = (props: any) => (
             <Text style={styles.userListText}>
               {props.user.name}, {props.user.age}
             </Text>
+            <View>
+              <Text style={styles.userTextLocation}>
+                {props.user.location_string ? props.user.location_string : ""}
+              </Text>
+            </View>
+            <View>
+              {
+                <Text style={styles.userTextLocation}>
+                  {props.user.kids && props.user.kids.length > 0
+                    ? props.user.kids.length === 1
+                      ? "1 dziecko"
+                      : `${props.user.kids.length} dzieci`
+                    : null}
+                </Text>
+              }
+            </View>
           </View>
         </View>
       </View>

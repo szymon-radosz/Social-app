@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View } from "react-native";
 import styles from "./style";
 import LoggedInScreens from "./utils/LoggedInScreens";
-import BottomPanel from "./inc/BottomPanel";
+import BottomPanel from "./SharedComponents/BottomPanel";
 
 interface NavigationScreenInterface {
   navigation: {

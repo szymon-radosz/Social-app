@@ -10,7 +10,7 @@ const findUsersBg: any = require("./../../../assets/images/findUsersBgMin.jpg");
 
 const UserDetails = React.lazy(() => import("./utils/UserDetails"));
 const UserMessageBox = React.lazy(() => import("./utils/UserMessageBox"));
-const FilterModal = React.lazy(() => import("./../inc/FilterModal"));
+const FilterModal = React.lazy(() => import("./../SharedComponents/FilterModal"));
 const ActiveFilters = React.lazy(() =>
   import("./../SharedComponents/ActiveFilters")
 );

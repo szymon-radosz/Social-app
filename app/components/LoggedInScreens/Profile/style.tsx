@@ -32,6 +32,7 @@ interface Style {
   productOnListTextCategory: any;
   productOnListTextPrice: any;
   optionText: TextStyle;
+  userTextLocation: ViewStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -66,5 +67,8 @@ export default StyleSheet.create<Style>({
   productListSingleProductTextContainer: productListSingleProductTextContainer,
   productOnListTextName: productOnListTextName,
   productOnListTextCategory: productOnListTextCategory,
-  productOnListTextPrice: productOnListTextPrice
+  productOnListTextPrice: productOnListTextPrice,
+  userTextLocation: {
+    fontSize: 10
+  }
 });
