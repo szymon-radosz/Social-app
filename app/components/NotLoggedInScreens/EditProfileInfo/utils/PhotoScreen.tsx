@@ -27,7 +27,7 @@ const PhotoScreen = (props: {
       <Text style={styles.fillInfoHeader}>Dodaj swoje zdjęcie profilowe</Text>
 
       {props.photo && (
-        <Image source={{ uri: props.photo.uri }} style={styles.image} />
+        <Image source={{ uri: props.photo.path }} style={styles.image} />
       )}
 
       {props.userSavedPhoto && props.API_URL && !props.photo && (

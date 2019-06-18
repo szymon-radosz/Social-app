@@ -1,8 +1,10 @@
 import React, { Component, Suspense } from "react";
-import { View, Text } from "react-native";
-import ImagePicker from "react-native-image-picker";
+import { View, Text, NativeModules } from "react-native";
+//import ImagePicker from "react-native-image-picker";
 import axios from "axios";
 import Geocode from "react-geocode";
+
+var ImagePicker = NativeModules.ImageCropPicker;
 
 const AgeDescScreen = React.lazy(() => import("./utils/AgeDescScreen"));
 const PhotoScreen = React.lazy(() => import("./utils/PhotoScreen"));
@@ -336,7 +338,7 @@ export default class FillNecessaryInfo extends Component<
     //console.log(this.state);
   };
 
-  handleChoosePhoto = (): void => {
+  /*handleChoosePhoto = (): void => {
     const options = {
       noData: true,
       maxWidth: 500,
@@ -349,6 +351,29 @@ export default class FillNecessaryInfo extends Component<
         this.setState({ photo: response });
       }
     });
+  };*/
+
+  handleChoosePhoto = () => {
+    ImagePicker.openPicker({
+      width: 500,
+      height: 500,
+      cropping: true,
+      forceJpg: true,
+      compressImageMaxWidth: 500,
+      compressImageMaxHeight: 500,
+      cropperCircleOverlay: false,
+      freeStyleCropEnabled: true,
+      compressImageQuality: 1,
+      compressVideoPreset: "MediumQuality",
+      includeBase64: true
+    })
+      .then((image: any) => {
+        console.log("received image", image);
+        this.setState({ photo: image });
+      })
+      .catch((e: any) => {
+        console.log(e);
+      });
   };
 
   fileUpload = (): void => {
@@ -367,7 +392,7 @@ export default class FillNecessaryInfo extends Component<
         .post(
           API_URL + "/api/uploadUserPhoto",
           {
-            file: this.state.photo.uri ? this.state.photo.uri : "",
+            file: this.state.photo.path ? this.state.photo.path : "",
             fileName: userEmailName.split("@")[0],
             userEmail: userEmailName
           }
