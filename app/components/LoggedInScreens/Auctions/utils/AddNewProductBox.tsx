@@ -6,13 +6,19 @@ import {
   Text,
   View,
   TouchableHighlight,
-  ScrollView
+  ScrollView,
+  NativeModules,
+  TouchableOpacity
 } from "react-native";
 import axios from "axios";
 import styles from "./../style";
 import Alert from "./../../../../Alert/Alert";
-import ImagePicker from "react-native-image-picker";
+//import ImagePicker from "react-native-image-picker";
 import { v4 as uuid } from "uuid";
+
+const trash: any = require("./../../../../assets/images/trash.png");
+
+var ImagePicker = NativeModules.ImageCropPicker;
 
 interface AddNewProductBoxProps {
   API_URL: string;
@@ -67,7 +73,12 @@ export default class AddNewProductBox extends Component<
     this.setCategoryId = this.setCategoryId.bind(this);
     this.setProductState = this.setProductState.bind(this);
     this.addNewProduct = this.addNewProduct.bind(this);
+    this.clearPhotos = this.clearPhotos.bind(this);
   }
+
+  clearPhotos = (): void => {
+    this.setState({ photos: [] });
+  };
 
   setGender = (gender: string): void => {
     console.log(gender);
@@ -113,7 +124,7 @@ export default class AddNewProductBox extends Component<
   };
 
   handleChoosePhoto = (): void => {
-    const options = {
+    /*const options = {
       noData: true,
       maxWidth: 500,
       maxHeight: 500,
@@ -130,7 +141,36 @@ export default class AddNewProductBox extends Component<
 
         console.log(this.state.photos);
       }
-    });
+    });*/
+
+    ImagePicker.openPicker({
+      height: 300,
+      cropping: true,
+      multiple: true,
+      forceJpg: true,
+      maxFiles: 4,
+      compressImageMaxHeight: 300,
+      cropperCircleOverlay: false,
+      freeStyleCropEnabled: true,
+      compressImageQuality: 1,
+      compressVideoPreset: "MediumQuality",
+      includeBase64: true
+    })
+      .then((images: any) => {
+        console.log("received image", images);
+        //this.setState({ photo: image });
+
+        images.map((photo: any, i: number) => {
+          this.setState(prevState => ({
+            photos: [...prevState.photos, photo.path]
+          }));
+        });
+
+        //this.setState({ photos: images });
+      })
+      .catch((e: any) => {
+        console.log(e);
+      });
   };
 
   addNewProduct = (): void => {
@@ -455,7 +495,7 @@ export default class AddNewProductBox extends Component<
           </View>
         </View>
 
-        {photos.length <= 3 && (
+        {photos.length === 0 && (
           <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
             <Text style={{ paddingBottom: 5 }}>Dodaj zdjęcia</Text>
             <TouchableHighlight
@@ -482,7 +522,7 @@ export default class AddNewProductBox extends Component<
           }}
         >
           {photos &&
-            photos.map((photo: string, i: number) => {
+            photos.map((photo: any, i: number) => {
               return (
                 <Image
                   key={uuid()}
@@ -492,10 +532,24 @@ export default class AddNewProductBox extends Component<
                     borderRadius: 6,
                     marginRight: 10
                   }}
-                  source={{ uri: photos[i] }}
+                  source={{ uri: photo }}
                 />
               );
             })}
+
+          {photos && photos.length > 0 && (
+            <TouchableOpacity
+              style={{
+                width: 50,
+                height: 50,
+                paddingTop: 5,
+                borderRadius: 6,
+                backgroundColor: "#f7b67e"
+              }}
+            >
+              <Button title="X" color="#333" onPress={this.clearPhotos} />
+            </TouchableOpacity>
+          )}
         </View>
 
         <TouchableHighlight style={styles.productDetailsBtn}>

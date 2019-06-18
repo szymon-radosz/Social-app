@@ -301,10 +301,12 @@ export default class ProductDetails extends Component<
               </Text>
             </View>
             <View style={styles.productContent}>
-              <Text style={styles.productContentText}>
-                <Text style={styles.bold}>Kategoria:</Text>{" "}
-                {productDetails[0].categoryName[0].name}
-              </Text>
+              {productDetails[0].categoryName[0].name && (
+                <Text style={styles.productContentText}>
+                  <Text style={styles.bold}>Kategoria:</Text>{" "}
+                  {productDetails[0].categoryName[0].name}
+                </Text>
+              )}
 
               {productDetails[0].child_gender === "girl" && (
                 <Text style={styles.productContentText}>
@@ -326,29 +328,20 @@ export default class ProductDetails extends Component<
                 </Text>
               )}
 
-              {productLocation && !productLocation.notFoundFullName && (
+              {productDetails[0].users.location_string && (
                 <Text style={styles.productContentText}>
                   <Text style={styles.bold}>W poblizu:</Text>{" "}
-                  {productLocation.cityArea}, {productLocation.cityCode}{" "}
-                  {productLocation.city}, {productLocation.countryArea},{" "}
-                  {productLocation.country}
+                  {productDetails[0].users.location_string}
                 </Text>
               )}
 
-              {productLocation &&
-                productLocation.notFoundFullName &&
-                productDetails[0].users.location_string && (
-                  <Text style={styles.productContentText}>
-                    <Text style={styles.bold}>W poblizu:</Text>{" "}
-                    {productDetails[0].users.location_string}
-                  </Text>
-                )}
-
-              <Text style={styles.productContentText}>
-                {" "}
-                <Text style={styles.bold}>Cena:</Text> {productDetails[0].price}{" "}
-                zł
-              </Text>
+              {productDetails[0].price && (
+                <Text style={styles.productContentText}>
+                  {" "}
+                  <Text style={styles.bold}>Cena:</Text>{" "}
+                  {productDetails[0].price} zł
+                </Text>
+              )}
             </View>
             {productDetails[0].user_id != this.props.currentUser.id &&
             !usersAreInTheSameConversation ? (
