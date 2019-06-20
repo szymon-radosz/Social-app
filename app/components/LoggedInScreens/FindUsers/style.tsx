@@ -39,6 +39,7 @@ interface Style {
   userDetailsContentHeader: TextStyle;
   userDetailsContentHobbyContainer: TextStyle;
   userDetailsRedirectMessageBtnContainer: TextStyle;
+  userDetailsRedirectMessageBtnBottomContainer: ViewStyle;
   userDetailsRedirectMessageBtn: TextStyle;
   buttonCloseModal: ViewStyle;
   userMessageHeader: TextStyle;
@@ -139,6 +140,11 @@ export default StyleSheet.create<Style>({
   userDetailsRedirectMessageBtnContainer: {
     alignItems: "center",
     justifyContent: "center"
+  },
+  userDetailsRedirectMessageBtnBottomContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 150
   },
   userListTextContainer: userListTextContainer,
   userDetailsRedirectMessageBtn: btnFullWidth,

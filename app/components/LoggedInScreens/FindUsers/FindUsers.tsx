@@ -10,7 +10,9 @@ const findUsersBg: any = require("./../../../assets/images/findUsersBgMin.jpg");
 
 const UserDetails = React.lazy(() => import("./utils/UserDetails"));
 const UserMessageBox = React.lazy(() => import("./utils/UserMessageBox"));
-const FilterModal = React.lazy(() => import("./../SharedComponents/FilterModal"));
+const FilterModal = React.lazy(() =>
+  import("./../SharedComponents/FilterModal")
+);
 const ActiveFilters = React.lazy(() =>
   import("./../SharedComponents/ActiveFilters")
 );
@@ -642,6 +644,20 @@ export default class FindUsers extends Component<
           </ImageBackground>
         )}
 
+        {!showUserMessageBox &&
+          !showUserDetails &&
+          userList &&
+          showFilterModal && (
+            <Suspense fallback={<Text>Wczytywanie...</Text>}>
+              <FilterModal
+                filterOptions={filterData}
+                closeFilter={this.setShowFilterModal}
+                filterModalName={filterModalName}
+                filterResults={this.filterResults}
+              />
+            </Suspense>
+          )}
+
         <View style={styles.container}>
           {showUserDetails && !showUserMessageBox && userDetailsData && (
             <Suspense fallback={<Text>Wczytywanie...</Text>}>
@@ -689,8 +705,7 @@ export default class FindUsers extends Component<
                 <View
                   style={{
                     paddingLeft: 10,
-                    paddingRight: 10,
-                    paddingBottom: 10
+                    paddingRight: 10
                   }}
                 >
                   <Carousel
@@ -716,20 +731,6 @@ export default class FindUsers extends Component<
               removeFilter={this.removeFilter}
             />
           </Suspense>
-
-          {!showUserMessageBox &&
-            !showUserDetails &&
-            userList &&
-            showFilterModal && (
-              <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                <FilterModal
-                  filterOptions={filterData}
-                  closeFilter={this.setShowFilterModal}
-                  filterModalName={filterModalName}
-                  filterResults={this.filterResults}
-                />
-              </Suspense>
-            )}
 
           {!showUserMessageBox &&
             !showUserDetails &&

@@ -4,6 +4,7 @@ import SendMessageBox from "./SendMessageBox";
 import SingleConversationMessage from "./SingleConversationMessage";
 import styles from "./../style";
 import { v4 as uuid } from "uuid";
+import PageHeader from "./../../SharedComponents/PageHeader";
 
 interface ConversationDetailsState {
   messages: any;
@@ -23,6 +24,7 @@ interface ConversationDetailsProps {
   sendMessage: any;
   setUserMessage: any;
   userMessage: string;
+  closeConversationDetails: any;
 }
 
 export default class ConversationDetails extends Component<
@@ -65,6 +67,12 @@ export default class ConversationDetails extends Component<
     const { messages } = this.state;
     return (
       <View style={styles.viewContainer}>
+        <PageHeader
+          boldText={this.props.receiverName}
+          normalText={""}
+          closeMethod={this.props.closeConversationDetails}
+        />
+
         <View style={styles.messageDetailsContainer}>
           <TouchableOpacity>
             <Image

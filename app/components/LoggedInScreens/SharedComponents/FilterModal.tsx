@@ -4,10 +4,13 @@ import {
   TouchableHighlight,
   View,
   Text,
-  Button
+  Button,
+  Image,
+  ScrollView
 } from "react-native";
 import styles from "./style";
 import { v4 as uuid } from "uuid";
+import PageHeader from "./PageHeader";
 
 const FilterModal = (props: {
   filterModalName: string;
@@ -15,6 +18,7 @@ const FilterModal = (props: {
   closeFilter: any;
   filterResults: any;
 }) => {
+  const [userSelectData, setUserSelectData] = useState(false);
   const [selectedResultName, setSelectedResultName] = useState("");
   const [selectedResultValue, setSelectedResultValue] = useState("");
   const [selectedResultId, setSelectedResultId] = useState(0);
@@ -45,30 +49,27 @@ const FilterModal = (props: {
     (selectedResultValue: string, index: number) => {
       setSelectedResultValue(selectedResultValue);
       setSelectedResultId(index);
+      setUserSelectData(true);
     },
     [selectedResultValue, selectedResultId]
   );
 
   return (
-    <View>
-      <TouchableHighlight style={styles.buttonCloseModal}>
-        <Button title="<" color="#fff" onPress={() => props.closeFilter()} />
-      </TouchableHighlight>
+    <ScrollView>
+      <PageHeader
+        boldText={"Filtruj: "}
+        normalText={`${props.filterModalName} - ${selectedResultValue}`}
+        closeMethod={props.closeFilter}
+      />
 
       <View style={styles.filterModalContainer}>
-        <Text style={styles.filterModalHeaderTextContainer}>
-          <Text style={styles.filterModalHeaderTextBold}>Filtruj:</Text>{" "}
-          {props.filterModalName}
-          {selectedResultValue && " - "}
-          {selectedResultValue}
-        </Text>
         <View style={styles.filterModalOptionContainer}>
           {selectedData &&
             selectedData.map((option: any, i: number) => {
               return (
                 <TouchableOpacity
                   style={
-                    selectedResultId === i
+                    selectedResultId === i && userSelectData
                       ? styles.filterModalOptionActive
                       : styles.filterModalOptionInactive
                   }
@@ -91,7 +92,7 @@ const FilterModal = (props: {
           color="#fff"
         />
       </TouchableHighlight>
-    </View>
+    </ScrollView>
   );
 };
 export default FilterModal;

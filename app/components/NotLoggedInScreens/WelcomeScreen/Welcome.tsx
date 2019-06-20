@@ -8,23 +8,24 @@ const support: any = require("./../../../assets/images/support.png");
 const conversation: any = require("./../../../assets/images/conversation.png");
 const stroller: any = require("./../../../assets/images/stroller.png");
 const makeUp: any = require("./../../../assets/images/makeUp.png");
+const emamyLogo: any = require("./../../../assets/images/emamyLogoTextVerticalSmall.png");
 
 const Welcome = (props: { navigation: any }) => {
   const [slides, setSlides] = useState([
     {
       key: "slide1",
       text: "Bądź częścią lokalnej \nspołeczności matek",
-      image: eco
-    },
-    {
-      key: "slide2",
-      text: "Wymieniaj się uwagami \nna wspólnym forum",
-      image: support
+      image: emamyLogo
     },
     {
       key: "slide3",
       text: "Twórz pozytywne relacje \nz innymi kobietami",
       image: conversation
+    },
+    {
+      key: "slide2",
+      text: "Wymieniaj się uwagami \nna wspólnym forum",
+      image: support
     },
     {
       key: "slide4",
@@ -39,7 +40,7 @@ const Welcome = (props: { navigation: any }) => {
   ]);
 
   const welcomeSliderRenderItem = (item: {
-    title: string;
+    key: string;
     image: any;
     text: string;
   }) => {

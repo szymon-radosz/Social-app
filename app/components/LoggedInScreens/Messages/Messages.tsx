@@ -54,10 +54,15 @@ export default class Messages extends Component<MessagesProps, MessagesState> {
     this.sendMessage = this.sendMessage.bind(this);
     this.getAuctionMessages = this.getAuctionMessages.bind(this);
     this.setUserMessage = this.setUserMessage.bind(this);
+    this.closeConversationDetails = this.closeConversationDetails.bind(this);
   }
 
   setUserMessage = (message: string): void => {
     this.setState({ userMessage: message });
+  };
+
+  closeConversationDetails = (): void => {
+    this.setState({ openConversationDetails: false, showFilterPanel: true });
   };
 
   //open conversation details from list of conversations
@@ -295,6 +300,7 @@ export default class Messages extends Component<MessagesProps, MessagesState> {
               clearUserUnreadedMessages={this.props.clearUserUnreadedMessages}
               setUserMessage={this.setUserMessage}
               userMessage={userMessage}
+              closeConversationDetails={this.closeConversationDetails}
             />
           </Suspense>
         )}

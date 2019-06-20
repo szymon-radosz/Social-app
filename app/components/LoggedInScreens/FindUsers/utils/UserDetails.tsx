@@ -10,6 +10,7 @@ import styles from "./../style";
 import Alert from "./../../../../Alert/Alert";
 import ProfileHeader from "./../../SharedComponents/ProfileHeader";
 import UserPreview from "./../../SharedComponents/UserPreview";
+import PageHeader from "./../../SharedComponents/PageHeader";
 
 const UserDetails = (props: {
   hideShowUserDetails: any;
@@ -38,6 +39,12 @@ const UserDetails = (props: {
 }): any => {
   return (
     <ScrollView style={styles.userDetails}>
+      <PageHeader
+        boldText={props.user.name}
+        normalText={""}
+        closeMethod={props.hideShowUserDetails}
+      />
+
       <ProfileHeader
         API_URL={props.API_URL}
         avatar={props.user.photo_path}
@@ -88,7 +95,7 @@ const UserDetails = (props: {
           )}
         </TouchableHighlight>
       </View>
-      <View style={styles.userDetailsRedirectMessageBtnContainer}>
+      <View style={styles.userDetailsRedirectMessageBtnBottomContainer}>
         <TouchableHighlight style={styles.userDetailsRedirectMessageBtn}>
           <View>
             {props.usersFriendshipStatus === "friendship doesnt exist" && (

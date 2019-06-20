@@ -59,6 +59,9 @@ interface Style {
   filterModalOptionContainer: ViewStyle;
   filterModalOptionActive: ViewStyle;
   filterModalOptionInactive: ViewStyle;
+  activeFiltersConatiner: ViewStyle;
+  pageHeaderContainer: ViewStyle;
+  pageHeaderImage: ImageStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -83,18 +86,19 @@ export default StyleSheet.create<Style>({
     fontWeight: "600"
   },
   removeFilterBtnContainer: {
-    margin: 5,
-    paddingLeft: 5,
+    paddingLeft: 10,
     flexDirection: "row",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderBottomColor: "#E5E5E5"
   },
   removeFilterText: {
-    marginTop: 5
+    marginTop: 10
   },
   removeFilterBtn: {
-    height: 25,
+    height: 40,
     width: 40,
-    borderRadius: lightBorderRadius,
     borderColor: peachColor,
     borderWidth: 2,
     backgroundColor: peachColor,
@@ -146,19 +150,15 @@ export default StyleSheet.create<Style>({
     top: 2
   },
   buttonCloseModal: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    zIndex: 11,
-    paddingRight: 3,
-    backgroundColor: peachColor,
-    borderBottomRightRadius: lightBorderRadius
+    //width: "20%"
   },
-  filterModalContainer: { padding: 10 },
+  filterModalContainer: { paddingLeft: 10, paddingRight: 10 },
   filterModalHeaderTextContainer: {
-    paddingLeft: 40,
-    paddingRight: 40,
-    fontSize: 16
+    textAlign: "center",
+    fontSize: 16,
+    lineHeight: 40,
+    paddingLeft: 10,
+    paddingRight: 10
   },
   filterModalHeaderTextBold: { fontWeight: "bold" },
   filterModalOptionContainer: { paddingTop: 30 },
@@ -174,5 +174,21 @@ export default StyleSheet.create<Style>({
     borderWidth: 1,
     marginBottom: 5,
     padding: 10
-  }
+  },
+  activeFiltersConatiner: {
+    borderTopWidth: 1,
+    borderTopColor: "#E5E5E5",
+    marginTop: 5,
+    marginBottom: 10
+  },
+  pageHeaderContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignSelf: "center",
+    width: "100%",
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#E5E5E5"
+  },
+  pageHeaderImage: { width: 40, height: 40 }
 });
