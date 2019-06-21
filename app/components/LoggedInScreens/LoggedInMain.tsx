@@ -142,6 +142,11 @@ export default class LoggedInMain extends Component<
           openMessages={this.setOpenMessages}
           openProfile={this.setOpenProfile}
           openForum={this.setOpenForum}
+          openFindUsersStatus={openFindUsers}
+          openAuctionsStatus={openAuctions}
+          openMessagesStatus={openMessages}
+          openProfileStatus={openProfile}
+          openForumStatus={openForum}
           user={navigation.getParam("user")}
         />
       </View>

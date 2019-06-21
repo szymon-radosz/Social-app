@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { ScrollView } from "react-native";
 import FindUsers from "./../FindUsers/FindUsers";
 import Auctions from "./../Auctions/Auctions";
 import Messages from "./../Messages/Messages";
@@ -7,7 +7,7 @@ import Forum from "./../Forum/Forum";
 import Profile from "./../Profile/Profile";
 
 const LoggedInScreens = (props: any) => (
-  <View>
+  <ScrollView>
     {props.openFindUsers && (
       <FindUsers
         API_URL={props.API_URL}
@@ -44,7 +44,7 @@ const LoggedInScreens = (props: any) => (
         navigation={props.navigation}
       />
     )}
-  </View>
+  </ScrollView>
 );
 
 export default LoggedInScreens;

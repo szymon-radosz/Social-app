@@ -62,6 +62,9 @@ interface Style {
   activeFiltersConatiner: ViewStyle;
   pageHeaderContainer: ViewStyle;
   pageHeaderImage: ImageStyle;
+  buttonTextActive: TextStyle;
+  bottomPanelImageActive: ViewStyle;
+  bottomPanelImage: ViewStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -133,9 +136,23 @@ export default StyleSheet.create<Style>({
     height: 25,
     marginBottom: 5
   },
+  buttonTextActive: {
+    fontSize: 10,
+    textAlign: "center",
+    color: peachColor,
+    fontWeight: "600"
+  },
+  bottomPanelImageActive: {
+    opacity: 1
+  },
+  bottomPanelImage: {
+    opacity: 0.7
+  },
   buttonText: {
     fontSize: 10,
-    textAlign: "center"
+    color: "#424242",
+    textAlign: "center",
+    fontWeight: "600"
   },
   unreadedMessagesNotificationContainer: {
     position: "absolute",

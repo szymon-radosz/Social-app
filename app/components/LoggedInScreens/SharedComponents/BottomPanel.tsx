@@ -19,27 +19,76 @@ const BottomPanel = (props: {
   };
   openForum: any;
   openProfile: any;
+  openFindUsersStatus: boolean;
+  openAuctionsStatus: boolean;
+  openMessagesStatus: boolean;
+  openForumStatus: boolean;
+  openProfileStatus: boolean;
 }): any => {
   return (
     <View style={styles.bottomPanel}>
       <TouchableOpacity onPress={() => props.openFindUsers()}>
-        <Image
-          style={styles.buttonImage}
-          source={network}
-          resizeMode="contain"
-        />
-        <Text style={styles.buttonText}>POZNAJ</Text>
+        <View
+          style={
+            props.openFindUsersStatus
+              ? styles.bottomPanelImageActive
+              : styles.bottomPanelImage
+          }
+        >
+          <Image
+            style={styles.buttonImage}
+            source={network}
+            resizeMode="contain"
+          />
+        </View>
+        <Text
+          style={
+            props.openFindUsersStatus
+              ? styles.buttonTextActive
+              : styles.buttonText
+          }
+        >
+          POZNAJ
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => props.openAuctions()}>
-        <Image style={styles.buttonImage} source={sell} resizeMode="contain" />
-        <Text style={styles.buttonText}>TARG</Text>
+        <View
+          style={
+            props.openAuctionsStatus
+              ? styles.bottomPanelImageActive
+              : styles.bottomPanelImage
+          }
+        >
+          <Image
+            style={styles.buttonImage}
+            source={sell}
+            resizeMode="contain"
+          />
+        </View>
+        <Text
+          style={
+            props.openAuctionsStatus
+              ? styles.buttonTextActive
+              : styles.buttonText
+          }
+        >
+          TARG
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => props.openMessages()}>
-        <Image
-          style={styles.buttonImage}
-          source={message}
-          resizeMode="contain"
-        />
+        <View
+          style={
+            props.openMessagesStatus
+              ? styles.bottomPanelImageActive
+              : styles.bottomPanelImage
+          }
+        >
+          <Image
+            style={styles.buttonImage}
+            source={message}
+            resizeMode="contain"
+          />
+        </View>
         {props.user.unreadedConversationMessage &&
           props.user.unreadedConversationMessageAmount && (
             <TouchableOpacity
@@ -54,19 +103,61 @@ const BottomPanel = (props: {
               </Text>
             </TouchableOpacity>
           )}
-        <Text style={styles.buttonText}>WIADOMOŚCI</Text>
+        <Text
+          style={
+            props.openMessagesStatus
+              ? styles.buttonTextActive
+              : styles.buttonText
+          }
+        >
+          WIADOMOŚCI
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => props.openForum()}>
-        <Image style={styles.buttonImage} source={forum} resizeMode="contain" />
-        <Text style={styles.buttonText}>FORUM</Text>
+        <View
+          style={
+            props.openForumStatus
+              ? styles.bottomPanelImageActive
+              : styles.bottomPanelImage
+          }
+        >
+          <Image
+            style={styles.buttonImage}
+            source={forum}
+            resizeMode="contain"
+          />
+        </View>
+        <Text
+          style={
+            props.openForumStatus ? styles.buttonTextActive : styles.buttonText
+          }
+        >
+          FORUM
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => props.openProfile()}>
-        <Image
-          style={styles.buttonImage}
-          source={profile}
-          resizeMode="contain"
-        />
-        <Text style={styles.buttonText}>PROFIL</Text>
+        <View
+          style={
+            props.openProfileStatus
+              ? styles.bottomPanelImageActive
+              : styles.bottomPanelImage
+          }
+        >
+          <Image
+            style={styles.buttonImage}
+            source={profile}
+            resizeMode="contain"
+          />
+        </View>
+        <Text
+          style={
+            props.openProfileStatus
+              ? styles.buttonTextActive
+              : styles.buttonText
+          }
+        >
+          PROFIL
+        </Text>
       </TouchableOpacity>
     </View>
   );
