@@ -53,7 +53,7 @@ export default StyleSheet.create<Style>({
   },
   welcomeSlideText: {
     fontSize: 26,
-    color: "#333",
+    color: "#424242",
     textAlign: "center",
     fontWeight: "300",
     marginBottom: 5

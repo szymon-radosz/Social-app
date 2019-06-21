@@ -69,6 +69,34 @@ const ActiveFilters = (props: any) => (
           </TouchableHighlight>
         </View>
       ) : null}
+
+      {props.filterPrice && !props.showFilterModal ? (
+        <View style={styles.removeFilterBtnContainer}>
+          <Text style={styles.removeFilterText}>
+            Cena - {props.filterPrice}
+          </Text>
+          <TouchableHighlight
+            style={styles.removeFilterBtn}
+            onPress={() => props.removeFilter("Cena")}
+          >
+            <Text style={styles.removeFilterBtnText}>-</Text>
+          </TouchableHighlight>
+        </View>
+      ) : null}
+
+      {props.filterStatus && !props.showFilterModal ? (
+        <View style={styles.removeFilterBtnContainer}>
+          <Text style={styles.removeFilterText}>
+            Status - {props.filterStatus}
+          </Text>
+          <TouchableHighlight
+            style={styles.removeFilterBtn}
+            onPress={() => props.removeFilter("Status")}
+          >
+            <Text style={styles.removeFilterBtnText}>-</Text>
+          </TouchableHighlight>
+        </View>
+      ) : null}
     </View>
   </View>
 );

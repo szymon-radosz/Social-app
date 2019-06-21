@@ -79,10 +79,12 @@ interface Style {
   sellerVoteBoxVoteWrapper: ViewStyle;
   sellerVoteBoxVote: ViewStyle;
   sellerVoteBoxVotePreview: ViewStyle;
+  fullWidth: any;
 }
 
 export default StyleSheet.create<Style>({
   productOnListTextName: productOnListTextName,
+  fullWidth: fullWidth,
   productDetailsBtn: btnFullWidth,
   productOnListTextCategory: productOnListTextCategory,
   productOnListTextPrice: productOnListTextPrice,

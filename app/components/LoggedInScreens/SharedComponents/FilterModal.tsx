@@ -42,6 +42,12 @@ const FilterModal = (props: {
     } else if (filterModalName === "Hobby") {
       setSelectedData(props.filterOptions.hobby);
       setSelectedResultName("Hobby");
+    } else if (filterModalName === "Cena") {
+      setSelectedData(props.filterOptions.price);
+      setSelectedResultName("Cena");
+    } else if (filterModalName === "Status") {
+      setSelectedData(props.filterOptions.status);
+      setSelectedResultName("Status");
     }
   }, []);
 

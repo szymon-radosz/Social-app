@@ -721,16 +721,18 @@ export default class FindUsers extends Component<
               </View>
             )}
 
-          <Suspense fallback={<Text>Wczytywanie...</Text>}>
-            <ActiveFilters
-              filterDistance={filterDistance}
-              filterChildAge={filterChildAge}
-              filterChildGender={filterChildGender}
-              filterHobbyName={filterHobbyName}
-              showFilterModal={showFilterModal}
-              removeFilter={this.removeFilter}
-            />
-          </Suspense>
+          {!showUserDetails && (
+            <Suspense fallback={<Text>Wczytywanie...</Text>}>
+              <ActiveFilters
+                filterDistance={filterDistance}
+                filterChildAge={filterChildAge}
+                filterChildGender={filterChildGender}
+                filterHobbyName={filterHobbyName}
+                showFilterModal={showFilterModal}
+                removeFilter={this.removeFilter}
+              />
+            </Suspense>
+          )}
 
           {!showUserMessageBox &&
             !showUserDetails &&
