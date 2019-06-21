@@ -10,15 +10,15 @@ import {
 } from "react-native";
 import axios from "axios";
 import styles from "./../style";
-import Alert from "./../../../../Alert/Alert";
 import { v4 as uuid } from "uuid";
+import PageHeader from "./../../SharedComponents/PageHeader";
 
 interface SellerVoteBoxProps {
   foundVoteUserList: any;
   API_URL: string;
   changeVoteBox: any;
   getProductDetails: any;
-  searchUsersByName: any;
+  searchUsersByEmail: any;
   currentUser: {
     id: number;
   };
@@ -97,7 +97,7 @@ export default class SellerVoteBox extends Component<
   };
 
   componentDidMount = () => {
-    this.setState({ foundVoteUserList: this.props.foundVoteUserList });
+    //this.setState({ foundVoteUserList: this.props.foundVoteUserList });
   };
 
   setUserVote = (vote: number) => {
@@ -159,6 +159,7 @@ export default class SellerVoteBox extends Component<
         authorId: authorId
       })
       .then(function(response) {
+        console.log(["saveVote", response]);
         if (response.data.status === "OK") {
           console.log(["zapisałeś głos", response.data.result]);
           that.closeProduct(productId);
@@ -171,155 +172,203 @@ export default class SellerVoteBox extends Component<
   render() {
     const {
       showfoundVoteUserList,
-      alertType,
-      alertMessage,
       foundVoteUserList,
       selectedUserData,
       userVote
     } = this.state;
     return (
       <View style={styles.relative}>
-        <TouchableHighlight style={styles.buttonCloseModal}>
-          <Button
-            title="<"
-            color="#fff"
-            onPress={() => this.props.changeVoteBox()}
-          />
-        </TouchableHighlight>
-        <View style={styles.userDetailsHeader}>
-          <Text style={styles.userMessageHeader}>Wystaw ocenę kupującemu</Text>
-        </View>
-
-        <TextInput
-          onChangeText={name => {
-            this.clearFoundVoteUserList();
-            this.setState({
-              showfoundVoteUserList: true
-            });
-            this.props.searchUsersByName(name);
-          }}
-          placeholder="Szukaj uzytkownika po imieniu..."
-          placeholderTextColor="#333"
-          style={styles.userMessageTextArea}
+        <PageHeader
+          boldText={"Wystaw ocenę"}
+          normalText={""}
+          closeMethod={this.props.changeVoteBox}
         />
 
-        <View style={styles.sellerVoteBoxUserListContainer}>
-          {showfoundVoteUserList &&
-            foundVoteUserList &&
-            foundVoteUserList.map((user: any, i: number) => {
-              if (user.id != this.props.currentUser.id) {
-                return (
-                  <TouchableOpacity
-                    key={uuid()}
-                    onPress={() =>
-                      this.setSelectedUserData(
-                        user.id,
-                        user.name,
-                        user.age,
-                        user.email
-                      )
-                    }
-                  >
-                    <View
-                      style={styles.sellerVoteBoxUserListSingleUserContainer}
+        <View style={styles.sellerVoteBoxContainer}>
+          <TextInput
+            onChangeText={email => {
+              this.clearFoundVoteUserList();
+              this.setState({
+                showfoundVoteUserList: true
+              });
+              this.props.searchUsersByEmail(email);
+            }}
+            placeholder="Szukaj użytkowniki po adresie email..."
+            placeholderTextColor="#333"
+            style={styles.userMessageTextArea}
+          />
+
+          <View style={styles.sellerVoteBoxUserListContainer}>
+            {showfoundVoteUserList && foundVoteUserList.length > 0 && (
+              <Text
+                style={{ paddingTop: 10, paddingBottom: 10, fontWeight: "600" }}
+              >
+                Znalezione użytkowniczki
+              </Text>
+            )}
+            {showfoundVoteUserList &&
+              foundVoteUserList &&
+              foundVoteUserList.map((user: any, i: number) => {
+                if (user.id != this.props.currentUser.id) {
+                  return (
+                    <TouchableOpacity
+                      key={uuid()}
+                      onPress={() =>
+                        this.setSelectedUserData(
+                          user.id,
+                          user.name,
+                          user.age,
+                          user.email
+                        )
+                      }
                     >
-                      <Image
-                        style={styles.sellerVoteBoxUserListSingleUserImage}
-                        source={{
-                          uri: `${this.props.API_URL}userPhotos/${
-                            user.photo_path
-                          }`
-                        }}
-                      />
                       <View
-                        style={
-                          styles.sellerVoteBoxUserListSingleUserTextContainer
-                        }
+                        style={styles.sellerVoteBoxUserListSingleUserContainer}
                       >
-                        <Text>
-                          {user.name}, {user.age}
-                        </Text>
-                        <Text>{user.email}</Text>
+                        <Image
+                          style={styles.sellerVoteBoxUserListSingleUserImage}
+                          source={{
+                            uri: `${this.props.API_URL}userPhotos/${
+                              user.photo_path
+                            }`
+                          }}
+                        />
+                        <View
+                          style={
+                            styles.sellerVoteBoxUserListSingleUserTextContainer
+                          }
+                        >
+                          <Text>
+                            {user.name}, {user.age}
+                          </Text>
+                          <Text>{user.email}</Text>
+                        </View>
                       </View>
-                    </View>
-                  </TouchableOpacity>
-                );
-              }
-            })}
-        </View>
+                    </TouchableOpacity>
+                  );
+                }
+              })}
+          </View>
 
-        {selectedUserData.name && (
-          <View style={styles.sellerVoteBoxVoteContainerPadding}>
-            <Text>
-              Oceń współpracę z {selectedUserData.name} (
-              {selectedUserData.email})
-            </Text>
+          {selectedUserData.name && (
+            <View>
+              <Text>
+                Oceń współpracę z{" "}
+                <Text style={{ fontWeight: "600" }}>
+                  {selectedUserData.name}
+                </Text>{" "}
+                ({selectedUserData.email})
+              </Text>
 
-            <View style={styles.sellerVoteBoxVoteContainer}>
-              <Text
-                style={styles.sellerVoteBoxVote}
-                onPress={() => this.setUserVote(1)}
-              >
-                1
-              </Text>
-              <Text
-                style={styles.sellerVoteBoxVote}
-                onPress={() => this.setUserVote(2)}
-              >
-                2
-              </Text>
-              <Text
-                style={styles.sellerVoteBoxVote}
-                onPress={() => this.setUserVote(3)}
-              >
-                3
-              </Text>
-              <Text
-                style={styles.sellerVoteBoxVote}
-                onPress={() => this.setUserVote(4)}
-              >
-                4
-              </Text>
-              <Text
-                style={styles.sellerVoteBoxVote}
-                onPress={() => this.setUserVote(5)}
-              >
-                5
-              </Text>
+              <View style={styles.sellerVoteBoxVoteContainer}>
+                <Text
+                  style={
+                    userVote === 1
+                      ? styles.sellerVoteBoxVoteActive
+                      : styles.sellerVoteBoxVote
+                  }
+                  onPress={() => this.setUserVote(1)}
+                >
+                  1
+                </Text>
+                <Text
+                  style={
+                    userVote === 2
+                      ? styles.sellerVoteBoxVoteActive
+                      : styles.sellerVoteBoxVote
+                  }
+                  onPress={() => this.setUserVote(2)}
+                >
+                  2
+                </Text>
+                <Text
+                  style={
+                    userVote === 3
+                      ? styles.sellerVoteBoxVoteActive
+                      : styles.sellerVoteBoxVote
+                  }
+                  onPress={() => this.setUserVote(3)}
+                >
+                  3
+                </Text>
+                <Text
+                  style={
+                    userVote === 4
+                      ? styles.sellerVoteBoxVoteActive
+                      : styles.sellerVoteBoxVote
+                  }
+                  onPress={() => this.setUserVote(4)}
+                >
+                  4
+                </Text>
+                <Text
+                  style={
+                    userVote === 5
+                      ? styles.sellerVoteBoxVoteActive
+                      : styles.sellerVoteBoxVote
+                  }
+                  onPress={() => this.setUserVote(5)}
+                >
+                  5
+                </Text>
+              </View>
             </View>
-          </View>
-        )}
+          )}
 
-        {userVote != 0 && (
-          <View>
-            <Text style={styles.sellerVoteBoxVotePreview}>
-              Twoja ocena: {userVote}
-            </Text>
+          {userVote != 0 && (
+            <View>
+              <Text style={styles.sellerVoteBoxVotePreview}>
+                Ocena: <Text style={{ fontWeight: "600" }}>{userVote}</Text>
+              </Text>
 
-            <TextInput
-              multiline={true}
-              numberOfLines={10}
-              onChangeText={voteComment => {
-                this.setState({
-                  voteComment
-                });
-              }}
-              placeholder="Napisz komentarz do opinii..."
-              placeholderTextColor="#333"
-              style={styles.userMessageTextArea}
-            />
+              {userVote === 1 && (
+                <Text style={{ paddingBottom: 10 }}>
+                  Oceniłaś bardzo źle użytkowniczkę, napisz poniżej czym jest to
+                  spowodowane
+                </Text>
+              )}
+              {userVote > 1 && userVote <= 3 && (
+                <Text style={{ paddingBottom: 10 }}>
+                  Oceniłaś nie najlepiej użytkowniczkę, napisz poniżej czym jest
+                  to spowodowane
+                </Text>
+              )}
+              {userVote > 3 && userVote < 5 && (
+                <Text style={{ paddingBottom: 10 }}>
+                  Oceniłaś dobrze użytkowniczkę, napisz poniżej kilka słów o
+                  współpracy przy sprzedaży
+                </Text>
+              )}
+              {userVote === 5 && (
+                <Text style={{ paddingBottom: 10 }}>
+                  Oceniłaś świetnie użytkowniczkę, napisz poniżej kilka słów o
+                  współpracy przy sprzedaży
+                </Text>
+              )}
 
-            <TouchableHighlight style={styles.productDetailsBtn}>
-              <Button
-                title="Wyślij"
-                color="#fff"
-                onPress={() => this.sendVote()}
+              <TextInput
+                multiline={true}
+                numberOfLines={10}
+                onChangeText={voteComment => {
+                  this.setState({
+                    voteComment
+                  });
+                }}
+                placeholder="Napisz komentarz do opinii..."
+                placeholderTextColor="#333"
+                style={styles.sellerVoteBoxTextArea}
               />
-            </TouchableHighlight>
-          </View>
-        )}
-        {alertMessage != "" && (
-          <Alert alertType={alertType} alertMessage={alertMessage} />
+            </View>
+          )}
+        </View>
+        {userVote != 0 && (
+          <TouchableHighlight style={styles.productDetailsBtn}>
+            <Button
+              title="Wyślij"
+              color="#fff"
+              onPress={() => this.sendVote()}
+            />
+          </TouchableHighlight>
         )}
       </View>
     );

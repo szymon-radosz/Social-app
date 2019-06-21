@@ -16,10 +16,18 @@ const PageHeader = (props: {
       >
         <Image source={backIcon} style={styles.pageHeaderImage} />
       </TouchableOpacity>
-      <Text style={styles.filterModalHeaderTextContainer}>
-        <Text style={styles.filterModalHeaderTextBold}>{props.boldText}</Text>{" "}
-        {props.normalText}
-      </Text>
+      <View
+        style={{
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <Text style={styles.filterModalHeaderTextContainer}>
+          <Text style={styles.filterModalHeaderTextBold}>{props.boldText}</Text>{" "}
+          {props.normalText}
+        </Text>
+      </View>
       <View style={styles.pageHeaderImage} />
     </View>
   );

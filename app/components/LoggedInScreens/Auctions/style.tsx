@@ -35,6 +35,7 @@ interface Style {
   unreadedConversation: TextStyle;
   readedConversation: TextStyle;
   productContentText: ViewStyle;
+  productClosed: TextStyle;
   productOnListTextContainer: TextStyle;
   mainModalContainer: TextStyle;
   userDetailsModalContentContainer: ViewStyle;
@@ -51,6 +52,7 @@ interface Style {
   buttonCloseModal: TextStyle;
   userMessageHeader: TextStyle;
   userMessageTextArea: TextStyle;
+  sellerVoteBoxTextArea: TextStyle;
   userMessageBtn: TextStyle;
   userListSingleUserContainer: TextStyle;
   userListSingleUserImage: ViewStyle;
@@ -74,12 +76,13 @@ interface Style {
   sellerVoteBoxUserListSingleUserContainer: ViewStyle;
   sellerVoteBoxUserListSingleUserImage: ImageStyle;
   sellerVoteBoxUserListSingleUserTextContainer: ViewStyle;
-  sellerVoteBoxVoteContainerPadding: ViewStyle;
   sellerVoteBoxVoteContainer: ViewStyle;
   sellerVoteBoxVoteWrapper: ViewStyle;
   sellerVoteBoxVote: ViewStyle;
   sellerVoteBoxVotePreview: ViewStyle;
   fullWidth: any;
+  sellerVoteBoxContainer: ViewStyle;
+  sellerVoteBoxVoteActive: ViewStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -196,9 +199,10 @@ export default StyleSheet.create<Style>({
     justifyContent: "center"
   },
   productHeaderText: {
-    fontSize: fontSizeBig,
-    marginTop: 10,
-    marginBottom: 20
+    fontSize: 12,
+    paddingLeft: 15,
+    paddingRight: 15,
+    marginTop: 30
   },
   bold: {
     fontWeight: "bold"
@@ -209,6 +213,10 @@ export default StyleSheet.create<Style>({
     alignItems: "center",
     justifyContent: "center",
     paddingTop: 30
+  },
+  productClosed: {
+    color: peachColor,
+    fontWeight: "600"
   },
   productContentText: {
     marginBottom: 8
@@ -232,18 +240,25 @@ export default StyleSheet.create<Style>({
     borderRadius: lightBorderRadius,
     padding: 5
   },
+  sellerVoteBoxTextArea: {
+    height: 60,
+    borderWidth: 1,
+    borderRadius: lightBorderRadius,
+    padding: 5
+  },
   productDetailsImage: {
     width: 100,
     height: 100,
     marginBottom: 10,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: lightBorderRadius
+    borderRadius: 50
   },
   productContent: {
     width: "90%",
     marginLeft: "auto",
-    marginRight: "auto"
+    marginRight: "auto",
+    marginTop: 30
   },
   userMessageBtn: {
     height: 35,
@@ -319,7 +334,7 @@ export default StyleSheet.create<Style>({
     marginBottom: 10
   },
   productListContainer: { padding: 10 },
-  sellerVoteBoxUserListContainer: { padding: 10 },
+  sellerVoteBoxUserListContainer: { paddingTop: 10, paddingBottom: 10 },
   sellerVoteBoxUserListSingleUserContainer: {
     width: "100%",
     borderWidth: 1,
@@ -329,15 +344,14 @@ export default StyleSheet.create<Style>({
     padding: 10,
     marginBottom: 5
   },
-  sellerVoteBoxUserListSingleUserImage: { width: 50, height: 50 },
+  sellerVoteBoxUserListSingleUserImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25
+  },
   sellerVoteBoxUserListSingleUserTextContainer: {
     paddingLeft: 10,
     paddingRight: 10
-  },
-  sellerVoteBoxVoteContainerPadding: {
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: 10
   },
   sellerVoteBoxVoteContainer: {
     width: "100%",
@@ -359,14 +373,25 @@ export default StyleSheet.create<Style>({
     paddingBottom: 10,
     paddingLeft: 15,
     paddingRight: 15,
-    marginRight: 5,
+    marginRight: 7,
     borderWidth: 1,
-    borderRadius: 6
+    borderRadius: 20
+  },
+  sellerVoteBoxVoteActive: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
+    marginRight: 7,
+    borderWidth: 1,
+    borderColor: peachColor,
+    borderRadius: 20
   },
   sellerVoteBoxVotePreview: {
-    paddingLeft: 10,
-    paddingRight: 10,
     marginTop: 20,
     paddingBottom: 10
+  },
+  sellerVoteBoxContainer: {
+    padding: 10
   }
 });

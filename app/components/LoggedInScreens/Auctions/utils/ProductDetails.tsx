@@ -14,6 +14,7 @@ import SellerVoteBox from "./SellerVoteBox";
 import Lightbox from "react-native-lightbox";
 import Carousel from "react-native-looped-carousel";
 import { v4 as uuid } from "uuid";
+import PageHeader from "./../../SharedComponents/PageHeader";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 
@@ -86,22 +87,22 @@ export default class ProductDetails extends Component<
       this
     );
     this.changeVoteBox = this.changeVoteBox.bind(this);
-    this.searchUsersByName = this.searchUsersByName.bind(this);
+    this.searchUsersByEmail = this.searchUsersByEmail.bind(this);
   }
 
-  searchUsersByName = (name: string) => {
+  searchUsersByEmail = (email: string) => {
     let API_URL = this.props.API_URL;
 
-    if (name) {
+    if (email) {
       let that = this;
 
       axios
-        .post(API_URL + "/api/loadUserByName", {
-          name: name
+        .post(API_URL + "/api/loadUserByEmail", {
+          email: email
         })
         .then(function(response) {
           if (response.data.status === "OK") {
-            console.log(["searchUsersByName", response.data]);
+            console.log(["searchUsersByEmail", response.data]);
 
             that.setState({
               foundVoteUserList: []
@@ -241,7 +242,6 @@ export default class ProductDetails extends Component<
       showVoteBox,
       productDetails,
       foundVoteUserList,
-      productLocation,
       usersAreInTheSameConversation
     } = this.state;
     return (
@@ -257,19 +257,18 @@ export default class ProductDetails extends Component<
             product={productDetails[0]}
             API_URL={this.props.API_URL}
             changeVoteBox={this.changeVoteBox}
-            searchUsersByName={this.searchUsersByName}
+            searchUsersByEmail={this.searchUsersByEmail}
             foundVoteUserList={foundVoteUserList}
             getProductDetails={this.getProductDetails}
           />
         ) : productDetails[0] ? (
           <View>
-            <TouchableHighlight style={styles.buttonCloseModal}>
-              <Button
-                title="<"
-                color="#fff"
-                onPress={() => this.props.setDisplayProductDetails()}
-              />
-            </TouchableHighlight>
+            <PageHeader
+              boldText={productDetails[0].name}
+              normalText={""}
+              closeMethod={this.props.setDisplayProductDetails}
+            />
+
             <View style={styles.productDetailsHeader}>
               <Lightbox
                 springConfig={{ tension: 15, friction: 7 }}
@@ -293,12 +292,14 @@ export default class ProductDetails extends Component<
               </Lightbox>
 
               {productDetails[0].product_photos.length > 1 && (
-                <Text>Zobacz więcej zdjęć</Text>
+                <Text>Kliknij zdjęcie, aby zobaczyć galerię</Text>
               )}
 
-              <Text style={styles.productHeaderText}>
-                {productDetails[0].name}
-              </Text>
+              {productDetails[0].description ? (
+                <Text style={styles.productHeaderText}>
+                  {productDetails[0].description}
+                </Text>
+              ) : null}
             </View>
             <View style={styles.productContent}>
               {productDetails[0].categoryName[0].name && (
@@ -320,6 +321,18 @@ export default class ProductDetails extends Component<
                 </Text>
               )}
 
+              {productDetails[0].status === 0 && (
+                <Text style={styles.productContentText}>
+                  <Text style={styles.bold}>Stan produktu:</Text> Nowe
+                </Text>
+              )}
+
+              {productDetails[0].status === 1 && (
+                <Text style={styles.productContentText}>
+                  <Text style={styles.bold}>Stan produktu:</Text> Używane
+                </Text>
+              )}
+
               {productDetails[0].users && (
                 <Text style={styles.productContentText}>
                   <Text style={styles.bold}>Dodane przez:</Text>{" "}
@@ -337,7 +350,6 @@ export default class ProductDetails extends Component<
 
               {productDetails[0].price && (
                 <Text style={styles.productContentText}>
-                  {" "}
                   <Text style={styles.bold}>Cena:</Text>{" "}
                   {productDetails[0].price} zł
                 </Text>
@@ -392,7 +404,9 @@ export default class ProductDetails extends Component<
             ) : (
               <View style={styles.productContent}>
                 <Text style={styles.productContentText}>
-                  <Text style={styles.bold}>Sprzedaż produktu zakończona</Text>
+                  <Text style={styles.productClosed}>
+                    Sprzedaż produktu zakończona
+                  </Text>
                 </Text>
               </View>
             )}

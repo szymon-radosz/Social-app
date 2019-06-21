@@ -156,7 +156,7 @@ export default StyleSheet.create<Style>({
   filterModalHeaderTextContainer: {
     textAlign: "center",
     fontSize: 16,
-    lineHeight: 40,
+    lineHeight: 16,
     paddingLeft: 10,
     paddingRight: 10
   },

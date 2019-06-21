@@ -15,6 +15,7 @@ import styles from "./../style";
 import Alert from "./../../../../Alert/Alert";
 //import ImagePicker from "react-native-image-picker";
 import { v4 as uuid } from "uuid";
+import PageHeader from "./../../SharedComponents/PageHeader";
 
 const trash: any = require("./../../../../assets/images/trash.png");
 
@@ -32,6 +33,7 @@ interface AddNewProductBoxProps {
 
 interface AddNewProductBoxState {
   name: string;
+  description: string;
   alertMessage: string;
   alertType: string;
   categories: string[];
@@ -53,6 +55,7 @@ export default class AddNewProductBox extends Component<
     super(props);
     this.state = {
       name: "",
+      description: "",
       alertMessage: "",
       alertType: "",
       categories: [],
@@ -193,6 +196,7 @@ export default class AddNewProductBox extends Component<
     console.log([
       this.props.currentUser.id,
       this.state.name,
+      this.state.description,
       this.state.selectedCategoryId,
       childGender,
       this.state.price,
@@ -209,6 +213,7 @@ export default class AddNewProductBox extends Component<
       .post(API_URL + "/api/saveProduct", {
         userId: this.props.currentUser.id,
         name: this.state.name,
+        description: this.state.description,
         categoryId: this.state.selectedCategoryId,
         childGender: childGender,
         price: this.state.price,
@@ -236,6 +241,7 @@ export default class AddNewProductBox extends Component<
   render() {
     const {
       name,
+      description,
       categories,
       selectedCategoryId,
       maleGender,
@@ -249,30 +255,52 @@ export default class AddNewProductBox extends Component<
     } = this.state;
     return (
       <ScrollView style={styles.relative}>
-        <TouchableHighlight style={styles.buttonCloseModal}>
-          <Button
-            title="<"
-            color="#fff"
-            onPress={() => this.props.changeDisplayNewProductBox()}
-          />
-        </TouchableHighlight>
-        <View style={styles.userDetailsHeader}>
-          <Text style={styles.userMessageHeader}>Dodaj nowy produkt</Text>
-        </View>
+        <PageHeader
+          boldText={"Dodaj nowy produkt"}
+          normalText={""}
+          closeMethod={this.props.changeDisplayNewProductBox}
+        />
 
-        <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
+        <View
+          style={{
+            paddingLeft: 10,
+            paddingRight: 10,
+            marginBottom: 10,
+            paddingTop: 10
+          }}
+        >
           <TextInput
             multiline={false}
             onChangeText={name => this.setState({ name })}
             value={name}
-            placeholder="Nazwa"
+            placeholder="Podaj nazwę produktu"
             placeholderTextColor="#333"
+            maxLength={50}
             style={styles.userMessageTextArea}
           />
         </View>
 
+        <View
+          style={{
+            paddingLeft: 10,
+            paddingRight: 10,
+            marginBottom: 10
+          }}
+        >
+          <TextInput
+            multiline={true}
+            numberOfLines={10}
+            onChangeText={description => this.setState({ description })}
+            value={description}
+            placeholder="Podaj opis produktu"
+            placeholderTextColor="#333"
+            maxLength={150}
+            style={styles.sellerVoteBoxTextArea}
+          />
+        </View>
+
         <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
-          <Text style={{ paddingBottom: 5 }}>Kategoria</Text>
+          <Text style={{ paddingBottom: 5, fontWeight: "600" }}>Kategoria</Text>
           <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
             {categories.map((category: any, i: number) => {
               return (
@@ -320,7 +348,9 @@ export default class AddNewProductBox extends Component<
         </View>
 
         <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
-          <Text style={{ paddingBottom: 5 }}>Płeć dziecka</Text>
+          <Text style={{ paddingBottom: 5, fontWeight: "600" }}>
+            Płeć dziecka
+          </Text>
           <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
             <View style={{ flexDirection: "row" }}>
               <TouchableHighlight
@@ -402,9 +432,10 @@ export default class AddNewProductBox extends Component<
         </View>
 
         <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
-          <Text style={{ paddingBottom: 5 }}>Cena</Text>
+          <Text style={{ paddingBottom: 5, fontWeight: "600" }}>Cena</Text>
           <TextInput
             multiline={false}
+            maxLength={4}
             onChangeText={price => this.setState({ price })}
             value={price}
             placeholder="Cena w zł"
@@ -414,7 +445,9 @@ export default class AddNewProductBox extends Component<
         </View>
 
         <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
-          <Text style={{ paddingBottom: 5 }}>Stan produktu</Text>
+          <Text style={{ paddingBottom: 5, fontWeight: "600" }}>
+            Stan produktu
+          </Text>
           <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
             <View style={{ flexDirection: "row" }}>
               <TouchableHighlight
@@ -497,7 +530,9 @@ export default class AddNewProductBox extends Component<
 
         {photos.length === 0 && (
           <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
-            <Text style={{ paddingBottom: 5 }}>Dodaj zdjęcia</Text>
+            <Text style={{ paddingBottom: 5, fontWeight: "600" }}>
+              Dodaj zdjęcia
+            </Text>
             <TouchableHighlight
               style={{
                 width: 50,
