@@ -71,6 +71,7 @@ export default class ConversationDetails extends Component<
           boldText={this.props.receiverName}
           normalText={""}
           closeMethod={this.props.closeConversationDetails}
+          closeMethodParameter={""}
         />
 
         <View style={styles.messageDetailsContainer}>

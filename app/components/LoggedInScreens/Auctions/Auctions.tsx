@@ -390,17 +390,8 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
           productList &&
           !showFilterModal && (
             <View>
-              <Text
-                style={{ paddingLeft: 10, paddingTop: 10, fontWeight: "600" }}
-              >
-                Filtruj wyniki
-              </Text>
-              <View
-                style={{
-                  paddingLeft: 10,
-                  paddingRight: 10
-                }}
-              >
+              <Text style={styles.filterResultsHeaderText}>Filtruj wyniki</Text>
+              <View style={styles.filterResultsCarousel}>
                 <Carousel
                   layout={"default"}
                   activeSlideAlignment={"start"}

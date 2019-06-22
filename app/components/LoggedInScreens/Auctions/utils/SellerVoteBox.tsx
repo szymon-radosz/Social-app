@@ -182,6 +182,7 @@ export default class SellerVoteBox extends Component<
           boldText={"Wystaw ocenę"}
           normalText={""}
           closeMethod={this.props.changeVoteBox}
+          closeMethodParameter={""}
         />
 
         <View style={styles.sellerVoteBoxContainer}>
@@ -318,7 +319,7 @@ export default class SellerVoteBox extends Component<
           {userVote != 0 && (
             <View>
               <Text style={styles.sellerVoteBoxVotePreview}>
-                Ocena: <Text style={{ fontWeight: "600" }}>{userVote}</Text>
+                Ocena: <Text style={styles.bold}>{userVote}</Text>
               </Text>
 
               {userVote === 1 && (

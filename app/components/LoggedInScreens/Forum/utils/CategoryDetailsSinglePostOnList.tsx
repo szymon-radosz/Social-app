@@ -20,7 +20,7 @@ const CategoryDetailsSinglePostOnList = (props: {
   return (
     <TouchableHighlight onPress={() => props.getPostDetails(props.post.id)}>
       <View style={styles.singlePostContainer}>
-        <View>
+        <View style={{ width: "80%" }}>
           <Text style={styles.singlePostTitle}>{props.post.title}</Text>
           <Text style={styles.singlePostDate}>{postDate}</Text>
           <Text style={styles.singlePostCommentLength}>

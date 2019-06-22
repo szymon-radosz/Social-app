@@ -56,6 +56,8 @@ interface Style {
   showUserDetails: TextStyle;
   fullWidth: any;
   fullHeight: any;
+  filterResultsHeaderText: TextStyle;
+  filterResultsCarousel: ViewStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -144,7 +146,7 @@ export default StyleSheet.create<Style>({
   userDetailsRedirectMessageBtnBottomContainer: {
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 150
+    marginBottom: 10
   },
   userListTextContainer: userListTextContainer,
   userDetailsRedirectMessageBtn: btnFullWidth,
@@ -197,9 +199,6 @@ export default StyleSheet.create<Style>({
   userListSingleUserImage: userListSingleUserImage,
   container: {
     position: "relative"
-    /*flexWrap: "wrap",
-    alignItems: "flex-start",
-    flexDirection: "row"*/
   },
   userListImage: {
     width: 50,
@@ -222,5 +221,14 @@ export default StyleSheet.create<Style>({
     borderWidth: 2,
     backgroundColor: peachColor,
     marginBottom: 10
+  },
+  filterResultsHeaderText: {
+    paddingLeft: 10,
+    paddingTop: 10,
+    fontWeight: "600"
+  },
+  filterResultsCarousel: {
+    paddingLeft: 10,
+    paddingRight: 10
   }
 });

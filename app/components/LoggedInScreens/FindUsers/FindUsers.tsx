@@ -658,27 +658,28 @@ export default class FindUsers extends Component<
             </Suspense>
           )}
 
+        {showUserDetails && !showUserMessageBox && userDetailsData && (
+          <Suspense fallback={<Text>Wczytywanie...</Text>}>
+            <UserDetails
+              hideShowUserDetails={this.hideShowUserDetails}
+              API_URL={this.props.API_URL}
+              user={userDetailsData}
+              usersAreInTheSameConversation={usersAreInTheSameConversation}
+              usersFriendshipStatus={usersFriendshipStatus}
+              openMessages={this.props.openMessages}
+              setOpenProfile={this.props.setOpenProfile}
+              setShowUserMessageBox={this.setShowUserMessageBox}
+              alertMessage={alertMessage}
+              alertType={alertType}
+              inviteFriend={this.inviteFriend}
+              confirmFriend={this.confirmFriend}
+              loggedInUserId={this.props.user.id}
+              locationDetails={locationDetails}
+            />
+          </Suspense>
+        )}
+
         <View style={styles.container}>
-          {showUserDetails && !showUserMessageBox && userDetailsData && (
-            <Suspense fallback={<Text>Wczytywanie...</Text>}>
-              <UserDetails
-                hideShowUserDetails={this.hideShowUserDetails}
-                API_URL={this.props.API_URL}
-                user={userDetailsData}
-                usersAreInTheSameConversation={usersAreInTheSameConversation}
-                usersFriendshipStatus={usersFriendshipStatus}
-                openMessages={this.props.openMessages}
-                setOpenProfile={this.props.setOpenProfile}
-                setShowUserMessageBox={this.setShowUserMessageBox}
-                alertMessage={alertMessage}
-                alertType={alertType}
-                inviteFriend={this.inviteFriend}
-                confirmFriend={this.confirmFriend}
-                loggedInUserId={this.props.user.id}
-                locationDetails={locationDetails}
-              />
-            </Suspense>
-          )}
           {showUserMessageBox && !showUserDetails && userDetailsData && (
             <Suspense fallback={<Text>Wczytywanie...</Text>}>
               <UserMessageBox
@@ -697,17 +698,10 @@ export default class FindUsers extends Component<
             userList &&
             !showFilterModal && (
               <View>
-                <Text
-                  style={{ paddingLeft: 10, paddingTop: 10, fontWeight: "600" }}
-                >
+                <Text style={styles.filterResultsHeaderText}>
                   Filtruj wyniki
                 </Text>
-                <View
-                  style={{
-                    paddingLeft: 10,
-                    paddingRight: 10
-                  }}
-                >
+                <View style={styles.filterResultsCarousel}>
                   <Carousel
                     layout={"default"}
                     activeSlideAlignment={"start"}

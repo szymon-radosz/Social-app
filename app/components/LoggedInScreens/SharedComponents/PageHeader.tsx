@@ -7,11 +7,12 @@ const PageHeader = (props: {
   boldText: string;
   normalText: string;
   closeMethod: any;
+  closeMethodParameter: any;
 }): any => {
   return (
     <View style={styles.pageHeaderContainer}>
       <TouchableOpacity
-        onPress={() => props.closeMethod()}
+        onPress={() => props.closeMethod(props.closeMethodParameter)}
         style={styles.buttonCloseModal}
       >
         <Image source={backIcon} style={styles.pageHeaderImage} />

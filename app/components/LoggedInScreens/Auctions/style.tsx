@@ -20,6 +20,7 @@ import {
   productOnListTextCategory,
   productOnListTextPrice
 } from "./../../../assets/global/globalStyles";
+import { ViewportUserZoomProperty } from "csstype";
 const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;
 
@@ -83,6 +84,14 @@ interface Style {
   fullWidth: any;
   sellerVoteBoxContainer: ViewStyle;
   sellerVoteBoxVoteActive: ViewStyle;
+  filterResultsCarousel: ViewStyle;
+  filterResultsHeaderText: TextStyle;
+  addNewProductInputContainer: ViewStyle;
+  addNewProductDescInput: ViewStyle;
+  addNewProductOptionContainer: ViewStyle;
+  addNewProductOptionHeaderText: TextStyle;
+  addNewProductOptionWrapper: ViewStyle;
+  addNewProductOptionText: ViewStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -205,7 +214,7 @@ export default StyleSheet.create<Style>({
     marginTop: 30
   },
   bold: {
-    fontWeight: "bold"
+    fontWeight: "600"
   },
   productDetailsHeader: {
     position: "relative",
@@ -393,5 +402,33 @@ export default StyleSheet.create<Style>({
   },
   sellerVoteBoxContainer: {
     padding: 10
-  }
+  },
+  filterResultsCarousel: {
+    paddingLeft: 10,
+    paddingRight: 10
+  },
+  filterResultsHeaderText: {
+    paddingLeft: 10,
+    paddingTop: 10,
+    fontWeight: "600"
+  },
+  addNewProductInputContainer: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginBottom: 10,
+    paddingTop: 10
+  },
+  addNewProductDescInput: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginBottom: 10
+  },
+  addNewProductOptionContainer: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginBottom: 10
+  },
+  addNewProductOptionHeaderText: { paddingBottom: 5, fontWeight: "600" },
+  addNewProductOptionWrapper: { flexDirection: "row", flexWrap: "wrap" },
+  addNewProductOptionText: { marginTop: 2, marginRight: 15 }
 });

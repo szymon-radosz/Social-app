@@ -66,6 +66,7 @@ const FilterModal = (props: {
         boldText={"Filtruj: "}
         normalText={`${props.filterModalName} - ${selectedResultValue}`}
         closeMethod={props.closeFilter}
+        closeMethodParameter={""}
       />
 
       <View style={styles.filterModalContainer}>

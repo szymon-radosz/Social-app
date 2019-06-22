@@ -267,6 +267,7 @@ export default class ProductDetails extends Component<
               boldText={productDetails[0].name}
               normalText={""}
               closeMethod={this.props.setDisplayProductDetails}
+              closeMethodParameter={""}
             />
 
             <View style={styles.productDetailsHeader}>

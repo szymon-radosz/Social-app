@@ -50,11 +50,11 @@ export default StyleSheet.create<Style>({
   userListTextContainer: userListTextContainer,
   userListText: userListText,
   optionHeader: {
-    fontSize: 18,
     textAlign: "center",
-    fontWeight: "bold",
-    paddingTop: 15,
-    paddingBottom: 15
+    fontSize: 16,
+    marginTop: 15,
+    marginBottom: 15,
+    fontWeight: "600"
   },
   optionText: {
     fontSize: 18,

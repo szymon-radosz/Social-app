@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import {
   TextInput,
+  Text,
   Button,
   View,
-  TouchableHighlight,
-  ScrollView
+  TouchableHighlight
 } from "react-native";
 import styles from "./../style";
 import axios from "axios";
 import { v4 as uuid } from "uuid";
+import PageHeader from "./../../SharedComponents/PageHeader";
 
 interface SavePostState {
   title: string;
@@ -74,17 +75,18 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
 
     return (
       <View style={styles.relative}>
-        <TouchableHighlight style={styles.buttonCloseModal}>
-          <Button
-            title="X"
-            color="#333"
-            onPress={() => this.props.setShowSavePost()}
-          />
-        </TouchableHighlight>
+        <PageHeader
+          boldText={"Dodaj nowy post"}
+          normalText={""}
+          closeMethod={this.props.setShowSavePost}
+          closeMethodParameter={""}
+        />
 
-        <ScrollView style={styles.postDetailsContainer}>
+        <View>
           <TextInput
+            style={styles.savePostCommentInput}
             multiline={false}
+            maxLength={100}
             onChangeText={title => this.setState({ title })}
             value={this.state.title}
             placeholder="Temat"
@@ -93,30 +95,72 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
 
           <TextInput
             multiline={false}
+            style={styles.savePostCommentInput}
             onChangeText={description => this.setState({ description })}
+            maxLength={250}
             value={this.state.description}
             placeholder="Treść postu"
             placeholderTextColor="#333"
           />
 
+          <Text style={styles.savePostCategoryHeaderText}>Kategoria: </Text>
+
           {categories.map((category: any, i: number) => {
             return (
-              <TouchableHighlight>
-                <Button
-                  title={category.name}
+              <View
+                style={{
+                  flexWrap: "wrap",
+                  alignItems: "flex-start",
+                  flexDirection: "row",
+                  paddingBottom: 10,
+                  paddingLeft: 10
+                }}
+                key={uuid()}
+              >
+                <TouchableHighlight
                   onPress={() => this.selectCategoryId(category.id)}
-                  key={uuid()}
-                  color={
-                    category.id === this.state.categoryId ? "blue" : "#333"
+                  style={
+                    category.id == this.state.categoryId
+                      ? {
+                          width: 20,
+                          height: 20,
+                          borderWidth: 1,
+                          backgroundColor: "#f7b67e",
+                          borderColor: "#f7b67e",
+                          borderRadius: 20,
+                          marginRight: 5
+                        }
+                      : {
+                          width: 20,
+                          height: 20,
+                          borderWidth: 1,
+                          backgroundColor: "white",
+                          borderRadius: 20,
+                          marginRight: 5
+                        }
                   }
-                />
-              </TouchableHighlight>
+                >
+                  <Button
+                    title=""
+                    color="#333"
+                    onPress={() => this.selectCategoryId(category.id)}
+                  />
+                </TouchableHighlight>
+
+                <Text
+                  style={{ marginTop: 2, marginRight: 15 }}
+                  onPress={() => this.selectCategoryId(category.id)}
+                >
+                  {category.name}
+                </Text>
+              </View>
             );
           })}
 
-          <TouchableHighlight>
+          <TouchableHighlight style={styles.addPostBtn}>
             <Button
               title="Dodaj"
+              color="#fff"
               onPress={() =>
                 this.props.savePost(
                   this.state.title,
@@ -125,10 +169,9 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
                   this.state.categoryId
                 )
               }
-              color="#333"
             />
           </TouchableHighlight>
-        </ScrollView>
+        </View>
       </View>
     );
   }

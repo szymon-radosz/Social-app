@@ -7,7 +7,7 @@ import {
   TouchableHighlight
 } from "react-native";
 import styles from "./../style";
-import Alert from "./../../../../Alert/Alert";
+import PageHeader from "./../../SharedComponents/PageHeader";
 
 const UserMessageBox = (props: {
   hideShowUserMessageBox: any;
@@ -19,36 +19,32 @@ const UserMessageBox = (props: {
 }): any => {
   return (
     <View style={styles.relative}>
-      <TouchableHighlight style={styles.buttonCloseModal}>
-        <Button
-          title="<"
-          color="#fff"
-          onPress={() => props.hideShowUserMessageBox()}
+      <PageHeader
+        boldText={"Rozpocznij rozmowę"}
+        normalText={""}
+        closeMethod={props.hideShowUserMessageBox}
+        closeMethodParameter={""}
+      />
+
+      <View style={{ paddingTop: 10 }}>
+        <TextInput
+          multiline={true}
+          numberOfLines={10}
+          onChangeText={message => props.setUserMessage(message)}
+          value={props.userMessage}
+          placeholder="Napisz wiadomość..."
+          placeholderTextColor="#333"
+          style={styles.userMessageTextArea}
         />
-      </TouchableHighlight>
-      <View style={styles.userDetailsHeader}>
-        <Text style={styles.userMessageHeader}>Rozpocznij rozmowę</Text>
       </View>
 
-      <TextInput
-        multiline={true}
-        numberOfLines={10}
-        onChangeText={message => props.setUserMessage(message)}
-        value={props.userMessage}
-        placeholder="Napisz wiadomość..."
-        placeholderTextColor="#333"
-        style={styles.userMessageTextArea}
-      />
-      <TouchableHighlight style={styles.userMessageBtn}>
+      <TouchableHighlight style={styles.userDetailsRedirectMessageBtn}>
         <Button
           title="Wyślij"
           color="#fff"
           onPress={() => props.sendMessage(props.userMessage)}
         />
       </TouchableHighlight>
-      {props.alertMessage != "" && (
-        <Alert alertType={props.alertType} alertMessage={props.alertMessage} />
-      )}
     </View>
   );
 };

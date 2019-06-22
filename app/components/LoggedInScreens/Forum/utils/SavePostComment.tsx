@@ -13,10 +13,11 @@ const SavePostComment = (props: {
   clearCommentMessage: any;
 }): any => {
   return (
-    <View>
+    <View style={styles.savePostCommentContainer}>
       <TextInput
         style={styles.savePostCommentInput}
         multiline={false}
+        maxLength={150}
         onChangeText={message => props.setCommentMessage(message)}
         value={props.commentMessage}
         placeholder="Napisz komentarz ..."

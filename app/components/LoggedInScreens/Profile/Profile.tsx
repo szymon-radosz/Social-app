@@ -214,7 +214,7 @@ export default class Profile extends Component<
           !showUserFriendsList &&
           showAuctionHistory &&
           userAuctionList && (
-            <View>
+            <View style={{ paddingLeft: 10, paddingRight: 10 }}>
               <Text style={styles.optionHeader}>Wystawione przedmioty</Text>
               <UserAuctionsList
                 userAuctionList={userAuctionList}

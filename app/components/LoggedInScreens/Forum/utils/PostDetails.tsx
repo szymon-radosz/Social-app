@@ -1,18 +1,12 @@
 import React, { Component } from "react";
-import {
-  Button,
-  Image,
-  Text,
-  View,
-  TouchableHighlight,
-  TouchableOpacity,
-  ScrollView
-} from "react-native";
+import { Image, Text, View, TouchableOpacity, ScrollView } from "react-native";
 import SinglePostDetailsComment from "./SinglePostDetailsComment";
 import styles from "./../style";
 import axios from "axios";
 import SavePostComment from "./SavePostComment";
 import { v4 as uuid } from "uuid";
+import PageHeader from "./../../SharedComponents/PageHeader";
+
 const like: any = require("./../../../../assets/images/like.png");
 const comment: any = require("./../../../../assets/images/comment.png");
 
@@ -222,13 +216,12 @@ export default class PostDetails extends Component<
     } = this.state;
     return (
       <View style={{ position: "relative" }}>
-        <TouchableHighlight style={styles.buttonCloseModal}>
-          <Button
-            title="<"
-            color="#fff"
-            onPress={() => this.props.setShowPostDetails()}
-          />
-        </TouchableHighlight>
+        <PageHeader
+          boldText={postTitle}
+          normalText={""}
+          closeMethod={this.props.setShowPostDetails}
+          closeMethodParameter={""}
+        />
 
         <ScrollView>
           <View style={styles.postDetailsContainerPadding}>
@@ -250,7 +243,6 @@ export default class PostDetails extends Component<
                 </Text>
               </View>
             </View>
-            <Text style={styles.postDetailsTitle}>{postTitle}</Text>
             <Text style={styles.postDetailsDesc}>{postDesc}</Text>
             <Text style={styles.postDetailsPostDate}>
               Utworzono: {postDate}
@@ -280,9 +272,12 @@ export default class PostDetails extends Component<
               </View>
             </View>
 
-            <Text style={styles.postDetailsPostCommentListHeader}>
-              Komentarze:
-            </Text>
+            {comments.length > 0 ? (
+              <Text style={styles.postDetailsPostCommentListHeader}>
+                Komentarze:
+              </Text>
+            ) : null}
+
             {comments.map((comment: any, i: number) => {
               return (
                 <SinglePostDetailsComment

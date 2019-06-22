@@ -11,6 +11,8 @@ import axios from "axios";
 import CategoryDetailsSinglePostOnList from "./utils/CategoryDetailsSinglePostOnList";
 import styles from "./style";
 import { v4 as uuid } from "uuid";
+import PageHeader from "./../SharedComponents/PageHeader";
+
 const forumBg: any = require("./../../../assets/images/forumBgMin.jpg");
 
 const PostDetails = React.lazy(() => import("./utils/PostDetails"));
@@ -213,7 +215,7 @@ export default class Forum extends Component<ForumProps, ForumState> {
     } = this.state;
     return (
       <View style={styles.container}>
-        {!showPostDetails && !showPosts && (
+        {!showPostDetails && !showPosts && !showSavePost && (
           <ImageBackground source={forumBg} style={{ width: "100%" }}>
             <Text style={styles.pageTitle}>
               Podziel się swoją
@@ -259,47 +261,40 @@ export default class Forum extends Component<ForumProps, ForumState> {
           )}
 
           {postList && showPosts && !showPostDetails && (
-            <View>
-              <TouchableOpacity style={styles.buttonCloseModal}>
-                <Button
-                  title="<"
-                  onPress={() => {
-                    this.setShowSortByCategory(true);
-                  }}
-                  color="#fff"
-                />
-              </TouchableOpacity>
-
-              <Text style={styles.categoryHeaderText}>
-                Kategoria: {categoryName}
-              </Text>
-            </View>
+            <PageHeader
+              boldText={"Kategoria: "}
+              normalText={categoryName}
+              closeMethod={this.setShowSortByCategory}
+              closeMethodParameter={true}
+            />
           )}
 
-          {postList &&
-            showPosts &&
-            !showPostDetails &&
-            postList.map(
-              (
-                post: {
-                  title: string;
-                  comments: any;
-                  created_at: string;
-                  votes: any;
-                  id: number;
-                },
-                i: number
-              ) => {
-                return (
-                  <CategoryDetailsSinglePostOnList
-                    getPostDetails={this.getPostDetails}
-                    showPosts={showPosts}
-                    key={uuid()}
-                    post={post}
-                  />
-                );
-              }
-            )}
+          <View style={{ paddingTop: 10 }}>
+            {postList &&
+              showPosts &&
+              !showPostDetails &&
+              postList.map(
+                (
+                  post: {
+                    title: string;
+                    comments: any;
+                    created_at: string;
+                    votes: any;
+                    id: number;
+                  },
+                  i: number
+                ) => {
+                  return (
+                    <CategoryDetailsSinglePostOnList
+                      getPostDetails={this.getPostDetails}
+                      showPosts={showPosts}
+                      key={uuid()}
+                      post={post}
+                    />
+                  );
+                }
+              )}
+          </View>
 
           {!showPostDetails && !showSavePost && showSortByCategory && (
             <TouchableHighlight style={styles.addPostBtn}>

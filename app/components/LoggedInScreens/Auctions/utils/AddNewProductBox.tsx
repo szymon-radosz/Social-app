@@ -249,9 +249,7 @@ export default class AddNewProductBox extends Component<
       price,
       newProduct,
       secondHandProduct,
-      photos,
-      alertMessage,
-      alertType
+      photos
     } = this.state;
     return (
       <ScrollView style={styles.relative}>
@@ -259,16 +257,9 @@ export default class AddNewProductBox extends Component<
           boldText={"Dodaj nowy produkt"}
           normalText={""}
           closeMethod={this.props.changeDisplayNewProductBox}
+          closeMethodParameter={""}
         />
-
-        <View
-          style={{
-            paddingLeft: 10,
-            paddingRight: 10,
-            marginBottom: 10,
-            paddingTop: 10
-          }}
-        >
+        <View style={styles.addNewProductInputContainer}>
           <TextInput
             multiline={false}
             onChangeText={name => this.setState({ name })}
@@ -280,13 +271,7 @@ export default class AddNewProductBox extends Component<
           />
         </View>
 
-        <View
-          style={{
-            paddingLeft: 10,
-            paddingRight: 10,
-            marginBottom: 10
-          }}
-        >
+        <View style={styles.addNewProductDescInput}>
           <TextInput
             multiline={true}
             numberOfLines={10}
@@ -299,9 +284,9 @@ export default class AddNewProductBox extends Component<
           />
         </View>
 
-        <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
-          <Text style={{ paddingBottom: 5, fontWeight: "600" }}>Kategoria</Text>
-          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+        <View style={styles.addNewProductOptionContainer}>
+          <Text style={styles.addNewProductOptionHeaderText}>Kategoria</Text>
+          <View style={styles.addNewProductOptionWrapper}>
             {categories.map((category: any, i: number) => {
               return (
                 <View style={{ flexDirection: "row" }} key={uuid()}>
@@ -336,7 +321,7 @@ export default class AddNewProductBox extends Component<
                   </TouchableHighlight>
 
                   <Text
-                    style={{ marginTop: 2, marginRight: 15 }}
+                    style={styles.addNewProductOptionText}
                     onPress={() => this.setCategoryId(category.id)}
                   >
                     {category.name}
@@ -347,11 +332,9 @@ export default class AddNewProductBox extends Component<
           </View>
         </View>
 
-        <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
-          <Text style={{ paddingBottom: 5, fontWeight: "600" }}>
-            Płeć dziecka
-          </Text>
-          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+        <View style={styles.addNewProductOptionContainer}>
+          <Text style={styles.addNewProductOptionHeaderText}>Płeć dziecka</Text>
+          <View style={styles.addNewProductOptionWrapper}>
             <View style={{ flexDirection: "row" }}>
               <TouchableHighlight
                 onPress={() => this.setGender("boy")}
@@ -384,7 +367,7 @@ export default class AddNewProductBox extends Component<
               </TouchableHighlight>
 
               <Text
-                style={{ marginTop: 2, marginRight: 15 }}
+                style={styles.addNewProductOptionText}
                 onPress={() => this.setGender("boy")}
               >
                 Chłopiec
@@ -423,7 +406,7 @@ export default class AddNewProductBox extends Component<
 
               <Text
                 onPress={() => this.setGender("girl")}
-                style={{ marginTop: 2, marginRight: 15 }}
+                style={styles.addNewProductOptionText}
               >
                 Dziewczynka
               </Text>
@@ -444,11 +427,11 @@ export default class AddNewProductBox extends Component<
           />
         </View>
 
-        <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
-          <Text style={{ paddingBottom: 5, fontWeight: "600" }}>
+        <View style={styles.addNewProductOptionContainer}>
+          <Text style={styles.addNewProductOptionHeaderText}>
             Stan produktu
           </Text>
-          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+          <View style={styles.addNewProductOptionWrapper}>
             <View style={{ flexDirection: "row" }}>
               <TouchableHighlight
                 onPress={() => this.setProductState("new")}
@@ -481,7 +464,7 @@ export default class AddNewProductBox extends Component<
               </TouchableHighlight>
 
               <Text
-                style={{ marginTop: 2, marginRight: 15 }}
+                style={styles.addNewProductOptionText}
                 onPress={() => this.setProductState("new")}
               >
                 Nowe
@@ -520,7 +503,7 @@ export default class AddNewProductBox extends Component<
 
               <Text
                 onPress={() => this.setProductState("secondHand")}
-                style={{ marginTop: 2, marginRight: 15 }}
+                style={styles.addNewProductOptionText}
               >
                 Uzywane
               </Text>
@@ -596,9 +579,6 @@ export default class AddNewProductBox extends Component<
             color="#fff"
           />
         </TouchableHighlight>
-        {alertMessage != "" && (
-          <Alert alertType={alertType} alertMessage={alertMessage} />
-        )}
       </ScrollView>
     );
   }
