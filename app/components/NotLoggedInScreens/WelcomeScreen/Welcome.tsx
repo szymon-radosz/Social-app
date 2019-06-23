@@ -75,7 +75,8 @@ const Welcome = (props: { navigation: any }) => {
             onPress={(): void =>
               navigation.navigate("Login", {
                 API_URL: navigation.getParam("API_URL"),
-                setUserData: navigation.getParam("setUserData")
+                setUserData: navigation.getParam("setUserData"),
+                clearUserData: navigation.getParam("clearUserData")
               })
             }
           />
@@ -87,7 +88,8 @@ const Welcome = (props: { navigation: any }) => {
             onPress={() =>
               navigation.navigate("Register", {
                 API_URL: navigation.getParam("API_URL", ""),
-                setUserData: navigation.getParam("setUserData")
+                setUserData: navigation.getParam("setUserData"),
+                clearUserData: navigation.getParam("clearUserData")
               })
             }
           />

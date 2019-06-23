@@ -43,6 +43,7 @@ interface ProfileProps {
   navigation: any;
   openMessages: any;
   openForum: any;
+  clearUserData: any;
 }
 
 export default class Profile extends Component<
@@ -286,6 +287,9 @@ export default class Profile extends Component<
               countFriends={countFriends}
               countKids={this.props.user.kids.length}
               locationString={this.props.user.location_string}
+              showLogout={true}
+              navigation={this.props.navigation}
+              clearUserData={this.props.clearUserData}
             />
           )}
         {!showProfilePreview &&

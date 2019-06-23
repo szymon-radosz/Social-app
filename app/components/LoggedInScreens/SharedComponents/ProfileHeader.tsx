@@ -1,9 +1,22 @@
 import React from "react";
-import { Text, View, Image } from "react-native";
+import { Text, View, Image, TouchableOpacity } from "react-native";
 import styles from "./style";
+const logout: any = require("./../../../assets/images/logout.png");
 
 const ProfileHeader = (props: any) => (
   <View style={styles.profileHeaderContainer}>
+    {props.showLogout ? (
+      <TouchableOpacity
+        style={styles.logoutContainer}
+        onPress={(): void => {
+          props.clearUserData();
+          props.navigation.navigate("Welcome");
+        }}
+      >
+        <Image source={logout} style={styles.logoutImage} />
+        <Text style={styles.logoutText}>Wyloguj się</Text>
+      </TouchableOpacity>
+    ) : null}
     <Image
       style={styles.profileHeaderImage}
       source={{

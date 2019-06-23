@@ -44,6 +44,7 @@ const LoggedInScreens = (props: any) => (
         navigation={props.navigation}
         openMessages={props.setOpenMessages}
         openForum={props.setOpenForum}
+        clearUserData={props.clearUserData}
       />
     )}
   </ScrollView>

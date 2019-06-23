@@ -131,6 +131,7 @@ export default class LoggedInMain extends Component<
           clearUserUnreadedMessages={navigation.getParam(
             "clearUserUnreadedMessages"
           )}
+          clearUserData={navigation.getParam("clearUserData")}
           setOpenMessages={this.setOpenMessages}
           setOpenProfile={this.setOpenProfile}
           setOpenFindUsers={this.setOpenFindUsers}

@@ -36,6 +36,7 @@ export default class NotLoggedInMain extends Component<
     this.checkUserStatus = this.checkUserStatus.bind(this);
     this.setUserFilledInfo = this.setUserFilledInfo.bind(this);
     this.clearUserUnreadedMessages = this.clearUserUnreadedMessages.bind(this);
+    this.clearUserData = this.clearUserData.bind(this);
   }
 
   setUserFilledInfo = (): void => {
@@ -117,6 +118,7 @@ export default class NotLoggedInMain extends Component<
       //console.log("verified");
       navigation.navigate("LoggedInMain", {
         user: userData,
+        clearUserData: this.clearUserData,
         API_URL: API_URL,
         clearUserUnreadedMessages: this.clearUserUnreadedMessages
       });
@@ -128,7 +130,8 @@ export default class NotLoggedInMain extends Component<
       navigation.navigate("FillNecessaryInfo", {
         user: userData,
         API_URL: API_URL,
-        setUserFilledInfo: this.setUserFilledInfo
+        setUserFilledInfo: this.setUserFilledInfo,
+        clearUserData: this.clearUserData
       });
     }
   };
@@ -141,13 +144,18 @@ export default class NotLoggedInMain extends Component<
     this.checkUserStatus();
   };
 
+  clearUserData = (): void => {
+    this.setState({ userData: [] });
+  };
+
   componentDidMount = (): void => {
     const navigation = this.props.navigation;
 
     if (!this.state.userLoggedIn) {
       navigation.navigate("Welcome", {
         API_URL: API_URL,
-        setUserData: this.setUserData
+        setUserData: this.setUserData,
+        clearUserData: this.clearUserData
       });
     }
   };

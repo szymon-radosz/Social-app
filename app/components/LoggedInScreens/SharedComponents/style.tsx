@@ -66,6 +66,9 @@ interface Style {
   buttonTextActive: TextStyle;
   bottomPanelImageActive: ViewStyle;
   bottomPanelImage: ViewStyle;
+  logoutContainer: ViewStyle;
+  logoutImage: ImageStyle;
+  logoutText: TextStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -217,5 +220,24 @@ export default StyleSheet.create<Style>({
     borderBottomWidth: 1,
     borderBottomColor: "#E5E5E5"
   },
-  pageHeaderImage: { width: 40, height: 40 }
+  pageHeaderImage: { width: 40, height: 40 },
+  logoutContainer: {
+    width: 68,
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    alignSelf: "flex-end",
+    marginRight: 20
+  },
+  logoutImage: {
+    width: 25,
+    height: 25,
+    marginLeft: "auto",
+    marginRight: "auto"
+  },
+  logoutText: {
+    color: "#fff",
+    fontWeight: "600",
+    fontSize: 12,
+    marginTop: 5
+  }
 });
