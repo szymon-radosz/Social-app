@@ -83,7 +83,8 @@ export default StyleSheet.create<Style>({
     flexWrap: "wrap",
     alignItems: "flex-start",
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    borderColor: "#424242"
   },
   buttonCloseModal: {
     position: "absolute",
@@ -121,7 +122,8 @@ export default StyleSheet.create<Style>({
     paddingLeft: 10,
     paddingRight: 10,
     borderWidth: 1,
-    borderRadius: 6
+    borderRadius: 6,
+    borderColor: "#424242"
   },
   activePostCategory: { color: "blue" },
   image: { width: 50, height: 50, borderRadius: 25 },
@@ -147,7 +149,8 @@ export default StyleSheet.create<Style>({
     fontSize: 16,
     marginTop: 15,
     marginBottom: 15,
-    fontWeight: "600"
+    fontWeight: "600",
+    color: "#424242"
   },
   categoriesListContainer: { marginLeft: 5, marginRight: 5 },
   singleCategoryOnListContainer: {
@@ -155,7 +158,8 @@ export default StyleSheet.create<Style>({
     width: "100%",
     marginBottom: 10,
     padding: 10,
-    borderRadius: 6
+    borderRadius: 6,
+    borderColor: "#424242"
   },
   singleCategoryOnListPostsLength: { fontSize: 10 },
   postDetailsContainerPadding: {
@@ -210,7 +214,8 @@ export default StyleSheet.create<Style>({
     marginLeft: 10,
     marginRight: 10,
     marginTop: 10,
-    padding: 10
+    padding: 10,
+    borderColor: "#424242"
   },
   singlePostDetailsCommentUserSectionContainer: {
     flexWrap: "wrap",

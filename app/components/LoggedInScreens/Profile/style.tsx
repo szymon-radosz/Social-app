@@ -2,6 +2,7 @@ import { StyleSheet, ViewStyle, TextStyle, ImageStyle } from "react-native";
 import {
   pageTitleWhite,
   btnFullWidth,
+  peachColor,
   productListSingleProductContainer,
   productListSingleProductImage,
   productListSingleProductTextContainer,
@@ -45,7 +46,16 @@ export default StyleSheet.create<Style>({
     alignItems: "flex-start",
     flexDirection: "row"
   },
-  buttonOption: btnFullWidth,
+  buttonOption: {
+    width: "48%",
+    marginTop: 15,
+    paddingTop: 15,
+    paddingBottom: 15,
+    marginBottom: 0,
+    borderRadius: lightBorderRadius,
+    borderColor: "#8c8c8c",
+    borderWidth: 2
+  },
   pageTitle: pageTitleWhite,
   userListContainer: userListContainer,
   userListSingleUserContainer: userListSingleUserContainer,
@@ -60,10 +70,10 @@ export default StyleSheet.create<Style>({
     fontWeight: "600"
   },
   optionText: {
-    fontSize: 18,
+    fontSize: 12,
     textAlign: "center",
-    lineHeight: 40,
-    color: "#fff"
+    lineHeight: 16,
+    color: "#424242"
   },
   productListSingleProductContainer: productListSingleProductContainer,
   productListSingleProductImage: productListSingleProductImage,

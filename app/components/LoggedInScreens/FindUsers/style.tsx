@@ -225,7 +225,8 @@ export default StyleSheet.create<Style>({
   filterResultsHeaderText: {
     paddingLeft: 10,
     paddingTop: 10,
-    fontWeight: "600"
+    fontWeight: "600",
+    color: "#424242"
   },
   filterResultsCarousel: {
     paddingLeft: 10,

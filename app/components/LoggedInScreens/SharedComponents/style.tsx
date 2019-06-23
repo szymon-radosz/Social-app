@@ -41,7 +41,7 @@ interface Style {
   profileHeaderSingleInfoContainerSubText: any;
   activeFiltersText: TextStyle;
   removeFilterBtnContainer: ViewStyle;
-  removeFilterText: ViewStyle;
+  removeFilterText: TextStyle;
   removeFilterBtn: ViewStyle;
   removeFilterBtnText: TextStyle;
   buttonBottom: TextStyle;
@@ -90,7 +90,8 @@ export default StyleSheet.create<Style>({
   activeFiltersText: {
     paddingTop: 10,
     paddingLeft: 10,
-    fontWeight: "600"
+    fontWeight: "600",
+    color: "#424242"
   },
   removeFilterBtnContainer: {
     paddingLeft: 10,
@@ -101,7 +102,8 @@ export default StyleSheet.create<Style>({
     borderBottomColor: "#E5E5E5"
   },
   removeFilterText: {
-    marginTop: 10
+    marginTop: 10,
+    color: "#424242"
   },
   removeFilterBtn: {
     height: 40,
@@ -130,6 +132,7 @@ export default StyleSheet.create<Style>({
     paddingTop: 10,
     paddingBottom: 10,
     borderTopWidth: 2,
+    borderTopColor: "#8c8c8c",
     flexDirection: "row",
     justifyContent: "space-between",
     alignSelf: "flex-start",
@@ -190,7 +193,7 @@ export default StyleSheet.create<Style>({
     paddingLeft: 10,
     paddingRight: 10
   },
-  filterModalHeaderTextBold: { fontWeight: "bold" },
+  filterModalHeaderTextBold: { fontWeight: "600", color: "#424242" },
   filterModalOptionContainer: { paddingTop: 30 },
   filterModalOptionActive: {
     borderRadius: 6,
@@ -203,7 +206,8 @@ export default StyleSheet.create<Style>({
     borderRadius: 6,
     borderWidth: 1,
     marginBottom: 5,
-    padding: 10
+    padding: 10,
+    borderColor: "#424242"
   },
   activeFiltersConatiner: {
     borderTopWidth: 1,

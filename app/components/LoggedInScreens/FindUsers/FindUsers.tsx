@@ -151,7 +151,6 @@ export default class FindUsers extends Component<
       filterDistance
     } = this.state;
     if (filterName === "Odległość") {
-      console.log(["filterResult", filterValue]);
       this.getFilteredUserList(
         filterValue,
         filterChildAge,
@@ -160,7 +159,6 @@ export default class FindUsers extends Component<
         true
       );
     } else if (filterName === "Wiek dziecka") {
-      console.log(["filterResult", filterValue]);
       this.getFilteredUserList(
         filterDistance,
         filterValue,
@@ -169,7 +167,6 @@ export default class FindUsers extends Component<
         true
       );
     } else if (filterName === "Płeć dziecka") {
-      console.log(["filterResult", filterValue]);
       this.getFilteredUserList(
         filterDistance,
         filterChildAge,
@@ -178,7 +175,6 @@ export default class FindUsers extends Component<
         true
       );
     } else if (filterName === "Hobby") {
-      console.log(["filterResult", filterValue]);
       this.getFilteredUserList(
         filterDistance,
         filterChildAge,
@@ -198,7 +194,6 @@ export default class FindUsers extends Component<
     } = this.state;
 
     if (filterName === "Odległość") {
-      console.log(["filterResult", filterName]);
       this.getFilteredUserList(
         "",
         filterChildAge,
@@ -207,7 +202,6 @@ export default class FindUsers extends Component<
         false
       );
     } else if (filterName === "Wiek dziecka") {
-      console.log(["filterResult", filterName]);
       this.getFilteredUserList(
         filterDistance,
         "",
@@ -216,7 +210,6 @@ export default class FindUsers extends Component<
         false
       );
     } else if (filterName === "Płeć dziecka") {
-      console.log(["filterResult", filterName]);
       this.getFilteredUserList(
         filterDistance,
         filterChildAge,
@@ -225,7 +218,6 @@ export default class FindUsers extends Component<
         false
       );
     } else if (filterName === "Hobby") {
-      console.log(["filterResult", filterName]);
       this.getFilteredUserList(
         filterDistance,
         filterChildAge,
@@ -237,11 +229,8 @@ export default class FindUsers extends Component<
   };
 
   setShowFilterModal = (selectedName = ""): void => {
-    console.log("setShowFilterModal");
-
     if (selectedName !== "") {
       if (selectedName === "Hobby") {
-        console.log("selectedName: hobby");
         this.getHobbiesList();
       } else {
         this.setState({
@@ -265,8 +254,6 @@ export default class FindUsers extends Component<
     let userLat = this.props.user.lattitude;
     let userLng = this.props.user.longitude;
 
-    console.log([distance, childAge, childGender, hobbyName, showFilterModal]);
-
     let that = this;
 
     if (distance || childAge || childGender || hobbyName) {
@@ -280,7 +267,6 @@ export default class FindUsers extends Component<
           currentUserLng: userLng
         })
         .then(function(response) {
-          console.log(["loadUsersFilter", response.data]);
           if (response.data.status === "OK") {
             //console.log(["getAuctionProducts", response]);
             let newDistance = "";
@@ -315,7 +301,6 @@ export default class FindUsers extends Component<
               }
             );
 
-            console.log([newDistance, newChildAge, newChildGender, newHobby]);
             if (showFilterModal) {
               that.setState({
                 userList: response.data.result,
@@ -352,7 +337,6 @@ export default class FindUsers extends Component<
     axios
       .get(API_URL + "/api/hobbiesList")
       .then(function(response) {
-        console.log(["getHobbiesList", response.data]);
         if (response.data.status === "OK") {
           let hobby: any = [];
 
@@ -361,7 +345,6 @@ export default class FindUsers extends Component<
 
             await hobby.push(hobbyObj);
           });
-          console.log(["responseFinished", hobby]);
 
           let filterData = that.state.filterData;
           filterData.hobby = hobby;
@@ -378,7 +361,6 @@ export default class FindUsers extends Component<
   };
 
   renderItem(item: any, index: any) {
-    console.log(item.item);
     return (
       <TouchableHighlight
         style={btnFullWidthFilledContainer}
@@ -433,7 +415,6 @@ export default class FindUsers extends Component<
         message: message
       })
       .then(function(response2) {
-        console.log(response2);
         if (response2.data.status === "OK") {
           that.setState({
             alertType: "success",
@@ -475,8 +456,6 @@ export default class FindUsers extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(["loadUserById", response.data.result.user]);
-
           that.setState({
             userDetailsId: userId,
             userDetailsData: response.data.result.user,
@@ -502,8 +481,6 @@ export default class FindUsers extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(["checkFriend", response.data.result.friendship]);
-
           that.setState({
             usersFriendshipStatus: response.data.result.friendship
           });
@@ -556,8 +533,6 @@ export default class FindUsers extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(["confirmFriend", response.data.result.confirmed]);
-
           that.setState({
             usersFriendshipStatus: "confirmed"
           });
@@ -583,7 +558,6 @@ export default class FindUsers extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(["started_conversation_user addNotification", response]);
         }
       })
       .catch(function(error) {
@@ -597,8 +571,6 @@ export default class FindUsers extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(["inviteFriend", response.data.result]);
-
           that.setState({
             usersFriendshipStatus: "not confirmed by second person"
           });
@@ -624,8 +596,6 @@ export default class FindUsers extends Component<
         })
         .then(function(response) {
           if (response.data.status === "OK") {
-            console.log(response.data);
-
             that.setState({
               userList: response.data.result,
               filterDistance: "",
@@ -656,12 +626,9 @@ export default class FindUsers extends Component<
       this.loadUsersNearCoords();
     }
 
-    console.log(["this.props.openFindUserId", this.props.openFindUserId]);
     if (this.props.openFindUserId && this.props.openFindUserId !== 0) {
       this.setShowUserDetails(this.props.openFindUserId);
     }
-
-    //console.log(["openFindUserId", this.props.openFindUserId]);
   };
 
   render() {

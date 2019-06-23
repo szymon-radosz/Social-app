@@ -102,8 +102,6 @@ export default class ProductDetails extends Component<
         })
         .then(function(response) {
           if (response.data.status === "OK") {
-            console.log(["searchUsersByEmail", response.data]);
-
             that.setState({
               foundVoteUserList: []
             });
@@ -139,8 +137,6 @@ export default class ProductDetails extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(["getProductDetails", response]);
-
           that.setState({
             productDetails: response.data.result
           });
@@ -158,13 +154,6 @@ export default class ProductDetails extends Component<
     let loggedInUser = this.props.currentUser.id;
     let productId = this.props.productId;
 
-    console.log([
-      "propscheckIfUsersBelongToConversationProduct",
-      this.props.productUserId,
-      this.props.currentUser.id,
-      this.props.productId
-    ]);
-
     let that = this;
 
     axios
@@ -175,11 +164,6 @@ export default class ProductDetails extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log([
-            "checkIfUsersBelongToConversationProduct",
-            response.data
-          ]);
-
           that.setState({
             usersAreInTheSameConversation: response.data.result
           });
@@ -202,8 +186,6 @@ export default class ProductDetails extends Component<
       let receiverId = this.state.productDetails[0].user_id;
       let productId = this.state.productDetails[0].id;
 
-      //console.log([senderId, receiverId, productId, message]);
-
       let that = this;
 
       axios
@@ -215,8 +197,6 @@ export default class ProductDetails extends Component<
         })
         .then(function(response) {
           if (response.data.status === "OK") {
-            //console.log(["saveConversationProduct", response.data.result]);
-
             that.setState({
               usersAreInTheSameConversation: true,
               showProductMessageBox: false,

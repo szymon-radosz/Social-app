@@ -1,5 +1,5 @@
 export const peachColor = "#f4a157";
-export const darkGrayColor = "#333";
+export const darkGrayColor = "#424242";
 export const lightBorderRadius = 6;
 export const fontSizeBig = 24;
 export const fontSizeMedium = 20;
@@ -75,6 +75,7 @@ export const productListSingleProductContainer = {
   justifyContent: "space-around",
   borderRadius: lightBorderRadius,
   marginBottom: 10,
+  borderColor: "#424242",
   paddingLeft: 10
 };
 export const productListSingleProductImage = {
@@ -91,7 +92,7 @@ export const productListSingleProductTextContainer = {
   width: "75%"
 };
 export const productOnListTextName = {
-  fontWeight: "bold",
+  fontWeight: "600",
   textAlign: "left",
   color: "#333"
 };
@@ -120,6 +121,7 @@ export const userListSingleUserContainer = {
   flexDirection: "row",
   justifyContent: "space-around",
   borderRadius: lightBorderRadius,
+  borderColor: "#424242",
   paddingLeft: 10,
   paddingRight: 10
 };
@@ -162,7 +164,7 @@ export const profileHeaderImage = {
 export const profileHeaderName = {
   color: "#fff",
   textAlign: "center",
-  fontWeight: "bold",
+  fontWeight: "600",
   fontSize: 24
 };
 export const profileHeaderLocation = {
@@ -183,7 +185,7 @@ export const profileHeaderInfoContainer = {
 export const profileHeaderSingleInfoContainerMainText = {
   color: "#fff",
   textAlign: "center",
-  fontWeight: "bold",
+  fontWeight: "600",
   fontSize: 20
 };
 export const profileHeaderSingleInfoContainerSubText = {
@@ -211,8 +213,9 @@ export const userPreviewSectionHeaderImage = {
 };
 export const userPreviewSectionHeaderText = {
   fontSize: 24,
-  fontWeight: "bold",
-  paddingLeft: 20
+  fontWeight: "600",
+  paddingLeft: 20,
+  color: "#424242"
 };
 export const userPreviewListItemContainer = {
   flexWrap: "wrap",
@@ -227,12 +230,14 @@ export const userPreviewListItemImage = {
   marginRight: 10
 };
 export const userPreviewSectionListText = {
-  fontSize: 14
+  fontSize: 14,
+  color: "#424242"
 };
 export const userPreviewDescription = {
   fontSize: 14,
   paddingTop: 10,
   paddingLeft: 10,
   paddingRight: 10,
-  textAlign: "center"
+  textAlign: "center",
+  color: "#424242"
 };

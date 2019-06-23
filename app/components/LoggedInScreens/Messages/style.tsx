@@ -146,6 +146,7 @@ export default StyleSheet.create<Style>({
     flexDirection: "row",
     justifyContent: "space-around",
     borderRadius: lightBorderRadius,
+    borderColor: "#424242",
     marginBottom: 10,
     paddingLeft: 10
   },
@@ -206,7 +207,8 @@ export default StyleSheet.create<Style>({
     padding: 10,
     height: 40,
     borderWidth: 1,
-    borderRadius: 6
+    borderRadius: 6,
+    borderColor: "#424242"
   },
   conversationDetailsReceiverImage: {
     width: 50,

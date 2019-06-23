@@ -14,7 +14,7 @@ interface Style {
   container: ViewStyle;
   headerText: TextStyle;
   logoDesc: TextStyle;
-  input: ViewStyle;
+  input: TextStyle;
   mainBtn: TextStyle;
   askDesc: TextStyle;
   ResetPasswordHeader: TextStyle;
@@ -46,7 +46,8 @@ export default StyleSheet.create<Style>({
     marginBottom: 10,
     borderRadius: lightBorderRadius,
     height: 40,
-    borderColor: "#d8d8d8",
+    borderColor: "#8c8c8c",
+    color: "#424242",
     borderWidth: 2,
     paddingLeft: 10,
     paddingRight: 10
@@ -72,7 +73,7 @@ export default StyleSheet.create<Style>({
   },
   resetPasswordBtn: {
     fontSize: 16,
-    color: "#8e8e8e",
+    color: "#8c8c8c",
     paddingTop: 50
   },
   subBtnSection: {

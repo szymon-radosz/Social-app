@@ -115,13 +115,10 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
     const { filterDistance, filterPrice, filterStatus } = this.state;
 
     if (filterName === "Odległość") {
-      console.log(["filterResult", filterName]);
       this.getFilteredAuctionsList("", filterPrice, filterStatus, false);
     } else if (filterName === "Cena") {
-      console.log(["filterResult", filterName]);
       this.getFilteredAuctionsList(filterDistance, "", filterStatus, false);
     } else if (filterName === "Status") {
-      console.log(["filterResult", filterName]);
       this.getFilteredAuctionsList(filterDistance, filterPrice, "", false);
     }
   };
@@ -129,7 +126,6 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
   filterResults = (filterName: string, filterValue: string): void => {
     const { filterDistance, filterPrice, filterStatus } = this.state;
     if (filterName === "Odległość") {
-      console.log(["filterResult", filterValue]);
       this.getFilteredAuctionsList(
         filterValue,
         filterPrice,
@@ -137,7 +133,6 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
         true
       );
     } else if (filterName === "Cena") {
-      console.log(["filterResult", filterValue]);
       this.getFilteredAuctionsList(
         filterDistance,
         filterValue,
@@ -145,7 +140,6 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
         true
       );
     } else if (filterName === "Status") {
-      console.log(["filterResult", filterValue]);
       this.getFilteredAuctionsList(
         filterDistance,
         filterPrice,
@@ -156,8 +150,6 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
   };
 
   setShowFilterModal = (selectedName = ""): void => {
-    console.log("setShowFilterModal");
-
     if (selectedName !== "") {
       this.setState({
         showFilterModal: !this.state.showFilterModal,
@@ -169,7 +161,6 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
   };
 
   renderItem(item: any, index: any) {
-    console.log(item.item);
     return (
       <TouchableHighlight
         style={btnFullWidthFilledContainer}
@@ -199,8 +190,6 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
     let userLat = this.props.user.lattitude;
     let userLng = this.props.user.longitude;
 
-    console.log([distance, price, status]);
-
     let that = this;
 
     if (distance || price || status) {
@@ -213,9 +202,7 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
           currentUserLng: userLng
         })
         .then(function(response) {
-          console.log(["loadProductsFilter", response.data]);
           if (response.data.status === "OK") {
-            //console.log(["getAuctionProducts", response]);
             let newDistance = "";
             let newPrice = "";
             let newStatus = "";
@@ -242,7 +229,6 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
               }
             );
 
-            console.log([newDistance, newPrice, newStatus]);
             if (showFilterModal) {
               that.setState({
                 productList: response.data.result,
@@ -270,17 +256,7 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
   };
 
   changeDisplayNewProductBox = (): void => {
-    //this.setState({ showMessageDate: !this.state.showMessageDate });
-    //setState — it’s actually asynchronous.
-    //React batches state changes for performance reasons, so
-    //the state may not change immediately after setState is called.
-    //That means you should not rely on the current state when calling
-    //setState — since you can’t be sure what that state will be!
-    //this.setState({ displayNewProductBox: !this.state.displayNewProductBox });
-
-    this.setState(prevState => ({
-      displayNewProductBox: !prevState.displayNewProductBox
-    }));
+    this.setState({ displayNewProductBox: !this.state.displayNewProductBox });
     this.getProducts();
   };
 
@@ -297,10 +273,7 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
         lng: userLng
       })
       .then(function(response) {
-        console.log(["loadProductBasedOnCoords", userLat, userLng]);
         if (response.data.status === "OK") {
-          //console.log(["getAuctionProducts", response]);
-
           that.setState({
             productList: response.data.result,
             filterDistance: "",
@@ -321,8 +294,6 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
   };
 
   setSelectedProduct = (id: number, productUserId: number) => {
-    //console.log(["setSelectedProduct", id, productUserId]);
-
     this.setState({
       selectedProductId: id,
       displayProductDetails: true,
@@ -334,7 +305,6 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
     //load all products based on user coords
     this.getProducts();
 
-    console.log(["this.props.openAuctionId", this.props.openAuctionId]);
     if (
       this.props.openAuctionId &&
       this.props.openAuctionId !== 0 &&

@@ -92,8 +92,6 @@ export default class SellerVoteBox extends Component<
       selectedUserData: user,
       showfoundVoteUserList: false
     });
-
-    console.log(this.state.selectedUserData);
   };
 
   componentDidMount = () => {
@@ -102,8 +100,6 @@ export default class SellerVoteBox extends Component<
 
   setUserVote = (vote: number) => {
     this.setState({ userVote: vote });
-
-    console.log(["setuservote", this.state.userVote]);
   };
 
   clearFoundVoteUserList = () => {
@@ -113,8 +109,6 @@ export default class SellerVoteBox extends Component<
   closeProduct = (productId: number) => {
     let API_URL = this.props.API_URL;
 
-    console.log(productId);
-
     let that = this;
 
     axios
@@ -123,7 +117,6 @@ export default class SellerVoteBox extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(["zamknąłeś produkt", response.data.result]);
           that.props.changeVoteBox();
           that.props.getProductDetails();
         }
@@ -134,14 +127,6 @@ export default class SellerVoteBox extends Component<
   };
 
   sendVote = () => {
-    console.log([
-      this.state.selectedUserData.id,
-      this.state.userVote,
-      this.state.voteComment,
-      this.props.currentUser.id,
-      this.props.product.id
-    ]);
-
     let API_URL = this.props.API_URL;
     let userId = this.state.selectedUserData.id;
     let vote = this.state.userVote;
@@ -159,9 +144,7 @@ export default class SellerVoteBox extends Component<
         authorId: authorId
       })
       .then(function(response) {
-        console.log(["saveVote", response]);
         if (response.data.status === "OK") {
-          console.log(["zapisałeś głos", response.data.result]);
           that.closeProduct(productId);
         }
       })

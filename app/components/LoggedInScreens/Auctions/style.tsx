@@ -342,7 +342,7 @@ export default StyleSheet.create<Style>({
     backgroundColor: "#e07b8d",
     marginBottom: 10
   },
-  productListContainer: { padding: 10 },
+  productListContainer: { paddingLeft: 10, paddingRight: 10 },
   sellerVoteBoxUserListContainer: { paddingTop: 10, paddingBottom: 10 },
   sellerVoteBoxUserListSingleUserContainer: {
     width: "100%",
@@ -410,7 +410,8 @@ export default StyleSheet.create<Style>({
   filterResultsHeaderText: {
     paddingLeft: 10,
     paddingTop: 10,
-    fontWeight: "600"
+    fontWeight: "600",
+    color: "#424242"
   },
   addNewProductInputContainer: {
     paddingLeft: 10,

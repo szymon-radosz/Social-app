@@ -82,7 +82,6 @@ export default class AddNewProductBox extends Component<
   };
 
   setGender = (gender: string): void => {
-    console.log(gender);
     if (gender === "girl") {
       this.setState({ maleGender: false, femaleGender: true });
     } else if (gender === "boy") {
@@ -91,7 +90,6 @@ export default class AddNewProductBox extends Component<
   };
 
   setProductState = (productState: string): void => {
-    console.log(productState);
     if (productState === "new") {
       this.setState({ newProduct: true, secondHandProduct: false });
     } else if (productState === "secondHand") {
@@ -100,7 +98,6 @@ export default class AddNewProductBox extends Component<
   };
 
   setCategoryId = (id: number): void => {
-    console.log(id);
     this.setState({ selectedCategoryId: id });
   };
 
@@ -113,7 +110,6 @@ export default class AddNewProductBox extends Component<
       .get(API_URL + "/api/getCategories")
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(["getCategories", response]);
           that.setState({
             categories: response.data.result
           });
@@ -125,25 +121,6 @@ export default class AddNewProductBox extends Component<
   };
 
   handleChoosePhoto = (): void => {
-    /*const options = {
-      noData: true,
-      maxWidth: 500,
-      maxHeight: 500,
-      quality: 1.0
-    };
-    ImagePicker.launchImageLibrary(options, response => {
-      if (response.uri) {
-        //console.log(response.uri);
-        this.setState({ photo: response.uri });
-
-        this.setState(prevState => ({
-          photos: [...prevState.photos, response.uri]
-        }));
-
-        console.log(this.state.photos);
-      }
-    });*/
-
     ImagePicker.openPicker({
       height: 300,
       cropping: true,
@@ -158,16 +135,11 @@ export default class AddNewProductBox extends Component<
       includeBase64: true
     })
       .then((images: any) => {
-        console.log("received image", images);
-        //this.setState({ photo: image });
-
         images.map((photo: any, i: number) => {
           this.setState(prevState => ({
             photos: [...prevState.photos, photo.path]
           }));
         });
-
-        //this.setState({ photos: images });
       })
       .catch((e: any) => {
         console.log(e);
@@ -191,19 +163,6 @@ export default class AddNewProductBox extends Component<
     } else if (this.state.secondHandProduct) {
       productState = 1;
     }
-    console.log([
-      this.props.currentUser.id,
-      this.state.name,
-      this.state.description,
-      this.state.selectedCategoryId,
-      childGender,
-      this.state.price,
-      this.props.currentUser.lattitude,
-      this.props.currentUser.longitude,
-      0,
-      productState,
-      photosArray
-    ]);
 
     let that = this;
 
@@ -223,8 +182,6 @@ export default class AddNewProductBox extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(["saveProduct", response]);
-
           that.props.changeDisplayNewProductBox();
         }
       })
