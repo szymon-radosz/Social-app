@@ -12,7 +12,8 @@ import {
   userListSingleUserContainer,
   userListSingleUserImage,
   userListTextContainer,
-  userListText
+  userListText,
+  lightBorderRadius
 } from "./../../../assets/global/globalStyles";
 
 interface Style {
@@ -32,7 +33,9 @@ interface Style {
   productOnListTextCategory: any;
   productOnListTextPrice: any;
   optionText: TextStyle;
-  userTextLocation: ViewStyle;
+  userTextLocation: TextStyle;
+  singleNotificationContainer: ViewStyle;
+  singleNotificationContainerActive: ViewStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -70,5 +73,26 @@ export default StyleSheet.create<Style>({
   productOnListTextPrice: productOnListTextPrice,
   userTextLocation: {
     fontSize: 10
+  },
+  singleNotificationContainer: {
+    width: "100%",
+    borderWidth: 1,
+    flexWrap: "wrap",
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    borderRadius: lightBorderRadius,
+    marginBottom: 10
+  },
+  singleNotificationContainerActive: {
+    width: "100%",
+    borderWidth: 1,
+    flexWrap: "wrap",
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    borderRadius: lightBorderRadius,
+    marginBottom: 10,
+    backgroundColor: "#ffeee0"
   }
 });

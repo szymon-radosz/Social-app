@@ -38,6 +38,12 @@ const ProfileOptions = (props: any) => (
     >
       <Text style={styles.optionText}>Wystawione przedmioty</Text>
     </TouchableHighlight>
+    <TouchableHighlight
+      style={styles.buttonOption}
+      onPress={() => props.getUserNotificationList()}
+    >
+      <Text style={styles.optionText}>Powiadomienia</Text>
+    </TouchableHighlight>
   </View>
 );
 

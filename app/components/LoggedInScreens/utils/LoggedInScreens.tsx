@@ -42,6 +42,8 @@ const LoggedInScreens = (props: any) => (
         setOpenFindUsers={props.setOpenFindUsers}
         setOpenAuctions={props.setOpenAuctions}
         navigation={props.navigation}
+        openMessages={props.setOpenMessages}
+        openForum={props.setOpenForum}
       />
     )}
   </ScrollView>

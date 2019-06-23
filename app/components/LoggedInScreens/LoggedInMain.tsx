@@ -135,6 +135,7 @@ export default class LoggedInMain extends Component<
           setOpenProfile={this.setOpenProfile}
           setOpenFindUsers={this.setOpenFindUsers}
           setOpenAuctions={this.setOpenAuctions}
+          setOpenForum={this.setOpenForum}
         />
         <BottomPanel
           openFindUsers={this.setOpenFindUsers}

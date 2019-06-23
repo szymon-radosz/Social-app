@@ -435,14 +435,15 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
                 <Text>Brak wyników</Text>
               )}
             </View>
-
-            <TouchableHighlight style={btnFullWidth}>
-              <Button
-                title="Dodaj produkt"
-                onPress={() => this.changeDisplayNewProductBox()}
-                color="#fff"
-              />
-            </TouchableHighlight>
+            <View style={{ marginBottom: 10 }}>
+              <TouchableHighlight style={btnFullWidth}>
+                <Button
+                  title="Dodaj produkt"
+                  onPress={() => this.changeDisplayNewProductBox()}
+                  color="#fff"
+                />
+              </TouchableHighlight>
+            </View>
           </View>
         )}
 

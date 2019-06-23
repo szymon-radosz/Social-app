@@ -51,6 +51,8 @@ interface FindUsersProps {
     id: number;
     lattitude: number;
     longitude: number;
+    name: string;
+    email: string;
   };
   openMessages: any;
   setOpenProfile: any;
@@ -408,6 +410,23 @@ export default class FindUsers extends Component<
     let that = this;
 
     axios
+      .post(API_URL + "/api/addNotification", {
+        type: "started_conversation_user",
+        message: `Użytkowniczka ${this.props.user.name} (${
+          this.props.user.email
+        }) odezwała się do Ciebie w wiadomości prywatnej`,
+        userId: receiverId
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          console.log(["started_conversation_user addNotification", response]);
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    axios
       .post(API_URL + "/api/saveConversation", {
         senderId: senderId,
         receiverId: receiverId,
@@ -511,8 +530,24 @@ export default class FindUsers extends Component<
 
   confirmFriend = (senderId: number, receiverId: number): void => {
     let API_URL = this.props.API_URL;
-
     let that = this;
+
+    axios
+      .post(API_URL + "/api/addNotification", {
+        type: "friendship_confirmation",
+        message: `Użytkowniczka ${this.props.user.name} (${
+          this.props.user.email
+        }) zaakceptowała Twoje zaproszenie do grona znajomych.`,
+        userId: receiverId
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          console.log(["started_conversation_user addNotification", response]);
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
 
     axios
       .post(API_URL + "/api/confirmFriend", {
@@ -537,6 +572,23 @@ export default class FindUsers extends Component<
     let API_URL = this.props.API_URL;
 
     let that = this;
+
+    axios
+      .post(API_URL + "/api/addNotification", {
+        type: "friendship_invitation",
+        message: `Użytkowniczka ${this.props.user.name} (${
+          this.props.user.email
+        }) zaprosiła Cię do grona znajomych`,
+        userId: receiverId
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          console.log(["started_conversation_user addNotification", response]);
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
 
     axios
       .post(API_URL + "/api/inviteFriend", {

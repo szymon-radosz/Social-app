@@ -28,6 +28,8 @@ interface MessagesProps {
   API_URL: string;
   user: {
     id: number;
+    name: string;
+    email: string;
   };
   clearUserUnreadedMessages: any;
 }
@@ -118,6 +120,23 @@ export default class Messages extends Component<MessagesProps, MessagesState> {
     let API_URL = this.props.API_URL;
 
     let that = this;
+
+    axios
+      .post(API_URL + "/api/addNotification", {
+        type: "sended_message",
+        message: `Masz nową wiadomość od użytkowniczki ${
+          this.props.user.name
+        } (${this.props.user.email})`,
+        userId: receiver_id
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          console.log(["send message addNotification", response]);
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
 
     axios
       .post(API_URL + "/api/saveMessage", {

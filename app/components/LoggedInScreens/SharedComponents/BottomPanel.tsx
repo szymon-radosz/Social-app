@@ -15,7 +15,9 @@ const BottomPanel = (props: {
   openMessages: any;
   user: {
     unreadedConversationMessage: boolean;
-    unreadedConversationMessageAmount: boolean;
+    unreadedConversationMessageAmount: number;
+    unreadedNotifications: boolean;
+    unreadedNotificationsAmount: number;
   };
   openForum: any;
   openProfile: any;
@@ -98,9 +100,16 @@ const BottomPanel = (props: {
                 source={dot}
                 style={styles.unreadedMessagesNotificationDot}
               />
-              <Text style={styles.unreadedMessagesNotificationDotText}>
-                {props.user.unreadedConversationMessageAmount}
-              </Text>
+
+              {props.user.unreadedConversationMessageAmount < 10 ? (
+                <Text style={styles.unreadedMessagesNotificationDotText}>
+                  {props.user.unreadedConversationMessageAmount}
+                </Text>
+              ) : (
+                <Text style={styles.unreadedMessagesNotificationLongDotText}>
+                  {props.user.unreadedConversationMessageAmount}
+                </Text>
+              )}
             </TouchableOpacity>
           )}
         <Text
@@ -149,6 +158,26 @@ const BottomPanel = (props: {
             resizeMode="contain"
           />
         </View>
+        {props.user.unreadedNotifications &&
+          props.user.unreadedNotificationsAmount && (
+            <TouchableOpacity
+              style={styles.unreadedMessagesNotificationContainer}
+            >
+              <Image
+                source={dot}
+                style={styles.unreadedMessagesNotificationDot}
+              />
+              {props.user.unreadedNotificationsAmount < 10 ? (
+                <Text style={styles.unreadedMessagesNotificationDotText}>
+                  {props.user.unreadedNotificationsAmount}
+                </Text>
+              ) : (
+                <Text style={styles.unreadedMessagesNotificationLongDotText}>
+                  {props.user.unreadedNotificationsAmount}
+                </Text>
+              )}
+            </TouchableOpacity>
+          )}
         <Text
           style={
             props.openProfileStatus

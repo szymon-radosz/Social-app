@@ -178,7 +178,7 @@ export const profileHeaderInfoContainer = {
   justifyContent: "space-between",
   marginLeft: "auto",
   marginRight: "auto",
-  width: "80%"
+  width: "100%"
 };
 export const profileHeaderSingleInfoContainerMainText = {
   color: "#fff",
@@ -227,7 +227,7 @@ export const userPreviewListItemImage = {
   marginRight: 10
 };
 export const userPreviewSectionListText = {
-  fontSize: 16
+  fontSize: 14
 };
 export const userPreviewDescription = {
   fontSize: 14,

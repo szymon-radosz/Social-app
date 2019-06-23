@@ -51,6 +51,7 @@ interface Style {
   unreadedMessagesNotificationContainer: ViewStyle;
   unreadedMessagesNotificationDot: ImageStyle;
   unreadedMessagesNotificationDotText: TextStyle;
+  unreadedMessagesNotificationLongDotText: TextStyle;
   buttonCloseModal: ViewStyle;
   productDetailsBtn: any;
   filterModalContainer: ViewStyle;
@@ -163,8 +164,17 @@ export default StyleSheet.create<Style>({
   unreadedMessagesNotificationDotText: {
     position: "absolute",
     color: darkGrayColor,
+    fontSize: 14,
+    fontWeight: "600",
     left: 5,
     top: 2
+  },
+  unreadedMessagesNotificationLongDotText: {
+    position: "absolute",
+    color: darkGrayColor,
+    left: 5,
+    fontSize: 10,
+    top: 5
   },
   buttonCloseModal: {
     //width: "20%"

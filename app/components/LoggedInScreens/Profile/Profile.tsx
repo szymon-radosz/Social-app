@@ -5,7 +5,8 @@ import ProfileOptions from "./utils/ProfileOptions";
 import UserFriendsList from "./utils/UserFriendsList";
 import UserAuctionsList from "./utils/UserAuctionsList";
 import axios from "axios";
-import styles from "./style";
+import PageHeader from "./../SharedComponents/PageHeader";
+import UserNotificationList from "./utils/UserNotificationList";
 
 const UserPreview = React.lazy(() =>
   import("./../SharedComponents/UserPreview")
@@ -26,9 +27,11 @@ interface ProfileState {
   showEditUserData: boolean;
   showAuctionHistory: boolean;
   showUserFriendsList: boolean;
+  showUserNotificationList: boolean;
   showUserFriendId: number;
   userFriendsList: any;
   userAuctionList: any;
+  userNotificationList: any;
 }
 
 interface ProfileProps {
@@ -38,6 +41,8 @@ interface ProfileProps {
   setOpenFindUsers: any;
   setOpenAuctions: any;
   navigation: any;
+  openMessages: any;
+  openForum: any;
 }
 
 export default class Profile extends Component<
@@ -54,7 +59,9 @@ export default class Profile extends Component<
       showEditUserData: false,
       showAuctionHistory: false,
       showUserFriendsList: false,
+      showUserNotificationList: false,
       showUserFriendId: 0,
+      userNotificationList: [],
       userFriendsList: [],
       userAuctionList: []
     };
@@ -63,12 +70,26 @@ export default class Profile extends Component<
     this.loadUserFriendsList = this.loadUserFriendsList.bind(this);
     this.changeShowUserFriendsList = this.changeShowUserFriendsList.bind(this);
     this.getUserAuctionList = this.getUserAuctionList.bind(this);
-    console.log(["profile", props]);
+    this.changeShowUserAuctionList = this.changeShowUserAuctionList.bind(this);
+    this.getUserNotificationList = this.getUserNotificationList.bind(this);
+    this.changeShowUserNotificationList = this.changeShowUserNotificationList.bind(
+      this
+    );
   }
 
   componentDidMount() {
     this.getAmountOfFriends(this.props.user.id);
   }
+
+  changeShowUserNotificationList = (): void => {
+    this.setState({
+      showUserNotificationList: !this.state.showUserNotificationList
+    });
+  };
+
+  changeShowUserAuctionList = (): void => {
+    this.setState({ showAuctionHistory: !this.state.showAuctionHistory });
+  };
 
   changeShowUserFriendsList = (): void => {
     this.setState({ showUserFriendsList: !this.state.showUserFriendsList });
@@ -88,7 +109,8 @@ export default class Profile extends Component<
 
           await that.setState({
             userFriendsList: response.data.result.friendsList,
-            showUserFriendsList: true
+            showUserFriendsList: true,
+            showUserNotificationList: false
           });
         }
       })
@@ -144,6 +166,42 @@ export default class Profile extends Component<
       });
   };
 
+  getUserNotificationList = (): void => {
+    let id = this.props.user.id;
+    let that = this;
+
+    axios
+      .post(this.props.API_URL + "/api/loadNotificationByUserId", {
+        userId: id
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          console.log(["loadNotificationByUserId", response.data]);
+
+          that.setState({
+            userNotificationList: response.data.result,
+            showUserNotificationList: true
+          });
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    axios
+      .post(this.props.API_URL + "/api/clearNotificationByUserId", {
+        userId: id
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          console.log(["clearNotificationByUserId", response.data]);
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+
   render() {
     const {
       locationDetails,
@@ -153,29 +211,93 @@ export default class Profile extends Component<
       showUserFriendsList,
       userFriendsList,
       showAuctionHistory,
-      userAuctionList
+      userAuctionList,
+      showUserNotificationList,
+      userNotificationList
     } = this.state;
     return (
       <View>
-        <ProfileHeader
-          API_URL={this.props.API_URL}
-          avatar={this.props.user.photo_path}
-          name={this.props.user.name}
-          cityDistrict={locationDetails.cityDistrict}
-          city={locationDetails.city}
-          age={this.props.user.age}
-          countFriends={countFriends}
-          countKids={this.props.user.kids.length}
-          locationString={this.props.user.location_string}
-        />
+        {/* user preview page header */}
+        {showProfilePreview &&
+          !showEditUserData &&
+          !showUserFriendsList &&
+          !showAuctionHistory &&
+          !showUserNotificationList && (
+            <PageHeader
+              boldText={this.props.user.name}
+              normalText={""}
+              closeMethod={this.setShowProfilePreview}
+              closeMethodParameter={""}
+            />
+          )}
+        {/* user friends list page header */}
+        {!showProfilePreview &&
+          !showEditUserData &&
+          showUserFriendsList &&
+          !showAuctionHistory &&
+          userFriendsList &&
+          !showUserNotificationList && (
+            <PageHeader
+              boldText={"Moje znajome"}
+              normalText={""}
+              closeMethod={this.changeShowUserFriendsList}
+              closeMethodParameter={""}
+            />
+          )}
+
+        {/* user auction list page header */}
         {!showProfilePreview &&
           !showEditUserData &&
           !showUserFriendsList &&
-          !showAuctionHistory && (
+          showAuctionHistory &&
+          userAuctionList &&
+          !showUserNotificationList && (
+            <PageHeader
+              boldText={"Wystawione przedmioty"}
+              normalText={""}
+              closeMethod={this.changeShowUserAuctionList}
+              closeMethodParameter={""}
+            />
+          )}
+        {/* user notification list page header */}
+        {!showProfilePreview &&
+          !showEditUserData &&
+          !showUserFriendsList &&
+          !showAuctionHistory &&
+          showUserNotificationList && (
+            <PageHeader
+              boldText={"Powiadomienia"}
+              normalText={""}
+              closeMethod={this.changeShowUserNotificationList}
+              closeMethodParameter={""}
+            />
+          )}
+        {!showEditUserData &&
+          !showUserFriendsList &&
+          !showAuctionHistory &&
+          !showUserNotificationList && (
+            <ProfileHeader
+              API_URL={this.props.API_URL}
+              avatar={this.props.user.photo_path}
+              name={this.props.user.name}
+              cityDistrict={locationDetails.cityDistrict}
+              city={locationDetails.city}
+              age={this.props.user.age}
+              countFriends={countFriends}
+              countKids={this.props.user.kids.length}
+              locationString={this.props.user.location_string}
+            />
+          )}
+        {!showProfilePreview &&
+          !showEditUserData &&
+          !showUserFriendsList &&
+          !showAuctionHistory &&
+          !showUserNotificationList && (
             <ProfileOptions
               setShowProfilePreview={this.setShowProfilePreview}
               loadUserFriendsList={this.loadUserFriendsList}
               getUserAuctionList={this.getUserAuctionList}
+              getUserNotificationList={this.getUserNotificationList}
               navigation={this.props.navigation}
               user={this.props.user}
               API_URL={this.props.API_URL}
@@ -184,7 +306,8 @@ export default class Profile extends Component<
         {showProfilePreview &&
           !showEditUserData &&
           !showUserFriendsList &&
-          !showAuctionHistory && (
+          !showAuctionHistory &&
+          !showUserNotificationList && (
             <Suspense fallback={<Text>Wczytywanie...</Text>}>
               <UserPreview
                 description={this.props.user.description}
@@ -197,9 +320,10 @@ export default class Profile extends Component<
           !showEditUserData &&
           showUserFriendsList &&
           !showAuctionHistory &&
+          !showUserNotificationList &&
           userFriendsList && (
-            <View>
-              <Text style={styles.optionHeader}>Moje znajome</Text>
+            <View style={{ paddingTop: 10, paddingBottom: 10 }}>
+              {/*<Text style={styles.optionHeader}>Moje znajome</Text>*/}
               <UserFriendsList
                 userFriendsList={userFriendsList}
                 loggedInUser={this.props.user.id}
@@ -213,14 +337,32 @@ export default class Profile extends Component<
           !showEditUserData &&
           !showUserFriendsList &&
           showAuctionHistory &&
+          !showUserNotificationList &&
           userAuctionList && (
-            <View style={{ paddingLeft: 10, paddingRight: 10 }}>
-              <Text style={styles.optionHeader}>Wystawione przedmioty</Text>
+            <View style={{ padding: 10 }}>
+              {/*<Text style={styles.optionHeader}>Wystawione przedmioty</Text>*/}
               <UserAuctionsList
                 userAuctionList={userAuctionList}
                 loggedInUser={this.props.user.id}
                 API_URL={this.props.API_URL}
                 setOpenAuctions={this.props.setOpenAuctions}
+              />
+            </View>
+          )}
+
+        {!showProfilePreview &&
+          !showEditUserData &&
+          !showUserFriendsList &&
+          !showAuctionHistory &&
+          showUserNotificationList &&
+          userNotificationList && (
+            <View style={{ padding: 10 }}>
+              <UserNotificationList
+                openMessages={this.props.openMessages}
+                userNotificationList={userNotificationList}
+                loadUserFriendsList={this.loadUserFriendsList}
+                openForum={this.props.openForum}
+                userId={this.props.user.id}
               />
             </View>
           )}

@@ -177,8 +177,24 @@ export default class PostDetails extends Component<
 
   saveComment = (postId: number, userId: number, body: string): void => {
     let API_URL = this.props.API_URL;
-
     let that = this;
+
+    axios
+      .post(API_URL + "/api/addNotification", {
+        type: "comment_for_your_forum_post",
+        message: `Użytkowniczka ${this.props.user.name} (${
+          this.props.user.email
+        }) dodała komentarz do Twojego posta na forum.`,
+        userId: this.state.authorId
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          console.log(["started_conversation_user addNotification", response]);
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
 
     axios
       .post(API_URL + "/api/savePostComment", {
