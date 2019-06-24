@@ -14,7 +14,13 @@ import {
   userListSingleUserImage,
   userListTextContainer,
   userListText,
-  lightBorderRadius
+  lightBorderRadius,
+  filterBtnContainer,
+  singleButtonCol2Container,
+  filterBtnActive,
+  filterBtn,
+  filterBtnTextActive,
+  filterBtnText
 } from "./../../../assets/global/globalStyles";
 
 interface Style {
@@ -37,6 +43,12 @@ interface Style {
   userTextLocation: TextStyle;
   singleNotificationContainer: ViewStyle;
   singleNotificationContainerActive: ViewStyle;
+  filterBtnContainer: any;
+  singleButtonCol2Container: any;
+  filterBtnActive: any;
+  filterBtn: any;
+  filterBtnTextActive: any;
+  filterBtnText: any;
 }
 
 export default StyleSheet.create<Style>({
@@ -46,6 +58,12 @@ export default StyleSheet.create<Style>({
     alignItems: "flex-start",
     flexDirection: "row"
   },
+  filterBtnContainer: filterBtnContainer,
+  singleButtonCol2Container: singleButtonCol2Container,
+  filterBtnActive: filterBtnActive,
+  filterBtn: filterBtn,
+  filterBtnTextActive: filterBtnTextActive,
+  filterBtnText: filterBtnText,
   buttonOption: {
     width: "48%",
     marginTop: 15,

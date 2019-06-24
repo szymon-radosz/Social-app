@@ -3,24 +3,30 @@ import {
   pageTitleWhite,
   peachColor,
   btnFullWidth,
-  lightBorderRadius
+  lightBorderRadius,
+  filterBtnContainer,
+  singleButtonCol2Container,
+  filterBtnActive,
+  filterBtn,
+  filterBtnTextActive,
+  filterBtnText
 } from "./../../../assets/global/globalStyles";
 
 interface Style {
   container: ViewStyle;
   pageTitle: any;
-  filterBtnText: TextStyle;
+  filterBtnText: any;
   userListSingleUserContainer: TextStyle;
-  filterBtnTextActive: TextStyle;
+  filterBtnTextActive: any;
   pageSubTitle: TextStyle;
   productListSingleProductContainer: ViewStyle;
-  singleButtonCol2Container: ViewStyle;
-  filterBtnContainer: ViewStyle;
+  singleButtonCol2Container: any;
+  filterBtnContainer: any;
   messageDetailsContainer: ViewStyle;
   messagesList: ViewStyle;
   productListSingleProductImage: ImageStyle;
   userListContainer: ViewStyle;
-  filterBtnActive: TextStyle;
+  filterBtnActive: any;
   productListSingleProductTextContainer: ViewStyle;
   conversationBoxContainer: ViewStyle;
   image: ImageStyle;
@@ -54,23 +60,11 @@ export default StyleSheet.create<Style>({
     flexDirection: "row"
   },
   sendMessageBtn: btnFullWidth,
-  filterBtnText: { color: "#9F9F9F", textAlign: "center", paddingTop: 7 },
-  filterBtnTextActive: { color: "#333", textAlign: "center", paddingTop: 7 },
-  filterBtnActive: {
-    borderBottomColor: peachColor,
-    borderBottomWidth: 3,
-    paddingBottom: 20
-  },
-  filterBtnContainer: {
-    position: "relative",
-    flexWrap: "wrap",
-    alignItems: "flex-start",
-    flexDirection: "row",
-    borderBottomColor: "#E5E5E5",
-    borderBottomWidth: 1,
-    marginBottom: 10
-  },
-  filterBtn: { paddingBottom: 20 },
+  filterBtnText: filterBtnText,
+  filterBtnTextActive: filterBtnTextActive,
+  filterBtnActive: filterBtnActive,
+  filterBtnContainer: filterBtnContainer,
+  filterBtn: filterBtn,
   messageDetailsContainer: {
     position: "relative",
     flexWrap: "wrap",
@@ -150,12 +144,7 @@ export default StyleSheet.create<Style>({
     marginBottom: 10,
     paddingLeft: 10
   },
-  singleButtonCol2Container: {
-    width: "46%",
-    marginLeft: "2%",
-    marginRight: "2%",
-    marginTop: "3%"
-  },
+  singleButtonCol2Container: singleButtonCol2Container,
   receiverBox: {
     width: "80%",
     backgroundColor: peachColor,

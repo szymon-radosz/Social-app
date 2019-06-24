@@ -241,3 +241,34 @@ export const userPreviewDescription = {
   textAlign: "center",
   color: "#424242"
 };
+export const filterBtnContainer = {
+  position: "relative",
+  flexWrap: "wrap",
+  alignItems: "flex-start",
+  flexDirection: "row",
+  borderBottomColor: "#E5E5E5",
+  borderBottomWidth: 1,
+  marginBottom: 10
+};
+export const singleButtonCol2Container = {
+  width: "46%",
+  marginLeft: "2%",
+  marginRight: "2%",
+  marginTop: "3%"
+};
+export const filterBtnActive = {
+  borderBottomColor: peachColor,
+  borderBottomWidth: 3,
+  paddingBottom: 20
+};
+export const filterBtn = { paddingBottom: 20 };
+export const filterBtnTextActive = {
+  color: "#333",
+  textAlign: "center",
+  paddingTop: 7
+};
+export const filterBtnText = {
+  color: "#9F9F9F",
+  textAlign: "center",
+  paddingTop: 7
+};

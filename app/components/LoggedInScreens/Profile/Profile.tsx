@@ -1,5 +1,5 @@
 import React, { Component, Suspense } from "react";
-import { Text, View } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import ProfileHeader from "./../SharedComponents/ProfileHeader";
 import ProfileOptions from "./utils/ProfileOptions";
 import UserFriendsList from "./utils/UserFriendsList";
@@ -7,6 +7,7 @@ import UserAuctionsList from "./utils/UserAuctionsList";
 import axios from "axios";
 import PageHeader from "./../SharedComponents/PageHeader";
 import UserNotificationList from "./utils/UserNotificationList";
+import styles from "./style";
 
 const UserPreview = React.lazy(() =>
   import("./../SharedComponents/UserPreview")
@@ -27,11 +28,14 @@ interface ProfileState {
   showEditUserData: boolean;
   showAuctionHistory: boolean;
   showUserFriendsList: boolean;
+  showPendingUserFriendsList: boolean;
   showUserNotificationList: boolean;
   showUserFriendId: number;
   userFriendsList: any;
   userAuctionList: any;
   userNotificationList: any;
+  displayFriendList: boolean;
+  userPendingFriendsList: any;
 }
 
 interface ProfileProps {
@@ -60,15 +64,21 @@ export default class Profile extends Component<
       showEditUserData: false,
       showAuctionHistory: false,
       showUserFriendsList: false,
+      showPendingUserFriendsList: false,
       showUserNotificationList: false,
       showUserFriendId: 0,
       userNotificationList: [],
       userFriendsList: [],
-      userAuctionList: []
+      userPendingFriendsList: [],
+      userAuctionList: [],
+      displayFriendList: true
     };
     this.getAmountOfFriends = this.getAmountOfFriends.bind(this);
     this.setShowProfilePreview = this.setShowProfilePreview.bind(this);
     this.loadUserFriendsList = this.loadUserFriendsList.bind(this);
+    this.loadPendingUserFriendsList = this.loadPendingUserFriendsList.bind(
+      this
+    );
     this.changeShowUserFriendsList = this.changeShowUserFriendsList.bind(this);
     this.getUserAuctionList = this.getUserAuctionList.bind(this);
     this.changeShowUserAuctionList = this.changeShowUserAuctionList.bind(this);
@@ -96,6 +106,32 @@ export default class Profile extends Component<
     this.setState({ showUserFriendsList: !this.state.showUserFriendsList });
   };
 
+  loadPendingUserFriendsList = (): void => {
+    let userId = this.props.user.id;
+    let that = this;
+
+    axios
+      .post(this.props.API_URL + "/api/pendingFriendsList", {
+        userId: userId
+      })
+      .then(async function(response) {
+        if (response.data.status === "OK") {
+          console.log(["pendingFriendsList", response.data.result.friendsList]);
+
+          await that.setState({
+            userPendingFriendsList: response.data.result.friendsList,
+            showPendingUserFriendsList: true,
+            showUserFriendsList: false,
+            showUserNotificationList: false,
+            displayFriendList: false
+          });
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+
   loadUserFriendsList = (): void => {
     let userId = this.props.user.id;
     let that = this;
@@ -111,7 +147,9 @@ export default class Profile extends Component<
           await that.setState({
             userFriendsList: response.data.result.friendsList,
             showUserFriendsList: true,
-            showUserNotificationList: false
+            showPendingUserFriendsList: false,
+            showUserNotificationList: false,
+            displayFriendList: true
           });
         }
       })
@@ -210,11 +248,14 @@ export default class Profile extends Component<
       showProfilePreview,
       showEditUserData,
       showUserFriendsList,
+      showPendingUserFriendsList,
       userFriendsList,
+      userPendingFriendsList,
       showAuctionHistory,
       userAuctionList,
       showUserNotificationList,
-      userNotificationList
+      userNotificationList,
+      displayFriendList
     } = this.state;
     return (
       <View>
@@ -222,6 +263,7 @@ export default class Profile extends Component<
         {showProfilePreview &&
           !showEditUserData &&
           !showUserFriendsList &&
+          !showPendingUserFriendsList &&
           !showAuctionHistory &&
           !showUserNotificationList && (
             <PageHeader
@@ -246,10 +288,25 @@ export default class Profile extends Component<
             />
           )}
 
+        {!showProfilePreview &&
+          !showEditUserData &&
+          showPendingUserFriendsList &&
+          !showAuctionHistory &&
+          userPendingFriendsList &&
+          !showUserNotificationList && (
+            <PageHeader
+              boldText={"Moje znajome"}
+              normalText={""}
+              closeMethod={this.changeShowUserFriendsList}
+              closeMethodParameter={""}
+            />
+          )}
+
         {/* user auction list page header */}
         {!showProfilePreview &&
           !showEditUserData &&
           !showUserFriendsList &&
+          !showPendingUserFriendsList &&
           showAuctionHistory &&
           userAuctionList &&
           !showUserNotificationList && (
@@ -264,6 +321,7 @@ export default class Profile extends Component<
         {!showProfilePreview &&
           !showEditUserData &&
           !showUserFriendsList &&
+          !showPendingUserFriendsList &&
           !showAuctionHistory &&
           showUserNotificationList && (
             <PageHeader
@@ -275,6 +333,7 @@ export default class Profile extends Component<
           )}
         {!showEditUserData &&
           !showUserFriendsList &&
+          !showPendingUserFriendsList &&
           !showAuctionHistory &&
           !showUserNotificationList && (
             <ProfileHeader
@@ -295,6 +354,7 @@ export default class Profile extends Component<
         {!showProfilePreview &&
           !showEditUserData &&
           !showUserFriendsList &&
+          !showPendingUserFriendsList &&
           !showAuctionHistory &&
           !showUserNotificationList && (
             <ProfileOptions
@@ -310,6 +370,7 @@ export default class Profile extends Component<
         {showProfilePreview &&
           !showEditUserData &&
           !showUserFriendsList &&
+          !showPendingUserFriendsList &&
           !showAuctionHistory &&
           !showUserNotificationList && (
             <Suspense fallback={<Text>Wczytywanie...</Text>}>
@@ -320,9 +381,67 @@ export default class Profile extends Component<
               />
             </Suspense>
           )}
+
+        {!showProfilePreview &&
+          !showEditUserData &&
+          !showAuctionHistory &&
+          !showUserNotificationList && (
+            <View>
+              <View style={styles.filterBtnContainer}>
+                <View style={styles.singleButtonCol2Container}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.loadUserFriendsList();
+                      console.log("znajome");
+                    }}
+                    style={
+                      displayFriendList
+                        ? styles.filterBtnActive
+                        : styles.filterBtn
+                    }
+                  >
+                    <Text
+                      style={
+                        displayFriendList
+                          ? styles.filterBtnTextActive
+                          : styles.filterBtnText
+                      }
+                    >
+                      Znajome
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.singleButtonCol2Container}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.loadPendingUserFriendsList();
+                      console.log("oczekujace");
+                    }}
+                    style={
+                      !displayFriendList
+                        ? styles.filterBtnActive
+                        : styles.filterBtn
+                    }
+                  >
+                    <Text
+                      style={
+                        !displayFriendList
+                          ? styles.filterBtnTextActive
+                          : styles.filterBtnText
+                      }
+                    >
+                      Oczekujące
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          )}
+
         {!showProfilePreview &&
           !showEditUserData &&
           showUserFriendsList &&
+          !showPendingUserFriendsList &&
           !showAuctionHistory &&
           !showUserNotificationList &&
           userFriendsList && (
@@ -330,6 +449,24 @@ export default class Profile extends Component<
               {/*<Text style={styles.optionHeader}>Moje znajome</Text>*/}
               <UserFriendsList
                 userFriendsList={userFriendsList}
+                loggedInUser={this.props.user.id}
+                API_URL={this.props.API_URL}
+                setOpenFindUsers={this.props.setOpenFindUsers}
+              />
+            </View>
+          )}
+
+        {!showProfilePreview &&
+          !showEditUserData &&
+          !showUserFriendsList &&
+          showPendingUserFriendsList &&
+          !showAuctionHistory &&
+          !showUserNotificationList &&
+          userPendingFriendsList && (
+            <View style={{ paddingTop: 10, paddingBottom: 10 }}>
+              {/*<Text style={styles.optionHeader}>Moje znajome</Text>*/}
+              <UserFriendsList
+                userFriendsList={userPendingFriendsList}
                 loggedInUser={this.props.user.id}
                 API_URL={this.props.API_URL}
                 setOpenFindUsers={this.props.setOpenFindUsers}
@@ -357,6 +494,7 @@ export default class Profile extends Component<
         {!showProfilePreview &&
           !showEditUserData &&
           !showUserFriendsList &&
+          !showPendingUserFriendsList &&
           !showAuctionHistory &&
           showUserNotificationList &&
           userNotificationList && (
