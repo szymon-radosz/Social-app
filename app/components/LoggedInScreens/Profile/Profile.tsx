@@ -385,6 +385,7 @@ export default class Profile extends Component<
         {!showProfilePreview &&
           !showEditUserData &&
           !showAuctionHistory &&
+          (showUserFriendsList || showPendingUserFriendsList) &&
           !showUserNotificationList && (
             <View>
               <View style={styles.filterBtnContainer}>

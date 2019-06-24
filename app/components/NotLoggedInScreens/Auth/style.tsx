@@ -32,14 +32,16 @@ export default StyleSheet.create<Style>({
     fontWeight: "600",
     fontSize: fontSizeBig,
     marginTop: 50,
-    paddingBottom: 50
+    paddingBottom: 50,
+    fontFamily: "Open Sans"
   },
   logoDesc: {
     textAlign: "center",
     color: darkGrayColor,
-    fontWeight: "500",
+    fontWeight: "600",
     fontSize: fontSizeMedium,
-    paddingBottom: 30
+    paddingBottom: 30,
+    fontFamily: "Open Sans"
   },
   input: {
     width: "90%",
@@ -50,7 +52,8 @@ export default StyleSheet.create<Style>({
     color: "#424242",
     borderWidth: 2,
     paddingLeft: 10,
-    paddingRight: 10
+    paddingRight: 10,
+    fontFamily: "Open Sans"
   },
   mainBtn: {
     height: 45,
@@ -64,17 +67,20 @@ export default StyleSheet.create<Style>({
   },
   askDesc: {
     fontSize: fontSizeSmall,
-    fontWeight: "300"
+    fontWeight: "300",
+    fontFamily: "Open Sans"
   },
   ResetPasswordHeader: {
     fontSize: fontSizeSmall,
     fontWeight: "300",
-    paddingTop: 20
+    paddingTop: 20,
+    fontFamily: "Open Sans"
   },
   resetPasswordBtn: {
     fontSize: 16,
     color: "#8c8c8c",
-    paddingTop: 50
+    paddingTop: 50,
+    fontFamily: "Open Sans"
   },
   subBtnSection: {
     flexDirection: "row",
@@ -82,10 +88,12 @@ export default StyleSheet.create<Style>({
   },
   subBtnSectionAsk: {
     color: "#333",
-    fontSize: 16
+    fontSize: 16,
+    fontFamily: "Open Sans"
   },
   registerBtn: {
     color: peachColor,
-    fontSize: 16
+    fontSize: 16,
+    fontFamily: "Open Sans"
   }
 });

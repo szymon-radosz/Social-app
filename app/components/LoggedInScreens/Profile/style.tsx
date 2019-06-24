@@ -85,13 +85,15 @@ export default StyleSheet.create<Style>({
     fontSize: 16,
     marginTop: 15,
     marginBottom: 15,
-    fontWeight: "600"
+    fontWeight: "600",
+    fontFamily: "Open Sans"
   },
   optionText: {
     fontSize: 12,
     textAlign: "center",
     lineHeight: 16,
-    color: "#424242"
+    color: "#424242",
+    fontFamily: "Open Sans"
   },
   productListSingleProductContainer: productListSingleProductContainer,
   productListSingleProductImage: productListSingleProductImage,

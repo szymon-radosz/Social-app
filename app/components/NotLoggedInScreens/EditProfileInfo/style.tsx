@@ -43,7 +43,8 @@ export default StyleSheet.create<Style>({
     fontWeight: "600",
     fontSize: 16,
     paddingBottom: 10,
-    paddingTop: 20
+    paddingTop: 20,
+    fontFamily: "Open Sans"
   },
   fillInfoHeader: {
     paddingTop: 20,
@@ -52,7 +53,8 @@ export default StyleSheet.create<Style>({
     paddingBottom: 10,
     fontSize: 20,
     fontWeight: "300",
-    textAlign: "center"
+    textAlign: "center",
+    fontFamily: "Open Sans"
   },
   map: {
     width: "100%",
@@ -66,7 +68,6 @@ export default StyleSheet.create<Style>({
     height: 40,
     borderColor: "gray",
     borderWidth: 1,
-
     marginLeft: "auto",
     marginRight: "auto"
   },
@@ -78,10 +79,8 @@ export default StyleSheet.create<Style>({
     marginRight: "auto"
   },
   hobbiesContainer: {
-    //justifyContent: "center",
     flexDirection: "row",
     flexWrap: "wrap"
-    //flex: 1
   },
   btnContainer: {
     justifyContent: "center",
@@ -91,7 +90,6 @@ export default StyleSheet.create<Style>({
     width: 100,
     height: 100,
     margin: 10,
-    //justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
     borderColor: darkGrayColor,
@@ -101,7 +99,6 @@ export default StyleSheet.create<Style>({
     width: 100,
     height: 100,
     margin: 10,
-    //justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
     borderColor: peachColor,
@@ -120,7 +117,8 @@ export default StyleSheet.create<Style>({
     fontWeight: "400",
     fontSize: fontSizeSmall,
     paddingTop: 10,
-    paddingBottom: 5
+    paddingBottom: 5,
+    fontFamily: "Open Sans"
   },
   input: {
     width: "100%",

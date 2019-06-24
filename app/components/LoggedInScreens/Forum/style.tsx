@@ -125,24 +125,29 @@ export default StyleSheet.create<Style>({
     borderRadius: 6,
     borderColor: "#424242"
   },
-  activePostCategory: { color: "blue" },
+  activePostCategory: { color: "#424242", fontFamily: "Open Sans" },
   image: { width: 50, height: 50, borderRadius: 25 },
   categoryHeaderText: {
     paddingTop: 15,
     paddingBottom: 20,
     fontSize: 18,
-    textAlign: "center"
+    textAlign: "center",
+    fontFamily: "Open Sans"
   },
-  singlePostTitle: { fontSize: 14 },
-  singlePostDate: { fontSize: 12 },
-  singlePostCommentLength: { fontSize: 12 },
+  singlePostTitle: { fontSize: 14, fontFamily: "Open Sans" },
+  singlePostDate: { fontSize: 12, fontFamily: "Open Sans" },
+  singlePostCommentLength: { fontSize: 12, fontFamily: "Open Sans" },
   singlePostLikeContainer: {
     flexWrap: "wrap",
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "flex-start"
   },
-  singlePostLikeContainerVoteLength: { color: "#f7b67e", fontSize: 18 },
+  singlePostLikeContainerVoteLength: {
+    color: "#f7b67e",
+    fontSize: 18,
+    fontFamily: "Open Sans"
+  },
   singlePostLikeContainerLikeIcon: { height: 15, width: 30 },
   categoriesListTextHeader: {
     textAlign: "center",
@@ -150,7 +155,8 @@ export default StyleSheet.create<Style>({
     marginTop: 15,
     marginBottom: 15,
     fontWeight: "600",
-    color: "#424242"
+    color: "#424242",
+    fontFamily: "Open Sans"
   },
   categoriesListContainer: { marginLeft: 5, marginRight: 5 },
   singleCategoryOnListContainer: {
@@ -161,7 +167,7 @@ export default StyleSheet.create<Style>({
     borderRadius: 6,
     borderColor: "#424242"
   },
-  singleCategoryOnListPostsLength: { fontSize: 10 },
+  singleCategoryOnListPostsLength: { fontSize: 10, fontFamily: "Open Sans" },
   postDetailsContainerPadding: {
     paddingTop: 10,
     paddingLeft: 10,
@@ -177,11 +183,20 @@ export default StyleSheet.create<Style>({
     paddingBottom: 10
   },
   postDetailsAuthorContainer: { paddingLeft: 10 },
-  postDetailsAuthorContainerName: { fontSize: 16 },
-  postDetailsAuthorContainerEmail: { fontSize: 12 },
+  postDetailsAuthorContainerName: { fontSize: 16, fontFamily: "Open Sans" },
+  postDetailsAuthorContainerEmail: { fontSize: 12, fontFamily: "Open Sans" },
   postDetailsTitle: { fontSize: 16, marginBottom: 5 },
-  postDetailsDesc: { marginBottom: 10, marginTop: 10, fontSize: 14 },
-  postDetailsPostDate: { marginBottom: 5, fontSize: 12 },
+  postDetailsDesc: {
+    marginBottom: 10,
+    marginTop: 10,
+    fontSize: 14,
+    fontFamily: "Open Sans"
+  },
+  postDetailsPostDate: {
+    marginBottom: 5,
+    fontSize: 12,
+    fontFamily: "Open Sans"
+  },
   postDetailsPostVoteContainer: {
     flexWrap: "wrap",
     alignItems: "flex-start",
@@ -195,18 +210,27 @@ export default StyleSheet.create<Style>({
     flexDirection: "row",
     marginBottom: 5
   },
-  postDetailsPostVoteCount: { color: "#f7b67e", fontSize: 18 },
+  postDetailsPostVoteCount: {
+    color: "#f7b67e",
+    fontSize: 18,
+    fontFamily: "Open Sans"
+  },
   postDetailsPostVoteImage: { height: 18, width: 30, marginRight: 10 },
   postDetailsPostCommentCountWrapper: {
     flexWrap: "wrap",
     alignItems: "center",
     flexDirection: "row"
   },
-  postDetailsPostCommentCountText: { color: "#f7b67e", fontSize: 18 },
+  postDetailsPostCommentCountText: {
+    color: "#f7b67e",
+    fontSize: 18,
+    fontFamily: "Open Sans"
+  },
   postDetailsPostCommentListHeader: {
     marginBottom: 5,
     marginTop: 10,
-    fontWeight: "600"
+    fontWeight: "600",
+    fontFamily: "Open Sans"
   },
   savePostCommentInput: {
     borderWidth: 1,
@@ -228,7 +252,8 @@ export default StyleSheet.create<Style>({
     marginTop: 10,
     marginBottom: 10,
     fontSize: 12,
-    lineHeight: 12
+    lineHeight: 12,
+    fontFamily: "Open Sans"
   },
   singlePostDetailsCommentVoteContainer: {
     flexWrap: "wrap",
@@ -253,6 +278,7 @@ export default StyleSheet.create<Style>({
     paddingTop: 20,
     paddingLeft: 10,
     paddingRight: 10,
-    paddingBottom: 10
+    paddingBottom: 10,
+    fontFamily: "Open Sans"
   }
 });

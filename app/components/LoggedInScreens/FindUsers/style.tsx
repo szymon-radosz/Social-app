@@ -66,14 +66,16 @@ export default StyleSheet.create<Style>({
   fullWidth: fullWidth,
   fullHeight: fullHeight,
   userTextLocation: {
-    fontSize: 10
+    fontSize: 10,
+    fontFamily: "Open Sans"
   },
   pageSubTitle: {
     textAlign: "center",
     color: darkGrayColor,
     fontWeight: "400",
     fontSize: fontSizeMedium,
-    paddingBottom: 20
+    paddingBottom: 20,
+    fontFamily: "Open Sans"
   },
   mainModalContainer: {
     width: fullWidth,
@@ -86,7 +88,6 @@ export default StyleSheet.create<Style>({
   userDetailsModalContentContainer: {
     backgroundColor: "#fff",
     width: fullWidth - 40,
-    //height: fullHeight - 300,
     position: "absolute",
     top: 40,
     left: 20,
@@ -121,7 +122,8 @@ export default StyleSheet.create<Style>({
   userDetailsHeaderText: {
     fontSize: fontSizeBig,
     marginTop: 10,
-    marginBottom: 20
+    marginBottom: 20,
+    fontFamily: "Open Sans"
   },
   userDetailsContent: {
     paddingLeft: 15,
@@ -130,7 +132,8 @@ export default StyleSheet.create<Style>({
   },
   userDetailsContentHeader: {
     fontSize: fontSizeMedium,
-    fontWeight: "600"
+    fontWeight: "600",
+    fontFamily: "Open Sans"
   },
   userDetailsContentHobbyContainer: {
     paddingLeft: 15,
@@ -159,12 +162,12 @@ export default StyleSheet.create<Style>({
     zIndex: 11,
     paddingRight: 3,
     backgroundColor: peachColor,
-    //borderBottomRightRadius: lightBorderRadius
     borderRadius: 50
   },
   userMessageHeader: {
     fontSize: fontSizeBig,
-    marginBottom: 20
+    marginBottom: 20,
+    fontFamily: "Open Sans"
   },
   userMessageTextArea: {
     height: 80,
@@ -192,7 +195,8 @@ export default StyleSheet.create<Style>({
     fontSize: 14,
     textAlign: "center",
     lineHeight: 15,
-    color: "#fff"
+    color: "#fff",
+    fontFamily: "Open Sans"
   },
 
   userListSingleUserContainer: userListSingleUserContainer,
@@ -226,7 +230,8 @@ export default StyleSheet.create<Style>({
     paddingLeft: 10,
     paddingTop: 10,
     fontWeight: "600",
-    color: "#424242"
+    color: "#424242",
+    fontFamily: "Open Sans"
   },
   filterResultsCarousel: {
     paddingLeft: 10,

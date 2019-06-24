@@ -52,10 +52,11 @@ export default StyleSheet.create<Style>({
     height: fullHeight / 1.8
   },
   welcomeSlideText: {
-    fontSize: 26,
+    fontSize: 22,
     color: "#424242",
     textAlign: "center",
     fontWeight: "300",
+    fontFamily: "Open Sans",
     marginBottom: 5
   },
   container: { flex: 1, justifyContent: "center", alignItems: "center" },
@@ -80,9 +81,10 @@ export default StyleSheet.create<Style>({
     borderRadius: lightBorderRadius,
     borderColor: peachColor,
     borderWidth: 2,
+    fontFamily: "Open Sans",
     backgroundColor: peachColor,
     marginTop: 20,
     marginBottom: 15
   },
-  registerBtn: { marginBottom: 50 }
+  registerBtn: { marginBottom: 50, fontFamily: "Open Sans" }
 });

@@ -3,7 +3,6 @@ import { Button, Text, View, Image, TouchableHighlight } from "react-native";
 import styles from "./style";
 import AppIntroSlider from "react-native-app-intro-slider";
 
-const eco: any = require("./../../../assets/images/eco.png");
 const support: any = require("./../../../assets/images/support.png");
 const conversation: any = require("./../../../assets/images/conversation.png");
 const stroller: any = require("./../../../assets/images/stroller.png");

@@ -106,7 +106,8 @@ export default StyleSheet.create<Style>({
     color: darkGrayColor,
     fontWeight: "400",
     fontSize: fontSizeMedium,
-    paddingBottom: 20
+    paddingBottom: 20,
+    fontFamily: "Open Sans"
   },
   productList: {
     flexWrap: "wrap",
@@ -175,7 +176,8 @@ export default StyleSheet.create<Style>({
   userDetailsHeaderText: {
     fontSize: 20,
     marginTop: 10,
-    marginBottom: 20
+    marginBottom: 20,
+    fontFamily: "Open Sans"
   },
   userDetailsContent: {
     paddingLeft: 15,
@@ -184,7 +186,8 @@ export default StyleSheet.create<Style>({
   },
   userDetailsContentHeader: {
     fontSize: 16,
-    fontWeight: "600"
+    fontWeight: "600",
+    fontFamily: "Open Sans"
   },
   userDetailsContentHobbyContainer: {
     paddingLeft: 15,
@@ -211,10 +214,12 @@ export default StyleSheet.create<Style>({
     fontSize: 12,
     paddingLeft: 15,
     paddingRight: 15,
-    marginTop: 30
+    marginTop: 30,
+    fontFamily: "Open Sans"
   },
   bold: {
-    fontWeight: "600"
+    fontWeight: "600",
+    fontFamily: "Open Sans"
   },
   productDetailsHeader: {
     position: "relative",
@@ -225,7 +230,8 @@ export default StyleSheet.create<Style>({
   },
   productClosed: {
     color: peachColor,
-    fontWeight: "600"
+    fontWeight: "600",
+    fontFamily: "Open Sans"
   },
   productContentText: {
     marginBottom: 8
@@ -241,7 +247,8 @@ export default StyleSheet.create<Style>({
   },
   userMessageHeader: {
     fontSize: 20,
-    marginBottom: 20
+    marginBottom: 20,
+    fontFamily: "Open Sans"
   },
   userMessageTextArea: {
     height: 40,
@@ -324,7 +331,8 @@ export default StyleSheet.create<Style>({
     fontSize: 16,
     textAlign: "center",
     color: "#333",
-    fontWeight: "400"
+    fontWeight: "400",
+    fontFamily: "Open Sans"
   },
   userContainer: {
     borderRadius: 5,
@@ -411,7 +419,8 @@ export default StyleSheet.create<Style>({
     paddingLeft: 10,
     paddingTop: 10,
     fontWeight: "600",
-    color: "#424242"
+    color: "#424242",
+    fontFamily: "Open Sans"
   },
   addNewProductInputContainer: {
     paddingLeft: 10,
@@ -429,7 +438,11 @@ export default StyleSheet.create<Style>({
     paddingRight: 10,
     marginBottom: 10
   },
-  addNewProductOptionHeaderText: { paddingBottom: 5, fontWeight: "600" },
+  addNewProductOptionHeaderText: {
+    paddingBottom: 5,
+    fontWeight: "600",
+    fontFamily: "Open Sans"
+  },
   addNewProductOptionWrapper: { flexDirection: "row", flexWrap: "wrap" },
   addNewProductOptionText: { marginTop: 2, marginRight: 15 }
 });

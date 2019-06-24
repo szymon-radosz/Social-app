@@ -6,7 +6,6 @@ import {
   TextInput,
   TouchableHighlight
 } from "react-native";
-import { peachColor } from "./../../../assets/global/globalStyles";
 import styles from "./style";
 import axios from "axios";
 import Alert from "./../../../Alert/Alert";

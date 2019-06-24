@@ -80,7 +80,8 @@ export default StyleSheet.create<Style>({
     color: "#333",
     fontWeight: "400",
     fontSize: 14,
-    paddingBottom: 20
+    paddingBottom: 20,
+    fontFamily: "Open Sans"
   },
   productListSingleProductImage: {
     width: 50,
@@ -111,15 +112,24 @@ export default StyleSheet.create<Style>({
   },
   userListContainer: {
     width: "100%",
-    /*position: "relative",*/
     flex: 1,
     margin: 8
   },
   pageTitle: pageTitleWhite,
   conversationBoxContainer: { borderWidth: 1, width: "100%" },
   image: { width: 45, height: 45 },
-  unreadedConversation: { color: peachColor, textAlign: "left", fontSize: 12 },
-  readedConversation: { color: "#333", textAlign: "left", fontSize: 12 },
+  unreadedConversation: {
+    color: peachColor,
+    textAlign: "left",
+    fontSize: 12,
+    fontFamily: "Open Sans"
+  },
+  readedConversation: {
+    color: "#333",
+    textAlign: "left",
+    fontSize: 12,
+    fontFamily: "Open Sans"
+  },
   senderBox: {
     width: "80%",
     textAlign: "right",
@@ -154,21 +164,24 @@ export default StyleSheet.create<Style>({
     marginTop: 5,
     marginBottom: 5,
     borderRadius: 10,
-    color: "#fff"
+    color: "#fff",
+    fontFamily: "Open Sans"
   },
   messageDateSender: {
     width: "80%",
     textAlign: "right",
     alignSelf: "flex-end",
     fontSize: 10,
-    marginRight: 10
+    marginRight: 10,
+    fontFamily: "Open Sans"
   },
   messageDateReceiver: {
     width: "80%",
     textAlign: "left",
     alignSelf: "flex-start",
     fontSize: 12,
-    marginLeft: 10
+    marginLeft: 10,
+    fontFamily: "Open Sans"
   },
   viewContainer: {
     width: "100%"
@@ -180,9 +193,10 @@ export default StyleSheet.create<Style>({
     marginTop: 5
   },
   conversationReceiverName: {
-    fontWeight: "bold",
+    fontWeight: "600",
     textAlign: "left",
-    color: "#333"
+    color: "#333",
+    fontFamily: "Open Sans"
   },
   sendMessageBoxContainer: {
     borderTopColor: "#E5E5E5",

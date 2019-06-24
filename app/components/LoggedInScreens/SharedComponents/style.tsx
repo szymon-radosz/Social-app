@@ -91,7 +91,8 @@ export default StyleSheet.create<Style>({
     paddingTop: 10,
     paddingLeft: 10,
     fontWeight: "600",
-    color: "#424242"
+    color: "#424242",
+    fontFamily: "Open Sans"
   },
   removeFilterBtnContainer: {
     paddingLeft: 10,
@@ -103,7 +104,8 @@ export default StyleSheet.create<Style>({
   },
   removeFilterText: {
     marginTop: 10,
-    color: "#424242"
+    color: "#424242",
+    fontFamily: "Open Sans"
   },
   removeFilterBtn: {
     height: 40,
@@ -119,14 +121,16 @@ export default StyleSheet.create<Style>({
     fontSize: 14,
     textAlign: "center",
     lineHeight: 15,
-    color: "#fff"
+    color: "#fff",
+    fontFamily: "Open Sans"
   },
   productDetailsBtn: btnFullWidth,
   buttonBottom: {
     color: peachColor,
-    fontWeight: "bold",
+    fontWeight: "600",
     backgroundColor: darkGrayColor,
-    fontSize: 8
+    fontSize: 8,
+    fontFamily: "Open Sans"
   },
   bottomPanel: {
     paddingTop: 10,
@@ -147,7 +151,8 @@ export default StyleSheet.create<Style>({
     fontSize: 10,
     textAlign: "center",
     color: peachColor,
-    fontWeight: "600"
+    fontWeight: "600",
+    fontFamily: "Open Sans"
   },
   bottomPanelImageActive: {
     opacity: 1
@@ -159,7 +164,8 @@ export default StyleSheet.create<Style>({
     fontSize: 10,
     color: "#424242",
     textAlign: "center",
-    fontWeight: "600"
+    fontWeight: "600",
+    fontFamily: "Open Sans"
   },
   unreadedMessagesNotificationContainer: {
     position: "absolute",
@@ -173,7 +179,8 @@ export default StyleSheet.create<Style>({
     fontSize: 14,
     fontWeight: "600",
     left: 5,
-    top: 2
+    top: 2,
+    fontFamily: "Open Sans"
   },
   unreadedMessagesNotificationLongDotText: {
     position: "absolute",
@@ -193,7 +200,11 @@ export default StyleSheet.create<Style>({
     paddingLeft: 10,
     paddingRight: 10
   },
-  filterModalHeaderTextBold: { fontWeight: "600", color: "#424242" },
+  filterModalHeaderTextBold: {
+    fontWeight: "600",
+    color: "#424242",
+    fontFamily: "Open Sans"
+  },
   filterModalOptionContainer: { paddingTop: 30 },
   filterModalOptionActive: {
     borderRadius: 6,
@@ -242,6 +253,7 @@ export default StyleSheet.create<Style>({
     color: "#fff",
     fontWeight: "600",
     fontSize: 12,
-    marginTop: 5
+    marginTop: 5,
+    fontFamily: "Open Sans"
   }
 });
