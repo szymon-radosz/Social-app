@@ -31,7 +31,7 @@ const AgeDescScreen = (props: {
           style={styles.input}
           onChangeText={(txt: string) => props.handleChange("age", txt)}
           keyboardType="numeric"
-          maxLength={3}
+          maxLength={2}
         >
           {props.age !== 0 && props.age}
         </TextInput>

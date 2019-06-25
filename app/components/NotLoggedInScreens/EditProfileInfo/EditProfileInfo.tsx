@@ -1,9 +1,9 @@
 import React, { Component, Suspense } from "react";
-import { View, Text, NativeModules } from "react-native";
-//import ImagePicker from "react-native-image-picker";
+import { View, Text, NativeModules, Image } from "react-native";
 import axios from "axios";
 import Geocode from "react-geocode";
-
+import styles from "./style";
+const loaderImage: any = require("./../../../assets/images/loader.gif");
 var ImagePicker = NativeModules.ImageCropPicker;
 
 const AgeDescScreen = React.lazy(() => import("./utils/AgeDescScreen"));
@@ -38,6 +38,7 @@ interface FillNecessaryInfoState {
   region: any;
   userSavedPhoto: string;
   locationString: string;
+  loader: boolean;
 }
 
 export default class FillNecessaryInfo extends Component<
@@ -58,6 +59,7 @@ export default class FillNecessaryInfo extends Component<
       actualKidName: "",
       actualKidDate: "2016-05-15",
       actualKidGender: "female",
+      loader: false,
       region: {
         latitude: 52.237049,
         longitude: 21.017532,
@@ -327,31 +329,12 @@ export default class FillNecessaryInfo extends Component<
         actualKidGender: "female"
       });
     }
-
-    //console.log(["kids", this.state]);
   };
 
   handleChange = (name: string, value: string) => {
     // @ts-ignore
     this.setState((): void => ({ [name]: value }));
-
-    //console.log(this.state);
   };
-
-  /*handleChoosePhoto = (): void => {
-    const options = {
-      noData: true,
-      maxWidth: 500,
-      maxHeight: 500,
-      quality: 1.0
-    };
-    ImagePicker.launchImageLibrary(options, response => {
-      console.log(response);
-      if (response.uri) {
-        this.setState({ photo: response });
-      }
-    });
-  };*/
 
   handleChoosePhoto = () => {
     ImagePicker.openPicker({
@@ -382,26 +365,12 @@ export default class FillNecessaryInfo extends Component<
       let API_URL = navigation.getParam("API_URL", "");
       let userEmailName = navigation.getParam("user").email;
 
-      /*console.log([
-        this.state.photo.uri,
-        userEmailName.split("@")[0],
-        userEmailName
-      ]);*/
-
       axios
-        .post(
-          API_URL + "/api/uploadUserPhoto",
-          {
-            file: this.state.photo.path ? this.state.photo.path : "",
-            fileName: userEmailName.split("@")[0],
-            userEmail: userEmailName
-          }
-          /* {
-            headers: {
-              "Content-Type": "multipart/form-data"
-            }
-          }*/
-        )
+        .post(API_URL + "/api/uploadUserPhoto", {
+          file: this.state.photo.path ? this.state.photo.path : "",
+          fileName: userEmailName.split("@")[0],
+          userEmail: userEmailName
+        })
         .then(response => {
           console.log(["fileUpload", response]);
           if (response.data.status === "OK") {
@@ -432,7 +401,6 @@ export default class FillNecessaryInfo extends Component<
           let city = res.results[0].address_components[3].long_name;
 
           locationString = `${cityDistrict}, ${city}`;
-          console.log(["Geocode locactionString", locationString]);
           this.setState({ locationString: locationString });
 
           //console.log(addressObj);
@@ -456,7 +424,6 @@ export default class FillNecessaryInfo extends Component<
     try {
       let API_URL = navigation.getParam("API_URL", "");
       let userEmailName = navigation.getParam("user").email;
-      console.log(["saveUserDataCoords", locationString]);
 
       await axios
         .post(API_URL + "/api/updateUserInfo", {
@@ -468,7 +435,6 @@ export default class FillNecessaryInfo extends Component<
           locationString: locationString
         })
         .then(response => {
-          console.log(["updateUserInfo", response]);
           if (response.data.status === "OK") {
             console.log(response);
           }
@@ -510,37 +476,28 @@ export default class FillNecessaryInfo extends Component<
   };
 
   nextStep = (): void => {
-    //setState — it’s actually asynchronous.
-    //React batches state changes for performance reasons, so
-    //the state may not change immediately after setState is called.
-    //That means you should not rely on the current state when calling
-    //setState — since you can’t be sure what that state will be!
-    this.setState(prevState => ({
-      actualStep: prevState.actualStep + 1
-    }));
-    //this.setState({ actualStep: this.state.actualStep + 1 });
+    this.setState({ actualStep: this.state.actualStep + 1 });
   };
 
   prevStep = (): void => {
-    this.setState(prevState => ({
-      actualStep: prevState.actualStep - 1
-    }));
+    this.setState({ actualStep: this.state.actualStep - 1 });
   };
 
   submitData = async () => {
+    this.setState({ loader: true });
     let navProps = this.props.navigation.state.params;
 
     //first remove user kids and hobbies and save new data
     await this.userLocationString();
     await this.cleanUserKids();
     await this.cleanUserHobbies();
-
     await this.saveUserData();
     await this.fileUpload();
     await this.saveUserKids();
     await this.saveHobbies();
 
     navProps.setUserFilledInfo();
+    this.setState({ loader: false });
   };
 
   render() {
@@ -555,72 +512,77 @@ export default class FillNecessaryInfo extends Component<
       hobbies,
       actualStep,
       actualKidGender,
-      userSavedPhoto
+      userSavedPhoto,
+      loader
     } = this.state;
     return (
       <View>
-        {actualStep === 1 && (
-          <Suspense fallback={<Text>Wczytywanie...</Text>}>
-            <AgeDescScreen
-              handleChange={this.handleChange}
-              age={age}
-              desc={desc}
-              nextStep={this.nextStep}
-            />
-          </Suspense>
-        )}
-
-        {actualStep === 2 && (
-          <Suspense fallback={<Text>Wczytywanie...</Text>}>
-            <PhotoScreen
-              nextStep={this.nextStep}
-              prevStep={this.prevStep}
-              photo={photo}
-              handleChoosePhoto={this.handleChoosePhoto}
-              API_URL={this.props.navigation.getParam("API_URL", "")}
-              userSavedPhoto={userSavedPhoto}
-            />
-          </Suspense>
-        )}
-
-        {actualStep === 3 && (
-          <Suspense fallback={<Text>Wczytywanie...</Text>}>
-            <CoordsScreen
-              nextStep={this.nextStep}
-              prevStep={this.prevStep}
-              onRegionChange={this.onRegionChange}
-              region={region}
-            />
-          </Suspense>
-        )}
-
-        {actualStep === 4 && (
-          <Suspense fallback={<Text>Wczytywanie...</Text>}>
-            <ChooseKidsScreen
-              nextStep={this.nextStep}
-              prevStep={this.prevStep}
-              setActualKidName={this.setActualKidName}
-              addKid={this.addKid}
-              kids={kids}
-              actualKidDate={actualKidDate}
-              actualKidName={actualKidName}
-              setActualKidDate={this.setActualKidDate}
-              setGender={this.setGender}
-              actualKidGender={actualKidGender}
-              removeKidFromState={this.removeKidFromState}
-            />
-          </Suspense>
-        )}
-
-        {actualStep === 5 && (
-          <Suspense fallback={<Text>Wczytywanie...</Text>}>
-            <ChooseHobbiesScreen
-              prevStep={this.prevStep}
-              submitData={this.submitData}
-              hobbies={hobbies}
-              changeHobbyStatus={this.changeHobbyStatus}
-            />
-          </Suspense>
+        {loader ? (
+          <View style={styles.loaderContainer}>
+            <Image style={{ width: 100, height: 100 }} source={loaderImage} />
+          </View>
+        ) : (
+          <View>
+            {actualStep === 1 && (
+              <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                <AgeDescScreen
+                  handleChange={this.handleChange}
+                  age={age}
+                  desc={desc}
+                  nextStep={this.nextStep}
+                />
+              </Suspense>
+            )}
+            {actualStep === 2 && (
+              <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                <PhotoScreen
+                  nextStep={this.nextStep}
+                  prevStep={this.prevStep}
+                  photo={photo}
+                  handleChoosePhoto={this.handleChoosePhoto}
+                  API_URL={this.props.navigation.getParam("API_URL", "")}
+                  userSavedPhoto={userSavedPhoto}
+                />
+              </Suspense>
+            )}
+            {actualStep === 3 && (
+              <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                <CoordsScreen
+                  nextStep={this.nextStep}
+                  prevStep={this.prevStep}
+                  onRegionChange={this.onRegionChange}
+                  region={region}
+                />
+              </Suspense>
+            )}
+            {actualStep === 4 && (
+              <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                <ChooseKidsScreen
+                  nextStep={this.nextStep}
+                  prevStep={this.prevStep}
+                  setActualKidName={this.setActualKidName}
+                  addKid={this.addKid}
+                  kids={kids}
+                  actualKidDate={actualKidDate}
+                  actualKidName={actualKidName}
+                  setActualKidDate={this.setActualKidDate}
+                  setGender={this.setGender}
+                  actualKidGender={actualKidGender}
+                  removeKidFromState={this.removeKidFromState}
+                />
+              </Suspense>
+            )}
+            {actualStep === 5 && (
+              <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                <ChooseHobbiesScreen
+                  prevStep={this.prevStep}
+                  submitData={this.submitData}
+                  hobbies={hobbies}
+                  changeHobbyStatus={this.changeHobbyStatus}
+                />
+              </Suspense>
+            )}
+          </View>
         )}
       </View>
     );

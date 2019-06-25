@@ -3,10 +3,10 @@ import { Button, Text, View, Image, TouchableHighlight } from "react-native";
 import styles from "./style";
 import AppIntroSlider from "react-native-app-intro-slider";
 
-const support: any = require("./../../../assets/images/support.png");
-const conversation: any = require("./../../../assets/images/conversation.png");
-const stroller: any = require("./../../../assets/images/stroller.png");
-const makeUp: any = require("./../../../assets/images/makeUp.png");
+const support: any = require("./../../../assets/images/supportOrange.png");
+const conversation: any = require("./../../../assets/images/ecoOrange.png");
+const stroller: any = require("./../../../assets/images/strollerOrangeBig.png");
+const makeUp: any = require("./../../../assets/images/makeUpOrange.png");
 const emamyLogo: any = require("./../../../assets/images/emamyLogoTextVerticalSmall.png");
 
 const Welcome = (props: { navigation: any }) => {

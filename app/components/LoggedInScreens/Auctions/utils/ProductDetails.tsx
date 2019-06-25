@@ -9,13 +9,13 @@ import {
 } from "react-native";
 import axios from "axios";
 import styles from "./../style";
-import ProductMessageBox from "./ProductMessageBox";
-import SellerVoteBox from "./SellerVoteBox";
 import Lightbox from "react-native-lightbox";
 import Carousel from "react-native-looped-carousel";
 import { v4 as uuid } from "uuid";
 import PageHeader from "./../../SharedComponents/PageHeader";
 
+const ProductMessageBox = React.lazy(() => import("./ProductMessageBox"));
+const SellerVoteBox = React.lazy(() => import("./SellerVoteBox"));
 const WINDOW_WIDTH = Dimensions.get("window").width;
 
 const renderCarousel = (API_URL: string, imageArray: any): any => (
@@ -347,13 +347,13 @@ export default class ProductDetails extends Component<
                   />
                 </TouchableHighlight>
               ) : (
-                <TouchableHighlight style={styles.productDetailsBtn}>
-                  <Button
-                    title="Produkt sprzedany"
-                    color="#fff"
-                    onPress={this.changeShowProductMessageBox}
-                  />
-                </TouchableHighlight>
+                <View style={styles.productContent}>
+                  <Text style={styles.productContentText}>
+                    <Text style={styles.productClosed}>
+                      Sprzedaż produktu zakończona
+                    </Text>
+                  </Text>
+                </View>
               )
             ) : productDetails[0].user_id != this.props.currentUser.id &&
               usersAreInTheSameConversation ? (

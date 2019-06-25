@@ -69,6 +69,7 @@ const UserPreview = (props: any) => (
           }
         })}
     </View>
+    <View style={{ marginBottom: 30 }} />
   </View>
 );
 

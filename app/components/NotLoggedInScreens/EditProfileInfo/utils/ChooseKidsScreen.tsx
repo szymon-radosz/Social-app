@@ -147,38 +147,48 @@ const ChooseKidsScreen = (props: {
             ) => {
               if (kid.childGender === "male") {
                 return (
-                  <Text
-                    onPress={() => {
-                      props.removeKidFromState(kid.name);
-                    }}
-                    key={uuid()}
-                    style={styles.subText}
-                  >
-                    {kid.name} - chłopiec - {kid.dateOfBirth}
-                  </Text>
+                  <View key={uuid()} style={styles.removeFilterBtnContainer}>
+                    <Text style={styles.removeFilterText}>
+                      {kid.name} - chłopiec - {kid.dateOfBirth}
+                    </Text>
+                    <TouchableHighlight
+                      style={styles.removeFilterBtn}
+                      onPress={() => {
+                        props.removeKidFromState(kid.name);
+                      }}
+                    >
+                      <Text style={styles.removeFilterBtnText}>-</Text>
+                    </TouchableHighlight>
+                  </View>
                 );
               } else if (kid.childGender === "female") {
                 return (
-                  <Text
-                    onPress={() => {
-                      props.removeKidFromState(kid.name);
-                    }}
-                    key={uuid()}
-                    style={styles.subText}
-                  >
-                    {kid.name} - dziewczynka - {kid.dateOfBirth}
-                  </Text>
+                  <View key={uuid()} style={styles.removeFilterBtnContainer}>
+                    <Text style={styles.removeFilterText}>
+                      {kid.name} - dziewczynka - {kid.dateOfBirth}
+                    </Text>
+                    <TouchableHighlight
+                      style={styles.removeFilterBtn}
+                      onPress={() => {
+                        props.removeKidFromState(kid.name);
+                      }}
+                    >
+                      <Text style={styles.removeFilterBtnText}>-</Text>
+                    </TouchableHighlight>
+                  </View>
                 );
               }
             }
           )}
       </View>
-      <TouchableHighlight style={styles.nextBtn}>
-        <Button title="Dalej" color="#fff" onPress={props.nextStep} />
-      </TouchableHighlight>
-      <TouchableHighlight style={styles.previousBtn}>
-        <Button title="Wróć" color="#fff" onPress={props.prevStep} />
-      </TouchableHighlight>
+      <View style={{ marginBottom: 30 }}>
+        <TouchableHighlight style={styles.nextBtn}>
+          <Button title="Dalej" color="#fff" onPress={props.nextStep} />
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.previousBtn}>
+          <Button title="Wróć" color="#fff" onPress={props.prevStep} />
+        </TouchableHighlight>
+      </View>
     </ScrollView>
   );
 };

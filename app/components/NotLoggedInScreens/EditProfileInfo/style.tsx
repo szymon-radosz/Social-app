@@ -1,4 +1,10 @@
-import { StyleSheet, TextStyle, ViewStyle, ImageStyle } from "react-native";
+import {
+  StyleSheet,
+  TextStyle,
+  ViewStyle,
+  ImageStyle,
+  Dimensions
+} from "react-native";
 import {
   pageTitleWhite,
   peachColor,
@@ -32,7 +38,18 @@ interface Style {
   checkboxContainer: ViewStyle;
   childGenderContainer: ViewStyle;
   childGenderText: ViewStyle;
+  removeFilterBtnContainer: ViewStyle;
+  removeFilterText: TextStyle;
+  removeFilterBtn: ViewStyle;
+  removeFilterBtnText: TextStyle;
+  hobbyOptionContainer: ViewStyle;
+  hobbyOptionText: TextStyle;
+  hobbyOptionImage: ImageStyle;
+  loaderContainer: ViewStyle;
 }
+
+const fullWidth = Dimensions.get("window").width;
+const fullHeight = Dimensions.get("window").height;
 
 export default StyleSheet.create<Style>({
   container: { flex: 1, alignItems: "center" },
@@ -43,7 +60,7 @@ export default StyleSheet.create<Style>({
     fontWeight: "600",
     fontSize: 16,
     paddingBottom: 10,
-    paddingTop: 20,
+    paddingTop: 35,
     fontFamily: "Open Sans"
   },
   fillInfoHeader: {
@@ -51,7 +68,7 @@ export default StyleSheet.create<Style>({
     paddingLeft: 10,
     paddingRight: 10,
     paddingBottom: 10,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "300",
     textAlign: "center",
     fontFamily: "Open Sans"
@@ -86,13 +103,21 @@ export default StyleSheet.create<Style>({
     justifyContent: "center",
     flexDirection: "column"
   },
+  hobbyOptionContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center"
+  },
   hobbyContainer: {
     width: 100,
     height: 100,
     margin: 10,
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: darkGrayColor,
+    borderWidth: 2,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    borderColor: "#8c8c8c",
     borderRadius: lightBorderRadius
   },
   activeHobbyContainer: {
@@ -100,7 +125,10 @@ export default StyleSheet.create<Style>({
     height: 100,
     margin: 10,
     alignItems: "center",
-    borderWidth: 1,
+    borderWidth: 2,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
     borderColor: peachColor,
     borderRadius: lightBorderRadius
   },
@@ -115,7 +143,7 @@ export default StyleSheet.create<Style>({
     textAlign: "left",
     color: darkGrayColor,
     fontWeight: "400",
-    fontSize: fontSizeSmall,
+    fontSize: 12,
     paddingTop: 10,
     paddingBottom: 5,
     fontFamily: "Open Sans"
@@ -154,5 +182,53 @@ export default StyleSheet.create<Style>({
   checkboxWrapper: { flexDirection: "row" },
   checkboxText: { marginTop: 2, marginRight: 15 },
   childGenderContainer: { paddingLeft: 10, paddingRight: 10, marginBottom: 10 },
-  childGenderText: { paddingBottom: 5 }
+  childGenderText: { paddingBottom: 5 },
+  removeFilterBtnContainer: {
+    paddingLeft: 10,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderBottomColor: "#E5E5E5"
+  },
+  removeFilterText: {
+    marginTop: 10,
+    color: "#424242",
+    fontFamily: "Open Sans"
+  },
+  removeFilterBtn: {
+    height: 40,
+    width: 40,
+    borderColor: peachColor,
+    borderWidth: 2,
+    backgroundColor: peachColor,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 10
+  },
+  removeFilterBtnText: {
+    fontSize: 14,
+    textAlign: "center",
+    lineHeight: 15,
+    color: "#fff",
+    fontFamily: "Open Sans"
+  },
+  hobbyOptionText: {
+    width: "100%"
+  },
+  hobbyOptionImage: {
+    width: 40,
+    height: 40,
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginBottom: 10
+  },
+  loaderContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    width: fullWidth,
+    height: fullHeight
+  }
 });

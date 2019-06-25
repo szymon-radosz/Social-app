@@ -81,10 +81,9 @@ export default StyleSheet.create<Style>({
     borderRadius: lightBorderRadius,
     borderColor: peachColor,
     borderWidth: 2,
-    fontFamily: "Open Sans",
     backgroundColor: peachColor,
     marginTop: 20,
     marginBottom: 15
   },
-  registerBtn: { marginBottom: 50, fontFamily: "Open Sans" }
+  registerBtn: { marginBottom: 50 }
 });
