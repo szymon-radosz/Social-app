@@ -6,9 +6,11 @@ import Messages from "./../Messages/Messages";
 import Forum from "./../Forum/Forum";
 import Profile from "./../Profile/Profile";
 
+import FeedbackModal from "./FeedbackModal";
+
 const LoggedInScreens = (props: any) => (
   <ScrollView>
-    {props.openFindUsers && (
+    {props.openFindUsers && !props.showFeedbackModal && (
       <FindUsers
         API_URL={props.API_URL}
         user={props.user}
@@ -17,7 +19,7 @@ const LoggedInScreens = (props: any) => (
         openFindUserId={props.openFindUserId}
       />
     )}
-    {props.openAuctions && (
+    {props.openAuctions && !props.showFeedbackModal && (
       <Auctions
         API_URL={props.API_URL}
         user={props.user}
@@ -26,15 +28,17 @@ const LoggedInScreens = (props: any) => (
         openAuctionUserId={props.openAuctionUserId}
       />
     )}
-    {props.openMessages && (
+    {props.openMessages && !props.showFeedbackModal && (
       <Messages
         API_URL={props.API_URL}
         user={props.user}
         clearUserUnreadedMessages={props.clearUserUnreadedMessages}
       />
     )}
-    {props.openForum && <Forum API_URL={props.API_URL} user={props.user} />}
-    {props.openProfile && (
+    {props.openForum && !props.showFeedbackModal && (
+      <Forum API_URL={props.API_URL} user={props.user} />
+    )}
+    {props.openProfile && !props.showFeedbackModal && (
       <Profile
         API_URL={props.API_URL}
         user={props.user}
@@ -45,6 +49,17 @@ const LoggedInScreens = (props: any) => (
         openMessages={props.setOpenMessages}
         openForum={props.setOpenForum}
         clearUserData={props.clearUserData}
+      />
+    )}
+
+    {props.showFeedbackModal && (
+      <FeedbackModal
+        setFeedbackMessage={props.setFeedbackMessage}
+        feedbackMessage={props.feedbackMessage}
+        sendFeedback={props.sendFeedback}
+        feedbackTopic={props.feedbackTopic}
+        setFeedbackTopic={props.setFeedbackTopic}
+        activeTopic={props.activeTopic}
       />
     )}
   </ScrollView>

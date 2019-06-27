@@ -25,6 +25,7 @@
     "react-native-looped-carousel": "^0.1.13",
     "react-native-maps": "https://github.com/react-community/react-native-maps.git",
     "react-native-snap-carousel": "^3.7.5",
+    "react-native-splash-screen": "3.0.6",
     "react-navigation": "^3.3.0",
     "react-navigation-transitions": "^1.0.10",
     "uuid": "^3.3.2"

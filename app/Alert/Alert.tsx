@@ -1,64 +1,43 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Text, View, TouchableHighlight } from "react-native";
 import styles from "./style";
 
-interface AlertProps {
-  alertType: string;
-  alertMessage: string;
-}
+const Alert = (props: any) => {
+  const [showAlert, setShowAlert] = useState(true);
+  const [message, setMessage] = useState("");
 
-interface AlertState {
-  showAlert: boolean;
-  alertMessage: string;
-}
+  const closeAlert = () => {
+    setShowAlert(false);
+  };
 
-export default class Alert extends Component<AlertProps, AlertState> {
-  static getDerivedStateFromProps(props: any, current_state: any) {
-    if (current_state.alertMessage !== props.alertMessage) {
-      console.log("derivered");
-      return {
-        showAlert: true,
-        alertMessage: props.alertMessage
-      };
+  useEffect(() => {
+    if (props.alertMessage) {
+      setShowAlert(true);
+      setMessage(props.alertMessage);
     }
-    return null;
-  }
+  }, [props.alertMessage]);
 
-  constructor(props: AlertProps) {
-    super(props);
-    this.state = { showAlert: true, alertMessage: "" };
-
-    this.closeAlert = this.closeAlert.bind(this);
+  if (showAlert) {
+    return (
+      <View style={styles.alertContainer}>
+        <Text
+          style={
+            props.alertType == "success"
+              ? styles.successContainer
+              : props.alertType == "danger"
+              ? styles.dangerContainer
+              : null
+          }
+        >
+          {message}
+        </Text>
+        <TouchableHighlight style={styles.closeAlert}>
+          <Button title="X" color="#fff" onPress={closeAlert} />
+        </TouchableHighlight>
+      </View>
+    );
+  } else {
+    return <View />;
   }
-
-  closeAlert() {
-    this.setState({ showAlert: false });
-  }
-
-  render() {
-    const { alertType } = this.props;
-    const { showAlert, alertMessage } = this.state;
-    if (showAlert) {
-      return (
-        <View style={styles.alertContainer}>
-          <Text
-            style={
-              alertType == "success"
-                ? styles.successContainer
-                : alertType == "danger"
-                ? styles.dangerContainer
-                : null
-            }
-          >
-            {alertMessage}
-          </Text>
-          <TouchableHighlight style={styles.closeAlert}>
-            <Button title="X" color="#fff" onPress={() => this.closeAlert()} />
-          </TouchableHighlight>
-        </View>
-      );
-    } else {
-      return <View />;
-    }
-  }
-}
+};
+export default Alert;
