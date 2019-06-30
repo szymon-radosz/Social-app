@@ -86,7 +86,7 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
           <TextInput
             style={styles.savePostCommentInput}
             multiline={false}
-            maxLength={100}
+            maxLength={150}
             onChangeText={title => this.setState({ title })}
             value={this.state.title}
             placeholder="Temat"
@@ -94,10 +94,10 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
           />
 
           <TextInput
-            multiline={false}
-            style={styles.savePostCommentInput}
+            multiline={true}
+            style={styles.savePostCommentDescInput}
             onChangeText={description => this.setState({ description })}
-            maxLength={250}
+            maxLength={500}
             value={this.state.description}
             placeholder="Treść postu"
             placeholderTextColor="#333"

@@ -17,7 +17,7 @@ const SavePostComment = (props: {
       <TextInput
         style={styles.savePostCommentInput}
         multiline={false}
-        maxLength={150}
+        maxLength={500}
         onChangeText={message => props.setCommentMessage(message)}
         value={props.commentMessage}
         placeholder="Napisz komentarz ..."

@@ -290,19 +290,29 @@ export default class Messages extends Component<MessagesProps, MessagesState> {
         )}
 
         <View style={styles.messageListContainer}>
-          {messagesList &&
-            !openConversationDetails &&
-            messagesList.map((conversation: any, i: number) => {
-              console.log(["conversation[i]", conversation[0]]);
-              return (
-                <SingleConversationBox
-                  key={uuid()}
-                  conversation={conversation[0]}
-                  API_URL={this.props.API_URL}
-                  openConversationDetails={this.openConversationDetails}
-                />
-              );
-            })}
+          {messagesList && !openConversationDetails ? (
+            messagesList.length > 0 ? (
+              messagesList.map((conversation: any, i: number) => {
+                return (
+                  <SingleConversationBox
+                    key={uuid()}
+                    conversation={conversation[0]}
+                    API_URL={this.props.API_URL}
+                    openConversationDetails={this.openConversationDetails}
+                  />
+                );
+              })
+            ) : displayPrivateMessages ? (
+              <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
+                Brak wyników. Zaproś inne mamy z Twojej okolicy do znajomych.
+              </Text>
+            ) : (
+              <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
+                Brak wyników. Dodaj nieużywane przedmioty w zakładce 'Targ' i
+                uzgodnij szczegóły z innymi użytkowniczkami w wiadomościach.
+              </Text>
+            )
+          ) : null}
         </View>
 
         {openConversationDetails && (

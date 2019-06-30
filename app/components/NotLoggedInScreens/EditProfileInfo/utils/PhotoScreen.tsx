@@ -26,16 +26,16 @@ const PhotoScreen = (props: {
 
       <Text style={styles.fillInfoHeader}>Dodaj swoje zdjęcie profilowe</Text>
 
-      {props.photo && (
+      {props.photo ? (
         <Image source={{ uri: props.photo.path }} style={styles.image} />
-      )}
+      ) : null}
 
-      {props.userSavedPhoto && props.API_URL && !props.photo && (
+      {props.userSavedPhoto && props.API_URL && !props.photo ? (
         <Image
           source={{ uri: `${props.API_URL}userPhotos/${props.userSavedPhoto}` }}
           style={styles.image}
         />
-      )}
+      ) : null}
       <TouchableHighlight style={styles.nextBtn}>
         <Button
           title="Wybierz zdjęcie"

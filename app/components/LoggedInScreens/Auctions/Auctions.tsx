@@ -4,8 +4,7 @@ import {
   ImageBackground,
   Button,
   Text,
-  View,
-  ScrollView
+  View
 } from "react-native";
 import Carousel from "react-native-snap-carousel";
 import { btnFullWidthFilledContainer } from "./../../../assets/global/globalStyles";
@@ -14,6 +13,7 @@ import axios from "axios";
 import SingleAuctionOnList from "./utils/SingleAuctionOnList";
 import styles from "./style";
 import { v4 as uuid } from "uuid";
+import Alert from "./../../../Alert/Alert";
 const auctionsBg: any = require("./../../../assets/images/auctionsBgMin.jpg");
 
 const ProductDetails = React.lazy(() => import("./utils/ProductDetails"));
@@ -50,6 +50,9 @@ interface AuctionsState {
   filterOptions: any;
   filterModalName: string;
   filterData: any;
+  showAlert: boolean;
+  alertType: string;
+  alertMessage: string;
 }
 
 export default class Auctions extends Component<AuctionsProps, AuctionsState> {
@@ -97,7 +100,10 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
           title: "Status",
           index: 2
         }
-      ]
+      ],
+      showAlert: false,
+      alertType: "",
+      alertMessage: ""
     };
 
     this.getProducts = this.getProducts.bind(this);
@@ -109,7 +115,77 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
     this.renderItem = this.renderItem.bind(this);
     this.filterResults = this.filterResults.bind(this);
     this.removeFilter = this.removeFilter.bind(this);
+    this.addNewProduct = this.addNewProduct.bind(this);
   }
+
+  addNewProduct = (
+    photos: any,
+    maleGender: boolean,
+    femaleGender: boolean,
+    newProduct: boolean,
+    secondHandProduct: boolean,
+    currentUser: any,
+    name: string,
+    description: string,
+    selectedCategoryId: any,
+    price: number
+  ): void => {
+    let childGender;
+    let productState;
+    let API_URL = this.props.API_URL;
+    let photosArray = "[" + '"' + photos.join('","') + '"' + "]";
+
+    if (maleGender) {
+      childGender = "boy";
+    } else if (femaleGender) {
+      childGender = "girl";
+    }
+
+    if (newProduct) {
+      productState = 0;
+    } else if (secondHandProduct) {
+      productState = 1;
+    }
+
+    let that = this;
+
+    axios
+      .post(API_URL + "/api/saveProduct", {
+        userId: currentUser.id,
+        name: name,
+        description: description,
+        categoryId: selectedCategoryId,
+        childGender: childGender,
+        price: price,
+        lat: currentUser.lattitude,
+        lng: currentUser.longitude,
+        status: 0,
+        state: productState,
+        photos: photosArray
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          that.setState({ showAlert: false });
+
+          that.setState({
+            showAlert: true,
+            alertType: "success",
+            alertMessage: "Dziękujemy za dodanie nowego produktu."
+          });
+          that.changeDisplayNewProductBox();
+        }
+      })
+      .catch(function(error) {
+        that.setState({ showAlert: false });
+
+        that.setState({
+          showAlert: true,
+          alertType: "danger",
+          alertMessage: "Problem z dodaniem nowego produktu"
+        });
+        console.log(error);
+      });
+  };
 
   removeFilter = (filterName: string): void => {
     const { filterDistance, filterPrice, filterStatus } = this.state;
@@ -331,10 +407,13 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
       filterModalName,
       filterDistance,
       filterPrice,
-      filterStatus
+      filterStatus,
+      showAlert,
+      alertType,
+      alertMessage
     } = this.state;
     return (
-      <ScrollView>
+      <View>
         {!displayProductDetails && !displayNewProductBox && !showFilterModal && (
           <ImageBackground source={auctionsBg} style={{ width: "100%" }}>
             <Text style={styles.pageTitle}>Sprzedawaj i{"\n"}kupuj</Text>
@@ -436,10 +515,15 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
               currentUser={this.props.user}
               API_URL={this.props.API_URL}
               changeDisplayNewProductBox={this.changeDisplayNewProductBox}
+              addNewProduct={this.addNewProduct}
             />
           </Suspense>
         )}
-      </ScrollView>
+
+        {showAlert != false && (
+          <Alert alertType={alertType} alertMessage={alertMessage} />
+        )}
+      </View>
     );
   }
 }

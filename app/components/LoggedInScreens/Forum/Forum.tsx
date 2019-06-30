@@ -4,7 +4,6 @@ import {
   Text,
   TouchableHighlight,
   ImageBackground,
-  TouchableOpacity,
   View
 } from "react-native";
 import axios from "axios";
@@ -12,6 +11,7 @@ import CategoryDetailsSinglePostOnList from "./utils/CategoryDetailsSinglePostOn
 import styles from "./style";
 import { v4 as uuid } from "uuid";
 import PageHeader from "./../SharedComponents/PageHeader";
+import Alert from "./../../../Alert/Alert";
 
 const forumBg: any = require("./../../../assets/images/forumBgMin.jpg");
 
@@ -33,6 +33,9 @@ interface ForumState {
   showSortByCategoryId: number;
   showPosts: boolean;
   categoryName: string;
+  showAlert: boolean;
+  alertType: string;
+  alertMessage: string;
 }
 export default class Forum extends Component<ForumProps, ForumState> {
   constructor(props: ForumProps) {
@@ -45,7 +48,10 @@ export default class Forum extends Component<ForumProps, ForumState> {
       showSortByCategoryId: 0,
       showPosts: false,
       categoryName: "",
-      postList: []
+      postList: [],
+      showAlert: false,
+      alertType: "",
+      alertMessage: ""
     };
 
     this.getPosts = this.getPosts.bind(this);
@@ -184,11 +190,24 @@ export default class Forum extends Component<ForumProps, ForumState> {
         })
         .then(function(response) {
           if (response.data.status === "OK") {
-            console.log(["savePost", response]);
-            that.setState({ showSavePost: false, showSortByCategoryId: 0 });
+            that.setState({ showAlert: false });
+            that.setState({
+              showAlert: true,
+              alertType: "success",
+              alertMessage: "Dziękujemy za dodanie nowego posta.",
+              showSavePost: false,
+              showSortByCategoryId: 0
+            });
             that.getPosts();
           } else {
             console.log(response.data.result);
+            that.setState({ showAlert: false });
+
+            that.setState({
+              showAlert: true,
+              alertType: "danger",
+              alertMessage: "Problem z dodaniem nowego posta."
+            });
           }
         })
         .catch(function(error) {
@@ -211,7 +230,10 @@ export default class Forum extends Component<ForumProps, ForumState> {
       showSortByCategory,
       showPosts,
       postList,
-      categoryName
+      categoryName,
+      showAlert,
+      alertType,
+      alertMessage
     } = this.state;
     return (
       <View style={styles.container}>
@@ -306,6 +328,9 @@ export default class Forum extends Component<ForumProps, ForumState> {
             </TouchableHighlight>
           )}
         </View>
+        {showAlert != false && (
+          <Alert alertType={alertType} alertMessage={alertMessage} />
+        )}
       </View>
     );
   }

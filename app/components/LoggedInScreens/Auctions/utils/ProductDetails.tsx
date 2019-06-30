@@ -13,6 +13,7 @@ import Lightbox from "react-native-lightbox";
 import Carousel from "react-native-looped-carousel";
 import { v4 as uuid } from "uuid";
 import PageHeader from "./../../SharedComponents/PageHeader";
+import Alert from "./../../../../Alert/Alert";
 
 const ProductMessageBox = React.lazy(() => import("./ProductMessageBox"));
 const SellerVoteBox = React.lazy(() => import("./SellerVoteBox"));
@@ -53,6 +54,7 @@ interface ProductDetailsState {
   foundVoteUserList: any;
   usersAreInTheSameConversation: boolean;
   productClosed: boolean;
+  showAlert: boolean;
   alertType: string;
   alertMessage: string;
   productLocation: any;
@@ -71,6 +73,7 @@ export default class ProductDetails extends Component<
       foundVoteUserList: [],
       usersAreInTheSameConversation: false,
       productClosed: false,
+      showAlert: false,
       alertType: "",
       alertMessage: "",
       productLocation: []
@@ -88,6 +91,8 @@ export default class ProductDetails extends Component<
     );
     this.changeVoteBox = this.changeVoteBox.bind(this);
     this.searchUsersByEmail = this.searchUsersByEmail.bind(this);
+    this.sendVote = this.sendVote.bind(this);
+    this.closeProduct = this.closeProduct.bind(this);
   }
 
   searchUsersByEmail = (email: string) => {
@@ -197,15 +202,29 @@ export default class ProductDetails extends Component<
         })
         .then(function(response) {
           if (response.data.status === "OK") {
+            that.setState({ showAlert: false });
+
             that.setState({
               usersAreInTheSameConversation: true,
               showProductMessageBox: false,
-              showVoteBox: false
+              showVoteBox: false,
+              showAlert: true,
+              alertType: "success",
+              alertMessage:
+                "Poprawnie wysłano wiadomość. Sprawdź zakładkę 'Wiadomości > Targ'."
             });
           }
         })
         .catch(function(error) {
           console.log(error);
+
+          that.setState({ showAlert: false });
+
+          that.setState({
+            showAlert: true,
+            alertType: "danger",
+            alertMessage: "Problem z wysłaniem wiadomości."
+          });
         });
     }
   };
@@ -216,13 +235,84 @@ export default class ProductDetails extends Component<
     this.checkIfUsersBelongToConversationProduct();
   };
 
+  sendVote = (
+    selectedUserData: any,
+    userVote: number,
+    voteComment: string,
+    product: any
+  ) => {
+    let API_URL = this.props.API_URL;
+    let userId = selectedUserData.id;
+    let vote = userVote;
+    let message = voteComment;
+    let authorId = this.props.currentUser.id;
+    let productId = product.id;
+
+    let that = this;
+
+    axios
+      .post(API_URL + "/api/saveVote", {
+        userId: userId,
+        vote: vote,
+        message: message,
+        authorId: authorId
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          that.setState({ showAlert: false });
+
+          that.setState({
+            showAlert: true,
+            alertType: "success",
+            alertMessage: "Dziękujemy za dodanie opinii."
+          });
+          that.closeProduct(productId);
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+
+        that.setState({ showAlert: false });
+
+        that.setState({
+          showAlert: true,
+          alertType: "danger",
+          alertMessage:
+            "Problem z dodaniem opinii. Możesz dodać tylko jedną opinię dla poszczególnej użytkowniczki"
+        });
+      });
+  };
+
+  closeProduct = (productId: number) => {
+    let API_URL = this.props.API_URL;
+
+    let that = this;
+
+    axios
+      .post(API_URL + "/api/closeProduct", {
+        productId: productId
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          that.changeVoteBox();
+          that.getProductDetails();
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+
   render() {
     const {
       showProductMessageBox,
       showVoteBox,
       productDetails,
       foundVoteUserList,
-      usersAreInTheSameConversation
+      usersAreInTheSameConversation,
+      showAlert,
+      alertType,
+      alertMessage
     } = this.state;
     return (
       <View>
@@ -240,6 +330,7 @@ export default class ProductDetails extends Component<
             searchUsersByEmail={this.searchUsersByEmail}
             foundVoteUserList={foundVoteUserList}
             getProductDetails={this.getProductDetails}
+            sendVote={this.sendVote}
           />
         ) : productDetails[0] ? (
           <View>
@@ -393,6 +484,9 @@ export default class ProductDetails extends Component<
             )}
           </View>
         ) : null}
+        {showAlert != false && (
+          <Alert alertType={alertType} alertMessage={alertMessage} />
+        )}
       </View>
     );
   }

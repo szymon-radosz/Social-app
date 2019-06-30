@@ -24,10 +24,12 @@ const Register = (props: { navigation: any }) => {
 
   const registerUser = (): void => {
     if (!name || !email || !password || !passwordConf) {
+      setShowAlert(false);
       setShowAlert(true);
       setAlertType("danger");
       setAlertMessage("Wszystkie pola są wymagane.");
     } else if (password !== passwordConf) {
+      setShowAlert(false);
       setShowAlert(true);
       setAlertType("danger");
       setAlertMessage("Hasło i potwierdzenie hasła muszą być identyczne.");
@@ -50,6 +52,7 @@ const Register = (props: { navigation: any }) => {
             console.log(response.data);
 
             if (response.data.status === "OK") {
+              setShowAlert(false);
               setShowAlert(true);
               setAlertType("success");
               setAlertMessage(

@@ -34,7 +34,8 @@ interface Style {
 
 export default StyleSheet.create<Style>({
   welcomeSliderPagination: {
-    marginTop: 30
+    marginTop: 30,
+    marginBottom: 30
   },
   activeWelcomeSlideRect: {
     backgroundColor: peachColor,
@@ -57,7 +58,7 @@ export default StyleSheet.create<Style>({
     textAlign: "center",
     fontWeight: "300",
     fontFamily: "Open Sans",
-    marginBottom: 5
+    marginBottom: 80
   },
   container: { flex: 1, justifyContent: "center", alignItems: "center" },
   fullWidth: fullWidth,

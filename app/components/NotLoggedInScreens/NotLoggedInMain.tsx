@@ -36,6 +36,9 @@ export default class NotLoggedInMain extends Component<
     this.checkUserStatus = this.checkUserStatus.bind(this);
     this.setUserFilledInfo = this.setUserFilledInfo.bind(this);
     this.clearUserUnreadedMessages = this.clearUserUnreadedMessages.bind(this);
+    this.clearUserNotificationsStatus = this.clearUserNotificationsStatus.bind(
+      this
+    );
     this.clearUserData = this.clearUserData.bind(this);
   }
 
@@ -64,6 +67,36 @@ export default class NotLoggedInMain extends Component<
         })
         .catch(function(error) {
           console.log(error.message);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  clearUserNotificationsStatus = async (userId: number) => {
+    try {
+      const { userData } = this.state;
+
+      let that = this;
+
+      axios
+        .post(API_URL + "/api/clearUserNotificationsStatus", {
+          userId: userId
+        })
+        .then(async response => {
+          if (response.data.status === "OK") {
+            console.log(response);
+
+            let newUserState = userData;
+
+            newUserState.unreadedNotifications = false;
+            newUserState.unreadedNotificationsAmount = 0;
+
+            await that.setState({ userData: newUserState });
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
         });
     } catch (error) {
       console.log(error);
@@ -120,7 +153,8 @@ export default class NotLoggedInMain extends Component<
         user: userData,
         clearUserData: this.clearUserData,
         API_URL: API_URL,
-        clearUserUnreadedMessages: this.clearUserUnreadedMessages
+        clearUserUnreadedMessages: this.clearUserUnreadedMessages,
+        clearUserNotificationsStatus: this.clearUserNotificationsStatus
       });
     } else if (userData.verified === 0) {
       navigation.navigate("ConfirmAccount", {

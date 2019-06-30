@@ -58,6 +58,7 @@ interface Style {
   singlePostDetailsCommentVoteWrapper: ViewStyle;
   savePostCommentContainer: ViewStyle;
   savePostCategoryHeaderText: TextStyle;
+  savePostCommentDescInput: ViewStyle;
 }
 
 const fullWidth = Dimensions.get("window").width;
@@ -239,6 +240,16 @@ export default StyleSheet.create<Style>({
     marginRight: 10,
     marginTop: 10,
     padding: 10,
+    borderColor: "#424242"
+  },
+  savePostCommentDescInput: {
+    borderWidth: 1,
+    borderRadius: 6,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 10,
+    padding: 10,
+    height: 60,
     borderColor: "#424242"
   },
   singlePostDetailsCommentUserSectionContainer: {

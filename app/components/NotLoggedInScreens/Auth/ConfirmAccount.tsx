@@ -8,7 +8,7 @@ const ConfirmAccount = (props: { navigation: any }) => {
     <View style={styles.container}>
       <Text
         style={styles.headerText}
-      >{`Potwierdź swój adres e-mail, żeby\zacząć używać e-mamy!`}</Text>
+      >{`Potwierdź swój adres e-mail, żeby \zacząć używać e-mamy!`}</Text>
       <TouchableHighlight>
         <Button
           title="Zaloguj się"

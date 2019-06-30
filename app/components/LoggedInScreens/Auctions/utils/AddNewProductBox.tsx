@@ -26,14 +26,13 @@ interface AddNewProductBoxProps {
     lattitude: number;
     longitude: number;
   };
+  addNewProduct: any;
   changeDisplayNewProductBox: any;
 }
 
 interface AddNewProductBoxState {
   name: string;
   description: string;
-  alertMessage: string;
-  alertType: string;
   categories: string[];
   selectedCategoryId: number;
   price: string;
@@ -54,8 +53,6 @@ export default class AddNewProductBox extends Component<
     this.state = {
       name: "",
       description: "",
-      alertMessage: "",
-      alertType: "",
       categories: [],
       selectedCategoryId: 0,
       price: "",
@@ -73,7 +70,6 @@ export default class AddNewProductBox extends Component<
     this.setGender = this.setGender.bind(this);
     this.setCategoryId = this.setCategoryId.bind(this);
     this.setProductState = this.setProductState.bind(this);
-    this.addNewProduct = this.addNewProduct.bind(this);
     this.clearPhotos = this.clearPhotos.bind(this);
   }
 
@@ -143,50 +139,6 @@ export default class AddNewProductBox extends Component<
       })
       .catch((e: any) => {
         console.log(e);
-      });
-  };
-
-  addNewProduct = (): void => {
-    let childGender;
-    let productState;
-    let API_URL = this.props.API_URL;
-    let photosArray = "[" + '"' + this.state.photos.join('","') + '"' + "]";
-
-    if (this.state.maleGender) {
-      childGender = "boy";
-    } else if (this.state.femaleGender) {
-      childGender = "girl";
-    }
-
-    if (this.state.newProduct) {
-      productState = 0;
-    } else if (this.state.secondHandProduct) {
-      productState = 1;
-    }
-
-    let that = this;
-
-    axios
-      .post(API_URL + "/api/saveProduct", {
-        userId: this.props.currentUser.id,
-        name: this.state.name,
-        description: this.state.description,
-        categoryId: this.state.selectedCategoryId,
-        childGender: childGender,
-        price: this.state.price,
-        lat: this.props.currentUser.lattitude,
-        lng: this.props.currentUser.longitude,
-        status: 0,
-        state: productState,
-        photos: photosArray
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-          that.props.changeDisplayNewProductBox();
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
       });
   };
 
@@ -529,7 +481,18 @@ export default class AddNewProductBox extends Component<
           <Button
             title="Dodaj"
             onPress={() => {
-              this.addNewProduct();
+              this.props.addNewProduct(
+                photos,
+                maleGender,
+                femaleGender,
+                newProduct,
+                secondHandProduct,
+                this.props.currentUser,
+                name,
+                description,
+                selectedCategoryId,
+                price
+              );
             }}
             color="#fff"
           />

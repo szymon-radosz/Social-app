@@ -21,14 +21,17 @@ const Login = (props: { navigation: any }) => {
 
   const loginUser = (): void => {
     if (email && !password) {
+      setShowAlert(false);
       setShowAlert(true);
       setAlertType("danger");
       setAlertMessage("Podaj swoje hasło.");
     } else if (!email && password) {
+      setShowAlert(false);
       setShowAlert(true);
       setAlertType("danger");
       setAlertMessage("Podaj swój adres e-mail.");
     } else if (!email && !password) {
+      setShowAlert(false);
       setShowAlert(true);
       setAlertType("danger");
       setAlertMessage("Podaj swój adres e-mail i hasło.");
@@ -68,7 +71,7 @@ const Login = (props: { navigation: any }) => {
                 })
                 .catch(function(error) {
                   console.log(error);
-
+                  setShowAlert(false);
                   setShowAlert(true);
                   setAlertType("danger");
                   setAlertMessage("Sprawdź poprawność swoich danych.");

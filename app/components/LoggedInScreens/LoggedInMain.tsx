@@ -4,6 +4,7 @@ import styles from "./style";
 import LoggedInScreens from "./utils/LoggedInScreens";
 import BottomPanel from "./SharedComponents/BottomPanel";
 import axios from "axios";
+import Alert from "./../../Alert/Alert";
 const feedback: any = require("./../../assets/images/feedback.png");
 
 interface NavigationScreenInterface {
@@ -27,6 +28,9 @@ interface LoggedInMainState {
   feedbackMessage: string;
   feedbackTopic: any;
   activeTopic: string;
+  showAlert: boolean;
+  alertMessage: string;
+  alertType: string;
 }
 
 export default class LoggedInMain extends Component<
@@ -51,7 +55,10 @@ export default class LoggedInMain extends Component<
         { index: 1, text: "Rozbudowanie funkcjonalności" },
         { index: 2, text: "Dodanie nowej funkcjonalności" }
       ],
-      activeTopic: ""
+      activeTopic: "",
+      showAlert: false,
+      alertMessage: "",
+      alertType: ""
     };
 
     this.setOpenFindUsers = this.setOpenFindUsers.bind(this);
@@ -66,13 +73,9 @@ export default class LoggedInMain extends Component<
   }
 
   setFeedbackTopic = (index: number) => {
-    console.log([index, this.state.feedbackTopic]);
-
     let activeTopic = this.state.feedbackTopic.find((obj: any) => {
       return obj.index === index;
     });
-
-    console.log(activeTopic.text);
 
     this.setState({ activeTopic: activeTopic.text });
   };
@@ -90,34 +93,43 @@ export default class LoggedInMain extends Component<
     let that = this;
 
     axios
-      .post(API_URL + "/api/saveUserReport", {
+      .post(API_URL + "/api/saveUserFeedback", {
         topic: topic,
         message: message,
         userId: userId
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(["saveUserReport", response.data]);
-
           that.setState({
             showFeedbackModal: false,
             activeTopic: "",
-            feedbackMessage: ""
+            feedbackMessage: "",
+            showAlert: true,
+            alertType: "success",
+            alertMessage: "Dziękujemy za wiadomość."
           });
         }
       })
       .catch(function(error) {
         console.log(error);
+        that.setState({
+          showAlert: true,
+          alertType: "danger",
+          alertMessage: "Problem z wysłaniem wiadomości"
+        });
       });
   };
 
   setShowFeedbackModal = (): void => {
-    console.log(this.state.showFeedbackModal);
-    this.setState({ showFeedbackModal: !this.state.showFeedbackModal });
+    this.setState({
+      showFeedbackModal: !this.state.showFeedbackModal,
+      showAlert: false,
+      alertMessage: "",
+      alertType: ""
+    });
   };
 
   setOpenFindUsers = (id: number): void => {
-    console.log(["setOpenFindUsers", id]);
     this.setState({
       openFindUsers: true,
       openAuctions: false,
@@ -130,7 +142,6 @@ export default class LoggedInMain extends Component<
   };
 
   setOpenAuctions = (auctionId: number, auctionUserId: number): void => {
-    console.log(["setOpenAuctions", auctionId, auctionUserId]);
     this.setState({
       openFindUsers: false,
       openAuctions: true,
@@ -190,7 +201,10 @@ export default class LoggedInMain extends Component<
       showFeedbackModal,
       feedbackMessage,
       feedbackTopic,
-      activeTopic
+      activeTopic,
+      showAlert,
+      alertMessage,
+      alertType
     } = this.state;
     return (
       <View style={styles.container}>
@@ -208,6 +222,9 @@ export default class LoggedInMain extends Component<
           user={navigation.getParam("user")}
           clearUserUnreadedMessages={navigation.getParam(
             "clearUserUnreadedMessages"
+          )}
+          clearUserNotificationsStatus={navigation.getParam(
+            "clearUserNotificationsStatus"
           )}
           clearUserData={navigation.getParam("clearUserData")}
           setOpenMessages={this.setOpenMessages}
@@ -244,6 +261,9 @@ export default class LoggedInMain extends Component<
           openForumStatus={openForum}
           user={navigation.getParam("user")}
         />
+        {showAlert != false && (
+          <Alert alertType={alertType} alertMessage={alertMessage} />
+        )}
       </View>
     );
   }

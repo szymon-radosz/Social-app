@@ -48,6 +48,7 @@ interface ProfileProps {
   openMessages: any;
   openForum: any;
   clearUserData: any;
+  clearUserNotificationsStatus: any;
 }
 
 export default class Profile extends Component<
@@ -447,13 +448,18 @@ export default class Profile extends Component<
           !showUserNotificationList &&
           userFriendsList && (
             <View style={{ paddingTop: 10, paddingBottom: 10 }}>
-              {/*<Text style={styles.optionHeader}>Moje znajome</Text>*/}
-              <UserFriendsList
-                userFriendsList={userFriendsList}
-                loggedInUser={this.props.user.id}
-                API_URL={this.props.API_URL}
-                setOpenFindUsers={this.props.setOpenFindUsers}
-              />
+              {userFriendsList.length > 0 ? (
+                <UserFriendsList
+                  userFriendsList={userFriendsList}
+                  loggedInUser={this.props.user.id}
+                  API_URL={this.props.API_URL}
+                  setOpenFindUsers={this.props.setOpenFindUsers}
+                />
+              ) : (
+                <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
+                  Brak wyników. Zaproś inne mamy z Twojej okolicy do znajomych.
+                </Text>
+              )}
             </View>
           )}
 
@@ -465,13 +471,18 @@ export default class Profile extends Component<
           !showUserNotificationList &&
           userPendingFriendsList && (
             <View style={{ paddingTop: 10, paddingBottom: 10 }}>
-              {/*<Text style={styles.optionHeader}>Moje znajome</Text>*/}
-              <UserFriendsList
-                userFriendsList={userPendingFriendsList}
-                loggedInUser={this.props.user.id}
-                API_URL={this.props.API_URL}
-                setOpenFindUsers={this.props.setOpenFindUsers}
-              />
+              {userPendingFriendsList.length > 0 ? (
+                <UserFriendsList
+                  userFriendsList={userPendingFriendsList}
+                  loggedInUser={this.props.user.id}
+                  API_URL={this.props.API_URL}
+                  setOpenFindUsers={this.props.setOpenFindUsers}
+                />
+              ) : (
+                <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
+                  Brak wyników. Zaproś inne mamy z Twojej okolicy do znajomych.
+                </Text>
+              )}
             </View>
           )}
 
@@ -482,13 +493,19 @@ export default class Profile extends Component<
           !showUserNotificationList &&
           userAuctionList && (
             <View style={{ padding: 10 }}>
-              {/*<Text style={styles.optionHeader}>Wystawione przedmioty</Text>*/}
-              <UserAuctionsList
-                userAuctionList={userAuctionList}
-                loggedInUser={this.props.user.id}
-                API_URL={this.props.API_URL}
-                setOpenAuctions={this.props.setOpenAuctions}
-              />
+              {userAuctionList.length > 0 ? (
+                <UserAuctionsList
+                  userAuctionList={userAuctionList}
+                  loggedInUser={this.props.user.id}
+                  API_URL={this.props.API_URL}
+                  setOpenAuctions={this.props.setOpenAuctions}
+                />
+              ) : (
+                <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
+                  Brak wyników. Dodaj nieużywane przedmioty w zakładce 'Targ' i
+                  uzgodnij szczegóły z innymi użytkowniczkami w wiadomościach.
+                </Text>
+              )}
             </View>
           )}
 
@@ -500,13 +517,22 @@ export default class Profile extends Component<
           showUserNotificationList &&
           userNotificationList && (
             <View style={{ padding: 10 }}>
-              <UserNotificationList
-                openMessages={this.props.openMessages}
-                userNotificationList={userNotificationList}
-                loadUserFriendsList={this.loadUserFriendsList}
-                openForum={this.props.openForum}
-                userId={this.props.user.id}
-              />
+              {userNotificationList.length > 0 ? (
+                <UserNotificationList
+                  openMessages={this.props.openMessages}
+                  userNotificationList={userNotificationList}
+                  loadUserFriendsList={this.loadUserFriendsList}
+                  openForum={this.props.openForum}
+                  userId={this.props.user.id}
+                  clearUserNotificationsStatus={
+                    this.props.clearUserNotificationsStatus
+                  }
+                />
+              ) : (
+                <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
+                  Brak wyników.
+                </Text>
+              )}
             </View>
           )}
       </View>

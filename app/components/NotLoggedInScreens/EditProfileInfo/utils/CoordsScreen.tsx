@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import {
   Button,
   Text,
@@ -46,42 +46,52 @@ const mapStyle = [
     ]
   }
 ];
-
-const CoordsScreen = (props: {
+interface CoordsScreenProps {
   onRegionChange: any;
   region: any;
   nextStep: any;
   prevStep: any;
-}): any => {
-  return (
-    <View>
-      <ImageBackground source={fillInfoBg} style={{ width: "100%" }}>
-        <Text style={styles.headerText}>Wybierz swoją{"\n"}okolicę</Text>
-      </ImageBackground>
+}
 
-      <Text style={styles.fillInfoHeader}>
-        Wybierz w jakiej okolicy szukasz znajomych
-      </Text>
+interface CoordsScreenState {}
 
-      <MapView
-        customMapStyle={mapStyle}
-        style={styles.map}
-        scrollEnabled={true}
-        zoomEnabled={true}
-        onRegionChange={props.onRegionChange}
-        initialRegion={props.region}
-      >
-        <Marker coordinate={props.region} />
-      </MapView>
+export default class CoordsScreen extends Component<
+  CoordsScreenProps,
+  CoordsScreenState
+> {
+  constructor(props: CoordsScreenProps) {
+    super(props);
+  }
 
-      <TouchableHighlight style={styles.nextBtn}>
-        <Button title="Dalej" color="#fff" onPress={props.nextStep} />
-      </TouchableHighlight>
-      <TouchableHighlight style={styles.previousBtn}>
-        <Button title="Wróć" color="#fff" onPress={props.prevStep} />
-      </TouchableHighlight>
-    </View>
-  );
-};
+  render() {
+    return (
+      <View>
+        <ImageBackground source={fillInfoBg} style={{ width: "100%" }}>
+          <Text style={styles.headerText}>Wybierz swoją{"\n"}okolicę</Text>
+        </ImageBackground>
 
-export default CoordsScreen;
+        <Text style={styles.fillInfoHeader}>
+          Wybierz w jakiej okolicy szukasz znajomych
+        </Text>
+
+        <MapView
+          customMapStyle={mapStyle}
+          style={styles.map}
+          scrollEnabled={true}
+          zoomEnabled={true}
+          onRegionChange={this.props.onRegionChange}
+          initialRegion={this.props.region}
+        >
+          <Marker coordinate={this.props.region} />
+        </MapView>
+
+        <TouchableHighlight style={styles.nextBtn}>
+          <Button title="Dalej" color="#fff" onPress={this.props.nextStep} />
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.previousBtn}>
+          <Button title="Wróć" color="#fff" onPress={this.props.prevStep} />
+        </TouchableHighlight>
+      </View>
+    );
+  }
+}

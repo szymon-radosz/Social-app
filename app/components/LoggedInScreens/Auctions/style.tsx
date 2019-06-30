@@ -92,6 +92,7 @@ interface Style {
   addNewProductOptionHeaderText: TextStyle;
   addNewProductOptionWrapper: ViewStyle;
   addNewProductOptionText: ViewStyle;
+  userProductMessageTextArea: ViewStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -254,7 +255,20 @@ export default StyleSheet.create<Style>({
     height: 40,
     borderWidth: 1,
     borderRadius: lightBorderRadius,
-    padding: 5
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    paddingLeft: 5,
+    paddingTop: 10
+  },
+  userProductMessageTextArea: {
+    height: 60,
+    borderWidth: 1,
+    borderRadius: lightBorderRadius,
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    paddingLeft: 5
   },
   sellerVoteBoxTextArea: {
     height: 60,
@@ -351,7 +365,12 @@ export default StyleSheet.create<Style>({
     marginBottom: 10
   },
   productListContainer: { paddingLeft: 10, paddingRight: 10 },
-  sellerVoteBoxUserListContainer: { paddingTop: 10, paddingBottom: 10 },
+  sellerVoteBoxUserListContainer: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    marginLeft: 10,
+    marginRight: 10
+  },
   sellerVoteBoxUserListSingleUserContainer: {
     width: "100%",
     borderWidth: 1,
@@ -409,7 +428,7 @@ export default StyleSheet.create<Style>({
     paddingBottom: 10
   },
   sellerVoteBoxContainer: {
-    padding: 10
+    padding: 0
   },
   filterResultsCarousel: {
     paddingLeft: 10,

@@ -13,7 +13,7 @@ const Welcome = (props: { navigation: any }) => {
   const [slides, setSlides] = useState([
     {
       key: "slide1",
-      text: "Bądź częścią lokalnej \nspołeczności matek",
+      text: "Bądź częścią lokalnej \nspołeczności mam",
       image: emamyLogo
     },
     {
@@ -65,6 +65,7 @@ const Welcome = (props: { navigation: any }) => {
         dotStyle={styles.inActiveWelcomeSlideRect}
         paginationStyle={styles.welcomeSliderPagination}
       />
+
       <View>
         <TouchableHighlight style={styles.loginBtn}>
           <Button

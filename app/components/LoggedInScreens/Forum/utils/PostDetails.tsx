@@ -6,6 +6,7 @@ import axios from "axios";
 import SavePostComment from "./SavePostComment";
 import { v4 as uuid } from "uuid";
 import PageHeader from "./../../SharedComponents/PageHeader";
+import Alert from "./../../../../Alert/Alert";
 
 const like: any = require("./../../../../assets/images/like.png");
 const comment: any = require("./../../../../assets/images/comment.png");
@@ -21,6 +22,9 @@ interface PostDetailsState {
   authorPhotoPath: string;
   comments: any;
   commentMessage: string;
+  showAlert: boolean;
+  alertType: string;
+  alertMessage: string;
 }
 
 interface PostDetailsProps {
@@ -46,7 +50,10 @@ export default class PostDetails extends Component<
       authorEmail: "",
       authorPhotoPath: "",
       comments: [],
-      commentMessage: ""
+      commentMessage: "",
+      showAlert: false,
+      alertType: "",
+      alertMessage: ""
     };
 
     this.getPostById = this.getPostById.bind(this);
@@ -114,9 +121,21 @@ export default class PostDetails extends Component<
         })
         .then(function(response) {
           if (response.data.status === "OK") {
-            that.setState({ postVotes: that.state.postVotes + 1 });
+            that.setState({ showAlert: false });
+            that.setState({
+              postVotes: that.state.postVotes + 1,
+              showAlert: true,
+              alertType: "success",
+              alertMessage: "Dziękujemy za oddanie głosu"
+            });
           } else {
             console.log(response.data.result);
+            that.setState({ showAlert: false });
+            that.setState({
+              showAlert: true,
+              alertType: "danger",
+              alertMessage: "Oddałaś już głos."
+            });
           }
         })
         .catch(function(error) {
@@ -204,13 +223,24 @@ export default class PostDetails extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(["savePostComment", response]);
-
           that.getPostComments();
+
+          that.setState({ showAlert: false });
+          that.setState({
+            showAlert: true,
+            alertType: "success",
+            alertMessage: "Twój komentarz został dodany."
+          });
         }
       })
       .catch(function(error) {
         console.log(error);
+        that.setState({ showAlert: false });
+        that.setState({
+          showAlert: true,
+          alertType: "success",
+          alertMessage: "Problem z dodaniem komentarza."
+        });
       });
   };
 
@@ -228,7 +258,10 @@ export default class PostDetails extends Component<
       authorEmail,
       authorPhotoPath,
       comments,
-      commentMessage
+      commentMessage,
+      showAlert,
+      alertType,
+      alertMessage
     } = this.state;
     return (
       <View style={{ position: "relative" }}>
@@ -314,6 +347,10 @@ export default class PostDetails extends Component<
             clearCommentMessage={this.clearCommentMessage}
           />
         </ScrollView>
+
+        {showAlert != false && (
+          <Alert alertType={alertType} alertMessage={alertMessage} />
+        )}
       </View>
     );
   }

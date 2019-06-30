@@ -107,14 +107,22 @@ export default class FillNecessaryInfo extends Component<
         desc: navigation.getParam("user").description
           ? navigation.getParam("user").description
           : "",
-        userSavedPhoto: navigation.getParam("user").photo_path,
-        region: {
-          latitude: navigation.getParam("user").lattitude,
-          longitude: navigation.getParam("user").longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421
-        }
+        userSavedPhoto: navigation.getParam("user").photo_path
       });
+
+      if (
+        navigation.getParam("user").lattitude !== 0 &&
+        navigation.getParam("user").longitude !== 0
+      ) {
+        this.setState({
+          region: {
+            latitude: navigation.getParam("user").lattitude,
+            longitude: navigation.getParam("user").longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421
+          }
+        });
+      }
 
       await this.getAllHobbies();
 

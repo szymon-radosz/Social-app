@@ -3,6 +3,7 @@ import { ImageBackground, Text, View, TouchableHighlight } from "react-native";
 import axios from "axios";
 import UserOnList from "./utils/UserOnList";
 import Carousel from "react-native-snap-carousel";
+import Alert from "./../../../Alert/Alert";
 import { btnFullWidthFilledContainer } from "./../../../assets/global/globalStyles";
 import { v4 as uuid } from "uuid";
 import styles from "./style";
@@ -43,6 +44,7 @@ interface FindUsersState {
   filterModalName: string;
   userMessage: string;
   locationDetails: any;
+  showAlert: boolean;
 }
 
 interface FindUsersProps {
@@ -100,6 +102,7 @@ export default class FindUsers extends Component<
       message: "",
       alertMessage: "",
       alertType: "",
+      showAlert: false,
       locationDetails: [],
       usersAreInTheSameConversation: false,
       usersFriendshipStatus: "",
@@ -416,23 +419,31 @@ export default class FindUsers extends Component<
       })
       .then(function(response2) {
         if (response2.data.status === "OK") {
+          that.setState({ showAlert: false });
+
           that.setState({
+            showAlert: true,
             alertType: "success",
             alertMessage: "Poprawnie wysłano nową wiadomość"
           });
 
           that.setShowUserDetails(that.state.userDetailsId);
         } else if (response2.data.status === "ERR") {
+          that.setState({ showAlert: false });
+
           that.setState({
-            alertType: "warning",
+            showAlert: true,
+            alertType: "danger",
             alertMessage: response2.data.result
           });
         }
       })
       .catch(function(error) {
         console.log(error);
+        that.setState({ showAlert: false });
 
         that.setState({
+          showAlert: true,
           alertType: "danger",
           alertMessage: "Nie udało się wysłać wiadomości"
         });
@@ -466,8 +477,10 @@ export default class FindUsers extends Component<
       })
       .catch(function(error) {
         console.log(error);
+        that.setState({ showAlert: false });
 
         that.setState({
+          showAlert: true,
           alertType: "danger",
           alertMessage: "Nie udało się pobrać danych o uzytkowniku"
         });
@@ -533,13 +546,25 @@ export default class FindUsers extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
+          that.setState({ showAlert: false });
+
           that.setState({
-            usersFriendshipStatus: "confirmed"
+            usersFriendshipStatus: "confirmed",
+            showAlert: true,
+            alertType: "success",
+            alertMessage: "Dodano nową użytkowniczkę do grona znajomych"
           });
         }
       })
       .catch(function(error) {
         console.log(error);
+        that.setState({ showAlert: false });
+
+        that.setState({
+          showAlert: true,
+          alertType: "danger",
+          alertMessage: "Problem z potwierdzeniem znajomości"
+        });
       });
   };
 
@@ -571,13 +596,25 @@ export default class FindUsers extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
+          that.setState({ showAlert: false });
+
           that.setState({
-            usersFriendshipStatus: "not confirmed by second person"
+            usersFriendshipStatus: "not confirmed by second person",
+            showAlert: true,
+            alertType: "success",
+            alertMessage: "Wysłano zaproszenie do grona znajomych."
           });
         }
       })
       .catch(function(error) {
         console.log(error);
+        that.setState({ showAlert: false });
+
+        that.setState({
+          showAlert: true,
+          alertType: "danger",
+          alertMessage: "Problem z wysłaniem zaproszenia do grona znajomych."
+        });
       });
   };
 
@@ -637,6 +674,7 @@ export default class FindUsers extends Component<
       showUserDetails,
       alertMessage,
       alertType,
+      showAlert,
       showUserMessageBox,
       usersAreInTheSameConversation,
       userDetailsData,
@@ -765,6 +803,9 @@ export default class FindUsers extends Component<
               }
             })}
         </View>
+        {showAlert != false && (
+          <Alert alertType={alertType} alertMessage={alertMessage} />
+        )}
       </View>
     );
   }

@@ -25,14 +25,13 @@ interface SellerVoteBoxProps {
   product: {
     id: number;
   };
+  sendVote: any;
 }
 
 interface SellerVoteBoxState {
   message: string;
   voteValue: number;
   selectedUser: any;
-  alertMessage: string;
-  alertType: string;
   foundVoteUserList: any;
   selectedUserData: any;
   showfoundVoteUserList: boolean;
@@ -59,8 +58,6 @@ export default class SellerVoteBox extends Component<
       message: "",
       voteValue: 0,
       selectedUser: [],
-      alertMessage: "",
-      alertType: "",
       foundVoteUserList: [],
       selectedUserData: [],
       showfoundVoteUserList: true,
@@ -68,11 +65,9 @@ export default class SellerVoteBox extends Component<
       voteComment: ""
     };
 
-    this.closeProduct = this.closeProduct.bind(this);
     this.clearFoundVoteUserList = this.clearFoundVoteUserList.bind(this);
     this.setSelectedUserData = this.setSelectedUserData.bind(this);
     this.setUserVote = this.setUserVote.bind(this);
-    this.sendVote = this.sendVote.bind(this);
   }
 
   setSelectedUserData = (
@@ -94,10 +89,6 @@ export default class SellerVoteBox extends Component<
     });
   };
 
-  componentDidMount = () => {
-    //this.setState({ foundVoteUserList: this.props.foundVoteUserList });
-  };
-
   setUserVote = (vote: number) => {
     this.setState({ userVote: vote });
   };
@@ -106,58 +97,13 @@ export default class SellerVoteBox extends Component<
     this.setState({ foundVoteUserList: [] });
   };
 
-  closeProduct = (productId: number) => {
-    let API_URL = this.props.API_URL;
-
-    let that = this;
-
-    axios
-      .post(API_URL + "/api/closeProduct", {
-        productId: productId
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-          that.props.changeVoteBox();
-          that.props.getProductDetails();
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  };
-
-  sendVote = () => {
-    let API_URL = this.props.API_URL;
-    let userId = this.state.selectedUserData.id;
-    let vote = this.state.userVote;
-    let message = this.state.voteComment;
-    let authorId = this.props.currentUser.id;
-    let productId = this.props.product.id;
-
-    let that = this;
-
-    axios
-      .post(API_URL + "/api/saveVote", {
-        userId: userId,
-        vote: vote,
-        message: message,
-        authorId: authorId
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-          that.closeProduct(productId);
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  };
   render() {
     const {
       showfoundVoteUserList,
       foundVoteUserList,
       selectedUserData,
-      userVote
+      userVote,
+      voteComment
     } = this.state;
     return (
       <View style={styles.relative}>
@@ -177,7 +123,9 @@ export default class SellerVoteBox extends Component<
               });
               this.props.searchUsersByEmail(email);
             }}
-            placeholder="Szukaj użytkowniki po adresie email..."
+            multiline={true}
+            maxLength={100}
+            placeholder="Szukaj użytkowniczki po adresie email..."
             placeholderTextColor="#333"
             style={styles.userMessageTextArea}
           />
@@ -235,7 +183,7 @@ export default class SellerVoteBox extends Component<
           </View>
 
           {selectedUserData.name && (
-            <View>
+            <View style={styles.sellerVoteBoxUserListContainer}>
               <Text>
                 Oceń współpracę z{" "}
                 <Text style={{ fontWeight: "600" }}>
@@ -300,7 +248,7 @@ export default class SellerVoteBox extends Component<
           )}
 
           {userVote != 0 && (
-            <View>
+            <View style={styles.sellerVoteBoxUserListContainer}>
               <Text style={styles.sellerVoteBoxVotePreview}>
                 Ocena: <Text style={styles.bold}>{userVote}</Text>
               </Text>
@@ -338,6 +286,7 @@ export default class SellerVoteBox extends Component<
                     voteComment
                   });
                 }}
+                maxLength={500}
                 placeholder="Napisz komentarz do opinii..."
                 placeholderTextColor="#333"
                 style={styles.sellerVoteBoxTextArea}
@@ -350,7 +299,14 @@ export default class SellerVoteBox extends Component<
             <Button
               title="Wyślij"
               color="#fff"
-              onPress={() => this.sendVote()}
+              onPress={() =>
+                this.props.sendVote(
+                  selectedUserData,
+                  userVote,
+                  voteComment,
+                  this.props.product
+                )
+              }
             />
           </TouchableHighlight>
         )}
