@@ -35,11 +35,8 @@ const Register = (props: { navigation: any }) => {
       setAlertMessage("Hasło i potwierdzenie hasła muszą być identyczne.");
     } else if (password === passwordConf) {
       try {
-        console.log([name, email, password]);
         let API_URL = navigation.getParam("API_URL", "");
         let navProps = navigation.state.params;
-
-        console.log(API_URL);
 
         axios
           .post(API_URL + "/api/register", {
@@ -48,9 +45,6 @@ const Register = (props: { navigation: any }) => {
             password: password
           })
           .then(function(response) {
-            console.log(["register", response]);
-            console.log(response.data);
-
             if (response.data.status === "OK") {
               setShowAlert(false);
               setShowAlert(true);

@@ -27,8 +27,6 @@ const ResetPassword = (props: { navigation: any }) => {
           email: email
         })
         .then(function(response) {
-          console.log(response.data);
-
           if (response.data.status === "OK") {
             setShowAlert(true);
             setAlertType("success");
@@ -41,8 +39,6 @@ const ResetPassword = (props: { navigation: any }) => {
           }
         })
         .catch(function(error) {
-          console.log(error);
-
           setShowAlert(true);
           setAlertType("danger");
           setAlertMessage("Sprawdź poprawność swoich danych.");

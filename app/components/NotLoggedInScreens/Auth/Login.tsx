@@ -45,12 +45,8 @@ const Login = (props: { navigation: any }) => {
             password: password
           })
           .then(function(response) {
-            console.log(response.data);
-
             if (response.data.status === "OK") {
               let token = response.data.user.token;
-
-              //console.log(["token", `Bearer ${token}`]);
 
               const config = {
                 Authorization: `Bearer ${token}`,
@@ -58,13 +54,9 @@ const Login = (props: { navigation: any }) => {
                 Accept: "application/json"
               };
 
-              //console.log(config);
-
               axios
                 .post(API_URL + "/api/details", {}, { headers: config })
                 .then(function(response2) {
-                  console.log(["details", response2.data]);
-
                   if (response2.data.status === "OK") {
                     navProps.setUserData(response2.data.result);
                   }
@@ -81,8 +73,6 @@ const Login = (props: { navigation: any }) => {
             }
           })
           .catch(function(error) {
-            console.log(error);
-
             setShowAlert(true);
             setAlertType("danger");
             setAlertMessage("Sprawdź poprawność swoich danych.");

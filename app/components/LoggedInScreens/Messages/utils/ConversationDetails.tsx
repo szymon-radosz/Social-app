@@ -36,8 +36,6 @@ export default class ConversationDetails extends Component<
     this.state = {
       messages: this.props.messages
     };
-
-    console.log(["det", this.props]);
   }
 
   static getDerivedStateFromProps = (props: any, state: any) => {
@@ -45,7 +43,6 @@ export default class ConversationDetails extends Component<
     // Reset any parts of state that are tied to that user.
     // In this simple example, that's just the email.
 
-    console.log(["getDerivedStateFromProps", props.messages]);
     if (props.messages !== state.messages) {
       return {
         messages: props.messages
@@ -55,8 +52,6 @@ export default class ConversationDetails extends Component<
   };
 
   componentDidMount = (): void => {
-    //console.log(["ConversationDetails", this.props]);
-
     this.props.clearUserUnreadedMessages(
       this.props.currentUser.id,
       this.state.messages[0].conversation_id

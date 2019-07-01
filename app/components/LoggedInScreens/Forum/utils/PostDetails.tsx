@@ -129,7 +129,6 @@ export default class PostDetails extends Component<
               alertMessage: "Dziękujemy za oddanie głosu"
             });
           } else {
-            console.log(response.data.result);
             that.setState({ showAlert: false });
             that.setState({
               showAlert: true,
@@ -171,8 +170,6 @@ export default class PostDetails extends Component<
     let API_URL = this.props.API_URL;
     let userId = this.props.user.id;
 
-    console.log([commentId, userId, this.state.authorId]);
-
     let that = this;
 
     axios
@@ -182,11 +179,7 @@ export default class PostDetails extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(["saveCommentVote", response]);
-
           that.getPostComments();
-        } else {
-          console.log(response.data.result);
         }
       })
       .catch(function(error) {

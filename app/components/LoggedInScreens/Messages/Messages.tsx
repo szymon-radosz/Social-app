@@ -86,8 +86,6 @@ export default class Messages extends Component<MessagesProps, MessagesState> {
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(response);
-
           that.setState({
             openConversationDetailsId: id,
             openConversationDetails: true,
@@ -116,7 +114,6 @@ export default class Messages extends Component<MessagesProps, MessagesState> {
     conversation_id: number,
     status: number
   ): void => {
-    //console.log([sender_id, receiver_id, message, conversation_id, status]);
     let API_URL = this.props.API_URL;
 
     let that = this;
@@ -148,8 +145,6 @@ export default class Messages extends Component<MessagesProps, MessagesState> {
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(["send message box", response]);
-
           that.openConversationDetails(
             conversation_id,
             receiver_id,
@@ -177,8 +172,6 @@ export default class Messages extends Component<MessagesProps, MessagesState> {
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(["getMessages", response]);
-
           that.setState({
             messagesList: response.data.result.conversationData,
             displayPrivateMessages: true
@@ -203,8 +196,6 @@ export default class Messages extends Component<MessagesProps, MessagesState> {
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(["getMessages", response]);
-
           that.setState({
             messagesList: response.data.result.conversationData,
             displayPrivateMessages: false

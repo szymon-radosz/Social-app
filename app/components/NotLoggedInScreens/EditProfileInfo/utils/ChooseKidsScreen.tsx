@@ -4,6 +4,7 @@ import {
   Text,
   View,
   TextInput,
+  Image,
   TouchableHighlight,
   ImageBackground,
   ScrollView
@@ -13,6 +14,7 @@ import DatePicker from "react-native-datepicker";
 import styles from "./../style";
 import { v4 as uuid } from "uuid";
 const fillInfoBg: any = require("./../../../../assets/images/fillInfoBgMin.jpg");
+const trash: any = require("./../../../../assets/images/trash.png");
 
 const ChooseKidsScreen = (props: {
   setActualKidName: any;
@@ -157,7 +159,7 @@ const ChooseKidsScreen = (props: {
                         props.removeKidFromState(kid.name);
                       }}
                     >
-                      <Text style={styles.removeFilterBtnText}>-</Text>
+                      <Image source={trash} style={{ width: 20, height: 20 }} />
                     </TouchableHighlight>
                   </View>
                 );
@@ -173,7 +175,7 @@ const ChooseKidsScreen = (props: {
                         props.removeKidFromState(kid.name);
                       }}
                     >
-                      <Text style={styles.removeFilterBtnText}>-</Text>
+                      <Image source={trash} style={{ width: 20, height: 20 }} />
                     </TouchableHighlight>
                   </View>
                 );

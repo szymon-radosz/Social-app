@@ -94,14 +94,6 @@ export default class FillNecessaryInfo extends Component<
     const navigation = this.props.navigation;
 
     if (navigation.getParam("user")) {
-      console.log(
-        navigation.getParam("user").age,
-        navigation.getParam("user").description,
-        navigation.getParam("user").hobbies,
-        navigation.getParam("user").kids,
-        navigation.getParam("user").photo_path,
-        navigation.getParam("user").lattitude
-      );
       this.setState({
         age: navigation.getParam("user").age,
         desc: navigation.getParam("user").description
@@ -144,7 +136,6 @@ export default class FillNecessaryInfo extends Component<
   };
 
   removeKidFromState = (kidName: string): void => {
-    console.log(["removeKidFromState", this.state.kids]);
     this.setState(prevState => ({
       kids: prevState.kids.filter((kid: any) => kid.name !== kidName)
     }));
@@ -265,8 +256,6 @@ export default class FillNecessaryInfo extends Component<
         };
         activeHobbies.push(activeHobbyObj);
       });
-
-      console.log(activeHobbies);
     }
 
     axios
@@ -301,8 +290,6 @@ export default class FillNecessaryInfo extends Component<
               this.setState(prevState => ({
                 hobbies: [...prevState.hobbies, hobbyObj]
               }));
-
-              //console.log(this.state);
             }
           );
         }
@@ -359,7 +346,6 @@ export default class FillNecessaryInfo extends Component<
       includeBase64: true
     })
       .then((image: any) => {
-        console.log("received image", image);
         this.setState({ photo: image });
       })
       .catch((e: any) => {
@@ -380,7 +366,6 @@ export default class FillNecessaryInfo extends Component<
           userEmail: userEmailName
         })
         .then(response => {
-          console.log(["fileUpload", response]);
           if (response.data.status === "OK") {
             console.log(response);
           }
@@ -410,11 +395,9 @@ export default class FillNecessaryInfo extends Component<
 
           locationString = `${cityDistrict}, ${city}`;
           this.setState({ locationString: locationString });
-
-          //console.log(addressObj);
         } else {
           locationString = `${res.results[0].formatted_address}`;
-          console.log(["Geocode locactionString", locationString]);
+
           this.setState({ locationString: locationString });
         }
       },
@@ -428,7 +411,6 @@ export default class FillNecessaryInfo extends Component<
     const navigation = this.props.navigation;
     const { age, desc, region, locationString } = this.state;
 
-    //console.log(navigation.getParam("user"));
     try {
       let API_URL = navigation.getParam("API_URL", "");
       let userEmailName = navigation.getParam("user").email;

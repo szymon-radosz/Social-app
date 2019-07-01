@@ -106,15 +106,12 @@ export default class Forum extends Component<ForumProps, ForumState> {
 
     let that = this;
 
-    console.log(["getPostByCategoryId", categoryName]);
-
     axios
       .post(API_URL + "/api/getPostByCategoryId", {
         categoryId: categoryId
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          //console.log(["getAuctionProducts", response]);
           that.setState({ postList: [] });
           that.setState({
             categoryName: categoryName,
@@ -126,8 +123,6 @@ export default class Forum extends Component<ForumProps, ForumState> {
           if (closeModal) {
             that.setShowSortByCategory(false);
           }
-
-          console.log(["getPostByCategoryId", response.data]);
         }
       })
       .catch(function(error) {
@@ -144,13 +139,9 @@ export default class Forum extends Component<ForumProps, ForumState> {
       .get(API_URL + "/api/posts")
       .then(function(response) {
         if (response.data.status === "OK") {
-          //console.log(["getAuctionProducts", response]);
-
           that.setState({
             postList: response.data.result
           });
-
-          console.log(response.data);
         }
       })
       .catch(function(error) {
@@ -177,8 +168,6 @@ export default class Forum extends Component<ForumProps, ForumState> {
       userId !== 0 &&
       categoryId !== 0
     ) {
-      console.log([title, description, userId, categoryId]);
-
       let that = this;
 
       axios
@@ -200,7 +189,6 @@ export default class Forum extends Component<ForumProps, ForumState> {
             });
             that.getPosts();
           } else {
-            console.log(response.data.result);
             that.setState({ showAlert: false });
 
             that.setState({

@@ -1,6 +1,7 @@
 import React from "react";
-import { Text, View, TouchableHighlight } from "react-native";
+import { Text, View, TouchableHighlight, Image } from "react-native";
 import styles from "./style";
+const trash: any = require("./../../../assets/images/trash.png");
 
 const ActiveFilters = (props: any) => (
   <View>
@@ -23,7 +24,7 @@ const ActiveFilters = (props: any) => (
             style={styles.removeFilterBtn}
             onPress={() => props.removeFilter("Odległość")}
           >
-            <Text style={styles.removeFilterBtnText}>-</Text>
+            <Image source={trash} style={{ width: 20, height: 20 }} />
           </TouchableHighlight>
         </View>
       ) : null}
@@ -37,7 +38,7 @@ const ActiveFilters = (props: any) => (
             style={styles.removeFilterBtn}
             onPress={() => props.removeFilter("Wiek dziecka")}
           >
-            <Text style={styles.removeFilterBtnText}>-</Text>
+            <Image source={trash} style={{ width: 20, height: 20 }} />
           </TouchableHighlight>
         </View>
       ) : null}
@@ -51,7 +52,7 @@ const ActiveFilters = (props: any) => (
             style={styles.removeFilterBtn}
             onPress={() => props.removeFilter("Płeć dziecka")}
           >
-            <Text style={styles.removeFilterBtnText}>-</Text>
+            <Image source={trash} style={{ width: 20, height: 20 }} />
           </TouchableHighlight>
         </View>
       ) : null}
@@ -65,7 +66,7 @@ const ActiveFilters = (props: any) => (
             style={styles.removeFilterBtn}
             onPress={() => props.removeFilter("Hobby")}
           >
-            <Text style={styles.removeFilterBtnText}>-</Text>
+            <Image source={trash} style={{ width: 20, height: 20 }} />
           </TouchableHighlight>
         </View>
       ) : null}
@@ -79,7 +80,7 @@ const ActiveFilters = (props: any) => (
             style={styles.removeFilterBtn}
             onPress={() => props.removeFilter("Cena")}
           >
-            <Text style={styles.removeFilterBtnText}>-</Text>
+            <Image source={trash} style={{ width: 20, height: 20 }} />
           </TouchableHighlight>
         </View>
       ) : null}
@@ -93,7 +94,7 @@ const ActiveFilters = (props: any) => (
             style={styles.removeFilterBtn}
             onPress={() => props.removeFilter("Status")}
           >
-            <Text style={styles.removeFilterBtnText}>-</Text>
+            <Image source={trash} style={{ width: 20, height: 20 }} />
           </TouchableHighlight>
         </View>
       ) : null}

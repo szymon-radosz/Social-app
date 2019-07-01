@@ -36,7 +36,6 @@ export default class CategoriesList extends Component<
       axios
         .get(API_URL + "/api/getPostsCategories")
         .then(function(response) {
-          console.log(response);
           if (response.data.status === "OK") {
             that.setState({ categories: response.data.result });
           }

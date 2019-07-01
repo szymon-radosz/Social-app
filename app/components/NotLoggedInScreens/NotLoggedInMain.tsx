@@ -56,12 +56,8 @@ export default class NotLoggedInMain extends Component<
         })
         .then(async response => {
           if (response.data.status === "OK") {
-            console.log(response);
-
             await that.setState({ userData: response.data.result[0] });
-
             await navigation.setParams({ editProfileData: false });
-
             that.checkUserStatus();
           }
         })
@@ -85,13 +81,9 @@ export default class NotLoggedInMain extends Component<
         })
         .then(async response => {
           if (response.data.status === "OK") {
-            console.log(response);
-
             let newUserState = userData;
-
             newUserState.unreadedNotifications = false;
             newUserState.unreadedNotificationsAmount = 0;
-
             await that.setState({ userData: newUserState });
           }
         })
@@ -119,15 +111,11 @@ export default class NotLoggedInMain extends Component<
         })
         .then(async response => {
           if (response.data.status === "OK") {
-            console.log(response);
-
             let newUserState = userData;
-
             newUserState.unreadedConversationMessage =
               response.data.result.userUnreadedMessages;
             newUserState.unreadedConversationMessageAmount =
               response.data.result.userUnreadedMessagesCount;
-
             await that.setState({ userData: newUserState });
 
             that.checkUserStatus();
@@ -148,7 +136,6 @@ export default class NotLoggedInMain extends Component<
     const { userData } = this.state;
 
     if (userData.verified === 1 && userData.user_filled_info === 1) {
-      //console.log("verified");
       navigation.navigate("LoggedInMain", {
         user: userData,
         clearUserData: this.clearUserData,
@@ -172,9 +159,6 @@ export default class NotLoggedInMain extends Component<
 
   setUserData = async (user: any) => {
     await this.setState({ userData: user });
-
-    //console.log(["App state", this.state]);
-
     this.checkUserStatus();
   };
 

@@ -115,7 +115,9 @@ export default StyleSheet.create<Style>({
     backgroundColor: peachColor,
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: 10
+    marginLeft: 10,
+    flexDirection: "row",
+    flexWrap: "wrap"
   },
   removeFilterBtnText: {
     fontSize: 14,

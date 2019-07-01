@@ -55,7 +55,6 @@ const ChooseHobbiesScreen = (props: {
               hobby: { keyId: number; active: boolean; name: string },
               i: number
             ) => {
-              //console.log(["hobby: ", hobby]);
               return (
                 <TouchableOpacity
                   onPress={() => props.changeHobbyStatus(hobby.keyId)}

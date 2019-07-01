@@ -8,7 +8,6 @@ import {
   TouchableHighlight,
   TouchableOpacity
 } from "react-native";
-import axios from "axios";
 import styles from "./../style";
 import { v4 as uuid } from "uuid";
 import PageHeader from "./../../SharedComponents/PageHeader";
