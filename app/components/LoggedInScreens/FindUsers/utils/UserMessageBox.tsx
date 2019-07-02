@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  TextInput,
-  Button,
-  Text,
-  View,
-  TouchableHighlight
-} from "react-native";
+import { TextInput, Text, View, TouchableHighlight } from "react-native";
 import styles from "./../style";
 import PageHeader from "./../../SharedComponents/PageHeader";
 
@@ -30,6 +24,7 @@ const UserMessageBox = (props: {
         <TextInput
           multiline={true}
           numberOfLines={10}
+          maxLength={500}
           onChangeText={message => props.setUserMessage(message)}
           value={props.userMessage}
           placeholder="Napisz wiadomość..."
@@ -38,12 +33,11 @@ const UserMessageBox = (props: {
         />
       </View>
 
-      <TouchableHighlight style={styles.userDetailsRedirectMessageBtn}>
-        <Button
-          title="Wyślij"
-          color="#fff"
-          onPress={() => props.sendMessage(props.userMessage)}
-        />
+      <TouchableHighlight
+        style={styles.userDetailsRedirectMessageBtn}
+        onPress={() => props.sendMessage(props.userMessage)}
+      >
+        <Text style={styles.peachBtnText}>Wyślij</Text>
       </TouchableHighlight>
     </View>
   );

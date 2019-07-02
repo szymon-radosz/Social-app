@@ -60,8 +60,8 @@ const ResetPassword = (props: { navigation: any }) => {
         value={email}
       />
 
-      <TouchableHighlight style={styles.mainBtn}>
-        <Button title="Resetuj" color="#fff" onPress={resetPassword} />
+      <TouchableHighlight style={styles.mainBtn} onPress={resetPassword}>
+        <Text style={styles.peachBtnText}>Resetuj</Text>
       </TouchableHighlight>
 
       <View style={styles.subBtnSection}>

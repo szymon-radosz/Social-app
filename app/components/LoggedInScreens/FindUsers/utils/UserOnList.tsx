@@ -36,6 +36,11 @@ const UserOnList = (props: {
               uri: `${props.API_URL}userPhotos/${props.user.photo_path}`
             }}
           />
+          <Image
+            source={{
+              uri: `${props.API_URL}userPhotos/${props.user.photo_path}`
+            }}
+          />
           <View style={styles.userListTextContainer}>
             <View>
               <Text style={styles.userListText}>

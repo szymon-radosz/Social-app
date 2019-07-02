@@ -104,7 +104,10 @@ export default class Profile extends Component<
   };
 
   changeShowUserFriendsList = (): void => {
-    this.setState({ showUserFriendsList: !this.state.showUserFriendsList });
+    this.setState({
+      showUserFriendsList: false,
+      showPendingUserFriendsList: false
+    });
   };
 
   loadPendingUserFriendsList = (): void => {
@@ -277,23 +280,9 @@ export default class Profile extends Component<
         {/* user friends list page header */}
         {!showProfilePreview &&
           !showEditUserData &&
-          showUserFriendsList &&
+          (showUserFriendsList || showPendingUserFriendsList) &&
           !showAuctionHistory &&
-          userFriendsList &&
-          !showUserNotificationList && (
-            <PageHeader
-              boldText={"Moje znajome"}
-              normalText={""}
-              closeMethod={this.changeShowUserFriendsList}
-              closeMethodParameter={""}
-            />
-          )}
-
-        {!showProfilePreview &&
-          !showEditUserData &&
-          showPendingUserFriendsList &&
-          !showAuctionHistory &&
-          userPendingFriendsList &&
+          (userFriendsList || userPendingFriendsList) &&
           !showUserNotificationList && (
             <PageHeader
               boldText={"Moje znajome"}

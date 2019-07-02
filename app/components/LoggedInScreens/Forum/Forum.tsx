@@ -307,12 +307,11 @@ export default class Forum extends Component<ForumProps, ForumState> {
           </View>
 
           {!showPostDetails && !showSavePost && showSortByCategory && (
-            <TouchableHighlight style={styles.addPostBtn}>
-              <Button
-                title="Dodaj post"
-                color="#fff"
-                onPress={() => this.setShowSavePost()}
-              />
+            <TouchableHighlight
+              style={styles.addPostBtn}
+              onPress={() => this.setShowSavePost()}
+            >
+              <Text style={styles.peachBtnText}>Dodaj post</Text>
             </TouchableHighlight>
           )}
         </View>

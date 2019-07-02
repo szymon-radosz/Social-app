@@ -238,15 +238,11 @@ const ChooseHobbiesScreen = (props: {
           )}
       </View>
       <View style={styles.btnContainer}>
-        <TouchableHighlight style={styles.nextBtn}>
-          <Button
-            title="Zapisz profil"
-            color="#fff"
-            onPress={props.submitData}
-          />
+        <TouchableHighlight style={styles.nextBtn} onPress={props.submitData}>
+          <Text style={styles.peachBtnText}>Zapisz profil</Text>
         </TouchableHighlight>
-        <TouchableHighlight style={styles.previousBtn}>
-          <Button title="Wróć" color="#fff" onPress={props.prevStep} />
+        <TouchableHighlight style={styles.previousBtn} onPress={props.prevStep}>
+          <Text style={styles.peachBtnText}>Wróć</Text>
         </TouchableHighlight>
       </View>
       <View style={{ paddingBottom: 30 }} />

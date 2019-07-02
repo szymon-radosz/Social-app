@@ -2,23 +2,26 @@ import { StyleSheet, ViewStyle, TextStyle } from "react-native";
 import {
   fontSizeBig,
   lightBorderRadius,
-  btnFullWidth
+  btnFullWidth,
+  peachBtnText
 } from "./../../assets/global/globalStyles";
 
 interface Style {
   container: ViewStyle;
   feedbackHeaderText: TextStyle;
   feedbackSubHeaderText: TextStyle;
-  feedbackMessage: ViewStyle;
+  feedbackMessage: TextStyle;
   feedbackBtn: any;
   checkboxWrapper: ViewStyle;
   activeCheckbox: ViewStyle;
   inActiveCheckbox: ViewStyle;
   checkboxText: TextStyle;
   feedbackTopic: TextStyle;
+  peachBtnText: any;
 }
 
 export default StyleSheet.create<Style>({
+  peachBtnText: peachBtnText,
   container: {
     flex: 1,
     flexDirection: "column",
@@ -44,6 +47,7 @@ export default StyleSheet.create<Style>({
     fontFamily: "Open Sans"
   },
   feedbackMessage: {
+    textAlignVertical: "top",
     height: 80,
     borderWidth: 1,
     marginLeft: 10,

@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import {
   TextInput,
   Text,
-  Button,
   View,
-  TouchableHighlight
+  TouchableHighlight,
+  TouchableOpacity
 } from "react-native";
 import styles from "./../style";
 import axios from "axios";
@@ -117,7 +117,7 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
                 }}
                 key={uuid()}
               >
-                <TouchableHighlight
+                <TouchableOpacity
                   onPress={() => this.selectCategoryId(category.id)}
                   style={
                     category.id == this.state.categoryId
@@ -139,13 +139,7 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
                           marginRight: 5
                         }
                   }
-                >
-                  <Button
-                    title=""
-                    color="#333"
-                    onPress={() => this.selectCategoryId(category.id)}
-                  />
-                </TouchableHighlight>
+                />
 
                 <Text
                   style={{ marginTop: 2, marginRight: 15 }}
@@ -157,19 +151,18 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
             );
           })}
 
-          <TouchableHighlight style={styles.addPostBtn}>
-            <Button
-              title="Dodaj"
-              color="#fff"
-              onPress={() =>
-                this.props.savePost(
-                  this.state.title,
-                  this.state.description,
-                  this.props.user.id,
-                  this.state.categoryId
-                )
-              }
-            />
+          <TouchableHighlight
+            style={styles.addPostBtn}
+            onPress={() =>
+              this.props.savePost(
+                this.state.title,
+                this.state.description,
+                this.props.user.id,
+                this.state.categoryId
+              )
+            }
+          >
+            <Text style={styles.peachBtnText}>Dodaj</Text>
           </TouchableHighlight>
         </View>
       </View>

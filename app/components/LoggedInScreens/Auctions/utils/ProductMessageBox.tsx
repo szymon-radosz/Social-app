@@ -54,12 +54,11 @@ export default class UserOnList extends Component<
             placeholderTextColor="#333"
             style={styles.userProductMessageTextArea}
           />
-          <TouchableHighlight style={styles.productDetailsBtn}>
-            <Button
-              title="Wyślij"
-              color="#fff"
-              onPress={() => this.props.sendNewConversationProduct(message)}
-            />
+          <TouchableHighlight
+            style={styles.productDetailsBtn}
+            onPress={() => this.props.sendNewConversationProduct(message)}
+          >
+            <Text style={styles.peachBtnText}>Wyślij</Text>
           </TouchableHighlight>
 
           {alertMessage != "" && (

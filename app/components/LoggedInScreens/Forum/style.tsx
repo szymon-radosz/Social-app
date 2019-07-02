@@ -9,7 +9,8 @@ import {
   pageTitleWhite,
   peachColor,
   btnFullWidth,
-  lightBorderRadius
+  lightBorderRadius,
+  peachBtnText
 } from "./../../../assets/global/globalStyles";
 
 interface Style {
@@ -51,20 +52,22 @@ interface Style {
   postDetailsPostCommentCountWrapper: ViewStyle;
   postDetailsPostCommentCountText: TextStyle;
   postDetailsPostCommentListHeader: TextStyle;
-  savePostCommentInput: ViewStyle;
+  savePostCommentInput: TextStyle;
   singlePostDetailsCommentUserSectionContainer: ViewStyle;
   singlePostDetailsCommentBody: TextStyle;
   singlePostDetailsCommentVoteContainer: ViewStyle;
   singlePostDetailsCommentVoteWrapper: ViewStyle;
   savePostCommentContainer: ViewStyle;
   savePostCategoryHeaderText: TextStyle;
-  savePostCommentDescInput: ViewStyle;
+  savePostCommentDescInput: TextStyle;
+  peachBtnText: any;
 }
 
 const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;
 
 export default StyleSheet.create<Style>({
+  peachBtnText: peachBtnText,
   container: {
     position: "relative",
     flexWrap: "wrap",
@@ -240,7 +243,8 @@ export default StyleSheet.create<Style>({
     marginRight: 10,
     marginTop: 10,
     padding: 10,
-    borderColor: "#424242"
+    borderColor: "#424242",
+    textAlignVertical: "top"
   },
   savePostCommentDescInput: {
     borderWidth: 1,
@@ -250,7 +254,8 @@ export default StyleSheet.create<Style>({
     marginTop: 10,
     padding: 10,
     height: 60,
-    borderColor: "#424242"
+    borderColor: "#424242",
+    textAlignVertical: "top"
   },
   singlePostDetailsCommentUserSectionContainer: {
     flexWrap: "wrap",

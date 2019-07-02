@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Button, Text, View, TouchableHighlight } from "react-native";
+import { Text, View, TouchableHighlight, Image } from "react-native";
 import styles from "./style";
+const close: any = require("./../assets/images/closeWhite.png");
 
 const Alert = (props: any) => {
   const [showAlert, setShowAlert] = useState(true);
@@ -31,8 +32,8 @@ const Alert = (props: any) => {
         >
           {message}
         </Text>
-        <TouchableHighlight style={styles.closeAlert}>
-          <Button title="X" color="#fff" onPress={closeAlert} />
+        <TouchableHighlight onPress={closeAlert} style={styles.closeAlert}>
+          <Image source={close} style={{ width: 16, height: 16 }} />
         </TouchableHighlight>
       </View>
     );

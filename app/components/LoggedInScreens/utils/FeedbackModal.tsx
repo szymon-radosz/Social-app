@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  TouchableOpacity,
   TouchableHighlight,
   View,
   Text,
@@ -35,21 +36,14 @@ const FeedbackModal = (props: {
       {props.feedbackTopic.map((topic: any, index: number) => {
         return (
           <View style={styles.checkboxWrapper} key={uuid()}>
-            <TouchableHighlight
+            <TouchableOpacity
               onPress={() => props.setFeedbackTopic(index)}
               style={
                 props.activeTopic == topic.text
                   ? styles.activeCheckbox
                   : styles.inActiveCheckbox
               }
-            >
-              <Button
-                title=""
-                color="#333"
-                onPress={() => props.setFeedbackTopic(index)}
-              />
-            </TouchableHighlight>
-
+            />
             <Text
               onPress={() => props.setFeedbackTopic(index)}
               style={styles.checkboxText}
@@ -73,12 +67,11 @@ const FeedbackModal = (props: {
         placeholderTextColor="#333"
       />
 
-      <TouchableHighlight style={styles.feedbackBtn}>
-        <Button
-          title="Wyślij"
-          color="#fff"
-          onPress={() => props.sendFeedback()}
-        />
+      <TouchableHighlight
+        style={styles.feedbackBtn}
+        onPress={() => props.sendFeedback()}
+      >
+        <Text style={styles.peachBtnText}>Wyślij</Text>
       </TouchableHighlight>
     </View>
   );

@@ -6,6 +6,7 @@ import {
   TextInput,
   Image,
   TouchableHighlight,
+  TouchableOpacity,
   ImageBackground,
   ScrollView
 } from "react-native";
@@ -85,20 +86,14 @@ const ChooseKidsScreen = (props: {
           <Text style={styles.childGenderText}>Płeć dziecka</Text>
           <View style={styles.checkboxContainer}>
             <View style={styles.checkboxWrapper}>
-              <TouchableHighlight
+              <TouchableOpacity
                 onPress={() => props.setGender("male")}
                 style={
                   props.actualKidGender === "male"
                     ? styles.activeCheckbox
                     : styles.inActiveCheckbox
                 }
-              >
-                <Button
-                  title=""
-                  color="#333"
-                  onPress={() => props.setGender("male")}
-                />
-              </TouchableHighlight>
+              />
 
               <Text
                 onPress={() => props.setGender("male")}
@@ -108,20 +103,14 @@ const ChooseKidsScreen = (props: {
               </Text>
             </View>
             <View style={styles.checkboxWrapper}>
-              <TouchableHighlight
+              <TouchableOpacity
                 onPress={() => props.setGender("female")}
                 style={
                   props.actualKidGender === "female"
                     ? styles.activeCheckbox
                     : styles.inActiveCheckbox
                 }
-              >
-                <Button
-                  title=""
-                  color="#333"
-                  onPress={() => props.setGender("female")}
-                />
-              </TouchableHighlight>
+              />
 
               <Text
                 onPress={() => props.setGender("female")}
@@ -134,8 +123,8 @@ const ChooseKidsScreen = (props: {
         </View>
       </View>
 
-      <TouchableHighlight style={styles.nextBtn}>
-        <Button title="Dodaj" color="#fff" onPress={props.addKid} />
+      <TouchableHighlight style={styles.nextBtn} onPress={props.addKid}>
+        <Text style={styles.peachBtnText}>Dodaj</Text>
       </TouchableHighlight>
       <View style={styles.infoContainer}>
         {props.kids.length > 0 && (
@@ -184,11 +173,11 @@ const ChooseKidsScreen = (props: {
           )}
       </View>
       <View style={{ marginBottom: 30 }}>
-        <TouchableHighlight style={styles.nextBtn}>
-          <Button title="Dalej" color="#fff" onPress={props.nextStep} />
+        <TouchableHighlight style={styles.nextBtn} onPress={props.nextStep}>
+          <Text style={styles.peachBtnText}>Dalej</Text>
         </TouchableHighlight>
-        <TouchableHighlight style={styles.previousBtn}>
-          <Button title="Wróć" color="#fff" onPress={props.prevStep} />
+        <TouchableHighlight style={styles.previousBtn} onPress={props.prevStep}>
+          <Text style={styles.peachBtnText}>Wróć</Text>
         </TouchableHighlight>
       </View>
     </ScrollView>

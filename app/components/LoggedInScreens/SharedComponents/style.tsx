@@ -17,7 +17,7 @@ import {
 } from "./../../../assets/global/globalStyles";
 import {
   peachColor,
-  lightBorderRadius,
+  peachBtnText,
   btnFullWidth,
   darkGrayColor
 } from "./../../../assets/global/globalStyles";
@@ -69,9 +69,11 @@ interface Style {
   logoutContainer: ViewStyle;
   logoutImage: ImageStyle;
   logoutText: TextStyle;
+  peachBtnText: any;
 }
 
 export default StyleSheet.create<Style>({
+  peachBtnText: peachBtnText,
   userPreviewSectionContainer: userPreviewSectionContainer,
   userPreviewSectionHeaderContainer: userPreviewSectionHeaderContainer,
   userPreviewSectionHeaderImage: userPreviewSectionHeaderImage,
@@ -132,7 +134,11 @@ export default StyleSheet.create<Style>({
     fontWeight: "600",
     backgroundColor: darkGrayColor,
     fontSize: 8,
-    fontFamily: "Open Sans"
+    fontFamily: "Open Sans",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    flexWrap: "wrap"
   },
   bottomPanel: {
     paddingTop: 10,

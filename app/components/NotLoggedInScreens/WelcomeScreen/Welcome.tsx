@@ -67,32 +67,29 @@ const Welcome = (props: { navigation: any }) => {
       />
 
       <View>
-        <TouchableHighlight style={styles.loginBtn}>
-          <Button
-            //style={styles.loginBtn}
-            title="Logowanie"
-            color="#fff"
-            onPress={(): void =>
-              navigation.navigate("Login", {
-                API_URL: navigation.getParam("API_URL"),
-                setUserData: navigation.getParam("setUserData"),
-                clearUserData: navigation.getParam("clearUserData")
-              })
-            }
-          />
+        <TouchableHighlight
+          style={styles.loginBtn}
+          onPress={(): void =>
+            navigation.navigate("Login", {
+              API_URL: navigation.getParam("API_URL"),
+              setUserData: navigation.getParam("setUserData"),
+              clearUserData: navigation.getParam("clearUserData")
+            })
+          }
+        >
+          <Text style={styles.peachBtnText}>Logowanie</Text>
         </TouchableHighlight>
-        <TouchableHighlight style={styles.registerBtn}>
-          <Button
-            title="Rejestracja"
-            color="#f7b67e"
-            onPress={() =>
-              navigation.navigate("Register", {
-                API_URL: navigation.getParam("API_URL", ""),
-                setUserData: navigation.getParam("setUserData"),
-                clearUserData: navigation.getParam("clearUserData")
-              })
-            }
-          />
+        <TouchableHighlight
+          style={styles.registerBtn}
+          onPress={() =>
+            navigation.navigate("Register", {
+              API_URL: navigation.getParam("API_URL", ""),
+              setUserData: navigation.getParam("setUserData"),
+              clearUserData: navigation.getParam("clearUserData")
+            })
+          }
+        >
+          <Text style={styles.subBtn}>Rejestracja</Text>
         </TouchableHighlight>
       </View>
     </View>

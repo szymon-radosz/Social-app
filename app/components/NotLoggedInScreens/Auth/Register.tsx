@@ -106,8 +106,8 @@ const Register = (props: { navigation: any }) => {
         onChangeText={passwordConf => setPasswordConf(passwordConf)}
         value={passwordConf}
       />
-      <TouchableHighlight style={styles.mainBtn}>
-        <Button title="Zarejestruj" color="#fff" onPress={registerUser} />
+      <TouchableHighlight style={styles.mainBtn} onPress={registerUser}>
+        <Text style={styles.peachBtnText}>Zarejestruj</Text>
       </TouchableHighlight>
 
       <View style={styles.subBtnSection}>

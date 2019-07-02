@@ -24,7 +24,11 @@ export const btnFullWidth = {
   borderRadius: lightBorderRadius,
   borderColor: peachColor,
   borderWidth: 2,
-  backgroundColor: peachColor
+  backgroundColor: peachColor,
+  alignItems: "center",
+  justifyContent: "center",
+  flexDirection: "row",
+  flexWrap: "wrap"
 };
 export const btnFullWidthContainer = {
   height: 35,
@@ -40,7 +44,6 @@ export const btnFullWidthFilledContainer = {
   height: 35,
   width: "100%",
   marginTop: 5,
-  fontSize: 12,
   marginBottom: 5,
   borderRadius: lightBorderRadius,
   borderColor: peachColor,
@@ -128,14 +131,16 @@ export const userListSingleUserContainer = {
   borderRadius: lightBorderRadius,
   borderColor: "#424242",
   paddingLeft: 10,
-  paddingRight: 10
+  paddingRight: 10,
+  overflow: "hidden"
 };
 export const userListSingleUserImage = {
   width: 50,
   height: 50,
   marginBottom: 10,
   marginTop: 10,
-  borderRadius: 25
+  borderRadius: 25,
+  overflow: "hidden"
 };
 export const userListTextContainer = {
   paddingLeft: 10,
@@ -285,5 +290,11 @@ export const filterBtnText = {
   color: "#9F9F9F",
   textAlign: "center",
   paddingTop: 7,
+  fontFamily: "Open Sans"
+};
+export const peachBtnText = {
+  color: "#fff",
+  textAlign: "center",
+  fontSize: 16,
   fontFamily: "Open Sans"
 };

@@ -82,67 +82,73 @@ const UserDetails = (props: {
           </Text>
         )}
         <View style={styles.userDetailsRedirectMessageBtnContainer}>
-          <TouchableHighlight style={styles.userDetailsRedirectMessageBtn}>
-            {props.usersAreInTheSameConversation ? (
-              <Button
-                title="Przejdź do wiadomości"
-                color="#fff"
-                onPress={() => props.openMessages()}
-              />
-            ) : (
-              <Button
-                title="Pomachaj"
-                color="#fff"
-                onPress={() => props.setShowUserMessageBox()}
-              />
-            )}
-          </TouchableHighlight>
+          {props.usersAreInTheSameConversation ? (
+            <TouchableHighlight
+              style={styles.userDetailsRedirectMessageBtn}
+              onPress={() => props.openMessages()}
+            >
+              <Text style={styles.peachBtnText}>Przejdź do wiadomości</Text>
+            </TouchableHighlight>
+          ) : (
+            <TouchableHighlight
+              style={styles.userDetailsRedirectMessageBtn}
+              onPress={() => props.setShowUserMessageBox()}
+            >
+              <Text style={styles.peachBtnText}>Pomachaj</Text>
+            </TouchableHighlight>
+          )}
         </View>
-        <View style={styles.userDetailsRedirectMessageBtnBottomContainer}>
-          <TouchableHighlight style={styles.userDetailsRedirectMessageBtn}>
-            <View>
-              {props.usersFriendshipStatus === "friendship doesnt exist" && (
-                <Button
-                  title="Zaproś do znajomych"
-                  color="#fff"
-                  onPress={() =>
-                    props.inviteFriend(props.loggedInUserId, props.user.id)
-                  }
-                />
-              )}
+        <View style={styles.userDetailsRedirectMessageBtnContainer}>
+          <View style={{ marginBottom: 20, width: "100%" }}>
+            {props.usersFriendshipStatus === "friendship doesnt exist" && (
+              <TouchableHighlight
+                style={styles.userDetailsRedirectMessageBtn}
+                onPress={() =>
+                  props.inviteFriend(props.loggedInUserId, props.user.id)
+                }
+              >
+                <Text style={styles.peachBtnText}>Zaproś do znajomych</Text>
+              </TouchableHighlight>
+            )}
 
-              {props.usersFriendshipStatus ===
-                "not confirmed by first person" && (
-                <Button
-                  title="Zaakceptuj zaproszenie do znajomych"
-                  color="#fff"
-                  onPress={() =>
-                    props.confirmFriend(props.loggedInUserId, props.user.id)
-                  }
-                />
-              )}
+            {props.usersFriendshipStatus ===
+              "not confirmed by first person" && (
+              <TouchableHighlight
+                style={styles.userDetailsRedirectMessageBtn}
+                onPress={() =>
+                  props.confirmFriend(props.loggedInUserId, props.user.id)
+                }
+              >
+                <Text style={styles.peachBtnText}>
+                  Zaakceptuj zaproszenie do znajomych
+                </Text>
+              </TouchableHighlight>
+            )}
 
-              {props.usersFriendshipStatus ===
-                "not confirmed by second person" && (
-                <Button
-                  title="Wysłano zaproszenie do znajomych"
-                  color="#fff"
-                  onPress={() => {
-                    console.log("Wysłano zaproszenie do znajomych");
-                  }}
-                />
-              )}
-              {props.usersFriendshipStatus === "confirmed" && (
-                <Button
-                  title="Jesteście znajomymi"
-                  color="#fff"
-                  onPress={() => {
-                    props.setOpenProfile();
-                  }}
-                />
-              )}
-            </View>
-          </TouchableHighlight>
+            {props.usersFriendshipStatus ===
+              "not confirmed by second person" && (
+              <TouchableHighlight
+                style={styles.userDetailsRedirectMessageBtn}
+                onPress={() => {
+                  console.log("Wysłano zaproszenie do znajomych");
+                }}
+              >
+                <Text style={styles.peachBtnText}>
+                  Wysłano zaproszenie do znajomych
+                </Text>
+              </TouchableHighlight>
+            )}
+            {props.usersFriendshipStatus === "confirmed" && (
+              <TouchableHighlight
+                style={styles.userDetailsRedirectMessageBtn}
+                onPress={() => {
+                  props.setOpenProfile();
+                }}
+              >
+                <Text style={styles.peachBtnText}>Jesteście znajomymi</Text>
+              </TouchableHighlight>
+            )}
+          </View>
         </View>
       </ScrollView>
     </View>

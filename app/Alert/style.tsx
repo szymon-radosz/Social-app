@@ -18,7 +18,8 @@ export default StyleSheet.create<Style>({
     position: "absolute",
     zIndex: 100,
     width: fullWidth,
-    top: 0
+    top: 0,
+    justifyContent: "center"
   },
   successContainer: {
     fontSize: 16,

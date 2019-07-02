@@ -430,12 +430,11 @@ export default class ProductDetails extends Component<
             {productDetails[0].user_id != this.props.currentUser.id &&
             !usersAreInTheSameConversation ? (
               productDetails[0].status != 1 ? (
-                <TouchableHighlight style={styles.productDetailsBtn}>
-                  <Button
-                    title="Wyślij wiadomość"
-                    color="#fff"
-                    onPress={this.changeShowProductMessageBox}
-                  />
+                <TouchableHighlight
+                  style={styles.productDetailsBtn}
+                  onPress={this.changeShowProductMessageBox}
+                >
+                  <Text style={styles.peachBtnText}>Wyślij wiadomość</Text>
                 </TouchableHighlight>
               ) : (
                 <View style={styles.productContent}>
@@ -449,29 +448,32 @@ export default class ProductDetails extends Component<
             ) : productDetails[0].user_id != this.props.currentUser.id &&
               usersAreInTheSameConversation ? (
               productDetails[0].status == 1 ? (
-                <TouchableHighlight style={styles.productDetailsBtn}>
-                  <Button
-                    title="Produkt sprzedany, jesteście w konwersacji"
-                    onPress={() => this.props.openMessages()}
-                    color="#fff"
-                  />
+                <TouchableHighlight
+                  style={styles.productDetailsBtn}
+                  onPress={() => this.props.openMessages()}
+                >
+                  <Text style={styles.peachBtnText}>
+                    Produkt sprzedany, jesteście w konwersacji
+                  </Text>
                 </TouchableHighlight>
               ) : (
-                <TouchableHighlight style={styles.productDetailsBtn}>
-                  <Button
-                    title="Jestescie juz w konwersacji"
-                    onPress={() => this.props.openMessages()}
-                    color="#fff"
-                  />
+                <TouchableHighlight
+                  style={styles.productDetailsBtn}
+                  onPress={() => this.props.openMessages()}
+                >
+                  <Text style={styles.peachBtnText}>
+                    Jestescie juz w konwersacji
+                  </Text>
                 </TouchableHighlight>
               )
             ) : productDetails[0].status != 1 ? (
-              <TouchableHighlight style={styles.productDetailsBtn}>
-                <Button
-                  title="Zamknij Sprzedaz"
-                  onPress={() => this.changeVoteBox()}
-                  color="#fff"
-                />
+              <TouchableHighlight
+                style={styles.productDetailsBtn}
+                onPress={() => this.changeVoteBox()}
+              >
+                <Text style={styles.peachBtnText}>
+                  Jestescie juz w konwersacji
+                </Text>
               </TouchableHighlight>
             ) : (
               <View style={styles.productContent}>

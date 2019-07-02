@@ -5,7 +5,8 @@ import {
   lightBorderRadius,
   fontSizeBig,
   fontSizeMedium,
-  fontSizeSmall
+  fontSizeSmall,
+  peachBtnText
 } from "./../../../assets/global/globalStyles";
 
 //TextStyle for elements which contains e.g. fontWeight, textAlign
@@ -22,6 +23,7 @@ interface Style {
   subBtnSection: ViewStyle;
   subBtnSectionAsk: TextStyle;
   registerBtn: TextStyle;
+  peachBtnText: any;
 }
 
 export default StyleSheet.create<Style>({
@@ -63,7 +65,11 @@ export default StyleSheet.create<Style>({
     borderColor: peachColor,
     borderWidth: 2,
     backgroundColor: peachColor,
-    marginBottom: 30
+    marginBottom: 30,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    flexWrap: "wrap"
   },
   askDesc: {
     fontSize: fontSizeSmall,
@@ -95,5 +101,6 @@ export default StyleSheet.create<Style>({
     color: peachColor,
     fontSize: 16,
     fontFamily: "Open Sans"
-  }
+  },
+  peachBtnText: peachBtnText
 });

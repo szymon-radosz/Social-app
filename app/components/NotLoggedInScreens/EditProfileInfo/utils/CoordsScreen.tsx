@@ -85,11 +85,17 @@ export default class CoordsScreen extends Component<
           <Marker coordinate={this.props.region} />
         </MapView>
 
-        <TouchableHighlight style={styles.nextBtn}>
-          <Button title="Dalej" color="#fff" onPress={this.props.nextStep} />
+        <TouchableHighlight
+          style={styles.nextBtn}
+          onPress={this.props.nextStep}
+        >
+          <Text style={styles.peachBtnText}>Dalej</Text>
         </TouchableHighlight>
-        <TouchableHighlight style={styles.previousBtn}>
-          <Button title="Wróć" color="#fff" onPress={this.props.prevStep} />
+        <TouchableHighlight
+          style={styles.previousBtn}
+          onPress={this.props.prevStep}
+        >
+          <Text style={styles.peachBtnText}>Wróć</Text>
         </TouchableHighlight>
       </View>
     );

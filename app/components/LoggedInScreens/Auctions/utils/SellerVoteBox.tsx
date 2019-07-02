@@ -294,19 +294,18 @@ export default class SellerVoteBox extends Component<
           )}
         </View>
         {userVote != 0 && (
-          <TouchableHighlight style={styles.productDetailsBtn}>
-            <Button
-              title="Wyślij"
-              color="#fff"
-              onPress={() =>
-                this.props.sendVote(
-                  selectedUserData,
-                  userVote,
-                  voteComment,
-                  this.props.product
-                )
-              }
-            />
+          <TouchableHighlight
+            style={styles.productDetailsBtn}
+            onPress={() =>
+              this.props.sendVote(
+                selectedUserData,
+                userVote,
+                voteComment,
+                this.props.product
+              )
+            }
+          >
+            <Text style={styles.peachBtnText}>Wyślij</Text>
           </TouchableHighlight>
         )}
       </View>

@@ -12,7 +12,7 @@ import {
   btnFullWidth,
   lightBorderRadius,
   fontSizeBig,
-  fontSizeSmall,
+  peachBtnText,
   fontSizeMedium,
   userListContainer,
   userListSingleUserContainer,
@@ -40,10 +40,10 @@ interface Style {
   userDetailsContentHobbyContainer: TextStyle;
   userDetailsRedirectMessageBtnContainer: TextStyle;
   userDetailsRedirectMessageBtnBottomContainer: ViewStyle;
-  userDetailsRedirectMessageBtn: TextStyle;
+  userDetailsRedirectMessageBtn: any;
   buttonCloseModal: ViewStyle;
   userMessageHeader: TextStyle;
-  userMessageTextArea: ViewStyle;
+  userMessageTextArea: TextStyle;
   userMessageBtn: TextStyle;
   userListSingleUserContainer: any;
   userDetails: ViewStyle;
@@ -58,9 +58,11 @@ interface Style {
   fullHeight: any;
   filterResultsHeaderText: TextStyle;
   filterResultsCarousel: ViewStyle;
+  peachBtnText: any;
 }
 
 export default StyleSheet.create<Style>({
+  peachBtnText: peachBtnText,
   pageTitle: pageTitleWhite,
   userListContainer: userListContainer,
   fullWidth: fullWidth,
@@ -170,6 +172,7 @@ export default StyleSheet.create<Style>({
     fontFamily: "Open Sans"
   },
   userMessageTextArea: {
+    textAlignVertical: "top",
     height: 80,
     borderWidth: 1,
     marginLeft: 10,

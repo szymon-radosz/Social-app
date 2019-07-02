@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, TextInput, TouchableHighlight, View } from "react-native";
+import { Text, TextInput, TouchableHighlight, View } from "react-native";
 import styles from "./../style";
 
 const SendMessageBox = (props: {
@@ -24,23 +24,22 @@ const SendMessageBox = (props: {
         onChangeText={message => props.setUserMessage(message)}
         value={props.userMessage}
       />
-      <TouchableHighlight style={styles.sendMessageBtn}>
-        <Button
-          title="Wyślij"
-          color="#fff"
-          onPress={() =>
-            props.sendMessage(
-              props.senderId,
-              props.receiverId,
-              props.receiverName,
-              props.receiverEmail,
-              props.receiverPhotoPath,
-              props.userMessage,
-              props.conversationId,
-              0
-            )
-          }
-        />
+      <TouchableHighlight
+        style={styles.sendMessageBtn}
+        onPress={() =>
+          props.sendMessage(
+            props.senderId,
+            props.receiverId,
+            props.receiverName,
+            props.receiverEmail,
+            props.receiverPhotoPath,
+            props.userMessage,
+            props.conversationId,
+            0
+          )
+        }
+      >
+        <Text style={styles.peachBtnText}>Wyślij</Text>
       </TouchableHighlight>
     </View>
   );

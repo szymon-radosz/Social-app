@@ -9,7 +9,8 @@ import {
   filterBtnActive,
   filterBtn,
   filterBtnTextActive,
-  filterBtnText
+  filterBtnText,
+  peachBtnText
 } from "./../../../assets/global/globalStyles";
 
 interface Style {
@@ -46,9 +47,11 @@ interface Style {
   sendMessageBoxInput: ViewStyle;
   conversationDetailsReceiverImage: ImageStyle;
   conversationDetailsReceiverName: ViewStyle;
+  peachBtnText: any;
 }
 
 export default StyleSheet.create<Style>({
+  peachBtnText: peachBtnText,
   messageListContainer: {
     paddingLeft: 10,
     paddingRight: 10
@@ -140,7 +143,7 @@ export default StyleSheet.create<Style>({
     marginRight: 10,
     marginTop: 5,
     marginBottom: 5,
-    borderRadius: 10
+    borderRadius: 6
   },
   productListSingleProductContainer: {
     width: "100%",
@@ -152,7 +155,7 @@ export default StyleSheet.create<Style>({
     borderRadius: lightBorderRadius,
     borderColor: "#424242",
     marginBottom: 10,
-    paddingLeft: 10
+    paddingLeft: 6
   },
   singleButtonCol2Container: singleButtonCol2Container,
   receiverBox: {

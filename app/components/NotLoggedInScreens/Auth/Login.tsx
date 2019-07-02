@@ -36,6 +36,12 @@ const Login = (props: { navigation: any }) => {
       setAlertType("danger");
       setAlertMessage("Podaj swój adres e-mail i hasło.");
     } else if (email && password) {
+      console.log([
+        email,
+        password,
+        navigation.getParam("API_URL", ""),
+        navigation.state.params
+      ]);
       try {
         let API_URL = navigation.getParam("API_URL", "");
         let navProps = navigation.state.params;
@@ -46,6 +52,7 @@ const Login = (props: { navigation: any }) => {
           })
           .then(function(response) {
             if (response.data.status === "OK") {
+              console.log(["response.data.user", response.data]);
               let token = response.data.user.token;
 
               const config = {
@@ -57,6 +64,7 @@ const Login = (props: { navigation: any }) => {
               axios
                 .post(API_URL + "/api/details", {}, { headers: config })
                 .then(function(response2) {
+                  console.log(response2);
                   if (response2.data.status === "OK") {
                     navProps.setUserData(response2.data.result);
                   }
@@ -73,6 +81,7 @@ const Login = (props: { navigation: any }) => {
             }
           })
           .catch(function(error) {
+            console.log(error);
             setShowAlert(true);
             setAlertType("danger");
             setAlertMessage("Sprawdź poprawność swoich danych.");
@@ -103,8 +112,8 @@ const Login = (props: { navigation: any }) => {
         onChangeText={password => setPassword(password)}
         value={password}
       />
-      <TouchableHighlight style={styles.mainBtn}>
-        <Button title="Zaloguj" color="#fff" onPress={loginUser} />
+      <TouchableHighlight style={styles.mainBtn} onPress={loginUser}>
+        <Text style={styles.peachBtnText}>Zaloguj</Text>
       </TouchableHighlight>
 
       <View style={styles.subBtnSection}>

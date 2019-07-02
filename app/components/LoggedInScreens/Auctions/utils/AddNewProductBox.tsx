@@ -197,7 +197,7 @@ export default class AddNewProductBox extends Component<
             {categories.map((category: any, i: number) => {
               return (
                 <View style={{ flexDirection: "row" }} key={uuid()}>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => this.setCategoryId(category.id)}
                     style={
                       selectedCategoryId == category.id
@@ -219,13 +219,7 @@ export default class AddNewProductBox extends Component<
                             marginRight: 5
                           }
                     }
-                  >
-                    <Button
-                      title=""
-                      color="#333"
-                      onPress={() => this.setCategoryId(category.id)}
-                    />
-                  </TouchableHighlight>
+                  />
 
                   <Text
                     style={styles.addNewProductOptionText}
@@ -243,7 +237,7 @@ export default class AddNewProductBox extends Component<
           <Text style={styles.addNewProductOptionHeaderText}>Płeć dziecka</Text>
           <View style={styles.addNewProductOptionWrapper}>
             <View style={{ flexDirection: "row" }}>
-              <TouchableHighlight
+              <TouchableOpacity
                 onPress={() => this.setGender("boy")}
                 style={
                   maleGender
@@ -265,13 +259,7 @@ export default class AddNewProductBox extends Component<
                         marginRight: 5
                       }
                 }
-              >
-                <Button
-                  title=""
-                  color="#333"
-                  onPress={() => this.setGender("boy")}
-                />
-              </TouchableHighlight>
+              />
 
               <Text
                 style={styles.addNewProductOptionText}
@@ -281,7 +269,7 @@ export default class AddNewProductBox extends Component<
               </Text>
             </View>
             <View style={{ flexDirection: "row" }}>
-              <TouchableHighlight
+              <TouchableOpacity
                 onPress={() => this.setGender("girl")}
                 style={
                   femaleGender
@@ -303,13 +291,7 @@ export default class AddNewProductBox extends Component<
                         marginRight: 5
                       }
                 }
-              >
-                <Button
-                  title=""
-                  color="#333"
-                  onPress={() => this.setGender("girl")}
-                />
-              </TouchableHighlight>
+              />
 
               <Text
                 onPress={() => this.setGender("girl")}
@@ -340,7 +322,7 @@ export default class AddNewProductBox extends Component<
           </Text>
           <View style={styles.addNewProductOptionWrapper}>
             <View style={{ flexDirection: "row" }}>
-              <TouchableHighlight
+              <TouchableOpacity
                 onPress={() => this.setProductState("new")}
                 style={
                   newProduct
@@ -362,13 +344,7 @@ export default class AddNewProductBox extends Component<
                         marginRight: 5
                       }
                 }
-              >
-                <Button
-                  title=""
-                  color="#333"
-                  onPress={() => this.setProductState("new")}
-                />
-              </TouchableHighlight>
+              />
 
               <Text
                 style={styles.addNewProductOptionText}
@@ -378,7 +354,7 @@ export default class AddNewProductBox extends Component<
               </Text>
             </View>
             <View style={{ flexDirection: "row" }}>
-              <TouchableHighlight
+              <TouchableOpacity
                 onPress={() => this.setProductState("secondHand")}
                 style={
                   secondHandProduct
@@ -400,13 +376,7 @@ export default class AddNewProductBox extends Component<
                         marginRight: 5
                       }
                 }
-              >
-                <Button
-                  title=""
-                  color="#333"
-                  onPress={() => this.setProductState("secondHand")}
-                />
-              </TouchableHighlight>
+              />
 
               <Text
                 onPress={() => this.setProductState("secondHand")}
@@ -429,10 +399,13 @@ export default class AddNewProductBox extends Component<
                 height: 50,
                 paddingTop: 5,
                 borderRadius: 6,
-                backgroundColor: "#f7b67e"
+                backgroundColor: "#f7b67e",
+                alignItems: "center",
+                justifyContent: "center"
               }}
+              onPress={this.handleChoosePhoto}
             >
-              <Button title="+" color="#333" onPress={this.handleChoosePhoto} />
+              <Text style={styles.peachBtnText}>+</Text>
             </TouchableHighlight>
           </View>
         )}
@@ -469,34 +442,38 @@ export default class AddNewProductBox extends Component<
                 height: 50,
                 paddingTop: 5,
                 borderRadius: 6,
-                backgroundColor: "#f7b67e"
+                backgroundColor: "#f7b67e",
+                alignItems: "center",
+                justifyContent: "center"
               }}
+              onPress={this.clearPhotos}
             >
-              <Button title="X" color="#333" onPress={this.clearPhotos} />
+              <Text style={styles.peachBtnText}>X</Text>
             </TouchableOpacity>
           )}
         </View>
 
-        <TouchableHighlight style={styles.productDetailsBtn}>
-          <Button
-            title="Dodaj"
-            onPress={() => {
-              this.props.addNewProduct(
-                photos,
-                maleGender,
-                femaleGender,
-                newProduct,
-                secondHandProduct,
-                this.props.currentUser,
-                name,
-                description,
-                selectedCategoryId,
-                price
-              );
-            }}
-            color="#fff"
-          />
+        <TouchableHighlight
+          style={styles.productDetailsBtn}
+          onPress={() => {
+            this.props.addNewProduct(
+              photos,
+              maleGender,
+              femaleGender,
+              newProduct,
+              secondHandProduct,
+              this.props.currentUser,
+              name,
+              description,
+              selectedCategoryId,
+              price
+            );
+          }}
+        >
+          <Text style={styles.peachBtnText}>Dodaj Produkt</Text>
         </TouchableHighlight>
+
+        <View style={{ marginBottom: 20 }} />
       </ScrollView>
     );
   }

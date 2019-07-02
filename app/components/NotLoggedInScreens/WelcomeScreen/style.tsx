@@ -1,17 +1,11 @@
-import {
-  StyleSheet,
-  TextStyle,
-  ViewStyle,
-  Dimensions,
-  ImageStore,
-  ImageStyle
-} from "react-native";
+import { StyleSheet, TextStyle, ViewStyle, Dimensions } from "react-native";
 import {
   peachColor,
   darkGrayColor,
   lightBorderRadius,
   fontSizeBig,
-  fontSizeMedium
+  fontSizeMedium,
+  peachBtnText
 } from "./../../../assets/global/globalStyles";
 const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;
@@ -30,6 +24,8 @@ interface Style {
   activeWelcomeSlideRect: ViewStyle;
   inActiveWelcomeSlideRect: ViewStyle;
   welcomeSliderPagination: ViewStyle;
+  subBtn: TextStyle;
+  peachBtnText: any;
 }
 
 export default StyleSheet.create<Style>({
@@ -84,7 +80,18 @@ export default StyleSheet.create<Style>({
     borderWidth: 2,
     backgroundColor: peachColor,
     marginTop: 20,
-    marginBottom: 15
+    marginBottom: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    flexWrap: "wrap"
   },
+  subBtn: {
+    color: "#f7b67e",
+    textAlign: "center",
+    fontSize: 16,
+    fontFamily: "Open Sans"
+  },
+  peachBtnText: peachBtnText,
   registerBtn: { marginBottom: 50 }
 });

@@ -36,22 +36,21 @@ const PhotoScreen = (props: {
           style={styles.image}
         />
       ) : null}
-      <TouchableHighlight style={styles.nextBtn}>
-        <Button
-          title="Wybierz zdjęcie"
-          color="#fff"
-          onPress={props.handleChoosePhoto}
-        />
+      <TouchableHighlight
+        style={styles.nextBtn}
+        onPress={props.handleChoosePhoto}
+      >
+        <Text style={styles.peachBtnText}>Wybierz zdjęcie</Text>
       </TouchableHighlight>
 
       {props.photo || props.userSavedPhoto ? (
-        <TouchableHighlight style={styles.nextBtn}>
-          <Button title="Dalej" color="#fff" onPress={props.nextStep} />
+        <TouchableHighlight style={styles.nextBtn} onPress={props.nextStep}>
+          <Text style={styles.peachBtnText}>Dalej</Text>
         </TouchableHighlight>
       ) : null}
 
-      <TouchableHighlight style={styles.previousBtn}>
-        <Button title="Wróć" color="#fff" onPress={props.prevStep} />
+      <TouchableHighlight style={styles.previousBtn} onPress={props.prevStep}>
+        <Text style={styles.peachBtnText}>Wróć</Text>
       </TouchableHighlight>
     </View>
   );

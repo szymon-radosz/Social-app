@@ -90,14 +90,13 @@ const FilterModal = (props: {
         </View>
       </View>
 
-      <TouchableHighlight style={styles.productDetailsBtn}>
-        <Button
-          title="Filtruj"
-          onPress={() =>
-            props.filterResults(selectedResultName, selectedResultValue)
-          }
-          color="#fff"
-        />
+      <TouchableHighlight
+        style={styles.productDetailsBtn}
+        onPress={() =>
+          props.filterResults(selectedResultName, selectedResultValue)
+        }
+      >
+        <Text style={styles.peachBtnText}>Filtruj</Text>
       </TouchableHighlight>
     </ScrollView>
   );

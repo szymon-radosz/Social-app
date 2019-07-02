@@ -11,7 +11,7 @@ import {
   darkGrayColor,
   btnFullWidth,
   lightBorderRadius,
-  fontSizeSmall
+  peachBtnText
 } from "./../../../assets/global/globalStyles";
 interface Style {
   container: ViewStyle;
@@ -46,12 +46,14 @@ interface Style {
   hobbyOptionText: TextStyle;
   hobbyOptionImage: ImageStyle;
   loaderContainer: ViewStyle;
+  peachBtnText: any;
 }
 
 const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;
 
 export default StyleSheet.create<Style>({
+  peachBtnText: peachBtnText,
   container: { flex: 1, alignItems: "center" },
   headerText: pageTitleWhite,
   headerTwoText: {

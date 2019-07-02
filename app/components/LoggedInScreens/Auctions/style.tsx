@@ -10,7 +10,7 @@ import {
   darkGrayColor,
   fontSizeMedium,
   lightBorderRadius,
-  fontSizeBig,
+  peachBtnText,
   peachColor,
   btnFullWidth,
   productListSingleProductContainer,
@@ -92,10 +92,12 @@ interface Style {
   addNewProductOptionHeaderText: TextStyle;
   addNewProductOptionWrapper: ViewStyle;
   addNewProductOptionText: ViewStyle;
-  userProductMessageTextArea: ViewStyle;
+  userProductMessageTextArea: TextStyle;
+  peachBtnText: any;
 }
 
 export default StyleSheet.create<Style>({
+  peachBtnText: peachBtnText,
   productOnListTextName: productOnListTextName,
   fullWidth: fullWidth,
   productDetailsBtn: btnFullWidth,
@@ -256,8 +258,6 @@ export default StyleSheet.create<Style>({
     borderWidth: 1,
     borderRadius: lightBorderRadius,
     marginTop: 10,
-    marginLeft: 10,
-    marginRight: 10,
     paddingLeft: 5,
     paddingTop: 10
   },
@@ -268,13 +268,15 @@ export default StyleSheet.create<Style>({
     marginTop: 10,
     marginLeft: 10,
     marginRight: 10,
-    paddingLeft: 5
+    paddingLeft: 5,
+    textAlignVertical: "top"
   },
   sellerVoteBoxTextArea: {
     height: 60,
     borderWidth: 1,
     borderRadius: lightBorderRadius,
-    padding: 5
+    padding: 5,
+    textAlignVertical: "top"
   },
   productDetailsImage: {
     width: 100,

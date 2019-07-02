@@ -485,12 +485,11 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
               )}
             </View>
             <View style={{ marginBottom: 10 }}>
-              <TouchableHighlight style={btnFullWidth}>
-                <Button
-                  title="Dodaj produkt"
-                  onPress={() => this.changeDisplayNewProductBox()}
-                  color="#fff"
-                />
+              <TouchableHighlight
+                style={styles.productDetailsBtn}
+                onPress={() => this.changeDisplayNewProductBox()}
+              >
+                <Text style={styles.peachBtnText}>Dodaj produkt</Text>
               </TouchableHighlight>
             </View>
           </View>
