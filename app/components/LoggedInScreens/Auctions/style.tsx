@@ -94,6 +94,7 @@ interface Style {
   addNewProductOptionText: ViewStyle;
   userProductMessageTextArea: TextStyle;
   peachBtnText: any;
+  addNewProductOptionTextActive: TextStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -259,7 +260,8 @@ export default StyleSheet.create<Style>({
     borderRadius: lightBorderRadius,
     marginTop: 10,
     paddingLeft: 5,
-    paddingTop: 10
+    paddingTop: 10,
+    textAlignVertical: "top"
   },
   userProductMessageTextArea: {
     height: 60,
@@ -276,6 +278,7 @@ export default StyleSheet.create<Style>({
     borderWidth: 1,
     borderRadius: lightBorderRadius,
     padding: 5,
+    marginBottom: 5,
     textAlignVertical: "top"
   },
   productDetailsImage: {
@@ -430,7 +433,8 @@ export default StyleSheet.create<Style>({
     paddingBottom: 10
   },
   sellerVoteBoxContainer: {
-    padding: 0
+    paddingLeft: 10,
+    paddingRight: 10
   },
   filterResultsCarousel: {
     paddingLeft: 10,
@@ -465,5 +469,10 @@ export default StyleSheet.create<Style>({
     fontFamily: "Open Sans"
   },
   addNewProductOptionWrapper: { flexDirection: "row", flexWrap: "wrap" },
-  addNewProductOptionText: { marginTop: 2, marginRight: 15 }
+  addNewProductOptionText: { marginTop: 2, marginRight: 15 },
+  addNewProductOptionTextActive: {
+    marginTop: 2,
+    marginRight: 15,
+    fontWeight: "600"
+  }
 });

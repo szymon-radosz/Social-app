@@ -1,14 +1,7 @@
 import React, { Component, Suspense } from "react";
-import {
-  TouchableHighlight,
-  ImageBackground,
-  Button,
-  Text,
-  View
-} from "react-native";
+import { TouchableHighlight, ImageBackground, Text, View } from "react-native";
 import Carousel from "react-native-snap-carousel";
 import { btnFullWidthFilledContainer } from "./../../../assets/global/globalStyles";
-import { btnFullWidth } from "./../../../assets/global/globalStyles";
 import axios from "axios";
 import SingleAuctionOnList from "./utils/SingleAuctionOnList";
 import styles from "./style";
@@ -130,6 +123,18 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
     selectedCategoryId: any,
     price: number
   ): void => {
+    console.log([
+      photos,
+      maleGender,
+      femaleGender,
+      newProduct,
+      secondHandProduct,
+      currentUser,
+      name,
+      description,
+      selectedCategoryId,
+      price
+    ]);
     let childGender;
     let productState;
     let API_URL = this.props.API_URL;
@@ -147,44 +152,76 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
       productState = 1;
     }
 
-    let that = this;
+    if (
+      photos &&
+      maleGender &&
+      femaleGender &&
+      newProduct &&
+      secondHandProduct &&
+      currentUser &&
+      name &&
+      description &&
+      selectedCategoryId &&
+      price
+    ) {
+      this.setState({ showAlert: false });
 
-    axios
-      .post(API_URL + "/api/saveProduct", {
-        userId: currentUser.id,
-        name: name,
-        description: description,
-        categoryId: selectedCategoryId,
-        childGender: childGender,
-        price: price,
-        lat: currentUser.lattitude,
-        lng: currentUser.longitude,
-        status: 0,
-        state: productState,
-        photos: photosArray
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
+      this.setState({
+        showAlert: true,
+        alertType: "danger",
+        alertMessage: "Upewnij się, że wprowadziłaś wszystkie dane."
+      });
+    }
+
+    if (
+      currentUser.id &&
+      name &&
+      description &&
+      selectedCategoryId &&
+      price &&
+      currentUser.lattitude &&
+      currentUser.longitude &&
+      photosArray
+    ) {
+      let that = this;
+
+      axios
+        .post(API_URL + "/api/saveProduct", {
+          userId: currentUser.id,
+          name: name,
+          description: description,
+          categoryId: selectedCategoryId,
+          childGender: childGender,
+          price: price,
+          lat: currentUser.lattitude,
+          lng: currentUser.longitude,
+          status: 0,
+          state: productState,
+          photos: photosArray
+        })
+        .then(function(response) {
+          if (response.data.status === "OK") {
+            that.setState({ showAlert: false });
+
+            that.setState({
+              showAlert: true,
+              alertType: "success",
+              alertMessage: "Dziękujemy za dodanie nowego produktu."
+            });
+            that.changeDisplayNewProductBox();
+          }
+        })
+        .catch(function(error) {
           that.setState({ showAlert: false });
 
           that.setState({
             showAlert: true,
-            alertType: "success",
-            alertMessage: "Dziękujemy za dodanie nowego produktu."
+            alertType: "danger",
+            alertMessage: "Problem z dodaniem nowego produktu"
           });
-          that.changeDisplayNewProductBox();
-        }
-      })
-      .catch(function(error) {
-        that.setState({ showAlert: false });
-
-        that.setState({
-          showAlert: true,
-          alertType: "danger",
-          alertMessage: "Problem z dodaniem nowego produktu"
+          console.log(error);
         });
-        console.log(error);
-      });
+    }
   };
 
   removeFilter = (filterName: string): void => {
@@ -487,7 +524,7 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
             <View style={{ marginBottom: 10 }}>
               <TouchableHighlight
                 style={styles.productDetailsBtn}
-                onPress={() => this.changeDisplayNewProductBox()}
+                onPress={this.changeDisplayNewProductBox}
               >
                 <Text style={styles.peachBtnText}>Dodaj produkt</Text>
               </TouchableHighlight>

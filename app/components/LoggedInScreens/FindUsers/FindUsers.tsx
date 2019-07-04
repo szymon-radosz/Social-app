@@ -655,6 +655,7 @@ export default class FindUsers extends Component<
   };
 
   componentDidMount = (): void => {
+    console.log(["this.props.openFindUserId", this.props.openFindUserId]);
     if (
       this.props.user &&
       this.props.user.lattitude &&
@@ -663,7 +664,7 @@ export default class FindUsers extends Component<
       this.loadUsersNearCoords();
     }
 
-    if (this.props.openFindUserId && this.props.openFindUserId !== 0) {
+    if (this.props.openFindUserId && this.props.openFindUserId > 0) {
       this.setShowUserDetails(this.props.openFindUserId);
     }
   };
@@ -786,22 +787,35 @@ export default class FindUsers extends Component<
           )}
 
           {!showUserMessageBox &&
-            !showUserDetails &&
-            userList &&
-            !showFilterModal &&
-            userList.map((user: any, i: number) => {
-              if (user.id != this.props.user.id) {
-                return (
-                  <UserOnList
-                    API_URL={this.props.API_URL}
-                    key={uuid()}
-                    user={user}
-                    setShowUserDetails={this.setShowUserDetails}
-                    setUserDetailsId={this.setUserDetailsId}
-                  />
-                );
-              }
-            })}
+          !showUserDetails &&
+          userList &&
+          !showFilterModal &&
+          userList.length > 1
+            ? userList.map((user: any, i: number) => {
+                if (user.id != this.props.user.id) {
+                  return (
+                    <UserOnList
+                      API_URL={this.props.API_URL}
+                      key={uuid()}
+                      user={user}
+                      setShowUserDetails={this.setShowUserDetails}
+                      setUserDetailsId={this.setUserDetailsId}
+                    />
+                  );
+                }
+              })
+            : null}
+
+          {!showUserMessageBox &&
+          !showUserDetails &&
+          userList &&
+          !showFilterModal &&
+          userList.length < 2 ? (
+            <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
+              Brak mam w Twojej okolicy. Zaproś znajome do skorzystania z
+              aplikacji E-mamy i zbudujcie razem lokalną społeczność mam.
+            </Text>
+          ) : null}
         </View>
         {showAlert != false && (
           <Alert alertType={alertType} alertMessage={alertMessage} />

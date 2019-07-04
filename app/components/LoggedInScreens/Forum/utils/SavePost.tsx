@@ -81,7 +81,6 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
           closeMethod={this.props.setShowSavePost}
           closeMethodParameter={""}
         />
-
         <View>
           <TextInput
             style={styles.savePostCommentInput}
@@ -142,7 +141,11 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
                 />
 
                 <Text
-                  style={{ marginTop: 2, marginRight: 15 }}
+                  style={
+                    category.id == this.state.categoryId
+                      ? styles.optionTextActive
+                      : styles.optionText
+                  }
                   onPress={() => this.selectCategoryId(category.id)}
                 >
                   {category.name}
@@ -150,20 +153,21 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
               </View>
             );
           })}
-
-          <TouchableHighlight
-            style={styles.addPostBtn}
-            onPress={() =>
-              this.props.savePost(
-                this.state.title,
-                this.state.description,
-                this.props.user.id,
-                this.state.categoryId
-              )
-            }
-          >
-            <Text style={styles.peachBtnText}>Dodaj</Text>
-          </TouchableHighlight>
+          <View style={{ paddingBottom: 20 }}>
+            <TouchableHighlight
+              style={styles.addPostBtn}
+              onPress={() =>
+                this.props.savePost(
+                  this.state.title,
+                  this.state.description,
+                  this.props.user.id,
+                  this.state.categoryId
+                )
+              }
+            >
+              <Text style={styles.peachBtnText}>Dodaj</Text>
+            </TouchableHighlight>
+          </View>
         </View>
       </View>
     );

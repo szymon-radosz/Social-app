@@ -46,7 +46,11 @@ const FeedbackModal = (props: {
             />
             <Text
               onPress={() => props.setFeedbackTopic(index)}
-              style={styles.checkboxText}
+              style={
+                props.activeTopic == topic.text
+                  ? styles.checkboxTextActive
+                  : styles.checkboxText
+              }
             >
               {topic.text}
             </Text>
@@ -69,7 +73,7 @@ const FeedbackModal = (props: {
 
       <TouchableHighlight
         style={styles.feedbackBtn}
-        onPress={() => props.sendFeedback()}
+        onPress={props.sendFeedback}
       >
         <Text style={styles.peachBtnText}>Wyślij</Text>
       </TouchableHighlight>

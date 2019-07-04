@@ -85,14 +85,14 @@ const UserDetails = (props: {
           {props.usersAreInTheSameConversation ? (
             <TouchableHighlight
               style={styles.userDetailsRedirectMessageBtn}
-              onPress={() => props.openMessages()}
+              onPress={props.openMessages}
             >
               <Text style={styles.peachBtnText}>Przejdź do wiadomości</Text>
             </TouchableHighlight>
           ) : (
             <TouchableHighlight
               style={styles.userDetailsRedirectMessageBtn}
-              onPress={() => props.setShowUserMessageBox()}
+              onPress={props.setShowUserMessageBox}
             >
               <Text style={styles.peachBtnText}>Pomachaj</Text>
             </TouchableHighlight>
@@ -141,9 +141,7 @@ const UserDetails = (props: {
             {props.usersFriendshipStatus === "confirmed" && (
               <TouchableHighlight
                 style={styles.userDetailsRedirectMessageBtn}
-                onPress={() => {
-                  props.setOpenProfile();
-                }}
+                onPress={props.setOpenProfile}
               >
                 <Text style={styles.peachBtnText}>Jesteście znajomymi</Text>
               </TouchableHighlight>

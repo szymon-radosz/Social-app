@@ -14,8 +14,10 @@ import axios from "axios";
 import styles from "./../style";
 import { v4 as uuid } from "uuid";
 import PageHeader from "./../../SharedComponents/PageHeader";
+import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from "constants";
 
 const trash: any = require("./../../../../assets/images/trash.png");
+const upload: any = require("./../../../../assets/images/upload.png");
 
 var ImagePicker = NativeModules.ImageCropPicker;
 
@@ -168,7 +170,7 @@ export default class AddNewProductBox extends Component<
         />
         <View style={styles.addNewProductInputContainer}>
           <TextInput
-            multiline={false}
+            multiline={true}
             onChangeText={name => this.setState({ name })}
             value={name}
             placeholder="Podaj nazwę produktu"
@@ -208,7 +210,8 @@ export default class AddNewProductBox extends Component<
                             backgroundColor: "#f7b67e",
                             borderColor: "#f7b67e",
                             borderRadius: 20,
-                            marginRight: 5
+                            marginRight: 5,
+                            marginBottom: 10
                           }
                         : {
                             width: 20,
@@ -216,13 +219,18 @@ export default class AddNewProductBox extends Component<
                             borderWidth: 1,
                             backgroundColor: "white",
                             borderRadius: 20,
-                            marginRight: 5
+                            marginRight: 5,
+                            marginBottom: 10
                           }
                     }
                   />
 
                   <Text
-                    style={styles.addNewProductOptionText}
+                    style={
+                      selectedCategoryId == category.id
+                        ? styles.addNewProductOptionTextActive
+                        : styles.addNewProductOptionText
+                    }
                     onPress={() => this.setCategoryId(category.id)}
                   >
                     {category.name}
@@ -248,7 +256,8 @@ export default class AddNewProductBox extends Component<
                         backgroundColor: "#f7b67e",
                         borderColor: "#f7b67e",
                         borderRadius: 20,
-                        marginRight: 5
+                        marginRight: 5,
+                        marginBottom: 10
                       }
                     : {
                         width: 20,
@@ -256,13 +265,18 @@ export default class AddNewProductBox extends Component<
                         borderWidth: 1,
                         backgroundColor: "white",
                         borderRadius: 20,
-                        marginRight: 5
+                        marginRight: 5,
+                        marginBottom: 10
                       }
                 }
               />
 
               <Text
-                style={styles.addNewProductOptionText}
+                style={
+                  maleGender
+                    ? styles.addNewProductOptionTextActive
+                    : styles.addNewProductOptionText
+                }
                 onPress={() => this.setGender("boy")}
               >
                 Chłopiec
@@ -280,7 +294,8 @@ export default class AddNewProductBox extends Component<
                         backgroundColor: "#f7b67e",
                         borderColor: "#f7b67e",
                         borderRadius: 20,
-                        marginRight: 5
+                        marginRight: 5,
+                        marginBottom: 10
                       }
                     : {
                         width: 20,
@@ -288,14 +303,19 @@ export default class AddNewProductBox extends Component<
                         borderWidth: 1,
                         backgroundColor: "white",
                         borderRadius: 20,
-                        marginRight: 5
+                        marginRight: 5,
+                        marginBottom: 10
                       }
                 }
               />
 
               <Text
                 onPress={() => this.setGender("girl")}
-                style={styles.addNewProductOptionText}
+                style={
+                  femaleGender
+                    ? styles.addNewProductOptionTextActive
+                    : styles.addNewProductOptionText
+                }
               >
                 Dziewczynka
               </Text>
@@ -306,13 +326,21 @@ export default class AddNewProductBox extends Component<
         <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
           <Text style={{ paddingBottom: 5, fontWeight: "600" }}>Cena</Text>
           <TextInput
-            multiline={false}
+            multiline={true}
             maxLength={4}
             onChangeText={price => this.setState({ price })}
             value={price}
             placeholder="Cena w zł"
             placeholderTextColor="#333"
-            style={styles.userMessageTextArea}
+            style={{
+              height: 40,
+              borderWidth: 1,
+              borderRadius: 6,
+              paddingLeft: 5,
+              paddingTop: 10,
+              marginBottom: 10,
+              textAlignVertical: "top"
+            }}
           />
         </View>
 
@@ -333,7 +361,8 @@ export default class AddNewProductBox extends Component<
                         backgroundColor: "#f7b67e",
                         borderColor: "#f7b67e",
                         borderRadius: 20,
-                        marginRight: 5
+                        marginRight: 5,
+                        marginBottom: 10
                       }
                     : {
                         width: 20,
@@ -341,13 +370,18 @@ export default class AddNewProductBox extends Component<
                         borderWidth: 1,
                         backgroundColor: "white",
                         borderRadius: 20,
-                        marginRight: 5
+                        marginRight: 5,
+                        marginBottom: 10
                       }
                 }
               />
 
               <Text
-                style={styles.addNewProductOptionText}
+                style={
+                  newProduct
+                    ? styles.addNewProductOptionTextActive
+                    : styles.addNewProductOptionText
+                }
                 onPress={() => this.setProductState("new")}
               >
                 Nowe
@@ -365,7 +399,8 @@ export default class AddNewProductBox extends Component<
                         backgroundColor: "#f7b67e",
                         borderColor: "#f7b67e",
                         borderRadius: 20,
-                        marginRight: 5
+                        marginRight: 5,
+                        marginBottom: 10
                       }
                     : {
                         width: 20,
@@ -373,14 +408,19 @@ export default class AddNewProductBox extends Component<
                         borderWidth: 1,
                         backgroundColor: "white",
                         borderRadius: 20,
-                        marginRight: 5
+                        marginRight: 5,
+                        marginBottom: 10
                       }
                 }
               />
 
               <Text
                 onPress={() => this.setProductState("secondHand")}
-                style={styles.addNewProductOptionText}
+                style={
+                  secondHandProduct
+                    ? styles.addNewProductOptionTextActive
+                    : styles.addNewProductOptionText
+                }
               >
                 Uzywane
               </Text>
@@ -397,7 +437,6 @@ export default class AddNewProductBox extends Component<
               style={{
                 width: 50,
                 height: 50,
-                paddingTop: 5,
                 borderRadius: 6,
                 backgroundColor: "#f7b67e",
                 alignItems: "center",
@@ -405,7 +444,7 @@ export default class AddNewProductBox extends Component<
               }}
               onPress={this.handleChoosePhoto}
             >
-              <Text style={styles.peachBtnText}>+</Text>
+              <Image source={upload} style={{ width: 20, height: 20 }} />
             </TouchableHighlight>
           </View>
         )}
@@ -440,7 +479,6 @@ export default class AddNewProductBox extends Component<
               style={{
                 width: 50,
                 height: 50,
-                paddingTop: 5,
                 borderRadius: 6,
                 backgroundColor: "#f7b67e",
                 alignItems: "center",
@@ -448,7 +486,7 @@ export default class AddNewProductBox extends Component<
               }}
               onPress={this.clearPhotos}
             >
-              <Text style={styles.peachBtnText}>X</Text>
+              <Image source={trash} style={{ width: 20, height: 20 }} />
             </TouchableOpacity>
           )}
         </View>

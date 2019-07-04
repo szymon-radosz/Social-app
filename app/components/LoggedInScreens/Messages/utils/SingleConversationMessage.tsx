@@ -52,11 +52,7 @@ export default class SingleConversationMessage extends Component<
     const messageDate = moment(this.props.message.created_at).format("LLL");
     return (
       <View>
-        <TouchableOpacity
-          onPress={() => {
-            this.setMessageDate();
-          }}
-        >
+        <TouchableOpacity onPress={this.setMessageDate}>
           <Text
             style={
               isCurrentUserTheSender ? styles.senderBox : styles.receiverBox

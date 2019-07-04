@@ -53,7 +53,8 @@ export default class LoggedInMain extends Component<
       feedbackTopic: [
         { index: 0, text: "Zgłoszenie błędu w aplikacji" },
         { index: 1, text: "Rozbudowanie funkcjonalności" },
-        { index: 2, text: "Dodanie nowej funkcjonalności" }
+        { index: 2, text: "Dodanie nowej funkcjonalności" },
+        { index: 3, text: "Inne" }
       ],
       activeTopic: "",
       showAlert: false,
@@ -239,11 +240,12 @@ export default class LoggedInMain extends Component<
           feedbackTopic={feedbackTopic}
           setFeedbackTopic={this.setFeedbackTopic}
           activeTopic={activeTopic}
+          setShowFeedbackModal={this.setShowFeedbackModal}
         />
         {!showFeedbackModal && (
           <TouchableHighlight
             style={{ position: "absolute", right: 10, bottom: 80 }}
-            onPress={() => this.setShowFeedbackModal()}
+            onPress={this.setShowFeedbackModal}
           >
             <Image source={feedback} style={{ width: 50, height: 50 }} />
           </TouchableHighlight>

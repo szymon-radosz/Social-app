@@ -22,6 +22,7 @@ const CategoriesList = React.lazy(() => import("./utils/CategoriesList"));
 interface ForumProps {
   API_URL: string;
   user: any;
+  setShowFeedbackModal: any;
 }
 
 interface ForumState {
@@ -307,9 +308,19 @@ export default class Forum extends Component<ForumProps, ForumState> {
           </View>
 
           {!showPostDetails && !showSavePost && showSortByCategory && (
+            <Text
+              style={{ paddingLeft: 10, paddingRight: 10 }}
+              onPress={this.props.setShowFeedbackModal}
+            >
+              Masz pomysł na nową kategorię?{" "}
+              <Text style={{ fontWeight: "600" }}>Napisz do nas!</Text>
+            </Text>
+          )}
+
+          {!showPostDetails && !showSavePost && showSortByCategory && (
             <TouchableHighlight
               style={styles.addPostBtn}
-              onPress={() => this.setShowSavePost()}
+              onPress={this.setShowSavePost}
             >
               <Text style={styles.peachBtnText}>Dodaj post</Text>
             </TouchableHighlight>

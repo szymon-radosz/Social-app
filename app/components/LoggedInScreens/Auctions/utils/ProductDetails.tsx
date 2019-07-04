@@ -427,16 +427,20 @@ export default class ProductDetails extends Component<
                 </Text>
               )}
             </View>
+            {/* user is not the author, they are not in the same conversation and product is not sold*/}
             {productDetails[0].user_id != this.props.currentUser.id &&
-            !usersAreInTheSameConversation ? (
-              productDetails[0].status != 1 ? (
+              !usersAreInTheSameConversation &&
+              productDetails[0].status != 1 && (
                 <TouchableHighlight
                   style={styles.productDetailsBtn}
                   onPress={this.changeShowProductMessageBox}
                 >
                   <Text style={styles.peachBtnText}>Wyślij wiadomość</Text>
                 </TouchableHighlight>
-              ) : (
+              )}
+            {/* user is not the author and product is sold*/}
+            {productDetails[0].user_id != this.props.currentUser.id &&
+              productDetails[0].status == 1 && (
                 <View style={styles.productContent}>
                   <Text style={styles.productContentText}>
                     <Text style={styles.productClosed}>
@@ -444,46 +448,43 @@ export default class ProductDetails extends Component<
                     </Text>
                   </Text>
                 </View>
-              )
-            ) : productDetails[0].user_id != this.props.currentUser.id &&
-              usersAreInTheSameConversation ? (
-              productDetails[0].status == 1 ? (
+              )}
+            {/* user is not the author, they are in the same conversation and product is sold*/}
+            {productDetails[0].user_id != this.props.currentUser.id &&
+              usersAreInTheSameConversation &&
+              productDetails[0].status == 1 && (
                 <TouchableHighlight
                   style={styles.productDetailsBtn}
-                  onPress={() => this.props.openMessages()}
+                  onPress={this.props.openMessages}
                 >
                   <Text style={styles.peachBtnText}>
                     Produkt sprzedany, jesteście w konwersacji
                   </Text>
                 </TouchableHighlight>
-              ) : (
+              )}
+            {/* user is not the author, they are in the same conversation and product is not sold*/}
+            {productDetails[0].user_id != this.props.currentUser.id &&
+              usersAreInTheSameConversation &&
+              productDetails[0].status != 1 && (
                 <TouchableHighlight
                   style={styles.productDetailsBtn}
-                  onPress={() => this.props.openMessages()}
+                  onPress={this.props.openMessages}
                 >
                   <Text style={styles.peachBtnText}>
-                    Jestescie juz w konwersacji
+                    Jestescie już w konwersacji
                   </Text>
                 </TouchableHighlight>
-              )
-            ) : productDetails[0].status != 1 ? (
-              <TouchableHighlight
-                style={styles.productDetailsBtn}
-                onPress={() => this.changeVoteBox()}
-              >
-                <Text style={styles.peachBtnText}>
-                  Jestescie juz w konwersacji
-                </Text>
-              </TouchableHighlight>
-            ) : (
-              <View style={styles.productContent}>
-                <Text style={styles.productContentText}>
-                  <Text style={styles.productClosed}>
-                    Sprzedaż produktu zakończona
-                  </Text>
-                </Text>
-              </View>
-            )}
+              )}
+            {/* user is the author, and product is not sold*/}
+            {productDetails[0].user_id == this.props.currentUser.id &&
+              productDetails[0].status != 1 && (
+                <TouchableHighlight
+                  style={styles.productDetailsBtn}
+                  onPress={this.changeVoteBox}
+                >
+                  <Text style={styles.peachBtnText}>Zamknij Sprzedaż</Text>
+                </TouchableHighlight>
+              )}
           </View>
         ) : null}
         {showAlert != false && (

@@ -18,6 +18,7 @@ interface Style {
   checkboxText: TextStyle;
   feedbackTopic: TextStyle;
   peachBtnText: any;
+  checkboxTextActive: TextStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -85,6 +86,12 @@ export default StyleSheet.create<Style>({
     marginTop: 2,
     marginRight: 15,
     color: "#424242"
+  },
+  checkboxTextActive: {
+    marginTop: 2,
+    marginRight: 15,
+    color: "#424242",
+    fontWeight: "600"
   },
   feedbackTopic: {
     paddingLeft: 10,

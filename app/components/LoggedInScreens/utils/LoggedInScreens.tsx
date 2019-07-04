@@ -46,7 +46,11 @@ const LoggedInScreens = (props: any) => (
 
     {props.openForum && !props.showFeedbackModal && (
       <Suspense fallback={<Text>Wczytywanie...</Text>}>
-        <Forum API_URL={props.API_URL} user={props.user} />
+        <Forum
+          API_URL={props.API_URL}
+          user={props.user}
+          setShowFeedbackModal={props.setShowFeedbackModal}
+        />
       </Suspense>
     )}
 

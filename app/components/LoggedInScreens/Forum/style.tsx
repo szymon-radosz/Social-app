@@ -61,6 +61,8 @@ interface Style {
   savePostCategoryHeaderText: TextStyle;
   savePostCommentDescInput: TextStyle;
   peachBtnText: any;
+  optionText: TextStyle;
+  optionTextActive: TextStyle;
 }
 
 const fullWidth = Dimensions.get("window").width;
@@ -118,7 +120,8 @@ export default StyleSheet.create<Style>({
     borderRadius: 5
   },
   relative: {
-    position: "relative"
+    position: "relative",
+    marginBottom: 20
   },
   postDetailsComment: {
     marginBottom: 10,
@@ -296,5 +299,7 @@ export default StyleSheet.create<Style>({
     paddingRight: 10,
     paddingBottom: 10,
     fontFamily: "Open Sans"
-  }
+  },
+  optionText: { marginTop: 2, marginRight: 15 },
+  optionTextActive: { marginTop: 2, marginRight: 15, fontWeight: "600" }
 });

@@ -346,6 +346,7 @@ export default class FillNecessaryInfo extends Component<
       includeBase64: true
     })
       .then((image: any) => {
+        console.log(image);
         this.setState({ photo: image });
       })
       .catch((e: any) => {

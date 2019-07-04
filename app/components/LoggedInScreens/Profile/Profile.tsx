@@ -381,10 +381,7 @@ export default class Profile extends Component<
               <View style={styles.filterBtnContainer}>
                 <View style={styles.singleButtonCol2Container}>
                   <TouchableOpacity
-                    onPress={() => {
-                      this.loadUserFriendsList();
-                      console.log("znajome");
-                    }}
+                    onPress={this.loadUserFriendsList}
                     style={
                       displayFriendList
                         ? styles.filterBtnActive
@@ -404,10 +401,7 @@ export default class Profile extends Component<
                 </View>
                 <View style={styles.singleButtonCol2Container}>
                   <TouchableOpacity
-                    onPress={() => {
-                      this.loadPendingUserFriendsList();
-                      console.log("oczekujace");
-                    }}
+                    onPress={this.loadPendingUserFriendsList}
                     style={
                       !displayFriendList
                         ? styles.filterBtnActive

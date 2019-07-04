@@ -22,7 +22,7 @@ const ProfileOptions = (props: any) => (
   >
     <TouchableHighlight
       style={styles.buttonOption}
-      onPress={() => props.setShowProfilePreview()}
+      onPress={props.setShowProfilePreview}
     >
       <View>
         <Image
@@ -68,7 +68,7 @@ const ProfileOptions = (props: any) => (
 
     <TouchableHighlight
       style={styles.buttonOption}
-      onPress={() => props.loadUserFriendsList()}
+      onPress={props.loadUserFriendsList}
     >
       <View>
         <Image
@@ -87,7 +87,7 @@ const ProfileOptions = (props: any) => (
 
     <TouchableHighlight
       style={styles.buttonOption}
-      onPress={() => props.getUserAuctionList()}
+      onPress={props.getUserAuctionList}
     >
       <View>
         <Image
@@ -106,7 +106,7 @@ const ProfileOptions = (props: any) => (
 
     <TouchableHighlight
       style={styles.buttonOption}
-      onPress={() => props.getUserNotificationList()}
+      onPress={props.getUserNotificationList}
     >
       <View>
         <Image

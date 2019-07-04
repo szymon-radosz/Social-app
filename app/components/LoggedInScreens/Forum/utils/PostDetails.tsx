@@ -292,7 +292,7 @@ export default class PostDetails extends Component<
             <View style={styles.postDetailsPostVoteContainer}>
               <View style={styles.postDetailsPostVoteWrapper}>
                 <Text style={styles.postDetailsPostVoteCount}>{postVotes}</Text>
-                <TouchableOpacity onPress={() => this.savePostVote()}>
+                <TouchableOpacity onPress={this.savePostVote}>
                   <Image
                     style={styles.postDetailsPostVoteImage}
                     resizeMode="contain"

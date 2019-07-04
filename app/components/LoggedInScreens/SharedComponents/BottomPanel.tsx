@@ -29,7 +29,7 @@ const BottomPanel = (props: {
 }): any => {
   return (
     <View style={styles.bottomPanel}>
-      <TouchableOpacity onPress={() => props.openFindUsers()}>
+      <TouchableOpacity onPress={props.openFindUsers}>
         <View
           style={
             props.openFindUsersStatus
@@ -53,7 +53,7 @@ const BottomPanel = (props: {
           POZNAJ
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.openAuctions()}>
+      <TouchableOpacity onPress={props.openAuctions}>
         <View
           style={
             props.openAuctionsStatus
@@ -77,7 +77,7 @@ const BottomPanel = (props: {
           TARG
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.openMessages()}>
+      <TouchableOpacity onPress={props.openMessages}>
         <View
           style={
             props.openMessagesStatus
@@ -122,7 +122,7 @@ const BottomPanel = (props: {
           WIADOMOŚCI
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.openForum()}>
+      <TouchableOpacity onPress={props.openForum}>
         <View
           style={
             props.openForumStatus
@@ -144,7 +144,7 @@ const BottomPanel = (props: {
           FORUM
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.openProfile()}>
+      <TouchableOpacity onPress={props.openProfile}>
         <View
           style={
             props.openProfileStatus
