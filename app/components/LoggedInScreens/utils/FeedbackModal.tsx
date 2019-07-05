@@ -74,6 +74,7 @@ const FeedbackModal = (props: {
       <TouchableHighlight
         style={styles.feedbackBtn}
         onPress={props.sendFeedback}
+        underlayColor={"#dd904d"}
       >
         <Text style={styles.peachBtnText}>Wyślij</Text>
       </TouchableHighlight>

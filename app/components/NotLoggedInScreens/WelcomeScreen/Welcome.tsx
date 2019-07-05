@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Button, Text, View, Image, TouchableHighlight } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Text, View, Image, TouchableHighlight } from "react-native";
 import styles from "./style";
 import AppIntroSlider from "react-native-app-intro-slider";
 
@@ -76,6 +76,7 @@ const Welcome = (props: { navigation: any }) => {
               clearUserData: navigation.getParam("clearUserData")
             })
           }
+          underlayColor={"#dd904d"}
         >
           <Text style={styles.peachBtnText}>Logowanie</Text>
         </TouchableHighlight>
@@ -88,6 +89,7 @@ const Welcome = (props: { navigation: any }) => {
               clearUserData: navigation.getParam("clearUserData")
             })
           }
+          underlayColor={"#fff"}
         >
           <Text style={styles.subBtn}>Rejestracja</Text>
         </TouchableHighlight>

@@ -88,12 +88,14 @@ export default class CoordsScreen extends Component<
         <TouchableHighlight
           style={styles.nextBtn}
           onPress={this.props.nextStep}
+          underlayColor={"#dd904d"}
         >
           <Text style={styles.peachBtnText}>Dalej</Text>
         </TouchableHighlight>
         <TouchableHighlight
           style={styles.previousBtn}
           onPress={this.props.prevStep}
+          underlayColor={"#dd904d"}
         >
           <Text style={styles.peachBtnText}>Wróć</Text>
         </TouchableHighlight>

@@ -1,12 +1,15 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, StatusBar } from "react-native";
 import axios from "axios";
 
 //ios
-const API_URL = "http://127.0.0.1:8000/";
+//const API_URL = "http://127.0.0.1:8000/";
 
 //android
 //const API_URL = "http://10.0.2.2:8000/";
+
+//live
+const API_URL = "https://e-mamy.pl/";
 
 interface NotLoggedInMainState {
   userLoggedIn: boolean;
@@ -171,6 +174,8 @@ export default class NotLoggedInMain extends Component<
   };
 
   componentDidMount = (): void => {
+    StatusBar.setHidden(true, "none");
+
     const navigation = this.props.navigation;
 
     if (!this.state.userLoggedIn) {

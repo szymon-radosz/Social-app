@@ -1,17 +1,12 @@
-import {
-  StyleSheet,
-  TextStyle,
-  ViewStyle,
-  ImageStyle,
-  Dimensions
-} from "react-native";
+import { StyleSheet, TextStyle, ViewStyle, ImageStyle } from "react-native";
 import {
   pageTitleWhite,
   peachColor,
   darkGrayColor,
   btnFullWidth,
   lightBorderRadius,
-  peachBtnText
+  peachBtnText,
+  loaderContainer
 } from "./../../../assets/global/globalStyles";
 interface Style {
   container: ViewStyle;
@@ -28,8 +23,8 @@ interface Style {
   infoContainer: ViewStyle;
   kidsInfoContainer: ViewStyle;
   input: ViewStyle;
-  previousBtn: ViewStyle;
-  nextBtn: ViewStyle;
+  previousBtn: any;
+  nextBtn: any;
   fillInfoHeader: TextStyle;
   activeCheckbox: ViewStyle;
   inActiveCheckbox: ViewStyle;
@@ -45,12 +40,9 @@ interface Style {
   hobbyOptionContainer: ViewStyle;
   hobbyOptionText: TextStyle;
   hobbyOptionImage: ImageStyle;
-  loaderContainer: ViewStyle;
+  loaderContainer: any;
   peachBtnText: any;
 }
-
-const fullWidth = Dimensions.get("window").width;
-const fullHeight = Dimensions.get("window").height;
 
 export default StyleSheet.create<Style>({
   peachBtnText: peachBtnText,
@@ -227,12 +219,5 @@ export default StyleSheet.create<Style>({
     marginRight: "auto",
     marginBottom: 10
   },
-  loaderContainer: {
-    alignItems: "center",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    width: fullWidth,
-    height: fullHeight
-  }
+  loaderContainer: loaderContainer
 });

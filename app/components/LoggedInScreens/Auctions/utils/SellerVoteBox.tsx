@@ -304,6 +304,7 @@ export default class SellerVoteBox extends Component<
                 this.props.product
               )
             }
+            underlayColor={"#dd904d"}
           >
             <Text style={styles.peachBtnText}>Wyślij</Text>
           </TouchableHighlight>

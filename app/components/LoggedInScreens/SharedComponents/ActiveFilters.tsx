@@ -23,6 +23,7 @@ const ActiveFilters = (props: any) => (
           <TouchableHighlight
             style={styles.removeFilterBtn}
             onPress={() => props.removeFilter("Odległość")}
+            underlayColor={"#dd904d"}
           >
             <Image source={trash} style={{ width: 20, height: 20 }} />
           </TouchableHighlight>
@@ -37,6 +38,7 @@ const ActiveFilters = (props: any) => (
           <TouchableHighlight
             style={styles.removeFilterBtn}
             onPress={() => props.removeFilter("Wiek dziecka")}
+            underlayColor={"#dd904d"}
           >
             <Image source={trash} style={{ width: 20, height: 20 }} />
           </TouchableHighlight>
@@ -51,6 +53,7 @@ const ActiveFilters = (props: any) => (
           <TouchableHighlight
             style={styles.removeFilterBtn}
             onPress={() => props.removeFilter("Płeć dziecka")}
+            underlayColor={"#dd904d"}
           >
             <Image source={trash} style={{ width: 20, height: 20 }} />
           </TouchableHighlight>
@@ -65,6 +68,7 @@ const ActiveFilters = (props: any) => (
           <TouchableHighlight
             style={styles.removeFilterBtn}
             onPress={() => props.removeFilter("Hobby")}
+            underlayColor={"#dd904d"}
           >
             <Image source={trash} style={{ width: 20, height: 20 }} />
           </TouchableHighlight>
@@ -79,6 +83,7 @@ const ActiveFilters = (props: any) => (
           <TouchableHighlight
             style={styles.removeFilterBtn}
             onPress={() => props.removeFilter("Cena")}
+            underlayColor={"#dd904d"}
           >
             <Image source={trash} style={{ width: 20, height: 20 }} />
           </TouchableHighlight>
@@ -93,6 +98,7 @@ const ActiveFilters = (props: any) => (
           <TouchableHighlight
             style={styles.removeFilterBtn}
             onPress={() => props.removeFilter("Status")}
+            underlayColor={"#dd904d"}
           >
             <Image source={trash} style={{ width: 20, height: 20 }} />
           </TouchableHighlight>

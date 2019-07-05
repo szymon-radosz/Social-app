@@ -32,7 +32,11 @@ const Alert = (props: any) => {
         >
           {message}
         </Text>
-        <TouchableHighlight onPress={closeAlert} style={styles.closeAlert}>
+        <TouchableHighlight
+          onPress={closeAlert}
+          style={styles.closeAlert}
+          underlayColor={"#fff"}
+        >
           <Image source={close} style={{ width: 16, height: 16 }} />
         </TouchableHighlight>
       </View>

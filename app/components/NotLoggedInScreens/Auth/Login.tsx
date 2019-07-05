@@ -112,24 +112,26 @@ const Login = (props: { navigation: any }) => {
         onChangeText={password => setPassword(password)}
         value={password}
       />
-      <TouchableHighlight style={styles.mainBtn} onPress={loginUser}>
+      <TouchableHighlight
+        style={styles.mainBtn}
+        onPress={loginUser}
+        underlayColor={"#dd904d"}
+      >
         <Text style={styles.peachBtnText}>Zaloguj</Text>
       </TouchableHighlight>
 
       <View style={styles.subBtnSection}>
         <Text style={styles.subBtnSectionAsk}>Nie posiadasz konta? </Text>
-        <TouchableHighlight>
-          <Text
-            style={styles.registerBtn}
-            onPress={() =>
-              navigation.navigate("Register", {
-                API_URL: navigation.getParam("API_URL", ""),
-                setUserData: navigation.getParam("setUserData")
-              })
-            }
-          >
-            Rejestracja
-          </Text>
+        <TouchableHighlight
+          onPress={() =>
+            navigation.navigate("Register", {
+              API_URL: navigation.getParam("API_URL", ""),
+              setUserData: navigation.getParam("setUserData")
+            })
+          }
+          underlayColor={"#fff"}
+        >
+          <Text style={styles.registerBtn}>Rejestracja</Text>
         </TouchableHighlight>
       </View>
 

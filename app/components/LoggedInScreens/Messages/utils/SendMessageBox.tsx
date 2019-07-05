@@ -38,6 +38,7 @@ const SendMessageBox = (props: {
             0
           )
         }
+        underlayColor={"#dd904d"}
       >
         <Text style={styles.peachBtnText}>Wyślij</Text>
       </TouchableHighlight>

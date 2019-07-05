@@ -367,6 +367,7 @@ export default class FillNecessaryInfo extends Component<
           userEmail: userEmailName
         })
         .then(response => {
+          console.log(["uploadUserPhoto", response]);
           if (response.data.status === "OK") {
             console.log(response);
           }

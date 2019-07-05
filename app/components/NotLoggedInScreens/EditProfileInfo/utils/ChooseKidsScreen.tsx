@@ -123,7 +123,11 @@ const ChooseKidsScreen = (props: {
         </View>
       </View>
 
-      <TouchableHighlight style={styles.nextBtn} onPress={props.addKid}>
+      <TouchableHighlight
+        style={styles.nextBtn}
+        onPress={props.addKid}
+        underlayColor={"#dd904d"}
+      >
         <Text style={styles.peachBtnText}>Dodaj</Text>
       </TouchableHighlight>
       <View style={styles.infoContainer}>
@@ -147,6 +151,7 @@ const ChooseKidsScreen = (props: {
                       onPress={() => {
                         props.removeKidFromState(kid.name);
                       }}
+                      underlayColor={"#dd904d"}
                     >
                       <Image source={trash} style={{ width: 20, height: 20 }} />
                     </TouchableHighlight>
@@ -173,10 +178,18 @@ const ChooseKidsScreen = (props: {
           )}
       </View>
       <View style={{ marginBottom: 30 }}>
-        <TouchableHighlight style={styles.nextBtn} onPress={props.nextStep}>
+        <TouchableHighlight
+          style={styles.nextBtn}
+          onPress={props.nextStep}
+          underlayColor={"#dd904d"}
+        >
           <Text style={styles.peachBtnText}>Dalej</Text>
         </TouchableHighlight>
-        <TouchableHighlight style={styles.previousBtn} onPress={props.prevStep}>
+        <TouchableHighlight
+          style={styles.previousBtn}
+          onPress={props.prevStep}
+          underlayColor={"#dd904d"}
+        >
           <Text style={styles.peachBtnText}>Wróć</Text>
         </TouchableHighlight>
       </View>

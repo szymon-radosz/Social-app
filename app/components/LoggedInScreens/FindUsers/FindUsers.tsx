@@ -368,6 +368,7 @@ export default class FindUsers extends Component<
       <TouchableHighlight
         style={btnFullWidthFilledContainer}
         onPress={() => this.setShowFilterModal(item.item.title)}
+        underlayColor={"#dd904d"}
       >
         <Text
           style={{

@@ -23,6 +23,7 @@ const ProfileOptions = (props: any) => (
     <TouchableHighlight
       style={styles.buttonOption}
       onPress={props.setShowProfilePreview}
+      underlayColor={"#fff"}
     >
       <View>
         <Image
@@ -50,6 +51,7 @@ const ProfileOptions = (props: any) => (
             });
         }
       }}
+      underlayColor={"#fff"}
     >
       <View>
         <Image
@@ -69,6 +71,7 @@ const ProfileOptions = (props: any) => (
     <TouchableHighlight
       style={styles.buttonOption}
       onPress={props.loadUserFriendsList}
+      underlayColor={"#fff"}
     >
       <View>
         <Image
@@ -88,6 +91,7 @@ const ProfileOptions = (props: any) => (
     <TouchableHighlight
       style={styles.buttonOption}
       onPress={props.getUserAuctionList}
+      underlayColor={"#fff"}
     >
       <View>
         <Image
@@ -107,6 +111,7 @@ const ProfileOptions = (props: any) => (
     <TouchableHighlight
       style={styles.buttonOption}
       onPress={props.getUserNotificationList}
+      underlayColor={"#fff"}
     >
       <View>
         <Image

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, TouchableHighlight, ScrollView } from "react-native";
+import { Text, View, ScrollView } from "react-native";
 import SingleCategoryOnList from "./SingleCategoryOnList";
 import styles from "../style";
 import axios from "axios";

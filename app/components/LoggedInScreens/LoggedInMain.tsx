@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, TouchableHighlight, Image } from "react-native";
+import { StatusBar, View, TouchableHighlight, Image } from "react-native";
 import styles from "./style";
 import LoggedInScreens from "./utils/LoggedInScreens";
 import BottomPanel from "./SharedComponents/BottomPanel";
@@ -71,6 +71,10 @@ export default class LoggedInMain extends Component<
     this.setFeedbackMessage = this.setFeedbackMessage.bind(this);
     this.sendFeedback = this.sendFeedback.bind(this);
     this.setFeedbackTopic = this.setFeedbackTopic.bind(this);
+  }
+
+  componentDidMount() {
+    StatusBar.setHidden(true, "none");
   }
 
   setFeedbackTopic = (index: number) => {
@@ -246,6 +250,7 @@ export default class LoggedInMain extends Component<
           <TouchableHighlight
             style={{ position: "absolute", right: 10, bottom: 80 }}
             onPress={this.setShowFeedbackModal}
+            underlayColor={"#dd904d"}
           >
             <Image source={feedback} style={{ width: 50, height: 50 }} />
           </TouchableHighlight>

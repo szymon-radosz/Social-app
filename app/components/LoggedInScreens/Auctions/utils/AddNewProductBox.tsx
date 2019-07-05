@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   TextInput,
-  Button,
   Image,
   Text,
   View,
@@ -442,6 +441,7 @@ export default class AddNewProductBox extends Component<
                 alignItems: "center",
                 justifyContent: "center"
               }}
+              underlayColor={"#dd904d"}
               onPress={this.handleChoosePhoto}
             >
               <Image source={upload} style={{ width: 20, height: 20 }} />
@@ -507,6 +507,7 @@ export default class AddNewProductBox extends Component<
               price
             );
           }}
+          underlayColor={"#dd904d"}
         >
           <Text style={styles.peachBtnText}>Dodaj Produkt</Text>
         </TouchableHighlight>

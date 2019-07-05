@@ -1,12 +1,6 @@
 import React, { useState } from "react";
-import {
-  TextInput,
-  Text,
-  View,
-  Button,
-  TouchableHighlight
-} from "react-native";
-import { peachColor } from "./../../../assets/global/globalStyles";
+import { TextInput, Text, View, Image, TouchableHighlight } from "react-native";
+const loaderImage: any = require("./../../../assets/images/loader.gif");
 import axios from "axios";
 import styles from "./style";
 import Alert from "./../../../Alert/Alert";
@@ -19,6 +13,7 @@ const Register = (props: { navigation: any }) => {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("");
   const [showAlert, setShowAlert] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   const navigation = props.navigation;
 
@@ -38,6 +33,8 @@ const Register = (props: { navigation: any }) => {
         let API_URL = navigation.getParam("API_URL", "");
         let navProps = navigation.state.params;
 
+        setLoader(true);
+
         axios
           .post(API_URL + "/api/register", {
             name: name,
@@ -45,7 +42,10 @@ const Register = (props: { navigation: any }) => {
             password: password
           })
           .then(function(response) {
+            console.log(response.data);
             if (response.data.status === "OK") {
+              console.log(response.data);
+              setLoader(false);
               setShowAlert(false);
               setShowAlert(true);
               setAlertType("success");
@@ -58,6 +58,7 @@ const Register = (props: { navigation: any }) => {
           })
           .catch(function(error) {
             console.log(error);
+            setLoader(false);
           });
       } catch (e) {
         console.log(e);
@@ -68,69 +69,79 @@ const Register = (props: { navigation: any }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text
-        style={styles.headerText}
-      >{`Dołącz do naszej \nspołeczności!`}</Text>
-
-      <TextInput
-        style={styles.input}
-        placeholder="Imię"
-        placeholderTextColor="#919191"
-        onChangeText={name => setName(name)}
-        value={name}
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder="E-mail"
-        placeholderTextColor="#919191"
-        onChangeText={email => setEmail(email)}
-        value={email}
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Hasło"
-        secureTextEntry={true}
-        placeholderTextColor="#919191"
-        onChangeText={password => setPassword(password)}
-        value={password}
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Potwierdź hasło"
-        secureTextEntry={true}
-        placeholderTextColor="#919191"
-        onChangeText={passwordConf => setPasswordConf(passwordConf)}
-        value={passwordConf}
-      />
-      <TouchableHighlight style={styles.mainBtn} onPress={registerUser}>
-        <Text style={styles.peachBtnText}>Zarejestruj</Text>
-      </TouchableHighlight>
-
-      <View style={styles.subBtnSection}>
-        <Text style={styles.subBtnSectionAsk}>Posiadasz juz konto? </Text>
-        <TouchableHighlight>
+    <React.Fragment>
+      {loader ? (
+        <View style={styles.loaderContainer}>
+          <Image style={{ width: 100, height: 100 }} source={loaderImage} />
+        </View>
+      ) : (
+        <View style={styles.container}>
           <Text
-            style={styles.registerBtn}
-            onPress={() =>
-              navigation.navigate("Login", {
-                API_URL: navigation.getParam("API_URL", ""),
-                setUserData: navigation.getParam("setUserData")
-              })
-            }
+            style={styles.headerText}
+          >{`Dołącz do naszej \nspołeczności!`}</Text>
+
+          <TextInput
+            style={styles.input}
+            placeholder="Imię"
+            placeholderTextColor="#919191"
+            onChangeText={name => setName(name)}
+            value={name}
+          />
+
+          <TextInput
+            style={styles.input}
+            placeholder="E-mail"
+            placeholderTextColor="#919191"
+            onChangeText={email => setEmail(email)}
+            value={email}
+          />
+
+          <TextInput
+            style={styles.input}
+            placeholder="Hasło"
+            secureTextEntry={true}
+            placeholderTextColor="#919191"
+            onChangeText={password => setPassword(password)}
+            value={password}
+          />
+
+          <TextInput
+            style={styles.input}
+            placeholder="Potwierdź hasło"
+            secureTextEntry={true}
+            placeholderTextColor="#919191"
+            onChangeText={passwordConf => setPasswordConf(passwordConf)}
+            value={passwordConf}
+          />
+          <TouchableHighlight
+            style={styles.mainBtn}
+            onPress={registerUser}
+            underlayColor={"#dd904d"}
           >
-            Logowanie
-          </Text>
-        </TouchableHighlight>
-      </View>
+            <Text style={styles.peachBtnText}>Zarejestruj</Text>
+          </TouchableHighlight>
+
+          <View style={styles.subBtnSection}>
+            <Text style={styles.subBtnSectionAsk}>Posiadasz juz konto? </Text>
+            <TouchableHighlight
+              onPress={() =>
+                navigation.navigate("Login", {
+                  API_URL: navigation.getParam("API_URL", ""),
+                  setUserData: navigation.getParam("setUserData")
+                })
+              }
+              underlayColor={"#fff"}
+            >
+              <Text style={styles.registerBtn}>Logowanie</Text>
+            </TouchableHighlight>
+          </View>
+        </View>
+      )}
 
       {showAlert != false && (
         <Alert alertType={alertType} alertMessage={alertMessage} />
       )}
-    </View>
+    </React.Fragment>
   );
 };
 export default Register;

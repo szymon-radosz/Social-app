@@ -18,7 +18,10 @@ const CategoryDetailsSinglePostOnList = (props: {
 }): any => {
   const postDate = moment(props.post.created_at).format("LLL");
   return (
-    <TouchableHighlight onPress={() => props.getPostDetails(props.post.id)}>
+    <TouchableHighlight
+      onPress={() => props.getPostDetails(props.post.id)}
+      underlayColor={"#fff"}
+    >
       <View style={styles.singlePostContainer}>
         <View style={{ width: "80%" }}>
           <Text style={styles.singlePostTitle}>{props.post.title}</Text>

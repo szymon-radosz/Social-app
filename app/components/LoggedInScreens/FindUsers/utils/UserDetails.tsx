@@ -86,6 +86,7 @@ const UserDetails = (props: {
             <TouchableHighlight
               style={styles.userDetailsRedirectMessageBtn}
               onPress={props.openMessages}
+              underlayColor={"#dd904d"}
             >
               <Text style={styles.peachBtnText}>Przejdź do wiadomości</Text>
             </TouchableHighlight>
@@ -93,6 +94,7 @@ const UserDetails = (props: {
             <TouchableHighlight
               style={styles.userDetailsRedirectMessageBtn}
               onPress={props.setShowUserMessageBox}
+              underlayColor={"#dd904d"}
             >
               <Text style={styles.peachBtnText}>Pomachaj</Text>
             </TouchableHighlight>
@@ -106,6 +108,7 @@ const UserDetails = (props: {
                 onPress={() =>
                   props.inviteFriend(props.loggedInUserId, props.user.id)
                 }
+                underlayColor={"#dd904d"}
               >
                 <Text style={styles.peachBtnText}>Zaproś do znajomych</Text>
               </TouchableHighlight>
@@ -118,6 +121,7 @@ const UserDetails = (props: {
                 onPress={() =>
                   props.confirmFriend(props.loggedInUserId, props.user.id)
                 }
+                underlayColor={"#dd904d"}
               >
                 <Text style={styles.peachBtnText}>
                   Zaakceptuj zaproszenie do znajomych
@@ -132,6 +136,7 @@ const UserDetails = (props: {
                 onPress={() => {
                   console.log("Wysłano zaproszenie do znajomych");
                 }}
+                underlayColor={"#dd904d"}
               >
                 <Text style={styles.peachBtnText}>
                   Wysłano zaproszenie do znajomych
@@ -142,6 +147,7 @@ const UserDetails = (props: {
               <TouchableHighlight
                 style={styles.userDetailsRedirectMessageBtn}
                 onPress={props.setOpenProfile}
+                underlayColor={"#dd904d"}
               >
                 <Text style={styles.peachBtnText}>Jesteście znajomymi</Text>
               </TouchableHighlight>

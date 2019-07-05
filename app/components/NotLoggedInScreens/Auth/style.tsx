@@ -6,7 +6,8 @@ import {
   fontSizeBig,
   fontSizeMedium,
   fontSizeSmall,
-  peachBtnText
+  peachBtnText,
+  loaderContainer
 } from "./../../../assets/global/globalStyles";
 
 //TextStyle for elements which contains e.g. fontWeight, textAlign
@@ -24,6 +25,7 @@ interface Style {
   subBtnSectionAsk: TextStyle;
   registerBtn: TextStyle;
   peachBtnText: any;
+  loaderContainer: any;
 }
 
 export default StyleSheet.create<Style>({
@@ -102,5 +104,6 @@ export default StyleSheet.create<Style>({
     fontSize: 16,
     fontFamily: "Open Sans"
   },
-  peachBtnText: peachBtnText
+  peachBtnText: peachBtnText,
+  loaderContainer: loaderContainer
 });

@@ -15,6 +15,7 @@ const SingleCategoryOnList = (props: {
       onPress={() =>
         props.getPostByCategoryId(props.category.id, props.category.name, true)
       }
+      underlayColor={"#fff"}
     >
       <View style={styles.singleCategoryOnListContainer}>
         <Text>{props.category.name}</Text>

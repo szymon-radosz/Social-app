@@ -36,6 +36,7 @@ const UserMessageBox = (props: {
       <TouchableHighlight
         style={styles.userDetailsRedirectMessageBtn}
         onPress={() => props.sendMessage(props.userMessage)}
+        underlayColor={"#dd904d"}
       >
         <Text style={styles.peachBtnText}>Wyślij</Text>
       </TouchableHighlight>

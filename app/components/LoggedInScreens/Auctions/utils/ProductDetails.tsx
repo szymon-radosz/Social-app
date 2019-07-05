@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {
-  Button,
   TouchableHighlight,
   Text,
   Dimensions,
@@ -434,6 +433,7 @@ export default class ProductDetails extends Component<
                 <TouchableHighlight
                   style={styles.productDetailsBtn}
                   onPress={this.changeShowProductMessageBox}
+                  underlayColor={"#dd904d"}
                 >
                   <Text style={styles.peachBtnText}>Wyślij wiadomość</Text>
                 </TouchableHighlight>
@@ -456,6 +456,7 @@ export default class ProductDetails extends Component<
                 <TouchableHighlight
                   style={styles.productDetailsBtn}
                   onPress={this.props.openMessages}
+                  underlayColor={"#dd904d"}
                 >
                   <Text style={styles.peachBtnText}>
                     Produkt sprzedany, jesteście w konwersacji
@@ -469,6 +470,7 @@ export default class ProductDetails extends Component<
                 <TouchableHighlight
                   style={styles.productDetailsBtn}
                   onPress={this.props.openMessages}
+                  underlayColor={"#dd904d"}
                 >
                   <Text style={styles.peachBtnText}>
                     Jestescie już w konwersacji
@@ -481,6 +483,7 @@ export default class ProductDetails extends Component<
                 <TouchableHighlight
                   style={styles.productDetailsBtn}
                   onPress={this.changeVoteBox}
+                  underlayColor={"#dd904d"}
                 >
                   <Text style={styles.peachBtnText}>Zamknij Sprzedaż</Text>
                 </TouchableHighlight>

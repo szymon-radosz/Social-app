@@ -57,6 +57,7 @@ export default class UserOnList extends Component<
           <TouchableHighlight
             style={styles.productDetailsBtn}
             onPress={() => this.props.sendNewConversationProduct(message)}
+            underlayColor={"#dd904d"}
           >
             <Text style={styles.peachBtnText}>Wyślij</Text>
           </TouchableHighlight>

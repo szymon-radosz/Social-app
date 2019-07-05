@@ -321,6 +321,7 @@ export default class Forum extends Component<ForumProps, ForumState> {
             <TouchableHighlight
               style={styles.addPostBtn}
               onPress={this.setShowSavePost}
+              underlayColor={"#dd904d"}
             >
               <Text style={styles.peachBtnText}>Dodaj post</Text>
             </TouchableHighlight>

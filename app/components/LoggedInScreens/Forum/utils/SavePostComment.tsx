@@ -30,6 +30,7 @@ const SavePostComment = (props: {
           props.saveComment(props.postId, props.user.id, props.commentMessage);
           props.clearCommentMessage();
         }}
+        underlayColor={"#dd904d"}
       >
         <Text style={styles.peachBtnText}>Wyślij</Text>
       </TouchableHighlight>

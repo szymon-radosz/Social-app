@@ -51,7 +51,11 @@ const AgeDescScreen = (props: {
       </View>
 
       {props.age != 0 && (
-        <TouchableHighlight style={styles.nextBtn} onPress={props.nextStep}>
+        <TouchableHighlight
+          style={styles.nextBtn}
+          onPress={props.nextStep}
+          underlayColor={"#dd904d"}
+        >
           <Text style={styles.peachBtnText}>Dalej</Text>
         </TouchableHighlight>
       )}

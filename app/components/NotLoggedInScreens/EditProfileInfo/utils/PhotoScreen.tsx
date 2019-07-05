@@ -39,17 +39,26 @@ const PhotoScreen = (props: {
       <TouchableHighlight
         style={styles.nextBtn}
         onPress={props.handleChoosePhoto}
+        underlayColor={"#dd904d"}
       >
         <Text style={styles.peachBtnText}>Wybierz zdjęcie</Text>
       </TouchableHighlight>
 
       {props.photo || props.userSavedPhoto ? (
-        <TouchableHighlight style={styles.nextBtn} onPress={props.nextStep}>
+        <TouchableHighlight
+          style={styles.nextBtn}
+          onPress={props.nextStep}
+          underlayColor={"#dd904d"}
+        >
           <Text style={styles.peachBtnText}>Dalej</Text>
         </TouchableHighlight>
       ) : null}
 
-      <TouchableHighlight style={styles.previousBtn} onPress={props.prevStep}>
+      <TouchableHighlight
+        style={styles.previousBtn}
+        onPress={props.prevStep}
+        underlayColor={"#dd904d"}
+      >
         <Text style={styles.peachBtnText}>Wróć</Text>
       </TouchableHighlight>
     </View>

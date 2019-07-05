@@ -95,6 +95,7 @@ const FilterModal = (props: {
         onPress={() =>
           props.filterResults(selectedResultName, selectedResultValue)
         }
+        underlayColor={"#dd904d"}
       >
         <Text style={styles.peachBtnText}>Filtruj</Text>
       </TouchableHighlight>

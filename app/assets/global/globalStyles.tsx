@@ -1,3 +1,6 @@
+import { Dimensions } from "react-native";
+const fullWidth = Dimensions.get("window").width;
+const fullHeight = Dimensions.get("window").height;
 export const peachColor = "#f4a157";
 export const darkGrayColor = "#424242";
 export const lightBorderRadius = 6;
@@ -297,4 +300,12 @@ export const peachBtnText = {
   textAlign: "center",
   fontSize: 16,
   fontFamily: "Open Sans"
+};
+export const loaderContainer = {
+  alignItems: "center",
+  flexDirection: "row",
+  flexWrap: "wrap",
+  justifyContent: "center",
+  width: fullWidth,
+  height: fullHeight
 };

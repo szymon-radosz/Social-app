@@ -278,6 +278,7 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
       <TouchableHighlight
         style={btnFullWidthFilledContainer}
         onPress={() => this.setShowFilterModal(item.item.title)}
+        underlayColor={"#dd904d"}
       >
         <Text
           style={{
@@ -525,6 +526,7 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
               <TouchableHighlight
                 style={styles.productDetailsBtn}
                 onPress={this.changeDisplayNewProductBox}
+                underlayColor={"#dd904d"}
               >
                 <Text style={styles.peachBtnText}>Dodaj produkt</Text>
               </TouchableHighlight>

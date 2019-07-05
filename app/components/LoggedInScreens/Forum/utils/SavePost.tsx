@@ -153,21 +153,21 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
               </View>
             );
           })}
-          <View style={{ paddingBottom: 20 }}>
-            <TouchableHighlight
-              style={styles.addPostBtn}
-              onPress={() =>
-                this.props.savePost(
-                  this.state.title,
-                  this.state.description,
-                  this.props.user.id,
-                  this.state.categoryId
-                )
-              }
-            >
-              <Text style={styles.peachBtnText}>Dodaj</Text>
-            </TouchableHighlight>
-          </View>
+
+          <TouchableHighlight
+            style={styles.addPostBtn}
+            onPress={() =>
+              this.props.savePost(
+                this.state.title,
+                this.state.description,
+                this.props.user.id,
+                this.state.categoryId
+              )
+            }
+            underlayColor={"#dd904d"}
+          >
+            <Text style={styles.peachBtnText}>Dodaj</Text>
+          </TouchableHighlight>
         </View>
       </View>
     );
