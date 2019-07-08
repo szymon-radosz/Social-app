@@ -16,7 +16,7 @@ const SavePostComment = (props: {
     <View style={styles.savePostCommentContainer}>
       <TextInput
         style={styles.savePostCommentInput}
-        multiline={false}
+        multiline={true}
         maxLength={500}
         onChangeText={message => props.setCommentMessage(message)}
         value={props.commentMessage}

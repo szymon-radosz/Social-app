@@ -186,8 +186,8 @@ export default StyleSheet.create<Style>({
     color: darkGrayColor,
     fontSize: 14,
     fontWeight: "600",
-    left: 5,
-    top: 2,
+    left: 6,
+    top: 1,
     fontFamily: "Open Sans"
   },
   unreadedMessagesNotificationLongDotText: {

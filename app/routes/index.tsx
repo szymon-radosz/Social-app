@@ -13,14 +13,54 @@ import { fadeIn } from "react-navigation-transitions";
 
 const MainStack = createStackNavigator(
   {
-    Welcome: Welcome,
-    Login: Login,
-    Register: Register,
-    ResetPassword: ResetPassword,
-    NotLoggedInMain: NotLoggedInMain,
-    ConfirmAccount: ConfirmAccount,
-    FillNecessaryInfo: FillNecessaryInfo,
-    LoggedInMain: LoggedInMain
+    Welcome: {
+      screen: Welcome,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Login: {
+      screen: Login,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Register: {
+      screen: Register,
+      navigationOptions: {
+        header: null
+      }
+    },
+    ResetPassword: {
+      screen: ResetPassword,
+      navigationOptions: {
+        header: null
+      }
+    },
+    NotLoggedInMain: {
+      screen: NotLoggedInMain,
+      navigationOptions: {
+        header: null
+      }
+    },
+    ConfirmAccount: {
+      screen: ConfirmAccount,
+      navigationOptions: {
+        header: null
+      }
+    },
+    FillNecessaryInfo: {
+      screen: FillNecessaryInfo,
+      navigationOptions: {
+        header: null
+      }
+    },
+    LoggedInMain: {
+      screen: LoggedInMain,
+      navigationOptions: {
+        header: null
+      }
+    }
   },
   {
     initialRouteName: "NotLoggedInMain",

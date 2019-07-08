@@ -360,14 +360,28 @@ export default class FillNecessaryInfo extends Component<
       let API_URL = navigation.getParam("API_URL", "");
       let userEmailName = navigation.getParam("user").email;
 
+      console.log([
+        this.state.photo.path,
+        userEmailName.split("@")[0],
+        userEmailName
+      ]);
+
       axios
-        .post(API_URL + "/api/uploadUserPhoto", {
-          file: this.state.photo.path ? this.state.photo.path : "",
-          fileName: userEmailName.split("@")[0],
-          userEmail: userEmailName
-        })
+        .post(
+          API_URL + "/api/uploadUserPhoto",
+          {
+            file: this.state.photo.path,
+            fileName: userEmailName.split("@")[0],
+            userEmail: userEmailName
+          }
+          /* {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          }*/
+        )
         .then(response => {
-          console.log(["uploadUserPhoto", response]);
+          console.log(["fileUpload", response]);
           if (response.data.status === "OK") {
             console.log(response);
           }
@@ -483,10 +497,10 @@ export default class FillNecessaryInfo extends Component<
     await this.userLocationString();
     await this.cleanUserKids();
     await this.cleanUserHobbies();
-    await this.saveUserData();
-    await this.fileUpload();
     await this.saveUserKids();
     await this.saveHobbies();
+    await this.saveUserData();
+    await this.fileUpload();
 
     navProps.setUserFilledInfo();
     this.setState({ loader: false });

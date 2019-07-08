@@ -693,135 +693,138 @@ export default class FindUsers extends Component<
       locationDetails
     } = this.state;
     return (
-      <View>
-        {!showFilterModal && !showUserDetails && !showUserMessageBox && (
-          <ImageBackground source={findUsersBg} style={{ width: "100%" }}>
-            <Text style={styles.pageTitle}>
-              Poznaj mamy
-              {"\n"}w okolicy.
-            </Text>
-          </ImageBackground>
-        )}
-
-        {!showUserMessageBox &&
-          !showUserDetails &&
-          userList &&
-          showFilterModal && (
-            <Suspense fallback={<Text>Wczytywanie...</Text>}>
-              <FilterModal
-                filterOptions={filterData}
-                closeFilter={this.setShowFilterModal}
-                filterModalName={filterModalName}
-                filterResults={this.filterResults}
-              />
-            </Suspense>
-          )}
-
-        {showUserDetails && !showUserMessageBox && userDetailsData && (
-          <Suspense fallback={<Text>Wczytywanie...</Text>}>
-            <UserDetails
-              hideShowUserDetails={this.hideShowUserDetails}
-              API_URL={this.props.API_URL}
-              user={userDetailsData}
-              usersAreInTheSameConversation={usersAreInTheSameConversation}
-              usersFriendshipStatus={usersFriendshipStatus}
-              openMessages={this.props.openMessages}
-              setOpenProfile={this.props.setOpenProfile}
-              setShowUserMessageBox={this.setShowUserMessageBox}
-              alertMessage={alertMessage}
-              alertType={alertType}
-              inviteFriend={this.inviteFriend}
-              confirmFriend={this.confirmFriend}
-              loggedInUserId={this.props.user.id}
-              locationDetails={locationDetails}
-            />
-          </Suspense>
-        )}
-
-        <View style={styles.container}>
-          {showUserMessageBox && !showUserDetails && userDetailsData && (
-            <Suspense fallback={<Text>Wczytywanie...</Text>}>
-              <UserMessageBox
-                hideShowUserMessageBox={this.hideShowUserMessageBox}
-                sendMessage={this.sendMessage}
-                setUserMessage={this.setUserMessage}
-                userMessage={userMessage}
-                alertMessage={alertMessage}
-                alertType={alertType}
-              />
-            </Suspense>
+      <React.Fragment>
+        <View>
+          {!showFilterModal && !showUserDetails && !showUserMessageBox && (
+            <ImageBackground source={findUsersBg} style={{ width: "100%" }}>
+              <Text style={styles.pageTitle}>
+                Poznaj mamy
+                {"\n"}w okolicy.
+              </Text>
+            </ImageBackground>
           )}
 
           {!showUserMessageBox &&
             !showUserDetails &&
             userList &&
-            !showFilterModal && (
-              <View>
-                <Text style={styles.filterResultsHeaderText}>
-                  Filtruj wyniki
-                </Text>
-                <View style={styles.filterResultsCarousel}>
-                  <Carousel
-                    layout={"default"}
-                    activeSlideAlignment={"start"}
-                    data={filterOptions}
-                    renderItem={this.renderItem}
-                    itemWidth={100}
-                    sliderWidth={styles.fullWidth}
-                    removeClippedSubviews={false}
-                  />
-                </View>
-              </View>
+            showFilterModal && (
+              <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                <FilterModal
+                  filterOptions={filterData}
+                  closeFilter={this.setShowFilterModal}
+                  filterModalName={filterModalName}
+                  filterResults={this.filterResults}
+                />
+              </Suspense>
             )}
 
-          {!showUserDetails && (
+          {showUserDetails && !showUserMessageBox && userDetailsData && (
             <Suspense fallback={<Text>Wczytywanie...</Text>}>
-              <ActiveFilters
-                filterDistance={filterDistance}
-                filterChildAge={filterChildAge}
-                filterChildGender={filterChildGender}
-                filterHobbyName={filterHobbyName}
-                showFilterModal={showFilterModal}
-                removeFilter={this.removeFilter}
+              <UserDetails
+                hideShowUserDetails={this.hideShowUserDetails}
+                API_URL={this.props.API_URL}
+                user={userDetailsData}
+                usersAreInTheSameConversation={usersAreInTheSameConversation}
+                usersFriendshipStatus={usersFriendshipStatus}
+                openMessages={this.props.openMessages}
+                setOpenProfile={this.props.setOpenProfile}
+                setShowUserMessageBox={this.setShowUserMessageBox}
+                alertMessage={alertMessage}
+                alertType={alertType}
+                inviteFriend={this.inviteFriend}
+                confirmFriend={this.confirmFriend}
+                loggedInUserId={this.props.user.id}
+                locationDetails={locationDetails}
               />
             </Suspense>
           )}
 
-          {!showUserMessageBox &&
-          !showUserDetails &&
-          userList &&
-          !showFilterModal &&
-          userList.length > 1
-            ? userList.map((user: any, i: number) => {
-                if (user.id != this.props.user.id) {
-                  return (
-                    <UserOnList
-                      API_URL={this.props.API_URL}
-                      key={uuid()}
-                      user={user}
-                      setShowUserDetails={this.setShowUserDetails}
-                      setUserDetailsId={this.setUserDetailsId}
-                    />
-                  );
-                }
-              })
-            : null}
+          <View style={styles.container}>
+            {showUserMessageBox && !showUserDetails && userDetailsData && (
+              <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                <UserMessageBox
+                  hideShowUserMessageBox={this.hideShowUserMessageBox}
+                  sendMessage={this.sendMessage}
+                  setUserMessage={this.setUserMessage}
+                  userMessage={userMessage}
+                  alertMessage={alertMessage}
+                  alertType={alertType}
+                />
+              </Suspense>
+            )}
 
-          {!showUserMessageBox &&
-          !showUserDetails &&
-          userList &&
-          !showFilterModal &&
-          userList.length < 2 ? (
-            <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
-              Brak mam w Twojej okolicy. Zaproś znajome do skorzystania z
-              aplikacji E-mamy i zbudujcie razem lokalną społeczność mam.
-            </Text>
-          ) : null}
+            {!showUserMessageBox &&
+              !showUserDetails &&
+              userList &&
+              !showFilterModal && (
+                <View>
+                  <Text style={styles.filterResultsHeaderText}>
+                    Filtruj wyniki
+                  </Text>
+                  <View style={styles.filterResultsCarousel}>
+                    <Carousel
+                      layout={"default"}
+                      activeSlideAlignment={"start"}
+                      data={filterOptions}
+                      renderItem={this.renderItem}
+                      itemWidth={100}
+                      sliderWidth={styles.fullWidth}
+                      removeClippedSubviews={false}
+                    />
+                  </View>
+                </View>
+              )}
+
+            {!showUserDetails && (
+              <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                <ActiveFilters
+                  filterDistance={filterDistance}
+                  filterChildAge={filterChildAge}
+                  filterChildGender={filterChildGender}
+                  filterHobbyName={filterHobbyName}
+                  showFilterModal={showFilterModal}
+                  removeFilter={this.removeFilter}
+                />
+              </Suspense>
+            )}
+
+            {!showUserMessageBox &&
+            !showUserDetails &&
+            userList &&
+            !showFilterModal &&
+            userList.length > 1
+              ? userList.map((user: any, i: number) => {
+                  if (user.id != this.props.user.id) {
+                    return (
+                      <UserOnList
+                        API_URL={this.props.API_URL}
+                        key={uuid()}
+                        user={user}
+                        setShowUserDetails={this.setShowUserDetails}
+                        setUserDetailsId={this.setUserDetailsId}
+                      />
+                    );
+                  }
+                })
+              : null}
+
+            {!showUserMessageBox &&
+            !showUserDetails &&
+            userList &&
+            !showFilterModal &&
+            userList.length < 2 ? (
+              <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
+                Brak mam w Twojej okolicy. Zaproś znajome do skorzystania z
+                aplikacji E-mamy i zbudujcie razem lokalną społeczność mam.
+              </Text>
+            ) : null}
+          </View>
         </View>
+
         {showAlert != false && (
           <Alert alertType={alertType} alertMessage={alertMessage} />
         )}
-      </View>
+      </React.Fragment>
     );
   }
 }

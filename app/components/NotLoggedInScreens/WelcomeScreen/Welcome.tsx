@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Image, TouchableHighlight } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  TouchableHighlight,
+  SafeAreaView
+} from "react-native";
 import styles from "./style";
 import AppIntroSlider from "react-native-app-intro-slider";
 
@@ -57,44 +63,51 @@ const Welcome = (props: { navigation: any }) => {
 
   const navigation = props.navigation;
   return (
-    <View style={styles.container}>
-      <AppIntroSlider
-        renderItem={welcomeSliderRenderItem}
-        slides={slides}
-        activeDotStyle={styles.activeWelcomeSlideRect}
-        dotStyle={styles.inActiveWelcomeSlideRect}
-        paginationStyle={styles.welcomeSliderPagination}
-      />
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: "#fff"
+      }}
+    >
+      <View style={styles.container}>
+        <AppIntroSlider
+          renderItem={welcomeSliderRenderItem}
+          slides={slides}
+          activeDotStyle={styles.activeWelcomeSlideRect}
+          dotStyle={styles.inActiveWelcomeSlideRect}
+          paginationStyle={styles.welcomeSliderPagination}
+        />
 
-      <View>
-        <TouchableHighlight
-          style={styles.loginBtn}
-          onPress={(): void =>
-            navigation.navigate("Login", {
-              API_URL: navigation.getParam("API_URL"),
-              setUserData: navigation.getParam("setUserData"),
-              clearUserData: navigation.getParam("clearUserData")
-            })
-          }
-          underlayColor={"#dd904d"}
-        >
-          <Text style={styles.peachBtnText}>Logowanie</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.registerBtn}
-          onPress={() =>
-            navigation.navigate("Register", {
-              API_URL: navigation.getParam("API_URL", ""),
-              setUserData: navigation.getParam("setUserData"),
-              clearUserData: navigation.getParam("clearUserData")
-            })
-          }
-          underlayColor={"#fff"}
-        >
-          <Text style={styles.subBtn}>Rejestracja</Text>
-        </TouchableHighlight>
+        <View>
+          <TouchableHighlight
+            style={styles.loginBtn}
+            onPress={(): void =>
+              navigation.navigate("Login", {
+                API_URL: navigation.getParam("API_URL"),
+                setUserData: navigation.getParam("setUserData"),
+                clearUserData: navigation.getParam("clearUserData")
+              })
+            }
+            underlayColor={"#dd904d"}
+          >
+            <Text style={styles.peachBtnText}>Logowanie</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.registerBtn}
+            onPress={() =>
+              navigation.navigate("Register", {
+                API_URL: navigation.getParam("API_URL", ""),
+                setUserData: navigation.getParam("setUserData"),
+                clearUserData: navigation.getParam("clearUserData")
+              })
+            }
+            underlayColor={"#fff"}
+          >
+            <Text style={styles.subBtn}>Rejestracja</Text>
+          </TouchableHighlight>
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 export default Welcome;

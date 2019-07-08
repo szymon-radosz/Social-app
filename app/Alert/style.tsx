@@ -1,8 +1,8 @@
 import { Dimensions, ViewStyle, TextStyle } from "react-native";
 import { StyleSheet } from "react-native";
+import { ifIphoneX } from "react-native-iphone-x-helper";
 
 const fullWidth = Dimensions.get("window").width;
-const fullHeight = Dimensions.get("window").height;
 
 //TextStyle for elements which contains e.g. fontWeight, textAlign
 //ViewStyle for elements which contains e.g. backgroundColor, borderStyle
@@ -19,6 +19,12 @@ export default StyleSheet.create<Style>({
     zIndex: 100,
     width: fullWidth,
     top: 0,
+    ...ifIphoneX(
+      {
+        paddingTop: 30
+      },
+      {}
+    ),
     justifyContent: "center"
   },
   successContainer: {
@@ -43,5 +49,14 @@ export default StyleSheet.create<Style>({
     textAlign: "center",
     backgroundColor: "#cc7897"
   },
-  closeAlert: { position: "absolute", right: 10 }
+  closeAlert: {
+    position: "absolute",
+    right: 10,
+    ...ifIphoneX(
+      {
+        top: 42
+      },
+      {}
+    )
+  }
 });

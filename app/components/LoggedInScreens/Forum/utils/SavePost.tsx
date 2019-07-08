@@ -81,9 +81,19 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
           closeMethod={this.props.setShowSavePost}
           closeMethodParameter={""}
         />
-        <View>
+        <View style={{ marginBottom: 10 }}>
           <TextInput
-            style={styles.savePostCommentInput}
+            style={{
+              borderWidth: 1,
+              borderRadius: 6,
+              marginLeft: 10,
+              marginRight: 10,
+              marginTop: 10,
+              padding: 10,
+              height: 40,
+              borderColor: "#424242",
+              textAlignVertical: "top"
+            }}
             multiline={false}
             maxLength={150}
             onChangeText={title => this.setState({ title })}

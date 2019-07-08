@@ -191,50 +191,62 @@ export default class PostDetails extends Component<
     let API_URL = this.props.API_URL;
     let that = this;
 
-    axios
-      .post(API_URL + "/api/addNotification", {
-        type: "comment_for_your_forum_post",
-        message: `Użytkowniczka ${this.props.user.name} (${
-          this.props.user.email
-        }) dodała komentarz do Twojego posta na forum.`,
-        userId: this.state.authorId
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-          console.log(["started_conversation_user addNotification", response]);
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
+    if (!body || postId === 0 || userId === 0) {
+      that.setState({ showAlert: false });
+      that.setState({
+        showAlert: true,
+        alertType: "danger",
+        alertMessage: "Prosimy o uzupełnienie treści."
       });
+    } else {
+      axios
+        .post(API_URL + "/api/addNotification", {
+          type: "comment_for_your_forum_post",
+          message: `Użytkowniczka ${this.props.user.name} (${
+            this.props.user.email
+          }) dodała komentarz do Twojego posta na forum.`,
+          userId: this.state.authorId
+        })
+        .then(function(response) {
+          if (response.data.status === "OK") {
+            console.log([
+              "started_conversation_user addNotification",
+              response
+            ]);
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
 
-    axios
-      .post(API_URL + "/api/savePostComment", {
-        body: body,
-        userId: userId,
-        postId: postId
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-          that.getPostComments();
+      axios
+        .post(API_URL + "/api/savePostComment", {
+          body: body,
+          userId: userId,
+          postId: postId
+        })
+        .then(function(response) {
+          if (response.data.status === "OK") {
+            that.getPostComments();
 
+            that.setState({ showAlert: false });
+            that.setState({
+              showAlert: true,
+              alertType: "success",
+              alertMessage: "Twój komentarz został dodany."
+            });
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
           that.setState({ showAlert: false });
           that.setState({
             showAlert: true,
             alertType: "success",
-            alertMessage: "Twój komentarz został dodany."
+            alertMessage: "Problem z dodaniem komentarza."
           });
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-        that.setState({ showAlert: false });
-        that.setState({
-          showAlert: true,
-          alertType: "success",
-          alertMessage: "Problem z dodaniem komentarza."
         });
-      });
+    }
   };
 
   componentDidMount = (): void => {
@@ -257,94 +269,97 @@ export default class PostDetails extends Component<
       alertMessage
     } = this.state;
     return (
-      <View style={{ position: "relative" }}>
-        <PageHeader
-          boldText={postTitle}
-          normalText={""}
-          closeMethod={this.props.setShowPostDetails}
-          closeMethodParameter={""}
-        />
+      <React.Fragment>
+        <View style={{ position: "relative" }}>
+          <PageHeader
+            boldText={postTitle}
+            normalText={""}
+            closeMethod={this.props.setShowPostDetails}
+            closeMethodParameter={""}
+          />
 
-        <ScrollView>
-          <View style={styles.postDetailsContainerPadding}>
-            <View style={styles.postDetailsContainer}>
-              <TouchableOpacity>
-                <Image
-                  style={styles.image}
-                  source={{
-                    uri: `${this.props.API_URL}userPhotos/${authorPhotoPath}`
-                  }}
-                />
-              </TouchableOpacity>
-              <View style={styles.postDetailsAuthorContainer}>
-                <Text style={styles.postDetailsAuthorContainerName}>
-                  {authorName}
-                </Text>
-                <Text style={styles.postDetailsAuthorContainerEmail}>
-                  {authorEmail}
-                </Text>
-              </View>
-            </View>
-            <Text style={styles.postDetailsDesc}>{postDesc}</Text>
-            <Text style={styles.postDetailsPostDate}>
-              Utworzono: {postDate}
-            </Text>
-            <View style={styles.postDetailsPostVoteContainer}>
-              <View style={styles.postDetailsPostVoteWrapper}>
-                <Text style={styles.postDetailsPostVoteCount}>{postVotes}</Text>
-                <TouchableOpacity onPress={this.savePostVote}>
-                  <Image
-                    style={styles.postDetailsPostVoteImage}
-                    resizeMode="contain"
-                    source={like}
-                  />
-                </TouchableOpacity>
-              </View>
-              <View style={styles.postDetailsPostCommentCountWrapper}>
-                <Text style={styles.postDetailsPostCommentCountText}>
-                  {comments.length}
-                </Text>
+          <ScrollView>
+            <View style={styles.postDetailsContainerPadding}>
+              <View style={styles.postDetailsContainer}>
                 <TouchableOpacity>
                   <Image
-                    style={styles.postDetailsPostVoteImage}
-                    resizeMode="contain"
-                    source={comment}
+                    style={styles.image}
+                    source={{
+                      uri: `${this.props.API_URL}userPhotos/${authorPhotoPath}`
+                    }}
                   />
                 </TouchableOpacity>
+                <View style={styles.postDetailsAuthorContainer}>
+                  <Text style={styles.postDetailsAuthorContainerName}>
+                    {authorName}
+                  </Text>
+                  <Text style={styles.postDetailsAuthorContainerEmail}>
+                    {authorEmail}
+                  </Text>
+                </View>
               </View>
-            </View>
-
-            {comments.length > 0 ? (
-              <Text style={styles.postDetailsPostCommentListHeader}>
-                Komentarze:
+              <Text style={styles.postDetailsDesc}>{postDesc}</Text>
+              <Text style={styles.postDetailsPostDate}>
+                Utworzono: {postDate}
               </Text>
-            ) : null}
+              <View style={styles.postDetailsPostVoteContainer}>
+                <View style={styles.postDetailsPostVoteWrapper}>
+                  <Text style={styles.postDetailsPostVoteCount}>
+                    {postVotes}
+                  </Text>
+                  <TouchableOpacity onPress={this.savePostVote}>
+                    <Image
+                      style={styles.postDetailsPostVoteImage}
+                      resizeMode="contain"
+                      source={like}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.postDetailsPostCommentCountWrapper}>
+                  <Text style={styles.postDetailsPostCommentCountText}>
+                    {comments.length}
+                  </Text>
+                  <TouchableOpacity>
+                    <Image
+                      style={styles.postDetailsPostVoteImage}
+                      resizeMode="contain"
+                      source={comment}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
 
-            {comments.map((comment: any, i: number) => {
-              return (
-                <SinglePostDetailsComment
-                  API_URL={this.props.API_URL}
-                  key={uuid()}
-                  comment={comment}
-                  saveCommentVote={this.saveCommentVote}
-                />
-              );
-            })}
-          </View>
-          <SavePostComment
-            saveComment={this.saveComment}
-            postId={this.props.postDetailsId}
-            user={this.props.user}
-            setCommentMessage={this.setCommentMessage}
-            commentMessage={commentMessage}
-            clearCommentMessage={this.clearCommentMessage}
-          />
-        </ScrollView>
+              {comments.length > 0 ? (
+                <Text style={styles.postDetailsPostCommentListHeader}>
+                  Komentarze:
+                </Text>
+              ) : null}
 
+              {comments.map((comment: any, i: number) => {
+                return (
+                  <SinglePostDetailsComment
+                    API_URL={this.props.API_URL}
+                    key={uuid()}
+                    comment={comment}
+                    saveCommentVote={this.saveCommentVote}
+                  />
+                );
+              })}
+            </View>
+            <SavePostComment
+              saveComment={this.saveComment}
+              postId={this.props.postDetailsId}
+              user={this.props.user}
+              setCommentMessage={this.setCommentMessage}
+              commentMessage={commentMessage}
+              clearCommentMessage={this.clearCommentMessage}
+            />
+          </ScrollView>
+        </View>
         {showAlert != false && (
           <Alert alertType={alertType} alertMessage={alertMessage} />
         )}
-      </View>
+      </React.Fragment>
     );
   }
 }

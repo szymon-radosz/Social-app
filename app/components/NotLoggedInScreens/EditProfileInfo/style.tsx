@@ -91,7 +91,8 @@ export default StyleSheet.create<Style>({
   },
   hobbiesContainer: {
     flexDirection: "row",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+    justifyContent: "center"
   },
   btnContainer: {
     justifyContent: "center",

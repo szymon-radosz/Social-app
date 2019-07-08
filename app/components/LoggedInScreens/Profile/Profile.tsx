@@ -36,6 +36,7 @@ interface ProfileState {
   userNotificationList: any;
   displayFriendList: boolean;
   userPendingFriendsList: any;
+  userHobbies: any;
 }
 
 interface ProfileProps {
@@ -72,6 +73,7 @@ export default class Profile extends Component<
       userFriendsList: [],
       userPendingFriendsList: [],
       userAuctionList: [],
+      userHobbies: [],
       displayFriendList: true
     };
     this.getAmountOfFriends = this.getAmountOfFriends.bind(this);

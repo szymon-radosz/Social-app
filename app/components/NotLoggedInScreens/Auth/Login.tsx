@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   Text,
   View,
-  Button,
+  SafeAreaView,
   TextInput,
   TouchableHighlight
 } from "react-native";
@@ -93,64 +93,74 @@ const Login = (props: { navigation: any }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.headerText}>{`Miło Cię widzieć \nponownie!`}</Text>
-
-      <TextInput
-        style={styles.input}
-        placeholder="E-mail"
-        placeholderTextColor="#919191"
-        onChangeText={email => setEmail(email)}
-        value={email}
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Hasło"
-        secureTextEntry={true}
-        placeholderTextColor="#919191"
-        onChangeText={password => setPassword(password)}
-        value={password}
-      />
-      <TouchableHighlight
-        style={styles.mainBtn}
-        onPress={loginUser}
-        underlayColor={"#dd904d"}
+    <React.Fragment>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          backgroundColor: "#fff"
+        }}
       >
-        <Text style={styles.peachBtnText}>Zaloguj</Text>
-      </TouchableHighlight>
+        <View style={styles.container}>
+          <Text
+            style={styles.headerText}
+          >{`Miło Cię widzieć \nponownie!`}</Text>
 
-      <View style={styles.subBtnSection}>
-        <Text style={styles.subBtnSectionAsk}>Nie posiadasz konta? </Text>
-        <TouchableHighlight
-          onPress={() =>
-            navigation.navigate("Register", {
-              API_URL: navigation.getParam("API_URL", ""),
-              setUserData: navigation.getParam("setUserData")
-            })
-          }
-          underlayColor={"#fff"}
-        >
-          <Text style={styles.registerBtn}>Rejestracja</Text>
-        </TouchableHighlight>
-      </View>
+          <TextInput
+            style={styles.input}
+            placeholder="E-mail"
+            placeholderTextColor="#919191"
+            onChangeText={email => setEmail(email)}
+            value={email}
+          />
 
-      <Text
-        style={styles.resetPasswordBtn}
-        onPress={() =>
-          navigation.navigate("ResetPassword", {
-            API_URL: navigation.getParam("API_URL", ""),
-            setUserData: navigation.getParam("setUserData")
-          })
-        }
-      >
-        Resetuj hasło
-      </Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Hasło"
+            secureTextEntry={true}
+            placeholderTextColor="#919191"
+            onChangeText={password => setPassword(password)}
+            value={password}
+          />
+          <TouchableHighlight
+            style={styles.mainBtn}
+            onPress={loginUser}
+            underlayColor={"#dd904d"}
+          >
+            <Text style={styles.peachBtnText}>Zaloguj</Text>
+          </TouchableHighlight>
 
+          <View style={styles.subBtnSection}>
+            <Text style={styles.subBtnSectionAsk}>Nie posiadasz konta? </Text>
+            <TouchableHighlight
+              onPress={() =>
+                navigation.navigate("Register", {
+                  API_URL: navigation.getParam("API_URL", ""),
+                  setUserData: navigation.getParam("setUserData")
+                })
+              }
+              underlayColor={"#fff"}
+            >
+              <Text style={styles.registerBtn}>Rejestracja</Text>
+            </TouchableHighlight>
+          </View>
+
+          <Text
+            style={styles.resetPasswordBtn}
+            onPress={() =>
+              navigation.navigate("ResetPassword", {
+                API_URL: navigation.getParam("API_URL", ""),
+                setUserData: navigation.getParam("setUserData")
+              })
+            }
+          >
+            Resetuj hasło
+          </Text>
+        </View>
+      </SafeAreaView>
       {showAlert != false && (
         <Alert alertType={alertType} alertMessage={alertMessage} />
       )}
-    </View>
+    </React.Fragment>
   );
 };
 export default Login;

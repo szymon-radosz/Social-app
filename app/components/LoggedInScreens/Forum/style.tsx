@@ -246,6 +246,7 @@ export default StyleSheet.create<Style>({
     marginRight: 10,
     marginTop: 10,
     padding: 10,
+    height: 60,
     borderColor: "#424242",
     textAlignVertical: "top"
   },

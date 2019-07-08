@@ -26,6 +26,7 @@ interface Style {
   registerBtn: TextStyle;
   peachBtnText: any;
   loaderContainer: any;
+  termsBtn: TextStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -35,7 +36,7 @@ export default StyleSheet.create<Style>({
     color: "#333",
     fontWeight: "600",
     fontSize: fontSizeBig,
-    marginTop: 50,
+    marginTop: 70,
     paddingBottom: 50,
     fontFamily: "Open Sans"
   },
@@ -97,6 +98,14 @@ export default StyleSheet.create<Style>({
   subBtnSectionAsk: {
     color: "#333",
     fontSize: 16,
+    fontFamily: "Open Sans"
+  },
+  termsBtn: {
+    color: "#a3a3a3",
+    fontWeight: "600",
+    fontSize: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
     fontFamily: "Open Sans"
   },
   registerBtn: {

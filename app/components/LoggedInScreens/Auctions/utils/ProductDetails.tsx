@@ -314,186 +314,192 @@ export default class ProductDetails extends Component<
       alertMessage
     } = this.state;
     return (
-      <View>
-        {showProductMessageBox && !showVoteBox ? (
-          <ProductMessageBox
-            changeShowProductMessageBox={this.changeShowProductMessageBox}
-            sendNewConversationProduct={this.sendNewConversationProduct}
-          />
-        ) : !showProductMessageBox && showVoteBox ? (
-          <SellerVoteBox
-            currentUser={this.props.currentUser}
-            product={productDetails[0]}
-            API_URL={this.props.API_URL}
-            changeVoteBox={this.changeVoteBox}
-            searchUsersByEmail={this.searchUsersByEmail}
-            foundVoteUserList={foundVoteUserList}
-            getProductDetails={this.getProductDetails}
-            sendVote={this.sendVote}
-          />
-        ) : productDetails[0] ? (
-          <View>
-            <PageHeader
-              boldText={productDetails[0].name}
-              normalText={""}
-              closeMethod={this.props.setDisplayProductDetails}
-              closeMethodParameter={""}
+      <React.Fragment>
+        <View>
+          {showProductMessageBox && !showVoteBox ? (
+            <ProductMessageBox
+              changeShowProductMessageBox={this.changeShowProductMessageBox}
+              sendNewConversationProduct={this.sendNewConversationProduct}
             />
+          ) : !showProductMessageBox && showVoteBox ? (
+            <SellerVoteBox
+              currentUser={this.props.currentUser}
+              product={productDetails[0]}
+              API_URL={this.props.API_URL}
+              changeVoteBox={this.changeVoteBox}
+              searchUsersByEmail={this.searchUsersByEmail}
+              foundVoteUserList={foundVoteUserList}
+              getProductDetails={this.getProductDetails}
+              sendVote={this.sendVote}
+            />
+          ) : productDetails[0] ? (
+            <View>
+              <PageHeader
+                boldText={productDetails[0].name}
+                normalText={""}
+                closeMethod={this.props.setDisplayProductDetails}
+                closeMethodParameter={""}
+              />
 
-            <View style={styles.productDetailsHeader}>
-              <Lightbox
-                springConfig={{ tension: 15, friction: 7 }}
-                swipeToDismiss={false}
-                backgroundColor="rgba(0,0,0,0.7)"
-                renderContent={() =>
-                  renderCarousel(
-                    this.props.API_URL,
-                    productDetails[0].product_photos
-                  )
-                }
-              >
-                <Image
-                  style={styles.productDetailsImage}
-                  source={{
-                    uri: `${this.props.API_URL}productPhotos/${
-                      productDetails[0].product_photos[0].path
-                    }`
-                  }}
-                />
-              </Lightbox>
-
-              {productDetails[0].product_photos.length > 1 && (
-                <Text>Kliknij zdjęcie, aby zobaczyć galerię</Text>
-              )}
-
-              {productDetails[0].description ? (
-                <Text style={styles.productHeaderText}>
-                  {productDetails[0].description}
-                </Text>
-              ) : null}
-            </View>
-            <View style={styles.productContent}>
-              {productDetails[0].categoryName[0].name && (
-                <Text style={styles.productContentText}>
-                  <Text style={styles.bold}>Kategoria:</Text>{" "}
-                  {productDetails[0].categoryName[0].name}
-                </Text>
-              )}
-
-              {productDetails[0].child_gender === "girl" && (
-                <Text style={styles.productContentText}>
-                  <Text style={styles.bold}>Płeć dziecka:</Text> Dziewczynka
-                </Text>
-              )}
-
-              {productDetails[0].child_gender === "boy" && (
-                <Text style={styles.productContentText}>
-                  <Text style={styles.bold}>Płeć dziecka:</Text> Chłopiec
-                </Text>
-              )}
-
-              {productDetails[0].status === 0 && (
-                <Text style={styles.productContentText}>
-                  <Text style={styles.bold}>Stan produktu:</Text> Nowe
-                </Text>
-              )}
-
-              {productDetails[0].status === 1 && (
-                <Text style={styles.productContentText}>
-                  <Text style={styles.bold}>Stan produktu:</Text> Używane
-                </Text>
-              )}
-
-              {productDetails[0].users && (
-                <Text style={styles.productContentText}>
-                  <Text style={styles.bold}>Dodane przez:</Text>{" "}
-                  {productDetails[0].users.name} (
-                  {productDetails[0].users.email})
-                </Text>
-              )}
-
-              {productDetails[0].users.location_string && (
-                <Text style={styles.productContentText}>
-                  <Text style={styles.bold}>W poblizu:</Text>{" "}
-                  {productDetails[0].users.location_string}
-                </Text>
-              )}
-
-              {productDetails[0].price && (
-                <Text style={styles.productContentText}>
-                  <Text style={styles.bold}>Cena:</Text>{" "}
-                  {productDetails[0].price} zł
-                </Text>
-              )}
-            </View>
-            {/* user is not the author, they are not in the same conversation and product is not sold*/}
-            {productDetails[0].user_id != this.props.currentUser.id &&
-              !usersAreInTheSameConversation &&
-              productDetails[0].status != 1 && (
-                <TouchableHighlight
-                  style={styles.productDetailsBtn}
-                  onPress={this.changeShowProductMessageBox}
-                  underlayColor={"#dd904d"}
+              <View style={styles.productDetailsHeader}>
+                <Lightbox
+                  springConfig={{ tension: 15, friction: 7 }}
+                  swipeToDismiss={false}
+                  backgroundColor="rgba(0,0,0,0.7)"
+                  renderContent={() =>
+                    renderCarousel(
+                      this.props.API_URL,
+                      productDetails[0].product_photos
+                    )
+                  }
                 >
-                  <Text style={styles.peachBtnText}>Wyślij wiadomość</Text>
-                </TouchableHighlight>
-              )}
-            {/* user is not the author and product is sold*/}
-            {productDetails[0].user_id != this.props.currentUser.id &&
-              productDetails[0].status == 1 && (
-                <View style={styles.productContent}>
+                  <Image
+                    style={styles.productDetailsImage}
+                    source={{
+                      uri: `${this.props.API_URL}productPhotos/${
+                        productDetails[0].product_photos[0].path
+                      }`
+                    }}
+                  />
+                </Lightbox>
+
+                {productDetails[0].product_photos.length > 1 && (
+                  <Text>Kliknij zdjęcie, aby zobaczyć galerię</Text>
+                )}
+
+                {productDetails[0].description ? (
+                  <Text style={styles.productHeaderText}>
+                    {productDetails[0].description}
+                  </Text>
+                ) : null}
+              </View>
+              <View style={styles.productContent}>
+                {productDetails[0].categoryName[0].name && (
                   <Text style={styles.productContentText}>
-                    <Text style={styles.productClosed}>
-                      Sprzedaż produktu zakończona
+                    <Text style={styles.bold}>Kategoria:</Text>{" "}
+                    {productDetails[0].categoryName[0].name}
+                  </Text>
+                )}
+
+                {productDetails[0].child_gender === "girl" && (
+                  <Text style={styles.productContentText}>
+                    <Text style={styles.bold}>Płeć dziecka:</Text> Dziewczynka
+                  </Text>
+                )}
+
+                {productDetails[0].child_gender === "boy" && (
+                  <Text style={styles.productContentText}>
+                    <Text style={styles.bold}>Płeć dziecka:</Text> Chłopiec
+                  </Text>
+                )}
+
+                {productDetails[0].status === 0 && (
+                  <Text style={styles.productContentText}>
+                    <Text style={styles.bold}>Stan produktu:</Text> Nowe
+                  </Text>
+                )}
+
+                {productDetails[0].status === 1 && (
+                  <Text style={styles.productContentText}>
+                    <Text style={styles.bold}>Stan produktu:</Text> Używane
+                  </Text>
+                )}
+
+                {productDetails[0].users && (
+                  <Text style={styles.productContentText}>
+                    <Text style={styles.bold}>Dodane przez:</Text>{" "}
+                    {productDetails[0].users.name} (
+                    {productDetails[0].users.email})
+                  </Text>
+                )}
+
+                {productDetails[0].users.location_string && (
+                  <Text style={styles.productContentText}>
+                    <Text style={styles.bold}>W poblizu:</Text>{" "}
+                    {productDetails[0].users.location_string}
+                  </Text>
+                )}
+
+                {productDetails[0].price && (
+                  <Text style={styles.productContentText}>
+                    <Text style={styles.bold}>Cena:</Text>{" "}
+                    {productDetails[0].price} zł
+                  </Text>
+                )}
+              </View>
+              {/* user is not the author, they are not in the same conversation and product is not sold*/}
+              {productDetails[0].user_id != this.props.currentUser.id &&
+                !usersAreInTheSameConversation &&
+                productDetails[0].status != 1 && (
+                  <TouchableHighlight
+                    style={styles.productDetailsBtn}
+                    onPress={this.changeShowProductMessageBox}
+                    underlayColor={"#dd904d"}
+                  >
+                    <Text style={styles.peachBtnText}>Wyślij wiadomość</Text>
+                  </TouchableHighlight>
+                )}
+              {/* user is not the author and product is sold*/}
+              {productDetails[0].user_id != this.props.currentUser.id &&
+                productDetails[0].status == 1 && (
+                  <View style={styles.productContent}>
+                    <Text style={styles.productContentText}>
+                      <Text style={styles.productClosed}>
+                        Sprzedaż produktu zakończona
+                      </Text>
                     </Text>
-                  </Text>
-                </View>
-              )}
-            {/* user is not the author, they are in the same conversation and product is sold*/}
-            {productDetails[0].user_id != this.props.currentUser.id &&
-              usersAreInTheSameConversation &&
-              productDetails[0].status == 1 && (
-                <TouchableHighlight
-                  style={styles.productDetailsBtn}
-                  onPress={this.props.openMessages}
-                  underlayColor={"#dd904d"}
-                >
-                  <Text style={styles.peachBtnText}>
-                    Produkt sprzedany, jesteście w konwersacji
-                  </Text>
-                </TouchableHighlight>
-              )}
-            {/* user is not the author, they are in the same conversation and product is not sold*/}
-            {productDetails[0].user_id != this.props.currentUser.id &&
-              usersAreInTheSameConversation &&
-              productDetails[0].status != 1 && (
-                <TouchableHighlight
-                  style={styles.productDetailsBtn}
-                  onPress={this.props.openMessages}
-                  underlayColor={"#dd904d"}
-                >
-                  <Text style={styles.peachBtnText}>
-                    Jestescie już w konwersacji
-                  </Text>
-                </TouchableHighlight>
-              )}
-            {/* user is the author, and product is not sold*/}
-            {productDetails[0].user_id == this.props.currentUser.id &&
-              productDetails[0].status != 1 && (
-                <TouchableHighlight
-                  style={styles.productDetailsBtn}
-                  onPress={this.changeVoteBox}
-                  underlayColor={"#dd904d"}
-                >
-                  <Text style={styles.peachBtnText}>Zamknij Sprzedaż</Text>
-                </TouchableHighlight>
-              )}
-          </View>
-        ) : null}
+                  </View>
+                )}
+              {/* user is not the author, they are in the same conversation and product is sold*/}
+              {productDetails[0].user_id != this.props.currentUser.id &&
+                usersAreInTheSameConversation &&
+                productDetails[0].status == 1 && (
+                  <TouchableHighlight
+                    style={styles.productDetailsBtn}
+                    onPress={this.props.openMessages}
+                    underlayColor={"#dd904d"}
+                  >
+                    <Text style={styles.peachBtnText}>
+                      Produkt sprzedany, jesteście w konwersacji
+                    </Text>
+                  </TouchableHighlight>
+                )}
+              {/* user is not the author, they are in the same conversation and product is not sold*/}
+              {productDetails[0].user_id != this.props.currentUser.id &&
+                usersAreInTheSameConversation &&
+                productDetails[0].status != 1 && (
+                  <TouchableHighlight
+                    style={styles.productDetailsBtn}
+                    onPress={this.props.openMessages}
+                    underlayColor={"#dd904d"}
+                  >
+                    <Text style={styles.peachBtnText}>
+                      Jestescie już w konwersacji
+                    </Text>
+                  </TouchableHighlight>
+                )}
+              {/* user is the author, and product is not sold*/}
+              {productDetails[0].user_id == this.props.currentUser.id &&
+                productDetails[0].status != 1 && (
+                  <TouchableHighlight
+                    style={styles.productDetailsBtn}
+                    onPress={this.changeVoteBox}
+                    underlayColor={"#dd904d"}
+                  >
+                    <Text style={styles.peachBtnText}>Zamknij Sprzedaż</Text>
+                  </TouchableHighlight>
+                )}
+            </View>
+          ) : null}
+          {showAlert != false && (
+            <Alert alertType={alertType} alertMessage={alertMessage} />
+          )}
+        </View>
+
         {showAlert != false && (
           <Alert alertType={alertType} alertMessage={alertMessage} />
         )}
-      </View>
+      </React.Fragment>
     );
   }
 }

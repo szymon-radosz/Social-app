@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { StatusBar, View, TouchableHighlight, Image } from "react-native";
+import {
+  StatusBar,
+  View,
+  TouchableHighlight,
+  Image,
+  SafeAreaView
+} from "react-native";
 import styles from "./style";
 import LoggedInScreens from "./utils/LoggedInScreens";
 import BottomPanel from "./SharedComponents/BottomPanel";
@@ -97,6 +103,15 @@ export default class LoggedInMain extends Component<
 
     let that = this;
 
+    if (!topic || !message) {
+      that.setState({ showAlert: false });
+      that.setState({
+        showAlert: true,
+        alertType: "danger",
+        alertMessage: "Prosimy o uzupełnienie wszystkich danych."
+      });
+    }
+
     axios
       .post(API_URL + "/api/saveUserFeedback", {
         topic: topic,
@@ -105,6 +120,7 @@ export default class LoggedInMain extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
+          that.setState({ showAlert: false });
           that.setState({
             showFeedbackModal: false,
             activeTopic: "",
@@ -117,6 +133,7 @@ export default class LoggedInMain extends Component<
       })
       .catch(function(error) {
         console.log(error);
+        that.setState({ showAlert: false });
         that.setState({
           showAlert: true,
           alertType: "danger",
@@ -212,66 +229,75 @@ export default class LoggedInMain extends Component<
       alertType
     } = this.state;
     return (
-      <View style={styles.container}>
-        <LoggedInScreens
-          openFindUsers={openFindUsers}
-          openAuctions={openAuctions}
-          openMessages={openMessages}
-          openProfile={openProfile}
-          openForum={openForum}
-          openFindUserId={openFindUserId}
-          openAuctionId={openAuctionId}
-          openAuctionUserId={openAuctionUserId}
-          navigation={navigation}
-          API_URL={navigation.getParam("API_URL")}
-          user={navigation.getParam("user")}
-          clearUserUnreadedMessages={navigation.getParam(
-            "clearUserUnreadedMessages"
-          )}
-          clearUserNotificationsStatus={navigation.getParam(
-            "clearUserNotificationsStatus"
-          )}
-          clearUserData={navigation.getParam("clearUserData")}
-          setOpenMessages={this.setOpenMessages}
-          setOpenProfile={this.setOpenProfile}
-          setOpenFindUsers={this.setOpenFindUsers}
-          setOpenAuctions={this.setOpenAuctions}
-          setOpenForum={this.setOpenForum}
-          showFeedbackModal={showFeedbackModal}
-          setFeedbackMessage={this.setFeedbackMessage}
-          feedbackMessage={feedbackMessage}
-          sendFeedback={this.sendFeedback}
-          feedbackTopic={feedbackTopic}
-          setFeedbackTopic={this.setFeedbackTopic}
-          activeTopic={activeTopic}
-          setShowFeedbackModal={this.setShowFeedbackModal}
-        />
-        {!showFeedbackModal && (
-          <TouchableHighlight
-            style={{ position: "absolute", right: 10, bottom: 80 }}
-            onPress={this.setShowFeedbackModal}
-            underlayColor={"#dd904d"}
-          >
-            <Image source={feedback} style={{ width: 50, height: 50 }} />
-          </TouchableHighlight>
-        )}
-        <BottomPanel
-          openFindUsers={this.setOpenFindUsers}
-          openAuctions={this.setOpenAuctions}
-          openMessages={this.setOpenMessages}
-          openProfile={this.setOpenProfile}
-          openForum={this.setOpenForum}
-          openFindUsersStatus={openFindUsers}
-          openAuctionsStatus={openAuctions}
-          openMessagesStatus={openMessages}
-          openProfileStatus={openProfile}
-          openForumStatus={openForum}
-          user={navigation.getParam("user")}
-        />
+      <React.Fragment>
+        <SafeAreaView
+          style={{
+            flex: 1,
+            backgroundColor: "#fff"
+          }}
+        >
+          <View style={styles.container}>
+            <LoggedInScreens
+              openFindUsers={openFindUsers}
+              openAuctions={openAuctions}
+              openMessages={openMessages}
+              openProfile={openProfile}
+              openForum={openForum}
+              openFindUserId={openFindUserId}
+              openAuctionId={openAuctionId}
+              openAuctionUserId={openAuctionUserId}
+              navigation={navigation}
+              API_URL={navigation.getParam("API_URL")}
+              user={navigation.getParam("user")}
+              clearUserUnreadedMessages={navigation.getParam(
+                "clearUserUnreadedMessages"
+              )}
+              clearUserNotificationsStatus={navigation.getParam(
+                "clearUserNotificationsStatus"
+              )}
+              clearUserData={navigation.getParam("clearUserData")}
+              setOpenMessages={this.setOpenMessages}
+              setOpenProfile={this.setOpenProfile}
+              setOpenFindUsers={this.setOpenFindUsers}
+              setOpenAuctions={this.setOpenAuctions}
+              setOpenForum={this.setOpenForum}
+              showFeedbackModal={showFeedbackModal}
+              setFeedbackMessage={this.setFeedbackMessage}
+              feedbackMessage={feedbackMessage}
+              sendFeedback={this.sendFeedback}
+              feedbackTopic={feedbackTopic}
+              setFeedbackTopic={this.setFeedbackTopic}
+              activeTopic={activeTopic}
+              setShowFeedbackModal={this.setShowFeedbackModal}
+            />
+            {!showFeedbackModal && (
+              <TouchableHighlight
+                style={{ position: "absolute", right: 10, bottom: 80 }}
+                onPress={this.setShowFeedbackModal}
+                underlayColor={"#dd904d"}
+              >
+                <Image source={feedback} style={{ width: 50, height: 50 }} />
+              </TouchableHighlight>
+            )}
+            <BottomPanel
+              openFindUsers={this.setOpenFindUsers}
+              openAuctions={this.setOpenAuctions}
+              openMessages={this.setOpenMessages}
+              openProfile={this.setOpenProfile}
+              openForum={this.setOpenForum}
+              openFindUsersStatus={openFindUsers}
+              openAuctionsStatus={openAuctions}
+              openMessagesStatus={openMessages}
+              openProfileStatus={openProfile}
+              openForumStatus={openForum}
+              user={navigation.getParam("user")}
+            />
+          </View>
+        </SafeAreaView>
         {showAlert != false && (
           <Alert alertType={alertType} alertMessage={alertMessage} />
         )}
-      </View>
+      </React.Fragment>
     );
   }
 }

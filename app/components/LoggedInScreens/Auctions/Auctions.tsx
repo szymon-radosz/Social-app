@@ -153,16 +153,16 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
     }
 
     if (
-      photos &&
-      maleGender &&
-      femaleGender &&
-      newProduct &&
-      secondHandProduct &&
-      currentUser &&
-      name &&
-      description &&
-      selectedCategoryId &&
-      price
+      !photos ||
+      !maleGender ||
+      !femaleGender ||
+      !newProduct ||
+      !secondHandProduct ||
+      !currentUser ||
+      !name ||
+      !description ||
+      !selectedCategoryId ||
+      !price
     ) {
       this.setState({ showAlert: false });
 
@@ -451,117 +451,120 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
       alertMessage
     } = this.state;
     return (
-      <View>
-        {!displayProductDetails && !displayNewProductBox && !showFilterModal && (
-          <ImageBackground source={auctionsBg} style={{ width: "100%" }}>
-            <Text style={styles.pageTitle}>Sprzedawaj i{"\n"}kupuj</Text>
-          </ImageBackground>
-        )}
+      <React.Fragment>
+        <View>
+          {!displayProductDetails && !displayNewProductBox && !showFilterModal && (
+            <ImageBackground source={auctionsBg} style={{ width: "100%" }}>
+              <Text style={styles.pageTitle}>Sprzedawaj i{"\n"}kupuj</Text>
+            </ImageBackground>
+          )}
 
-        {!displayProductDetails &&
-          !displayNewProductBox &&
-          productList &&
-          showFilterModal && (
+          {!displayProductDetails &&
+            !displayNewProductBox &&
+            productList &&
+            showFilterModal && (
+              <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                <FilterModal
+                  filterOptions={filterData}
+                  closeFilter={this.setShowFilterModal}
+                  filterModalName={filterModalName}
+                  filterResults={this.filterResults}
+                />
+              </Suspense>
+            )}
+
+          {!displayProductDetails &&
+            !displayNewProductBox &&
+            productList &&
+            !showFilterModal && (
+              <View>
+                <Text style={styles.filterResultsHeaderText}>
+                  Filtruj wyniki
+                </Text>
+                <View style={styles.filterResultsCarousel}>
+                  <Carousel
+                    layout={"default"}
+                    activeSlideAlignment={"start"}
+                    data={filterOptions}
+                    renderItem={this.renderItem}
+                    itemWidth={100}
+                    sliderWidth={styles.fullWidth}
+                    removeClippedSubviews={false}
+                  />
+                </View>
+              </View>
+            )}
+
+          {!displayProductDetails && !displayNewProductBox && (
             <Suspense fallback={<Text>Wczytywanie...</Text>}>
-              <FilterModal
-                filterOptions={filterData}
-                closeFilter={this.setShowFilterModal}
-                filterModalName={filterModalName}
-                filterResults={this.filterResults}
+              <ActiveFilters
+                filterDistance={filterDistance}
+                filterPrice={filterPrice}
+                filterStatus={filterStatus}
+                showFilterModal={showFilterModal}
+                removeFilter={this.removeFilter}
               />
             </Suspense>
           )}
 
-        {!displayProductDetails &&
-          !displayNewProductBox &&
-          productList &&
-          !showFilterModal && (
+          {!displayProductDetails && !displayNewProductBox && !showFilterModal && (
             <View>
-              <Text style={styles.filterResultsHeaderText}>Filtruj wyniki</Text>
-              <View style={styles.filterResultsCarousel}>
-                <Carousel
-                  layout={"default"}
-                  activeSlideAlignment={"start"}
-                  data={filterOptions}
-                  renderItem={this.renderItem}
-                  itemWidth={100}
-                  sliderWidth={styles.fullWidth}
-                  removeClippedSubviews={false}
-                />
+              <View style={styles.productListContainer}>
+                {productList && productList.length > 0 ? (
+                  productList.map((product: any, i: number) => {
+                    return (
+                      <SingleAuctionOnList
+                        product={product}
+                        key={uuid()}
+                        API_URL={this.props.API_URL}
+                        setSelectedProduct={this.setSelectedProduct}
+                      />
+                    );
+                  })
+                ) : (
+                  <Text>Brak wyników</Text>
+                )}
+              </View>
+              <View style={{ marginBottom: 10 }}>
+                <TouchableHighlight
+                  style={styles.productDetailsBtn}
+                  onPress={this.changeDisplayNewProductBox}
+                  underlayColor={"#dd904d"}
+                >
+                  <Text style={styles.peachBtnText}>Dodaj produkt</Text>
+                </TouchableHighlight>
               </View>
             </View>
           )}
 
-        {!displayProductDetails && !displayNewProductBox && (
-          <Suspense fallback={<Text>Wczytywanie...</Text>}>
-            <ActiveFilters
-              filterDistance={filterDistance}
-              filterPrice={filterPrice}
-              filterStatus={filterStatus}
-              showFilterModal={showFilterModal}
-              removeFilter={this.removeFilter}
-            />
-          </Suspense>
-        )}
+          {displayProductDetails && !showFilterModal && (
+            <Suspense fallback={<Text>Wczytywanie...</Text>}>
+              <ProductDetails
+                currentUser={this.props.user}
+                API_URL={this.props.API_URL}
+                openMessages={this.props.openMessages}
+                productId={selectedProductId}
+                productUserId={selectedProductUserId}
+                setDisplayProductDetails={this.setDisplayProductDetails}
+              />
+            </Suspense>
+          )}
 
-        {!displayProductDetails && !displayNewProductBox && !showFilterModal && (
-          <View>
-            <View style={styles.productListContainer}>
-              {productList && productList.length > 0 ? (
-                productList.map((product: any, i: number) => {
-                  return (
-                    <SingleAuctionOnList
-                      product={product}
-                      key={uuid()}
-                      API_URL={this.props.API_URL}
-                      setSelectedProduct={this.setSelectedProduct}
-                    />
-                  );
-                })
-              ) : (
-                <Text>Brak wyników</Text>
-              )}
-            </View>
-            <View style={{ marginBottom: 10 }}>
-              <TouchableHighlight
-                style={styles.productDetailsBtn}
-                onPress={this.changeDisplayNewProductBox}
-                underlayColor={"#dd904d"}
-              >
-                <Text style={styles.peachBtnText}>Dodaj produkt</Text>
-              </TouchableHighlight>
-            </View>
-          </View>
-        )}
-
-        {displayProductDetails && !showFilterModal && (
-          <Suspense fallback={<Text>Wczytywanie...</Text>}>
-            <ProductDetails
-              currentUser={this.props.user}
-              API_URL={this.props.API_URL}
-              openMessages={this.props.openMessages}
-              productId={selectedProductId}
-              productUserId={selectedProductUserId}
-              setDisplayProductDetails={this.setDisplayProductDetails}
-            />
-          </Suspense>
-        )}
-
-        {displayNewProductBox && !showFilterModal && (
-          <Suspense fallback={<Text>Wczytywanie...</Text>}>
-            <AddNewProductBox
-              currentUser={this.props.user}
-              API_URL={this.props.API_URL}
-              changeDisplayNewProductBox={this.changeDisplayNewProductBox}
-              addNewProduct={this.addNewProduct}
-            />
-          </Suspense>
-        )}
-
+          {displayNewProductBox && !showFilterModal && (
+            <Suspense fallback={<Text>Wczytywanie...</Text>}>
+              <AddNewProductBox
+                currentUser={this.props.user}
+                API_URL={this.props.API_URL}
+                changeDisplayNewProductBox={this.changeDisplayNewProductBox}
+                addNewProduct={this.addNewProduct}
+              />
+            </Suspense>
+          )}
+        </View>
         {showAlert != false && (
           <Alert alertType={alertType} alertMessage={alertMessage} />
         )}
-      </View>
+      </React.Fragment>
     );
   }
 }

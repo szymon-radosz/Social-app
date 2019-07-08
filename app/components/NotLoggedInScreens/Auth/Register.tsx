@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { TextInput, Text, View, Image, TouchableHighlight } from "react-native";
+import {
+  TextInput,
+  Text,
+  View,
+  Image,
+  TouchableHighlight,
+  SafeAreaView,
+  Linking
+} from "react-native";
 const loaderImage: any = require("./../../../assets/images/loader.gif");
 import axios from "axios";
 import styles from "./style";
@@ -28,6 +36,11 @@ const Register = (props: { navigation: any }) => {
       setShowAlert(true);
       setAlertType("danger");
       setAlertMessage("Hasło i potwierdzenie hasła muszą być identyczne.");
+    } else if (password == passwordConf && password.length < 6) {
+      setShowAlert(false);
+      setShowAlert(true);
+      setAlertType("danger");
+      setAlertMessage("Hasło musi mieć conajmniej 6 znaków.");
     } else if (password === passwordConf) {
       try {
         let API_URL = navigation.getParam("API_URL", "");
@@ -75,67 +88,84 @@ const Register = (props: { navigation: any }) => {
           <Image style={{ width: 100, height: 100 }} source={loaderImage} />
         </View>
       ) : (
-        <View style={styles.container}>
-          <Text
-            style={styles.headerText}
-          >{`Dołącz do naszej \nspołeczności!`}</Text>
+        <SafeAreaView
+          style={{
+            flex: 1,
+            backgroundColor: "#fff"
+          }}
+        >
+          <View style={styles.container}>
+            <Text
+              style={styles.headerText}
+            >{`Dołącz do naszej \nspołeczności!`}</Text>
 
-          <TextInput
-            style={styles.input}
-            placeholder="Imię"
-            placeholderTextColor="#919191"
-            onChangeText={name => setName(name)}
-            value={name}
-          />
+            <TextInput
+              style={styles.input}
+              placeholder="Imię"
+              placeholderTextColor="#919191"
+              onChangeText={name => setName(name)}
+              value={name}
+            />
 
-          <TextInput
-            style={styles.input}
-            placeholder="E-mail"
-            placeholderTextColor="#919191"
-            onChangeText={email => setEmail(email)}
-            value={email}
-          />
+            <TextInput
+              style={styles.input}
+              placeholder="E-mail"
+              placeholderTextColor="#919191"
+              onChangeText={email => setEmail(email)}
+              value={email}
+            />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Hasło"
-            secureTextEntry={true}
-            placeholderTextColor="#919191"
-            onChangeText={password => setPassword(password)}
-            value={password}
-          />
+            <TextInput
+              style={styles.input}
+              placeholder="Hasło"
+              secureTextEntry={true}
+              placeholderTextColor="#919191"
+              onChangeText={password => setPassword(password)}
+              value={password}
+            />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Potwierdź hasło"
-            secureTextEntry={true}
-            placeholderTextColor="#919191"
-            onChangeText={passwordConf => setPasswordConf(passwordConf)}
-            value={passwordConf}
-          />
-          <TouchableHighlight
-            style={styles.mainBtn}
-            onPress={registerUser}
-            underlayColor={"#dd904d"}
-          >
-            <Text style={styles.peachBtnText}>Zarejestruj</Text>
-          </TouchableHighlight>
-
-          <View style={styles.subBtnSection}>
-            <Text style={styles.subBtnSectionAsk}>Posiadasz juz konto? </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Potwierdź hasło"
+              secureTextEntry={true}
+              placeholderTextColor="#919191"
+              onChangeText={passwordConf => setPasswordConf(passwordConf)}
+              value={passwordConf}
+            />
             <TouchableHighlight
-              onPress={() =>
-                navigation.navigate("Login", {
-                  API_URL: navigation.getParam("API_URL", ""),
-                  setUserData: navigation.getParam("setUserData")
-                })
-              }
+              onPress={() => {
+                Linking.openURL("https://e-mamy.pl/regulamin");
+              }}
               underlayColor={"#fff"}
             >
-              <Text style={styles.registerBtn}>Logowanie</Text>
+              <Text style={styles.termsBtn}>
+                Rejestrując się akceptujesz regulamin E-mamy
+              </Text>
             </TouchableHighlight>
+            <TouchableHighlight
+              style={styles.mainBtn}
+              onPress={registerUser}
+              underlayColor={"#dd904d"}
+            >
+              <Text style={styles.peachBtnText}>Zarejestruj</Text>
+            </TouchableHighlight>
+
+            <View style={styles.subBtnSection}>
+              <Text style={styles.subBtnSectionAsk}>Posiadasz juz konto? </Text>
+              <TouchableHighlight
+                onPress={() =>
+                  navigation.navigate("Login", {
+                    API_URL: navigation.getParam("API_URL", ""),
+                    setUserData: navigation.getParam("setUserData")
+                  })
+                }
+                underlayColor={"#fff"}
+              >
+                <Text style={styles.registerBtn}>Logowanie</Text>
+              </TouchableHighlight>
+            </View>
           </View>
-        </View>
+        </SafeAreaView>
       )}
 
       {showAlert != false && (
