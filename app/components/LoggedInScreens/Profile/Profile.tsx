@@ -8,6 +8,7 @@ import axios from "axios";
 import PageHeader from "./../SharedComponents/PageHeader";
 import UserNotificationList from "./utils/UserNotificationList";
 import styles from "./style";
+import { GlobalContext } from "./../../Context/GlobalContext";
 
 const UserPreview = React.lazy(() =>
   import("./../SharedComponents/UserPreview")
@@ -52,7 +53,7 @@ interface ProfileProps {
   clearUserNotificationsStatus: any;
 }
 
-export default class Profile extends Component<
+class Profile extends Component<
   ProfileProps,
   ProfileState,
   NavigationScreenInterface
@@ -122,8 +123,6 @@ export default class Profile extends Component<
       })
       .then(async function(response) {
         if (response.data.status === "OK") {
-          console.log(["pendingFriendsList", response.data.result.friendsList]);
-
           await that.setState({
             userPendingFriendsList: response.data.result.friendsList,
             showPendingUserFriendsList: true,
@@ -134,7 +133,11 @@ export default class Profile extends Component<
         }
       })
       .catch(function(error) {
-        console.log(error);
+        that.context.setAlert(
+          true,
+          "danger",
+          "Wystąpił błąd z wyświetleniem listy znajomych."
+        );
       });
   };
 
@@ -148,8 +151,6 @@ export default class Profile extends Component<
       })
       .then(async function(response) {
         if (response.data.status === "OK") {
-          console.log(["friendsList", response.data.result.friendsList]);
-
           await that.setState({
             userFriendsList: response.data.result.friendsList,
             showUserFriendsList: true,
@@ -160,13 +161,16 @@ export default class Profile extends Component<
         }
       })
       .catch(function(error) {
-        console.log(error);
+        that.context.setAlert(
+          true,
+          "danger",
+          "Wystąpił błąd z wyświetleniem listy znajomych."
+        );
       });
   };
 
   setShowProfilePreview = (): void => {
     this.setState({ showProfilePreview: !this.state.showProfilePreview });
-    console.log("setShowProfilePreview");
   };
 
   getUserAuctionList = (): void => {
@@ -178,8 +182,6 @@ export default class Profile extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(["loadUserProductList", response.data.result]);
-
           that.setState({
             userAuctionList: response.data.result,
             showAuctionHistory: true
@@ -187,12 +189,15 @@ export default class Profile extends Component<
         }
       })
       .catch(function(error) {
-        console.log(error);
+        that.context.setAlert(
+          true,
+          "danger",
+          "Wystąpił błąd z wyświetleniem listy przedmiotów."
+        );
       });
   };
 
   getAmountOfFriends = (id: number): void => {
-    console.log(["id: ", id]);
     let that = this;
 
     axios
@@ -201,14 +206,10 @@ export default class Profile extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(response.data);
-
           that.setState({ countFriends: response.data.result.countFriends });
         }
       })
-      .catch(function(error) {
-        console.log(error);
-      });
+      .catch(function(error) {});
   };
 
   getUserNotificationList = (): void => {
@@ -221,8 +222,6 @@ export default class Profile extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          console.log(["loadNotificationByUserId", response.data]);
-
           that.setState({
             userNotificationList: response.data.result,
             showUserNotificationList: true
@@ -230,21 +229,16 @@ export default class Profile extends Component<
         }
       })
       .catch(function(error) {
-        console.log(error);
+        that.context.setAlert(
+          true,
+          "danger",
+          "Wystąpił błąd z wyświetleniem listy powiadomień."
+        );
       });
 
-    axios
-      .post(this.props.API_URL + "/api/clearNotificationByUserId", {
-        userId: id
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-          console.log(["clearNotificationByUserId", response.data]);
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    axios.post(this.props.API_URL + "/api/clearNotificationByUserId", {
+      userId: id
+    });
   };
 
   render() {
@@ -524,3 +518,5 @@ export default class Profile extends Component<
     );
   }
 }
+Profile.contextType = GlobalContext;
+export default Profile;

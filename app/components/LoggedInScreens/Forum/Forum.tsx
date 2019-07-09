@@ -1,17 +1,11 @@
 import React, { Component, Suspense } from "react";
-import {
-  Button,
-  Text,
-  TouchableHighlight,
-  ImageBackground,
-  View
-} from "react-native";
+import { Text, TouchableHighlight, ImageBackground, View } from "react-native";
 import axios from "axios";
 import CategoryDetailsSinglePostOnList from "./utils/CategoryDetailsSinglePostOnList";
 import styles from "./style";
 import { v4 as uuid } from "uuid";
 import PageHeader from "./../SharedComponents/PageHeader";
-import Alert from "./../../../Alert/Alert";
+import { GlobalContext } from "./../../Context/GlobalContext";
 
 const forumBg: any = require("./../../../assets/images/forumBgMin.jpg");
 
@@ -34,11 +28,8 @@ interface ForumState {
   showSortByCategoryId: number;
   showPosts: boolean;
   categoryName: string;
-  showAlert: boolean;
-  alertType: string;
-  alertMessage: string;
 }
-export default class Forum extends Component<ForumProps, ForumState> {
+class Forum extends Component<ForumProps, ForumState> {
   constructor(props: ForumProps) {
     super(props);
     this.state = {
@@ -49,10 +40,7 @@ export default class Forum extends Component<ForumProps, ForumState> {
       showSortByCategoryId: 0,
       showPosts: false,
       categoryName: "",
-      postList: [],
-      showAlert: false,
-      alertType: "",
-      alertMessage: ""
+      postList: []
     };
 
     this.getPosts = this.getPosts.bind(this);
@@ -127,7 +115,11 @@ export default class Forum extends Component<ForumProps, ForumState> {
         }
       })
       .catch(function(error) {
-        console.log(error);
+        that.context.setAlert(
+          true,
+          "danger",
+          "Wystąpił błąd z wyświetleniem szczegółów kategorii."
+        );
       });
   };
 
@@ -146,7 +138,11 @@ export default class Forum extends Component<ForumProps, ForumState> {
         }
       })
       .catch(function(error) {
-        console.log(error);
+        that.context.setAlert(
+          true,
+          "danger",
+          "Wystąpił błąd z wyświetleniem listy postów."
+        );
       });
   };
 
@@ -164,13 +160,11 @@ export default class Forum extends Component<ForumProps, ForumState> {
     let API_URL = this.props.API_URL;
 
     if (!title || !description || categoryId === 0) {
-      this.setState({ showAlert: false });
-
-      this.setState({
-        showAlert: true,
-        alertType: "danger",
-        alertMessage: "Prosimy o uzupełnienie wszystkich danych."
-      });
+      this.context.setAlert(
+        true,
+        "danger",
+        "Prosimy o uzupełnienie wszystkich danych."
+      );
     }
 
     if (
@@ -190,30 +184,38 @@ export default class Forum extends Component<ForumProps, ForumState> {
         })
         .then(function(response) {
           if (response.data.status === "OK") {
-            that.setState({ showAlert: false });
             that.setState({
-              showAlert: true,
-              alertType: "success",
-              alertMessage: "Dziękujemy za dodanie nowego posta.",
               showSavePost: false,
               showSortByCategoryId: 0
             });
             that.getPosts();
-          } else {
-            that.setState({ showAlert: false });
 
-            that.setState({
-              showAlert: true,
-              alertType: "danger",
-              alertMessage: "Problem z dodaniem nowego posta."
-            });
+            that.context.setAlert(
+              true,
+              "success",
+              "Dziękujemy za dodanie nowego posta."
+            );
+          } else {
+            that.context.setAlert(
+              true,
+              "danger",
+              "Problem z dodaniem nowego posta."
+            );
           }
         })
         .catch(function(error) {
-          console.log(error);
+          that.context.setAlert(
+            true,
+            "danger",
+            "Problem z dodaniem nowego posta."
+          );
         });
     } else {
-      console.log("uzupelnij wszystkie dane");
+      this.context.setAlert(
+        true,
+        "danger",
+        "Prosimy o uzupełnienie wszystkich danych."
+      );
     }
   };
 
@@ -229,10 +231,7 @@ export default class Forum extends Component<ForumProps, ForumState> {
       showSortByCategory,
       showPosts,
       postList,
-      categoryName,
-      showAlert,
-      alertType,
-      alertMessage
+      categoryName
     } = this.state;
     return (
       <React.Fragment>
@@ -339,10 +338,9 @@ export default class Forum extends Component<ForumProps, ForumState> {
             )}
           </View>
         </View>
-        {showAlert != false && (
-          <Alert alertType={alertType} alertMessage={alertMessage} />
-        )}
       </React.Fragment>
     );
   }
 }
+Forum.contextType = GlobalContext;
+export default Forum;

@@ -1,13 +1,6 @@
 import React from "react";
-import {
-  Button,
-  Text,
-  View,
-  TouchableHighlight,
-  ScrollView
-} from "react-native";
+import { Text, View, TouchableHighlight, ScrollView } from "react-native";
 import styles from "./../style";
-import Alert from "./../../../../Alert/Alert";
 import ProfileHeader from "./../../SharedComponents/ProfileHeader";
 import UserPreview from "./../../SharedComponents/UserPreview";
 import PageHeader from "./../../SharedComponents/PageHeader";
@@ -32,8 +25,6 @@ const UserDetails = (props: {
   inviteFriend: any;
   loggedInUserId: number;
   confirmFriend: any;
-  alertMessage: string;
-  alertType: string;
   setOpenProfile: any;
   locationDetails: any;
 }): any => {

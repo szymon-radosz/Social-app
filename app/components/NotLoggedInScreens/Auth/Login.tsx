@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Text,
   View,
@@ -8,40 +8,22 @@ import {
 } from "react-native";
 import styles from "./style";
 import axios from "axios";
-import Alert from "./../../../Alert/Alert";
+import { GlobalContext } from "./../../Context/GlobalContext";
 
 const Login = (props: { navigation: any }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alertType, setAlertType] = useState("");
-  const [showAlert, setShowAlert] = useState(false);
-
   const navigation = props.navigation;
+  const context = useContext(GlobalContext);
 
   const loginUser = (): void => {
     if (email && !password) {
-      setShowAlert(false);
-      setShowAlert(true);
-      setAlertType("danger");
-      setAlertMessage("Podaj swoje hasło.");
+      context.setAlert(true, "danger", "Podaj swoje hasło.");
     } else if (!email && password) {
-      setShowAlert(false);
-      setShowAlert(true);
-      setAlertType("danger");
-      setAlertMessage("Podaj swój adres e-mail.");
+      context.setAlert(true, "danger", "Podaj swój adres e-mail.");
     } else if (!email && !password) {
-      setShowAlert(false);
-      setShowAlert(true);
-      setAlertType("danger");
-      setAlertMessage("Podaj swój adres e-mail i hasło.");
+      context.setAlert(true, "danger", "Podaj swój adres e-mail i hasło.");
     } else if (email && password) {
-      console.log([
-        email,
-        password,
-        navigation.getParam("API_URL", ""),
-        navigation.state.params
-      ]);
       try {
         let API_URL = navigation.getParam("API_URL", "");
         let navProps = navigation.state.params;
@@ -64,27 +46,27 @@ const Login = (props: { navigation: any }) => {
               axios
                 .post(API_URL + "/api/details", {}, { headers: config })
                 .then(function(response2) {
-                  console.log(response2);
                   if (response2.data.status === "OK") {
                     navProps.setUserData(response2.data.result);
                   }
                 })
                 .catch(function(error) {
-                  console.log(error);
-                  setShowAlert(false);
-                  setShowAlert(true);
-                  setAlertType("danger");
-                  setAlertMessage("Sprawdź poprawność swoich danych.");
+                  context.setAlert(
+                    true,
+                    "danger",
+                    "Sprawdź poprawność swoich danych."
+                  );
                 });
             } else {
               console.log("Nie ma tokena");
             }
           })
           .catch(function(error) {
-            console.log(error);
-            setShowAlert(true);
-            setAlertType("danger");
-            setAlertMessage("Sprawdź poprawność swoich danych.");
+            context.setAlert(
+              true,
+              "danger",
+              "Sprawdź poprawność swoich danych."
+            );
           });
       } catch (e) {
         console.log(e);
@@ -157,9 +139,6 @@ const Login = (props: { navigation: any }) => {
           </Text>
         </View>
       </SafeAreaView>
-      {showAlert != false && (
-        <Alert alertType={alertType} alertMessage={alertMessage} />
-      )}
     </React.Fragment>
   );
 };

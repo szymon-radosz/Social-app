@@ -32,9 +32,6 @@ const ConfirmAccount = (props: { navigation: any }) => {
           </TouchableHighlight>
         </View>
       </SafeAreaView>
-      {showAlert != false && (
-        <Alert alertType={alertType} alertMessage={alertMessage} />
-      )}
     </React.Fragment>
   );
 };

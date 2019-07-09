@@ -8,8 +8,6 @@ const UserMessageBox = (props: {
   setUserMessage: any;
   userMessage: string;
   sendMessage: any;
-  alertMessage: string;
-  alertType: string;
 }): any => {
   return (
     <View style={styles.relative}>

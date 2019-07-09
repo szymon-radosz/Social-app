@@ -6,8 +6,8 @@ import axios from "axios";
 import SingleAuctionOnList from "./utils/SingleAuctionOnList";
 import styles from "./style";
 import { v4 as uuid } from "uuid";
-import Alert from "./../../../Alert/Alert";
 const auctionsBg: any = require("./../../../assets/images/auctionsBgMin.jpg");
+import { GlobalContext } from "./../../Context/GlobalContext";
 
 const ProductDetails = React.lazy(() => import("./utils/ProductDetails"));
 const AddNewProductBox = React.lazy(() => import("./utils/AddNewProductBox"));
@@ -43,12 +43,9 @@ interface AuctionsState {
   filterOptions: any;
   filterModalName: string;
   filterData: any;
-  showAlert: boolean;
-  alertType: string;
-  alertMessage: string;
 }
 
-export default class Auctions extends Component<AuctionsProps, AuctionsState> {
+class Auctions extends Component<AuctionsProps, AuctionsState> {
   constructor(props: AuctionsProps) {
     super(props);
     this.state = {
@@ -93,10 +90,7 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
           title: "Status",
           index: 2
         }
-      ],
-      showAlert: false,
-      alertType: "",
-      alertMessage: ""
+      ]
     };
 
     this.getProducts = this.getProducts.bind(this);
@@ -164,13 +158,11 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
       !selectedCategoryId ||
       !price
     ) {
-      this.setState({ showAlert: false });
-
-      this.setState({
-        showAlert: true,
-        alertType: "danger",
-        alertMessage: "Upewnij się, że wprowadziłaś wszystkie dane."
-      });
+      this.context.setAlert(
+        true,
+        "danger",
+        "Upewnij się, że wprowadziłaś wszystkie dane i dodałaś co najmniej 1 zdjęcie."
+      );
     }
 
     if (
@@ -201,25 +193,21 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
         })
         .then(function(response) {
           if (response.data.status === "OK") {
-            that.setState({ showAlert: false });
-
-            that.setState({
-              showAlert: true,
-              alertType: "success",
-              alertMessage: "Dziękujemy za dodanie nowego produktu."
-            });
             that.changeDisplayNewProductBox();
+
+            that.context.setAlert(
+              true,
+              "success",
+              "Dziękujemy za dodanie nowego produktu."
+            );
           }
         })
         .catch(function(error) {
-          that.setState({ showAlert: false });
-
-          that.setState({
-            showAlert: true,
-            alertType: "danger",
-            alertMessage: "Problem z dodaniem nowego produktu"
-          });
-          console.log(error);
+          that.context.setAlert(
+            true,
+            "danger",
+            "Problem z dodaniem nowego produktu."
+          );
         });
     }
   };
@@ -445,10 +433,7 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
       filterModalName,
       filterDistance,
       filterPrice,
-      filterStatus,
-      showAlert,
-      alertType,
-      alertMessage
+      filterStatus
     } = this.state;
     return (
       <React.Fragment>
@@ -561,10 +546,9 @@ export default class Auctions extends Component<AuctionsProps, AuctionsState> {
             </Suspense>
           )}
         </View>
-        {showAlert != false && (
-          <Alert alertType={alertType} alertMessage={alertMessage} />
-        )}
       </React.Fragment>
     );
   }
 }
+Auctions.contextType = GlobalContext;
+export default Auctions;

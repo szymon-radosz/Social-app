@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   TextInput,
   Text,
@@ -11,36 +11,29 @@ import {
 const loaderImage: any = require("./../../../assets/images/loader.gif");
 import axios from "axios";
 import styles from "./style";
-import Alert from "./../../../Alert/Alert";
+import { GlobalContext } from "./../../Context/GlobalContext";
 
 const Register = (props: { navigation: any }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConf, setPasswordConf] = useState("");
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alertType, setAlertType] = useState("");
-  const [showAlert, setShowAlert] = useState(false);
   const [loader, setLoader] = useState(false);
+  const context = useContext(GlobalContext);
 
   const navigation = props.navigation;
 
   const registerUser = (): void => {
     if (!name || !email || !password || !passwordConf) {
-      setShowAlert(false);
-      setShowAlert(true);
-      setAlertType("danger");
-      setAlertMessage("Wszystkie pola są wymagane.");
+      context.setAlert(true, "danger", "Wszystkie pola są wymagane.");
     } else if (password !== passwordConf) {
-      setShowAlert(false);
-      setShowAlert(true);
-      setAlertType("danger");
-      setAlertMessage("Hasło i potwierdzenie hasła muszą być identyczne.");
+      context.setAlert(
+        true,
+        "danger",
+        "Hasło i potwierdzenie hasła muszą być identyczne."
+      );
     } else if (password == passwordConf && password.length < 6) {
-      setShowAlert(false);
-      setShowAlert(true);
-      setAlertType("danger");
-      setAlertMessage("Hasło musi mieć conajmniej 6 znaków.");
+      context.setAlert(true, "danger", "Hasło musi mieć conajmniej 6 znaków.");
     } else if (password === passwordConf) {
       try {
         let API_URL = navigation.getParam("API_URL", "");
@@ -57,12 +50,11 @@ const Register = (props: { navigation: any }) => {
           .then(function(response) {
             console.log(response.data);
             if (response.data.status === "OK") {
-              console.log(response.data);
               setLoader(false);
-              setShowAlert(false);
-              setShowAlert(true);
-              setAlertType("success");
-              setAlertMessage(
+
+              context.setAlert(
+                true,
+                "danger",
                 "Sprawdź swoją skrzynkę mailową i potwierdź swoje konto przez otrzymaną od nas wiadomość."
               );
 
@@ -70,14 +62,15 @@ const Register = (props: { navigation: any }) => {
             }
           })
           .catch(function(error) {
-            console.log(error);
             setLoader(false);
           });
-      } catch (e) {
-        console.log(e);
-      }
+      } catch (e) {}
     } else {
-      console.log("passwords dont match");
+      context.setAlert(
+        true,
+        "danger",
+        "Hasło i potwierdzenie musi być identyczne."
+      );
     }
   };
 
@@ -166,10 +159,6 @@ const Register = (props: { navigation: any }) => {
             </View>
           </View>
         </SafeAreaView>
-      )}
-
-      {showAlert != false && (
-        <Alert alertType={alertType} alertMessage={alertMessage} />
       )}
     </React.Fragment>
   );

@@ -5,6 +5,7 @@ import axios from "axios";
 import styles from "./style";
 import { v4 as uuid } from "uuid";
 const messagesBgMin: any = require("./../../../assets/images/messagesBgMin.jpg");
+import { GlobalContext } from "./../../Context/GlobalContext";
 
 const ConversationDetails = React.lazy(() =>
   import("./utils/ConversationDetails")
@@ -34,7 +35,7 @@ interface MessagesProps {
   clearUserUnreadedMessages: any;
 }
 
-export default class Messages extends Component<MessagesProps, MessagesState> {
+class Messages extends Component<MessagesProps, MessagesState> {
   constructor(props: MessagesProps) {
     super(props);
     this.state = {
@@ -99,7 +100,11 @@ export default class Messages extends Component<MessagesProps, MessagesState> {
         }
       })
       .catch(function(error) {
-        console.log(error);
+        that.context.setAlert(
+          true,
+          "danger",
+          "Wystąpił błąd z wyświetleniem szczegółów konwersacji."
+        );
       });
   };
 
@@ -118,22 +123,13 @@ export default class Messages extends Component<MessagesProps, MessagesState> {
 
     let that = this;
 
-    axios
-      .post(API_URL + "/api/addNotification", {
-        type: "sended_message",
-        message: `Masz nową wiadomość od użytkowniczki ${
-          this.props.user.name
-        } (${this.props.user.email})`,
-        userId: receiver_id
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-          console.log(["send message addNotification", response]);
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    axios.post(API_URL + "/api/addNotification", {
+      type: "sended_message",
+      message: `Masz nową wiadomość od użytkowniczki ${this.props.user.name} (${
+        this.props.user.email
+      })`,
+      userId: receiver_id
+    });
 
     axios
       .post(API_URL + "/api/saveMessage", {
@@ -155,7 +151,11 @@ export default class Messages extends Component<MessagesProps, MessagesState> {
         }
       })
       .catch(function(error) {
-        console.log(error);
+        that.context.setAlert(
+          true,
+          "danger",
+          "Wystąpił błąd z wyświetleniem zapisem wiadomości."
+        );
       });
   };
 
@@ -179,7 +179,11 @@ export default class Messages extends Component<MessagesProps, MessagesState> {
         }
       })
       .catch(function(error) {
-        console.log(error);
+        that.context.setAlert(
+          true,
+          "danger",
+          "Wystąpił błąd z wyświetleniem szczegółów konwersacji."
+        );
       });
   };
 
@@ -203,7 +207,11 @@ export default class Messages extends Component<MessagesProps, MessagesState> {
         }
       })
       .catch(function(error) {
-        console.log(error);
+        that.context.setAlert(
+          true,
+          "danger",
+          "Wystąpił błąd z wyświetleniem szczegółów konwersacji."
+        );
       });
   };
 
@@ -328,3 +336,5 @@ export default class Messages extends Component<MessagesProps, MessagesState> {
     );
   }
 }
+Messages.contextType = GlobalContext;
+export default Messages;

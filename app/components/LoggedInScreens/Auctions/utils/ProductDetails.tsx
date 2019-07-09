@@ -12,7 +12,7 @@ import Lightbox from "react-native-lightbox";
 import Carousel from "react-native-looped-carousel";
 import { v4 as uuid } from "uuid";
 import PageHeader from "./../../SharedComponents/PageHeader";
-import Alert from "./../../../../Alert/Alert";
+import { GlobalContext } from "./../../../Context/GlobalContext";
 
 const ProductMessageBox = React.lazy(() => import("./ProductMessageBox"));
 const SellerVoteBox = React.lazy(() => import("./SellerVoteBox"));
@@ -53,13 +53,11 @@ interface ProductDetailsState {
   foundVoteUserList: any;
   usersAreInTheSameConversation: boolean;
   productClosed: boolean;
-  showAlert: boolean;
-  alertType: string;
-  alertMessage: string;
+
   productLocation: any;
 }
 
-export default class ProductDetails extends Component<
+class ProductDetails extends Component<
   ProductDetailsProps,
   ProductDetailsState
 > {
@@ -72,9 +70,7 @@ export default class ProductDetails extends Component<
       foundVoteUserList: [],
       usersAreInTheSameConversation: false,
       productClosed: false,
-      showAlert: false,
-      alertType: "",
-      alertMessage: "",
+
       productLocation: []
     };
 
@@ -174,12 +170,11 @@ export default class ProductDetails extends Component<
         }
       })
       .catch(function(error) {
-        console.log(error);
-
-        that.setState({
-          alertType: "danger",
-          alertMessage: "Nie udało się pobrać danych o uzytkowniku"
-        });
+        that.context.setAlert(
+          true,
+          "danger",
+          "Nie udało się pobrać danych o użytkowniku."
+        );
       });
   };
 
@@ -201,29 +196,25 @@ export default class ProductDetails extends Component<
         })
         .then(function(response) {
           if (response.data.status === "OK") {
-            that.setState({ showAlert: false });
-
             that.setState({
               usersAreInTheSameConversation: true,
               showProductMessageBox: false,
-              showVoteBox: false,
-              showAlert: true,
-              alertType: "success",
-              alertMessage:
-                "Poprawnie wysłano wiadomość. Sprawdź zakładkę 'Wiadomości > Targ'."
+              showVoteBox: false
             });
+
+            that.context.setAlert(
+              true,
+              "success",
+              "Poprawnie wysłano wiadomość. Sprawdź zakładkę 'Wiadomości > Targ'."
+            );
           }
         })
         .catch(function(error) {
-          console.log(error);
-
-          that.setState({ showAlert: false });
-
-          that.setState({
-            showAlert: true,
-            alertType: "danger",
-            alertMessage: "Problem z wysłaniem wiadomości."
-          });
+          that.context.setAlert(
+            true,
+            "danger",
+            "Problem z wysłaniem wiadomości."
+          );
         });
     }
   };
@@ -258,27 +249,21 @@ export default class ProductDetails extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          that.setState({ showAlert: false });
-
-          that.setState({
-            showAlert: true,
-            alertType: "success",
-            alertMessage: "Dziękujemy za dodanie opinii."
-          });
           that.closeProduct(productId);
+
+          that.context.setAlert(
+            true,
+            "success",
+            "Dziękujemy za dodanie opinii."
+          );
         }
       })
       .catch(function(error) {
-        console.log(error);
-
-        that.setState({ showAlert: false });
-
-        that.setState({
-          showAlert: true,
-          alertType: "danger",
-          alertMessage:
-            "Problem z dodaniem opinii. Możesz dodać tylko jedną opinię dla poszczególnej użytkowniczki"
-        });
+        that.context.setAlert(
+          true,
+          "danger",
+          "Problem z dodaniem opinii. Możesz dodać tylko jedną opinię dla poszczególnej użytkowniczki."
+        );
       });
   };
 
@@ -308,10 +293,7 @@ export default class ProductDetails extends Component<
       showVoteBox,
       productDetails,
       foundVoteUserList,
-      usersAreInTheSameConversation,
-      showAlert,
-      alertType,
-      alertMessage
+      usersAreInTheSameConversation
     } = this.state;
     return (
       <React.Fragment>
@@ -491,15 +473,10 @@ export default class ProductDetails extends Component<
                 )}
             </View>
           ) : null}
-          {showAlert != false && (
-            <Alert alertType={alertType} alertMessage={alertMessage} />
-          )}
         </View>
-
-        {showAlert != false && (
-          <Alert alertType={alertType} alertMessage={alertMessage} />
-        )}
       </React.Fragment>
     );
   }
 }
+ProductDetails.contextType = GlobalContext;
+export default ProductDetails;

@@ -3,11 +3,11 @@ import { ImageBackground, Text, View, TouchableHighlight } from "react-native";
 import axios from "axios";
 import UserOnList from "./utils/UserOnList";
 import Carousel from "react-native-snap-carousel";
-import Alert from "./../../../Alert/Alert";
 import { btnFullWidthFilledContainer } from "./../../../assets/global/globalStyles";
 import { v4 as uuid } from "uuid";
 import styles from "./style";
 const findUsersBg: any = require("./../../../assets/images/findUsersBgMin.jpg");
+import { GlobalContext } from "./../../Context/GlobalContext";
 
 const UserDetails = React.lazy(() => import("./utils/UserDetails"));
 const UserMessageBox = React.lazy(() => import("./utils/UserMessageBox"));
@@ -23,8 +23,6 @@ interface FindUsersState {
   showUserDetails: boolean;
   showUserMessageBox: boolean;
   message: string;
-  alertMessage: string;
-  alertType: string;
   usersAreInTheSameConversation: boolean;
   usersFriendshipStatus: string;
   userDetailsData: any;
@@ -44,7 +42,6 @@ interface FindUsersState {
   filterModalName: string;
   userMessage: string;
   locationDetails: any;
-  showAlert: boolean;
 }
 
 interface FindUsersProps {
@@ -61,10 +58,7 @@ interface FindUsersProps {
   openFindUserId: number;
 }
 
-export default class FindUsers extends Component<
-  FindUsersProps,
-  FindUsersState
-> {
+class FindUsers extends Component<FindUsersProps, FindUsersState> {
   constructor(props: FindUsersProps) {
     super(props);
     this.state = {
@@ -100,9 +94,6 @@ export default class FindUsers extends Component<
       showUserDetails: false,
       showUserMessageBox: false,
       message: "",
-      alertMessage: "",
-      alertType: "",
-      showAlert: false,
       locationDetails: [],
       usersAreInTheSameConversation: false,
       usersFriendshipStatus: "",
@@ -325,7 +316,11 @@ export default class FindUsers extends Component<
           }
         })
         .catch(function(error) {
-          console.log(error);
+          that.context.setAlert(
+            true,
+            "danger",
+            "Wystąpił błąd z wyświetleniem filtrów."
+          );
         });
     } else {
       this.loadUsersNearCoords();
@@ -359,7 +354,11 @@ export default class FindUsers extends Component<
         }
       })
       .catch(function(error) {
-        console.log(error);
+        that.context.setAlert(
+          true,
+          "danger",
+          "Wystąpił błąd z wyświetleniem listy hobby."
+        );
       });
   };
 
@@ -395,22 +394,13 @@ export default class FindUsers extends Component<
 
     let that = this;
 
-    axios
-      .post(API_URL + "/api/addNotification", {
-        type: "started_conversation_user",
-        message: `Użytkowniczka ${this.props.user.name} (${
-          this.props.user.email
-        }) odezwała się do Ciebie w wiadomości prywatnej`,
-        userId: receiverId
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-          console.log(["started_conversation_user addNotification", response]);
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    axios.post(API_URL + "/api/addNotification", {
+      type: "started_conversation_user",
+      message: `Użytkowniczka ${this.props.user.name} (${
+        this.props.user.email
+      }) odezwała się do Ciebie w wiadomości prywatnej`,
+      userId: receiverId
+    });
 
     axios
       .post(API_URL + "/api/saveConversation", {
@@ -420,34 +410,27 @@ export default class FindUsers extends Component<
       })
       .then(function(response2) {
         if (response2.data.status === "OK") {
-          that.setState({ showAlert: false });
-
-          that.setState({
-            showAlert: true,
-            alertType: "success",
-            alertMessage: "Poprawnie wysłano nową wiadomość"
-          });
+          that.context.setAlert(
+            true,
+            "success",
+            "Poprawnie wysłano nową wiadomość."
+          );
 
           that.setShowUserDetails(that.state.userDetailsId);
         } else if (response2.data.status === "ERR") {
-          that.setState({ showAlert: false });
-
-          that.setState({
-            showAlert: true,
-            alertType: "danger",
-            alertMessage: response2.data.result
-          });
+          that.context.setAlert(
+            true,
+            "danger",
+            "Problem z wysłaniem wiadomości."
+          );
         }
       })
       .catch(function(error) {
-        console.log(error);
-        that.setState({ showAlert: false });
-
-        that.setState({
-          showAlert: true,
-          alertType: "danger",
-          alertMessage: "Nie udało się wysłać wiadomości"
-        });
+        that.context.setAlert(
+          true,
+          "danger",
+          "Problem z wysłaniem wiadomości."
+        );
       });
   };
 
@@ -477,14 +460,11 @@ export default class FindUsers extends Component<
         }
       })
       .catch(function(error) {
-        console.log(error);
-        that.setState({ showAlert: false });
-
-        that.setState({
-          showAlert: true,
-          alertType: "danger",
-          alertMessage: "Nie udało się pobrać danych o uzytkowniku"
-        });
+        that.context.setAlert(
+          true,
+          "danger",
+          "Nie udało się pobrać danych o uzytkowniku."
+        );
       });
 
     //check friendship status
@@ -523,22 +503,13 @@ export default class FindUsers extends Component<
     let API_URL = this.props.API_URL;
     let that = this;
 
-    axios
-      .post(API_URL + "/api/addNotification", {
-        type: "friendship_confirmation",
-        message: `Użytkowniczka ${this.props.user.name} (${
-          this.props.user.email
-        }) zaakceptowała Twoje zaproszenie do grona znajomych.`,
-        userId: receiverId
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-          console.log(["started_conversation_user addNotification", response]);
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    axios.post(API_URL + "/api/addNotification", {
+      type: "friendship_confirmation",
+      message: `Użytkowniczka ${this.props.user.name} (${
+        this.props.user.email
+      }) zaakceptowała Twoje zaproszenie do grona znajomych.`,
+      userId: receiverId
+    });
 
     axios
       .post(API_URL + "/api/confirmFriend", {
@@ -547,25 +518,19 @@ export default class FindUsers extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          that.setState({ showAlert: false });
-
-          that.setState({
-            usersFriendshipStatus: "confirmed",
-            showAlert: true,
-            alertType: "success",
-            alertMessage: "Dodano nową użytkowniczkę do grona znajomych"
-          });
+          that.context.setAlert(
+            true,
+            "success",
+            "Dodano nową użytkowniczkę do grona znajomych."
+          );
         }
       })
       .catch(function(error) {
-        console.log(error);
-        that.setState({ showAlert: false });
-
-        that.setState({
-          showAlert: true,
-          alertType: "danger",
-          alertMessage: "Problem z potwierdzeniem znajomości"
-        });
+        that.context.setAlert(
+          true,
+          "danger",
+          "Problem z potwierdzeniem znajomości."
+        );
       });
   };
 
@@ -574,21 +539,13 @@ export default class FindUsers extends Component<
 
     let that = this;
 
-    axios
-      .post(API_URL + "/api/addNotification", {
-        type: "friendship_invitation",
-        message: `Użytkowniczka ${this.props.user.name} (${
-          this.props.user.email
-        }) zaprosiła Cię do grona znajomych`,
-        userId: receiverId
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    axios.post(API_URL + "/api/addNotification", {
+      type: "friendship_invitation",
+      message: `Użytkowniczka ${this.props.user.name} (${
+        this.props.user.email
+      }) zaprosiła Cię do grona znajomych`,
+      userId: receiverId
+    });
 
     axios
       .post(API_URL + "/api/inviteFriend", {
@@ -597,25 +554,19 @@ export default class FindUsers extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          that.setState({ showAlert: false });
-
-          that.setState({
-            usersFriendshipStatus: "not confirmed by second person",
-            showAlert: true,
-            alertType: "success",
-            alertMessage: "Wysłano zaproszenie do grona znajomych."
-          });
+          that.context.setAlert(
+            true,
+            "success",
+            "Wysłano zaproszenie do grona znajomych."
+          );
         }
       })
       .catch(function(error) {
-        console.log(error);
-        that.setState({ showAlert: false });
-
-        that.setState({
-          showAlert: true,
-          alertType: "danger",
-          alertMessage: "Problem z wysłaniem zaproszenia do grona znajomych."
-        });
+        that.context.setAlert(
+          true,
+          "danger",
+          "Problem z wysłaniem zaproszenia do grona znajomych."
+        );
       });
   };
 
@@ -644,7 +595,11 @@ export default class FindUsers extends Component<
           }
         })
         .catch(function(error) {
-          console.log(error);
+          that.context.setAlert(
+            true,
+            "danger",
+            "Problem z wys∑ietleniem listy użytkowniczek."
+          );
         });
     } catch (e) {
       console.log(e);
@@ -656,7 +611,6 @@ export default class FindUsers extends Component<
   };
 
   componentDidMount = (): void => {
-    console.log(["this.props.openFindUserId", this.props.openFindUserId]);
     if (
       this.props.user &&
       this.props.user.lattitude &&
@@ -674,9 +628,7 @@ export default class FindUsers extends Component<
     const {
       userList,
       showUserDetails,
-      alertMessage,
-      alertType,
-      showAlert,
+
       showUserMessageBox,
       usersAreInTheSameConversation,
       userDetailsData,
@@ -729,8 +681,6 @@ export default class FindUsers extends Component<
                 openMessages={this.props.openMessages}
                 setOpenProfile={this.props.setOpenProfile}
                 setShowUserMessageBox={this.setShowUserMessageBox}
-                alertMessage={alertMessage}
-                alertType={alertType}
                 inviteFriend={this.inviteFriend}
                 confirmFriend={this.confirmFriend}
                 loggedInUserId={this.props.user.id}
@@ -747,8 +697,6 @@ export default class FindUsers extends Component<
                   sendMessage={this.sendMessage}
                   setUserMessage={this.setUserMessage}
                   userMessage={userMessage}
-                  alertMessage={alertMessage}
-                  alertType={alertType}
                 />
               </Suspense>
             )}
@@ -820,11 +768,9 @@ export default class FindUsers extends Component<
             ) : null}
           </View>
         </View>
-
-        {showAlert != false && (
-          <Alert alertType={alertType} alertMessage={alertMessage} />
-        )}
       </React.Fragment>
     );
   }
 }
+FindUsers.contextType = GlobalContext;
+export default FindUsers;

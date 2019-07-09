@@ -10,7 +10,7 @@ import styles from "./style";
 import LoggedInScreens from "./utils/LoggedInScreens";
 import BottomPanel from "./SharedComponents/BottomPanel";
 import axios from "axios";
-import Alert from "./../../Alert/Alert";
+import { GlobalContext } from "./../Context/GlobalContext";
 const feedback: any = require("./../../assets/images/feedback.png");
 
 interface NavigationScreenInterface {
@@ -34,12 +34,9 @@ interface LoggedInMainState {
   feedbackMessage: string;
   feedbackTopic: any;
   activeTopic: string;
-  showAlert: boolean;
-  alertMessage: string;
-  alertType: string;
 }
 
-export default class LoggedInMain extends Component<
+class LoggedInMain extends Component<
   NavigationScreenInterface,
   LoggedInMainState
 > {
@@ -62,10 +59,7 @@ export default class LoggedInMain extends Component<
         { index: 2, text: "Dodanie nowej funkcjonalności" },
         { index: 3, text: "Inne" }
       ],
-      activeTopic: "",
-      showAlert: false,
-      alertMessage: "",
-      alertType: ""
+      activeTopic: ""
     };
 
     this.setOpenFindUsers = this.setOpenFindUsers.bind(this);
@@ -104,12 +98,11 @@ export default class LoggedInMain extends Component<
     let that = this;
 
     if (!topic || !message) {
-      that.setState({ showAlert: false });
-      that.setState({
-        showAlert: true,
-        alertType: "danger",
-        alertMessage: "Prosimy o uzupełnienie wszystkich danych."
-      });
+      this.context.setAlert(
+        true,
+        "danger",
+        "Prosimy o uzupełnienie wszystkich danych."
+      );
     }
 
     axios
@@ -120,34 +113,27 @@ export default class LoggedInMain extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          that.setState({ showAlert: false });
           that.setState({
             showFeedbackModal: false,
             activeTopic: "",
-            feedbackMessage: "",
-            showAlert: true,
-            alertType: "success",
-            alertMessage: "Dziękujemy za wiadomość."
+            feedbackMessage: ""
           });
+
+          that.context.setAlert(true, "success", "Dziękujemy za wiadomość.");
         }
       })
       .catch(function(error) {
-        console.log(error);
-        that.setState({ showAlert: false });
-        that.setState({
-          showAlert: true,
-          alertType: "danger",
-          alertMessage: "Problem z wysłaniem wiadomości"
-        });
+        that.context.setAlert(
+          true,
+          "danger",
+          "Problem z wysłaniem wiadomości."
+        );
       });
   };
 
   setShowFeedbackModal = (): void => {
     this.setState({
-      showFeedbackModal: !this.state.showFeedbackModal,
-      showAlert: false,
-      alertMessage: "",
-      alertType: ""
+      showFeedbackModal: !this.state.showFeedbackModal
     });
   };
 
@@ -223,10 +209,7 @@ export default class LoggedInMain extends Component<
       showFeedbackModal,
       feedbackMessage,
       feedbackTopic,
-      activeTopic,
-      showAlert,
-      alertMessage,
-      alertType
+      activeTopic
     } = this.state;
     return (
       <React.Fragment>
@@ -294,10 +277,10 @@ export default class LoggedInMain extends Component<
             />
           </View>
         </SafeAreaView>
-        {showAlert != false && (
-          <Alert alertType={alertType} alertMessage={alertMessage} />
-        )}
       </React.Fragment>
     );
   }
 }
+
+LoggedInMain.contextType = GlobalContext;
+export default LoggedInMain;

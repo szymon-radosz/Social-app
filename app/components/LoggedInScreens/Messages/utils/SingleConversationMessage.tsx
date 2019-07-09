@@ -72,7 +72,6 @@ export default class SingleConversationMessage extends Component<
             Data dodania: {messageDate}
           </Text>
         )}
-        {/*<View style={{ borderBottomWidth: 1 }} />*/}
       </View>
     );
   }

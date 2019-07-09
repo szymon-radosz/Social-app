@@ -14,8 +14,6 @@ const API_URL = "http://127.0.0.1:8000/";
 interface NotLoggedInMainState {
   userLoggedIn: boolean;
   userData: any;
-  alertSuccess: boolean;
-  alertMessage: string;
 }
 interface NavigationScreenInterface {
   navigation: {
@@ -34,9 +32,7 @@ export default class NotLoggedInMain extends Component<
     super(props);
     this.state = {
       userLoggedIn: false,
-      userData: [],
-      alertSuccess: true,
-      alertMessage: "dsds"
+      userData: []
     };
 
     this.setUserData = this.setUserData.bind(this);

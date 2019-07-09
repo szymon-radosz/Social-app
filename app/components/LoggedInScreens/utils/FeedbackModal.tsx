@@ -4,8 +4,7 @@ import {
   TouchableHighlight,
   View,
   Text,
-  TextInput,
-  Button
+  TextInput
 } from "react-native";
 import styles from "./../style";
 import { v4 as uuid } from "uuid";

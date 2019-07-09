@@ -7,9 +7,9 @@ const Alert = (props: any) => {
   const [showAlert, setShowAlert] = useState(true);
   const [message, setMessage] = useState("");
 
-  const closeAlert = () => {
+  /*const closeAlert = () => {
     setShowAlert(false);
-  };
+  };*/
 
   useEffect(() => {
     if (props.alertMessage) {
@@ -33,7 +33,7 @@ const Alert = (props: any) => {
           {message}
         </Text>
         <TouchableHighlight
-          onPress={closeAlert}
+          onPress={props.closeAlert}
           style={styles.closeAlert}
           underlayColor={"#fff"}
         >

@@ -6,7 +6,7 @@ import axios from "axios";
 import SavePostComment from "./SavePostComment";
 import { v4 as uuid } from "uuid";
 import PageHeader from "./../../SharedComponents/PageHeader";
-import Alert from "./../../../../Alert/Alert";
+import { GlobalContext } from "./../../../Context/GlobalContext";
 
 const like: any = require("./../../../../assets/images/like.png");
 const comment: any = require("./../../../../assets/images/comment.png");
@@ -22,9 +22,6 @@ interface PostDetailsState {
   authorPhotoPath: string;
   comments: any;
   commentMessage: string;
-  showAlert: boolean;
-  alertType: string;
-  alertMessage: string;
 }
 
 interface PostDetailsProps {
@@ -34,10 +31,7 @@ interface PostDetailsProps {
   user: any;
 }
 
-export default class PostDetails extends Component<
-  PostDetailsProps,
-  PostDetailsState
-> {
+class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
   constructor(props: PostDetailsProps) {
     super(props);
     this.state = {
@@ -50,10 +44,7 @@ export default class PostDetails extends Component<
       authorEmail: "",
       authorPhotoPath: "",
       comments: [],
-      commentMessage: "",
-      showAlert: false,
-      alertType: "",
-      alertMessage: ""
+      commentMessage: ""
     };
 
     this.getPostById = this.getPostById.bind(this);
@@ -99,10 +90,18 @@ export default class PostDetails extends Component<
           }
         })
         .catch(function(error) {
-          console.log(error);
+          that.context.setAlert(
+            true,
+            "danger",
+            "Wystąpił błąd z wyświetleniem szczegółów posta."
+          );
         });
     } catch (e) {
-      console.log(e);
+      this.context.setAlert(
+        true,
+        "danger",
+        "Wystąpił błąd z wyświetleniem szczegółów posta."
+      );
     }
   };
 
@@ -121,27 +120,24 @@ export default class PostDetails extends Component<
         })
         .then(function(response) {
           if (response.data.status === "OK") {
-            that.setState({ showAlert: false });
-            that.setState({
-              postVotes: that.state.postVotes + 1,
-              showAlert: true,
-              alertType: "success",
-              alertMessage: "Dziękujemy za oddanie głosu"
-            });
+            that.context.setAlert(
+              true,
+              "success",
+              "Dziękujemy za oddanie głosu."
+            );
           } else {
-            that.setState({ showAlert: false });
-            that.setState({
-              showAlert: true,
-              alertType: "danger",
-              alertMessage: "Oddałaś już głos."
-            });
+            that.context.setAlert(
+              true,
+              "danger",
+              "Oddałaś już głos w przeszłości."
+            );
           }
         })
         .catch(function(error) {
-          console.log(error);
+          that.context.setAlert(true, "danger", "Problem z oddaniem głosu.");
         });
     } else {
-      console.log("nie mozesz glosowac na swoje posty");
+      that.context.setAlert(true, "danger", "Problem z oddaniem głosu.");
     }
   };
 
@@ -162,7 +158,11 @@ export default class PostDetails extends Component<
         }
       })
       .catch(function(error) {
-        console.log(error);
+        that.context.setAlert(
+          true,
+          "danger",
+          "Problem z wyświetleniem listy komentarzy."
+        );
       });
   };
 
@@ -183,7 +183,7 @@ export default class PostDetails extends Component<
         }
       })
       .catch(function(error) {
-        console.log(error);
+        that.context.setAlert(true, "danger", "Problem z zapisem głosu.");
       });
   };
 
@@ -192,32 +192,15 @@ export default class PostDetails extends Component<
     let that = this;
 
     if (!body || postId === 0 || userId === 0) {
-      that.setState({ showAlert: false });
-      that.setState({
-        showAlert: true,
-        alertType: "danger",
-        alertMessage: "Prosimy o uzupełnienie treści."
-      });
+      that.context.setAlert(true, "danger", "Prosimy o uzupełnienie treści.");
     } else {
-      axios
-        .post(API_URL + "/api/addNotification", {
-          type: "comment_for_your_forum_post",
-          message: `Użytkowniczka ${this.props.user.name} (${
-            this.props.user.email
-          }) dodała komentarz do Twojego posta na forum.`,
-          userId: this.state.authorId
-        })
-        .then(function(response) {
-          if (response.data.status === "OK") {
-            console.log([
-              "started_conversation_user addNotification",
-              response
-            ]);
-          }
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+      axios.post(API_URL + "/api/addNotification", {
+        type: "comment_for_your_forum_post",
+        message: `Użytkowniczka ${this.props.user.name} (${
+          this.props.user.email
+        }) dodała komentarz do Twojego posta na forum.`,
+        userId: this.state.authorId
+      });
 
       axios
         .post(API_URL + "/api/savePostComment", {
@@ -229,22 +212,19 @@ export default class PostDetails extends Component<
           if (response.data.status === "OK") {
             that.getPostComments();
 
-            that.setState({ showAlert: false });
-            that.setState({
-              showAlert: true,
-              alertType: "success",
-              alertMessage: "Twój komentarz został dodany."
-            });
+            that.context.setAlert(
+              true,
+              "success",
+              "Twój komentarz został dodany."
+            );
           }
         })
         .catch(function(error) {
-          console.log(error);
-          that.setState({ showAlert: false });
-          that.setState({
-            showAlert: true,
-            alertType: "success",
-            alertMessage: "Problem z dodaniem komentarza."
-          });
+          that.context.setAlert(
+            true,
+            "danger",
+            "Problem z dodaniem komentarza."
+          );
         });
     }
   };
@@ -263,10 +243,7 @@ export default class PostDetails extends Component<
       authorEmail,
       authorPhotoPath,
       comments,
-      commentMessage,
-      showAlert,
-      alertType,
-      alertMessage
+      commentMessage
     } = this.state;
     return (
       <React.Fragment>
@@ -356,10 +333,9 @@ export default class PostDetails extends Component<
             />
           </ScrollView>
         </View>
-        {showAlert != false && (
-          <Alert alertType={alertType} alertMessage={alertMessage} />
-        )}
       </React.Fragment>
     );
   }
 }
+PostDetails.contextType = GlobalContext;
+export default PostDetails;

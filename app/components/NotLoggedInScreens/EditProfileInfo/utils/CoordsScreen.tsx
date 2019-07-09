@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import {
-  Button,
-  Text,
-  View,
-  TouchableHighlight,
-  ImageBackground
-} from "react-native";
+import { Text, View, TouchableHighlight, ImageBackground } from "react-native";
 import styles from "./../style";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 const fillInfoBg: any = require("./../../../../assets/images/fillInfoBgMin.jpg");

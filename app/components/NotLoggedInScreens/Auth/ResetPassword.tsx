@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Text,
   View,
@@ -8,15 +8,12 @@ import {
 } from "react-native";
 import styles from "./style";
 import axios from "axios";
-import Alert from "./../../../Alert/Alert";
+import { GlobalContext } from "./../../Context/GlobalContext";
 
 const ResetPassword = (props: { navigation: any }) => {
   const [email, setEmail] = useState("");
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alertType, setAlertType] = useState("");
-  const [showAlert, setShowAlert] = useState(false);
-
   const navigation = props.navigation;
+  const context = useContext(GlobalContext);
 
   const resetPassword = (): void => {
     try {
@@ -27,23 +24,16 @@ const ResetPassword = (props: { navigation: any }) => {
         })
         .then(function(response) {
           if (response.data.status === "OK") {
-            setShowAlert(true);
-            setAlertType("success");
-            setAlertMessage("Sprawdź swoją skrzynkę.");
-            setEmail("");
+            context.setAlert(true, "success", "Sprawdź swoją skrzynkę.");
           } else {
-            setShowAlert(true);
-            setAlertType("success");
-            setAlertMessage("Problem ze zresetowaniem hasła.");
+            context.setAlert(true, "danger", "Problem ze zresetowaniem hasła.");
           }
         })
         .catch(function(error) {
-          setShowAlert(true);
-          setAlertType("danger");
-          setAlertMessage("Sprawdź poprawność swoich danych.");
+          context.setAlert(true, "danger", "Sprawdź poprawność swoich danych.");
         });
     } catch (e) {
-      console.log(e);
+      context.setAlert(true, "danger", "Problem ze zresetowaniem hasła.");
     }
   };
 
@@ -88,14 +78,8 @@ const ResetPassword = (props: { navigation: any }) => {
               <Text style={styles.registerBtn}>Logowanie</Text>
             </TouchableHighlight>
           </View>
-          {showAlert != false && (
-            <Alert alertType={alertType} alertMessage={alertMessage} />
-          )}
         </View>
       </SafeAreaView>
-      {showAlert != false && (
-        <Alert alertType={alertType} alertMessage={alertMessage} />
-      )}
     </React.Fragment>
   );
 };
