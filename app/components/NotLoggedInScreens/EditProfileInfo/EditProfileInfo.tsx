@@ -5,6 +5,7 @@ import Geocode from "react-geocode";
 import styles from "./style";
 const loaderImage: any = require("./../../../assets/images/loader.gif");
 var ImagePicker = NativeModules.ImageCropPicker;
+import { GlobalContext } from "./../../Context/GlobalContext";
 
 const AgeDescScreen = React.lazy(() => import("./utils/AgeDescScreen"));
 const PhotoScreen = React.lazy(() => import("./utils/PhotoScreen"));
@@ -41,7 +42,7 @@ interface FillNecessaryInfoState {
   loader: boolean;
 }
 
-export default class FillNecessaryInfo extends Component<
+class EditProfileInfo extends Component<
   NavigationScreenInterface,
   FillNecessaryInfoState
 > {
@@ -91,25 +92,23 @@ export default class FillNecessaryInfo extends Component<
   }
 
   componentDidMount = async () => {
-    const navigation = this.props.navigation;
-
-    if (navigation.getParam("user")) {
+    if (this.context.userData) {
       this.setState({
-        age: navigation.getParam("user").age,
-        desc: navigation.getParam("user").description
-          ? navigation.getParam("user").description
+        age: this.context.userData.age,
+        desc: this.context.userData.description
+          ? this.context.userData.description
           : "",
-        userSavedPhoto: navigation.getParam("user").photo_path
+        userSavedPhoto: this.context.userData.photo_path
       });
 
       if (
-        navigation.getParam("user").lattitude !== 0 &&
-        navigation.getParam("user").longitude !== 0
+        this.context.userData.lattitude !== 0 &&
+        this.context.userData.longitude !== 0
       ) {
         this.setState({
           region: {
-            latitude: navigation.getParam("user").lattitude,
-            longitude: navigation.getParam("user").longitude,
+            latitude: this.context.userData.lattitude,
+            longitude: this.context.userData.longitude,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421
           }
@@ -119,8 +118,8 @@ export default class FillNecessaryInfo extends Component<
       await this.getAllHobbies();
 
       //if user want to edit profile and have some kids, then we format that kids array and assign it to state
-      if (navigation.getParam("user").kids.length > 0) {
-        navigation.getParam("user").kids.map(async (kid: any, i: number) => {
+      if (this.context.userData.kids.length > 0) {
+        this.context.userData.kids.map(async (kid: any, i: number) => {
           let kidObj = {
             name: kid.name,
             dateOfBirth: kid.date_of_birth,
@@ -142,11 +141,9 @@ export default class FillNecessaryInfo extends Component<
   };
 
   cleanUserHobbies = (): void => {
-    const navigation = this.props.navigation;
-
     try {
-      let API_URL = navigation.getParam("API_URL", "");
-      let userId = navigation.getParam("user").id;
+      let API_URL = this.context.API_URL;
+      let userId = this.context.userData.id;
 
       axios
         .post(API_URL + "/api/cleanUserHobbies", {
@@ -166,11 +163,9 @@ export default class FillNecessaryInfo extends Component<
   };
 
   cleanUserKids = (): void => {
-    const navigation = this.props.navigation;
-
     try {
-      let API_URL = navigation.getParam("API_URL", "");
-      let userId = navigation.getParam("user").id;
+      let API_URL = this.context.API_URL;
+      let userId = this.context.userData.id;
 
       axios
         .post(API_URL + "/api/cleanUserKids", {
@@ -198,10 +193,9 @@ export default class FillNecessaryInfo extends Component<
   };
 
   saveHobbies = (): void => {
-    const navigation = this.props.navigation;
     try {
-      let API_URL = navigation.getParam("API_URL", "");
-      let userEmailName = navigation.getParam("user").email;
+      let API_URL = this.context.API_URL;
+      let userEmailName = this.context.userData.email;
 
       this.state.hobbies.map((hobby: { active: boolean; id: number }) => {
         if (hobby.active) {
@@ -245,12 +239,11 @@ export default class FillNecessaryInfo extends Component<
   };
 
   getAllHobbies = (): void => {
-    const navigation = this.props.navigation;
-    let API_URL = navigation.getParam("API_URL", "");
+    let API_URL = this.context.API_URL;
     let activeHobbies: { name: string }[] = [];
     //if user want to edit profile and have some hobbies, then we format that hobbies array and set active hobbies
-    if (navigation.getParam("user").hobbies.length > 0) {
-      navigation.getParam("user").hobbies.map(async (hobby: any, i: number) => {
+    if (this.context.userData.hobbies.length > 0) {
+      this.context.userData.hobbies.map(async (hobby: any, i: number) => {
         let activeHobbyObj = {
           name: hobby.name
         };
@@ -296,6 +289,7 @@ export default class FillNecessaryInfo extends Component<
       })
       .catch(function(error) {
         console.log(error.message);
+        console.log(["getAllHobbies", error]);
       });
   };
 
@@ -355,42 +349,45 @@ export default class FillNecessaryInfo extends Component<
   };
 
   fileUpload = (): void => {
-    const navigation = this.props.navigation;
-    try {
-      let API_URL = navigation.getParam("API_URL", "");
-      let userEmailName = navigation.getParam("user").email;
+    if (this.state.photo !== null) {
+      try {
+        let API_URL = this.context.API_URL;
+        let userEmailName = this.context.userData.email;
 
-      console.log([
-        this.state.photo.path,
-        userEmailName.split("@")[0],
-        userEmailName
-      ]);
+        console.log(this.state.photo);
 
-      axios
-        .post(
-          API_URL + "/api/uploadUserPhoto",
-          {
-            file: this.state.photo.path,
-            fileName: userEmailName.split("@")[0],
-            userEmail: userEmailName
-          }
-          /* {
-            headers: {
-              "Content-Type": "multipart/form-data"
+        console.log([
+          this.state.photo.path,
+          userEmailName.split("@")[0],
+          userEmailName
+        ]);
+
+        axios
+          .post(
+            API_URL + "/api/uploadUserPhoto",
+            {
+              file: this.state.photo.path,
+              fileName: userEmailName.split("@")[0],
+              userEmail: userEmailName
             }
-          }*/
-        )
-        .then(response => {
-          console.log(["fileUpload", response]);
-          if (response.data.status === "OK") {
-            console.log(response);
-          }
-        })
-        .catch(function(error) {
-          console.log(error.message);
-        });
-    } catch (error) {
-      console.log(error);
+            /* {
+              headers: {
+                "Content-Type": "multipart/form-data"
+              }
+            }*/
+          )
+          .then(response => {
+            console.log(["fileUpload", response]);
+            if (response.data.status === "OK") {
+              console.log(response);
+            }
+          })
+          .catch(function(error) {
+            console.log(error.message);
+          });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -424,12 +421,11 @@ export default class FillNecessaryInfo extends Component<
   };
 
   saveUserData = async () => {
-    const navigation = this.props.navigation;
     const { age, desc, region, locationString } = this.state;
 
     try {
-      let API_URL = navigation.getParam("API_URL", "");
-      let userEmailName = navigation.getParam("user").email;
+      let API_URL = this.context.API_URL;
+      let userEmailName = this.context.userData.email;
 
       await axios
         .post(API_URL + "/api/updateUserInfo", {
@@ -442,11 +438,11 @@ export default class FillNecessaryInfo extends Component<
         })
         .then(response => {
           if (response.data.status === "OK") {
-            console.log(response);
+            console.log(["updateUserInfo", response]);
           }
         })
         .catch(function(error) {
-          console.log(error.message);
+          console.log(error);
         });
     } catch (error) {
       console.log(error);
@@ -454,10 +450,9 @@ export default class FillNecessaryInfo extends Component<
   };
 
   saveUserKids = (): void => {
-    const navigation = this.props.navigation;
     try {
-      let API_URL = navigation.getParam("API_URL", "");
-      let userEmailName = navigation.getParam("user").email;
+      let API_URL = this.context.API_URL;
+      let userEmailName = this.context.userData.email;
 
       this.state.kids.map((kid: any) => {
         axios
@@ -491,8 +486,6 @@ export default class FillNecessaryInfo extends Component<
 
   submitData = async () => {
     this.setState({ loader: true });
-    let navProps = this.props.navigation.state.params;
-
     //first remove user kids and hobbies and save new data
     await this.userLocationString();
     await this.cleanUserKids();
@@ -502,7 +495,7 @@ export default class FillNecessaryInfo extends Component<
     await this.saveUserData();
     await this.fileUpload();
 
-    navProps.setUserFilledInfo();
+    this.context.setUserFilledInfo();
     this.setState({ loader: false });
   };
 
@@ -546,7 +539,7 @@ export default class FillNecessaryInfo extends Component<
                   prevStep={this.prevStep}
                   photo={photo}
                   handleChoosePhoto={this.handleChoosePhoto}
-                  API_URL={this.props.navigation.getParam("API_URL", "")}
+                  API_URL={this.context.API_URL}
                   userSavedPhoto={userSavedPhoto}
                 />
               </Suspense>
@@ -594,3 +587,5 @@ export default class FillNecessaryInfo extends Component<
     );
   }
 }
+EditProfileInfo.contextType = GlobalContext;
+export default EditProfileInfo;

@@ -44,11 +44,7 @@ const ProfileOptions = (props: any) => (
       style={styles.buttonOption}
       onPress={() => {
         {
-          props.navigation &&
-            props.navigation.navigate("NotLoggedInMain", {
-              user: props.user,
-              editProfileData: true
-            });
+          props.navigation && props.navigation.navigate("FillNecessaryInfo");
         }
       }}
       underlayColor={"#fff"}

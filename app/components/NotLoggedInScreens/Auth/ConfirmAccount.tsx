@@ -20,12 +20,7 @@ const ConfirmAccount = (props: { navigation: any }) => {
             napisz do nas na kontakt@e-mamy.pl
           </Text>
           <TouchableHighlight
-            onPress={() =>
-              props.navigation.navigate("Login", {
-                API_URL: props.navigation.getParam("API_URL", ""),
-                setUserData: props.navigation.getParam("setUserData")
-              })
-            }
+            onPress={() => props.navigation.navigate("Login")}
             underlayColor={"#fff"}
           >
             <Text style={styles.registerBtn}>Zaloguj się</Text>

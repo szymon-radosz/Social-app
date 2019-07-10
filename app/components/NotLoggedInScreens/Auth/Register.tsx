@@ -36,8 +36,7 @@ const Register = (props: { navigation: any }) => {
       context.setAlert(true, "danger", "Hasło musi mieć conajmniej 6 znaków.");
     } else if (password === passwordConf) {
       try {
-        let API_URL = navigation.getParam("API_URL", "");
-        let navProps = navigation.state.params;
+        let API_URL = context.API_URL;
 
         setLoader(true);
 
@@ -58,7 +57,8 @@ const Register = (props: { navigation: any }) => {
                 "Sprawdź swoją skrzynkę mailową i potwierdź swoje konto przez otrzymaną od nas wiadomość."
               );
 
-              navProps.setUserData(response.data.user);
+              context.setUserData(response.data.user);
+              //navProps.setUserData(response.data.user);
             }
           })
           .catch(function(error) {
@@ -146,12 +146,7 @@ const Register = (props: { navigation: any }) => {
             <View style={styles.subBtnSection}>
               <Text style={styles.subBtnSectionAsk}>Posiadasz juz konto? </Text>
               <TouchableHighlight
-                onPress={() =>
-                  navigation.navigate("Login", {
-                    API_URL: navigation.getParam("API_URL", ""),
-                    setUserData: navigation.getParam("setUserData")
-                  })
-                }
+                onPress={() => navigation.navigate("Login")}
                 underlayColor={"#fff"}
               >
                 <Text style={styles.registerBtn}>Logowanie</Text>

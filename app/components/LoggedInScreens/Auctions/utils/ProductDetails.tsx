@@ -248,7 +248,17 @@ class ProductDetails extends Component<
         authorId: authorId
       })
       .then(function(response) {
+        console.log(response);
         if (response.data.status === "OK") {
+          console.log([
+            "sendVoteAPI",
+            API_URL,
+            userId,
+            vote,
+            message,
+            authorId,
+            productId
+          ]);
           that.closeProduct(productId);
 
           that.context.setAlert(
@@ -259,18 +269,23 @@ class ProductDetails extends Component<
         }
       })
       .catch(function(error) {
+        console.log(error);
         that.context.setAlert(
           true,
           "danger",
           "Problem z dodaniem opinii. Możesz dodać tylko jedną opinię dla poszczególnej użytkowniczki."
         );
       });
+
+    console.log("next");
   };
 
   closeProduct = (productId: number) => {
     let API_URL = this.props.API_URL;
 
     let that = this;
+
+    console.log(["closeProduct", productId]);
 
     axios
       .post(API_URL + "/api/closeProduct", {

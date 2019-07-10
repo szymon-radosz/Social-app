@@ -11,14 +11,11 @@ import LoggedInScreens from "./utils/LoggedInScreens";
 import BottomPanel from "./SharedComponents/BottomPanel";
 import axios from "axios";
 import { GlobalContext } from "./../Context/GlobalContext";
+import { isContext } from "vm";
 const feedback: any = require("./../../assets/images/feedback.png");
 
 interface NavigationScreenInterface {
-  navigation: {
-    navigate: any;
-    getParam: any;
-    state: any;
-  };
+  navigation: any;
 }
 
 interface LoggedInMainState {
@@ -74,6 +71,8 @@ class LoggedInMain extends Component<
   }
 
   componentDidMount() {
+    console.log(["LoggedInMain", this.context]);
+
     StatusBar.setHidden(true, "none");
   }
 
@@ -92,8 +91,8 @@ class LoggedInMain extends Component<
   sendFeedback = (): void => {
     let topic = this.state.activeTopic;
     let message = this.state.feedbackMessage;
-    let userId = this.props.navigation.getParam("user").id;
-    let API_URL = this.props.navigation.getParam("API_URL");
+    let userId = this.context.userData.id;
+    let API_URL = this.context.API_URL;
 
     let that = this;
 
@@ -230,15 +229,13 @@ class LoggedInMain extends Component<
               openAuctionId={openAuctionId}
               openAuctionUserId={openAuctionUserId}
               navigation={navigation}
-              API_URL={navigation.getParam("API_URL")}
-              user={navigation.getParam("user")}
-              clearUserUnreadedMessages={navigation.getParam(
-                "clearUserUnreadedMessages"
-              )}
-              clearUserNotificationsStatus={navigation.getParam(
-                "clearUserNotificationsStatus"
-              )}
-              clearUserData={navigation.getParam("clearUserData")}
+              API_URL={this.context.API_URL}
+              user={this.context.userData}
+              clearUserUnreadedMessages={this.context.clearUserUnreadedMessages}
+              clearUserNotificationsStatus={
+                this.context.clearUserNotificationsStatus
+              }
+              clearUserData={this.context.clearUserData}
               setOpenMessages={this.setOpenMessages}
               setOpenProfile={this.setOpenProfile}
               setOpenFindUsers={this.setOpenFindUsers}
@@ -273,7 +270,7 @@ class LoggedInMain extends Component<
               openMessagesStatus={openMessages}
               openProfileStatus={openProfile}
               openForumStatus={openForum}
-              user={navigation.getParam("user")}
+              user={this.context.userData}
             />
           </View>
         </SafeAreaView>

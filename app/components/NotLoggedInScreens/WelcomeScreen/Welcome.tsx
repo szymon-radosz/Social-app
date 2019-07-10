@@ -15,7 +15,7 @@ const stroller: any = require("./../../../assets/images/strollerOrangeBig.png");
 const makeUp: any = require("./../../../assets/images/makeUpOrange.png");
 const emamyLogo: any = require("./../../../assets/images/emamyLogoTextVerticalSmall.png");
 
-const Welcome = (props: { navigation: any }) => {
+const Welcome = (props: any) => {
   const [slides, setSlides] = useState([
     {
       key: "slide1",
@@ -62,6 +62,7 @@ const Welcome = (props: { navigation: any }) => {
   };
 
   const navigation = props.navigation;
+
   return (
     <SafeAreaView
       style={{
@@ -81,26 +82,14 @@ const Welcome = (props: { navigation: any }) => {
         <View>
           <TouchableHighlight
             style={styles.loginBtn}
-            onPress={(): void =>
-              navigation.navigate("Login", {
-                API_URL: navigation.getParam("API_URL"),
-                setUserData: navigation.getParam("setUserData"),
-                clearUserData: navigation.getParam("clearUserData")
-              })
-            }
+            onPress={(): void => navigation.navigate("Login")}
             underlayColor={"#dd904d"}
           >
             <Text style={styles.peachBtnText}>Logowanie</Text>
           </TouchableHighlight>
           <TouchableHighlight
             style={styles.registerBtn}
-            onPress={() =>
-              navigation.navigate("Register", {
-                API_URL: navigation.getParam("API_URL", ""),
-                setUserData: navigation.getParam("setUserData"),
-                clearUserData: navigation.getParam("clearUserData")
-              })
-            }
+            onPress={() => navigation.navigate("Register")}
             underlayColor={"#fff"}
           >
             <Text style={styles.subBtn}>Rejestracja</Text>

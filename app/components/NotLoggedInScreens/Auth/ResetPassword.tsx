@@ -10,14 +10,13 @@ import styles from "./style";
 import axios from "axios";
 import { GlobalContext } from "./../../Context/GlobalContext";
 
-const ResetPassword = (props: { navigation: any }) => {
+const ResetPassword = (props: any) => {
   const [email, setEmail] = useState("");
-  const navigation = props.navigation;
   const context = useContext(GlobalContext);
 
   const resetPassword = (): void => {
     try {
-      let API_URL = navigation.getParam("API_URL", "");
+      let API_URL = context.API_URL;
       axios
         .post(API_URL + "/api/password-reset", {
           email: email
@@ -36,6 +35,8 @@ const ResetPassword = (props: { navigation: any }) => {
       context.setAlert(true, "danger", "Problem ze zresetowaniem hasła.");
     }
   };
+
+  const navigation = props.navigation;
 
   return (
     <React.Fragment>
@@ -67,12 +68,7 @@ const ResetPassword = (props: { navigation: any }) => {
           <View style={styles.subBtnSection}>
             <Text style={styles.subBtnSectionAsk}>Posiadasz juz konto? </Text>
             <TouchableHighlight
-              onPress={() =>
-                navigation.navigate("Login", {
-                  API_URL: navigation.getParam("API_URL", ""),
-                  setUserData: navigation.getParam("setUserData")
-                })
-              }
+              onPress={() => navigation.navigate("Login")}
               underlayColor={"#fff"}
             >
               <Text style={styles.registerBtn}>Logowanie</Text>

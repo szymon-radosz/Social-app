@@ -56,7 +56,7 @@ const UserPreview = (props: any) => (
             );
           } else if (kid.child_gender === "female") {
             return (
-              <View style={styles.userPreviewListItemContainer}>
+              <View style={styles.userPreviewListItemContainer} key={uuid()}>
                 <Image
                   style={styles.userPreviewListItemImage}
                   source={dotEmpty}

@@ -10,13 +10,13 @@ import styles from "./style";
 import axios from "axios";
 import { GlobalContext } from "./../../Context/GlobalContext";
 
-const Login = (props: { navigation: any }) => {
+const Login = (props: any) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigation = props.navigation;
   const context = useContext(GlobalContext);
 
   const loginUser = (): void => {
+    console.log([email, password]);
     if (email && !password) {
       context.setAlert(true, "danger", "Podaj swoje hasło.");
     } else if (!email && password) {
@@ -25,8 +25,9 @@ const Login = (props: { navigation: any }) => {
       context.setAlert(true, "danger", "Podaj swój adres e-mail i hasło.");
     } else if (email && password) {
       try {
-        let API_URL = navigation.getParam("API_URL", "");
-        let navProps = navigation.state.params;
+        let API_URL = context.API_URL;
+        //let navProps = navigation.state.params;
+        console.log([API_URL]);
         axios
           .post(API_URL + "/api/login", {
             email: email,
@@ -44,10 +45,12 @@ const Login = (props: { navigation: any }) => {
               };
 
               axios
-                .post(API_URL + "/api/details", {}, { headers: config })
+                .post(context.API_URL + "/api/details", {}, { headers: config })
                 .then(function(response2) {
                   if (response2.data.status === "OK") {
-                    navProps.setUserData(response2.data.result);
+                    //navProps.setUserData(response2.data.result);
+
+                    context.setUserData(response2.data.result);
                   }
                 })
                 .catch(function(error) {
@@ -73,6 +76,8 @@ const Login = (props: { navigation: any }) => {
       }
     }
   };
+
+  const navigation = props.navigation;
 
   return (
     <React.Fragment>
@@ -114,12 +119,7 @@ const Login = (props: { navigation: any }) => {
           <View style={styles.subBtnSection}>
             <Text style={styles.subBtnSectionAsk}>Nie posiadasz konta? </Text>
             <TouchableHighlight
-              onPress={() =>
-                navigation.navigate("Register", {
-                  API_URL: navigation.getParam("API_URL", ""),
-                  setUserData: navigation.getParam("setUserData")
-                })
-              }
+              onPress={() => navigation.navigate("Register")}
               underlayColor={"#fff"}
             >
               <Text style={styles.registerBtn}>Rejestracja</Text>
@@ -128,12 +128,7 @@ const Login = (props: { navigation: any }) => {
 
           <Text
             style={styles.resetPasswordBtn}
-            onPress={() =>
-              navigation.navigate("ResetPassword", {
-                API_URL: navigation.getParam("API_URL", ""),
-                setUserData: navigation.getParam("setUserData")
-              })
-            }
+            onPress={() => navigation.navigate("ResetPassword")}
           >
             Resetuj hasło
           </Text>
