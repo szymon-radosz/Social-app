@@ -16,7 +16,6 @@ interface Style {
   container: ViewStyle;
   logo: TextStyle;
   logoDesc: TextStyle;
-  loginBtn: TextStyle;
   registerBtn: TextStyle;
   fullWidth: any;
   welcomeSlide: ViewStyle;
@@ -71,20 +70,6 @@ export default StyleSheet.create<Style>({
     fontWeight: "500",
     fontSize: fontSizeMedium,
     paddingBottom: 30
-  },
-  loginBtn: {
-    height: 45,
-    width: 180,
-    borderRadius: lightBorderRadius,
-    borderColor: peachColor,
-    borderWidth: 2,
-    backgroundColor: peachColor,
-    marginTop: 20,
-    marginBottom: 15,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row",
-    flexWrap: "wrap"
   },
   subBtn: {
     color: "#f7b67e",

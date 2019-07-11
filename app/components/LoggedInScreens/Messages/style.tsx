@@ -48,6 +48,7 @@ interface Style {
   conversationDetailsReceiverImage: ImageStyle;
   conversationDetailsReceiverName: ViewStyle;
   peachBtnText: any;
+  messageBoxContainer: ViewStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -224,5 +225,6 @@ export default StyleSheet.create<Style>({
     marginRight: 10,
     borderRadius: 25
   },
-  conversationDetailsReceiverName: { marginTop: 15 }
+  conversationDetailsReceiverName: { marginTop: 15 },
+  messageBoxContainer: { paddingLeft: 10, paddingRight: 10, marginBottom: 0 }
 });

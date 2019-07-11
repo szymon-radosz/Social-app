@@ -1,15 +1,12 @@
 import React, { Component } from "react";
-import {
-  TextInput,
-  Text,
-  View,
-  TouchableHighlight,
-  TouchableOpacity
-} from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import styles from "./../style";
 import axios from "axios";
 import { v4 as uuid } from "uuid";
 import PageHeader from "./../../SharedComponents/PageHeader";
+import ButtonComponent from "./../../../Utils/ButtonComponent";
+import InputComponent from "./../../../Utils/InputComponent";
+import TextAreaComponent from "./../../../Utils/TextAreaComponent";
 
 interface SavePostState {
   title: string;
@@ -82,35 +79,26 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
           closeMethodParameter={""}
         />
         <View style={{ marginBottom: 10 }}>
-          <TextInput
-            style={{
-              borderWidth: 1,
-              borderRadius: 6,
-              marginLeft: 10,
-              marginRight: 10,
-              marginTop: 10,
-              padding: 10,
-              height: 40,
-              borderColor: "#424242",
-              textAlignVertical: "top"
-            }}
-            multiline={false}
-            maxLength={150}
-            onChangeText={title => this.setState({ title })}
-            value={this.state.title}
-            placeholder="Temat"
-            placeholderTextColor="#333"
-          />
+          <View style={styles.savePostInputContainer}>
+            <InputComponent
+              placeholder="Temat"
+              inputOnChange={(title: string) => this.setState({ title })}
+              value={this.state.title}
+              secureTextEntry={false}
+              maxLength={400}
+            />
 
-          <TextInput
-            multiline={true}
-            style={styles.savePostCommentDescInput}
-            onChangeText={description => this.setState({ description })}
-            maxLength={500}
-            value={this.state.description}
-            placeholder="Treść postu"
-            placeholderTextColor="#333"
-          />
+            <TextAreaComponent
+              placeholder="Treść postu..."
+              inputOnChange={(description: string) =>
+                this.setState({ description })
+              }
+              value={this.state.description}
+              maxLength={500}
+              multiline={true}
+              numberOfLines={10}
+            />
+          </View>
 
           <Text style={styles.savePostCategoryHeaderText}>Kategoria: </Text>
 
@@ -164,9 +152,8 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
             );
           })}
 
-          <TouchableHighlight
-            style={styles.addPostBtn}
-            onPress={() =>
+          <ButtonComponent
+            pressButtonComponent={() =>
               this.props.savePost(
                 this.state.title,
                 this.state.description,
@@ -174,10 +161,10 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
                 this.state.categoryId
               )
             }
-            underlayColor={"#dd904d"}
-          >
-            <Text style={styles.peachBtnText}>Dodaj</Text>
-          </TouchableHighlight>
+            buttonComponentText="Dodaj"
+            fullWidth={true}
+            underlayColor="#dd904d"
+          />
         </View>
       </View>
     );

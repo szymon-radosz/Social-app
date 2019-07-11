@@ -63,6 +63,8 @@ interface Style {
   peachBtnText: any;
   optionText: TextStyle;
   optionTextActive: TextStyle;
+  savePostInputContainer: ViewStyle;
+  savePostCommentInputContainer: ViewStyle;
 }
 
 const fullWidth = Dimensions.get("window").width;
@@ -302,5 +304,13 @@ export default StyleSheet.create<Style>({
     fontFamily: "Open Sans"
   },
   optionText: { marginTop: 2, marginRight: 15 },
-  optionTextActive: { marginTop: 2, marginRight: 15, fontWeight: "600" }
+  optionTextActive: { marginTop: 2, marginRight: 15, fontWeight: "600" },
+  savePostInputContainer: {
+    paddingLeft: 10,
+    paddingRight: 10
+  },
+  savePostCommentInputContainer: {
+    paddingLeft: 10,
+    paddingRight: 10
+  }
 });

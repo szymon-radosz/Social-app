@@ -9,6 +9,8 @@ import {
 import styles from "./style";
 import axios from "axios";
 import { GlobalContext } from "./../../Context/GlobalContext";
+import ButtonComponent from "./../../Utils/ButtonComponent";
+import InputComponent from "./../../Utils/InputComponent";
 
 const ResetPassword = (props: any) => {
   const [email, setEmail] = useState("");
@@ -49,21 +51,20 @@ const ResetPassword = (props: any) => {
         <View style={styles.container}>
           <Text style={styles.headerText}>{`Resetuj swoje \nhasło`}</Text>
 
-          <TextInput
-            style={styles.input}
+          <InputComponent
             placeholder="E-mail"
-            placeholderTextColor="#919191"
-            onChangeText={email => setEmail(email)}
+            inputOnChange={(email: string) => setEmail(email)}
             value={email}
+            secureTextEntry={false}
+            maxLength={100}
           />
 
-          <TouchableHighlight
-            style={styles.mainBtn}
-            onPress={resetPassword}
-            underlayColor={"#dd904d"}
-          >
-            <Text style={styles.peachBtnText}>Resetuj</Text>
-          </TouchableHighlight>
+          <ButtonComponent
+            pressButtonComponent={resetPassword}
+            buttonComponentText="Resetuj"
+            fullWidth={false}
+            underlayColor="#dd904d"
+          />
 
           <View style={styles.subBtnSection}>
             <Text style={styles.subBtnSectionAsk}>Posiadasz juz konto? </Text>

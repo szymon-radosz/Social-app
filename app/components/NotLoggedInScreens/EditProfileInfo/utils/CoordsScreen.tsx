@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { Text, View, TouchableHighlight, ImageBackground } from "react-native";
+import { Text, View, ImageBackground } from "react-native";
 import styles from "./../style";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import ButtonComponent from "./../../../Utils/ButtonComponent";
+
 const fillInfoBg: any = require("./../../../../assets/images/fillInfoBgMin.jpg");
 
 const mapStyle = [
@@ -79,20 +81,18 @@ export default class CoordsScreen extends Component<
           <Marker coordinate={this.props.region} />
         </MapView>
 
-        <TouchableHighlight
-          style={styles.nextBtn}
-          onPress={this.props.nextStep}
-          underlayColor={"#dd904d"}
-        >
-          <Text style={styles.peachBtnText}>Dalej</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.previousBtn}
-          onPress={this.props.prevStep}
-          underlayColor={"#dd904d"}
-        >
-          <Text style={styles.peachBtnText}>Wróć</Text>
-        </TouchableHighlight>
+        <ButtonComponent
+          pressButtonComponent={this.props.nextStep}
+          buttonComponentText="Dalej"
+          fullWidth={true}
+          underlayColor="#dd904d"
+        />
+        <ButtonComponent
+          pressButtonComponent={this.props.prevStep}
+          buttonComponentText="Wróć"
+          fullWidth={true}
+          underlayColor="#dd904d"
+        />
       </View>
     );
   }

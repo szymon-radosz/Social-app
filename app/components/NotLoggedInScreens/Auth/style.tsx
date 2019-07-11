@@ -16,7 +16,6 @@ interface Style {
   container: ViewStyle;
   headerText: TextStyle;
   logoDesc: TextStyle;
-  input: TextStyle;
   mainBtn: TextStyle;
   askDesc: TextStyle;
   ResetPasswordHeader: TextStyle;
@@ -30,7 +29,12 @@ interface Style {
 }
 
 export default StyleSheet.create<Style>({
-  container: { flex: 1, alignItems: "center" },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    paddingLeft: 10,
+    paddingRight: 10
+  },
   headerText: {
     textAlign: "center",
     color: "#333",
@@ -48,18 +52,7 @@ export default StyleSheet.create<Style>({
     paddingBottom: 30,
     fontFamily: "Open Sans"
   },
-  input: {
-    width: "90%",
-    marginBottom: 10,
-    borderRadius: lightBorderRadius,
-    height: 40,
-    borderColor: "#8c8c8c",
-    color: "#424242",
-    borderWidth: 2,
-    paddingLeft: 10,
-    paddingRight: 10,
-    fontFamily: "Open Sans"
-  },
+
   mainBtn: {
     height: 45,
     width: 180,

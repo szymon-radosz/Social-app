@@ -1,6 +1,8 @@
 import React from "react";
-import { Text, TextInput, TouchableHighlight, View } from "react-native";
+import { View } from "react-native";
+import ButtonComponent from "./../../../Utils/ButtonComponent";
 import styles from "./../style";
+import InputComponent from "./../../../Utils/InputComponent";
 
 const SendMessageBox = (props: {
   sendMessage: any;
@@ -14,19 +16,18 @@ const SendMessageBox = (props: {
   conversationId: number;
 }): any => {
   return (
-    <View>
-      <View style={styles.sendMessageBoxContainer} />
-
-      <TextInput
-        style={styles.sendMessageBoxInput}
-        placeholder="Napisz odpowiedź..."
-        placeholderTextColor="#919191"
-        onChangeText={message => props.setUserMessage(message)}
-        value={props.userMessage}
-      />
-      <TouchableHighlight
-        style={styles.sendMessageBtn}
-        onPress={() =>
+    <React.Fragment>
+      <View style={styles.messageBoxContainer}>
+        <InputComponent
+          placeholder="Napisz odpowiedź..."
+          inputOnChange={(message: string) => props.setUserMessage(message)}
+          value={props.userMessage}
+          secureTextEntry={true}
+          maxLength={400}
+        />
+      </View>
+      <ButtonComponent
+        pressButtonComponent={() =>
           props.sendMessage(
             props.senderId,
             props.receiverId,
@@ -38,11 +39,11 @@ const SendMessageBox = (props: {
             0
           )
         }
-        underlayColor={"#dd904d"}
-      >
-        <Text style={styles.peachBtnText}>Wyślij</Text>
-      </TouchableHighlight>
-    </View>
+        buttonComponentText="Wyślij"
+        fullWidth={true}
+        underlayColor="#dd904d"
+      />
+    </React.Fragment>
   );
 };
 export default SendMessageBox;

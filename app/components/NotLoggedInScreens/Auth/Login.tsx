@@ -1,14 +1,10 @@
 import React, { useState, useContext } from "react";
-import {
-  Text,
-  View,
-  SafeAreaView,
-  TextInput,
-  TouchableHighlight
-} from "react-native";
+import { Text, View, SafeAreaView, TouchableHighlight } from "react-native";
 import styles from "./style";
 import axios from "axios";
 import { GlobalContext } from "./../../Context/GlobalContext";
+import ButtonComponent from "./../../Utils/ButtonComponent";
+import InputComponent from "./../../Utils/InputComponent";
 
 const Login = (props: any) => {
   const [email, setEmail] = useState("");
@@ -92,29 +88,28 @@ const Login = (props: any) => {
             style={styles.headerText}
           >{`Miło Cię widzieć \nponownie!`}</Text>
 
-          <TextInput
-            style={styles.input}
+          <InputComponent
             placeholder="E-mail"
-            placeholderTextColor="#919191"
-            onChangeText={email => setEmail(email)}
+            inputOnChange={(email: string) => setEmail(email)}
             value={email}
+            secureTextEntry={false}
+            maxLength={100}
           />
 
-          <TextInput
-            style={styles.input}
+          <InputComponent
             placeholder="Hasło"
-            secureTextEntry={true}
-            placeholderTextColor="#919191"
-            onChangeText={password => setPassword(password)}
+            inputOnChange={(password: string) => setPassword(password)}
             value={password}
+            secureTextEntry={true}
+            maxLength={100}
           />
-          <TouchableHighlight
-            style={styles.mainBtn}
-            onPress={loginUser}
-            underlayColor={"#dd904d"}
-          >
-            <Text style={styles.peachBtnText}>Zaloguj</Text>
-          </TouchableHighlight>
+
+          <ButtonComponent
+            pressButtonComponent={loginUser}
+            buttonComponentText="Zaloguj"
+            fullWidth={false}
+            underlayColor="#dd904d"
+          />
 
           <View style={styles.subBtnSection}>
             <Text style={styles.subBtnSectionAsk}>Nie posiadasz konta? </Text>

@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import {
-  TouchableHighlight,
-  Text,
-  Dimensions,
-  Image,
-  View
-} from "react-native";
+import { Text, Dimensions, Image, View } from "react-native";
 import axios from "axios";
 import styles from "./../style";
 import Lightbox from "react-native-lightbox";
@@ -13,6 +7,7 @@ import Carousel from "react-native-looped-carousel";
 import { v4 as uuid } from "uuid";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import { GlobalContext } from "./../../../Context/GlobalContext";
+import ButtonComponent from "./../../../Utils/ButtonComponent";
 
 const ProductMessageBox = React.lazy(() => import("./ProductMessageBox"));
 const SellerVoteBox = React.lazy(() => import("./SellerVoteBox"));
@@ -404,7 +399,7 @@ class ProductDetails extends Component<
 
                 {productDetails[0].users && (
                   <Text style={styles.productContentText}>
-                    <Text style={styles.bold}>Dodane przez:</Text>{" "}
+                    <Text style={styles.bold}>Dodane przez:</Text>
                     {productDetails[0].users.name} (
                     {productDetails[0].users.email})
                   </Text>
@@ -412,14 +407,14 @@ class ProductDetails extends Component<
 
                 {productDetails[0].users.location_string && (
                   <Text style={styles.productContentText}>
-                    <Text style={styles.bold}>W poblizu:</Text>{" "}
+                    <Text style={styles.bold}>W poblizu:</Text>
                     {productDetails[0].users.location_string}
                   </Text>
                 )}
 
                 {productDetails[0].price && (
                   <Text style={styles.productContentText}>
-                    <Text style={styles.bold}>Cena:</Text>{" "}
+                    <Text style={styles.bold}>Cena:</Text>
                     {productDetails[0].price} zł
                   </Text>
                 )}
@@ -428,13 +423,12 @@ class ProductDetails extends Component<
               {productDetails[0].user_id != this.props.currentUser.id &&
                 !usersAreInTheSameConversation &&
                 productDetails[0].status != 1 && (
-                  <TouchableHighlight
-                    style={styles.productDetailsBtn}
-                    onPress={this.changeShowProductMessageBox}
-                    underlayColor={"#dd904d"}
-                  >
-                    <Text style={styles.peachBtnText}>Wyślij wiadomość</Text>
-                  </TouchableHighlight>
+                  <ButtonComponent
+                    pressButtonComponent={this.changeShowProductMessageBox}
+                    buttonComponentText="Wyślij wiadomość"
+                    fullWidth={true}
+                    underlayColor="#dd904d"
+                  />
                 )}
               {/* user is not the author and product is sold*/}
               {productDetails[0].user_id != this.props.currentUser.id &&
@@ -451,40 +445,33 @@ class ProductDetails extends Component<
               {productDetails[0].user_id != this.props.currentUser.id &&
                 usersAreInTheSameConversation &&
                 productDetails[0].status == 1 && (
-                  <TouchableHighlight
-                    style={styles.productDetailsBtn}
-                    onPress={this.props.openMessages}
-                    underlayColor={"#dd904d"}
-                  >
-                    <Text style={styles.peachBtnText}>
-                      Produkt sprzedany, jesteście w konwersacji
-                    </Text>
-                  </TouchableHighlight>
+                  <ButtonComponent
+                    pressButtonComponent={this.props.openMessages}
+                    buttonComponentText="Produkt sprzedany, jesteście w konwersacji"
+                    fullWidth={true}
+                    underlayColor="#dd904d"
+                  />
                 )}
               {/* user is not the author, they are in the same conversation and product is not sold*/}
               {productDetails[0].user_id != this.props.currentUser.id &&
                 usersAreInTheSameConversation &&
                 productDetails[0].status != 1 && (
-                  <TouchableHighlight
-                    style={styles.productDetailsBtn}
-                    onPress={this.props.openMessages}
-                    underlayColor={"#dd904d"}
-                  >
-                    <Text style={styles.peachBtnText}>
-                      Jestescie już w konwersacji
-                    </Text>
-                  </TouchableHighlight>
+                  <ButtonComponent
+                    pressButtonComponent={this.props.openMessages}
+                    buttonComponentText="Jestescie już w konwersacji"
+                    fullWidth={true}
+                    underlayColor="#dd904d"
+                  />
                 )}
               {/* user is the author, and product is not sold*/}
               {productDetails[0].user_id == this.props.currentUser.id &&
                 productDetails[0].status != 1 && (
-                  <TouchableHighlight
-                    style={styles.productDetailsBtn}
-                    onPress={this.changeVoteBox}
-                    underlayColor={"#dd904d"}
-                  >
-                    <Text style={styles.peachBtnText}>Zamknij Sprzedaż</Text>
-                  </TouchableHighlight>
+                  <ButtonComponent
+                    pressButtonComponent={this.changeVoteBox}
+                    buttonComponentText="Zamknij Sprzedaż"
+                    fullWidth={true}
+                    underlayColor="#dd904d"
+                  />
                 )}
             </View>
           ) : null}

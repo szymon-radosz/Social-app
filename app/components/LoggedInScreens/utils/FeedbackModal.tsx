@@ -1,13 +1,9 @@
 import React from "react";
-import {
-  TouchableOpacity,
-  TouchableHighlight,
-  View,
-  Text,
-  TextInput
-} from "react-native";
+import { TouchableOpacity, View, Text } from "react-native";
 import styles from "./../style";
 import { v4 as uuid } from "uuid";
+import ButtonComponent from "./../../Utils/ButtonComponent";
+import TextAreaComponent from "./../../Utils/TextAreaComponent";
 
 const FeedbackModal = (props: {
   setFeedbackMessage: any;
@@ -57,26 +53,23 @@ const FeedbackModal = (props: {
         );
       })}
 
-      <TextInput
-        multiline={true}
-        numberOfLines={10}
-        onChangeText={(feedbackMessage: string) =>
+      <TextAreaComponent
+        placeholder="Napisz wiadomość..."
+        inputOnChange={(feedbackMessage: string) =>
           props.setFeedbackMessage(feedbackMessage)
         }
-        maxLength={800}
-        style={styles.feedbackMessage}
         value={props.feedbackMessage}
-        placeholder="Napisz wiadomość..."
-        placeholderTextColor="#333"
+        maxLength={800}
+        multiline={true}
+        numberOfLines={10}
       />
 
-      <TouchableHighlight
-        style={styles.feedbackBtn}
-        onPress={props.sendFeedback}
-        underlayColor={"#dd904d"}
-      >
-        <Text style={styles.peachBtnText}>Wyślij</Text>
-      </TouchableHighlight>
+      <ButtonComponent
+        pressButtonComponent={props.sendFeedback}
+        buttonComponentText="Wyślij"
+        fullWidth={true}
+        underlayColor="#dd904d"
+      />
     </View>
   );
 };

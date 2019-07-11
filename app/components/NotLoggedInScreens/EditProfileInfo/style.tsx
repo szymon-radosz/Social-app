@@ -75,10 +75,11 @@ export default StyleSheet.create<Style>({
   dataPicker: {
     width: "100%",
     marginBottom: 10,
+    marginTop: 10,
     borderRadius: lightBorderRadius,
     height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
+    borderColor: "#8c8c8c",
+    borderWidth: 2,
     marginLeft: "auto",
     marginRight: "auto"
   },

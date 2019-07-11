@@ -6,6 +6,7 @@ import styles from "./style";
 import { v4 as uuid } from "uuid";
 import PageHeader from "./../SharedComponents/PageHeader";
 import { GlobalContext } from "./../../Context/GlobalContext";
+import ButtonComponent from "./../../Utils/ButtonComponent";
 
 const forumBg: any = require("./../../../assets/images/forumBgMin.jpg");
 
@@ -328,13 +329,12 @@ class Forum extends Component<ForumProps, ForumState> {
             )}
 
             {!showPostDetails && !showSavePost && showSortByCategory && (
-              <TouchableHighlight
-                style={styles.addPostBtn}
-                onPress={this.setShowSavePost}
-                underlayColor={"#dd904d"}
-              >
-                <Text style={styles.peachBtnText}>Dodaj post</Text>
-              </TouchableHighlight>
+              <ButtonComponent
+                pressButtonComponent={this.setShowSavePost}
+                buttonComponentText="Dodaj post"
+                fullWidth={true}
+                underlayColor="#dd904d"
+              />
             )}
           </View>
         </View>

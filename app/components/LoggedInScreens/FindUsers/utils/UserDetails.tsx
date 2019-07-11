@@ -1,9 +1,10 @@
 import React from "react";
-import { Text, View, TouchableHighlight, ScrollView } from "react-native";
+import { Text, View, ScrollView } from "react-native";
 import styles from "./../style";
 import ProfileHeader from "./../../SharedComponents/ProfileHeader";
 import UserPreview from "./../../SharedComponents/UserPreview";
 import PageHeader from "./../../SharedComponents/PageHeader";
+import ButtonComponent from "./../../../Utils/ButtonComponent";
 
 const UserDetails = (props: {
   hideShowUserDetails: any;
@@ -74,74 +75,64 @@ const UserDetails = (props: {
         )}
         <View style={styles.userDetailsRedirectMessageBtnContainer}>
           {props.usersAreInTheSameConversation ? (
-            <TouchableHighlight
-              style={styles.userDetailsRedirectMessageBtn}
-              onPress={props.openMessages}
-              underlayColor={"#dd904d"}
-            >
-              <Text style={styles.peachBtnText}>Przejdź do wiadomości</Text>
-            </TouchableHighlight>
+            <ButtonComponent
+              pressButtonComponent={props.openMessages}
+              buttonComponentText="Przejdź do wiadomości"
+              fullWidth={true}
+              underlayColor="#dd904d"
+            />
           ) : (
-            <TouchableHighlight
-              style={styles.userDetailsRedirectMessageBtn}
-              onPress={props.setShowUserMessageBox}
-              underlayColor={"#dd904d"}
-            >
-              <Text style={styles.peachBtnText}>Pomachaj</Text>
-            </TouchableHighlight>
+            <ButtonComponent
+              pressButtonComponent={props.setShowUserMessageBox}
+              buttonComponentText="Pomachaj"
+              fullWidth={true}
+              underlayColor="#dd904d"
+            />
           )}
         </View>
         <View style={styles.userDetailsRedirectMessageBtnContainer}>
           <View style={{ marginBottom: 20, width: "100%" }}>
             {props.usersFriendshipStatus === "friendship doesnt exist" && (
-              <TouchableHighlight
-                style={styles.userDetailsRedirectMessageBtn}
-                onPress={() =>
+              <ButtonComponent
+                pressButtonComponent={() =>
                   props.inviteFriend(props.loggedInUserId, props.user.id)
                 }
-                underlayColor={"#dd904d"}
-              >
-                <Text style={styles.peachBtnText}>Zaproś do znajomych</Text>
-              </TouchableHighlight>
+                buttonComponentText="Zaproś do znajomych"
+                fullWidth={true}
+                underlayColor="#dd904d"
+              />
             )}
 
             {props.usersFriendshipStatus ===
               "not confirmed by first person" && (
-              <TouchableHighlight
-                style={styles.userDetailsRedirectMessageBtn}
-                onPress={() =>
+              <ButtonComponent
+                pressButtonComponent={() =>
                   props.confirmFriend(props.loggedInUserId, props.user.id)
                 }
-                underlayColor={"#dd904d"}
-              >
-                <Text style={styles.peachBtnText}>
-                  Zaakceptuj zaproszenie do znajomych
-                </Text>
-              </TouchableHighlight>
+                buttonComponentText="Zaakceptuj zaproszenie do znajomych"
+                fullWidth={true}
+                underlayColor="#dd904d"
+              />
             )}
 
             {props.usersFriendshipStatus ===
               "not confirmed by second person" && (
-              <TouchableHighlight
-                style={styles.userDetailsRedirectMessageBtn}
-                onPress={() => {
+              <ButtonComponent
+                pressButtonComponent={() => {
                   console.log("Wysłano zaproszenie do znajomych");
                 }}
-                underlayColor={"#dd904d"}
-              >
-                <Text style={styles.peachBtnText}>
-                  Wysłano zaproszenie do znajomych
-                </Text>
-              </TouchableHighlight>
+                buttonComponentText="Wysłano zaproszenie do znajomych"
+                fullWidth={true}
+                underlayColor="#dd904d"
+              />
             )}
             {props.usersFriendshipStatus === "confirmed" && (
-              <TouchableHighlight
-                style={styles.userDetailsRedirectMessageBtn}
-                onPress={props.setOpenProfile}
-                underlayColor={"#dd904d"}
-              >
-                <Text style={styles.peachBtnText}>Jesteście znajomymi</Text>
-              </TouchableHighlight>
+              <ButtonComponent
+                pressButtonComponent={props.setOpenProfile}
+                buttonComponentText="Jesteście znajomymi"
+                fullWidth={true}
+                underlayColor="#dd904d"
+              />
             )}
           </View>
         </View>

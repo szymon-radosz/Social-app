@@ -2,7 +2,6 @@ import React from "react";
 import {
   Text,
   View,
-  TextInput,
   Image,
   TouchableHighlight,
   TouchableOpacity,
@@ -13,6 +12,9 @@ import {
 import DatePicker from "react-native-datepicker";
 import styles from "./../style";
 import { v4 as uuid } from "uuid";
+import ButtonComponent from "./../../../Utils/ButtonComponent";
+import InputComponent from "./../../../Utils/InputComponent";
+
 const fillInfoBg: any = require("./../../../../assets/images/fillInfoBgMin.jpg");
 const trash: any = require("./../../../../assets/images/trash.png");
 
@@ -43,11 +45,12 @@ const ChooseKidsScreen = (props: {
           podobnym wieku i płci.
         </Text>
         <View style={styles.kidsInfoContainer}>
-          <TextInput
-            placeholder={"Imię dziecka"}
-            placeholderTextColor="#919191"
-            style={styles.input}
-            onChangeText={(txt: string) => props.setActualKidName(txt)}
+          <InputComponent
+            placeholder="Imię dziecka"
+            inputOnChange={(name: string) => props.setActualKidName(name)}
+            value={props.actualKidName}
+            secureTextEntry={false}
+            maxLength={100}
           />
         </View>
         <DatePicker
@@ -64,15 +67,20 @@ const ChooseKidsScreen = (props: {
             dateIcon: {
               position: "absolute",
               left: 0,
-              top: 4,
-              marginLeft: 0,
+              top: 2,
+              marginLeft: 8,
               marginRight: 10
             },
             dateInput: {
-              marginLeft: 36,
+              marginTop: -2,
+              marginLeft: 48,
               borderTopWidth: 0,
               borderBottomWidth: 0,
-              borderRightWidth: 0
+              borderRightWidth: 0,
+              height: 38,
+              borderLeftColor: "#8c8c8c",
+              color: "#424242",
+              borderLeftWidth: 2
             }
             // ... You can check the source to find the other keys.
           }}
@@ -177,20 +185,19 @@ const ChooseKidsScreen = (props: {
           )}
       </View>
       <View style={{ marginBottom: 30 }}>
-        <TouchableHighlight
-          style={styles.nextBtn}
-          onPress={props.nextStep}
-          underlayColor={"#dd904d"}
-        >
-          <Text style={styles.peachBtnText}>Dalej</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.previousBtn}
-          onPress={props.prevStep}
-          underlayColor={"#dd904d"}
-        >
-          <Text style={styles.peachBtnText}>Wróć</Text>
-        </TouchableHighlight>
+        <ButtonComponent
+          pressButtonComponent={props.nextStep}
+          buttonComponentText="Dalej"
+          fullWidth={true}
+          underlayColor="#dd904d"
+        />
+
+        <ButtonComponent
+          pressButtonComponent={props.prevStep}
+          buttonComponentText="Wróć"
+          fullWidth={true}
+          underlayColor="#dd904d"
+        />
       </View>
     </ScrollView>
   );

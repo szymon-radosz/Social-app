@@ -6,8 +6,10 @@ import axios from "axios";
 import SingleAuctionOnList from "./utils/SingleAuctionOnList";
 import styles from "./style";
 import { v4 as uuid } from "uuid";
-const auctionsBg: any = require("./../../../assets/images/auctionsBgMin.jpg");
 import { GlobalContext } from "./../../Context/GlobalContext";
+import ButtonComponent from "./../../Utils/ButtonComponent";
+
+const auctionsBg: any = require("./../../../assets/images/auctionsBgMin.jpg");
 
 const ProductDetails = React.lazy(() => import("./utils/ProductDetails"));
 const AddNewProductBox = React.lazy(() => import("./utils/AddNewProductBox"));
@@ -511,13 +513,12 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
                 )}
               </View>
               <View style={{ marginBottom: 10 }}>
-                <TouchableHighlight
-                  style={styles.productDetailsBtn}
-                  onPress={this.changeDisplayNewProductBox}
-                  underlayColor={"#dd904d"}
-                >
-                  <Text style={styles.peachBtnText}>Dodaj produkt</Text>
-                </TouchableHighlight>
+                <ButtonComponent
+                  pressButtonComponent={this.changeDisplayNewProductBox}
+                  buttonComponentText="Dodaj produkt"
+                  fullWidth={true}
+                  underlayColor="#dd904d"
+                />
               </View>
             </View>
           )}

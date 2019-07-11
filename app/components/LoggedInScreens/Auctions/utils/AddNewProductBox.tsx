@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {
-  TextInput,
   Image,
   Text,
   View,
@@ -13,7 +12,9 @@ import axios from "axios";
 import styles from "./../style";
 import { v4 as uuid } from "uuid";
 import PageHeader from "./../../SharedComponents/PageHeader";
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from "constants";
+import ButtonComponent from "./../../../Utils/ButtonComponent";
+import InputComponent from "./../../../Utils/InputComponent";
+import TextAreaComponent from "./../../../Utils/TextAreaComponent";
 
 const trash: any = require("./../../../../assets/images/trash.png");
 const upload: any = require("./../../../../assets/images/upload.png");
@@ -168,27 +169,25 @@ export default class AddNewProductBox extends Component<
           closeMethodParameter={""}
         />
         <View style={styles.addNewProductInputContainer}>
-          <TextInput
-            multiline={true}
-            onChangeText={name => this.setState({ name })}
-            value={name}
+          <InputComponent
             placeholder="Podaj nazwę produktu"
-            placeholderTextColor="#333"
-            maxLength={50}
-            style={styles.userMessageTextArea}
+            inputOnChange={(name: string) => this.setState({ name })}
+            value={name}
+            secureTextEntry={false}
+            maxLength={100}
           />
         </View>
 
         <View style={styles.addNewProductDescInput}>
-          <TextInput
+          <TextAreaComponent
+            placeholder="Podaj opis produktu"
+            inputOnChange={(description: string) =>
+              this.setState({ description })
+            }
+            value={description}
+            maxLength={600}
             multiline={true}
             numberOfLines={10}
-            onChangeText={description => this.setState({ description })}
-            value={description}
-            placeholder="Podaj opis produktu"
-            placeholderTextColor="#333"
-            maxLength={150}
-            style={styles.sellerVoteBoxTextArea}
           />
         </View>
 
@@ -324,22 +323,13 @@ export default class AddNewProductBox extends Component<
 
         <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
           <Text style={{ paddingBottom: 5, fontWeight: "600" }}>Cena</Text>
-          <TextInput
-            multiline={true}
-            maxLength={4}
-            onChangeText={price => this.setState({ price })}
-            value={price}
+
+          <InputComponent
             placeholder="Cena w zł"
-            placeholderTextColor="#333"
-            style={{
-              height: 40,
-              borderWidth: 1,
-              borderRadius: 6,
-              paddingLeft: 5,
-              paddingTop: 10,
-              marginBottom: 10,
-              textAlignVertical: "top"
-            }}
+            inputOnChange={(price: string) => this.setState({ price })}
+            value={price}
+            secureTextEntry={false}
+            maxLength={5}
           />
         </View>
 
@@ -491,9 +481,8 @@ export default class AddNewProductBox extends Component<
           )}
         </View>
 
-        <TouchableHighlight
-          style={styles.productDetailsBtn}
-          onPress={() => {
+        <ButtonComponent
+          pressButtonComponent={() => {
             this.props.addNewProduct(
               photos,
               maleGender,
@@ -507,10 +496,10 @@ export default class AddNewProductBox extends Component<
               price
             );
           }}
-          underlayColor={"#dd904d"}
-        >
-          <Text style={styles.peachBtnText}>Dodaj Produkt</Text>
-        </TouchableHighlight>
+          buttonComponentText="Dodaj Produkt"
+          fullWidth={true}
+          underlayColor="#dd904d"
+        />
 
         <View style={{ marginBottom: 20 }} />
       </ScrollView>

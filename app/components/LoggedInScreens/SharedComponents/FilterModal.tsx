@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
   TouchableOpacity,
-  TouchableHighlight,
   View,
   Text,
   Button,
@@ -11,6 +10,7 @@ import {
 import styles from "./style";
 import { v4 as uuid } from "uuid";
 import PageHeader from "./PageHeader";
+import ButtonComponent from "./../../Utils/ButtonComponent";
 
 const FilterModal = (props: {
   filterModalName: string;
@@ -90,15 +90,14 @@ const FilterModal = (props: {
         </View>
       </View>
 
-      <TouchableHighlight
-        style={styles.productDetailsBtn}
-        onPress={() =>
+      <ButtonComponent
+        pressButtonComponent={() =>
           props.filterResults(selectedResultName, selectedResultValue)
         }
-        underlayColor={"#dd904d"}
-      >
-        <Text style={styles.peachBtnText}>Filtruj</Text>
-      </TouchableHighlight>
+        buttonComponentText="Filtruj"
+        fullWidth={true}
+        underlayColor="#dd904d"
+      />
     </ScrollView>
   );
 };

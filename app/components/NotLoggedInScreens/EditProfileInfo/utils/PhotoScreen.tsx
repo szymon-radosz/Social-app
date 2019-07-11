@@ -7,6 +7,8 @@ import {
   ImageBackground
 } from "react-native";
 import styles from "./../style";
+import ButtonComponent from "./../../../Utils/ButtonComponent";
+
 const fillInfoBg: any = require("./../../../../assets/images/fillInfoBgMin.jpg");
 
 const PhotoScreen = (props: {
@@ -35,31 +37,29 @@ const PhotoScreen = (props: {
           style={styles.image}
         />
       ) : null}
-      <TouchableHighlight
-        style={styles.nextBtn}
-        onPress={props.handleChoosePhoto}
-        underlayColor={"#dd904d"}
-      >
-        <Text style={styles.peachBtnText}>Wybierz zdjęcie</Text>
-      </TouchableHighlight>
+
+      <ButtonComponent
+        pressButtonComponent={props.handleChoosePhoto}
+        buttonComponentText="Wybierz zdjęcie"
+        fullWidth={true}
+        underlayColor="#dd904d"
+      />
 
       {props.photo || props.userSavedPhoto ? (
-        <TouchableHighlight
-          style={styles.nextBtn}
-          onPress={props.nextStep}
-          underlayColor={"#dd904d"}
-        >
-          <Text style={styles.peachBtnText}>Dalej</Text>
-        </TouchableHighlight>
+        <ButtonComponent
+          pressButtonComponent={props.nextStep}
+          buttonComponentText="Dalej"
+          fullWidth={true}
+          underlayColor="#dd904d"
+        />
       ) : null}
 
-      <TouchableHighlight
-        style={styles.previousBtn}
-        onPress={props.prevStep}
-        underlayColor={"#dd904d"}
-      >
-        <Text style={styles.peachBtnText}>Wróć</Text>
-      </TouchableHighlight>
+      <ButtonComponent
+        pressButtonComponent={props.prevStep}
+        buttonComponentText="Wróć"
+        fullWidth={true}
+        underlayColor="#dd904d"
+      />
     </View>
   );
 };

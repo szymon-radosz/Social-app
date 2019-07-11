@@ -1,7 +1,9 @@
 import React from "react";
-import { TextInput, Text, View, TouchableHighlight } from "react-native";
+import { View } from "react-native";
 import styles from "./../style";
 import PageHeader from "./../../SharedComponents/PageHeader";
+import ButtonComponent from "./../../../Utils/ButtonComponent";
+import TextAreaComponent from "./../../../Utils/TextAreaComponent";
 
 const UserMessageBox = (props: {
   hideShowUserMessageBox: any;
@@ -19,25 +21,22 @@ const UserMessageBox = (props: {
       />
 
       <View style={{ paddingTop: 10 }}>
-        <TextInput
+        <TextAreaComponent
+          placeholder="Napisz wiadomość..."
+          inputOnChange={(message: string) => props.setUserMessage(message)}
+          value={props.userMessage}
+          maxLength={500}
           multiline={true}
           numberOfLines={10}
-          maxLength={500}
-          onChangeText={message => props.setUserMessage(message)}
-          value={props.userMessage}
-          placeholder="Napisz wiadomość..."
-          placeholderTextColor="#333"
-          style={styles.userMessageTextArea}
         />
       </View>
 
-      <TouchableHighlight
-        style={styles.userDetailsRedirectMessageBtn}
-        onPress={() => props.sendMessage(props.userMessage)}
-        underlayColor={"#dd904d"}
-      >
-        <Text style={styles.peachBtnText}>Wyślij</Text>
-      </TouchableHighlight>
+      <ButtonComponent
+        pressButtonComponent={() => props.sendMessage(props.userMessage)}
+        buttonComponentText="Wyślij"
+        fullWidth={true}
+        underlayColor="#dd904d"
+      />
     </View>
   );
 };

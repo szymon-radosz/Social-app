@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Text,
   View,
@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import styles from "./style";
 import AppIntroSlider from "react-native-app-intro-slider";
+import ButtonComponent from "./../../Utils/ButtonComponent";
 
 const support: any = require("./../../../assets/images/supportOrange.png");
 const conversation: any = require("./../../../assets/images/ecoOrange.png");
@@ -80,13 +81,12 @@ const Welcome = (props: any) => {
         />
 
         <View>
-          <TouchableHighlight
-            style={styles.loginBtn}
-            onPress={(): void => navigation.navigate("Login")}
-            underlayColor={"#dd904d"}
-          >
-            <Text style={styles.peachBtnText}>Logowanie</Text>
-          </TouchableHighlight>
+          <ButtonComponent
+            pressButtonComponent={() => navigation.navigate("Login")}
+            buttonComponentText="Logowanie"
+            fullWidth={false}
+            underlayColor="#dd904d"
+          />
           <TouchableHighlight
             style={styles.registerBtn}
             onPress={() => navigation.navigate("Register")}

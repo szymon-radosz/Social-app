@@ -88,7 +88,7 @@ interface AppState {
   alertMessage: string;
   userData: any;
   userLoggedIn: boolean;
-  editProfileData: boolean;
+  //editProfileData: boolean;
   API_URL: string;
 }
 interface NavigationScreenInterface {
@@ -112,7 +112,7 @@ export default class App extends Component<
       alertType: "",
       userData: [],
       userLoggedIn: false,
-      editProfileData: false,
+      //editProfileData: false,
       API_URL: "http://127.0.0.1:8000/"
     };
     this.setAlert = this.setAlert.bind(this);
@@ -143,8 +143,8 @@ export default class App extends Component<
           console.log(["setUserFilledInfo", response]);
           if (response.data.status === "OK") {
             await that.setState({
-              userData: response.data.result[0],
-              editProfileData: false
+              userData: response.data.result[0]
+              //editProfileData: false
             });
             that.checkUserStatus();
           }
@@ -286,16 +286,17 @@ export default class App extends Component<
   };
 
   componentDidMount = (): void => {
-    if (!this.state.userLoggedIn) {
+    /*if (!this.state.userLoggedIn) {
       NavigationService.navigate("Welcome", {});
-    }
+    }*/
+    NavigationService.navigate("Welcome", {});
   };
 
-  componentDidUpdate = (): void => {
+  /*componentDidUpdate = (): void => {
     if (this.state.editProfileData === true) {
       NavigationService.navigate("FillNecessaryInfo", {});
     }
-  };
+  };*/
 
   render() {
     const {
@@ -303,7 +304,7 @@ export default class App extends Component<
       alertType,
       alertMessage,
       userData,
-      editProfileData,
+      //editProfileData,
       API_URL
     } = this.state;
 
@@ -319,7 +320,7 @@ export default class App extends Component<
           clearUserData: this.clearUserData,
           setUserFilledInfo: this.setUserFilledInfo,
           API_URL: API_URL,
-          editProfileData: editProfileData,
+          //editProfileData: editProfileData,
           clearUserUnreadedMessages: this.clearUserUnreadedMessages,
           clearUserNotificationsStatus: this.clearUserNotificationsStatus
         }}

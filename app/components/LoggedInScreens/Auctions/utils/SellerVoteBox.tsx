@@ -1,16 +1,11 @@
 import React, { Component } from "react";
-import {
-  TextInput,
-  Button,
-  Image,
-  Text,
-  View,
-  TouchableHighlight,
-  TouchableOpacity
-} from "react-native";
+import { TextInput, Image, Text, View, TouchableOpacity } from "react-native";
 import styles from "./../style";
 import { v4 as uuid } from "uuid";
 import PageHeader from "./../../SharedComponents/PageHeader";
+import ButtonComponent from "./../../../Utils/ButtonComponent";
+import InputComponent from "./../../../Utils/InputComponent";
+import TextAreaComponent from "./../../../Utils/TextAreaComponent";
 
 interface SellerVoteBoxProps {
   foundVoteUserList: any;
@@ -114,19 +109,18 @@ export default class SellerVoteBox extends Component<
         />
 
         <View style={styles.sellerVoteBoxContainer}>
-          <TextInput
-            onChangeText={email => {
+          <InputComponent
+            placeholder="Szukaj użytkowniczki po adresie email..."
+            inputOnChange={(email: string) => {
               this.clearFoundVoteUserList();
               this.setState({
                 showfoundVoteUserList: true
               });
               this.props.searchUsersByEmail(email);
             }}
-            multiline={true}
+            value={name}
+            secureTextEntry={false}
             maxLength={100}
-            placeholder="Szukaj użytkowniczki po adresie email..."
-            placeholderTextColor="#333"
-            style={styles.userMessageTextArea}
           />
 
           <View style={styles.sellerVoteBoxUserListContainer}>
@@ -277,26 +271,24 @@ export default class SellerVoteBox extends Component<
                 </Text>
               )}
 
-              <TextInput
-                multiline={true}
-                numberOfLines={10}
-                onChangeText={voteComment => {
+              <TextAreaComponent
+                placeholder="Napisz komentarz do opinii..."
+                inputOnChange={(voteComment: string) => {
                   this.setState({
                     voteComment
                   });
                 }}
+                value={voteComment}
                 maxLength={500}
-                placeholder="Napisz komentarz do opinii..."
-                placeholderTextColor="#333"
-                style={styles.sellerVoteBoxTextArea}
+                multiline={true}
+                numberOfLines={10}
               />
             </View>
           )}
         </View>
         {userVote != 0 && (
-          <TouchableHighlight
-            style={styles.productDetailsBtn}
-            onPress={() =>
+          <ButtonComponent
+            pressButtonComponent={() =>
               this.props.sendVote(
                 selectedUserData,
                 userVote,
@@ -304,10 +296,10 @@ export default class SellerVoteBox extends Component<
                 this.props.product
               )
             }
-            underlayColor={"#dd904d"}
-          >
-            <Text style={styles.peachBtnText}>Wyślij</Text>
-          </TouchableHighlight>
+            buttonComponentText="Wyślij"
+            fullWidth={true}
+            underlayColor="#dd904d"
+          />
         )}
       </View>
     );

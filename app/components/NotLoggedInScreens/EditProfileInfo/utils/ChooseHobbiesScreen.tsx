@@ -2,7 +2,6 @@ import React from "react";
 import {
   Text,
   View,
-  TouchableHighlight,
   ImageBackground,
   Image,
   TouchableOpacity,
@@ -11,8 +10,9 @@ import {
 import styles from "./../style";
 // @ts-ignore
 import { v4 as uuid } from "uuid";
-const fillInfoBg: any = require("./../../../../assets/images/fillInfoBgMin.jpg");
+import ButtonComponent from "./../../../Utils/ButtonComponent";
 
+const fillInfoBg: any = require("./../../../../assets/images/fillInfoBgMin.jpg");
 const gymOrange: any = require("./../../../../assets/images/editProfile/gymOrange.png");
 const walkOrange: any = require("./../../../../assets/images/editProfile/walkOrange.png");
 const ecoOrange: any = require("./../../../../assets/images/editProfile/ecoOrange.png");
@@ -237,20 +237,18 @@ const ChooseHobbiesScreen = (props: {
           )}
       </View>
       <View style={styles.btnContainer}>
-        <TouchableHighlight
-          style={styles.nextBtn}
-          onPress={props.submitData}
-          underlayColor={"#dd904d"}
-        >
-          <Text style={styles.peachBtnText}>Zapisz profil</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.previousBtn}
-          onPress={props.prevStep}
-          underlayColor={"#dd904d"}
-        >
-          <Text style={styles.peachBtnText}>Wróć</Text>
-        </TouchableHighlight>
+        <ButtonComponent
+          pressButtonComponent={props.submitData}
+          buttonComponentText="Zapisz profil"
+          fullWidth={true}
+          underlayColor="#dd904d"
+        />
+        <ButtonComponent
+          pressButtonComponent={props.prevStep}
+          buttonComponentText="Wróć"
+          fullWidth={true}
+          underlayColor="#dd904d"
+        />
       </View>
       <View style={{ paddingBottom: 30 }} />
     </ScrollView>

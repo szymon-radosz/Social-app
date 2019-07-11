@@ -1,6 +1,8 @@
 import React from "react";
-import { TextInput, Text, View, TouchableHighlight } from "react-native";
+import { View } from "react-native";
 import styles from "./../style";
+import ButtonComponent from "./../../../Utils/ButtonComponent";
+import TextAreaComponent from "./../../../Utils/TextAreaComponent";
 
 const SavePostComment = (props: {
   setCommentMessage: any;
@@ -14,26 +16,26 @@ const SavePostComment = (props: {
 }): any => {
   return (
     <View style={styles.savePostCommentContainer}>
-      <TextInput
-        style={styles.savePostCommentInput}
-        multiline={true}
-        maxLength={500}
-        onChangeText={message => props.setCommentMessage(message)}
-        value={props.commentMessage}
-        placeholder="Napisz komentarz ..."
-        placeholderTextColor="#333"
-      />
+      <View style={styles.savePostCommentInputContainer}>
+        <TextAreaComponent
+          placeholder="Czekamy na Twój komentarz..."
+          inputOnChange={(message: string) => props.setCommentMessage(message)}
+          value={props.commentMessage}
+          maxLength={500}
+          multiline={true}
+          numberOfLines={10}
+        />
+      </View>
 
-      <TouchableHighlight
-        style={styles.addCommentBtn}
-        onPress={(): void => {
+      <ButtonComponent
+        pressButtonComponent={(): void => {
           props.saveComment(props.postId, props.user.id, props.commentMessage);
           props.clearCommentMessage();
         }}
-        underlayColor={"#dd904d"}
-      >
-        <Text style={styles.peachBtnText}>Wyślij</Text>
-      </TouchableHighlight>
+        buttonComponentText="Wyślij"
+        fullWidth={true}
+        underlayColor="#dd904d"
+      />
     </View>
   );
 };

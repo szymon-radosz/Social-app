@@ -1,12 +1,10 @@
 import React from "react";
-import {
-  Text,
-  View,
-  TextInput,
-  TouchableHighlight,
-  ImageBackground
-} from "react-native";
+import { Text, View, TextInput, ImageBackground } from "react-native";
 import styles from "./../style";
+import ButtonComponent from "./../../../Utils/ButtonComponent";
+import InputComponent from "./../../../Utils/InputComponent";
+import TextAreaComponent from "./../../../Utils/TextAreaComponent";
+
 const fillInfoBg: any = require("./../../../../assets/images/fillInfoBgMin.jpg");
 
 const AgeDescScreen = (props: {
@@ -24,39 +22,36 @@ const AgeDescScreen = (props: {
       <View style={styles.infoContainer}>
         <Text style={styles.fillInfoHeader}>Uzupełnij ogólne informacje</Text>
         <Text style={styles.subText}>Wiek</Text>
-        <TextInput
+
+        <InputComponent
           placeholder="Wiek"
-          placeholderTextColor="#919191"
-          style={styles.input}
-          onChangeText={(txt: string) => props.handleChange("age", txt)}
-          keyboardType="numeric"
+          inputOnChange={(age: string) => props.handleChange("age", age)}
+          value={props.age}
+          secureTextEntry={false}
           maxLength={2}
-        >
-          {props.age !== 0 && props.age}
-        </TextInput>
+        />
 
         <Text style={styles.subText}>
-          Opis * ({props.desc.length}/100 znaków)
+          Opis * ({props.desc.length}/250 znaków)
         </Text>
-        <TextInput
-          placeholder="Opis"
-          placeholderTextColor="#919191"
-          style={styles.input}
-          onChangeText={(txt: string) => props.handleChange("desc", txt)}
-          maxLength={100}
-        >
-          {props.desc}
-        </TextInput>
+
+        <TextAreaComponent
+          placeholder="Napisz kilka słów o sobie..."
+          inputOnChange={(desc: string) => props.handleChange("desc", desc)}
+          value={props.desc}
+          maxLength={250}
+          multiline={true}
+          numberOfLines={10}
+        />
       </View>
 
       {props.age != 0 && (
-        <TouchableHighlight
-          style={styles.nextBtn}
-          onPress={props.nextStep}
-          underlayColor={"#dd904d"}
-        >
-          <Text style={styles.peachBtnText}>Dalej</Text>
-        </TouchableHighlight>
+        <ButtonComponent
+          pressButtonComponent={props.nextStep}
+          buttonComponentText="Dalej"
+          fullWidth={true}
+          underlayColor="#dd904d"
+        />
       )}
     </View>
   );

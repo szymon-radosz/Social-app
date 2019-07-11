@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import {
-  TextInput,
   Text,
   View,
   Image,
@@ -12,6 +11,8 @@ const loaderImage: any = require("./../../../assets/images/loader.gif");
 import axios from "axios";
 import styles from "./style";
 import { GlobalContext } from "./../../Context/GlobalContext";
+import ButtonComponent from "./../../Utils/ButtonComponent";
+import InputComponent from "./../../Utils/InputComponent";
 
 const Register = (props: { navigation: any }) => {
   const [name, setName] = useState("");
@@ -92,38 +93,35 @@ const Register = (props: { navigation: any }) => {
               style={styles.headerText}
             >{`Dołącz do naszej \nspołeczności!`}</Text>
 
-            <TextInput
-              style={styles.input}
+            <InputComponent
               placeholder="Imię"
-              placeholderTextColor="#919191"
-              onChangeText={name => setName(name)}
+              inputOnChange={(name: string) => setName(name)}
               value={name}
+              secureTextEntry={false}
+              maxLength={100}
             />
-
-            <TextInput
-              style={styles.input}
+            <InputComponent
               placeholder="E-mail"
-              placeholderTextColor="#919191"
-              onChangeText={email => setEmail(email)}
+              inputOnChange={(email: string) => setEmail(email)}
               value={email}
+              secureTextEntry={false}
+              maxLength={100}
             />
-
-            <TextInput
-              style={styles.input}
+            <InputComponent
               placeholder="Hasło"
-              secureTextEntry={true}
-              placeholderTextColor="#919191"
-              onChangeText={password => setPassword(password)}
+              inputOnChange={(password: string) => setPassword(password)}
               value={password}
-            />
-
-            <TextInput
-              style={styles.input}
-              placeholder="Potwierdź hasło"
               secureTextEntry={true}
-              placeholderTextColor="#919191"
-              onChangeText={passwordConf => setPasswordConf(passwordConf)}
+              maxLength={100}
+            />
+            <InputComponent
+              placeholder="Potwierdź hasło"
+              inputOnChange={(passwordConf: string) =>
+                setPasswordConf(passwordConf)
+              }
               value={passwordConf}
+              secureTextEntry={true}
+              maxLength={100}
             />
             <TouchableHighlight
               onPress={() => {
@@ -135,13 +133,13 @@ const Register = (props: { navigation: any }) => {
                 Rejestrując się akceptujesz regulamin E-mamy
               </Text>
             </TouchableHighlight>
-            <TouchableHighlight
-              style={styles.mainBtn}
-              onPress={registerUser}
-              underlayColor={"#dd904d"}
-            >
-              <Text style={styles.peachBtnText}>Zarejestruj</Text>
-            </TouchableHighlight>
+
+            <ButtonComponent
+              pressButtonComponent={registerUser}
+              buttonComponentText="Zarejestruj"
+              fullWidth={false}
+              underlayColor="#dd904d"
+            />
 
             <View style={styles.subBtnSection}>
               <Text style={styles.subBtnSectionAsk}>Posiadasz juz konto? </Text>
