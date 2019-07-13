@@ -1,7 +1,6 @@
 import React, { Component, Suspense } from "react";
 import { ImageBackground, Text, View, TouchableHighlight } from "react-native";
 import axios from "axios";
-import UserOnList from "./utils/UserOnList";
 import Carousel from "react-native-snap-carousel";
 import { btnFullWidthFilledContainer } from "./../../../assets/global/globalStyles";
 import { v4 as uuid } from "uuid";

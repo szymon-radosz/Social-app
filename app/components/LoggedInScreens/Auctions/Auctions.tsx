@@ -3,7 +3,6 @@ import { TouchableHighlight, ImageBackground, Text, View } from "react-native";
 import Carousel from "react-native-snap-carousel";
 import { btnFullWidthFilledContainer } from "./../../../assets/global/globalStyles";
 import axios from "axios";
-import SingleAuctionOnList from "./utils/SingleAuctionOnList";
 import styles from "./style";
 import { v4 as uuid } from "uuid";
 import { GlobalContext } from "./../../Context/GlobalContext";
