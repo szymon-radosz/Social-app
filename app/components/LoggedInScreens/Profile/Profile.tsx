@@ -471,7 +471,8 @@ class Profile extends Component<
           showAuctionHistory &&
           !showUserNotificationList &&
           userAuctionList && (
-            <View style={{ padding: 10 }}>
+            <React.Fragment>
+              <View style={{ paddingTop: 10 }} />
               {userAuctionList.length > 0 ? (
                 <UserAuctionsList
                   userAuctionList={userAuctionList}
@@ -485,7 +486,7 @@ class Profile extends Component<
                   uzgodnij szczegóły z innymi użytkowniczkami w wiadomościach.
                 </Text>
               )}
-            </View>
+            </React.Fragment>
           )}
 
         {!showProfilePreview &&

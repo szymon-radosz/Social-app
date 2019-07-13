@@ -13,12 +13,7 @@ import {
   lightBorderRadius,
   fontSizeBig,
   peachBtnText,
-  fontSizeMedium,
-  userListContainer,
-  userListSingleUserContainer,
-  userListSingleUserImage,
-  userListTextContainer,
-  userListText
+  fontSizeMedium
 } from "./../../../assets/global/globalStyles";
 const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;
@@ -26,14 +21,12 @@ const fullHeight = Dimensions.get("window").height;
 interface Style {
   pageTitle: any;
   pageSubTitle: TextStyle;
-  userListContainer: any;
   mainModalContainer: ViewStyle;
   userDetailsModalContentContainer: ViewStyle;
   relative: ViewStyle;
   userDetailsHeader: TextStyle;
   userDetailsImage: ImageStyle;
   userDetailsHeaderText: TextStyle;
-  userTextLocation: TextStyle;
   removeFilterBtnText: TextStyle;
   userDetailsContent: ViewStyle;
   userDetailsContentHeader: TextStyle;
@@ -45,13 +38,9 @@ interface Style {
   userMessageHeader: TextStyle;
   userMessageTextArea: TextStyle;
   userMessageBtn: TextStyle;
-  userListSingleUserContainer: any;
   userDetails: ViewStyle;
-  userListSingleUserImage: any;
   container: ViewStyle;
   userListImage: ImageStyle;
-  userListText: any;
-  userListTextContainer: any;
   userContainer: TextStyle;
   showUserDetails: TextStyle;
   fullWidth: any;
@@ -64,13 +53,8 @@ interface Style {
 export default StyleSheet.create<Style>({
   peachBtnText: peachBtnText,
   pageTitle: pageTitleWhite,
-  userListContainer: userListContainer,
   fullWidth: fullWidth,
   fullHeight: fullHeight,
-  userTextLocation: {
-    fontSize: 10,
-    fontFamily: "Open Sans"
-  },
   pageSubTitle: {
     textAlign: "center",
     color: darkGrayColor,
@@ -153,7 +137,6 @@ export default StyleSheet.create<Style>({
     justifyContent: "center",
     marginBottom: 10
   },
-  userListTextContainer: userListTextContainer,
   userDetailsRedirectMessageBtn: btnFullWidth,
   buttonCloseModal: {
     position: "absolute",
@@ -201,9 +184,6 @@ export default StyleSheet.create<Style>({
     color: "#fff",
     fontFamily: "Open Sans"
   },
-
-  userListSingleUserContainer: userListSingleUserContainer,
-  userListSingleUserImage: userListSingleUserImage,
   container: {
     position: "relative"
   },
@@ -212,7 +192,6 @@ export default StyleSheet.create<Style>({
     height: 50,
     borderRadius: lightBorderRadius
   },
-  userListText: userListText,
   userContainer: {
     borderRadius: lightBorderRadius,
     borderColor: peachColor,

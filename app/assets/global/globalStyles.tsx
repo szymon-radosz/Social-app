@@ -117,14 +117,14 @@ export const productOnListTextPrice = {
   fontSize: 12,
   fontFamily: "Open Sans"
 };
-/*user list- find user */
-export const userListContainer = {
+/*list element */
+export const listItemContainer = {
   width: "100%",
   marginBottom: 10,
   marginLeft: 8,
   marginRight: 8
 };
-export const userListSingleUserContainer = {
+export const listItemSingleContainer = {
   width: "96%",
   borderWidth: 1,
   flexWrap: "wrap",
@@ -137,7 +137,7 @@ export const userListSingleUserContainer = {
   paddingRight: 10,
   overflow: "hidden"
 };
-export const userListSingleUserImage = {
+export const listItemImage = {
   width: 50,
   height: 50,
   marginBottom: 10,
@@ -145,7 +145,7 @@ export const userListSingleUserImage = {
   borderRadius: 25,
   overflow: "hidden"
 };
-export const userListTextContainer = {
+export const listItemTextContainer = {
   paddingLeft: 10,
   width: "85%",
   flexWrap: "wrap",
@@ -153,11 +153,15 @@ export const userListTextContainer = {
   flexDirection: "row",
   justifyContent: "space-between"
 };
-export const userListText = {
+export const listItemMainText = {
   fontSize: fontSizeSmall,
   textAlign: "left",
   color: darkGrayColor,
   fontWeight: "400",
+  fontFamily: "Open Sans"
+};
+export const listItemSubText = {
+  fontSize: 10,
   fontFamily: "Open Sans"
 };
 

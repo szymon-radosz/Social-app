@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { TextInput, Image, Text, View, TouchableOpacity } from "react-native";
+import { Image, Text, View, TouchableOpacity } from "react-native";
 import styles from "./../style";
 import { v4 as uuid } from "uuid";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import ButtonComponent from "./../../../Utils/ButtonComponent";
 import InputComponent from "./../../../Utils/InputComponent";
 import TextAreaComponent from "./../../../Utils/TextAreaComponent";
+import ListItem from "./../../../Utils/ListItem";
 
 interface SellerVoteBoxProps {
   foundVoteUserList: any;
@@ -31,6 +32,7 @@ interface SellerVoteBoxState {
   showfoundVoteUserList: boolean;
   userVote: number;
   voteComment: string;
+  searchEmail: string;
 }
 
 export default class SellerVoteBox extends Component<
@@ -56,13 +58,19 @@ export default class SellerVoteBox extends Component<
       selectedUserData: [],
       showfoundVoteUserList: true,
       userVote: 0,
-      voteComment: ""
+      voteComment: "",
+      searchEmail: ""
     };
 
     this.clearFoundVoteUserList = this.clearFoundVoteUserList.bind(this);
     this.setSelectedUserData = this.setSelectedUserData.bind(this);
     this.setUserVote = this.setUserVote.bind(this);
+    this.setSearchedUserEmail = this.setSearchedUserEmail.bind(this);
   }
+
+  setSearchedUserEmail = (name: string) => {
+    this.setState({ searchEmail: name });
+  };
 
   setSelectedUserData = (
     id: number,
@@ -97,195 +105,177 @@ export default class SellerVoteBox extends Component<
       foundVoteUserList,
       selectedUserData,
       userVote,
-      voteComment
+      voteComment,
+      searchEmail
     } = this.state;
     return (
-      <View style={styles.relative}>
+      <View>
         <PageHeader
           boldText={"Wystaw ocenę"}
           normalText={""}
           closeMethod={this.props.changeVoteBox}
           closeMethodParameter={""}
         />
-
-        <View style={styles.sellerVoteBoxContainer}>
+        <View style={styles.sellerVoteBoxUserListContainer}>
           <InputComponent
             placeholder="Szukaj użytkowniczki po adresie email..."
             inputOnChange={(email: string) => {
+              this.setSearchedUserEmail(email);
               this.clearFoundVoteUserList();
               this.setState({
                 showfoundVoteUserList: true
               });
               this.props.searchUsersByEmail(email);
             }}
-            value={name}
+            value={searchEmail}
             secureTextEntry={false}
             maxLength={100}
           />
+        </View>
 
+        {showfoundVoteUserList && foundVoteUserList.length > 0 && (
           <View style={styles.sellerVoteBoxUserListContainer}>
-            {showfoundVoteUserList && foundVoteUserList.length > 0 && (
+            <Text
+              style={{ paddingTop: 10, paddingBottom: 10, fontWeight: "600" }}
+            >
+              Znalezione użytkowniczki
+            </Text>
+          </View>
+        )}
+        {showfoundVoteUserList &&
+          foundVoteUserList &&
+          foundVoteUserList.map((user: any, i: number) => {
+            if (user.id != this.props.currentUser.id) {
+              return (
+                <ListItem
+                  API_URL={this.props.API_URL}
+                  key={uuid()}
+                  image={`${this.props.API_URL}userPhotos/${user.photo_path}`}
+                  mainText={`${user.name}, ${user.age}`}
+                  subText={`${user.email}`}
+                  subSubText=""
+                  onPress={() =>
+                    this.setSelectedUserData(
+                      user.id,
+                      user.name,
+                      user.age,
+                      user.email
+                    )
+                  }
+                />
+              );
+            }
+          })}
+
+        {selectedUserData.name && (
+          <View style={styles.sellerVoteBoxUserListContainer}>
+            <Text style={styles.sellerVoteBoxText}>
+              Oceń współpracę z{" "}
+              <Text style={{ fontWeight: "600" }}>{selectedUserData.name}</Text>{" "}
+              ({selectedUserData.email})
+            </Text>
+
+            <View style={styles.sellerVoteBoxVoteContainer}>
               <Text
-                style={{ paddingTop: 10, paddingBottom: 10, fontWeight: "600" }}
+                style={
+                  userVote === 1
+                    ? styles.sellerVoteBoxVoteActive
+                    : styles.sellerVoteBoxVote
+                }
+                onPress={() => this.setUserVote(1)}
               >
-                Znalezione użytkowniczki
+                1
+              </Text>
+              <Text
+                style={
+                  userVote === 2
+                    ? styles.sellerVoteBoxVoteActive
+                    : styles.sellerVoteBoxVote
+                }
+                onPress={() => this.setUserVote(2)}
+              >
+                2
+              </Text>
+              <Text
+                style={
+                  userVote === 3
+                    ? styles.sellerVoteBoxVoteActive
+                    : styles.sellerVoteBoxVote
+                }
+                onPress={() => this.setUserVote(3)}
+              >
+                3
+              </Text>
+              <Text
+                style={
+                  userVote === 4
+                    ? styles.sellerVoteBoxVoteActive
+                    : styles.sellerVoteBoxVote
+                }
+                onPress={() => this.setUserVote(4)}
+              >
+                4
+              </Text>
+              <Text
+                style={
+                  userVote === 5
+                    ? styles.sellerVoteBoxVoteActive
+                    : styles.sellerVoteBoxVote
+                }
+                onPress={() => this.setUserVote(5)}
+              >
+                5
+              </Text>
+            </View>
+          </View>
+        )}
+
+        {userVote != 0 && (
+          <View style={styles.sellerVoteBoxUserListContainer}>
+            <Text style={styles.sellerVoteBoxVotePreview}>
+              Ocena: <Text style={styles.bold}>{userVote}</Text>
+            </Text>
+
+            {userVote === 1 && (
+              <Text style={{ paddingBottom: 10 }}>
+                Oceniłaś bardzo źle użytkowniczkę, napisz poniżej czym jest to
+                spowodowane
               </Text>
             )}
-            {showfoundVoteUserList &&
-              foundVoteUserList &&
-              foundVoteUserList.map((user: any, i: number) => {
-                if (user.id != this.props.currentUser.id) {
-                  return (
-                    <TouchableOpacity
-                      key={uuid()}
-                      onPress={() =>
-                        this.setSelectedUserData(
-                          user.id,
-                          user.name,
-                          user.age,
-                          user.email
-                        )
-                      }
-                    >
-                      <View
-                        style={styles.sellerVoteBoxUserListSingleUserContainer}
-                      >
-                        <Image
-                          style={styles.sellerVoteBoxUserListSingleUserImage}
-                          source={{
-                            uri: `${this.props.API_URL}userPhotos/${
-                              user.photo_path
-                            }`
-                          }}
-                        />
-                        <View
-                          style={
-                            styles.sellerVoteBoxUserListSingleUserTextContainer
-                          }
-                        >
-                          <Text>
-                            {user.name}, {user.age}
-                          </Text>
-                          <Text>{user.email}</Text>
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                  );
-                }
-              })}
+            {userVote > 1 && userVote <= 3 && (
+              <Text style={{ paddingBottom: 10 }}>
+                Oceniłaś nie najlepiej użytkowniczkę, napisz poniżej czym jest
+                to spowodowane
+              </Text>
+            )}
+            {userVote > 3 && userVote < 5 && (
+              <Text style={{ paddingBottom: 10 }}>
+                Oceniłaś dobrze użytkowniczkę, napisz poniżej kilka słów o
+                współpracy przy sprzedaży
+              </Text>
+            )}
+            {userVote === 5 && (
+              <Text style={{ paddingBottom: 10 }}>
+                Oceniłaś świetnie użytkowniczkę, napisz poniżej kilka słów o
+                współpracy przy sprzedaży
+              </Text>
+            )}
+
+            <TextAreaComponent
+              placeholder="Napisz komentarz do opinii..."
+              inputOnChange={(voteComment: string) => {
+                this.setState({
+                  voteComment
+                });
+              }}
+              value={voteComment}
+              maxLength={500}
+              multiline={true}
+              numberOfLines={10}
+            />
           </View>
+        )}
 
-          {selectedUserData.name && (
-            <View style={styles.sellerVoteBoxUserListContainer}>
-              <Text>
-                Oceń współpracę z{" "}
-                <Text style={{ fontWeight: "600" }}>
-                  {selectedUserData.name}
-                </Text>{" "}
-                ({selectedUserData.email})
-              </Text>
-
-              <View style={styles.sellerVoteBoxVoteContainer}>
-                <Text
-                  style={
-                    userVote === 1
-                      ? styles.sellerVoteBoxVoteActive
-                      : styles.sellerVoteBoxVote
-                  }
-                  onPress={() => this.setUserVote(1)}
-                >
-                  1
-                </Text>
-                <Text
-                  style={
-                    userVote === 2
-                      ? styles.sellerVoteBoxVoteActive
-                      : styles.sellerVoteBoxVote
-                  }
-                  onPress={() => this.setUserVote(2)}
-                >
-                  2
-                </Text>
-                <Text
-                  style={
-                    userVote === 3
-                      ? styles.sellerVoteBoxVoteActive
-                      : styles.sellerVoteBoxVote
-                  }
-                  onPress={() => this.setUserVote(3)}
-                >
-                  3
-                </Text>
-                <Text
-                  style={
-                    userVote === 4
-                      ? styles.sellerVoteBoxVoteActive
-                      : styles.sellerVoteBoxVote
-                  }
-                  onPress={() => this.setUserVote(4)}
-                >
-                  4
-                </Text>
-                <Text
-                  style={
-                    userVote === 5
-                      ? styles.sellerVoteBoxVoteActive
-                      : styles.sellerVoteBoxVote
-                  }
-                  onPress={() => this.setUserVote(5)}
-                >
-                  5
-                </Text>
-              </View>
-            </View>
-          )}
-
-          {userVote != 0 && (
-            <View style={styles.sellerVoteBoxUserListContainer}>
-              <Text style={styles.sellerVoteBoxVotePreview}>
-                Ocena: <Text style={styles.bold}>{userVote}</Text>
-              </Text>
-
-              {userVote === 1 && (
-                <Text style={{ paddingBottom: 10 }}>
-                  Oceniłaś bardzo źle użytkowniczkę, napisz poniżej czym jest to
-                  spowodowane
-                </Text>
-              )}
-              {userVote > 1 && userVote <= 3 && (
-                <Text style={{ paddingBottom: 10 }}>
-                  Oceniłaś nie najlepiej użytkowniczkę, napisz poniżej czym jest
-                  to spowodowane
-                </Text>
-              )}
-              {userVote > 3 && userVote < 5 && (
-                <Text style={{ paddingBottom: 10 }}>
-                  Oceniłaś dobrze użytkowniczkę, napisz poniżej kilka słów o
-                  współpracy przy sprzedaży
-                </Text>
-              )}
-              {userVote === 5 && (
-                <Text style={{ paddingBottom: 10 }}>
-                  Oceniłaś świetnie użytkowniczkę, napisz poniżej kilka słów o
-                  współpracy przy sprzedaży
-                </Text>
-              )}
-
-              <TextAreaComponent
-                placeholder="Napisz komentarz do opinii..."
-                inputOnChange={(voteComment: string) => {
-                  this.setState({
-                    voteComment
-                  });
-                }}
-                value={voteComment}
-                maxLength={500}
-                multiline={true}
-                numberOfLines={10}
-              />
-            </View>
-          )}
-        </View>
         {userVote != 0 && (
           <ButtonComponent
             pressButtonComponent={() =>

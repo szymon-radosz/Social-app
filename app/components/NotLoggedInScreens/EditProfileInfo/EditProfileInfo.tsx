@@ -93,6 +93,7 @@ class EditProfileInfo extends Component<
 
   componentDidMount = async () => {
     if (this.context.userData) {
+      console.log(["this.context.userData", this.context.userData]);
       this.setState({
         age: this.context.userData.age,
         desc: this.context.userData.description

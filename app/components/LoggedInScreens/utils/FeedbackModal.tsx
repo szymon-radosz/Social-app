@@ -53,16 +53,18 @@ const FeedbackModal = (props: {
         );
       })}
 
-      <TextAreaComponent
-        placeholder="Napisz wiadomość..."
-        inputOnChange={(feedbackMessage: string) =>
-          props.setFeedbackMessage(feedbackMessage)
-        }
-        value={props.feedbackMessage}
-        maxLength={800}
-        multiline={true}
-        numberOfLines={10}
-      />
+      <View style={{ paddingLeft: 10, paddingRight: 10 }}>
+        <TextAreaComponent
+          placeholder="Napisz wiadomość..."
+          inputOnChange={(feedbackMessage: string) =>
+            props.setFeedbackMessage(feedbackMessage)
+          }
+          value={props.feedbackMessage}
+          maxLength={800}
+          multiline={true}
+          numberOfLines={10}
+        />
+      </View>
 
       <ButtonComponent
         pressButtonComponent={props.sendFeedback}

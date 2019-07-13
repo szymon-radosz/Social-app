@@ -2,7 +2,6 @@ import React from "react";
 import {
   Text,
   View,
-  Image,
   TouchableHighlight,
   TouchableOpacity,
   ImageBackground,
@@ -14,6 +13,7 @@ import styles from "./../style";
 import { v4 as uuid } from "uuid";
 import ButtonComponent from "./../../../Utils/ButtonComponent";
 import InputComponent from "./../../../Utils/InputComponent";
+import ListItemDelete from "./../../../Utils/ListItemDelete";
 
 const fillInfoBg: any = require("./../../../../assets/images/fillInfoBgMin.jpg");
 const trash: any = require("./../../../../assets/images/trash.png");
@@ -149,36 +149,23 @@ const ChooseKidsScreen = (props: {
             ) => {
               if (kid.childGender === "male") {
                 return (
-                  <View key={uuid()} style={styles.removeFilterBtnContainer}>
-                    <Text style={styles.removeFilterText}>
-                      {kid.name} - chłopiec - {kid.dateOfBirth}
-                    </Text>
-                    <TouchableHighlight
-                      style={styles.removeFilterBtn}
-                      onPress={() => {
-                        props.removeKidFromState(kid.name);
-                      }}
-                      underlayColor={"#dd904d"}
-                    >
-                      <Image source={trash} style={{ width: 20, height: 20 }} />
-                    </TouchableHighlight>
-                  </View>
+                  <ListItemDelete
+                    key={uuid()}
+                    text={`${kid.name} - chłopiec - ${kid.dateOfBirth}`}
+                    onPress={() => {
+                      props.removeKidFromState(kid.name);
+                    }}
+                  />
                 );
               } else if (kid.childGender === "female") {
                 return (
-                  <View key={uuid()} style={styles.removeFilterBtnContainer}>
-                    <Text style={styles.removeFilterText}>
-                      {kid.name} - dziewczynka - {kid.dateOfBirth}
-                    </Text>
-                    <TouchableHighlight
-                      style={styles.removeFilterBtn}
-                      onPress={() => {
-                        props.removeKidFromState(kid.name);
-                      }}
-                    >
-                      <Image source={trash} style={{ width: 20, height: 20 }} />
-                    </TouchableHighlight>
-                  </View>
+                  <ListItemDelete
+                    key={uuid()}
+                    text={`${kid.name} - dziewczynka - ${kid.dateOfBirth}`}
+                    onPress={() => {
+                      props.removeKidFromState(kid.name);
+                    }}
+                  />
                 );
               }
             }

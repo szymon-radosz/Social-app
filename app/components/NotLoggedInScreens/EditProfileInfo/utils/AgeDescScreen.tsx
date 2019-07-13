@@ -26,7 +26,7 @@ const AgeDescScreen = (props: {
         <InputComponent
           placeholder="Wiek"
           inputOnChange={(age: string) => props.handleChange("age", age)}
-          value={props.age}
+          value={String(props.age)}
           secureTextEntry={false}
           maxLength={2}
         />

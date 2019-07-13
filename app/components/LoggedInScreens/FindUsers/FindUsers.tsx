@@ -8,6 +8,7 @@ import { v4 as uuid } from "uuid";
 import styles from "./style";
 const findUsersBg: any = require("./../../../assets/images/findUsersBgMin.jpg");
 import { GlobalContext } from "./../../Context/GlobalContext";
+import ListItem from "./../../Utils/ListItem";
 
 const UserDetails = React.lazy(() => import("./utils/UserDetails"));
 const UserMessageBox = React.lazy(() => import("./utils/UserMessageBox"));
@@ -744,12 +745,27 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
               ? userList.map((user: any, i: number) => {
                   if (user.id != this.props.user.id) {
                     return (
-                      <UserOnList
+                      <ListItem
                         API_URL={this.props.API_URL}
                         key={uuid()}
-                        user={user}
-                        setShowUserDetails={this.setShowUserDetails}
-                        setUserDetailsId={this.setUserDetailsId}
+                        image={`${this.context.API_URL}userPhotos/${
+                          user.photo_path
+                        }`}
+                        mainText={`${user.name}, ${user.age}`}
+                        subText={`${
+                          user.location_string ? user.location_string : ""
+                        }`}
+                        subSubText={`${
+                          user.kids.length > 0
+                            ? user.kids.length === 1
+                              ? "1 dziecko"
+                              : `${user.kids.length} dzieci`
+                            : ""
+                        }`}
+                        onPress={() => {
+                          this.setShowUserDetails(user.id);
+                          this.setUserDetailsId(user.id);
+                        }}
                       />
                     );
                   }

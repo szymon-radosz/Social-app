@@ -72,7 +72,6 @@ interface Style {
   productListSingleProductContainer: any;
   productListSingleProductImage: any;
   productListSingleProductBtn: TextStyle;
-  productListContainer: ViewStyle;
   sellerVoteBoxUserListContainer: ViewStyle;
   sellerVoteBoxUserListSingleUserContainer: ViewStyle;
   sellerVoteBoxUserListSingleUserImage: ImageStyle;
@@ -95,6 +94,7 @@ interface Style {
   userProductMessageTextArea: TextStyle;
   peachBtnText: any;
   addNewProductOptionTextActive: TextStyle;
+  sellerVoteBoxText: ViewStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -369,12 +369,9 @@ export default StyleSheet.create<Style>({
     backgroundColor: "#e07b8d",
     marginBottom: 10
   },
-  productListContainer: { paddingLeft: 10, paddingRight: 10 },
   sellerVoteBoxUserListContainer: {
-    paddingTop: 10,
-    paddingBottom: 10,
-    marginLeft: 10,
-    marginRight: 10
+    paddingLeft: 10,
+    paddingRight: 10
   },
   sellerVoteBoxUserListSingleUserContainer: {
     width: "100%",
@@ -474,5 +471,8 @@ export default StyleSheet.create<Style>({
     marginTop: 2,
     marginRight: 15,
     fontWeight: "600"
+  },
+  sellerVoteBoxText: {
+    paddingTop: 10
   }
 });

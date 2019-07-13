@@ -3,7 +3,13 @@ import {
   peachColor,
   lightBorderRadius,
   peachBtnText,
-  btnFullWidth
+  btnFullWidth,
+  listItemContainer,
+  listItemSingleContainer,
+  listItemImage,
+  listItemTextContainer,
+  listItemMainText,
+  listItemSubText
 } from "./../../assets/global/globalStyles";
 
 interface Style {
@@ -12,6 +18,15 @@ interface Style {
   buttonComponentFullWidth: any;
   input: TextStyle;
   textarea: TextStyle;
+  removeFilterBtnContainer: ViewStyle;
+  removeFilterText: TextStyle;
+  removeFilterBtn: ViewStyle;
+  listItemContainer: any;
+  listItemSingleContainer: any;
+  listItemImage: any;
+  listItemTextContainer: any;
+  listItemMainText: any;
+  listItemSubText: any;
 }
 
 export default StyleSheet.create<Style>({
@@ -53,5 +68,36 @@ export default StyleSheet.create<Style>({
     borderColor: "#8c8c8c",
     color: "#424242",
     textAlignVertical: "top"
-  }
+  },
+  removeFilterBtnContainer: {
+    paddingLeft: 10,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderBottomColor: "#E5E5E5"
+  },
+  removeFilterText: {
+    marginTop: 10,
+    color: "#424242",
+    fontFamily: "Open Sans"
+  },
+  removeFilterBtn: {
+    height: 40,
+    width: 40,
+    borderColor: peachColor,
+    borderWidth: 2,
+    backgroundColor: peachColor,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 10,
+    flexDirection: "row",
+    flexWrap: "wrap"
+  },
+  listItemContainer: listItemContainer,
+  listItemSingleContainer: listItemSingleContainer,
+  listItemImage: listItemImage,
+  listItemTextContainer: listItemTextContainer,
+  listItemMainText: listItemMainText,
+  listItemSubText: listItemSubText
 });

@@ -33,9 +33,6 @@ interface Style {
   checkboxContainer: ViewStyle;
   childGenderContainer: ViewStyle;
   childGenderText: ViewStyle;
-  removeFilterBtnContainer: ViewStyle;
-  removeFilterText: TextStyle;
-  removeFilterBtn: ViewStyle;
   removeFilterBtnText: TextStyle;
   hobbyOptionContainer: ViewStyle;
   hobbyOptionText: TextStyle;
@@ -179,31 +176,7 @@ export default StyleSheet.create<Style>({
   checkboxText: { marginTop: 2, marginRight: 15 },
   childGenderContainer: { paddingLeft: 10, paddingRight: 10, marginBottom: 10 },
   childGenderText: { paddingBottom: 5 },
-  removeFilterBtnContainer: {
-    paddingLeft: 10,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    borderBottomWidth: 1,
-    borderBottomColor: "#E5E5E5"
-  },
-  removeFilterText: {
-    marginTop: 10,
-    color: "#424242",
-    fontFamily: "Open Sans"
-  },
-  removeFilterBtn: {
-    height: 40,
-    width: 40,
-    borderColor: peachColor,
-    borderWidth: 2,
-    backgroundColor: peachColor,
-    alignItems: "center",
-    justifyContent: "center",
-    marginLeft: 10,
-    flexDirection: "row",
-    flexWrap: "wrap"
-  },
+
   removeFilterBtnText: {
     fontSize: 14,
     textAlign: "center",

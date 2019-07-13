@@ -65,7 +65,6 @@ class ProductDetails extends Component<
       foundVoteUserList: [],
       usersAreInTheSameConversation: false,
       productClosed: false,
-
       productLocation: []
     };
 

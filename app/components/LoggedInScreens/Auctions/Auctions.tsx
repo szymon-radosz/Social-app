@@ -8,6 +8,7 @@ import styles from "./style";
 import { v4 as uuid } from "uuid";
 import { GlobalContext } from "./../../Context/GlobalContext";
 import ButtonComponent from "./../../Utils/ButtonComponent";
+import ListItem from "./../../Utils/ListItem";
 
 const auctionsBg: any = require("./../../../assets/images/auctionsBgMin.jpg");
 
@@ -496,22 +497,27 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
 
           {!displayProductDetails && !displayNewProductBox && !showFilterModal && (
             <View>
-              <View style={styles.productListContainer}>
-                {productList && productList.length > 0 ? (
-                  productList.map((product: any, i: number) => {
-                    return (
-                      <SingleAuctionOnList
-                        product={product}
-                        key={uuid()}
-                        API_URL={this.props.API_URL}
-                        setSelectedProduct={this.setSelectedProduct}
-                      />
-                    );
-                  })
-                ) : (
-                  <Text>Brak wyników</Text>
-                )}
-              </View>
+              {productList && productList.length > 0 ? (
+                productList.map((product: any, i: number) => {
+                  return (
+                    <ListItem
+                      API_URL={this.props.API_URL}
+                      key={uuid()}
+                      image={`${this.context.API_URL}productPhotos/${
+                        product.product_photos[0].path
+                      }`}
+                      mainText={product.name}
+                      subText={`Kategoria: ${product.categoryName[0].name}`}
+                      subSubText={`Cena: ${product.price} zł`}
+                      onPress={() => {
+                        this.setSelectedProduct(product.id, product.user_id);
+                      }}
+                    />
+                  );
+                })
+              ) : (
+                <Text style={{ paddingLeft: 10 }}>Brak wyników</Text>
+              )}
               <View style={{ marginBottom: 10 }}>
                 <ButtonComponent
                   pressButtonComponent={this.changeDisplayNewProductBox}
