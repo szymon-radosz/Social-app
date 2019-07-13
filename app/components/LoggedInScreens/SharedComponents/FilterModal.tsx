@@ -1,12 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import {
-  TouchableOpacity,
-  View,
-  Text,
-  Button,
-  Image,
-  ScrollView
-} from "react-native";
+import { TouchableOpacity, View, Text, ScrollView } from "react-native";
 import styles from "./style";
 import { v4 as uuid } from "uuid";
 import PageHeader from "./PageHeader";

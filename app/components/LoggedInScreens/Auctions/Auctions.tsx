@@ -4,10 +4,9 @@ import Carousel from "react-native-snap-carousel";
 import { btnFullWidthFilledContainer } from "./../../../assets/global/globalStyles";
 import axios from "axios";
 import styles from "./style";
-import { v4 as uuid } from "uuid";
+import AuctionList from "./utils/AuctionList";
 import { GlobalContext } from "./../../Context/GlobalContext";
 import ButtonComponent from "./../../Utils/ButtonComponent";
-import ListItem from "./../../Utils/ListItem";
 
 const auctionsBg: any = require("./../../../assets/images/auctionsBgMin.jpg");
 
@@ -496,27 +495,12 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
 
           {!displayProductDetails && !displayNewProductBox && !showFilterModal && (
             <View>
-              {productList && productList.length > 0 ? (
-                productList.map((product: any, i: number) => {
-                  return (
-                    <ListItem
-                      API_URL={this.props.API_URL}
-                      key={uuid()}
-                      image={`${this.context.API_URL}productPhotos/${
-                        product.product_photos[0].path
-                      }`}
-                      mainText={product.name}
-                      subText={`Kategoria: ${product.categoryName[0].name}`}
-                      subSubText={`Cena: ${product.price} zł`}
-                      onPress={() => {
-                        this.setSelectedProduct(product.id, product.user_id);
-                      }}
-                    />
-                  );
-                })
-              ) : (
-                <Text style={{ paddingLeft: 10 }}>Brak wyników</Text>
-              )}
+              <AuctionList
+                API_URL={this.props.API_URL}
+                productList={productList}
+                setSelectedProduct={this.setSelectedProduct}
+              />
+
               <View style={{ marginBottom: 10 }}>
                 <ButtonComponent
                   pressButtonComponent={this.changeDisplayNewProductBox}

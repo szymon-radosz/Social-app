@@ -1,14 +1,13 @@
 import React, { Component, Suspense } from "react";
 import { TouchableOpacity, Text, ImageBackground, View } from "react-native";
-import SingleConversationBox from "./utils/SingleConversationBox";
 import axios from "axios";
 import styles from "./style";
 import { v4 as uuid } from "uuid";
 const messagesBgMin: any = require("./../../../assets/images/messagesBgMin.jpg");
 import { GlobalContext } from "./../../Context/GlobalContext";
 import ListItem from "./../../Utils/ListItem";
-import moment from "moment";
-import "moment/locale/pl";
+
+import MessageList from "./utils/MessageList";
 
 const ConversationDetails = React.lazy(() =>
   import("./utils/ConversationDetails")
@@ -293,38 +292,11 @@ class Messages extends Component<MessagesProps, MessagesState> {
 
         {messagesList && !openConversationDetails ? (
           messagesList.length > 0 ? (
-            messagesList.map((conversation: any, i: number) => {
-              if (conversation[i]) {
-                console.log(["i", i, conversation[i]]);
-                return (
-                  <ListItem
-                    API_URL={this.props.API_URL}
-                    key={uuid()}
-                    image={`${this.props.API_URL}userPhotos/${
-                      conversation[i].receiverPhotoPath
-                    }`}
-                    mainText={conversation[i].receiverName}
-                    subText={conversation[i].messages[
-                      conversation[i].messages.length - 1
-                    ].message.substring(0, 20)}
-                    subSubText={moment(
-                      conversation[i].messages[
-                        conversation[i].messages.length - 1
-                      ].updated_at
-                    ).format("LLL")}
-                    onPress={(): void => {
-                      this.openConversationDetails(
-                        conversation[i].id,
-                        conversation[i].receiverId,
-                        conversation[i].receiverName,
-                        conversation[i].receiverEmail,
-                        conversation[i].receiverPhotoPath
-                      );
-                    }}
-                  />
-                );
-              }
-            })
+            <MessageList
+              messagesList={messagesList}
+              API_URL={this.props.API_URL}
+              openConversationDetails={this.openConversationDetails}
+            />
           ) : displayPrivateMessages ? (
             <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
               Brak wyników. Zaproś inne mamy z Twojej okolicy do znajomych.

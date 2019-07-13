@@ -11,7 +11,6 @@ import LoggedInScreens from "./utils/LoggedInScreens";
 import BottomPanel from "./SharedComponents/BottomPanel";
 import axios from "axios";
 import { GlobalContext } from "./../Context/GlobalContext";
-import { isContext } from "vm";
 const feedback: any = require("./../../assets/images/feedback.png");
 
 interface NavigationScreenInterface {

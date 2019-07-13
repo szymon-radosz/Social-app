@@ -7,7 +7,7 @@ import { v4 as uuid } from "uuid";
 import styles from "./style";
 const findUsersBg: any = require("./../../../assets/images/findUsersBgMin.jpg");
 import { GlobalContext } from "./../../Context/GlobalContext";
-import ListItem from "./../../Utils/ListItem";
+import UserList from "./utils/UserList";
 
 const UserDetails = React.lazy(() => import("./utils/UserDetails"));
 const UserMessageBox = React.lazy(() => import("./utils/UserMessageBox"));
@@ -737,39 +737,18 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
             )}
 
             {!showUserMessageBox &&
-            !showUserDetails &&
-            userList &&
-            !showFilterModal &&
-            userList.length > 1
-              ? userList.map((user: any, i: number) => {
-                  if (user.id != this.props.user.id) {
-                    return (
-                      <ListItem
-                        API_URL={this.props.API_URL}
-                        key={uuid()}
-                        image={`${this.context.API_URL}userPhotos/${
-                          user.photo_path
-                        }`}
-                        mainText={`${user.name}, ${user.age}`}
-                        subText={`${
-                          user.location_string ? user.location_string : ""
-                        }`}
-                        subSubText={`${
-                          user.kids.length > 0
-                            ? user.kids.length === 1
-                              ? "1 dziecko"
-                              : `${user.kids.length} dzieci`
-                            : ""
-                        }`}
-                        onPress={() => {
-                          this.setShowUserDetails(user.id);
-                          this.setUserDetailsId(user.id);
-                        }}
-                      />
-                    );
-                  }
-                })
-              : null}
+              !showUserDetails &&
+              userList &&
+              !showFilterModal &&
+              userList.length > 1 && (
+                <UserList
+                  API_URL={this.props.API_URL}
+                  loggedInUserId={this.context.userData.id}
+                  userList={userList}
+                  setUserDetailsId={this.setUserDetailsId}
+                  setShowUserDetails={this.setShowUserDetails}
+                />
+              )}
 
             {!showUserMessageBox &&
             !showUserDetails &&
