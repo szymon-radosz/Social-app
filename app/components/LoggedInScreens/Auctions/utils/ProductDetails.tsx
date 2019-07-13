@@ -347,7 +347,7 @@ class ProductDetails extends Component<
                   <Image
                     style={styles.productDetailsImage}
                     source={{
-                      uri: `${this.props.API_URL}productPhotos/${
+                      uri: `${this.context.photoServerPath}/${
                         productDetails[0].product_photos[0].path
                       }`
                     }}

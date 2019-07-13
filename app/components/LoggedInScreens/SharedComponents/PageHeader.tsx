@@ -25,7 +25,7 @@ const PageHeader = (props: {
         }}
       >
         <Text style={styles.filterModalHeaderTextContainer}>
-          <Text style={styles.filterModalHeaderTextBold}>{props.boldText}</Text>{" "}
+          <Text style={styles.filterModalHeaderTextBold}>{props.boldText}</Text>
           {props.normalText}
         </Text>
       </View>

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Text } from "react-native";
 import { v4 as uuid } from "uuid";
 import ListItem from "./../../../Utils/ListItem";
+import { GlobalContext } from "./../../../Context/GlobalContext";
 
 const UserList = (props: {
   userList: any;
@@ -10,6 +11,7 @@ const UserList = (props: {
   setUserDetailsId: any;
   loggedInUserId: number;
 }): any => {
+  const context = useContext(GlobalContext);
   if (props.userList) {
     return props.userList && props.userList.length > 0 ? (
       props.userList.map((user: any, i: number) => {
@@ -18,7 +20,7 @@ const UserList = (props: {
             <ListItem
               API_URL={props.API_URL}
               key={uuid()}
-              image={`${props.API_URL}userPhotos/${user.photo_path}`}
+              image={`${context.photoServerPath}/${user.photo_path}`}
               mainText={`${user.name}, ${user.age}`}
               subText={`${user.location_string ? user.location_string : ""}`}
               subSubText={`${

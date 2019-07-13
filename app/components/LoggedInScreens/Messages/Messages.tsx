@@ -2,11 +2,8 @@ import React, { Component, Suspense } from "react";
 import { TouchableOpacity, Text, ImageBackground, View } from "react-native";
 import axios from "axios";
 import styles from "./style";
-import { v4 as uuid } from "uuid";
 const messagesBgMin: any = require("./../../../assets/images/messagesBgMin.jpg");
 import { GlobalContext } from "./../../Context/GlobalContext";
-import ListItem from "./../../Utils/ListItem";
-
 import MessageList from "./utils/MessageList";
 
 const ConversationDetails = React.lazy(() =>

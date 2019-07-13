@@ -74,7 +74,7 @@ export default class ConversationDetails extends Component<
             <Image
               style={styles.conversationDetailsReceiverImage}
               source={{
-                uri: `${this.props.API_URL}userPhotos/${
+                uri: `${this.context.photoServerPath}/${
                   this.props.receiverPhotoPath
                 }`
               }}

@@ -1,16 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { v4 as uuid } from "uuid";
 import ListItem from "./../../../Utils/ListItem";
+import { GlobalContext } from "./../../../Context/GlobalContext";
 
-const UserAuctionsList = (props: any) =>
+const UserAuctionsList = (props: any) => {
+  const context = useContext(GlobalContext);
   props.userAuctionList.map((product: any, i: number) => {
     return (
       <ListItem
         API_URL={props.API_URL}
         key={uuid()}
-        image={`${props.API_URL}productPhotos/${
-          product.product_photos[0].path
-        }`}
+        image={`${context.photoServerPath}/${product.product_photos[0].path}`}
         mainText={product.name}
         subText={`Kategoria: ${product.categoryName[0].name}`}
         subSubText={`Cena: ${product.price} zł`}
@@ -20,5 +20,5 @@ const UserAuctionsList = (props: any) =>
       />
     );
   });
-
+};
 export default UserAuctionsList;

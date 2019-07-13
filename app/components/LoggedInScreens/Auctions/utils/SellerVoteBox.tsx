@@ -150,7 +150,9 @@ export default class SellerVoteBox extends Component<
                 <ListItem
                   API_URL={this.props.API_URL}
                   key={uuid()}
-                  image={`${this.props.API_URL}userPhotos/${user.photo_path}`}
+                  image={`${this.props.API_URL}userPhotos/${
+                    this.context.photoServerPath
+                  }/${user.photo_path}`}
                   mainText={`${user.name}, ${user.age}`}
                   subText={`${user.email}`}
                   subSubText=""

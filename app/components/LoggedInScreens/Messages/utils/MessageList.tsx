@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Text } from "react-native";
 import { v4 as uuid } from "uuid";
 import ListItem from "./../../../Utils/ListItem";
 import moment from "moment";
 import "moment/locale/pl";
+import { GlobalContext } from "./../../../Context/GlobalContext";
 
 const MessageList = (props: {
   messagesList: any;
   API_URL: string;
   openConversationDetails: any;
 }): any => {
+  const context = useContext(GlobalContext);
   if (props.messagesList) {
     return props.messagesList && props.messagesList.length > 0 ? (
       props.messagesList.map((conversation: any, i: number) => {
@@ -19,7 +21,7 @@ const MessageList = (props: {
             <ListItem
               API_URL={props.API_URL}
               key={uuid()}
-              image={`${props.API_URL}userPhotos/${
+              image={`${context.photoServerPath}/${
                 conversation[i].receiverPhotoPath
               }`}
               mainText={conversation[i].receiverName}

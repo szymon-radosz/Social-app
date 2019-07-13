@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Text } from "react-native";
 import { v4 as uuid } from "uuid";
 import ListItem from "./../../../Utils/ListItem";
+import { GlobalContext } from "./../../../Context/GlobalContext";
 
 const AuctionList = (props: {
   productList: any;
   API_URL: string;
   setSelectedProduct: any;
 }): any => {
+  const context = useContext(GlobalContext);
+
   if (props.productList) {
     return props.productList && props.productList.length > 0 ? (
       props.productList.map((product: any, i: number) => {
@@ -15,7 +18,7 @@ const AuctionList = (props: {
           <ListItem
             API_URL={props.API_URL}
             key={uuid()}
-            image={`${props.API_URL}productPhotos/${
+            image={`${context.photoServerPath}/${
               product.product_photos[0].path
             }`}
             mainText={product.name}

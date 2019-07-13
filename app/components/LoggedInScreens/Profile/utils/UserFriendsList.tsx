@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { v4 as uuid } from "uuid";
 import ListItem from "./../../../Utils/ListItem";
+import { GlobalContext } from "./../../../Context/GlobalContext";
 
-const UserFriendsList = (props: any) =>
+const UserFriendsList = (props: any) => {
+  const context = useContext(GlobalContext);
   props.userFriendsList.map((friendsPair: any, i: number) => {
     if (friendsPair.users_invited_by_me.id === props.loggedInUser) {
       return (
         <ListItem
           API_URL={props.API_URL}
           key={uuid()}
-          image={`${props.API_URL}userPhotos/${
+          image={`${context.photoServerPath}/${
             friendsPair.users_invited_me.photo_path
           }`}
           mainText={`${friendsPair.users_invited_me.name}, ${
@@ -64,5 +66,5 @@ const UserFriendsList = (props: any) =>
       );
     }
   });
-
+};
 export default UserFriendsList;

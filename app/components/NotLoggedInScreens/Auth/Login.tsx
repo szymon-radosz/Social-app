@@ -30,6 +30,7 @@ const Login = (props: any) => {
             password: password
           })
           .then(function(response) {
+            console.log(response);
             if (response.data.status === "OK") {
               console.log(["response.data.user", response.data]);
               let token = response.data.user.token;
@@ -47,6 +48,10 @@ const Login = (props: any) => {
                     //navProps.setUserData(response2.data.result);
 
                     context.setUserData(response2.data.result);
+
+                    context.setPhotoServerPath(
+                      response2.data.result.storagePath
+                    );
                   }
                 })
                 .catch(function(error) {
@@ -61,6 +66,7 @@ const Login = (props: any) => {
             }
           })
           .catch(function(error) {
+            console.log(error);
             context.setAlert(
               true,
               "danger",

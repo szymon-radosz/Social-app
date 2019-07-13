@@ -90,6 +90,7 @@ interface AppState {
   userLoggedIn: boolean;
   //editProfileData: boolean;
   API_URL: string;
+  photoServerPath: string;
 }
 interface NavigationScreenInterface {
   navigation: {
@@ -113,7 +114,8 @@ export default class App extends Component<
       userData: [],
       userLoggedIn: false,
       //editProfileData: false,
-      API_URL: "http://127.0.0.1:8000/"
+      API_URL: "http://127.0.0.1:8000/",
+      photoServerPath: ""
     };
     this.setAlert = this.setAlert.bind(this);
     this.closeAlert = this.closeAlert.bind(this);
@@ -125,7 +127,12 @@ export default class App extends Component<
     );
     this.clearUserData = this.clearUserData.bind(this);
     this.setUserFilledInfo = this.setUserFilledInfo.bind(this);
+    this.setPhotoServerPath = this.setPhotoServerPath.bind(this);
   }
+
+  setPhotoServerPath = (path: string): void => {
+    this.setState({ photoServerPath: path });
+  };
 
   setUserFilledInfo = (): void => {
     try {
@@ -305,7 +312,8 @@ export default class App extends Component<
       alertMessage,
       userData,
       //editProfileData,
-      API_URL
+      API_URL,
+      photoServerPath
     } = this.state;
 
     return (
@@ -322,7 +330,9 @@ export default class App extends Component<
           API_URL: API_URL,
           //editProfileData: editProfileData,
           clearUserUnreadedMessages: this.clearUserUnreadedMessages,
-          clearUserNotificationsStatus: this.clearUserNotificationsStatus
+          clearUserNotificationsStatus: this.clearUserNotificationsStatus,
+          photoServerPath: photoServerPath,
+          setPhotoServerPath: this.setPhotoServerPath
         }}
       >
         {showAlert != false && (
