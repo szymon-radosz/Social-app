@@ -119,18 +119,17 @@ export const productOnListTextPrice = {
 };
 /*list element */
 export const listItemContainer = {
-  width: "100%",
-  marginBottom: 10,
-  marginLeft: 8,
-  marginRight: 8
+  width: "94%",
+  marginLeft: "3%",
+  marginRight: "3%",
+  marginBottom: 10
 };
 export const listItemSingleContainer = {
-  width: "96%",
+  width: "100%",
   borderWidth: 1,
   flexWrap: "wrap",
   alignItems: "center",
   flexDirection: "row",
-  justifyContent: "space-around",
   borderRadius: lightBorderRadius,
   borderColor: "#424242",
   paddingLeft: 10,
@@ -147,11 +146,9 @@ export const listItemImage = {
 };
 export const listItemTextContainer = {
   paddingLeft: 10,
-  width: "85%",
   flexWrap: "wrap",
   alignItems: "center",
-  flexDirection: "row",
-  justifyContent: "space-between"
+  flexDirection: "row"
 };
 export const listItemMainText = {
   fontSize: fontSizeSmall,
