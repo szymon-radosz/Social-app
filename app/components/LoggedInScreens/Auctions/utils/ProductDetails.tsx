@@ -22,7 +22,7 @@ const renderCarousel = (API_URL: string, imageArray: any): any => (
           resizeMode="contain"
           key={uuid()}
           source={{
-            uri: `${API_URL}productPhotos/${image.path}`
+            uri: `${image.path}`
           }}
         />
       );
@@ -347,56 +347,56 @@ class ProductDetails extends Component<
                   <Image
                     style={styles.productDetailsImage}
                     source={{
-                      uri: `${this.context.photoServerPath}/${
-                        productDetails[0].product_photos[0].path
-                      }`
+                      uri: `${productDetails[0].product_photos[0].path}`
                     }}
                   />
                 </Lightbox>
 
-                {productDetails[0].product_photos.length > 1 && (
-                  <Text>Kliknij zdjęcie, aby zobaczyć galerię</Text>
-                )}
+                {productDetails[0] &&
+                  productDetails[0].product_photos.length > 1 && (
+                    <Text>Kliknij zdjęcie, aby zobaczyć galerię</Text>
+                  )}
 
-                {productDetails[0].description ? (
+                {productDetails[0] && productDetails[0].description ? (
                   <Text style={styles.productHeaderText}>
                     {productDetails[0].description}
                   </Text>
                 ) : null}
               </View>
               <View style={styles.productContent}>
-                {productDetails[0].categoryName[0].name && (
+                {productDetails[0] && productDetails[0].categoryName[0].name && (
                   <Text style={styles.productContentText}>
                     <Text style={styles.bold}>Kategoria:</Text>{" "}
                     {productDetails[0].categoryName[0].name}
                   </Text>
                 )}
 
-                {productDetails[0].child_gender === "girl" && (
-                  <Text style={styles.productContentText}>
-                    <Text style={styles.bold}>Płeć dziecka:</Text> Dziewczynka
-                  </Text>
-                )}
+                {productDetails[0] &&
+                  productDetails[0].child_gender === "girl" && (
+                    <Text style={styles.productContentText}>
+                      <Text style={styles.bold}>Płeć dziecka:</Text> Dziewczynka
+                    </Text>
+                  )}
 
-                {productDetails[0].child_gender === "boy" && (
+                {productDetails[0] && productDetails[0].child_gender === "boy" && (
                   <Text style={styles.productContentText}>
                     <Text style={styles.bold}>Płeć dziecka:</Text> Chłopiec
                   </Text>
                 )}
 
-                {productDetails[0].status === 0 && (
+                {productDetails[0] && productDetails[0].status === 0 && (
                   <Text style={styles.productContentText}>
                     <Text style={styles.bold}>Stan produktu:</Text> Nowe
                   </Text>
                 )}
 
-                {productDetails[0].status === 1 && (
+                {productDetails[0] && productDetails[0].status === 1 && (
                   <Text style={styles.productContentText}>
                     <Text style={styles.bold}>Stan produktu:</Text> Używane
                   </Text>
                 )}
 
-                {productDetails[0].users && (
+                {productDetails[0] && productDetails[0].users && (
                   <Text style={styles.productContentText}>
                     <Text style={styles.bold}>Dodane przez:</Text>
                     {productDetails[0].users.name} (
@@ -404,14 +404,14 @@ class ProductDetails extends Component<
                   </Text>
                 )}
 
-                {productDetails[0].users.location_string && (
+                {productDetails[0] && productDetails[0].users.location_string && (
                   <Text style={styles.productContentText}>
                     <Text style={styles.bold}>W poblizu:</Text>
                     {productDetails[0].users.location_string}
                   </Text>
                 )}
 
-                {productDetails[0].price && (
+                {productDetails[0] && productDetails[0].price && (
                   <Text style={styles.productContentText}>
                     <Text style={styles.bold}>Cena:</Text>
                     {productDetails[0].price} zł

@@ -25,9 +25,7 @@ const SinglePostDetailsComment = (props: {
           <Image
             style={styles.image}
             source={{
-              uri: `${props.API_URL}userPhotos/${
-                props.comment.users.photo_path
-              }`
+              uri: `${props.comment.users.photo_path}`
             }}
           />
         </TouchableOpacity>
@@ -54,7 +52,7 @@ const SinglePostDetailsComment = (props: {
       <View style={styles.singlePostDetailsCommentVoteContainer}>
         <View style={styles.singlePostDetailsCommentVoteWrapper}>
           <Text style={styles.postDetailsPostVoteCount}>
-            {props.comment.votes.length}
+            {props.comment.votes && props.comment.votes.length}
           </Text>
           <TouchableOpacity
             onPress={() => props.saveCommentVote(props.comment.id)}

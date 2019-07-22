@@ -3,6 +3,7 @@ import { TouchableOpacity, Text, View } from "react-native";
 import styles from "./../style";
 import moment from "moment";
 import "moment/locale/pl";
+import { GlobalContext } from "./../../../Context/GlobalContext";
 
 interface SingleConversationMessageState {
   isCurrentUserTheSender: boolean;
@@ -10,9 +11,6 @@ interface SingleConversationMessageState {
 }
 
 interface SingleConversationMessageProps {
-  currentUser: {
-    id: number;
-  };
   message: {
     sender_id: number;
     message: string;
@@ -20,7 +18,7 @@ interface SingleConversationMessageProps {
   };
 }
 
-export default class SingleConversationMessage extends Component<
+class SingleConversationMessage extends Component<
   SingleConversationMessageProps,
   SingleConversationMessageState
 > {
@@ -41,7 +39,10 @@ export default class SingleConversationMessage extends Component<
   };
 
   componentDidMount = (): void => {
-    if (this.props.currentUser.id === this.props.message.sender_id) {
+    if (
+      this.context.userData &&
+      this.context.userData.id === this.props.message.sender_id
+    ) {
       this.setState({ isCurrentUserTheSender: true });
     }
   };
@@ -76,3 +77,5 @@ export default class SingleConversationMessage extends Component<
     );
   }
 }
+SingleConversationMessage.contextType = GlobalContext;
+export default SingleConversationMessage;

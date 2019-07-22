@@ -18,7 +18,8 @@ import {
   productListSingleProductTextContainer,
   productOnListTextName,
   productOnListTextCategory,
-  productOnListTextPrice
+  productOnListTextPrice,
+  loaderContainer
 } from "./../../../assets/global/globalStyles";
 import { ViewportUserZoomProperty } from "csstype";
 const fullWidth = Dimensions.get("window").width;
@@ -95,6 +96,7 @@ interface Style {
   peachBtnText: any;
   addNewProductOptionTextActive: TextStyle;
   sellerVoteBoxText: ViewStyle;
+  loaderContainer: any;
 }
 
 export default StyleSheet.create<Style>({
@@ -474,5 +476,6 @@ export default StyleSheet.create<Style>({
   },
   sellerVoteBoxText: {
     paddingTop: 10
-  }
+  },
+  loaderContainer: loaderContainer
 });

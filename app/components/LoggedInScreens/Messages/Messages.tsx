@@ -24,15 +24,7 @@ interface MessagesState {
   userMessage: string;
 }
 
-interface MessagesProps {
-  API_URL: string;
-  user: {
-    id: number;
-    name: string;
-    email: string;
-  };
-  clearUserUnreadedMessages: any;
-}
+interface MessagesProps {}
 
 class Messages extends Component<MessagesProps, MessagesState> {
   constructor(props: MessagesProps) {
@@ -75,7 +67,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
     receiverEmail: string,
     receiverPhotoPath: string
   ): void => {
-    let API_URL = this.props.API_URL;
+    let API_URL = this.context.API_URL;
     let conversation_id = id;
 
     let that = this;
@@ -118,15 +110,15 @@ class Messages extends Component<MessagesProps, MessagesState> {
     conversation_id: number,
     status: number
   ): void => {
-    let API_URL = this.props.API_URL;
+    let API_URL = this.context.API_URL;
 
     let that = this;
 
     axios.post(API_URL + "/api/addNotification", {
       type: "sended_message",
-      message: `Masz nową wiadomość od użytkowniczki ${this.props.user.name} (${
-        this.props.user.email
-      })`,
+      message: `Masz nową wiadomość od użytkowniczki ${
+        this.context.userData.name
+      } (${this.context.userData.email})`,
       userId: receiver_id
     });
 
@@ -160,8 +152,8 @@ class Messages extends Component<MessagesProps, MessagesState> {
 
   //load all conversation with messages for them
   getMessages = (): void => {
-    let API_URL = this.props.API_URL;
-    let user_id = this.props.user.id;
+    let API_URL = this.context.API_URL;
+    let user_id = this.context.userData.id;
 
     let that = this;
 
@@ -187,8 +179,8 @@ class Messages extends Component<MessagesProps, MessagesState> {
   };
 
   getAuctionMessages = (): void => {
-    let API_URL = this.props.API_URL;
-    let user_id = this.props.user.id;
+    let API_URL = this.context.API_URL;
+    let user_id = this.context.userData.id;
 
     let that = this;
 
@@ -215,8 +207,10 @@ class Messages extends Component<MessagesProps, MessagesState> {
   };
 
   componentDidMount = (): void => {
-    this.getMessages();
-    this.setState({ displayPrivateMessages: true, showFilterPanel: true });
+    if (this.context.userData) {
+      this.getMessages();
+      this.setState({ displayPrivateMessages: true, showFilterPanel: true });
+    }
   };
 
   render() {
@@ -291,7 +285,6 @@ class Messages extends Component<MessagesProps, MessagesState> {
           messagesList.length > 0 ? (
             <MessageList
               messagesList={messagesList}
-              API_URL={this.props.API_URL}
               openConversationDetails={this.openConversationDetails}
             />
           ) : displayPrivateMessages ? (
@@ -310,14 +303,11 @@ class Messages extends Component<MessagesProps, MessagesState> {
           <Suspense fallback={<Text>Wczytywanie...</Text>}>
             <ConversationDetails
               messages={openConversationMessages}
-              currentUser={this.props.user}
               receiverId={receiverId}
               receiverName={receiverName}
               receiverEmail={receiverEmail}
               receiverPhotoPath={receiverPhotoPath}
-              API_URL={this.props.API_URL}
               sendMessage={this.sendMessage}
-              clearUserUnreadedMessages={this.props.clearUserUnreadedMessages}
               setUserMessage={this.setUserMessage}
               userMessage={userMessage}
               closeConversationDetails={this.closeConversationDetails}

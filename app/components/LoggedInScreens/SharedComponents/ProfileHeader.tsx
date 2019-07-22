@@ -1,19 +1,27 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Text, View, Image, TouchableOpacity } from "react-native";
 import styles from "./style";
 const logout: any = require("./../../../assets/images/logout.png");
 import { GlobalContext } from "./../../Context/GlobalContext";
 
 const ProfileHeader = (props: any) => {
+  console.log(props);
+
+  const [profileInfo, setProfileInfo] = useState({});
+
+  useEffect(() => {
+    setProfileInfo(props);
+    console.log(["ProfileHeader", profileInfo]);
+  }, [props]);
+
   const context = useContext(GlobalContext);
-  console.log(`${context.photoServerPath}/${props.avatar}`);
+
   return (
     <View style={styles.profileHeaderContainer}>
       {props.showLogout ? (
         <TouchableOpacity
           style={styles.logoutContainer}
-          onPress={(): void => {
-            props.clearUserData();
+          onPress={() => {
             props.navigation.navigate("Welcome");
           }}
         >
@@ -24,7 +32,7 @@ const ProfileHeader = (props: any) => {
       <Image
         style={styles.profileHeaderImage}
         source={{
-          uri: `${context.photoServerPath}/${props.avatar}`
+          uri: `${props.avatar}`
         }}
       />
       <Text style={styles.profileHeaderName}>{props.name}</Text>
@@ -43,7 +51,7 @@ const ProfileHeader = (props: any) => {
             {props.countFriends}
           </Text>
           <Text style={styles.profileHeaderSingleInfoContainerSubText}>
-            Znajomych
+            znajomych
           </Text>
         </View>
         <View style={{ width: "33.3%" }}>
@@ -51,7 +59,7 @@ const ProfileHeader = (props: any) => {
             {props.countKids}
           </Text>
           <Text style={styles.profileHeaderSingleInfoContainerSubText}>
-            Dzieci
+            dzieci
           </Text>
         </View>
       </View>

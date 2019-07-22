@@ -54,7 +54,7 @@ const Register = (props: { navigation: any }) => {
 
               context.setAlert(
                 true,
-                "danger",
+                "success",
                 "Sprawdź swoją skrzynkę mailową i potwierdź swoje konto przez otrzymaną od nas wiadomość."
               );
 

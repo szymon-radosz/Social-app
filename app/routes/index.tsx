@@ -90,7 +90,7 @@ interface AppState {
   userLoggedIn: boolean;
   //editProfileData: boolean;
   API_URL: string;
-  photoServerPath: string;
+  showLoader: boolean;
 }
 interface NavigationScreenInterface {
   navigation: {
@@ -113,9 +113,9 @@ export default class App extends Component<
       alertType: "",
       userData: [],
       userLoggedIn: false,
-      //editProfileData: false,
-      API_URL: "http://127.0.0.1:8000/",
-      photoServerPath: ""
+      //API_URL: "http://127.0.0.1:8000/",
+      API_URL: "https://e-mamy.pl/",
+      showLoader: false
     };
     this.setAlert = this.setAlert.bind(this);
     this.closeAlert = this.closeAlert.bind(this);
@@ -127,67 +127,60 @@ export default class App extends Component<
     );
     this.clearUserData = this.clearUserData.bind(this);
     this.setUserFilledInfo = this.setUserFilledInfo.bind(this);
-    this.setPhotoServerPath = this.setPhotoServerPath.bind(this);
+    this.setShowLoader = this.setShowLoader.bind(this);
   }
 
-  setPhotoServerPath = (path: string): void => {
-    this.setState({ photoServerPath: path });
+  setShowLoader = (param: boolean): any => {
+    this.setState({
+      showLoader: param
+    });
   };
 
-  setUserFilledInfo = (): void => {
-    try {
-      let userEmailName = this.state.userData.email;
-      let API_URL = this.state.API_URL;
-      let that = this;
+  setUserFilledInfo = async () => {
+    let userEmailName = this.state.userData.email;
+    let API_URL = this.state.API_URL;
+    let that = this;
 
-      console.log(["setUserFilledInfo", userEmailName, API_URL]);
+    let json = await axios
+      .post(API_URL + "/api/setUserFilledInfo", {
+        userEmail: userEmailName
+      })
+      .then(async response => {
+        if (response.data.status === "OK") {
+          await that.setState({
+            userData: response.data.result[0]
+            //editProfileData: false
+          });
+          that.checkUserStatus();
+        }
+      })
+      .catch(function(error) {
+        console.log(["setUserFilledInfoErr1", error]);
+      });
 
-      axios
-        .post(API_URL + "/api/setUserFilledInfo", {
-          userEmail: userEmailName
-        })
-        .then(async response => {
-          console.log(["setUserFilledInfo", response]);
-          if (response.data.status === "OK") {
-            await that.setState({
-              userData: response.data.result[0]
-              //editProfileData: false
-            });
-            that.checkUserStatus();
-          }
-        })
-        .catch(function(error) {
-          console.log(["setUserFilledInfoErr1", error]);
-        });
-    } catch (error) {
-      console.log(["setUserFilledInfoErr2", error]);
-    }
+    return json;
   };
 
   clearUserNotificationsStatus = async (userId: number) => {
-    try {
-      const { userData } = this.state;
-      let API_URL = this.state.API_URL;
-      let that = this;
+    const { userData } = this.state;
+    let API_URL = this.state.API_URL;
+    let that = this;
 
-      axios
-        .post(API_URL + "/api/clearUserNotificationsStatus", {
-          userId: userId
-        })
-        .then(async response => {
-          if (response.data.status === "OK") {
-            let newUserState = userData;
-            newUserState.unreadedNotifications = false;
-            newUserState.unreadedNotificationsAmount = 0;
-            await that.setState({ userData: newUserState });
-          }
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+    axios
+      .post(API_URL + "/api/clearUserNotificationsStatus", {
+        userId: userId
+      })
+      .then(async response => {
+        if (response.data.status === "OK") {
+          let newUserState = userData;
+          newUserState.unreadedNotifications = false;
+          newUserState.unreadedNotificationsAmount = 0;
+          await that.setState({ userData: newUserState });
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   };
 
   clearUserUnreadedMessages = async (
@@ -240,32 +233,38 @@ export default class App extends Component<
   };
 
   setUserData = (data: any) => {
-    console.log("setUserData", data);
-    const userData = {
-      age: data.age,
-      conversations: data.conversations,
-      description: data.description,
-      email: data.email,
-      hobbies: data.hobbies,
-      id: data.id,
-      kids: data.kids,
-      lattitude: data.lattitude,
-      longitude: data.longitude,
-      location_string: data.location_string,
-      name: data.name,
-      notifications: data.notifications,
-      photo_path: data.photo_path,
-      unreadedConversationMessage: data.unreadedConversationMessage,
-      unreadedConversationMessageAmount: data.unreadedConversationMessageAmount,
-      unreadedNotifications: data.unreadedNotifications,
-      unreadedNotificationsAmount: data.unreadedNotificationsAmount,
-      user_filled_info: data.user_filled_info,
-      verified: data.verified,
-      votes: data.votes
-    };
-    this.setState({ userData: userData });
+    //console.log("setUserData", data);
 
-    this.checkUserStatus();
+    if (data) {
+      const userData = {
+        age: data.age,
+        conversations: data.conversations,
+        description: data.description,
+        email: data.email,
+        hobbies: data.hobbies,
+        id: data.id,
+        kids: data.kids,
+        lattitude: data.lattitude,
+        longitude: data.longitude,
+        location_string: data.location_string,
+        name: data.name,
+        notifications: data.notifications,
+        photo_path: data.photo_path,
+        unreadedConversationMessage: data.unreadedConversationMessage,
+        unreadedConversationMessageAmount:
+          data.unreadedConversationMessageAmount,
+        unreadedNotifications: data.unreadedNotifications,
+        unreadedNotificationsAmount: data.unreadedNotificationsAmount,
+        user_filled_info: data.user_filled_info,
+        verified: data.verified,
+        votes: data.votes
+      };
+      this.setState({ userData: userData });
+
+      this.checkUserStatus();
+    } else {
+      this.setState({ userData: [] });
+    }
   };
 
   setAlert = (
@@ -293,17 +292,8 @@ export default class App extends Component<
   };
 
   componentDidMount = (): void => {
-    /*if (!this.state.userLoggedIn) {
-      NavigationService.navigate("Welcome", {});
-    }*/
     NavigationService.navigate("Welcome", {});
   };
-
-  /*componentDidUpdate = (): void => {
-    if (this.state.editProfileData === true) {
-      NavigationService.navigate("FillNecessaryInfo", {});
-    }
-  };*/
 
   render() {
     const {
@@ -311,9 +301,8 @@ export default class App extends Component<
       alertType,
       alertMessage,
       userData,
-      //editProfileData,
       API_URL,
-      photoServerPath
+      showLoader
     } = this.state;
 
     return (
@@ -328,11 +317,10 @@ export default class App extends Component<
           clearUserData: this.clearUserData,
           setUserFilledInfo: this.setUserFilledInfo,
           API_URL: API_URL,
-          //editProfileData: editProfileData,
           clearUserUnreadedMessages: this.clearUserUnreadedMessages,
           clearUserNotificationsStatus: this.clearUserNotificationsStatus,
-          photoServerPath: photoServerPath,
-          setPhotoServerPath: this.setPhotoServerPath
+          showLoader: showLoader,
+          setShowLoader: this.setShowLoader
         }}
       >
         {showAlert != false && (

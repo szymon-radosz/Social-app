@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View } from "react-native";
 import ButtonComponent from "./../../../Utils/ButtonComponent";
 import styles from "./../style";
 import InputComponent from "./../../../Utils/InputComponent";
+import { GlobalContext } from "./../../../Context/GlobalContext";
 
 const SendMessageBox = (props: {
   sendMessage: any;
-  senderId: number;
   receiverId: number;
   receiverName: string;
   receiverEmail: string;
@@ -15,6 +15,8 @@ const SendMessageBox = (props: {
   setUserMessage: any;
   conversationId: number;
 }): any => {
+  const context = useContext(GlobalContext);
+
   return (
     <React.Fragment>
       <View style={styles.messageBoxContainer}>
@@ -27,9 +29,9 @@ const SendMessageBox = (props: {
         />
       </View>
       <ButtonComponent
-        pressButtonComponent={() =>
+        pressButtonComponent={(): any =>
           props.sendMessage(
-            props.senderId,
+            context.userData.id,
             props.receiverId,
             props.receiverName,
             props.receiverEmail,

@@ -26,9 +26,7 @@ interface PostDetailsState {
 
 interface PostDetailsProps {
   postDetailsId: number;
-  API_URL: string;
   setShowPostDetails: any;
-  user: any;
 }
 
 class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
@@ -65,7 +63,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
 
   getPostById = (): void => {
     try {
-      let API_URL = this.props.API_URL;
+      let API_URL = this.context.API_URL;
       let postId = this.props.postDetailsId;
 
       let that = this;
@@ -106,8 +104,8 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
   };
 
   savePostVote = (): void => {
-    let API_URL = this.props.API_URL;
-    let userId = this.props.user.id;
+    let API_URL = this.context.API_URL;
+    let userId = this.context.userData.id;
     let postId = this.props.postDetailsId;
 
     let that = this;
@@ -142,7 +140,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
   };
 
   getPostComments = (): void => {
-    let API_URL = this.props.API_URL;
+    let API_URL = this.context.API_URL;
     let postId = this.props.postDetailsId;
 
     let that = this;
@@ -167,8 +165,8 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
   };
 
   saveCommentVote = (commentId: number): void => {
-    let API_URL = this.props.API_URL;
-    let userId = this.props.user.id;
+    let API_URL = this.context.API_URL;
+    let userId = this.context.userData.id;
 
     let that = this;
 
@@ -188,7 +186,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
   };
 
   saveComment = (postId: number, userId: number, body: string): void => {
-    let API_URL = this.props.API_URL;
+    let API_URL = this.context.API_URL;
     let that = this;
 
     if (!body || postId === 0 || userId === 0) {
@@ -196,8 +194,8 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
     } else {
       axios.post(API_URL + "/api/addNotification", {
         type: "comment_for_your_forum_post",
-        message: `Użytkowniczka ${this.props.user.name} (${
-          this.props.user.email
+        message: `Użytkowniczka ${this.context.userData.name} (${
+          this.context.userData.email
         }) dodała komentarz do Twojego posta na forum.`,
         userId: this.state.authorId
       });
@@ -262,7 +260,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
                   <Image
                     style={styles.image}
                     source={{
-                      uri: `${this.props.API_URL}userPhotos/${authorPhotoPath}`
+                      uri: authorPhotoPath 
                     }}
                   />
                 </TouchableOpacity>
@@ -315,7 +313,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
               {comments.map((comment: any, i: number) => {
                 return (
                   <SinglePostDetailsComment
-                    API_URL={this.props.API_URL}
+                    API_URL={this.context.API_URL}
                     key={uuid()}
                     comment={comment}
                     saveCommentVote={this.saveCommentVote}
@@ -326,7 +324,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
             <SavePostComment
               saveComment={this.saveComment}
               postId={this.props.postDetailsId}
-              user={this.props.user}
+              user={this.context.userData}
               setCommentMessage={this.setCommentMessage}
               commentMessage={commentMessage}
               clearCommentMessage={this.clearCommentMessage}

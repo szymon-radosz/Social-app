@@ -2,19 +2,18 @@ import React, { Component } from "react";
 import SingleNotification from "./SingleNotification";
 import { v4 as uuid } from "uuid";
 import { View } from "react-native";
+import { GlobalContext } from "./../../../Context/GlobalContext";
 
 interface UserNotificationListProps {
   userNotificationList: any;
   openMessages: any;
   loadUserFriendsList: any;
   openForum: any;
-  clearUserNotificationsStatus: any;
-  userId: number;
 }
 
 interface UserNotificationListState {}
 
-export default class UserNotificationList extends Component<
+class UserNotificationList extends Component<
   UserNotificationListProps,
   UserNotificationListState
 > {
@@ -24,24 +23,31 @@ export default class UserNotificationList extends Component<
   }
 
   componentDidMount() {
-    this.props.clearUserNotificationsStatus(this.props.userId);
+    if (this.context.userData) {
+      this.context.clearUserNotificationsStatus(this.context.userData.id);
+    }
   }
 
   render() {
     return (
       <View>
-        {this.props.userNotificationList.map((notification: any, i: number) => {
-          return (
-            <SingleNotification
-              notification={notification}
-              openMessages={this.props.openMessages}
-              loadUserFriendsList={this.props.loadUserFriendsList}
-              openForum={this.props.openForum}
-              key={uuid()}
-            />
-          );
-        })}
+        {this.props.userNotificationList &&
+          this.props.userNotificationList.map(
+            (notification: any, i: number) => {
+              return (
+                <SingleNotification
+                  notification={notification}
+                  openMessages={this.props.openMessages}
+                  loadUserFriendsList={this.props.loadUserFriendsList}
+                  openForum={this.props.openForum}
+                  key={uuid()}
+                />
+              );
+            }
+          )}
       </View>
     );
   }
 }
+UserNotificationList.contextType = GlobalContext;
+export default UserNotificationList;

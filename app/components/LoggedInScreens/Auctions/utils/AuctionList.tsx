@@ -12,15 +12,13 @@ const AuctionList = (props: {
   const context = useContext(GlobalContext);
 
   if (props.productList) {
-    return props.productList && props.productList.length > 0 ? (
+    return props.productList.length > 0 ? (
       props.productList.map((product: any, i: number) => {
         return (
           <ListItem
             API_URL={props.API_URL}
             key={uuid()}
-            image={`${context.photoServerPath}/${
-              product.product_photos[0].path
-            }`}
+            image={`${product.product_photos[0].path}`}
             mainText={product.name}
             subText={`Kategoria: ${product.categoryName[0].name}`}
             subSubText={`Cena: ${product.price} zł`}

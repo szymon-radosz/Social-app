@@ -19,6 +19,7 @@ const PhotoScreen = (props: {
   userSavedPhoto: string;
   API_URL: string;
 }): any => {
+  console.log(["PhotoScreen", props]);
   return (
     <View>
       <ImageBackground source={fillInfoBg} style={{ width: "100%" }}>
@@ -33,7 +34,7 @@ const PhotoScreen = (props: {
 
       {props.userSavedPhoto && props.API_URL && !props.photo ? (
         <Image
-          source={{ uri: `${props.API_URL}userPhotos/${props.userSavedPhoto}` }}
+          source={{ uri: `${props.userSavedPhoto}` }}
           style={styles.image}
         />
       ) : null}

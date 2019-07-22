@@ -9,11 +9,11 @@ import {
   productOnListTextName,
   productOnListTextCategory,
   productOnListTextPrice,
-  userListContainer,
-  userListSingleUserContainer,
-  userListSingleUserImage,
-  userListTextContainer,
-  userListText,
+  listItemContainer,
+  listItemSingleContainer,
+  listItemImage,
+  listItemTextContainer,
+  listItemMainText,
   lightBorderRadius,
   filterBtnContainer,
   singleButtonCol2Container,
@@ -27,11 +27,11 @@ interface Style {
   container: ViewStyle;
   pageTitle: any;
   buttonOption: any;
-  userListContainer: any;
-  userListSingleUserContainer: any;
-  userListSingleUserImage: any;
-  userListTextContainer: any;
-  userListText: any;
+  listItemContainer: any;
+  listItemSingleContainer: any;
+  listItemImage: any;
+  listItemTextContainer: any;
+  listItemMainText: any;
   optionHeader: TextStyle;
   productListSingleProductContainer: any;
   productListSingleProductImage: ImageStyle;
@@ -75,11 +75,11 @@ export default StyleSheet.create<Style>({
     borderWidth: 2
   },
   pageTitle: pageTitleWhite,
-  userListContainer: userListContainer,
-  userListSingleUserContainer: userListSingleUserContainer,
-  userListSingleUserImage: userListSingleUserImage,
-  userListTextContainer: userListTextContainer,
-  userListText: userListText,
+  listItemContainer: listItemContainer,
+  listItemSingleContainer: listItemSingleContainer,
+  listItemImage: listItemImage,
+  listItemTextContainer: listItemTextContainer,
+  listItemMainText: listItemMainText,
   optionHeader: {
     textAlign: "center",
     fontSize: 16,

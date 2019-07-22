@@ -41,6 +41,7 @@ interface AddNewProductBoxState {
   selectedProductState: number;
   photo: any;
   photos: any;
+  showPhotoArr: any;
   maleGender: boolean;
   femaleGender: boolean;
   newProduct: boolean;
@@ -61,6 +62,7 @@ export default class AddNewProductBox extends Component<
       selectedProductState: 1,
       photo: null,
       photos: [],
+      showPhotoArr: [],
       maleGender: true,
       femaleGender: false,
       newProduct: true,
@@ -135,7 +137,8 @@ export default class AddNewProductBox extends Component<
       .then((images: any) => {
         images.map((photo: any, i: number) => {
           this.setState(prevState => ({
-            photos: [...prevState.photos, photo.path]
+            photos: [...prevState.photos, photo.data],
+            showPhotoArr: [...prevState.showPhotoArr, photo.path]
           }));
         });
       })
@@ -158,7 +161,8 @@ export default class AddNewProductBox extends Component<
       price,
       newProduct,
       secondHandProduct,
-      photos
+      photos,
+      showPhotoArr
     } = this.state;
     return (
       <ScrollView style={styles.relative}>
@@ -417,7 +421,7 @@ export default class AddNewProductBox extends Component<
           </View>
         </View>
 
-        {photos.length === 0 && (
+        {photos && photos.length === 0 && (
           <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
             <Text style={{ paddingBottom: 5, fontWeight: "600" }}>
               Dodaj zdjęcia
@@ -448,8 +452,8 @@ export default class AddNewProductBox extends Component<
             marginBottom: 10
           }}
         >
-          {photos &&
-            photos.map((photo: any, i: number) => {
+          {showPhotoArr &&
+            showPhotoArr.map((photo: any, i: number) => {
               return (
                 <Image
                   key={uuid()}
@@ -464,7 +468,7 @@ export default class AddNewProductBox extends Component<
               );
             })}
 
-          {photos && photos.length > 0 && (
+          {showPhotoArr && showPhotoArr.length > 0 && (
             <TouchableOpacity
               style={{
                 width: 50,

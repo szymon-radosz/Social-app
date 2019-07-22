@@ -15,8 +15,6 @@ const SavePost = React.lazy(() => import("./utils/SavePost"));
 const CategoriesList = React.lazy(() => import("./utils/CategoriesList"));
 
 interface ForumProps {
-  API_URL: string;
-  user: any;
   setShowFeedbackModal: any;
 }
 
@@ -92,7 +90,7 @@ class Forum extends Component<ForumProps, ForumState> {
     categoryName: string,
     closeModal: boolean
   ): void => {
-    let API_URL = this.props.API_URL;
+    let API_URL = this.context.API_URL;
 
     let that = this;
 
@@ -125,7 +123,7 @@ class Forum extends Component<ForumProps, ForumState> {
   };
 
   getPosts = (): void => {
-    let API_URL = this.props.API_URL;
+    let API_URL = this.context.API_URL;
 
     let that = this;
 
@@ -158,7 +156,7 @@ class Forum extends Component<ForumProps, ForumState> {
     userId: number,
     categoryId: number
   ): void => {
-    let API_URL = this.props.API_URL;
+    let API_URL = this.context.API_URL;
 
     if (!title || !description || categoryId === 0) {
       this.context.setAlert(
@@ -254,8 +252,6 @@ class Forum extends Component<ForumProps, ForumState> {
                 <Suspense fallback={<Text>Wczytywanie...</Text>}>
                   <PostDetails
                     postDetailsId={showPostDetailsId}
-                    API_URL={this.props.API_URL}
-                    user={this.props.user}
                     setShowPostDetails={this.setShowPostDetails}
                   />
                 </Suspense>
@@ -264,8 +260,8 @@ class Forum extends Component<ForumProps, ForumState> {
             {!showPostDetails && showSavePost && (
               <Suspense fallback={<Text>Wczytywanie...</Text>}>
                 <SavePost
-                  API_URL={this.props.API_URL}
-                  user={this.props.user}
+                  API_URL={this.context.API_URL}
+                  user={this.context.userData}
                   savePost={this.savePost}
                   setShowSavePost={this.setShowSavePost}
                 />
@@ -275,8 +271,8 @@ class Forum extends Component<ForumProps, ForumState> {
             {!showPostDetails && !showSavePost && showSortByCategory && (
               <Suspense fallback={<Text>Wczytywanie...</Text>}>
                 <CategoriesList
-                  API_URL={this.props.API_URL}
-                  user={this.props.user}
+                  API_URL={this.context.API_URL}
+                  user={this.context.userData}
                   getPostByCategoryId={this.getPostByCategoryId}
                 />
               </Suspense>

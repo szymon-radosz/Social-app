@@ -3,7 +3,6 @@ import { ImageBackground, Text, View, TouchableHighlight } from "react-native";
 import axios from "axios";
 import Carousel from "react-native-snap-carousel";
 import { btnFullWidthFilledContainer } from "./../../../assets/global/globalStyles";
-import { v4 as uuid } from "uuid";
 import styles from "./style";
 const findUsersBg: any = require("./../../../assets/images/findUsersBgMin.jpg");
 import { GlobalContext } from "./../../Context/GlobalContext";
@@ -45,14 +44,6 @@ interface FindUsersState {
 }
 
 interface FindUsersProps {
-  API_URL: string;
-  user: {
-    id: number;
-    lattitude: number;
-    longitude: number;
-    name: string;
-    email: string;
-  };
   openMessages: any;
   setOpenProfile: any;
   openFindUserId: number;
@@ -244,9 +235,9 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
     hobbyName: string,
     showFilterModal: boolean
   ): void => {
-    let API_URL = this.props.API_URL;
-    let userLat = this.props.user.lattitude;
-    let userLng = this.props.user.longitude;
+    let API_URL = this.context.API_URL;
+    let userLat = this.context.userData.lattitude;
+    let userLng = this.context.userData.longitude;
 
     let that = this;
 
@@ -328,7 +319,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
   };
 
   getHobbiesList = (): void => {
-    let API_URL = this.props.API_URL;
+    let API_URL = this.context.API_URL;
 
     let that = this;
 
@@ -388,16 +379,16 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
   };
 
   sendMessage = (message: string): void => {
-    let API_URL = this.props.API_URL;
-    let senderId = this.props.user.id;
+    let API_URL = this.context.API_URL;
+    let senderId = this.context.userData.id;
     let receiverId = this.state.userDetailsId;
 
     let that = this;
 
     axios.post(API_URL + "/api/addNotification", {
       type: "started_conversation_user",
-      message: `Użytkowniczka ${this.props.user.name} (${
-        this.props.user.email
+      message: `Użytkowniczka ${this.context.userData.name} (${
+        this.context.userData.email
       }) odezwała się do Ciebie w wiadomości prywatnej`,
       userId: receiverId
     });
@@ -436,9 +427,9 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
 
   setShowUserDetails = async (userId: number) => {
     //check if users are in the same conversation - start messaging
-    let API_URL = this.props.API_URL;
+    let API_URL = this.context.API_URL;
     /*let searchedUser = userId;*/
-    let loggedInUser = this.props.user.id;
+    let loggedInUser = this.context.userData.id;
 
     let that = this;
 
@@ -500,13 +491,13 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
   };
 
   confirmFriend = (senderId: number, receiverId: number): void => {
-    let API_URL = this.props.API_URL;
+    let API_URL = this.context.API_URL;
     let that = this;
 
     axios.post(API_URL + "/api/addNotification", {
       type: "friendship_confirmation",
-      message: `Użytkowniczka ${this.props.user.name} (${
-        this.props.user.email
+      message: `Użytkowniczka ${this.context.userData.name} (${
+        this.context.userData.email
       }) zaakceptowała Twoje zaproszenie do grona znajomych.`,
       userId: receiverId
     });
@@ -535,14 +526,14 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
   };
 
   inviteFriend = (senderId: number, receiverId: number): void => {
-    let API_URL = this.props.API_URL;
+    let API_URL = this.context.API_URL;
 
     let that = this;
 
     axios.post(API_URL + "/api/addNotification", {
       type: "friendship_invitation",
-      message: `Użytkowniczka ${this.props.user.name} (${
-        this.props.user.email
+      message: `Użytkowniczka ${this.context.userData.name} (${
+        this.context.userData.email
       }) zaprosiła Cię do grona znajomych`,
       userId: receiverId
     });
@@ -572,9 +563,9 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
 
   loadUsersNearCoords = (): void => {
     try {
-      let API_URL = this.props.API_URL;
-      let lat = this.props.user.lattitude;
-      let lng = this.props.user.longitude;
+      let API_URL = this.context.API_URL;
+      let lat = this.context.userData.lattitude;
+      let lng = this.context.userData.longitude;
 
       let that = this;
 
@@ -611,11 +602,8 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
   };
 
   componentDidMount = (): void => {
-    if (
-      this.props.user &&
-      this.props.user.lattitude &&
-      this.props.user.longitude
-    ) {
+    let user = this.context.userData;
+    if (user && user.lattitude && user.longitude) {
       this.loadUsersNearCoords();
     }
 
@@ -674,7 +662,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
             <Suspense fallback={<Text>Wczytywanie...</Text>}>
               <UserDetails
                 hideShowUserDetails={this.hideShowUserDetails}
-                API_URL={this.props.API_URL}
+                API_URL={this.context.API_URL}
                 user={userDetailsData}
                 usersAreInTheSameConversation={usersAreInTheSameConversation}
                 usersFriendshipStatus={usersFriendshipStatus}
@@ -683,7 +671,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
                 setShowUserMessageBox={this.setShowUserMessageBox}
                 inviteFriend={this.inviteFriend}
                 confirmFriend={this.confirmFriend}
-                loggedInUserId={this.props.user.id}
+                loggedInUserId={this.context.userData.id}
                 locationDetails={locationDetails}
               />
             </Suspense>
@@ -742,7 +730,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
               !showFilterModal &&
               userList.length > 1 && (
                 <UserList
-                  API_URL={this.props.API_URL}
+                  API_URL={this.context.API_URL}
                   loggedInUserId={this.context.userData.id}
                   userList={userList}
                   setUserDetailsId={this.setUserDetailsId}

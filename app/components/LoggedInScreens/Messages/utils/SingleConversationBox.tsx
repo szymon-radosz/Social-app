@@ -46,9 +46,7 @@ const SingleConversationBox = (props: {
           <Image
             style={styles.productListSingleProductImage}
             source={{
-              uri: `${props.API_URL}userPhotos/${
-                props.conversation.receiverPhotoPath
-              }`
+              uri: `${props.conversation.receiverPhotoPath}`
             }}
           />
         </TouchableOpacity>

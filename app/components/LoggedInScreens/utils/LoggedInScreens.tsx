@@ -13,8 +13,6 @@ const LoggedInScreens = (props: any) => (
     {props.openFindUsers && !props.showFeedbackModal && (
       <Suspense fallback={<Text>Wczytywanie...</Text>}>
         <FindUsers
-          API_URL={props.API_URL}
-          user={props.user}
           openMessages={props.setOpenMessages}
           setOpenProfile={props.setOpenProfile}
           openFindUserId={props.openFindUserId}
@@ -25,8 +23,6 @@ const LoggedInScreens = (props: any) => (
     {props.openAuctions && !props.showFeedbackModal && (
       <Suspense fallback={<Text>Wczytywanie...</Text>}>
         <Auctions
-          API_URL={props.API_URL}
-          user={props.user}
           openMessages={props.setOpenMessages}
           openAuctionId={props.openAuctionId}
           openAuctionUserId={props.openAuctionUserId}
@@ -36,37 +32,27 @@ const LoggedInScreens = (props: any) => (
 
     {props.openMessages && !props.showFeedbackModal && (
       <Suspense fallback={<Text>Wczytywanie...</Text>}>
-        <Messages
-          API_URL={props.API_URL}
-          user={props.user}
-          clearUserUnreadedMessages={props.clearUserUnreadedMessages}
-        />
+        <Messages />
       </Suspense>
     )}
 
     {props.openForum && !props.showFeedbackModal && (
       <Suspense fallback={<Text>Wczytywanie...</Text>}>
-        <Forum
-          API_URL={props.API_URL}
-          user={props.user}
-          setShowFeedbackModal={props.setShowFeedbackModal}
-        />
+        <Forum setShowFeedbackModal={props.setShowFeedbackModal} />
       </Suspense>
     )}
 
     {props.openProfile && !props.showFeedbackModal && (
       <Suspense fallback={<Text>Wczytywanie...</Text>}>
         <Profile
-          API_URL={props.API_URL}
-          user={props.user}
-          showUserFriends={props.showUserFriends ? true : false}
+          showUserFriends={
+            props.showUserFriends && props.showUserFriends ? true : false
+          }
           setOpenFindUsers={props.setOpenFindUsers}
           setOpenAuctions={props.setOpenAuctions}
           navigation={props.navigation}
           openMessages={props.setOpenMessages}
           openForum={props.setOpenForum}
-          clearUserData={props.clearUserData}
-          clearUserNotificationsStatus={props.clearUserNotificationsStatus}
         />
       </Suspense>
     )}

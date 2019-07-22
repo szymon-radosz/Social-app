@@ -20,7 +20,7 @@ const UserList = (props: {
             <ListItem
               API_URL={props.API_URL}
               key={uuid()}
-              image={`${context.photoServerPath}/${user.photo_path}`}
+              image={`${user.photo_path}`}
               mainText={`${user.name}, ${user.age}`}
               subText={`${user.location_string ? user.location_string : ""}`}
               subSubText={`${

@@ -41,16 +41,12 @@ interface ProfileState {
 }
 
 interface ProfileProps {
-  user: any;
-  API_URL: string;
   showUserFriends: boolean;
   setOpenFindUsers: any;
   setOpenAuctions: any;
   navigation: any;
   openMessages: any;
   openForum: any;
-  clearUserData: any;
-  clearUserNotificationsStatus: any;
 }
 
 class Profile extends Component<
@@ -93,7 +89,9 @@ class Profile extends Component<
   }
 
   componentDidMount() {
-    this.getAmountOfFriends(this.props.user.id);
+    if (this.context.userData) {
+      this.getAmountOfFriends(this.context.userData.id);
+    }
   }
 
   changeShowUserNotificationList = (): void => {
@@ -114,59 +112,63 @@ class Profile extends Component<
   };
 
   loadPendingUserFriendsList = (): void => {
-    let userId = this.props.user.id;
+    let userId = this.context.userData.id;
     let that = this;
 
-    axios
-      .post(this.props.API_URL + "/api/pendingFriendsList", {
-        userId: userId
-      })
-      .then(async function(response) {
-        if (response.data.status === "OK") {
-          await that.setState({
-            userPendingFriendsList: response.data.result.friendsList,
-            showPendingUserFriendsList: true,
-            showUserFriendsList: false,
-            showUserNotificationList: false,
-            displayFriendList: false
-          });
-        }
-      })
-      .catch(function(error) {
-        that.context.setAlert(
-          true,
-          "danger",
-          "Wystąpił błąd z wyświetleniem listy znajomych."
-        );
-      });
+    if (userId) {
+      axios
+        .post(this.context.API_URL + "/api/pendingFriendsList", {
+          userId: userId
+        })
+        .then(async function(response) {
+          if (response.data.status === "OK") {
+            await that.setState({
+              userPendingFriendsList: response.data.result.friendsList,
+              showPendingUserFriendsList: true,
+              showUserFriendsList: false,
+              showUserNotificationList: false,
+              displayFriendList: false
+            });
+          }
+        })
+        .catch(function(error) {
+          that.context.setAlert(
+            true,
+            "danger",
+            "Wystąpił błąd z wyświetleniem listy znajomych."
+          );
+        });
+    }
   };
 
   loadUserFriendsList = (): void => {
-    let userId = this.props.user.id;
+    let userId = this.context.userData.id;
     let that = this;
 
-    axios
-      .post(this.props.API_URL + "/api/friendsList", {
-        userId: userId
-      })
-      .then(async function(response) {
-        if (response.data.status === "OK") {
-          await that.setState({
-            userFriendsList: response.data.result.friendsList,
-            showUserFriendsList: true,
-            showPendingUserFriendsList: false,
-            showUserNotificationList: false,
-            displayFriendList: true
-          });
-        }
-      })
-      .catch(function(error) {
-        that.context.setAlert(
-          true,
-          "danger",
-          "Wystąpił błąd z wyświetleniem listy znajomych."
-        );
-      });
+    if (userId) {
+      axios
+        .post(this.context.API_URL + "/api/friendsList", {
+          userId: userId
+        })
+        .then(async function(response) {
+          if (response.data.status === "OK") {
+            await that.setState({
+              userFriendsList: response.data.result.friendsList,
+              showUserFriendsList: true,
+              showPendingUserFriendsList: false,
+              showUserNotificationList: false,
+              displayFriendList: true
+            });
+          }
+        })
+        .catch(function(error) {
+          that.context.setAlert(
+            true,
+            "danger",
+            "Wystąpił błąd z wyświetleniem listy znajomych."
+          );
+        });
+    }
   };
 
   setShowProfilePreview = (): void => {
@@ -177,8 +179,8 @@ class Profile extends Component<
     let that = this;
 
     axios
-      .post(this.props.API_URL + "/api/loadUserProductList", {
-        userId: this.props.user.id
+      .post(this.context.API_URL + "/api/loadUserProductList", {
+        userId: this.context.userData.id
       })
       .then(function(response) {
         if (response.data.status === "OK") {
@@ -201,7 +203,7 @@ class Profile extends Component<
     let that = this;
 
     axios
-      .post(this.props.API_URL + "/api/countFriends", {
+      .post(this.context.API_URL + "/api/countFriends", {
         userId: id
       })
       .then(function(response) {
@@ -213,32 +215,34 @@ class Profile extends Component<
   };
 
   getUserNotificationList = (): void => {
-    let id = this.props.user.id;
+    let id = this.context.userData.id;
     let that = this;
 
-    axios
-      .post(this.props.API_URL + "/api/loadNotificationByUserId", {
-        userId: id
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-          that.setState({
-            userNotificationList: response.data.result,
-            showUserNotificationList: true
-          });
-        }
-      })
-      .catch(function(error) {
-        that.context.setAlert(
-          true,
-          "danger",
-          "Wystąpił błąd z wyświetleniem listy powiadomień."
-        );
-      });
+    if (id) {
+      axios
+        .post(this.context.API_URL + "/api/loadNotificationByUserId", {
+          userId: id
+        })
+        .then(function(response) {
+          if (response.data.status === "OK") {
+            that.setState({
+              userNotificationList: response.data.result,
+              showUserNotificationList: true
+            });
+          }
+        })
+        .catch(function(error) {
+          that.context.setAlert(
+            true,
+            "danger",
+            "Wystąpił błąd z wyświetleniem listy powiadomień."
+          );
+        });
 
-    axios.post(this.props.API_URL + "/api/clearNotificationByUserId", {
-      userId: id
-    });
+      axios.post(this.context.API_URL + "/api/clearNotificationByUserId", {
+        userId: id
+      });
+    }
   };
 
   render() {
@@ -267,7 +271,7 @@ class Profile extends Component<
           !showAuctionHistory &&
           !showUserNotificationList && (
             <PageHeader
-              boldText={this.props.user.name}
+              boldText={this.context.userData.name}
               normalText={""}
               closeMethod={this.setShowProfilePreview}
               closeMethodParameter={""}
@@ -323,18 +327,17 @@ class Profile extends Component<
           !showAuctionHistory &&
           !showUserNotificationList && (
             <ProfileHeader
-              API_URL={this.props.API_URL}
-              avatar={this.props.user.photo_path}
-              name={this.props.user.name}
+              API_URL={this.context.API_URL}
+              avatar={this.context.userData.photo_path}
+              name={this.context.userData.name}
               cityDistrict={locationDetails.cityDistrict}
               city={locationDetails.city}
-              age={this.props.user.age}
+              age={this.context.userData.age}
               countFriends={countFriends}
-              countKids={this.props.user.kids.length}
-              locationString={this.props.user.location_string}
+              countKids={this.context.userData.kids.length}
+              locationString={this.context.userData.location_string}
               showLogout={true}
               navigation={this.props.navigation}
-              clearUserData={this.props.clearUserData}
             />
           )}
         {!showProfilePreview &&
@@ -349,8 +352,8 @@ class Profile extends Component<
               getUserAuctionList={this.getUserAuctionList}
               getUserNotificationList={this.getUserNotificationList}
               navigation={this.props.navigation}
-              user={this.props.user}
-              API_URL={this.props.API_URL}
+              user={this.context.userData}
+              API_URL={this.context.API_URL}
             />
           )}
         {showProfilePreview &&
@@ -361,9 +364,9 @@ class Profile extends Component<
           !showUserNotificationList && (
             <Suspense fallback={<Text>Wczytywanie...</Text>}>
               <UserPreview
-                description={this.props.user.description}
-                hobbies={this.props.user.hobbies}
-                kids={this.props.user.kids}
+                description={this.context.userData.description}
+                hobbies={this.context.userData.hobbies}
+                kids={this.context.userData.kids}
               />
             </Suspense>
           )}
@@ -430,8 +433,8 @@ class Profile extends Component<
               {userFriendsList.length > 0 ? (
                 <UserFriendsList
                   userFriendsList={userFriendsList}
-                  loggedInUser={this.props.user.id}
-                  API_URL={this.props.API_URL}
+                  loggedInUser={this.context.userData.id}
+                  API_URL={this.context.API_URL}
                   setOpenFindUsers={this.props.setOpenFindUsers}
                 />
               ) : (
@@ -453,8 +456,8 @@ class Profile extends Component<
               {userPendingFriendsList.length > 0 ? (
                 <UserFriendsList
                   userFriendsList={userPendingFriendsList}
-                  loggedInUser={this.props.user.id}
-                  API_URL={this.props.API_URL}
+                  loggedInUser={this.context.userData.id}
+                  API_URL={this.context.API_URL}
                   setOpenFindUsers={this.props.setOpenFindUsers}
                 />
               ) : (
@@ -476,8 +479,8 @@ class Profile extends Component<
               {userAuctionList.length > 0 ? (
                 <UserAuctionsList
                   userAuctionList={userAuctionList}
-                  loggedInUser={this.props.user.id}
-                  API_URL={this.props.API_URL}
+                  loggedInUser={this.context.userData.id}
+                  API_URL={this.context.API_URL}
                   setOpenAuctions={this.props.setOpenAuctions}
                 />
               ) : (
@@ -503,10 +506,6 @@ class Profile extends Component<
                   userNotificationList={userNotificationList}
                   loadUserFriendsList={this.loadUserFriendsList}
                   openForum={this.props.openForum}
-                  userId={this.props.user.id}
-                  clearUserNotificationsStatus={
-                    this.props.clearUserNotificationsStatus
-                  }
                 />
               ) : (
                 <Text style={{ paddingLeft: 10, paddingRight: 10 }}>

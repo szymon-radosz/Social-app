@@ -13,13 +13,13 @@ export const GlobalContext = React.createContext({
     alertMessage: string
   ): any => {},
   clearUserData: (): any => {},
+  showLoader: false,
+  setShowLoader: (param: boolean): any => {},
   setUserFilledInfo: (): any => {},
   //editProfileData: false,
   clearUserUnreadedMessages: (
     userId: number,
     conversationId: number
   ): any => {},
-  clearUserNotificationsStatus: (userId: number): any => {},
-  photoServerPath: "",
-  setPhotoServerPath: (path: string): any => {}
+  clearUserNotificationsStatus: (userId: number): any => {}
 });

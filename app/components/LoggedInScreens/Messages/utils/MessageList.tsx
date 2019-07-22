@@ -8,7 +8,6 @@ import { GlobalContext } from "./../../../Context/GlobalContext";
 
 const MessageList = (props: {
   messagesList: any;
-  API_URL: string;
   openConversationDetails: any;
 }): any => {
   const context = useContext(GlobalContext);
@@ -19,11 +18,9 @@ const MessageList = (props: {
           console.log(["i", i, conversation[i]]);
           return (
             <ListItem
-              API_URL={props.API_URL}
+              API_URL={context.API_URL}
               key={uuid()}
-              image={`${context.photoServerPath}/${
-                conversation[i].receiverPhotoPath
-              }`}
+              image={`${conversation[i].receiverPhotoPath}`}
               mainText={conversation[i].receiverName}
               subText={conversation[i].messages[
                 conversation[i].messages.length - 1

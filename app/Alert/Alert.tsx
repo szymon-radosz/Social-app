@@ -7,10 +7,6 @@ const Alert = (props: any) => {
   const [showAlert, setShowAlert] = useState(true);
   const [message, setMessage] = useState("");
 
-  /*const closeAlert = () => {
-    setShowAlert(false);
-  };*/
-
   useEffect(() => {
     if (props.alertMessage) {
       setShowAlert(true);
@@ -22,6 +18,7 @@ const Alert = (props: any) => {
     return (
       <View style={styles.alertContainer}>
         <Text
+          data-test="message"
           style={
             props.alertType == "success"
               ? styles.successContainer

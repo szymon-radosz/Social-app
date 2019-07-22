@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { TouchableOpacity, View, Text, Image } from "react-native";
 import styles from "./style";
+import { GlobalContext } from "./../../Context/GlobalContext";
 
 const network: any = require("./../../../assets/images/network.png");
 const sell: any = require("./../../../assets/images/sell.png");
@@ -13,12 +14,7 @@ const BottomPanel = (props: {
   openFindUsers: any;
   openAuctions: any;
   openMessages: any;
-  user: {
-    unreadedConversationMessage: boolean;
-    unreadedConversationMessageAmount: number;
-    unreadedNotifications: boolean;
-    unreadedNotificationsAmount: number;
-  };
+
   openForum: any;
   openProfile: any;
   openFindUsersStatus: boolean;
@@ -27,6 +23,7 @@ const BottomPanel = (props: {
   openForumStatus: boolean;
   openProfileStatus: boolean;
 }): any => {
+  const context = useContext(GlobalContext);
   return (
     <View style={styles.bottomPanel}>
       <TouchableOpacity onPress={props.openFindUsers}>
@@ -91,8 +88,9 @@ const BottomPanel = (props: {
             resizeMode="contain"
           />
         </View>
-        {props.user.unreadedConversationMessage &&
-          props.user.unreadedConversationMessageAmount && (
+        {context.userData &&
+          context.userData.unreadedConversationMessage &&
+          context.userData.unreadedConversationMessageAmount && (
             <TouchableOpacity
               style={styles.unreadedMessagesNotificationContainer}
             >
@@ -101,13 +99,13 @@ const BottomPanel = (props: {
                 style={styles.unreadedMessagesNotificationDot}
               />
 
-              {props.user.unreadedConversationMessageAmount < 10 ? (
+              {context.userData.unreadedConversationMessageAmount < 10 ? (
                 <Text style={styles.unreadedMessagesNotificationDotText}>
-                  {props.user.unreadedConversationMessageAmount}
+                  {context.userData.unreadedConversationMessageAmount}
                 </Text>
               ) : (
                 <Text style={styles.unreadedMessagesNotificationLongDotText}>
-                  {props.user.unreadedConversationMessageAmount}
+                  {context.userData.unreadedConversationMessageAmount}
                 </Text>
               )}
             </TouchableOpacity>
@@ -158,8 +156,9 @@ const BottomPanel = (props: {
             resizeMode="contain"
           />
         </View>
-        {props.user.unreadedNotifications &&
-          props.user.unreadedNotificationsAmount && (
+        {context.userData &&
+          context.userData.unreadedNotifications &&
+          context.userData.unreadedNotificationsAmount && (
             <TouchableOpacity
               style={styles.unreadedMessagesNotificationContainer}
             >
@@ -167,13 +166,13 @@ const BottomPanel = (props: {
                 source={dot}
                 style={styles.unreadedMessagesNotificationDot}
               />
-              {props.user.unreadedNotificationsAmount < 10 ? (
+              {context.userData.unreadedNotificationsAmount < 10 ? (
                 <Text style={styles.unreadedMessagesNotificationDotText}>
-                  {props.user.unreadedNotificationsAmount}
+                  {context.userData.unreadedNotificationsAmount}
                 </Text>
               ) : (
                 <Text style={styles.unreadedMessagesNotificationLongDotText}>
-                  {props.user.unreadedNotificationsAmount}
+                  {context.userData.unreadedNotificationsAmount}
                 </Text>
               )}
             </TouchableOpacity>

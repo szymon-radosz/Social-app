@@ -5,6 +5,7 @@ import SingleConversationMessage from "./SingleConversationMessage";
 import styles from "./../style";
 import { v4 as uuid } from "uuid";
 import PageHeader from "./../../SharedComponents/PageHeader";
+import { GlobalContext } from "./../../../Context/GlobalContext";
 
 interface ConversationDetailsState {
   messages: any;
@@ -12,11 +13,7 @@ interface ConversationDetailsState {
 
 interface ConversationDetailsProps {
   messages: any;
-  clearUserUnreadedMessages: any;
-  currentUser: {
-    id: number;
-  };
-  API_URL: string;
+
   receiverPhotoPath: string;
   receiverName: string;
   receiverEmail: string;
@@ -27,7 +24,7 @@ interface ConversationDetailsProps {
   closeConversationDetails: any;
 }
 
-export default class ConversationDetails extends Component<
+class ConversationDetails extends Component<
   ConversationDetailsProps,
   ConversationDetailsState
 > {
@@ -52,10 +49,11 @@ export default class ConversationDetails extends Component<
   };
 
   componentDidMount = (): void => {
-    this.props.clearUserUnreadedMessages(
-      this.props.currentUser.id,
-      this.state.messages[0].conversation_id
-    );
+    if (this.context.userData.id)
+      this.context.clearUserUnreadedMessages(
+        this.context.userData.id,
+        this.state.messages[0].conversation_id
+      );
   };
 
   render() {
@@ -74,9 +72,7 @@ export default class ConversationDetails extends Component<
             <Image
               style={styles.conversationDetailsReceiverImage}
               source={{
-                uri: `${this.context.photoServerPath}/${
-                  this.props.receiverPhotoPath
-                }`
+                uri: `${this.props.receiverPhotoPath}`
               }}
             />
           </TouchableOpacity>
@@ -91,17 +87,12 @@ export default class ConversationDetails extends Component<
           {messages &&
             messages.map((message: any, i: number) => {
               return (
-                <SingleConversationMessage
-                  message={message}
-                  currentUser={this.props.currentUser}
-                  key={uuid()}
-                />
+                <SingleConversationMessage message={message} key={uuid()} />
               );
             })}
         </View>
         {messages && messages[0].conversation_id && (
           <SendMessageBox
-            senderId={this.props.currentUser.id}
             receiverId={this.props.receiverId}
             conversationId={messages[0].conversation_id}
             sendMessage={this.props.sendMessage}
@@ -116,3 +107,6 @@ export default class ConversationDetails extends Component<
     );
   }
 }
+
+ConversationDetails.contextType = GlobalContext;
+export default ConversationDetails;

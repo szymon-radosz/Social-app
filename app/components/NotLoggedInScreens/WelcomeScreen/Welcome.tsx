@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Text,
   View,
@@ -9,6 +9,7 @@ import {
 import styles from "./style";
 import AppIntroSlider from "react-native-app-intro-slider";
 import ButtonComponent from "./../../Utils/ButtonComponent";
+import { GlobalContext } from "./../../Context/GlobalContext";
 
 const support: any = require("./../../../assets/images/supportOrange.png");
 const conversation: any = require("./../../../assets/images/ecoOrange.png");
@@ -44,6 +45,13 @@ const Welcome = (props: any) => {
       image: makeUp
     }
   ]);
+
+  const context = useContext(GlobalContext);
+
+  useEffect(() => {
+    console.log(["welcome render", context]);
+    context.setUserData("");
+  }, []);
 
   const welcomeSliderRenderItem = (item: {
     key: string;

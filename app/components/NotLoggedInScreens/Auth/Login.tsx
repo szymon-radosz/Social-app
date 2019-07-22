@@ -48,10 +48,6 @@ const Login = (props: any) => {
                     //navProps.setUserData(response2.data.result);
 
                     context.setUserData(response2.data.result);
-
-                    context.setPhotoServerPath(
-                      response2.data.result.storagePath
-                    );
                   }
                 })
                 .catch(function(error) {

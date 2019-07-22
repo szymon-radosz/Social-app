@@ -1,6 +1,7 @@
 import React, { Component, Suspense } from "react";
 import { View, Text, NativeModules, Image } from "react-native";
 import axios from "axios";
+// @ts-ignore
 import Geocode from "react-geocode";
 import styles from "./style";
 const loaderImage: any = require("./../../../assets/images/loader.gif");
@@ -93,7 +94,7 @@ class EditProfileInfo extends Component<
 
   componentDidMount = async () => {
     if (this.context.userData) {
-      console.log(["this.context.userData", this.context.userData]);
+      //console.log(["this.context.userData", this.context.userData]);
       this.setState({
         age: this.context.userData.age,
         desc: this.context.userData.description
@@ -119,7 +120,7 @@ class EditProfileInfo extends Component<
       await this.getAllHobbies();
 
       //if user want to edit profile and have some kids, then we format that kids array and assign it to state
-      if (this.context.userData.kids.length > 0) {
+      if (this.context.userData.kids && this.context.userData.kids.length > 0) {
         this.context.userData.kids.map(async (kid: any, i: number) => {
           let kidObj = {
             name: kid.name,
@@ -141,45 +142,38 @@ class EditProfileInfo extends Component<
     }));
   };
 
-  cleanUserHobbies = (): void => {
+  cleanUserHobbies = async () => {
     try {
       let API_URL = this.context.API_URL;
       let userId = this.context.userData.id;
 
-      axios
+      let json = await axios
         .post(API_URL + "/api/cleanUserHobbies", {
           userId: userId
-        })
-        .then(response => {
-          if (response.data.status === "OK") {
-            console.log(["cleanUserHobbies", response.data]);
-          }
         })
         .catch(function(error) {
           console.log(error.message);
         });
+
+      return json;
     } catch (error) {
       console.log(error);
     }
   };
 
-  cleanUserKids = (): void => {
+  cleanUserKids = async () => {
     try {
       let API_URL = this.context.API_URL;
       let userId = this.context.userData.id;
 
-      axios
+      let json = axios
         .post(API_URL + "/api/cleanUserKids", {
           userId: userId
-        })
-        .then(response => {
-          if (response.data.status === "OK") {
-            console.log(["cleanUserKids", response.data]);
-          }
         })
         .catch(function(error) {
           console.log(error.message);
         });
+      return json;
     } catch (error) {
       console.log(error);
     }
@@ -198,21 +192,18 @@ class EditProfileInfo extends Component<
       let API_URL = this.context.API_URL;
       let userEmailName = this.context.userData.email;
 
-      this.state.hobbies.map((hobby: { active: boolean; id: number }) => {
+      this.state.hobbies.map(async (hobby: { active: boolean; id: number }) => {
         if (hobby.active) {
-          axios
+          let json = await axios
             .post(API_URL + "/api/saveHobbyUser", {
               userEmail: userEmailName,
               hobby_id: hobby.id
             })
-            .then(response => {
-              if (response.data.status === "OK") {
-                console.log(response);
-              }
-            })
             .catch(function(error) {
               console.log(error.message);
             });
+
+          return json;
         }
       });
     } catch (error) {
@@ -243,7 +234,10 @@ class EditProfileInfo extends Component<
     let API_URL = this.context.API_URL;
     let activeHobbies: { name: string }[] = [];
     //if user want to edit profile and have some hobbies, then we format that hobbies array and set active hobbies
-    if (this.context.userData.hobbies.length > 0) {
+    if (
+      this.context.userData.hobbies &&
+      this.context.userData.hobbies.length > 0
+    ) {
       this.context.userData.hobbies.map(async (hobby: any, i: number) => {
         let activeHobbyObj = {
           name: hobby.name
@@ -290,7 +284,6 @@ class EditProfileInfo extends Component<
       })
       .catch(function(error) {
         console.log(error.message);
-        console.log(["getAllHobbies", error]);
       });
   };
 
@@ -349,43 +342,24 @@ class EditProfileInfo extends Component<
       });
   };
 
-  fileUpload = (): void => {
+  fileUpload = async () => {
     if (this.state.photo !== null) {
       try {
         let API_URL = this.context.API_URL;
         let userEmailName = this.context.userData.email;
 
-        console.log(this.state.photo);
+        const formData = new FormData();
+        formData.append("file", this.state.photo.data);
+        formData.append("fileName", userEmailName.split("@")[0]);
+        formData.append("userEmail", userEmailName);
 
-        console.log([
-          this.state.photo.path,
-          userEmailName.split("@")[0],
-          userEmailName
-        ]);
-
-        axios
-          .post(
-            API_URL + "/api/uploadUserPhoto",
-            {
-              file: this.state.photo.path,
-              fileName: userEmailName.split("@")[0],
-              userEmail: userEmailName
-            }
-            /* {
-              headers: {
-                "Content-Type": "multipart/form-data"
-              }
-            }*/
-          )
-          .then(response => {
-            console.log(["fileUpload", response]);
-            if (response.data.status === "OK") {
-              console.log(response);
-            }
-          })
+        let json = await axios
+          .post(API_URL + "api/uploadUserPhoto", formData)
           .catch(function(error) {
-            console.log(error.message);
+            console.log(error);
           });
+
+        return json;
       } catch (error) {
         console.log(error);
       }
@@ -428,7 +402,7 @@ class EditProfileInfo extends Component<
       let API_URL = this.context.API_URL;
       let userEmailName = this.context.userData.email;
 
-      await axios
+      let json = await axios
         .post(API_URL + "/api/updateUserInfo", {
           userEmail: userEmailName,
           age: age,
@@ -437,14 +411,11 @@ class EditProfileInfo extends Component<
           lng: region.longitude,
           locationString: locationString
         })
-        .then(response => {
-          if (response.data.status === "OK") {
-            console.log(["updateUserInfo", response]);
-          }
-        })
         .catch(function(error) {
           console.log(error);
         });
+
+      return json;
     } catch (error) {
       console.log(error);
     }
@@ -455,22 +426,19 @@ class EditProfileInfo extends Component<
       let API_URL = this.context.API_URL;
       let userEmailName = this.context.userData.email;
 
-      this.state.kids.map((kid: any) => {
-        axios
+      this.state.kids.map(async (kid: any) => {
+        let json = await axios
           .post(API_URL + "/api/saveKid", {
             userEmail: userEmailName,
             name: kid.name,
             dateOfBirth: kid.dateOfBirth,
             childGender: kid.childGender
           })
-          .then(response => {
-            if (response.data.status === "OK") {
-              console.log(response);
-            }
-          })
           .catch(function(error) {
             console.log(error.message);
           });
+
+        return json;
       });
     } catch (error) {
       console.log(error);
@@ -496,7 +464,7 @@ class EditProfileInfo extends Component<
     await this.saveUserData();
     await this.fileUpload();
 
-    this.context.setUserFilledInfo();
+    await this.context.setUserFilledInfo();
     this.setState({ loader: false });
   };
 
@@ -516,9 +484,9 @@ class EditProfileInfo extends Component<
       loader
     } = this.state;
     return (
-      <View>
+      <View data-test="editProfileInfoContainer">
         {loader ? (
-          <View style={styles.loaderContainer}>
+          <View style={styles.loaderContainer} data-test="loaderContainer">
             <Image style={{ width: 100, height: 100 }} source={loaderImage} />
           </View>
         ) : (
@@ -530,6 +498,7 @@ class EditProfileInfo extends Component<
                   age={age}
                   desc={desc}
                   nextStep={this.nextStep}
+                  data-test="ageDescScreenContainer"
                 />
               </Suspense>
             )}
@@ -542,6 +511,7 @@ class EditProfileInfo extends Component<
                   handleChoosePhoto={this.handleChoosePhoto}
                   API_URL={this.context.API_URL}
                   userSavedPhoto={userSavedPhoto}
+                  data-test="photoScreenContainer"
                 />
               </Suspense>
             )}
@@ -552,6 +522,7 @@ class EditProfileInfo extends Component<
                   prevStep={this.prevStep}
                   onRegionChange={this.onRegionChange}
                   region={region}
+                  data-test="coordsScreenContainer"
                 />
               </Suspense>
             )}
@@ -569,6 +540,7 @@ class EditProfileInfo extends Component<
                   setGender={this.setGender}
                   actualKidGender={actualKidGender}
                   removeKidFromState={this.removeKidFromState}
+                  data-test="chooseKidsScreenContainer"
                 />
               </Suspense>
             )}
@@ -579,6 +551,7 @@ class EditProfileInfo extends Component<
                   submitData={this.submitData}
                   hobbies={hobbies}
                   changeHobbyStatus={this.changeHobbyStatus}
+                  data-test="chooseHobbiesScreenContainer"
                 />
               </Suspense>
             )}

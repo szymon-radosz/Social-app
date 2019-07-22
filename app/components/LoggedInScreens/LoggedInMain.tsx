@@ -228,12 +228,6 @@ class LoggedInMain extends Component<
               openAuctionId={openAuctionId}
               openAuctionUserId={openAuctionUserId}
               navigation={navigation}
-              API_URL={this.context.API_URL}
-              user={this.context.userData}
-              clearUserUnreadedMessages={this.context.clearUserUnreadedMessages}
-              clearUserNotificationsStatus={
-                this.context.clearUserNotificationsStatus
-              }
               clearUserData={this.context.clearUserData}
               setOpenMessages={this.setOpenMessages}
               setOpenProfile={this.setOpenProfile}
@@ -269,7 +263,6 @@ class LoggedInMain extends Component<
               openMessagesStatus={openMessages}
               openProfileStatus={openProfile}
               openForumStatus={openForum}
-              user={this.context.userData}
             />
           </View>
         </SafeAreaView>
