@@ -398,7 +398,7 @@ class ProductDetails extends Component<
 
                 {productDetails[0] && productDetails[0].users && (
                   <Text style={styles.productContentText}>
-                    <Text style={styles.bold}>Dodane przez:</Text>
+                    <Text style={styles.bold}>Dodane przez: </Text>
                     {productDetails[0].users.name} (
                     {productDetails[0].users.email})
                   </Text>
@@ -406,14 +406,14 @@ class ProductDetails extends Component<
 
                 {productDetails[0] && productDetails[0].users.location_string && (
                   <Text style={styles.productContentText}>
-                    <Text style={styles.bold}>W poblizu:</Text>
+                    <Text style={styles.bold}>W poblizu: </Text>
                     {productDetails[0].users.location_string}
                   </Text>
                 )}
 
                 {productDetails[0] && productDetails[0].price && (
                   <Text style={styles.productContentText}>
-                    <Text style={styles.bold}>Cena:</Text>
+                    <Text style={styles.bold}>Cena: </Text>
                     {productDetails[0].price} zł
                   </Text>
                 )}

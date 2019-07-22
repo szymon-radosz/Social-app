@@ -13,6 +13,7 @@ import styles from "./style";
 import { GlobalContext } from "./../../Context/GlobalContext";
 import ButtonComponent from "./../../Utils/ButtonComponent";
 import InputComponent from "./../../Utils/InputComponent";
+import Alert from "./../../../Alert/Alert";
 
 const Register = (props: { navigation: any }) => {
   const [name, setName] = useState("");
@@ -88,6 +89,13 @@ const Register = (props: { navigation: any }) => {
             backgroundColor: "#fff"
           }}
         >
+          {context.showAlert && (
+            <Alert
+              alertType={context.alertType}
+              alertMessage={context.alertMessage}
+              closeAlert={context.closeAlert}
+            />
+          )}
           <View style={styles.container}>
             <Text
               style={styles.headerText}

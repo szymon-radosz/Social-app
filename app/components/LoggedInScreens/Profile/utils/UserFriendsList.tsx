@@ -5,7 +5,7 @@ import { GlobalContext } from "./../../../Context/GlobalContext";
 
 const UserFriendsList = (props: any): any => {
   const context = useContext(GlobalContext);
-  props.userFriendsList.map((friendsPair: any, i: number) => {
+  return props.userFriendsList.map((friendsPair: any, i: number) => {
     if (friendsPair.users_invited_by_me.id === props.loggedInUser) {
       return (
         <ListItem

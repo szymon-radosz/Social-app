@@ -11,6 +11,7 @@ import LoggedInScreens from "./utils/LoggedInScreens";
 import BottomPanel from "./SharedComponents/BottomPanel";
 import axios from "axios";
 import { GlobalContext } from "./../Context/GlobalContext";
+import Alert from "./../../Alert/Alert";
 const feedback: any = require("./../../assets/images/feedback.png");
 
 interface NavigationScreenInterface {
@@ -217,6 +218,13 @@ class LoggedInMain extends Component<
             backgroundColor: "#fff"
           }}
         >
+          {this.context.showAlert && (
+            <Alert
+              alertType={this.context.alertType}
+              alertMessage={this.context.alertMessage}
+              closeAlert={this.context.closeAlert}
+            />
+          )}
           <View style={styles.container}>
             <LoggedInScreens
               openFindUsers={openFindUsers}

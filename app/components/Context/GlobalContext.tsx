@@ -12,6 +12,7 @@ export const GlobalContext = React.createContext({
     alertType: string,
     alertMessage: string
   ): any => {},
+  closeAlert: (): any => {},
   clearUserData: (): any => {},
   showLoader: false,
   setShowLoader: (param: boolean): any => {},

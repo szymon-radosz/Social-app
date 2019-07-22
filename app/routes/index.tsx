@@ -8,6 +8,7 @@ import ResetPassword from "./../components/NotLoggedInScreens/Auth/ResetPassword
 import ConfirmAccount from "./../components/NotLoggedInScreens/Auth/ConfirmAccount";
 import FillNecessaryInfo from "./../components/NotLoggedInScreens/EditProfileInfo/EditProfileInfo";
 import LoggedInMain from "./../components/LoggedInScreens/LoggedInMain";
+//@ts-ignore
 import { fadeIn } from "react-navigation-transitions";
 import { GlobalContext } from "./../components/Context/GlobalContext";
 import Alert from "./../Alert/Alert";
@@ -320,20 +321,18 @@ export default class App extends Component<
           clearUserUnreadedMessages: this.clearUserUnreadedMessages,
           clearUserNotificationsStatus: this.clearUserNotificationsStatus,
           showLoader: showLoader,
-          setShowLoader: this.setShowLoader
+          setShowLoader: this.setShowLoader,
+          closeAlert: this.closeAlert
         }}
       >
-        {showAlert != false && (
-          <Alert
-            alertType={alertType}
-            alertMessage={alertMessage}
-            closeAlert={this.closeAlert}
-          />
-        )}
         <AppContainer
           ref={navigatorRef => {
             NavigationService.setTopLevelNavigator(navigatorRef);
           }}
+          alertType={alertType}
+          alertMessage={alertMessage}
+          closeAlert={this.closeAlert}
+          showAlert={showAlert}
         />
       </GlobalContext.Provider>
     );

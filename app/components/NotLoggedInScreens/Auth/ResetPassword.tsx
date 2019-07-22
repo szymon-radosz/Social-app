@@ -1,16 +1,11 @@
 import React, { useState, useContext } from "react";
-import {
-  Text,
-  View,
-  SafeAreaView,
-  TextInput,
-  TouchableHighlight
-} from "react-native";
+import { Text, View, SafeAreaView, TouchableHighlight } from "react-native";
 import styles from "./style";
 import axios from "axios";
 import { GlobalContext } from "./../../Context/GlobalContext";
 import ButtonComponent from "./../../Utils/ButtonComponent";
 import InputComponent from "./../../Utils/InputComponent";
+import Alert from "./../../../Alert/Alert";
 
 const ResetPassword = (props: any) => {
   const [email, setEmail] = useState("");
@@ -48,6 +43,13 @@ const ResetPassword = (props: any) => {
           backgroundColor: "#fff"
         }}
       >
+        {context.showAlert && (
+          <Alert
+            alertType={context.alertType}
+            alertMessage={context.alertMessage}
+            closeAlert={context.closeAlert}
+          />
+        )}
         <View style={styles.container}>
           <Text style={styles.headerText}>{`Resetuj swoje \nhasło`}</Text>
 

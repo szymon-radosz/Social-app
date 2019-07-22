@@ -5,6 +5,7 @@ import axios from "axios";
 import { GlobalContext } from "./../../Context/GlobalContext";
 import ButtonComponent from "./../../Utils/ButtonComponent";
 import InputComponent from "./../../Utils/InputComponent";
+import Alert from "./../../../Alert/Alert";
 
 const Login = (props: any) => {
   const [email, setEmail] = useState("");
@@ -85,6 +86,13 @@ const Login = (props: any) => {
           backgroundColor: "#fff"
         }}
       >
+        {context.showAlert && (
+          <Alert
+            alertType={context.alertType}
+            alertMessage={context.alertMessage}
+            closeAlert={context.closeAlert}
+          />
+        )}
         <View style={styles.container}>
           <Text
             style={styles.headerText}
