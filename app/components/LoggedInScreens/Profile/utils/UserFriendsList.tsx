@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { v4 as uuid } from "uuid";
 import ListItem from "./../../../Utils/ListItem";
 import { GlobalContext } from "./../../../Context/GlobalContext";
 
@@ -10,7 +9,7 @@ const UserFriendsList = (props: any): any => {
       return (
         <ListItem
           API_URL={props.API_URL}
-          key={uuid()}
+          key={`users_invited_me-${i}`}
           image={`${friendsPair.users_invited_me.photo_path}`}
           mainText={`${friendsPair.users_invited_me.name}, ${
             friendsPair.users_invited_me.age
@@ -31,13 +30,14 @@ const UserFriendsList = (props: any): any => {
           onPress={() => {
             props.setOpenFindUsers(friendsPair.users_invited_me.id);
           }}
+          userHadUnreadedMessages={false}
         />
       );
     } else if (friendsPair.users_invited_by_me.id !== props.loggedInUser) {
       return (
         <ListItem
           API_URL={props.API_URL}
-          key={uuid()}
+          key={`users_invited_by_me-${i}`}
           image={`${friendsPair.users_invited_by_me.photo_path}`}
           mainText={`${friendsPair.users_invited_by_me.name}, ${
             friendsPair.users_invited_by_me.age
@@ -58,6 +58,7 @@ const UserFriendsList = (props: any): any => {
           onPress={() => {
             props.setOpenFindUsers(friendsPair.users_invited_by_me.id);
           }}
+          userHadUnreadedMessages={false}
         />
       );
     }

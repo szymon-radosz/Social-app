@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import axios from "axios";
 import styles from "./../style";
-import { v4 as uuid } from "uuid";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import ButtonComponent from "./../../../Utils/ButtonComponent";
 import InputComponent from "./../../../Utils/InputComponent";
@@ -200,7 +199,10 @@ export default class AddNewProductBox extends Component<
           <View style={styles.addNewProductOptionWrapper}>
             {categories.map((category: any, i: number) => {
               return (
-                <View style={{ flexDirection: "row" }} key={uuid()}>
+                <View
+                  style={{ flexDirection: "row" }}
+                  key={`addNewProductOption-${i}`}
+                >
                   <TouchableOpacity
                     onPress={() => this.setCategoryId(category.id)}
                     style={
@@ -325,8 +327,8 @@ export default class AddNewProductBox extends Component<
           </View>
         </View>
 
-        <View style={{ paddingLeft: 10, paddingRight: 10, marginBottom: 10 }}>
-          <Text style={{ paddingBottom: 5, fontWeight: "600" }}>Cena</Text>
+        <View style={{ paddingLeft: 10, paddingRight: 10, paddingBottom: 20 }}>
+          <Text style={{ fontWeight: "600" }}>Cena</Text>
 
           <InputComponent
             placeholder="Cena w zł"
@@ -456,7 +458,7 @@ export default class AddNewProductBox extends Component<
             showPhotoArr.map((photo: any, i: number) => {
               return (
                 <Image
-                  key={uuid()}
+                  key={`AddNewProductBox-${i}`}
                   style={{
                     width: 50,
                     height: 50,

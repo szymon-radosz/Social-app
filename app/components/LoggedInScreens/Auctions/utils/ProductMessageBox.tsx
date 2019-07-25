@@ -26,15 +26,13 @@ const ProductMessageBox = (props: any) => {
             multiline={true}
             numberOfLines={10}
           />
-          <ButtonComponent
-            pressButtonComponent={() =>
-              props.sendNewConversationProduct(message)
-            }
-            buttonComponentText="Wyślij"
-            fullWidth={true}
-            underlayColor="#dd904d"
-          />
         </View>
+        <ButtonComponent
+          pressButtonComponent={() => props.sendNewConversationProduct(message)}
+          buttonComponentText="Wyślij"
+          fullWidth={true}
+          underlayColor="#dd904d"
+        />
       </View>
     </React.Fragment>
   );

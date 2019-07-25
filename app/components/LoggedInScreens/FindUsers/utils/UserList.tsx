@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { Text } from "react-native";
-import { v4 as uuid } from "uuid";
 import ListItem from "./../../../Utils/ListItem";
 import { GlobalContext } from "./../../../Context/GlobalContext";
 
@@ -19,7 +18,7 @@ const UserList = (props: {
           return (
             <ListItem
               API_URL={props.API_URL}
-              key={uuid()}
+              key={`UserList-${i}`}
               image={`${user.photo_path}`}
               mainText={`${user.name}, ${user.age}`}
               subText={`${user.location_string ? user.location_string : ""}`}
@@ -34,6 +33,7 @@ const UserList = (props: {
                 props.setShowUserDetails(user.id);
                 props.setUserDetailsId(user.id);
               }}
+              userHadUnreadedMessages={false}
             />
           );
         }

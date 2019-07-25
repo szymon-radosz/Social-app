@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import styles from "./../style";
 import axios from "axios";
-import { v4 as uuid } from "uuid";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import ButtonComponent from "./../../../Utils/ButtonComponent";
 import InputComponent from "./../../../Utils/InputComponent";
@@ -112,7 +111,7 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
                   paddingBottom: 10,
                   paddingLeft: 10
                 }}
-                key={uuid()}
+                key={`categories-${i}`}
               >
                 <TouchableOpacity
                   onPress={() => this.selectCategoryId(category.id)}

@@ -4,6 +4,7 @@ import ProfileHeader from "./../SharedComponents/ProfileHeader";
 import ProfileOptions from "./utils/ProfileOptions";
 import UserFriendsList from "./utils/UserFriendsList";
 import UserAuctionsList from "./utils/UserAuctionsList";
+import About from "./utils/About";
 import axios from "axios";
 import PageHeader from "./../SharedComponents/PageHeader";
 import UserNotificationList from "./utils/UserNotificationList";
@@ -31,6 +32,7 @@ interface ProfileState {
   showUserFriendsList: boolean;
   showPendingUserFriendsList: boolean;
   showUserNotificationList: boolean;
+  showAbout: boolean;
   showUserFriendId: number;
   userFriendsList: any;
   userAuctionList: any;
@@ -47,6 +49,7 @@ interface ProfileProps {
   navigation: any;
   openMessages: any;
   openForum: any;
+  setShowFeedbackModal: any;
 }
 
 class Profile extends Component<
@@ -65,6 +68,7 @@ class Profile extends Component<
       showUserFriendsList: false,
       showPendingUserFriendsList: false,
       showUserNotificationList: false,
+      showAbout: false,
       showUserFriendId: 0,
       userNotificationList: [],
       userFriendsList: [],
@@ -86,6 +90,7 @@ class Profile extends Component<
     this.changeShowUserNotificationList = this.changeShowUserNotificationList.bind(
       this
     );
+    this.setShowAbout = this.setShowAbout.bind(this);
   }
 
   componentDidMount() {
@@ -169,6 +174,10 @@ class Profile extends Component<
           );
         });
     }
+  };
+
+  setShowAbout = (): void => {
+    this.setState({ showAbout: !this.state.showAbout });
   };
 
   setShowProfilePreview = (): void => {
@@ -259,6 +268,7 @@ class Profile extends Component<
       userAuctionList,
       showUserNotificationList,
       userNotificationList,
+      showAbout,
       displayFriendList
     } = this.state;
     return (
@@ -269,7 +279,8 @@ class Profile extends Component<
           !showUserFriendsList &&
           !showPendingUserFriendsList &&
           !showAuctionHistory &&
-          !showUserNotificationList && (
+          !showUserNotificationList &&
+          !showAbout && (
             <PageHeader
               boldText={this.context.userData.name}
               normalText={""}
@@ -283,7 +294,8 @@ class Profile extends Component<
           (showUserFriendsList || showPendingUserFriendsList) &&
           !showAuctionHistory &&
           (userFriendsList || userPendingFriendsList) &&
-          !showUserNotificationList && (
+          !showUserNotificationList &&
+          !showAbout && (
             <PageHeader
               boldText={"Moje znajome"}
               normalText={""}
@@ -299,7 +311,8 @@ class Profile extends Component<
           !showPendingUserFriendsList &&
           showAuctionHistory &&
           userAuctionList &&
-          !showUserNotificationList && (
+          !showUserNotificationList &&
+          !showAbout && (
             <PageHeader
               boldText={"Wystawione przedmioty"}
               normalText={""}
@@ -313,7 +326,8 @@ class Profile extends Component<
           !showUserFriendsList &&
           !showPendingUserFriendsList &&
           !showAuctionHistory &&
-          showUserNotificationList && (
+          showUserNotificationList &&
+          !showAbout && (
             <PageHeader
               boldText={"Powiadomienia"}
               normalText={""}
@@ -321,11 +335,26 @@ class Profile extends Component<
               closeMethodParameter={""}
             />
           )}
+        {!showProfilePreview &&
+          !showEditUserData &&
+          !showUserFriendsList &&
+          !showPendingUserFriendsList &&
+          !showAuctionHistory &&
+          !showUserNotificationList &&
+          showAbout && (
+            <PageHeader
+              boldText={"O aplikacji"}
+              normalText={""}
+              closeMethod={this.setShowAbout}
+              closeMethodParameter={""}
+            />
+          )}
         {!showEditUserData &&
           !showUserFriendsList &&
           !showPendingUserFriendsList &&
           !showAuctionHistory &&
-          !showUserNotificationList && (
+          !showUserNotificationList &&
+          !showAbout && (
             <ProfileHeader
               API_URL={this.context.API_URL}
               avatar={this.context.userData.photo_path}
@@ -345,12 +374,14 @@ class Profile extends Component<
           !showUserFriendsList &&
           !showPendingUserFriendsList &&
           !showAuctionHistory &&
-          !showUserNotificationList && (
+          !showUserNotificationList &&
+          !showAbout && (
             <ProfileOptions
               setShowProfilePreview={this.setShowProfilePreview}
               loadUserFriendsList={this.loadUserFriendsList}
               getUserAuctionList={this.getUserAuctionList}
               getUserNotificationList={this.getUserNotificationList}
+              setShowAbout={this.setShowAbout}
               navigation={this.props.navigation}
               user={this.context.userData}
               API_URL={this.context.API_URL}
@@ -361,7 +392,8 @@ class Profile extends Component<
           !showUserFriendsList &&
           !showPendingUserFriendsList &&
           !showAuctionHistory &&
-          !showUserNotificationList && (
+          !showUserNotificationList &&
+          !showAbout && (
             <Suspense fallback={<Text>Wczytywanie...</Text>}>
               <UserPreview
                 description={this.context.userData.description}
@@ -375,7 +407,8 @@ class Profile extends Component<
           !showEditUserData &&
           !showAuctionHistory &&
           (showUserFriendsList || showPendingUserFriendsList) &&
-          !showUserNotificationList && (
+          !showUserNotificationList &&
+          !showAbout && (
             <View>
               <View style={styles.filterBtnContainer}>
                 <View style={styles.singleButtonCol2Container}>
@@ -428,6 +461,7 @@ class Profile extends Component<
           !showPendingUserFriendsList &&
           !showAuctionHistory &&
           !showUserNotificationList &&
+          !showAbout &&
           userFriendsList && (
             <View style={{ paddingTop: 10, paddingBottom: 10 }}>
               {userFriendsList.length > 0 ? (
@@ -451,6 +485,7 @@ class Profile extends Component<
           showPendingUserFriendsList &&
           !showAuctionHistory &&
           !showUserNotificationList &&
+          !showAbout &&
           userPendingFriendsList && (
             <View style={{ paddingTop: 10, paddingBottom: 10 }}>
               {userPendingFriendsList.length > 0 ? (
@@ -473,6 +508,7 @@ class Profile extends Component<
           !showUserFriendsList &&
           showAuctionHistory &&
           !showUserNotificationList &&
+          !showAbout &&
           userAuctionList && (
             <React.Fragment>
               <View style={{ paddingTop: 10 }} />
@@ -498,7 +534,8 @@ class Profile extends Component<
           !showPendingUserFriendsList &&
           !showAuctionHistory &&
           showUserNotificationList &&
-          userNotificationList && (
+          userNotificationList &&
+          !showAbout && (
             <View style={{ padding: 10 }}>
               {userNotificationList.length > 0 ? (
                 <UserNotificationList
@@ -513,6 +550,18 @@ class Profile extends Component<
                 </Text>
               )}
             </View>
+          )}
+
+        {!showProfilePreview &&
+          !showEditUserData &&
+          !showUserFriendsList &&
+          !showPendingUserFriendsList &&
+          !showAuctionHistory &&
+          !showUserNotificationList &&
+          showAbout && (
+            <Suspense fallback={<Text>Wczytywanie...</Text>}>
+              <About setShowFeedbackModal={this.props.setShowFeedbackModal} />
+            </Suspense>
           )}
       </View>
     );

@@ -9,7 +9,8 @@ import {
   listItemImage,
   listItemTextContainer,
   listItemMainText,
-  listItemSubText
+  listItemSubText,
+  listItemSingleContainerActive
 } from "./../../assets/global/globalStyles";
 
 interface Style {
@@ -23,6 +24,7 @@ interface Style {
   removeFilterBtn: ViewStyle;
   listItemContainer: any;
   listItemSingleContainer: any;
+  listItemSingleContainerActive: any;
   listItemImage: any;
   listItemTextContainer: any;
   listItemMainText: any;
@@ -95,7 +97,9 @@ export default StyleSheet.create<Style>({
     flexWrap: "wrap"
   },
   listItemContainer: listItemContainer,
+
   listItemSingleContainer: listItemSingleContainer,
+  listItemSingleContainerActive: listItemSingleContainerActive,
   listItemImage: listItemImage,
   listItemTextContainer: listItemTextContainer,
   listItemMainText: listItemMainText,

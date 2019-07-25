@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Image, Text, View, TouchableOpacity } from "react-native";
+import { Text, View } from "react-native";
 import styles from "./../style";
-import { v4 as uuid } from "uuid";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import ButtonComponent from "./../../../Utils/ButtonComponent";
 import InputComponent from "./../../../Utils/InputComponent";
@@ -149,7 +148,7 @@ export default class SellerVoteBox extends Component<
               return (
                 <ListItem
                   API_URL={this.props.API_URL}
-                  key={uuid()}
+                  key={`SellerVoteBox-${i}`}
                   image={user.photo_path}
                   mainText={`${user.name}, ${user.age}`}
                   subText={`${user.email}`}
@@ -162,6 +161,7 @@ export default class SellerVoteBox extends Component<
                       user.email
                     )
                   }
+                  userHadUnreadedMessages={false}
                 />
               );
             }

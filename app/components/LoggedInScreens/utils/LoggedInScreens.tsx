@@ -53,6 +53,7 @@ const LoggedInScreens = (props: any) => (
           navigation={props.navigation}
           openMessages={props.setOpenMessages}
           openForum={props.setOpenForum}
+          setShowFeedbackModal={props.setShowFeedbackModal}
         />
       </Suspense>
     )}

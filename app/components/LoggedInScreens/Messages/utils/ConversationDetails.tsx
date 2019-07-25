@@ -3,7 +3,6 @@ import { Text, View, TouchableOpacity, Image } from "react-native";
 import SendMessageBox from "./SendMessageBox";
 import SingleConversationMessage from "./SingleConversationMessage";
 import styles from "./../style";
-import { v4 as uuid } from "uuid";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import { GlobalContext } from "./../../../Context/GlobalContext";
 
@@ -87,7 +86,10 @@ class ConversationDetails extends Component<
           {messages &&
             messages.map((message: any, i: number) => {
               return (
-                <SingleConversationMessage message={message} key={uuid()} />
+                <SingleConversationMessage
+                  message={message}
+                  key={`SingleConversationMessage-${i}`}
+                />
               );
             })}
         </View>

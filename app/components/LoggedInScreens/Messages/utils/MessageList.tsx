@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { Text } from "react-native";
-import { v4 as uuid } from "uuid";
 import ListItem from "./../../../Utils/ListItem";
 import moment from "moment";
 import "moment/locale/pl";
@@ -15,11 +14,10 @@ const MessageList = (props: {
     return props.messagesList && props.messagesList.length > 0 ? (
       props.messagesList.map((conversation: any, i: number) => {
         if (conversation[i]) {
-          console.log(["i", i, conversation[i]]);
           return (
             <ListItem
               API_URL={context.API_URL}
-              key={uuid()}
+              key={`MessageList-${i}`}
               image={`${conversation[i].receiverPhotoPath}`}
               mainText={conversation[i].receiverName}
               subText={conversation[i].messages[
@@ -38,6 +36,7 @@ const MessageList = (props: {
                   conversation[i].receiverPhotoPath
                 );
               }}
+              userHadUnreadedMessages={conversation[i].userHadUnreadedMessages}
             />
           );
         }

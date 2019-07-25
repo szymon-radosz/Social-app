@@ -167,7 +167,7 @@ export default StyleSheet.create<Style>({
     marginLeft: 10,
     marginTop: 5,
     marginBottom: 5,
-    borderRadius: 10,
+    borderRadius: 6,
     color: "#fff",
     fontFamily: "Open Sans"
   },
@@ -175,7 +175,7 @@ export default StyleSheet.create<Style>({
     width: "80%",
     textAlign: "right",
     alignSelf: "flex-end",
-    fontSize: 10,
+    fontSize: 8,
     marginRight: 10,
     fontFamily: "Open Sans"
   },
@@ -183,7 +183,7 @@ export default StyleSheet.create<Style>({
     width: "80%",
     textAlign: "left",
     alignSelf: "flex-start",
-    fontSize: 12,
+    fontSize: 8,
     marginLeft: 10,
     fontFamily: "Open Sans"
   },

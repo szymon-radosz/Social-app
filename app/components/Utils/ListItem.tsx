@@ -10,11 +10,18 @@ const ListItem = (props: {
   subText: string;
   subSubText: string;
   key: any;
+  userHadUnreadedMessages: boolean;
 }) => {
   return (
-    <TouchableHighlight onPress={props.onPress}>
+    <TouchableHighlight onPress={props.onPress} underlayColor={"#fff"}>
       <View style={styles.listItemContainer}>
-        <View style={styles.listItemSingleContainer}>
+        <View
+          style={
+            props.userHadUnreadedMessages
+              ? styles.listItemSingleContainerActive
+              : styles.listItemSingleContainer
+          }
+        >
           <Image
             style={styles.listItemImage}
             source={{

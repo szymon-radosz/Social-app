@@ -1,5 +1,4 @@
 import React from "react";
-import { v4 as uuid } from "uuid";
 import ListItem from "./../../../Utils/ListItem";
 
 const UserAuctionsList = (props: any): any => {
@@ -7,7 +6,7 @@ const UserAuctionsList = (props: any): any => {
     return (
       <ListItem
         API_URL={props.API_URL}
-        key={uuid()}
+        key={`UserAuctionsList-${i}`}
         image={`${product.product_photos[0].path}`}
         mainText={product.name}
         subText={`Kategoria: ${product.categoryName[0].name}`}
@@ -15,6 +14,7 @@ const UserAuctionsList = (props: any): any => {
         onPress={() => {
           props.setOpenAuctions(product.id, product.user_id);
         }}
+        userHadUnreadedMessages={false}
       />
     );
   });

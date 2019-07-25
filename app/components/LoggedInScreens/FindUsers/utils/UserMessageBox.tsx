@@ -20,7 +20,7 @@ const UserMessageBox = (props: {
         closeMethodParameter={""}
       />
 
-      <View style={{ paddingTop: 10 }}>
+      <View style={{ paddingTop: 10, paddingLeft: 10, paddingRight: 10 }}>
         <TextAreaComponent
           placeholder="Napisz wiadomość..."
           inputOnChange={(message: string) => props.setUserMessage(message)}

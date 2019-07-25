@@ -448,14 +448,12 @@ export default StyleSheet.create<Style>({
   },
   addNewProductInputContainer: {
     paddingLeft: 10,
-    paddingRight: 10,
-    marginBottom: 10,
-    paddingTop: 10
+    paddingRight: 10
   },
   addNewProductDescInput: {
     paddingLeft: 10,
     paddingRight: 10,
-    marginBottom: 10
+    marginBottom: 20
   },
   addNewProductOptionContainer: {
     paddingLeft: 10,

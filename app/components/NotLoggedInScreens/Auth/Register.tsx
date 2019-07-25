@@ -1,13 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Text,
   View,
   Image,
   TouchableHighlight,
   SafeAreaView,
-  Linking
+  Linking,
+  Platform
 } from "react-native";
-const loaderImage: any = require("./../../../assets/images/loader.gif");
 import axios from "axios";
 import styles from "./style";
 import { GlobalContext } from "./../../Context/GlobalContext";
@@ -15,15 +15,26 @@ import ButtonComponent from "./../../Utils/ButtonComponent";
 import InputComponent from "./../../Utils/InputComponent";
 import Alert from "./../../../Alert/Alert";
 
+const loaderImage: any = require("./../../../assets/images/loader.gif");
+
 const Register = (props: { navigation: any }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConf, setPasswordConf] = useState("");
   const [loader, setLoader] = useState(false);
+  const [platform, setPlatform] = useState("");
   const context = useContext(GlobalContext);
 
   const navigation = props.navigation;
+
+  useEffect(() => {
+    if (Platform.OS === "ios") {
+      setPlatform("ios");
+    } else {
+      setPlatform("android");
+    }
+  }, []);
 
   const registerUser = (): void => {
     if (!name || !email || !password || !passwordConf) {
@@ -46,7 +57,8 @@ const Register = (props: { navigation: any }) => {
           .post(API_URL + "/api/register", {
             name: name,
             email: email,
-            password: password
+            password: password,
+            platform: platform
           })
           .then(function(response) {
             console.log(response.data);

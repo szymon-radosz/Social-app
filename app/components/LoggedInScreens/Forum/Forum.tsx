@@ -1,9 +1,8 @@
 import React, { Component, Suspense } from "react";
-import { Text, TouchableHighlight, ImageBackground, View } from "react-native";
+import { Text, ImageBackground, View } from "react-native";
 import axios from "axios";
 import CategoryDetailsSinglePostOnList from "./utils/CategoryDetailsSinglePostOnList";
 import styles from "./style";
-import { v4 as uuid } from "uuid";
 import PageHeader from "./../SharedComponents/PageHeader";
 import { GlobalContext } from "./../../Context/GlobalContext";
 import ButtonComponent from "./../../Utils/ButtonComponent";
@@ -306,7 +305,7 @@ class Forum extends Component<ForumProps, ForumState> {
                       <CategoryDetailsSinglePostOnList
                         getPostDetails={this.getPostDetails}
                         showPosts={showPosts}
-                        key={uuid()}
+                        key={`CategoryDetailsSinglePostOnList-${i}`}
                         post={post}
                       />
                     );

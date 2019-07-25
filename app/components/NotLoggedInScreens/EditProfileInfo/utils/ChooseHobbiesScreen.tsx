@@ -8,8 +8,6 @@ import {
   ScrollView
 } from "react-native";
 import styles from "./../style";
-// @ts-ignore
-import { v4 as uuid } from "uuid";
 import ButtonComponent from "./../../../Utils/ButtonComponent";
 
 const fillInfoBg: any = require("./../../../../assets/images/fillInfoBgMin.jpg");
@@ -62,7 +60,7 @@ const ChooseHobbiesScreen = (props: {
                       ? styles.activeHobbyContainer
                       : styles.hobbyContainer
                   }
-                  key={uuid()}
+                  key={`ChooseHobbiesScreen-${i}`}
                 >
                   {hobby.name === "Sport" ? (
                     <View>

@@ -1,7 +1,6 @@
 import React from "react";
 import { TouchableOpacity, View, Text } from "react-native";
 import styles from "./../style";
-import { v4 as uuid } from "uuid";
 import ButtonComponent from "./../../Utils/ButtonComponent";
 import TextAreaComponent from "./../../Utils/TextAreaComponent";
 
@@ -30,7 +29,7 @@ const FeedbackModal = (props: {
 
       {props.feedbackTopic.map((topic: any, index: number) => {
         return (
-          <View style={styles.checkboxWrapper} key={uuid()}>
+          <View style={styles.checkboxWrapper} key={`FeedbackModal-${index}`}>
             <TouchableOpacity
               onPress={() => props.setFeedbackTopic(index)}
               style={

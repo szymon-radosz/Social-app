@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, Image } from "react-native";
 import styles from "./style";
-import { v4 as uuid } from "uuid";
+
 const bike: any = require("./../../../assets/images/bike.png");
 const maternity: any = require("./../../../assets/images/maternity.png");
 const dotEmpty: any = require("./../../../assets/images/dotEmpty.png");
@@ -19,7 +19,10 @@ const UserPreview = (props: any) => (
       {props.hobbies &&
         props.hobbies.map((hobby: any, i: number) => {
           return (
-            <View style={styles.userPreviewListItemContainer} key={uuid()}>
+            <View
+              style={styles.userPreviewListItemContainer}
+              key={`hobbies-${i}`}
+            >
               <Image
                 style={styles.userPreviewListItemImage}
                 source={dotEmpty}
@@ -44,7 +47,10 @@ const UserPreview = (props: any) => (
         props.kids.map((kid: any, i: number) => {
           if (kid.child_gender === "male") {
             return (
-              <View style={styles.userPreviewListItemContainer} key={uuid()}>
+              <View
+                style={styles.userPreviewListItemContainer}
+                key={`kids-boy-${i}`}
+              >
                 <Image
                   style={styles.userPreviewListItemImage}
                   source={dotEmpty}
@@ -56,7 +62,10 @@ const UserPreview = (props: any) => (
             );
           } else if (kid.child_gender === "female") {
             return (
-              <View style={styles.userPreviewListItemContainer} key={uuid()}>
+              <View
+                style={styles.userPreviewListItemContainer}
+                key={`kids-girl-${i}`}
+              >
                 <Image
                   style={styles.userPreviewListItemImage}
                   source={dotEmpty}

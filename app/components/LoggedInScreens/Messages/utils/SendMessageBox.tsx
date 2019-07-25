@@ -24,7 +24,7 @@ const SendMessageBox = (props: {
           placeholder="Napisz odpowiedź..."
           inputOnChange={(message: string) => props.setUserMessage(message)}
           value={props.userMessage}
-          secureTextEntry={true}
+          secureTextEntry={false}
           maxLength={400}
         />
       </View>

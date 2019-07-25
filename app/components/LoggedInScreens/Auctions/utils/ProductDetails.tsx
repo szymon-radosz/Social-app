@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { Text, Dimensions, Image, View } from "react-native";
 import axios from "axios";
 import styles from "./../style";
+//@ts-ignore
 import Lightbox from "react-native-lightbox";
+//@ts-ignore
 import Carousel from "react-native-looped-carousel";
-import { v4 as uuid } from "uuid";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import { GlobalContext } from "./../../../Context/GlobalContext";
 import ButtonComponent from "./../../../Utils/ButtonComponent";
@@ -20,7 +21,7 @@ const renderCarousel = (API_URL: string, imageArray: any): any => (
         <Image
           style={{ flex: 1 }}
           resizeMode="contain"
-          key={uuid()}
+          key={`renderCarousel-${i}`}
           source={{
             uri: `${image.path}`
           }}
@@ -343,6 +344,7 @@ class ProductDetails extends Component<
                       productDetails[0].product_photos
                     )
                   }
+                  underlayColor={"#fff"}
                 >
                   <Image
                     style={styles.productDetailsImage}
@@ -354,7 +356,9 @@ class ProductDetails extends Component<
 
                 {productDetails[0] &&
                   productDetails[0].product_photos.length > 1 && (
-                    <Text>Kliknij zdjęcie, aby zobaczyć galerię</Text>
+                    <Text style={{ fontSize: 10 }}>
+                      Kliknij na zdjęcie, aby zobaczyć galerię.
+                    </Text>
                   )}
 
                 {productDetails[0] && productDetails[0].description ? (

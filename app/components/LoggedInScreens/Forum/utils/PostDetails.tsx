@@ -4,7 +4,6 @@ import SinglePostDetailsComment from "./SinglePostDetailsComment";
 import styles from "./../style";
 import axios from "axios";
 import SavePostComment from "./SavePostComment";
-import { v4 as uuid } from "uuid";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import { GlobalContext } from "./../../../Context/GlobalContext";
 
@@ -260,7 +259,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
                   <Image
                     style={styles.image}
                     source={{
-                      uri: authorPhotoPath 
+                      uri: authorPhotoPath
                     }}
                   />
                 </TouchableOpacity>
@@ -314,7 +313,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
                 return (
                   <SinglePostDetailsComment
                     API_URL={this.context.API_URL}
-                    key={uuid()}
+                    key={`SinglePostDetailsComment-${i}`}
                     comment={comment}
                     saveCommentVote={this.saveCommentVote}
                   />

@@ -136,6 +136,19 @@ export const listItemSingleContainer = {
   paddingRight: 10,
   overflow: "hidden"
 };
+export const listItemSingleContainerActive = {
+  width: "100%",
+  borderWidth: 1,
+  flexWrap: "wrap",
+  alignItems: "center",
+  flexDirection: "row",
+  borderRadius: lightBorderRadius,
+  borderColor: "#424242",
+  backgroundColor: "#ffeee0",
+  paddingLeft: 10,
+  paddingRight: 10,
+  overflow: "hidden"
+};
 export const listItemImage = {
   width: 50,
   height: 50,

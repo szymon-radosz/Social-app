@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import SingleNotification from "./SingleNotification";
-import { v4 as uuid } from "uuid";
 import { View } from "react-native";
 import { GlobalContext } from "./../../../Context/GlobalContext";
 
@@ -40,7 +39,7 @@ class UserNotificationList extends Component<
                   openMessages={this.props.openMessages}
                   loadUserFriendsList={this.props.loadUserFriendsList}
                   openForum={this.props.openForum}
-                  key={uuid()}
+                  key={`SingleNotification-${i}`}
                 />
               );
             }

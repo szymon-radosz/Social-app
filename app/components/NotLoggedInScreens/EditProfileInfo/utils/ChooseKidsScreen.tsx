@@ -10,7 +10,6 @@ import {
 // @ts-ignore
 import DatePicker from "react-native-datepicker";
 import styles from "./../style";
-import { v4 as uuid } from "uuid";
 import ButtonComponent from "./../../../Utils/ButtonComponent";
 import InputComponent from "./../../../Utils/InputComponent";
 import ListItemDelete from "./../../../Utils/ListItemDelete";
@@ -150,7 +149,7 @@ const ChooseKidsScreen = (props: {
               if (kid.childGender === "male") {
                 return (
                   <ListItemDelete
-                    key={uuid()}
+                    key={`ListItemDelete-boy-${i}`}
                     text={`${kid.name} - chłopiec - ${kid.dateOfBirth}`}
                     onPress={() => {
                       props.removeKidFromState(kid.name);
@@ -160,7 +159,7 @@ const ChooseKidsScreen = (props: {
               } else if (kid.childGender === "female") {
                 return (
                   <ListItemDelete
-                    key={uuid()}
+                    key={`ListItemDelete-girl-${i}`}
                     text={`${kid.name} - dziewczynka - ${kid.dateOfBirth}`}
                     onPress={() => {
                       props.removeKidFromState(kid.name);

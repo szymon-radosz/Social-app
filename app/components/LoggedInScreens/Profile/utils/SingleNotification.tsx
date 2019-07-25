@@ -21,6 +21,7 @@ const SingleNotification = (props: any) => (
         ? props.openForum()
         : null
     }
+    underlayColor={"#fff"}
   >
     <View
       style={
@@ -96,9 +97,11 @@ const SingleNotification = (props: any) => (
       )}
 
       <View style={styles.productListSingleProductTextContainer}>
-        <Text style={styles.productOnListTextCategory}>
-          {props.notification.message}
-        </Text>
+        <View style={{ paddingRight: 15 }}>
+          <Text style={styles.productOnListTextCategory}>
+            {props.notification.message}
+          </Text>
+        </View>
       </View>
     </View>
   </TouchableHighlight>

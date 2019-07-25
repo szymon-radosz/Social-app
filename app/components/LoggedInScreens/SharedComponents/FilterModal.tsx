@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { TouchableOpacity, View, Text, ScrollView } from "react-native";
 import styles from "./style";
-import { v4 as uuid } from "uuid";
 import PageHeader from "./PageHeader";
 import ButtonComponent from "./../../Utils/ButtonComponent";
 
@@ -73,7 +72,7 @@ const FilterModal = (props: {
                       ? styles.filterModalOptionActive
                       : styles.filterModalOptionInactive
                   }
-                  key={uuid()}
+                  key={`FilterModal-${i}`}
                   onPress={() => setSelectedResult(option.text, i)}
                 >
                   <Text>{option.text}</Text>
