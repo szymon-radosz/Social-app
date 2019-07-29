@@ -89,7 +89,9 @@ const BottomPanel = (props: {
           />
         </View>
         {context.userData &&
+          //@ts-ignore
           context.userData.unreadedConversationMessage &&
+          //@ts-ignore
           context.userData.unreadedConversationMessageAmount && (
             <TouchableOpacity
               style={styles.unreadedMessagesNotificationContainer}
@@ -99,13 +101,19 @@ const BottomPanel = (props: {
                 style={styles.unreadedMessagesNotificationDot}
               />
 
-              {context.userData.unreadedConversationMessageAmount < 10 ? (
+              {context.userData &&
+              //@ts-ignore
+              context.userData.unreadedConversationMessageAmount < 10 ? (
                 <Text style={styles.unreadedMessagesNotificationDotText}>
-                  {context.userData.unreadedConversationMessageAmount}
+                  {context.userData &&
+                    //@ts-ignore
+                    context.userData.unreadedConversationMessageAmount}
                 </Text>
               ) : (
                 <Text style={styles.unreadedMessagesNotificationLongDotText}>
-                  {context.userData.unreadedConversationMessageAmount}
+                  {context.userData &&
+                    //@ts-ignore
+                    context.userData.unreadedConversationMessageAmount}
                 </Text>
               )}
             </TouchableOpacity>
@@ -157,7 +165,9 @@ const BottomPanel = (props: {
           />
         </View>
         {context.userData &&
+          //@ts-ignore
           context.userData.unreadedNotifications &&
+          //@ts-ignore
           context.userData.unreadedNotificationsAmount && (
             <TouchableOpacity
               style={styles.unreadedMessagesNotificationContainer}
@@ -166,13 +176,19 @@ const BottomPanel = (props: {
                 source={dot}
                 style={styles.unreadedMessagesNotificationDot}
               />
-              {context.userData.unreadedNotificationsAmount < 10 ? (
+              {context.userData &&
+              //@ts-ignore
+              context.userData.unreadedNotificationsAmount < 10 ? (
                 <Text style={styles.unreadedMessagesNotificationDotText}>
-                  {context.userData.unreadedNotificationsAmount}
+                  {context.userData &&
+                    //@ts-ignore
+                    context.userData.unreadedNotificationsAmount}
                 </Text>
               ) : (
                 <Text style={styles.unreadedMessagesNotificationLongDotText}>
-                  {context.userData.unreadedNotificationsAmount}
+                  {context.userData &&
+                    //@ts-ignore
+                    context.userData.unreadedNotificationsAmount}
                 </Text>
               )}
             </TouchableOpacity>

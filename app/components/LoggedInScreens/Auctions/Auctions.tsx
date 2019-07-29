@@ -6,6 +6,7 @@ import {
   Text,
   View
 } from "react-native";
+//@ts-ignore
 import Carousel from "react-native-snap-carousel";
 import { btnFullWidthFilledContainer } from "./../../../assets/global/globalStyles";
 import axios from "axios";
@@ -463,11 +464,11 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
     return (
       <React.Fragment>
         {loader ? (
-          <View style={styles.loaderContainer}>
+          <View style={styles.loaderContainer} data-test="loader">
             <Image style={{ width: 100, height: 100 }} source={loaderImage} />
           </View>
         ) : (
-          <View>
+          <View data-test="Auctions">
             {!displayProductDetails &&
               !displayNewProductBox &&
               !showFilterModal && (
@@ -486,6 +487,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
                     closeFilter={this.setShowFilterModal}
                     filterModalName={filterModalName}
                     filterResults={this.filterResults}
+                    data-test="FilterModal"
                   />
                 </Suspense>
               )}
@@ -494,7 +496,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
               !displayNewProductBox &&
               productList &&
               !showFilterModal && (
-                <View>
+                <View data-test="Carousel">
                   <Text style={styles.filterResultsHeaderText}>
                     Filtruj wyniki
                   </Text>
@@ -520,6 +522,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
                   filterStatus={filterStatus}
                   showFilterModal={showFilterModal}
                   removeFilter={this.removeFilter}
+                  data-test="ActiveFilters"
                 />
               </Suspense>
             )}
@@ -532,6 +535,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
                     API_URL={this.context.API_URL}
                     productList={productList}
                     setSelectedProduct={this.setSelectedProduct}
+                    data-test="AuctionList"
                   />
 
                   <View style={{ marginBottom: 10 }}>
@@ -540,6 +544,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
                       buttonComponentText="Dodaj produkt"
                       fullWidth={true}
                       underlayColor="#dd904d"
+                      data-test="ButtonComponent"
                     />
                   </View>
                 </View>
@@ -554,6 +559,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
                   productId={selectedProductId}
                   productUserId={selectedProductUserId}
                   setDisplayProductDetails={this.setDisplayProductDetails}
+                  data-test="ProductDetails"
                 />
               </Suspense>
             )}
@@ -565,6 +571,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
                   API_URL={this.context.API_URL}
                   changeDisplayNewProductBox={this.changeDisplayNewProductBox}
                   addNewProduct={this.addNewProduct}
+                  data-test="AddNewProductBox"
                 />
               </Suspense>
             )}

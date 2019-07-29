@@ -1,6 +1,7 @@
 import React, { Component, Suspense } from "react";
 import { ImageBackground, Text, View, TouchableHighlight } from "react-native";
 import axios from "axios";
+//@ts-ignore
 import Carousel from "react-native-snap-carousel";
 import { btnFullWidthFilledContainer } from "./../../../assets/global/globalStyles";
 import styles from "./style";
@@ -442,6 +443,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
       })
       .then(function(response) {
         if (response.data.status === "OK") {
+          console.log(["setShowUserDetails", response.data.result.user]);
           that.setState({
             userDetailsId: userId,
             userDetailsData: response.data.result.user,
@@ -575,6 +577,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
           lng: lng
         })
         .then(function(response) {
+          console.log(["loadUsersNearCoords", response.data.result]);
           if (response.data.status === "OK") {
             that.setState({
               userList: response.data.result,
@@ -634,9 +637,13 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
     } = this.state;
     return (
       <React.Fragment>
-        <View>
+        <View data-test="FindUsers">
           {!showFilterModal && !showUserDetails && !showUserMessageBox && (
-            <ImageBackground source={findUsersBg} style={{ width: "100%" }}>
+            <ImageBackground
+              source={findUsersBg}
+              style={{ width: "100%" }}
+              data-test="ImageBackground"
+            >
               <Text style={styles.pageTitle}>
                 Poznaj mamy
                 {"\n"}w okolicy.
@@ -654,6 +661,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
                   closeFilter={this.setShowFilterModal}
                   filterModalName={filterModalName}
                   filterResults={this.filterResults}
+                  data-test="FilterModal"
                 />
               </Suspense>
             )}
@@ -673,6 +681,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
                 confirmFriend={this.confirmFriend}
                 loggedInUserId={this.context.userData.id}
                 locationDetails={locationDetails}
+                data-test="UserDetails"
               />
             </Suspense>
           )}
@@ -685,6 +694,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
                   sendMessage={this.sendMessage}
                   setUserMessage={this.setUserMessage}
                   userMessage={userMessage}
+                  data-test="UserMessageBox"
                 />
               </Suspense>
             )}
@@ -693,7 +703,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
               !showUserDetails &&
               userList &&
               !showFilterModal && (
-                <View>
+                <View data-test="Carousel">
                   <Text style={styles.filterResultsHeaderText}>
                     Filtruj wyniki
                   </Text>
@@ -720,6 +730,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
                   filterHobbyName={filterHobbyName}
                   showFilterModal={showFilterModal}
                   removeFilter={this.removeFilter}
+                  data-test="ActiveFilters"
                 />
               </Suspense>
             )}
@@ -735,6 +746,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
                   userList={userList}
                   setUserDetailsId={this.setUserDetailsId}
                   setShowUserDetails={this.setShowUserDetails}
+                  data-test="UserListContainer"
                 />
               )}
 

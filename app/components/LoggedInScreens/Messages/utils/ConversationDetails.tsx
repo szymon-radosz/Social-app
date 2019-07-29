@@ -12,7 +12,6 @@ interface ConversationDetailsState {
 
 interface ConversationDetailsProps {
   messages: any;
-
   receiverPhotoPath: string;
   receiverName: string;
   receiverEmail: string;
@@ -58,12 +57,13 @@ class ConversationDetails extends Component<
   render() {
     const { messages } = this.state;
     return (
-      <View style={styles.viewContainer}>
+      <View style={styles.viewContainer} data-test="ConversationDetails">
         <PageHeader
           boldText={this.props.receiverName}
           normalText={""}
           closeMethod={this.props.closeConversationDetails}
           closeMethodParameter={""}
+          data-test="PageHeader"
         />
 
         <View style={styles.messageDetailsContainer}>

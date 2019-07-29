@@ -9,13 +9,14 @@ const Profile = React.lazy(() => import("./../Profile/Profile"));
 const FeedbackModal = React.lazy(() => import("./FeedbackModal"));
 
 const LoggedInScreens = (props: any) => (
-  <ScrollView>
+  <ScrollView data-test="LoggedInScreens">
     {props.openFindUsers && !props.showFeedbackModal && (
       <Suspense fallback={<Text>Wczytywanie...</Text>}>
         <FindUsers
           openMessages={props.setOpenMessages}
           setOpenProfile={props.setOpenProfile}
           openFindUserId={props.openFindUserId}
+          data-test="FindUsers"
         />
       </Suspense>
     )}
@@ -26,19 +27,23 @@ const LoggedInScreens = (props: any) => (
           openMessages={props.setOpenMessages}
           openAuctionId={props.openAuctionId}
           openAuctionUserId={props.openAuctionUserId}
+          data-test="Auctions"
         />
       </Suspense>
     )}
 
     {props.openMessages && !props.showFeedbackModal && (
       <Suspense fallback={<Text>Wczytywanie...</Text>}>
-        <Messages />
+        <Messages data-test="Messages" />
       </Suspense>
     )}
 
     {props.openForum && !props.showFeedbackModal && (
       <Suspense fallback={<Text>Wczytywanie...</Text>}>
-        <Forum setShowFeedbackModal={props.setShowFeedbackModal} />
+        <Forum
+          setShowFeedbackModal={props.setShowFeedbackModal}
+          data-test="Forum"
+        />
       </Suspense>
     )}
 
@@ -54,6 +59,7 @@ const LoggedInScreens = (props: any) => (
           openMessages={props.setOpenMessages}
           openForum={props.setOpenForum}
           setShowFeedbackModal={props.setShowFeedbackModal}
+          data-test="Profile"
         />
       </Suspense>
     )}

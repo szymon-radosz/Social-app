@@ -71,8 +71,6 @@ class LoggedInMain extends Component<
   }
 
   componentDidMount() {
-    console.log(["LoggedInMain", this.context]);
-
     StatusBar.setHidden(true, "none");
   }
 
@@ -225,7 +223,7 @@ class LoggedInMain extends Component<
               closeAlert={this.context.closeAlert}
             />
           )}
-          <View style={styles.container}>
+          <View style={styles.container} data-test="LoggedInMain">
             <LoggedInScreens
               openFindUsers={openFindUsers}
               openAuctions={openAuctions}
@@ -250,12 +248,14 @@ class LoggedInMain extends Component<
               setFeedbackTopic={this.setFeedbackTopic}
               activeTopic={activeTopic}
               setShowFeedbackModal={this.setShowFeedbackModal}
+              data-test="LoggedInScreens"
             />
             {!showFeedbackModal && (
               <TouchableHighlight
                 style={{ position: "absolute", right: 10, bottom: 80 }}
                 onPress={this.setShowFeedbackModal}
                 underlayColor={"#dd904d"}
+                data-test="feedbackIcon"
               >
                 <Image source={feedback} style={{ width: 50, height: 50 }} />
               </TouchableHighlight>
@@ -271,6 +271,7 @@ class LoggedInMain extends Component<
               openMessagesStatus={openMessages}
               openProfileStatus={openProfile}
               openForumStatus={openForum}
+              data-test="BottomPanel"
             />
           </View>
         </SafeAreaView>

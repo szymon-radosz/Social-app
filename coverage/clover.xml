@@ -1,11 +1,543 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1563810832629" clover="3.2.0">
-  <project timestamp="1563810832630" name="All files">
-    <metrics statements="221" coveredstatements="123" conditionals="24" coveredconditionals="12" methods="75" coveredmethods="7" elements="320" coveredelements="142" complexity="0" loc="221" ncloc="221" packages="5" files="6" classes="6"/>
+<coverage generated="1564427632504" clover="3.2.0">
+  <project timestamp="1564427632504" name="All files">
+    <metrics statements="797" coveredstatements="443" conditionals="296" coveredconditionals="146" methods="243" coveredmethods="33" elements="1336" coveredelements="622" complexity="0" loc="797" ncloc="797" packages="18" files="43" classes="43"/>
+    <package name="app.Alert">
+      <metrics statements="18" coveredstatements="11" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <file name="Alert.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/Alert/Alert.tsx">
+        <metrics statements="13" coveredstatements="6" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="45" count="1" type="stmt"/>
+      </file>
+      <file name="style.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/Alert/style.tsx">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+      </file>
+    </package>
     <package name="app.assets.global">
-      <metrics statements="50" coveredstatements="50" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <metrics statements="51" coveredstatements="51" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="globalStyles.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/assets/global/globalStyles.tsx">
-        <metrics statements="50" coveredstatements="50" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <metrics statements="51" coveredstatements="51" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="6" type="stmt"/>
+        <line num="2" count="6" type="stmt"/>
+        <line num="3" count="6" type="stmt"/>
+        <line num="4" count="6" type="stmt"/>
+        <line num="5" count="6" type="stmt"/>
+        <line num="6" count="6" type="stmt"/>
+        <line num="7" count="6" type="stmt"/>
+        <line num="8" count="6" type="stmt"/>
+        <line num="9" count="6" type="stmt"/>
+        <line num="10" count="6" type="stmt"/>
+        <line num="20" count="6" type="stmt"/>
+        <line num="36" count="6" type="stmt"/>
+        <line num="46" count="6" type="stmt"/>
+        <line num="56" count="6" type="stmt"/>
+        <line num="66" count="6" type="stmt"/>
+        <line num="77" count="6" type="stmt"/>
+        <line num="89" count="6" type="stmt"/>
+        <line num="98" count="6" type="stmt"/>
+        <line num="102" count="6" type="stmt"/>
+        <line num="108" count="6" type="stmt"/>
+        <line num="114" count="6" type="stmt"/>
+        <line num="121" count="6" type="stmt"/>
+        <line num="127" count="6" type="stmt"/>
+        <line num="139" count="6" type="stmt"/>
+        <line num="152" count="6" type="stmt"/>
+        <line num="160" count="6" type="stmt"/>
+        <line num="166" count="6" type="stmt"/>
+        <line num="173" count="6" type="stmt"/>
+        <line num="179" count="6" type="stmt"/>
+        <line num="184" count="6" type="stmt"/>
+        <line num="192" count="6" type="stmt"/>
+        <line num="199" count="6" type="stmt"/>
+        <line num="206" count="6" type="stmt"/>
+        <line num="215" count="6" type="stmt"/>
+        <line num="222" count="6" type="stmt"/>
+        <line num="230" count="6" type="stmt"/>
+        <line num="234" count="6" type="stmt"/>
+        <line num="242" count="6" type="stmt"/>
+        <line num="246" count="6" type="stmt"/>
+        <line num="253" count="6" type="stmt"/>
+        <line num="260" count="6" type="stmt"/>
+        <line num="265" count="6" type="stmt"/>
+        <line num="270" count="6" type="stmt"/>
+        <line num="279" count="6" type="stmt"/>
+        <line num="288" count="6" type="stmt"/>
+        <line num="294" count="6" type="stmt"/>
+        <line num="299" count="6" type="stmt"/>
+        <line num="300" count="6" type="stmt"/>
+        <line num="306" count="6" type="stmt"/>
+        <line num="312" count="6" type="stmt"/>
+        <line num="318" count="6" type="stmt"/>
+      </file>
+    </package>
+    <package name="app.assets.images">
+      <metrics statements="15" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="auctionsBgMin.jpg" path="/Users/radoszszymon/Desktop/projects/emamy/app/assets/images/auctionsBgMin.jpg">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="backIcon.png" path="/Users/radoszszymon/Desktop/projects/emamy/app/assets/images/backIcon.png">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="closeWhite.png" path="/Users/radoszszymon/Desktop/projects/emamy/app/assets/images/closeWhite.png">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="dot.png" path="/Users/radoszszymon/Desktop/projects/emamy/app/assets/images/dot.png">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="feedback.png" path="/Users/radoszszymon/Desktop/projects/emamy/app/assets/images/feedback.png">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="findUsersBgMin.jpg" path="/Users/radoszszymon/Desktop/projects/emamy/app/assets/images/findUsersBgMin.jpg">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="forum.png" path="/Users/radoszszymon/Desktop/projects/emamy/app/assets/images/forum.png">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="forumBgMin.jpg" path="/Users/radoszszymon/Desktop/projects/emamy/app/assets/images/forumBgMin.jpg">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="like.png" path="/Users/radoszszymon/Desktop/projects/emamy/app/assets/images/like.png">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="loader.gif" path="/Users/radoszszymon/Desktop/projects/emamy/app/assets/images/loader.gif">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="2" type="stmt"/>
+      </file>
+      <file name="message.png" path="/Users/radoszszymon/Desktop/projects/emamy/app/assets/images/message.png">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="messagesBgMin.jpg" path="/Users/radoszszymon/Desktop/projects/emamy/app/assets/images/messagesBgMin.jpg">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="network.png" path="/Users/radoszszymon/Desktop/projects/emamy/app/assets/images/network.png">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="profile.png" path="/Users/radoszszymon/Desktop/projects/emamy/app/assets/images/profile.png">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="sell.png" path="/Users/radoszszymon/Desktop/projects/emamy/app/assets/images/sell.png">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="app.components.Context">
+      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="0"/>
+      <file name="GlobalContext.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/Context/GlobalContext.tsx">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="0"/>
+        <line num="1" count="6" type="stmt"/>
+        <line num="3" count="6" type="stmt"/>
+      </file>
+    </package>
+    <package name="app.components.LoggedInScreens">
+      <metrics statements="58" coveredstatements="48" conditionals="6" coveredconditionals="3" methods="15" coveredmethods="12"/>
+      <file name="LoggedInMain.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/LoggedInScreens/LoggedInMain.tsx">
+        <metrics statements="55" coveredstatements="45" conditionals="6" coveredconditionals="3" methods="15" coveredmethods="12"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="41" count="12" type="stmt"/>
+        <line num="42" count="12" type="stmt"/>
+        <line num="62" count="12" type="stmt"/>
+        <line num="63" count="12" type="stmt"/>
+        <line num="64" count="12" type="stmt"/>
+        <line num="65" count="12" type="stmt"/>
+        <line num="66" count="12" type="stmt"/>
+        <line num="67" count="12" type="stmt"/>
+        <line num="68" count="12" type="stmt"/>
+        <line num="69" count="12" type="stmt"/>
+        <line num="70" count="12" type="stmt"/>
+        <line num="74" count="12" type="stmt"/>
+        <line num="77" count="12" type="stmt"/>
+        <line num="78" count="1" type="stmt"/>
+        <line num="79" count="2" type="stmt"/>
+        <line num="82" count="1" type="stmt"/>
+        <line num="85" count="12" type="stmt"/>
+        <line num="86" count="1" type="stmt"/>
+        <line num="89" count="12" type="stmt"/>
+        <line num="90" count="0" type="stmt"/>
+        <line num="91" count="0" type="stmt"/>
+        <line num="92" count="0" type="stmt"/>
+        <line num="93" count="0" type="stmt"/>
+        <line num="95" count="0" type="stmt"/>
+        <line num="98" count="0" type="stmt"/>
+        <line num="105" count="0" type="stmt"/>
+        <line num="113" count="0" type="stmt"/>
+        <line num="119" count="0" type="stmt"/>
+        <line num="123" count="0" type="stmt"/>
+        <line num="131" count="12" type="stmt"/>
+        <line num="132" count="1" type="stmt"/>
+        <line num="137" count="12" type="stmt"/>
+        <line num="138" count="1" type="stmt"/>
+        <line num="149" count="12" type="stmt"/>
+        <line num="150" count="1" type="stmt"/>
+        <line num="162" count="12" type="stmt"/>
+        <line num="163" count="1" type="stmt"/>
+        <line num="173" count="12" type="stmt"/>
+        <line num="174" count="1" type="stmt"/>
+        <line num="184" count="12" type="stmt"/>
+        <line num="185" count="1" type="stmt"/>
+        <line num="196" count="28" type="stmt"/>
+        <line num="210" count="28" type="stmt"/>
+        <line num="211" count="28" type="stmt"/>
+        <line num="283" count="1" type="stmt"/>
+        <line num="284" count="1" type="stmt"/>
+      </file>
+      <file name="style.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/LoggedInScreens/style.tsx">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="app.components.LoggedInScreens.Auctions">
+      <metrics statements="108" coveredstatements="46" conditionals="61" coveredconditionals="29" methods="31" coveredmethods="3"/>
+      <file name="Auctions.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/LoggedInScreens/Auctions/Auctions.tsx">
+        <metrics statements="103" coveredstatements="41" conditionals="61" coveredconditionals="29" methods="31" coveredmethods="3"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="54" count="9" type="stmt"/>
+        <line num="55" count="9" type="stmt"/>
+        <line num="101" count="9" type="stmt"/>
+        <line num="102" count="9" type="stmt"/>
+        <line num="103" count="9" type="stmt"/>
+        <line num="106" count="9" type="stmt"/>
+        <line num="107" count="9" type="stmt"/>
+        <line num="108" count="9" type="stmt"/>
+        <line num="109" count="9" type="stmt"/>
+        <line num="110" count="9" type="stmt"/>
+        <line num="111" count="9" type="stmt"/>
+        <line num="114" count="9" type="stmt"/>
+        <line num="115" count="0" type="stmt"/>
+        <line num="118" count="9" type="stmt"/>
+        <line num="129" count="0" type="stmt"/>
+        <line num="130" count="0" type="stmt"/>
+        <line num="144" count="0" type="stmt"/>
+        <line num="146" count="0" type="stmt"/>
+        <line num="149" count="0" type="stmt"/>
+        <line num="151" count="0" type="stmt"/>
+        <line num="155" count="0" type="stmt"/>
+        <line num="157" count="0" type="stmt"/>
+        <line num="172" count="0" type="stmt"/>
+        <line num="189" count="0" type="stmt"/>
+        <line num="191" count="0" type="stmt"/>
+        <line num="193" count="0" type="stmt"/>
+        <line num="195" count="0" type="stmt"/>
+        <line num="211" count="0" type="stmt"/>
+        <line num="213" count="0" type="stmt"/>
+        <line num="219" count="0" type="stmt"/>
+        <line num="223" count="0" type="stmt"/>
+        <line num="225" count="0" type="stmt"/>
+        <line num="231" count="0" type="stmt"/>
+        <line num="234" count="0" type="stmt"/>
+        <line num="238" count="9" type="stmt"/>
+        <line num="239" count="0" type="stmt"/>
+        <line num="242" count="0" type="stmt"/>
+        <line num="244" count="0" type="stmt"/>
+        <line num="246" count="0" type="stmt"/>
+        <line num="250" count="9" type="stmt"/>
+        <line num="251" count="0" type="stmt"/>
+        <line num="253" count="0" type="stmt"/>
+        <line num="260" count="0" type="stmt"/>
+        <line num="267" count="0" type="stmt"/>
+        <line num="276" count="9" type="cond" truecount="0" falsecount="1"/>
+        <line num="278" count="0" type="stmt"/>
+        <line num="283" count="0" type="stmt"/>
+        <line num="288" count="0" type="stmt"/>
+        <line num="291" count="0" type="stmt"/>
+        <line num="308" count="9" type="stmt"/>
+        <line num="314" count="0" type="stmt"/>
+        <line num="315" count="0" type="stmt"/>
+        <line num="316" count="0" type="stmt"/>
+        <line num="318" count="0" type="stmt"/>
+        <line num="321" count="0" type="stmt"/>
+        <line num="331" count="0" type="stmt"/>
+        <line num="332" count="0" type="stmt"/>
+        <line num="333" count="0" type="stmt"/>
+        <line num="335" count="0" type="stmt"/>
+        <line num="342" count="0" type="stmt"/>
+        <line num="347" count="0" type="stmt"/>
+        <line num="352" count="0" type="stmt"/>
+        <line num="358" count="0" type="stmt"/>
+        <line num="366" count="0" type="stmt"/>
+        <line num="376" count="0" type="stmt"/>
+        <line num="379" count="0" type="stmt"/>
+        <line num="383" count="9" type="stmt"/>
+        <line num="384" count="0" type="stmt"/>
+        <line num="385" count="0" type="stmt"/>
+        <line num="388" count="9" type="stmt"/>
+        <line num="389" count="0" type="stmt"/>
+        <line num="390" count="0" type="stmt"/>
+        <line num="391" count="0" type="stmt"/>
+        <line num="393" count="0" type="stmt"/>
+        <line num="395" count="0" type="stmt"/>
+        <line num="402" count="0" type="stmt"/>
+        <line num="411" count="0" type="stmt"/>
+        <line num="415" count="9" type="stmt"/>
+        <line num="416" count="0" type="stmt"/>
+        <line num="421" count="9" type="stmt"/>
+        <line num="422" count="0" type="stmt"/>
+        <line num="429" count="9" type="stmt"/>
+        <line num="432" count="0" type="stmt"/>
+        <line num="440" count="0" type="stmt"/>
+        <line num="463" count="17" type="stmt"/>
+        <line num="464" count="17" type="stmt"/>
+        <line num="584" count="1" type="stmt"/>
+        <line num="585" count="1" type="stmt"/>
+      </file>
+      <file name="style.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/LoggedInScreens/Auctions/style.tsx">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="102" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="app.components.LoggedInScreens.Auctions.utils">
+      <metrics statements="10" coveredstatements="6" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
+      <file name="AuctionList.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/LoggedInScreens/Auctions/utils/AuctionList.tsx">
+        <metrics statements="10" coveredstatements="6" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="app.components.LoggedInScreens.FindUsers">
+      <metrics statements="151" coveredstatements="57" conditionals="55" coveredconditionals="35" methods="48" coveredmethods="3"/>
+      <file name="FindUsers.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/LoggedInScreens/FindUsers/FindUsers.tsx">
+        <metrics statements="146" coveredstatements="52" conditionals="55" coveredconditionals="35" methods="48" coveredmethods="3"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="55" count="6" type="stmt"/>
+        <line num="56" count="6" type="stmt"/>
+        <line num="114" count="6" type="stmt"/>
+        <line num="115" count="6" type="stmt"/>
+        <line num="116" count="6" type="stmt"/>
+        <line num="117" count="6" type="stmt"/>
+        <line num="118" count="6" type="stmt"/>
+        <line num="119" count="6" type="stmt"/>
+        <line num="120" count="6" type="stmt"/>
+        <line num="121" count="6" type="stmt"/>
+        <line num="122" count="6" type="stmt"/>
+        <line num="123" count="6" type="stmt"/>
+        <line num="124" count="6" type="stmt"/>
+        <line num="125" count="6" type="stmt"/>
+        <line num="126" count="6" type="stmt"/>
+        <line num="127" count="6" type="stmt"/>
+        <line num="128" count="6" type="stmt"/>
+        <line num="129" count="6" type="stmt"/>
+        <line num="132" count="6" type="stmt"/>
+        <line num="138" count="0" type="stmt"/>
+        <line num="140" count="0" type="stmt"/>
+        <line num="148" count="0" type="stmt"/>
+        <line num="156" count="0" type="stmt"/>
+        <line num="164" count="0" type="stmt"/>
+        <line num="174" count="6" type="stmt"/>
+        <line num="180" count="0" type="stmt"/>
+        <line num="183" count="0" type="stmt"/>
+        <line num="191" count="0" type="stmt"/>
+        <line num="199" count="0" type="stmt"/>
+        <line num="207" count="0" type="stmt"/>
+        <line num="217" count="6" type="cond" truecount="0" falsecount="1"/>
+        <line num="220" count="0" type="stmt"/>
+        <line num="222" count="0" type="stmt"/>
+        <line num="228" count="0" type="stmt"/>
+        <line num="232" count="6" type="stmt"/>
+        <line num="239" count="0" type="stmt"/>
+        <line num="240" count="0" type="stmt"/>
+        <line num="241" count="0" type="stmt"/>
+        <line num="243" count="0" type="stmt"/>
+        <line num="246" count="0" type="stmt"/>
+        <line num="258" count="0" type="stmt"/>
+        <line num="259" count="0" type="stmt"/>
+        <line num="260" count="0" type="stmt"/>
+        <line num="261" count="0" type="stmt"/>
+        <line num="263" count="0" type="stmt"/>
+        <line num="270" count="0" type="stmt"/>
+        <line num="275" count="0" type="stmt"/>
+        <line num="280" count="0" type="stmt"/>
+        <line num="285" count="0" type="stmt"/>
+        <line num="291" count="0" type="stmt"/>
+        <line num="300" count="0" type="stmt"/>
+        <line num="311" count="0" type="stmt"/>
+        <line num="318" count="0" type="stmt"/>
+        <line num="322" count="6" type="stmt"/>
+        <line num="323" count="0" type="stmt"/>
+        <line num="325" count="0" type="stmt"/>
+        <line num="327" count="0" type="stmt"/>
+        <line num="331" count="0" type="stmt"/>
+        <line num="333" count="0" type="stmt"/>
+        <line num="334" count="0" type="stmt"/>
+        <line num="336" count="0" type="stmt"/>
+        <line num="339" count="0" type="stmt"/>
+        <line num="340" count="0" type="stmt"/>
+        <line num="341" count="0" type="stmt"/>
+        <line num="349" count="0" type="stmt"/>
+        <line num="358" count="0" type="stmt"/>
+        <line num="361" count="0" type="stmt"/>
+        <line num="378" count="6" type="stmt"/>
+        <line num="379" count="0" type="stmt"/>
+        <line num="382" count="6" type="stmt"/>
+        <line num="383" count="0" type="stmt"/>
+        <line num="384" count="0" type="stmt"/>
+        <line num="385" count="0" type="stmt"/>
+        <line num="387" count="0" type="stmt"/>
+        <line num="389" count="0" type="stmt"/>
+        <line num="397" count="0" type="stmt"/>
+        <line num="405" count="0" type="stmt"/>
+        <line num="411" count="0" type="stmt"/>
+        <line num="413" count="0" type="stmt"/>
+        <line num="421" count="0" type="stmt"/>
+        <line num="429" count="6" type="stmt"/>
+        <line num="431" count="0" type="stmt"/>
+        <line num="433" count="0" type="stmt"/>
+        <line num="435" count="0" type="stmt"/>
+        <line num="437" count="0" type="stmt"/>
+        <line num="439" count="0" type="stmt"/>
+        <line num="446" count="0" type="stmt"/>
+        <line num="447" count="0" type="stmt"/>
+        <line num="456" count="0" type="stmt"/>
+        <line num="464" count="0" type="stmt"/>
+        <line num="471" count="0" type="stmt"/>
+        <line num="477" count="0" type="stmt"/>
+        <line num="480" count="0" type="stmt"/>
+        <line num="483" count="6" type="stmt"/>
+        <line num="484" count="0" type="stmt"/>
+        <line num="487" count="6" type="stmt"/>
+        <line num="488" count="0" type="stmt"/>
+        <line num="491" count="6" type="stmt"/>
+        <line num="492" count="0" type="stmt"/>
+        <line num="495" count="6" type="stmt"/>
+        <line num="496" count="0" type="stmt"/>
+        <line num="497" count="0" type="stmt"/>
+        <line num="499" count="0" type="stmt"/>
+        <line num="507" count="0" type="stmt"/>
+        <line num="514" count="0" type="stmt"/>
+        <line num="522" count="0" type="stmt"/>
+        <line num="530" count="6" type="stmt"/>
+        <line num="531" count="0" type="stmt"/>
+        <line num="533" count="0" type="stmt"/>
+        <line num="535" count="0" type="stmt"/>
+        <line num="543" count="0" type="stmt"/>
+        <line num="550" count="0" type="stmt"/>
+        <line num="558" count="0" type="stmt"/>
+        <line num="566" count="6" type="stmt"/>
+        <line num="568" count="0" type="stmt"/>
+        <line num="569" count="0" type="stmt"/>
+        <line num="570" count="0" type="stmt"/>
+        <line num="572" count="0" type="stmt"/>
+        <line num="574" count="0" type="stmt"/>
+        <line num="580" count="0" type="stmt"/>
+        <line num="582" count="0" type="stmt"/>
+        <line num="592" count="0" type="stmt"/>
+        <line num="599" count="0" type="stmt"/>
+        <line num="603" count="6" type="stmt"/>
+        <line num="604" count="0" type="stmt"/>
+        <line num="607" count="6" type="stmt"/>
+        <line num="608" count="6" type="stmt"/>
+        <line num="610" count="0" type="stmt"/>
+        <line num="614" count="0" type="stmt"/>
+        <line num="637" count="11" type="stmt"/>
+        <line num="638" count="11" type="stmt"/>
+        <line num="769" count="1" type="stmt"/>
+        <line num="770" count="1" type="stmt"/>
+      </file>
+      <file name="style.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/LoggedInScreens/FindUsers/style.tsx">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="53" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="app.components.LoggedInScreens.FindUsers.utils">
+      <metrics statements="11" coveredstatements="6" conditionals="10" coveredconditionals="0" methods="3" coveredmethods="0"/>
+      <file name="UserList.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/LoggedInScreens/FindUsers/utils/UserList.tsx">
+        <metrics statements="11" coveredstatements="6" conditionals="10" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="15" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="47" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="app.components.LoggedInScreens.Forum">
+      <metrics statements="70" coveredstatements="39" conditionals="39" coveredconditionals="32" methods="23" coveredmethods="4"/>
+      <file name="Forum.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/LoggedInScreens/Forum/Forum.tsx">
+        <metrics statements="65" coveredstatements="34" conditionals="39" coveredconditionals="32" methods="23" coveredmethods="4"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -14,63 +546,230 @@
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="32" count="8" type="stmt"/>
+        <line num="33" count="8" type="stmt"/>
+        <line num="44" count="8" type="stmt"/>
+        <line num="45" count="8" type="stmt"/>
+        <line num="46" count="8" type="stmt"/>
+        <line num="47" count="8" type="stmt"/>
+        <line num="48" count="8" type="stmt"/>
+        <line num="49" count="8" type="stmt"/>
+        <line num="52" count="8" type="stmt"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="57" count="0" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="67" count="8" type="stmt"/>
+        <line num="68" count="0" type="stmt"/>
+        <line num="73" count="8" type="stmt"/>
+        <line num="75" count="0" type="stmt"/>
+        <line num="80" count="0" type="stmt"/>
+        <line num="87" count="8" type="stmt"/>
+        <line num="92" count="0" type="stmt"/>
+        <line num="94" count="0" type="stmt"/>
+        <line num="96" count="0" type="stmt"/>
+        <line num="102" count="0" type="stmt"/>
+        <line num="103" count="0" type="stmt"/>
+        <line num="111" count="0" type="stmt"/>
+        <line num="116" count="0" type="stmt"/>
+        <line num="124" count="8" type="stmt"/>
+        <line num="125" count="0" type="stmt"/>
+        <line num="127" count="0" type="stmt"/>
+        <line num="129" count="0" type="stmt"/>
+        <line num="133" count="0" type="stmt"/>
+        <line num="134" count="0" type="stmt"/>
+        <line num="140" count="0" type="stmt"/>
+        <line num="148" count="8" type="stmt"/>
+        <line num="149" count="0" type="stmt"/>
+        <line num="150" count="0" type="stmt"/>
+        <line num="153" count="8" type="stmt"/>
+        <line num="159" count="0" type="stmt"/>
+        <line num="162" count="0" type="stmt"/>
+        <line num="175" count="0" type="stmt"/>
+        <line num="177" count="0" type="stmt"/>
+        <line num="186" count="0" type="stmt"/>
+        <line num="190" count="0" type="stmt"/>
+        <line num="192" count="0" type="stmt"/>
+        <line num="198" count="0" type="stmt"/>
+        <line num="206" count="0" type="stmt"/>
+        <line num="213" count="0" type="stmt"/>
+        <line num="221" count="8" type="stmt"/>
+        <line num="222" count="8" type="stmt"/>
+        <line num="234" count="22" type="stmt"/>
+        <line num="235" count="22" type="stmt"/>
+        <line num="313" count="1" type="stmt"/>
+        <line num="352" count="1" type="stmt"/>
+        <line num="353" count="1" type="stmt"/>
+      </file>
+      <file name="style.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/LoggedInScreens/Forum/style.tsx">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="70" count="1" type="stmt"/>
+        <line num="71" count="1" type="stmt"/>
+        <line num="73" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="app.components.LoggedInScreens.Forum.utils">
+      <metrics statements="11" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <file name="CategoryDetailsSinglePostOnList.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/LoggedInScreens/Forum/utils/CategoryDetailsSinglePostOnList.tsx">
+        <metrics statements="11" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
-        <line num="20" count="1" type="stmt"/>
-        <line num="36" count="1" type="stmt"/>
-        <line num="46" count="1" type="stmt"/>
-        <line num="56" count="1" type="stmt"/>
-        <line num="66" count="1" type="stmt"/>
-        <line num="77" count="1" type="stmt"/>
-        <line num="89" count="1" type="stmt"/>
-        <line num="98" count="1" type="stmt"/>
-        <line num="102" count="1" type="stmt"/>
-        <line num="108" count="1" type="stmt"/>
-        <line num="114" count="1" type="stmt"/>
-        <line num="121" count="1" type="stmt"/>
-        <line num="127" count="1" type="stmt"/>
-        <line num="140" count="1" type="stmt"/>
-        <line num="148" count="1" type="stmt"/>
-        <line num="156" count="1" type="stmt"/>
-        <line num="163" count="1" type="stmt"/>
-        <line num="169" count="1" type="stmt"/>
-        <line num="174" count="1" type="stmt"/>
-        <line num="182" count="1" type="stmt"/>
-        <line num="189" count="1" type="stmt"/>
-        <line num="196" count="1" type="stmt"/>
-        <line num="205" count="1" type="stmt"/>
-        <line num="212" count="1" type="stmt"/>
-        <line num="220" count="1" type="stmt"/>
-        <line num="224" count="1" type="stmt"/>
-        <line num="232" count="1" type="stmt"/>
-        <line num="236" count="1" type="stmt"/>
-        <line num="243" count="1" type="stmt"/>
-        <line num="250" count="1" type="stmt"/>
-        <line num="255" count="1" type="stmt"/>
-        <line num="260" count="1" type="stmt"/>
-        <line num="269" count="1" type="stmt"/>
-        <line num="278" count="1" type="stmt"/>
-        <line num="284" count="1" type="stmt"/>
-        <line num="289" count="1" type="stmt"/>
-        <line num="290" count="1" type="stmt"/>
-        <line num="296" count="1" type="stmt"/>
-        <line num="302" count="1" type="stmt"/>
-        <line num="308" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="50" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="app.assets.images">
-      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="loader.gif" path="/Users/radoszszymon/Desktop/projects/emamy/app/assets/images/loader.gif">
-        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+    <package name="app.components.LoggedInScreens.Messages">
+      <metrics statements="60" coveredstatements="30" conditionals="22" coveredconditionals="17" methods="19" coveredmethods="3"/>
+      <file name="Messages.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/LoggedInScreens/Messages/Messages.tsx">
+        <metrics statements="57" coveredstatements="27" conditionals="22" coveredconditionals="17" methods="19" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
-      </file>
-    </package>
-    <package name="app.components.Context">
-      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="0"/>
-      <file name="GlobalContext.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/Context/GlobalContext.tsx">
-        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="31" count="5" type="stmt"/>
+        <line num="32" count="5" type="stmt"/>
+        <line num="46" count="5" type="stmt"/>
+        <line num="47" count="5" type="stmt"/>
+        <line num="48" count="5" type="stmt"/>
+        <line num="49" count="5" type="stmt"/>
+        <line num="50" count="5" type="stmt"/>
+        <line num="51" count="5" type="stmt"/>
+        <line num="54" count="5" type="stmt"/>
+        <line num="55" count="0" type="stmt"/>
+        <line num="58" count="5" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="63" count="5" type="stmt"/>
+        <line num="70" count="0" type="stmt"/>
+        <line num="71" count="0" type="stmt"/>
+        <line num="73" count="0" type="stmt"/>
+        <line num="75" count="0" type="stmt"/>
+        <line num="81" count="0" type="stmt"/>
+        <line num="94" count="0" type="stmt"/>
+        <line num="103" count="5" type="stmt"/>
+        <line num="113" count="0" type="stmt"/>
+        <line num="115" count="0" type="stmt"/>
+        <line num="117" count="0" type="stmt"/>
+        <line num="125" count="0" type="stmt"/>
+        <line num="135" count="0" type="stmt"/>
+        <line num="145" count="0" type="stmt"/>
+        <line num="154" count="5" type="stmt"/>
+        <line num="155" count="0" type="stmt"/>
+        <line num="156" count="0" type="stmt"/>
+        <line num="158" count="0" type="stmt"/>
+        <line num="160" count="0" type="stmt"/>
+        <line num="166" count="0" type="stmt"/>
+        <line num="167" count="0" type="stmt"/>
+        <line num="174" count="0" type="stmt"/>
+        <line num="182" count="5" type="stmt"/>
+        <line num="183" count="0" type="stmt"/>
+        <line num="184" count="0" type="stmt"/>
+        <line num="186" count="0" type="stmt"/>
+        <line num="188" count="0" type="stmt"/>
+        <line num="195" count="0" type="stmt"/>
+        <line num="196" count="0" type="stmt"/>
+        <line num="203" count="0" type="stmt"/>
+        <line num="211" count="5" type="stmt"/>
+        <line num="213" count="0" type="stmt"/>
+        <line num="214" count="0" type="stmt"/>
+        <line num="230" count="9" type="stmt"/>
+        <line num="231" count="9" type="stmt"/>
+        <line num="329" count="1" type="stmt"/>
+        <line num="330" count="1" type="stmt"/>
+      </file>
+      <file name="style.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/LoggedInScreens/Messages/style.tsx">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="54" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="app.components.LoggedInScreens.Messages.utils">
+      <metrics statements="12" coveredstatements="8" conditionals="4" coveredconditionals="0" methods="3" coveredmethods="0"/>
+      <file name="MessageList.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/LoggedInScreens/Messages/utils/MessageList.tsx">
+        <metrics statements="12" coveredstatements="8" conditionals="4" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="14" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="50" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="app.components.LoggedInScreens.SharedComponents">
+      <metrics statements="26" coveredstatements="22" conditionals="44" coveredconditionals="0" methods="3" coveredmethods="0"/>
+      <file name="BottomPanel.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/LoggedInScreens/SharedComponents/BottomPanel.tsx">
+        <metrics statements="14" coveredstatements="12" conditionals="44" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="210" count="1" type="stmt"/>
+      </file>
+      <file name="PageHeader.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/LoggedInScreens/SharedComponents/PageHeader.tsx">
+        <metrics statements="8" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+      </file>
+      <file name="style.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/LoggedInScreens/SharedComponents/style.tsx">
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="18" count="2" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
+        <line num="75" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="app.components.LoggedInScreens.utils">
+      <metrics statements="11" coveredstatements="11" conditionals="21" coveredconditionals="18" methods="13" coveredmethods="1"/>
+      <file name="LoggedInScreens.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/LoggedInScreens/utils/LoggedInScreens.tsx">
+        <metrics statements="11" coveredstatements="11" conditionals="21" coveredconditionals="18" methods="13" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="11" count="2" type="stmt"/>
+        <line num="12" count="11" type="stmt"/>
+        <line num="82" count="2" type="stmt"/>
       </file>
     </package>
     <package name="app.components.NotLoggedInScreens.EditProfileInfo">
@@ -246,14 +945,41 @@
         <line num="44" count="1" type="stmt"/>
       </file>
     </package>
+    <package name="app.components.Utils">
+      <metrics statements="15" coveredstatements="13" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <file name="ButtonComponent.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/Utils/ButtonComponent.tsx">
+        <metrics statements="6" coveredstatements="5" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="25" count="2" type="stmt"/>
+      </file>
+      <file name="ListItem.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/Utils/ListItem.tsx">
+        <metrics statements="6" coveredstatements="5" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="47" count="3" type="stmt"/>
+      </file>
+      <file name="style.tsx" path="/Users/radoszszymon/Desktop/projects/emamy/app/components/Utils/style.tsx">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="34" count="4" type="stmt"/>
+      </file>
+    </package>
     <package name="testUtils">
       <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
       <file name="testUtils.js" path="/Users/radoszszymon/Desktop/projects/emamy/testUtils/testUtils.js">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="8" type="stmt"/>
-        <line num="3" count="8" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
+        <line num="1" count="7" type="stmt"/>
+        <line num="2" count="46" type="stmt"/>
+        <line num="3" count="46" type="stmt"/>
+        <line num="4" count="7" type="stmt"/>
       </file>
     </package>
   </project>

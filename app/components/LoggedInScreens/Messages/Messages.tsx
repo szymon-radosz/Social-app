@@ -163,6 +163,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
       })
       .then(function(response) {
         if (response.data.status === "OK") {
+          console.log(["messagesList", response.data.result.conversationData]);
           that.setState({
             messagesList: response.data.result.conversationData,
             displayPrivateMessages: true
@@ -191,6 +192,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
       })
       .then(function(response) {
         if (response.data.status === "OK") {
+          console.log(response.data.result.conversationData);
           that.setState({
             messagesList: response.data.result.conversationData,
             displayPrivateMessages: false
@@ -227,15 +229,19 @@ class Messages extends Component<MessagesProps, MessagesState> {
       userMessage
     } = this.state;
     return (
-      <View>
+      <View data-test="Messages">
         {!openConversationDetails && (
-          <ImageBackground source={messagesBgMin} style={{ width: "100%" }}>
+          <ImageBackground
+            source={messagesBgMin}
+            style={{ width: "100%" }}
+            data-test="ImageBackground"
+          >
             <Text style={styles.pageTitle}>Twoje{"\n"}Wiadomości</Text>
           </ImageBackground>
         )}
 
         {showFilterPanel && (
-          <View>
+          <View data-test="showFilterPanel">
             <View style={styles.filterBtnContainer}>
               <View style={styles.singleButtonCol2Container}>
                 <TouchableOpacity
@@ -286,6 +292,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
             <MessageList
               messagesList={messagesList}
               openConversationDetails={this.openConversationDetails}
+              data-test="MessageList"
             />
           ) : displayPrivateMessages ? (
             <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
@@ -311,6 +318,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
               setUserMessage={this.setUserMessage}
               userMessage={userMessage}
               closeConversationDetails={this.closeConversationDetails}
+              data-test="ConversationDetails"
             />
           </Suspense>
         )}

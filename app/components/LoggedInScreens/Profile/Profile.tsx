@@ -272,7 +272,7 @@ class Profile extends Component<
       displayFriendList
     } = this.state;
     return (
-      <View>
+      <View data-test="ProfileContainer">
         {/* user preview page header */}
         {showProfilePreview &&
           !showEditUserData &&
@@ -286,6 +286,7 @@ class Profile extends Component<
               normalText={""}
               closeMethod={this.setShowProfilePreview}
               closeMethodParameter={""}
+              data-test="PageHeader"
             />
           )}
         {/* user friends list page header */}

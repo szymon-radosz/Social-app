@@ -31,6 +31,7 @@ const SendMessageBox = (props: {
       <ButtonComponent
         pressButtonComponent={(): any =>
           props.sendMessage(
+            //@ts-ignore
             context.userData.id,
             props.receiverId,
             props.receiverName,

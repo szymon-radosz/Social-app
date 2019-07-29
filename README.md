@@ -21,6 +21,14 @@ export PATH=${PATH}:${ANDROID_HOME}/platform-tools
 Tworzenie apk:
 
 1. Usunięcie android-> app -> src -> main -> res -> drawable
-2. Delete files inside directory android/app/src/main/assets.
-3. react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+2. react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+3. Delete files inside directory android/app/src/main/assets.
 4. W głównym folderze cd android && ./gradlew assembleRelease
+
+=========================
+
+Tworzenie wersji do google play - release/app.aab
+
+1. react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+2. Delete files inside directory android/app/src/main/assets.
+3. W głównym folderze cd android && ./gradlew bundleRelease

@@ -130,6 +130,7 @@ class Forum extends Component<ForumProps, ForumState> {
       .get(API_URL + "/api/posts")
       .then(function(response) {
         if (response.data.status === "OK") {
+          console.log(["posts", response.data.result]);
           that.setState({
             postList: response.data.result
           });
@@ -233,9 +234,13 @@ class Forum extends Component<ForumProps, ForumState> {
     } = this.state;
     return (
       <React.Fragment>
-        <View style={styles.container}>
+        <View style={styles.container} data-test="Forum">
           {!showPostDetails && !showPosts && !showSavePost && (
-            <ImageBackground source={forumBg} style={{ width: "100%" }}>
+            <ImageBackground
+              source={forumBg}
+              style={{ width: "100%" }}
+              data-test="ImageBackground"
+            >
               <Text style={styles.pageTitle}>
                 Podziel się swoją
                 {"\n"}wiedzą.
@@ -252,6 +257,7 @@ class Forum extends Component<ForumProps, ForumState> {
                   <PostDetails
                     postDetailsId={showPostDetailsId}
                     setShowPostDetails={this.setShowPostDetails}
+                    data-test="PostDetails"
                   />
                 </Suspense>
               )}
@@ -263,6 +269,7 @@ class Forum extends Component<ForumProps, ForumState> {
                   user={this.context.userData}
                   savePost={this.savePost}
                   setShowSavePost={this.setShowSavePost}
+                  data-test="SavePost"
                 />
               </Suspense>
             )}
@@ -273,6 +280,7 @@ class Forum extends Component<ForumProps, ForumState> {
                   API_URL={this.context.API_URL}
                   user={this.context.userData}
                   getPostByCategoryId={this.getPostByCategoryId}
+                  data-test="CategoriesList"
                 />
               </Suspense>
             )}
@@ -283,6 +291,7 @@ class Forum extends Component<ForumProps, ForumState> {
                 normalText={categoryName}
                 closeMethod={this.setShowSortByCategory}
                 closeMethodParameter={true}
+                data-test="PageHeader"
               />
             )}
 
@@ -307,6 +316,7 @@ class Forum extends Component<ForumProps, ForumState> {
                         showPosts={showPosts}
                         key={`CategoryDetailsSinglePostOnList-${i}`}
                         post={post}
+                        data-test="CategoryDetailsSinglePostOnList"
                       />
                     );
                   }
@@ -317,6 +327,7 @@ class Forum extends Component<ForumProps, ForumState> {
               <Text
                 style={{ paddingLeft: 10, paddingRight: 10 }}
                 onPress={this.props.setShowFeedbackModal}
+                data-test="ask"
               >
                 Masz pomysł na nową kategorię?{" "}
                 <Text style={{ fontWeight: "600" }}>Napisz do nas!</Text>
@@ -329,6 +340,7 @@ class Forum extends Component<ForumProps, ForumState> {
                 buttonComponentText="Dodaj post"
                 fullWidth={true}
                 underlayColor="#dd904d"
+                data-test="ButtonComponent"
               />
             )}
           </View>

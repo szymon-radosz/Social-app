@@ -7,6 +7,7 @@ import {
   SafeAreaView
 } from "react-native";
 import styles from "./style";
+//@ts-ignore
 import AppIntroSlider from "react-native-app-intro-slider";
 import ButtonComponent from "./../../Utils/ButtonComponent";
 import { GlobalContext } from "./../../Context/GlobalContext";
