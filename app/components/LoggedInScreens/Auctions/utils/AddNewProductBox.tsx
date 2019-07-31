@@ -505,6 +505,8 @@ export default class AddNewProductBox extends Component<
           buttonComponentText="Dodaj Produkt"
           fullWidth={true}
           underlayColor="#dd904d"
+          whiteBg={false}
+          showBackIcon={false}
         />
 
         <View style={{ marginBottom: 20 }} />

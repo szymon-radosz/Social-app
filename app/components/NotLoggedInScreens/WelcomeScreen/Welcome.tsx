@@ -95,6 +95,8 @@ const Welcome = (props: any) => {
             buttonComponentText="Logowanie"
             fullWidth={false}
             underlayColor="#dd904d"
+            whiteBg={false}
+            showBackIcon={false}
           />
           <TouchableHighlight
             style={styles.registerBtn}

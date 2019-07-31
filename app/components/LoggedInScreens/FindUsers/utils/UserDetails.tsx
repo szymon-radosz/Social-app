@@ -80,6 +80,8 @@ const UserDetails = (props: {
               buttonComponentText="Przejdź do wiadomości"
               fullWidth={true}
               underlayColor="#dd904d"
+              whiteBg={false}
+              showBackIcon={false}
             />
           ) : (
             <ButtonComponent
@@ -87,6 +89,8 @@ const UserDetails = (props: {
               buttonComponentText="Pomachaj"
               fullWidth={true}
               underlayColor="#dd904d"
+              whiteBg={false}
+              showBackIcon={false}
             />
           )}
         </View>
@@ -100,6 +104,8 @@ const UserDetails = (props: {
                 buttonComponentText="Zaproś do znajomych"
                 fullWidth={true}
                 underlayColor="#dd904d"
+                whiteBg={false}
+                showBackIcon={false}
               />
             )}
 
@@ -112,6 +118,8 @@ const UserDetails = (props: {
                 buttonComponentText="Zaakceptuj zaproszenie do znajomych"
                 fullWidth={true}
                 underlayColor="#dd904d"
+                whiteBg={false}
+                showBackIcon={false}
               />
             )}
 
@@ -124,6 +132,8 @@ const UserDetails = (props: {
                 buttonComponentText="Wysłano zaproszenie do znajomych"
                 fullWidth={true}
                 underlayColor="#dd904d"
+                whiteBg={false}
+                showBackIcon={false}
               />
             )}
             {props.usersFriendshipStatus === "confirmed" && (
@@ -132,6 +142,8 @@ const UserDetails = (props: {
                 buttonComponentText="Jesteście znajomymi"
                 fullWidth={true}
                 underlayColor="#dd904d"
+                whiteBg={false}
+                showBackIcon={false}
               />
             )}
           </View>

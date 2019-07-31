@@ -45,6 +45,8 @@ const SendMessageBox = (props: {
         buttonComponentText="Wyślij"
         fullWidth={true}
         underlayColor="#dd904d"
+        whiteBg={false}
+        showBackIcon={false}
       />
     </React.Fragment>
   );

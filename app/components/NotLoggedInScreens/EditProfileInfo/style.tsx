@@ -1,4 +1,11 @@
-import { StyleSheet, TextStyle, ViewStyle, ImageStyle } from "react-native";
+import {
+  StyleSheet,
+  TextStyle,
+  ViewStyle,
+  ImageStyle,
+  Dimensions
+} from "react-native";
+const fullHeight = Dimensions.get("window").height;
 import {
   pageTitleWhite,
   peachColor,
@@ -66,7 +73,7 @@ export default StyleSheet.create<Style>({
   },
   map: {
     width: "100%",
-    height: 250,
+    height: fullHeight - 260,
     marginTop: 15
   },
   dataPicker: {
@@ -137,8 +144,7 @@ export default StyleSheet.create<Style>({
     color: darkGrayColor,
     fontWeight: "400",
     fontSize: 12,
-    paddingTop: 10,
-    paddingBottom: 5,
+    paddingTop: 20,
     fontFamily: "Open Sans"
   },
   input: {

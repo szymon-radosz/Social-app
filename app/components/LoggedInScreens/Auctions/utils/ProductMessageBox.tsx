@@ -32,6 +32,8 @@ const ProductMessageBox = (props: any) => {
           buttonComponentText="Wyślij"
           fullWidth={true}
           underlayColor="#dd904d"
+          whiteBg={false}
+          showBackIcon={false}
         />
       </View>
     </React.Fragment>

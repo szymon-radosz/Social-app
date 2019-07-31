@@ -33,6 +33,23 @@ export const btnFullWidth = {
   flexDirection: "row",
   flexWrap: "wrap"
 };
+
+export const btnFullWidthWhite = {
+  height: 45,
+  width: "94%",
+  marginTop: 15,
+  marginBottom: 0,
+  marginLeft: "3%",
+  marginRight: "3%",
+  borderRadius: lightBorderRadius,
+  borderColor: peachColor,
+  borderWidth: 2,
+  backgroundColor: "#fff",
+  alignItems: "center",
+  justifyContent: "center",
+  flexDirection: "row",
+  flexWrap: "wrap"
+};
 export const btnFullWidthContainer = {
   height: 35,
   width: "100%",
@@ -311,6 +328,12 @@ export const filterBtnText = {
 };
 export const peachBtnText = {
   color: "#fff",
+  textAlign: "center",
+  fontSize: 16,
+  fontFamily: "Open Sans"
+};
+export const whiteBtnText = {
+  color: peachColor,
   textAlign: "center",
   fontSize: 16,
   fontFamily: "Open Sans"

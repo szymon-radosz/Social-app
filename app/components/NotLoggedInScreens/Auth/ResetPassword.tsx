@@ -66,6 +66,8 @@ const ResetPassword = (props: any) => {
             buttonComponentText="Resetuj"
             fullWidth={false}
             underlayColor="#dd904d"
+            whiteBg={false}
+            showBackIcon={false}
           />
 
           <View style={styles.subBtnSection}>

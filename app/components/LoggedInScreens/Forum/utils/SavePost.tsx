@@ -163,6 +163,8 @@ export default class SavePost extends Component<SavePostProps, SavePostState> {
             buttonComponentText="Dodaj"
             fullWidth={true}
             underlayColor="#dd904d"
+            whiteBg={false}
+            showBackIcon={false}
           />
         </View>
       </View>

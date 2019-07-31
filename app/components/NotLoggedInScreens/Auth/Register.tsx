@@ -159,6 +159,8 @@ const Register = (props: { navigation: any }) => {
               buttonComponentText="Zarejestruj"
               fullWidth={false}
               underlayColor="#dd904d"
+              whiteBg={false}
+              showBackIcon={false}
             />
 
             <View style={styles.subBtnSection}>

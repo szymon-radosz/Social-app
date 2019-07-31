@@ -431,6 +431,8 @@ class ProductDetails extends Component<
                     buttonComponentText="Wyślij wiadomość"
                     fullWidth={true}
                     underlayColor="#dd904d"
+                    whiteBg={false}
+                    showBackIcon={false}
                   />
                 )}
               {/* user is not the author and product is sold*/}
@@ -453,6 +455,8 @@ class ProductDetails extends Component<
                     buttonComponentText="Produkt sprzedany, jesteście w konwersacji"
                     fullWidth={true}
                     underlayColor="#dd904d"
+                    whiteBg={false}
+                    showBackIcon={false}
                   />
                 )}
               {/* user is not the author, they are in the same conversation and product is not sold*/}
@@ -464,6 +468,8 @@ class ProductDetails extends Component<
                     buttonComponentText="Jestescie już w konwersacji"
                     fullWidth={true}
                     underlayColor="#dd904d"
+                    whiteBg={false}
+                    showBackIcon={false}
                   />
                 )}
               {/* user is the author, and product is not sold*/}
@@ -474,6 +480,8 @@ class ProductDetails extends Component<
                     buttonComponentText="Zamknij Sprzedaż"
                     fullWidth={true}
                     underlayColor="#dd904d"
+                    whiteBg={false}
+                    showBackIcon={false}
                   />
                 )}
             </View>

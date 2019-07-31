@@ -341,6 +341,8 @@ class Forum extends Component<ForumProps, ForumState> {
                 fullWidth={true}
                 underlayColor="#dd904d"
                 data-test="ButtonComponent"
+                whiteBg={false}
+                showBackIcon={false}
               />
             )}
           </View>

@@ -4,7 +4,8 @@ import {
   View,
   Image,
   TouchableHighlight,
-  ImageBackground
+  ImageBackground,
+  ScrollView
 } from "react-native";
 import styles from "./../style";
 import ButtonComponent from "./../../../Utils/ButtonComponent";
@@ -21,46 +22,76 @@ const PhotoScreen = (props: {
 }): any => {
   console.log(["PhotoScreen", props]);
   return (
-    <View>
-      <ImageBackground source={fillInfoBg} style={{ width: "100%" }}>
-        <Text style={styles.headerText}>Dodaj zdjęcie{"\n"}profilowe</Text>
-      </ImageBackground>
+    <View
+      style={{
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "space-between"
+      }}
+    >
+      <ScrollView>
+        <ImageBackground source={fillInfoBg} style={{ width: "100%" }}>
+          <Text style={styles.headerText}>Dodaj zdjęcie{"\n"}profilowe</Text>
+        </ImageBackground>
 
-      <Text style={styles.fillInfoHeader}>Dodaj swoje zdjęcie profilowe</Text>
+        <Text style={styles.fillInfoHeader}>Dodaj swoje zdjęcie profilowe</Text>
 
-      {props.photo ? (
-        <Image source={{ uri: props.photo.path }} style={styles.image} />
-      ) : null}
+        {props.photo ? (
+          <Image source={{ uri: props.photo.path }} style={styles.image} />
+        ) : null}
 
-      {props.userSavedPhoto && props.API_URL && !props.photo ? (
-        <Image
-          source={{ uri: `${props.userSavedPhoto}` }}
-          style={styles.image}
-        />
-      ) : null}
+        {props.userSavedPhoto && props.API_URL && !props.photo ? (
+          <Image
+            source={{ uri: `${props.userSavedPhoto}` }}
+            style={styles.image}
+          />
+        ) : null}
 
-      <ButtonComponent
-        pressButtonComponent={props.handleChoosePhoto}
-        buttonComponentText="Wybierz zdjęcie"
-        fullWidth={true}
-        underlayColor="#dd904d"
-      />
+        <View style={{ marginTop: 10 }}>
+          <ButtonComponent
+            pressButtonComponent={props.handleChoosePhoto}
+            buttonComponentText="Wybierz zdjęcie"
+            fullWidth={true}
+            underlayColor="#dd904d"
+            whiteBg={false}
+            showBackIcon={false}
+          />
+        </View>
+      </ScrollView>
 
-      {props.photo || props.userSavedPhoto ? (
-        <ButtonComponent
-          pressButtonComponent={props.nextStep}
-          buttonComponentText="Dalej"
-          fullWidth={true}
-          underlayColor="#dd904d"
-        />
-      ) : null}
-
-      <ButtonComponent
-        pressButtonComponent={props.prevStep}
-        buttonComponentText="Wróć"
-        fullWidth={true}
-        underlayColor="#dd904d"
-      />
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignSelf: "flex-start",
+          marginBottom: 10,
+          marginLeft: 7,
+          marginRight: 7
+        }}
+      >
+        <View style={{ width: "30%" }}>
+          <ButtonComponent
+            pressButtonComponent={props.prevStep}
+            buttonComponentText="Wróć"
+            fullWidth={false}
+            underlayColor="#dd904d"
+            whiteBg={true}
+            showBackIcon={true}
+          />
+        </View>
+        <View style={{ width: "71%" }}>
+          {props.photo || props.userSavedPhoto ? (
+            <ButtonComponent
+              pressButtonComponent={props.nextStep}
+              buttonComponentText="Dalej"
+              fullWidth={true}
+              underlayColor="#dd904d"
+              whiteBg={false}
+              showBackIcon={false}
+            />
+          ) : null}
+        </View>
+      </View>
     </View>
   );
 };

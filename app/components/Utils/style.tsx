@@ -1,9 +1,11 @@
 import { StyleSheet, ViewStyle, TextStyle } from "react-native";
 import {
   peachColor,
+  whiteBtnText,
   lightBorderRadius,
   peachBtnText,
   btnFullWidth,
+  btnFullWidthWhite,
   listItemContainer,
   listItemSingleContainer,
   listItemImage,
@@ -15,8 +17,10 @@ import {
 
 interface Style {
   peachBtnText: any;
+  whiteBtnText: any;
   buttonComponent: ViewStyle;
   buttonComponentFullWidth: any;
+  buttonComponentFullWidthWhite: any;
   input: TextStyle;
   textarea: TextStyle;
   removeFilterBtnContainer: ViewStyle;
@@ -33,6 +37,7 @@ interface Style {
 
 export default StyleSheet.create<Style>({
   peachBtnText: peachBtnText,
+  whiteBtnText: whiteBtnText,
   buttonComponent: {
     height: 45,
     width: 180,
@@ -48,6 +53,7 @@ export default StyleSheet.create<Style>({
     flexWrap: "wrap"
   },
   buttonComponentFullWidth: btnFullWidth,
+  buttonComponentFullWidthWhite: btnFullWidthWhite,
   input: {
     width: "100%",
     marginTop: 10,

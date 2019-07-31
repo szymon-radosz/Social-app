@@ -545,6 +545,8 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
                       fullWidth={true}
                       underlayColor="#dd904d"
                       data-test="ButtonComponent"
+                      whiteBg={false}
+                      showBackIcon={false}
                     />
                   </View>
                 </View>

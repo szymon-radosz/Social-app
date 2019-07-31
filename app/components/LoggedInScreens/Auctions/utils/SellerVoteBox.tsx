@@ -289,6 +289,8 @@ export default class SellerVoteBox extends Component<
             buttonComponentText="Wyślij"
             fullWidth={true}
             underlayColor="#dd904d"
+            whiteBg={false}
+            showBackIcon={false}
           />
         )}
       </View>

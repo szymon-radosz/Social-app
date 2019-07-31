@@ -119,6 +119,8 @@ const Login = (props: any) => {
             buttonComponentText="Zaloguj"
             fullWidth={false}
             underlayColor="#dd904d"
+            whiteBg={false}
+            showBackIcon={false}
           />
 
           <View style={styles.subBtnSection}>

@@ -35,6 +35,8 @@ const SavePostComment = (props: {
         buttonComponentText="Wyślij"
         fullWidth={true}
         underlayColor="#dd904d"
+        whiteBg={false}
+        showBackIcon={false}
       />
     </View>
   );

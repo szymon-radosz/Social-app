@@ -484,13 +484,13 @@ class EditProfileInfo extends Component<
       loader
     } = this.state;
     return (
-      <View data-test="editProfileInfoContainer">
+      <View data-test="editProfileInfoContainer" style={{ flex: 1 }}>
         {loader ? (
           <View style={styles.loaderContainer} data-test="loaderContainer">
             <Image style={{ width: 100, height: 100 }} source={loaderImage} />
           </View>
         ) : (
-          <View>
+          <React.Fragment>
             {actualStep === 1 && (
               <Suspense fallback={<Text>Wczytywanie...</Text>}>
                 <AgeDescScreen
@@ -555,7 +555,7 @@ class EditProfileInfo extends Component<
                 />
               </Suspense>
             )}
-          </View>
+          </React.Fragment>
         )}
       </View>
     );

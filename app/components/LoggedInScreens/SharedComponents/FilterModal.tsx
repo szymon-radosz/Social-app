@@ -89,6 +89,8 @@ const FilterModal = (props: {
         buttonComponentText="Filtruj"
         fullWidth={true}
         underlayColor="#dd904d"
+        whiteBg={false}
+        showBackIcon={false}
       />
     </ScrollView>
   );
