@@ -46,7 +46,6 @@ interface AuctionsState {
   filterOptions: any;
   filterModalName: string;
   filterData: any;
-  loader: boolean;
 }
 
 class Auctions extends Component<AuctionsProps, AuctionsState> {
@@ -63,7 +62,6 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
       filterStatus: "",
       showFilterModal: false,
       filterModalName: "",
-      loader: false,
       filterData: {
         distance: [
           { text: "1km" },
@@ -108,12 +106,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
     this.filterResults = this.filterResults.bind(this);
     this.removeFilter = this.removeFilter.bind(this);
     this.addNewProduct = this.addNewProduct.bind(this);
-    this.setLoader = this.setLoader.bind(this);
   }
-
-  setLoader = (param: boolean) => {
-    this.setState({ loader: param });
-  };
 
   addNewProduct = async (
     photos: any,
@@ -190,7 +183,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
 
       console.log(["photosArray", photosArray]);
 
-      that.setLoader(true);
+      that.context.setShowLoader(true);
 
       let json = await axios
         .post(API_URL + "/api/saveProduct", {
@@ -216,7 +209,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
               "Dziękujemy za dodanie nowego produktu."
             );
 
-            that.setLoader(false);
+            that.context.setShowLoader(false);
           }
         })
         .catch(function(error) {
@@ -228,7 +221,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
             "Problem z dodaniem nowego produktu."
           );
 
-          that.setLoader(false);
+          that.context.setShowLoader(false);
         });
 
       return json;
@@ -458,12 +451,11 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
       filterModalName,
       filterDistance,
       filterPrice,
-      filterStatus,
-      loader
+      filterStatus
     } = this.state;
     return (
       <React.Fragment>
-        {loader ? (
+        {this.context.showLoader ? (
           <View style={styles.loaderContainer} data-test="loader">
             <Image style={{ width: 100, height: 100 }} source={loaderImage} />
           </View>

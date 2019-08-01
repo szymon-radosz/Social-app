@@ -53,7 +53,9 @@ const About = (props: any) => {
           onPress={props.setShowFeedbackModal}
         >
           Masz pytanie?{" "}
-          <Text style={{ fontWeight: "600" }}>Napisz do nas!</Text>
+          <Text style={{ fontWeight: "600", color: "#f4a157" }}>
+            Napisz do nas!
+          </Text>
         </Text>
       </View>
       <View
@@ -81,7 +83,8 @@ const About = (props: any) => {
             style={{
               fontFamily: "Open Sans",
               fontSize: 14,
-              fontWeight: "600"
+              fontWeight: "600",
+              color: "#f4a157"
             }}
           >
             e-mamy.pl
@@ -89,9 +92,27 @@ const About = (props: any) => {
         </TouchableHighlight>
       </View>
       <View>
-        <Text style={{ paddingTop: 30, paddingBottom: 30 }}>
-          Oceń naszą aplikację
-        </Text>
+        <TouchableHighlight
+          onPress={() => {
+            Linking.openURL(
+              "https://play.google.com/store/apps/details?id=com.emamy"
+            );
+          }}
+          underlayColor={"#fff"}
+        >
+          <Text
+            style={{
+              paddingTop: 30,
+              paddingBottom: 30,
+              fontFamily: "Open Sans",
+              fontSize: 14,
+              fontWeight: "600",
+              color: "#f4a157"
+            }}
+          >
+            Oceń naszą aplikację na Google Play
+          </Text>
+        </TouchableHighlight>
       </View>
       <View>
         <Text>Bądź na bieżąco z najnowszymi postami</Text>

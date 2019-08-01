@@ -61,13 +61,7 @@ export default class CoordsScreen extends Component<
 
   render() {
     return (
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "column",
-          justifyContent: "space-between"
-        }}
-      >
+      <View style={styles.sectionContainer}>
         <ScrollView>
           <ImageBackground source={fillInfoBg} style={{ width: "100%" }}>
             <Text style={styles.headerText}>Wybierz swoją{"\n"}okolicę</Text>
@@ -89,16 +83,7 @@ export default class CoordsScreen extends Component<
           </MapView>
         </ScrollView>
 
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignSelf: "flex-start",
-            marginBottom: 10,
-            marginLeft: 7,
-            marginRight: 7
-          }}
-        >
+        <View style={styles.sectionBtnBackContainer}>
           <View style={{ width: "30%" }}>
             <ButtonComponent
               pressButtonComponent={this.props.prevStep}

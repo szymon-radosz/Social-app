@@ -19,12 +19,6 @@ describe("<Auctions />", () => {
     expect(wrapper.length).toBe(1);
   });
 
-  it("Should render loader without errors", () => {
-    component.setState({ loader: true });
-    const wrapper = findByTestAttr(component, "loader");
-    expect(wrapper.length).toBe(1);
-  });
-
   it("Should render <FilterModal /> without errors", () => {
     component.setState({
       showFilterModal: true,

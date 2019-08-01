@@ -22,7 +22,6 @@ const Register = (props: { navigation: any }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConf, setPasswordConf] = useState("");
-  const [loader, setLoader] = useState(false);
   const [platform, setPlatform] = useState("");
   const context = useContext(GlobalContext);
 
@@ -51,7 +50,7 @@ const Register = (props: { navigation: any }) => {
       try {
         let API_URL = context.API_URL;
 
-        setLoader(true);
+        context.setShowLoader(true);
 
         axios
           .post(API_URL + "/api/register", {
@@ -63,7 +62,7 @@ const Register = (props: { navigation: any }) => {
           .then(function(response) {
             console.log(response.data);
             if (response.data.status === "OK") {
-              setLoader(false);
+              context.setShowLoader(false);
 
               context.setAlert(
                 true,
@@ -76,7 +75,7 @@ const Register = (props: { navigation: any }) => {
             }
           })
           .catch(function(error) {
-            setLoader(false);
+            context.setShowLoader(false);
           });
       } catch (e) {}
     } else {
@@ -90,7 +89,7 @@ const Register = (props: { navigation: any }) => {
 
   return (
     <React.Fragment>
-      {loader ? (
+      {context.showLoader ? (
         <View style={styles.loaderContainer}>
           <Image style={{ width: 100, height: 100 }} source={loaderImage} />
         </View>

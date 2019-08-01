@@ -40,7 +40,6 @@ interface FillNecessaryInfoState {
   region: any;
   userSavedPhoto: string;
   locationString: string;
-  loader: boolean;
 }
 
 class EditProfileInfo extends Component<
@@ -61,7 +60,6 @@ class EditProfileInfo extends Component<
       actualKidName: "",
       actualKidDate: "2016-05-15",
       actualKidGender: "female",
-      loader: false,
       region: {
         latitude: 52.237049,
         longitude: 21.017532,
@@ -454,7 +452,7 @@ class EditProfileInfo extends Component<
   };
 
   submitData = async () => {
-    this.setState({ loader: true });
+    this.context.setShowLoader(true);
     //first remove user kids and hobbies and save new data
     await this.userLocationString();
     await this.cleanUserKids();
@@ -465,7 +463,7 @@ class EditProfileInfo extends Component<
     await this.fileUpload();
 
     await this.context.setUserFilledInfo();
-    this.setState({ loader: false });
+    this.context.setShowLoader(false);
   };
 
   render() {
@@ -480,12 +478,11 @@ class EditProfileInfo extends Component<
       hobbies,
       actualStep,
       actualKidGender,
-      userSavedPhoto,
-      loader
+      userSavedPhoto
     } = this.state;
     return (
       <View data-test="editProfileInfoContainer" style={{ flex: 1 }}>
-        {loader ? (
+        {this.context.showLoader ? (
           <View style={styles.loaderContainer} data-test="loaderContainer">
             <Image style={{ width: 100, height: 100 }} source={loaderImage} />
           </View>

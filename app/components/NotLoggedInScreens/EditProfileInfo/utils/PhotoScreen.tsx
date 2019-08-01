@@ -22,13 +22,7 @@ const PhotoScreen = (props: {
 }): any => {
   console.log(["PhotoScreen", props]);
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "space-between"
-      }}
-    >
+    <View style={styles.sectionContainer}>
       <ScrollView>
         <ImageBackground source={fillInfoBg} style={{ width: "100%" }}>
           <Text style={styles.headerText}>Dodaj zdjęcie{"\n"}profilowe</Text>
@@ -59,16 +53,7 @@ const PhotoScreen = (props: {
         </View>
       </ScrollView>
 
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignSelf: "flex-start",
-          marginBottom: 10,
-          marginLeft: 7,
-          marginRight: 7
-        }}
-      >
+      <View style={styles.sectionBtnBackContainer}>
         <View style={{ width: "30%" }}>
           <ButtonComponent
             pressButtonComponent={props.prevStep}

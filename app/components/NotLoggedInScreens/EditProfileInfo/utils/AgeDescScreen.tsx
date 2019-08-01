@@ -20,13 +20,7 @@ const AgeDescScreen = (props: {
   nextStep: any;
 }): any => {
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "space-between"
-      }}
-    >
+    <View style={styles.sectionContainer}>
       <ScrollView>
         <ImageBackground source={fillInfoBg} style={{ width: "100%" }}>
           <Text style={styles.headerText}>Opowiedz nam o{"\n"}sobie</Text>
@@ -59,14 +53,7 @@ const AgeDescScreen = (props: {
         </View>
       </ScrollView>
 
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignSelf: "flex-start",
-          marginBottom: 10
-        }}
-      >
+      <View style={styles.sectionBtnContainer}>
         {props.age != 0 && (
           <ButtonComponent
             pressButtonComponent={props.nextStep}

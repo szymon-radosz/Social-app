@@ -17,6 +17,9 @@ import {
 } from "./../../../assets/global/globalStyles";
 interface Style {
   container: ViewStyle;
+  sectionContainer: ViewStyle;
+  sectionBtnContainer: ViewStyle;
+  sectionBtnBackContainer: ViewStyle;
   headerText: any;
   headerTwoText: TextStyle;
   map: ViewStyle;
@@ -51,6 +54,25 @@ interface Style {
 export default StyleSheet.create<Style>({
   peachBtnText: peachBtnText,
   container: { flex: 1, alignItems: "center" },
+  sectionContainer: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "space-between"
+  },
+  sectionBtnBackContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignSelf: "flex-start",
+    marginBottom: 10,
+    marginLeft: 7,
+    marginRight: 7
+  },
+  sectionBtnContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignSelf: "flex-start",
+    marginBottom: 10
+  },
   headerText: pageTitleWhite,
   headerTwoText: {
     textAlign: "center",

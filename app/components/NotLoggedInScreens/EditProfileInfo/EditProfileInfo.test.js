@@ -49,18 +49,6 @@ describe("<EditProfileInfo />", () => {
     expect(wrapper.length).toBe(1);
   });
 
-  it("Should render loader without errors", () => {
-    component.setState({ loader: true });
-    const wrapper = findByTestAttr(component, "loaderContainer");
-    expect(wrapper.length).toBe(1);
-  });
-
-  it("Should render loader without errors", () => {
-    component.setState({ loader: true });
-    const wrapper = findByTestAttr(component, "loaderContainer");
-    expect(wrapper.length).toBe(1);
-  });
-
   describe("<EditProfileInfo /> Methods", () => {
     it("Should run nextStep() without errors", () => {
       component.setState({ actualStep: 1 });
