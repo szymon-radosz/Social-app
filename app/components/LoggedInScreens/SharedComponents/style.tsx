@@ -1,5 +1,8 @@
 import {
   userPreviewSectionContainer,
+  userPreviewSectionDescContainer,
+  userPreviewSectionHobbyContainer,
+  userPreviewSectionKidsContainer,
   userPreviewSectionHeaderContainer,
   userPreviewSectionHeaderImage,
   userPreviewSectionHeaderText,
@@ -21,10 +24,20 @@ import {
   btnFullWidth,
   darkGrayColor
 } from "./../../../assets/global/globalStyles";
-import { StyleSheet, TextStyle, ViewStyle, ImageStyle } from "react-native";
+import {
+  StyleSheet,
+  TextStyle,
+  ViewStyle,
+  ImageStyle,
+  Dimensions
+} from "react-native";
+const fullWidth = Dimensions.get("window").width;
 
 interface Style {
   userPreviewSectionContainer: any;
+  userPreviewSectionDescContainer: any;
+  userPreviewSectionHobbyContainer: any;
+  userPreviewSectionKidsContainer: any;
   userPreviewSectionHeaderContainer: any;
   userPreviewSectionHeaderImage: any;
   userPreviewSectionHeaderText: any;
@@ -70,11 +83,15 @@ interface Style {
   logoutImage: ImageStyle;
   logoutText: TextStyle;
   peachBtnText: any;
+  topBtnContainer: ViewStyle;
 }
 
 export default StyleSheet.create<Style>({
   peachBtnText: peachBtnText,
   userPreviewSectionContainer: userPreviewSectionContainer,
+  userPreviewSectionDescContainer: userPreviewSectionDescContainer,
+  userPreviewSectionHobbyContainer: userPreviewSectionHobbyContainer,
+  userPreviewSectionKidsContainer: userPreviewSectionKidsContainer,
   userPreviewSectionHeaderContainer: userPreviewSectionHeaderContainer,
   userPreviewSectionHeaderImage: userPreviewSectionHeaderImage,
   userPreviewSectionHeaderText: userPreviewSectionHeaderText,
@@ -187,7 +204,7 @@ export default StyleSheet.create<Style>({
     fontSize: 14,
     fontWeight: "600",
     left: 6,
-    top: 1,
+    top: 0,
     fontFamily: "Open Sans"
   },
   unreadedMessagesNotificationLongDotText: {
@@ -245,23 +262,32 @@ export default StyleSheet.create<Style>({
   },
   pageHeaderImage: { width: 40, height: 40 },
   logoutContainer: {
-    width: 68,
-    flexDirection: "column",
+    //width: 80,
+    /*flexDirection: "column",
     justifyContent: "flex-end",
-    alignSelf: "flex-end",
-    marginRight: 20
+    alignSelf: "center",*/
+    marginRight: 0,
+    marginLeft: 0
   },
   logoutImage: {
-    width: 25,
-    height: 25,
+    height: 30,
     marginLeft: "auto",
     marginRight: "auto"
   },
   logoutText: {
     color: "#fff",
     fontWeight: "600",
-    fontSize: 12,
+    fontSize: 10,
     marginTop: 5,
     fontFamily: "Open Sans"
+  },
+  topBtnContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    alignSelf: "stretch",
+    backgroundColor: "#ffd2ad",
+    paddingTop: 20,
+    paddingBottom: 10
   }
 });

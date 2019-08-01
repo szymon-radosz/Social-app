@@ -29,8 +29,8 @@ const SendMessageBox = (props: {
         />
       </View>
       <ButtonComponent
-        pressButtonComponent={(): any =>
-          props.sendMessage(
+        pressButtonComponent={async () => {
+          await props.sendMessage(
             //@ts-ignore
             context.userData.id,
             props.receiverId,
@@ -40,8 +40,9 @@ const SendMessageBox = (props: {
             props.userMessage,
             props.conversationId,
             0
-          )
-        }
+          );
+          await props.setUserMessage("");
+        }}
         buttonComponentText="Wyślij"
         fullWidth={true}
         underlayColor="#dd904d"

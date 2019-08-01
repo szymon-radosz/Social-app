@@ -368,6 +368,9 @@ class Profile extends Component<
               locationString={this.context.userData.location_string}
               showLogout={true}
               navigation={this.props.navigation}
+              notificationPress={() => {
+                this.getUserNotificationList();
+              }}
             />
           )}
         {!showProfilePreview &&

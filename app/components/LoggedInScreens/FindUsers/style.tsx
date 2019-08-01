@@ -125,7 +125,7 @@ export default StyleSheet.create<Style>({
     paddingLeft: 15,
     paddingRight: 15,
     paddingBottom: 0,
-    paddingTop: 30,
+    paddingTop: 15,
     textAlign: "center"
   },
   userDetailsRedirectMessageBtnContainer: {

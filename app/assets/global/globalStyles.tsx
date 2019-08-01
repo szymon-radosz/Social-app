@@ -248,6 +248,25 @@ export const userPreviewSectionContainer = {
   paddingLeft: 10,
   paddingRight: 10
 };
+export const userPreviewSectionDescContainer = {
+  paddingLeft: 10,
+  paddingRight: 10,
+  backgroundColor: "#ffe4d3",
+  paddingBottom: 30,
+  paddingTop: 30
+};
+export const userPreviewSectionHobbyContainer = {
+  paddingLeft: 10,
+  paddingRight: 10,
+  backgroundColor: "#ffefe2",
+  paddingBottom: 30
+};
+export const userPreviewSectionKidsContainer = {
+  paddingLeft: 10,
+  paddingRight: 10,
+  backgroundColor: "#fff6ef",
+  paddingBottom: 30
+};
 export const userPreviewSectionHeaderContainer = {
   flexWrap: "wrap",
   alignItems: "center",
