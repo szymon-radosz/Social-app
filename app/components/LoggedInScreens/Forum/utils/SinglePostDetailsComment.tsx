@@ -10,6 +10,7 @@ const SinglePostDetailsComment = (props: {
     created_at: string;
     body: string;
     votes: any;
+    user_id: number;
     users: {
       name: string;
       photo_path: string;
@@ -18,6 +19,7 @@ const SinglePostDetailsComment = (props: {
   };
   saveCommentVote: any;
 }): any => {
+  console.log(["comment", props.comment]);
   return (
     <View style={styles.postDetailsComment}>
       <View style={styles.singlePostDetailsCommentUserSectionContainer}>
@@ -55,7 +57,13 @@ const SinglePostDetailsComment = (props: {
             {props.comment.votes && props.comment.votes.length}
           </Text>
           <TouchableOpacity
-            onPress={() => props.saveCommentVote(props.comment.id)}
+            onPress={() =>
+              props.saveCommentVote(
+                props.comment.id,
+                props.comment.user_id,
+                props.comment.votes
+              )
+            }
           >
             <Image
               style={styles.postDetailsPostVoteImage}

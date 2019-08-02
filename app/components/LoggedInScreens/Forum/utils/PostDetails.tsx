@@ -73,6 +73,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
         })
         .then(function(response) {
           if (response.data.status === "OK") {
+            console.log(["response.data.result[0]", response.data.result[0]]);
             that.setState({
               postTitle: response.data.result[0].title,
               postDesc: response.data.result[0].description,
@@ -122,11 +123,12 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
               "success",
               "Dziękujemy za oddanie głosu."
             );
+            that.getPostById();
           } else {
             that.context.setAlert(
               true,
               "danger",
-              "Oddałaś już głos w przeszłości."
+              "Oddałaś już głos na ten post."
             );
           }
         })
@@ -163,25 +165,68 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
       });
   };
 
-  saveCommentVote = (commentId: number): void => {
+  checkIfUserAddedVote = (votes: any, userId: number) => {
+    return new Promise(resolve => {
+      let allowUserVote = true;
+
+      votes.map((vote: any, i: number) => {
+        //user add vote to comment in the past
+        if (vote.user_id === userId) {
+          allowUserVote = false;
+        }
+      });
+
+      resolve(allowUserVote);
+    });
+  };
+
+  saveCommentVote = async (
+    commentId: number,
+    commentAuthorId: number,
+    votes: any
+  ) => {
     let API_URL = this.context.API_URL;
     let userId = this.context.userData.id;
 
     let that = this;
 
-    axios
-      .post(API_URL + "/api/saveCommentVote", {
-        commentId: commentId,
-        userId: userId
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-          that.getPostComments();
-        }
-      })
-      .catch(function(error) {
-        that.context.setAlert(true, "danger", "Problem z zapisem głosu.");
-      });
+    if (commentAuthorId && commentAuthorId !== userId) {
+      let allowUserVote = await this.checkIfUserAddedVote(votes, userId);
+
+      if (allowUserVote) {
+        axios
+          .post(API_URL + "/api/saveCommentVote", {
+            commentId: commentId,
+            userId: userId
+          })
+          .then(function(response) {
+            console.log(response.data);
+            if (response.data.status === "OK") {
+              that.context.setAlert(
+                true,
+                "success",
+                "Dziękujemy za oddanie głosu."
+              );
+              that.getPostComments();
+            }
+          })
+          .catch(function(error) {
+            that.context.setAlert(true, "danger", "Problem z zapisem głosu.");
+          });
+      } else {
+        that.context.setAlert(
+          true,
+          "danger",
+          "Oddałaś już głos na ten komentarz."
+        );
+      }
+    } else {
+      that.context.setAlert(
+        true,
+        "danger",
+        "Nie możesz oddać głosu na swój komentarz."
+      );
+    }
   };
 
   saveComment = (postId: number, userId: number, body: string): void => {
