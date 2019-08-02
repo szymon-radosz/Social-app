@@ -6,6 +6,8 @@ import axios from "axios";
 import SavePostComment from "./SavePostComment";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import { GlobalContext } from "./../../../Context/GlobalContext";
+import moment from "moment";
+import "moment/locale/pl";
 
 const like: any = require("./../../../../assets/images/like.png");
 const comment: any = require("./../../../../assets/images/comment.png");
@@ -287,6 +289,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
       comments,
       commentMessage
     } = this.state;
+    const postDateConverted = moment(postDate).format("LLL");
     return (
       <React.Fragment>
         <View style={{ position: "relative" }}>
@@ -319,7 +322,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
               </View>
               <Text style={styles.postDetailsDesc}>{postDesc}</Text>
               <Text style={styles.postDetailsPostDate}>
-                Utworzono: {postDate}
+                Utworzono: {postDateConverted}
               </Text>
               <View style={styles.postDetailsPostVoteContainer}>
                 <View style={styles.postDetailsPostVoteWrapper}>

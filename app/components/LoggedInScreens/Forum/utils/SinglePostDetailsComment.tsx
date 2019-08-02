@@ -1,6 +1,9 @@
 import React from "react";
 import { Image, Text, View, TouchableOpacity } from "react-native";
 import styles from "./../style";
+import moment from "moment";
+import "moment/locale/pl";
+
 const like: any = require("./../../../../assets/images/like.png");
 
 const SinglePostDetailsComment = (props: {
@@ -19,7 +22,7 @@ const SinglePostDetailsComment = (props: {
   };
   saveCommentVote: any;
 }): any => {
-  console.log(["comment", props.comment]);
+  const commentDate = moment(props.comment.created_at).format("LLL");
   return (
     <View style={styles.postDetailsComment}>
       <View style={styles.singlePostDetailsCommentUserSectionContainer}>
@@ -42,9 +45,7 @@ const SinglePostDetailsComment = (props: {
           <Text style={styles.postDetailsAuthorContainerEmail}>
             {props.comment.users.email}
           </Text>
-          <Text style={styles.postDetailsPostDate}>
-            {props.comment.created_at}
-          </Text>
+          <Text style={styles.postDetailsPostDate}>{commentDate}</Text>
         </View>
       </View>
       <Text style={styles.singlePostDetailsCommentBody}>
