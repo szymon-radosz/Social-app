@@ -118,7 +118,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
       type: "sended_message",
       message: `Masz nową wiadomość od użytkowniczki ${
         this.context.userData.name
-      } (${this.context.userData.email})`,
+      }`,
       userId: receiver_id
     });
 

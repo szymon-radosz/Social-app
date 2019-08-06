@@ -46,8 +46,8 @@ interface FindUsersState {
 
 interface FindUsersProps {
   openMessages: any;
-  setOpenProfile: any;
   openFindUserId: number;
+  setOpenProfile: any;
 }
 
 class FindUsers extends Component<FindUsersProps, FindUsersState> {
@@ -242,6 +242,14 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
 
     let that = this;
 
+    console.log([
+      "getFilteredUserList",
+      distance,
+      childAge,
+      childGender,
+      hobbyName
+    ]);
+
     if (distance || childAge || childGender || hobbyName) {
       axios
         .post(API_URL + "/api/loadUsersFilter", {
@@ -386,14 +394,6 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
 
     let that = this;
 
-    axios.post(API_URL + "/api/addNotification", {
-      type: "started_conversation_user",
-      message: `Użytkowniczka ${this.context.userData.name} (${
-        this.context.userData.email
-      }) odezwała się do Ciebie w wiadomości prywatnej`,
-      userId: receiverId
-    });
-
     axios
       .post(API_URL + "/api/saveConversation", {
         senderId: senderId,
@@ -424,6 +424,14 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
           "Problem z wysłaniem wiadomości."
         );
       });
+
+    axios.post(API_URL + "/api/addNotification", {
+      type: "started_conversation_user",
+      message: `Użytkowniczka ${
+        this.context.userData.name
+      } odezwała się do Ciebie w wiadomości prywatnej`,
+      userId: receiverId
+    });
   };
 
   setShowUserDetails = async (userId: number) => {
@@ -498,9 +506,9 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
 
     axios.post(API_URL + "/api/addNotification", {
       type: "friendship_confirmation",
-      message: `Użytkowniczka ${this.context.userData.name} (${
-        this.context.userData.email
-      }) zaakceptowała Twoje zaproszenie do grona znajomych.`,
+      message: `Użytkowniczka ${
+        this.context.userData.name
+      } zaakceptowała Twoje zaproszenie do grona znajomych.`,
       userId: receiverId
     });
 
@@ -516,6 +524,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
             "success",
             "Dodano nową użytkowniczkę do grona znajomych."
           );
+          that.setShowUserDetails(that.state.userDetailsId);
         }
       })
       .catch(function(error) {
@@ -534,9 +543,9 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
 
     axios.post(API_URL + "/api/addNotification", {
       type: "friendship_invitation",
-      message: `Użytkowniczka ${this.context.userData.name} (${
-        this.context.userData.email
-      }) zaprosiła Cię do grona znajomych`,
+      message: `Użytkowniczka ${
+        this.context.userData.name
+      } zaprosiła Cię do grona znajomych`,
       userId: receiverId
     });
 
@@ -552,6 +561,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
             "success",
             "Wysłano zaproszenie do grona znajomych."
           );
+          that.setShowUserDetails(that.state.userDetailsId);
         }
       })
       .catch(function(error) {

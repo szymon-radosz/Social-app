@@ -240,9 +240,9 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
     } else {
       axios.post(API_URL + "/api/addNotification", {
         type: "comment_for_your_forum_post",
-        message: `Użytkowniczka ${this.context.userData.name} (${
-          this.context.userData.email
-        }) dodała komentarz do Twojego posta na forum.`,
+        message: `Użytkowniczka ${
+          this.context.userData.name
+        } dodała komentarz do Twojego posta na forum.`,
         userId: this.state.authorId
       });
 
@@ -314,9 +314,6 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
                 <View style={styles.postDetailsAuthorContainer}>
                   <Text style={styles.postDetailsAuthorContainerName}>
                     {authorName}
-                  </Text>
-                  <Text style={styles.postDetailsAuthorContainerEmail}>
-                    {authorEmail}
                   </Text>
                 </View>
               </View>

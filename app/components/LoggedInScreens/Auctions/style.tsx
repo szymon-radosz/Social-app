@@ -19,13 +19,25 @@ import {
   productOnListTextName,
   productOnListTextCategory,
   productOnListTextPrice,
-  loaderContainer
+  loaderContainer,
+  filterBtnContainer,
+  singleButtonCol2Container,
+  filterBtnActive,
+  filterBtn,
+  filterBtnTextActive,
+  filterBtnText
 } from "./../../../assets/global/globalStyles";
 import { ViewportUserZoomProperty } from "csstype";
 const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;
 
 interface Style {
+  filterBtnContainer: any;
+  singleButtonCol2Container: any;
+  filterBtnActive: any;
+  filterBtn: any;
+  filterBtnText: any;
+  filterBtnTextActive: any;
   productOnListTextName: any;
   productOnListTextCategory: any;
   productListSingleProductTextContainer: any;
@@ -100,6 +112,12 @@ interface Style {
 }
 
 export default StyleSheet.create<Style>({
+  filterBtnContainer: filterBtnContainer,
+  singleButtonCol2Container: singleButtonCol2Container,
+  filterBtnActive: filterBtnActive,
+  filterBtn: filterBtn,
+  filterBtnText: filterBtnText,
+  filterBtnTextActive: filterBtnTextActive,
   peachBtnText: peachBtnText,
   productOnListTextName: productOnListTextName,
   fullWidth: fullWidth,

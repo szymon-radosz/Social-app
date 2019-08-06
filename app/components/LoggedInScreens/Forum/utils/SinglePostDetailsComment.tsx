@@ -42,9 +42,6 @@ const SinglePostDetailsComment = (props: {
           <Text style={styles.postDetailsAuthorContainerName}>
             {props.comment.users.name}
           </Text>
-          <Text style={styles.postDetailsAuthorContainerEmail}>
-            {props.comment.users.email}
-          </Text>
           <Text style={styles.postDetailsPostDate}>{commentDate}</Text>
         </View>
       </View>

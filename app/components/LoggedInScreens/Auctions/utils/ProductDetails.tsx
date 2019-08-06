@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, Dimensions, Image, View } from "react-native";
+import { Text, Dimensions, Image, View, TouchableOpacity } from "react-native";
 import axios from "axios";
 import styles from "./../style";
 //@ts-ignore
@@ -211,6 +211,14 @@ class ProductDetails extends Component<
             "Problem z wysłaniem wiadomości."
           );
         });
+
+      axios.post(API_URL + "/api/addNotification", {
+        type: "started_conversation_user",
+        message: `Użytkowniczka ${
+          this.context.userData.name
+        } odezwała się do Ciebie w wiadomości prywatnej dotyczącej produktu`,
+        userId: receiverId
+      });
     }
   };
 
@@ -329,13 +337,15 @@ class ProductDetails extends Component<
               <PageHeader
                 boldText={productDetails[0].name}
                 normalText={""}
-                closeMethod={this.props.setDisplayProductDetails}
+                closeMethod={() =>
+                  this.props.setDisplayProductDetails(false, true)
+                }
                 closeMethodParameter={""}
               />
 
               <View style={styles.productDetailsHeader}>
                 <Lightbox
-                  springConfig={{ tension: 15, friction: 7 }}
+                  springConfig={{ overshootClamping: true }}
                   swipeToDismiss={false}
                   backgroundColor="rgba(0,0,0,0.7)"
                   renderContent={() =>
@@ -344,6 +354,21 @@ class ProductDetails extends Component<
                       productDetails[0].product_photos
                     )
                   }
+                  renderHeader={(close: any) => (
+                    <TouchableOpacity onPress={close}>
+                      <Text
+                        style={{
+                          color: "white",
+                          padding: 8,
+                          textAlign: "center",
+                          margin: 10,
+                          alignSelf: "flex-end"
+                        }}
+                      >
+                        Close
+                      </Text>
+                    </TouchableOpacity>
+                  )}
                   underlayColor={"#fff"}
                 >
                   <Image
@@ -403,8 +428,7 @@ class ProductDetails extends Component<
                 {productDetails[0] && productDetails[0].users && (
                   <Text style={styles.productContentText}>
                     <Text style={styles.bold}>Dodane przez: </Text>
-                    {productDetails[0].users.name} (
-                    {productDetails[0].users.email})
+                    {productDetails[0].users.name}
                   </Text>
                 )}
 

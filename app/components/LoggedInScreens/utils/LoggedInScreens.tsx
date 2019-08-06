@@ -14,8 +14,8 @@ const LoggedInScreens = (props: any) => (
       <Suspense fallback={<Text>Wczytywanie...</Text>}>
         <FindUsers
           openMessages={props.setOpenMessages}
-          setOpenProfile={props.setOpenProfile}
           openFindUserId={props.openFindUserId}
+          setOpenProfile={props.setOpenProfile}
           data-test="FindUsers"
         />
       </Suspense>
@@ -50,9 +50,7 @@ const LoggedInScreens = (props: any) => (
     {props.openProfile && !props.showFeedbackModal && (
       <Suspense fallback={<Text>Wczytywanie...</Text>}>
         <Profile
-          showUserFriends={
-            props.showUserFriends && props.showUserFriends ? true : false
-          }
+          showUserFriends={false}
           setOpenFindUsers={props.setOpenFindUsers}
           setOpenAuctions={props.setOpenAuctions}
           navigation={props.navigation}

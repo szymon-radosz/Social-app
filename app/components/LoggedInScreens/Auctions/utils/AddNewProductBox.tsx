@@ -183,14 +183,14 @@ export default class AddNewProductBox extends Component<
 
         <View style={styles.addNewProductDescInput}>
           <TextAreaComponent
-            placeholder="Podaj opis produktu"
+            placeholder="Podaj opis produktu, w przypadku odzieży podaj wymiary itp."
             inputOnChange={(description: string) =>
               this.setState({ description })
             }
             value={description}
-            maxLength={600}
+            maxLength={1000}
             multiline={true}
-            numberOfLines={10}
+            numberOfLines={20}
           />
         </View>
 
@@ -328,7 +328,7 @@ export default class AddNewProductBox extends Component<
         </View>
 
         <View style={{ paddingLeft: 10, paddingRight: 10, paddingBottom: 20 }}>
-          <Text style={{ fontWeight: "600" }}>Cena</Text>
+          <Text style={{ fontWeight: "600" }}>Cena (zł)</Text>
 
           <InputComponent
             placeholder="Cena w zł"
@@ -417,7 +417,7 @@ export default class AddNewProductBox extends Component<
                     : styles.addNewProductOptionText
                 }
               >
-                Uzywane
+                Używane
               </Text>
             </View>
           </View>

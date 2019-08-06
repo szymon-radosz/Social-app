@@ -1,15 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Text } from "react-native";
 import ListItem from "./../../../Utils/ListItem";
-import { GlobalContext } from "./../../../Context/GlobalContext";
 
 const AuctionList = (props: {
   productList: any;
   API_URL: string;
   setSelectedProduct: any;
 }): any => {
-  const context = useContext(GlobalContext);
-
   if (props.productList) {
     return props.productList.length > 0 ? (
       props.productList.map((product: any, i: number) => {

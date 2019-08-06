@@ -11,7 +11,6 @@ import LoggedInMain from "./../components/LoggedInScreens/LoggedInMain";
 //@ts-ignore
 import { fadeIn } from "react-navigation-transitions";
 import { GlobalContext } from "./../components/Context/GlobalContext";
-import Alert from "./../Alert/Alert";
 import axios from "axios";
 import NavigationService from "./NavigationService";
 
@@ -20,7 +19,8 @@ const MainStack = createStackNavigator(
     Welcome: {
       screen: Welcome,
       navigationOptions: {
-        header: null
+        header: null,
+        gesturesEnabled: false
       }
     },
     Login: {
@@ -114,8 +114,8 @@ export default class App extends Component<
       alertType: "",
       userData: [],
       userLoggedIn: false,
-      //API_URL: "http://127.0.0.1:8000/",
-      API_URL: "https://e-mamy.pl/",
+      API_URL: "http://127.0.0.1:8000/",
+      //API_URL: "https://e-mamy.pl/",
       showLoader: false
     };
     this.setAlert = this.setAlert.bind(this);

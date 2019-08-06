@@ -75,11 +75,12 @@ class ConversationDetails extends Component<
               }}
             />
           </TouchableOpacity>
-          <Text style={styles.conversationDetailsReceiverName}>
-            Rozmowa z {this.props.receiverName}
-            {"\n"}
-            {this.props.receiverEmail}
-          </Text>
+          <View>
+            <Text style={styles.conversationDetailsReceiverName}>
+              Rozmowa z {this.props.receiverName}
+            </Text>
+            <Text>Zobacz profil</Text>
+          </View>
         </View>
         {/* <Text>Sender: {this.props.senderId}</Text>*/}
         <View>

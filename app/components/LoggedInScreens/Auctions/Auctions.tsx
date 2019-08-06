@@ -4,7 +4,8 @@ import {
   ImageBackground,
   Image,
   Text,
-  View
+  View,
+  TouchableOpacity
 } from "react-native";
 //@ts-ignore
 import Carousel from "react-native-snap-carousel";
@@ -35,6 +36,8 @@ interface AuctionsProps {
 
 interface AuctionsState {
   productList: any;
+  showFilterAuctionActivityPanel: boolean;
+  displayActiveAuction: boolean;
   displayProductDetails: boolean;
   displayNewProductBox: boolean;
   selectedProductId: number;
@@ -53,6 +56,8 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
     super(props);
     this.state = {
       productList: [],
+      showFilterAuctionActivityPanel: false,
+      displayActiveAuction: false,
       displayProductDetails: false,
       displayNewProductBox: false,
       selectedProductId: 0,
@@ -96,7 +101,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
       ]
     };
 
-    this.getProducts = this.getProducts.bind(this);
+    this.getActiveProducts = this.getActiveProducts.bind(this);
     this.setSelectedProduct = this.setSelectedProduct.bind(this);
     this.changeDisplayNewProductBox = this.changeDisplayNewProductBox.bind(
       this
@@ -152,24 +157,32 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
 
     if (
       !photos ||
-      !maleGender ||
-      !femaleGender ||
-      !newProduct ||
-      !secondHandProduct ||
+      photos.length === 0 ||
       !currentUser ||
       !name ||
       !description ||
       !selectedCategoryId ||
       !price
     ) {
+      /*console.log([
+        "add product",
+        photos,
+        maleGender,
+        femaleGender,
+        newProduct,
+        secondHandProduct,
+        currentUser,
+        name,
+        description,
+        selectedCategoryId,
+        price
+      ]);*/
       this.context.setAlert(
         true,
         "danger",
         "Upewnij się, że wprowadziłaś wszystkie dane i dodałaś co najmniej 1 zdjęcie."
       );
-    }
-
-    if (
+    } else if (
       currentUser.id &&
       name &&
       description &&
@@ -304,6 +317,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
     status: string,
     showFilterModal: boolean
   ): void => {
+    console.log(["getFilteredAuctionsList", this.state.displayActiveAuction]);
     let API_URL = this.context.API_URL;
     let userLat = this.context.userData.lattitude;
     let userLng = this.context.userData.longitude;
@@ -317,7 +331,8 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
           price: price,
           status: status,
           currentUserLat: userLat,
-          currentUserLng: userLng
+          currentUserLng: userLng,
+          active: this.state.displayActiveAuction
         })
         .then(function(response) {
           if (response.data.status === "OK") {
@@ -369,16 +384,16 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
           console.log(error);
         });
     } else {
-      this.getProducts();
+      this.getActiveProducts();
     }
   };
 
   changeDisplayNewProductBox = (): void => {
     this.setState({ displayNewProductBox: !this.state.displayNewProductBox });
-    this.getProducts();
+    this.getActiveProducts();
   };
 
-  getProducts = (): void => {
+  getActiveProducts = (): void => {
     let API_URL = this.context.API_URL;
     let userLat = this.context.userData.lattitude;
     let userLng = this.context.userData.longitude;
@@ -386,7 +401,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
     let that = this;
 
     axios
-      .post(API_URL + "/api/loadProductBasedOnCoords", {
+      .post(API_URL + "/api/loadActiveProductBasedOnCoords", {
         lat: userLat,
         lng: userLng
       })
@@ -394,6 +409,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
         if (response.data.status === "OK") {
           that.setState({
             productList: response.data.result,
+            displayActiveAuction: true,
             filterDistance: "",
             filterPrice: "",
             filterStatus: ""
@@ -405,16 +421,21 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
       });
   };
 
-  setDisplayProductDetails = (): void => {
-    this.setState(prevState => ({
-      displayProductDetails: !prevState.displayProductDetails
-    }));
+  setDisplayProductDetails = (
+    displayProductDetailsParam: boolean,
+    showFilterAuctionActivityPanelParam: boolean
+  ): void => {
+    this.setState({
+      displayProductDetails: displayProductDetailsParam,
+      showFilterAuctionActivityPanel: showFilterAuctionActivityPanelParam
+    });
   };
 
   setSelectedProduct = (id: number, productUserId: number) => {
     this.setState({
       selectedProductId: id,
       displayProductDetails: true,
+      showFilterAuctionActivityPanel: false,
       selectedProductUserId: productUserId
     });
   };
@@ -422,7 +443,12 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
   componentDidMount = (): void => {
     if (this.context.userData) {
       //load all products based on user coords
-      this.getProducts();
+      this.getActiveProducts();
+
+      this.setState({
+        showFilterAuctionActivityPanel: true,
+        displayActiveAuction: true
+      });
 
       if (
         this.props.openAuctionId &&
@@ -441,9 +467,11 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
   render() {
     const {
       displayProductDetails,
+      displayActiveAuction,
       selectedProductUserId,
       displayNewProductBox,
       productList,
+      showFilterAuctionActivityPanel,
       selectedProductId,
       showFilterModal,
       filterOptions,

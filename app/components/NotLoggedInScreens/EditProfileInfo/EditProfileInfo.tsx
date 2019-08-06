@@ -132,6 +132,10 @@ class EditProfileInfo extends Component<
         });
       }
     }
+    //user logged in first time
+    else {
+      await this.getAllHobbies();
+    }
   };
 
   removeKidFromState = (kidName: string): void => {
@@ -248,6 +252,7 @@ class EditProfileInfo extends Component<
       .get(API_URL + "/api/hobbiesList")
       .then(response => {
         if (response.data.status === "OK") {
+          console.log(["response.data.result", response.data.result]);
           //loop through existing state list of all hobbies and check if name is element of activeHobbies
           response.data.result.map(
             (hobby: { name: string; id: number }, i: number) => {

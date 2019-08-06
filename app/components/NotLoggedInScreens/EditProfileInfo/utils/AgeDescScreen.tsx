@@ -31,9 +31,9 @@ const AgeDescScreen = (props: {
           <Text style={styles.subText}>Wiek *</Text>
 
           <InputComponent
-            placeholder="Wiek"
+            placeholder="Podaj swój wiek"
             inputOnChange={(age: string) => props.handleChange("age", age)}
-            value={String(props.age)}
+            value={props.age !== 0 ? String(props.age) : ""}
             secureTextEntry={false}
             maxLength={2}
           />
@@ -54,7 +54,7 @@ const AgeDescScreen = (props: {
       </ScrollView>
 
       <View style={styles.sectionBtnContainer}>
-        {props.age != 0 && (
+        {props.age > 0 && (
           <ButtonComponent
             pressButtonComponent={props.nextStep}
             buttonComponentText="Dalej"
