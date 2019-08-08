@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, TouchableOpacity, Image } from "react-native";
+import { Text, View, TouchableOpacity, Image, ScrollView } from "react-native";
 import SendMessageBox from "./SendMessageBox";
 import SingleConversationMessage from "./SingleConversationMessage";
 import styles from "./../style";
@@ -20,6 +20,7 @@ interface ConversationDetailsProps {
   setUserMessage: any;
   userMessage: string;
   closeConversationDetails: any;
+  displayPrivateMessages: boolean;
 }
 
 class ConversationDetails extends Component<
@@ -52,12 +53,14 @@ class ConversationDetails extends Component<
         this.context.userData.id,
         this.state.messages[0].conversation_id
       );
+
+    console.log(["mess", this.props]);
   };
 
   render() {
     const { messages } = this.state;
     return (
-      <View style={styles.viewContainer} data-test="ConversationDetails">
+      <ScrollView style={styles.viewContainer} data-test="ConversationDetails">
         <PageHeader
           boldText={this.props.receiverName}
           normalText={""}
@@ -79,7 +82,11 @@ class ConversationDetails extends Component<
             <Text style={styles.conversationDetailsReceiverName}>
               Rozmowa z {this.props.receiverName}
             </Text>
-            <Text>Zobacz profil</Text>
+            {this.props.displayPrivateMessages ? (
+              <Text>Zobacz produkt</Text>
+            ) : (
+              <Text>Zobacz profil</Text>
+            )}
           </View>
         </View>
         {/* <Text>Sender: {this.props.senderId}</Text>*/}
@@ -106,7 +113,7 @@ class ConversationDetails extends Component<
             userMessage={this.props.userMessage}
           />
         )}
-      </View>
+      </ScrollView>
     );
   }
 }

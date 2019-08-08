@@ -1,5 +1,11 @@
 import React, { useState, useContext } from "react";
-import { Text, View, SafeAreaView, TouchableHighlight } from "react-native";
+import {
+  Text,
+  View,
+  SafeAreaView,
+  TouchableHighlight,
+  ScrollView
+} from "react-native";
 import styles from "./style";
 import axios from "axios";
 import { GlobalContext } from "./../../Context/GlobalContext";
@@ -50,36 +56,38 @@ const ResetPassword = (props: any) => {
             closeAlert={context.closeAlert}
           />
         )}
-        <View style={styles.container}>
-          <Text style={styles.headerText}>{`Resetuj swoje \nhasło`}</Text>
+        <ScrollView keyboardShouldPersistTaps={"always"}>
+          <View style={styles.container}>
+            <Text style={styles.headerText}>{`Resetuj swoje \nhasło`}</Text>
 
-          <InputComponent
-            placeholder="E-mail"
-            inputOnChange={(email: string) => setEmail(email)}
-            value={email}
-            secureTextEntry={false}
-            maxLength={100}
-          />
+            <InputComponent
+              placeholder="E-mail"
+              inputOnChange={(email: string) => setEmail(email)}
+              value={email}
+              secureTextEntry={false}
+              maxLength={100}
+            />
 
-          <ButtonComponent
-            pressButtonComponent={resetPassword}
-            buttonComponentText="Resetuj"
-            fullWidth={false}
-            underlayColor="#dd904d"
-            whiteBg={false}
-            showBackIcon={false}
-          />
+            <ButtonComponent
+              pressButtonComponent={resetPassword}
+              buttonComponentText="Resetuj"
+              fullWidth={false}
+              underlayColor="#dd904d"
+              whiteBg={false}
+              showBackIcon={false}
+            />
 
-          <View style={styles.subBtnSection}>
-            <Text style={styles.subBtnSectionAsk}>Posiadasz juz konto? </Text>
-            <TouchableHighlight
-              onPress={() => navigation.navigate("Login")}
-              underlayColor={"#fff"}
-            >
-              <Text style={styles.registerBtn}>Logowanie</Text>
-            </TouchableHighlight>
+            <View style={styles.subBtnSection}>
+              <Text style={styles.subBtnSectionAsk}>Posiadasz juz konto? </Text>
+              <TouchableHighlight
+                onPress={() => navigation.navigate("Login")}
+                underlayColor={"#fff"}
+              >
+                <Text style={styles.registerBtn}>Logowanie</Text>
+              </TouchableHighlight>
+            </View>
           </View>
-        </View>
+        </ScrollView>
       </SafeAreaView>
     </React.Fragment>
   );

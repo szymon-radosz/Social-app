@@ -1,5 +1,11 @@
 import React, { Component, Suspense } from "react";
-import { TouchableOpacity, Text, ImageBackground, View } from "react-native";
+import {
+  TouchableOpacity,
+  Text,
+  ImageBackground,
+  View,
+  ScrollView
+} from "react-native";
 import axios from "axios";
 import styles from "./style";
 const messagesBgMin: any = require("./../../../assets/images/messagesBgMin.jpg");
@@ -56,6 +62,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
   };
 
   closeConversationDetails = (): void => {
+    this.getMessages();
     this.setState({ openConversationDetails: false, showFilterPanel: true });
   };
 
@@ -78,6 +85,20 @@ class Messages extends Component<MessagesProps, MessagesState> {
       })
       .then(function(response) {
         if (response.data.status === "OK") {
+          console.log("details conv", response.data);
+
+          let privateMessage = false;
+          if (
+            response.data.result[0].product_id &&
+            response.data.result[0].product_id !== 0
+          ) {
+            console.log([
+              "response.data.product_id",
+              response.data.result[0].product_id
+            ]);
+            privateMessage = true;
+          }
+
           that.setState({
             openConversationDetailsId: id,
             openConversationDetails: true,
@@ -86,7 +107,8 @@ class Messages extends Component<MessagesProps, MessagesState> {
             receiverName: receiverName,
             receiverEmail: receiverEmail,
             receiverPhotoPath: receiverPhotoPath,
-            showFilterPanel: false
+            showFilterPanel: false,
+            displayPrivateMessages: privateMessage
           });
         }
       })
@@ -229,7 +251,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
       userMessage
     } = this.state;
     return (
-      <View data-test="Messages">
+      <ScrollView data-test="Messages">
         {!openConversationDetails && (
           <ImageBackground
             source={messagesBgMin}
@@ -318,11 +340,12 @@ class Messages extends Component<MessagesProps, MessagesState> {
               setUserMessage={this.setUserMessage}
               userMessage={userMessage}
               closeConversationDetails={this.closeConversationDetails}
+              displayPrivateMessages={displayPrivateMessages}
               data-test="ConversationDetails"
             />
           </Suspense>
         )}
-      </View>
+      </ScrollView>
     );
   }
 }

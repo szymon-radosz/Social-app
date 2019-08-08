@@ -11,15 +11,15 @@ const MessageList = (props: {
 }): any => {
   const context = useContext(GlobalContext);
   if (props.messagesList) {
-    console.log(["MessageList", props]);
+    //console.log(["MessageList", props]);
     return props.messagesList && props.messagesList.length > 0 ? (
       props.messagesList.map((conversation: any, i: number) => {
-        console.log([
+        /*console.log([
           "conversation",
           conversation,
           i,
           props.messagesList[i][0]
-        ]);
+        ]);*/
 
         return (
           <ListItem

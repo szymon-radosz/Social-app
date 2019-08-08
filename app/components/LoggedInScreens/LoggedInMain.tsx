@@ -4,7 +4,8 @@ import {
   View,
   TouchableHighlight,
   Image,
-  SafeAreaView
+  SafeAreaView,
+  ScrollView
 } from "react-native";
 import styles from "./style";
 import LoggedInScreens from "./utils/LoggedInScreens";
@@ -223,6 +224,7 @@ class LoggedInMain extends Component<
               closeAlert={this.context.closeAlert}
             />
           )}
+
           <View style={styles.container} data-test="LoggedInMain">
             <LoggedInScreens
               openFindUsers={openFindUsers}
@@ -260,6 +262,7 @@ class LoggedInMain extends Component<
                 <Image source={feedback} style={{ width: 50, height: 50 }} />
               </TouchableHighlight>
             )}
+
             <BottomPanel
               openFindUsers={this.setOpenFindUsers}
               openAuctions={this.setOpenAuctions}

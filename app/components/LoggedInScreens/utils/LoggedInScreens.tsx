@@ -9,7 +9,7 @@ const Profile = React.lazy(() => import("./../Profile/Profile"));
 const FeedbackModal = React.lazy(() => import("./FeedbackModal"));
 
 const LoggedInScreens = (props: any) => (
-  <ScrollView data-test="LoggedInScreens">
+  <ScrollView data-test="LoggedInScreens" keyboardShouldPersistTaps={"always"}>
     {props.openFindUsers && !props.showFeedbackModal && (
       <Suspense fallback={<Text>Wczytywanie...</Text>}>
         <FindUsers

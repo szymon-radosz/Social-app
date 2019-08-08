@@ -6,7 +6,8 @@ import {
   TouchableHighlight,
   SafeAreaView,
   Linking,
-  Platform
+  Platform,
+  ScrollView
 } from "react-native";
 import axios from "axios";
 import styles from "./style";
@@ -107,71 +108,75 @@ const Register = (props: { navigation: any }) => {
               closeAlert={context.closeAlert}
             />
           )}
-          <View style={styles.container}>
-            <Text
-              style={styles.headerText}
-            >{`Dołącz do naszej \nspołeczności!`}</Text>
+          <ScrollView keyboardShouldPersistTaps={"always"}>
+            <View style={styles.container}>
+              <Text
+                style={styles.headerText}
+              >{`Dołącz do naszej \nspołeczności!`}</Text>
 
-            <InputComponent
-              placeholder="Imię"
-              inputOnChange={(name: string) => setName(name)}
-              value={name}
-              secureTextEntry={false}
-              maxLength={100}
-            />
-            <InputComponent
-              placeholder="E-mail"
-              inputOnChange={(email: string) => setEmail(email)}
-              value={email}
-              secureTextEntry={false}
-              maxLength={100}
-            />
-            <InputComponent
-              placeholder="Hasło"
-              inputOnChange={(password: string) => setPassword(password)}
-              value={password}
-              secureTextEntry={true}
-              maxLength={100}
-            />
-            <InputComponent
-              placeholder="Potwierdź hasło"
-              inputOnChange={(passwordConf: string) =>
-                setPasswordConf(passwordConf)
-              }
-              value={passwordConf}
-              secureTextEntry={true}
-              maxLength={100}
-            />
-            <TouchableHighlight
-              onPress={() => {
-                Linking.openURL("https://e-mamy.pl/regulamin");
-              }}
-              underlayColor={"#fff"}
-            >
-              <Text style={styles.termsBtn}>
-                Rejestrując się akceptujesz regulamin E-mamy
-              </Text>
-            </TouchableHighlight>
-
-            <ButtonComponent
-              pressButtonComponent={registerUser}
-              buttonComponentText="Zarejestruj"
-              fullWidth={false}
-              underlayColor="#dd904d"
-              whiteBg={false}
-              showBackIcon={false}
-            />
-
-            <View style={styles.subBtnSection}>
-              <Text style={styles.subBtnSectionAsk}>Posiadasz juz konto? </Text>
+              <InputComponent
+                placeholder="Imię"
+                inputOnChange={(name: string) => setName(name)}
+                value={name}
+                secureTextEntry={false}
+                maxLength={100}
+              />
+              <InputComponent
+                placeholder="E-mail"
+                inputOnChange={(email: string) => setEmail(email)}
+                value={email}
+                secureTextEntry={false}
+                maxLength={100}
+              />
+              <InputComponent
+                placeholder="Hasło"
+                inputOnChange={(password: string) => setPassword(password)}
+                value={password}
+                secureTextEntry={true}
+                maxLength={100}
+              />
+              <InputComponent
+                placeholder="Potwierdź hasło"
+                inputOnChange={(passwordConf: string) =>
+                  setPasswordConf(passwordConf)
+                }
+                value={passwordConf}
+                secureTextEntry={true}
+                maxLength={100}
+              />
               <TouchableHighlight
-                onPress={() => navigation.navigate("Login")}
+                onPress={() => {
+                  Linking.openURL("https://e-mamy.pl/regulamin");
+                }}
                 underlayColor={"#fff"}
               >
-                <Text style={styles.registerBtn}>Logowanie</Text>
+                <Text style={styles.termsBtn}>
+                  Rejestrując się akceptujesz regulamin E-mamy
+                </Text>
               </TouchableHighlight>
+
+              <ButtonComponent
+                pressButtonComponent={registerUser}
+                buttonComponentText="Zarejestruj"
+                fullWidth={false}
+                underlayColor="#dd904d"
+                whiteBg={false}
+                showBackIcon={false}
+              />
+
+              <View style={styles.subBtnSection}>
+                <Text style={styles.subBtnSectionAsk}>
+                  Posiadasz juz konto?{" "}
+                </Text>
+                <TouchableHighlight
+                  onPress={() => navigation.navigate("Login")}
+                  underlayColor={"#fff"}
+                >
+                  <Text style={styles.registerBtn}>Logowanie</Text>
+                </TouchableHighlight>
+              </View>
             </View>
-          </View>
+          </ScrollView>
         </SafeAreaView>
       )}
     </React.Fragment>

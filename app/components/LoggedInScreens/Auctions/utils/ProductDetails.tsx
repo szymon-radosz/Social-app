@@ -296,7 +296,29 @@ class ProductDetails extends Component<
       })
       .then(function(response) {
         if (response.data.status === "OK") {
-          that.changeVoteBox();
+          //that.changeVoteBox();
+          that.getProductDetails();
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+
+  reactivateProduct = (productId: number) => {
+    let API_URL = this.props.API_URL;
+
+    let that = this;
+
+    console.log(["reactivateProduct", productId]);
+
+    axios
+      .post(API_URL + "/api/reactivateProduct", {
+        productId: productId
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          //that.changeVoteBox();
           that.getProductDetails();
         }
       })
@@ -413,13 +435,13 @@ class ProductDetails extends Component<
                   </Text>
                 )}
 
-                {productDetails[0] && productDetails[0].status === 0 && (
+                {productDetails[0] && productDetails[0].state === 0 && (
                   <Text style={styles.productContentText}>
                     <Text style={styles.bold}>Stan produktu:</Text> Nowe
                   </Text>
                 )}
 
-                {productDetails[0] && productDetails[0].status === 1 && (
+                {productDetails[0] && productDetails[0].state === 1 && (
                   <Text style={styles.productContentText}>
                     <Text style={styles.bold}>Stan produktu:</Text> Używane
                   </Text>
@@ -500,8 +522,25 @@ class ProductDetails extends Component<
               {productDetails[0].user_id == this.props.currentUser.id &&
                 productDetails[0].status != 1 && (
                   <ButtonComponent
-                    pressButtonComponent={this.changeVoteBox}
+                    pressButtonComponent={() => {
+                      this.closeProduct(productDetails[0].id);
+                    }}
                     buttonComponentText="Zamknij Sprzedaż"
+                    fullWidth={true}
+                    underlayColor="#dd904d"
+                    whiteBg={false}
+                    showBackIcon={false}
+                  />
+                )}
+
+              {/* user is the author, and product is sold*/}
+              {productDetails[0].user_id == this.props.currentUser.id &&
+                productDetails[0].status != 0 && (
+                  <ButtonComponent
+                    pressButtonComponent={() => {
+                      this.reactivateProduct(productDetails[0].id);
+                    }}
+                    buttonComponentText="Wznów Sprzedaż"
                     fullWidth={true}
                     underlayColor="#dd904d"
                     whiteBg={false}

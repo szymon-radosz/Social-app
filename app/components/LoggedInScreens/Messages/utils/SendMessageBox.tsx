@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View } from "react-native";
+import { View, ScrollView } from "react-native";
 import ButtonComponent from "./../../../Utils/ButtonComponent";
 import styles from "./../style";
 import InputComponent from "./../../../Utils/InputComponent";

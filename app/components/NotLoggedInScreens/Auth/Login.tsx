@@ -1,5 +1,11 @@
 import React, { useState, useContext } from "react";
-import { Text, View, SafeAreaView, TouchableHighlight } from "react-native";
+import {
+  Text,
+  View,
+  SafeAreaView,
+  TouchableHighlight,
+  ScrollView
+} from "react-native";
 import styles from "./style";
 import axios from "axios";
 import { GlobalContext } from "./../../Context/GlobalContext";
@@ -93,53 +99,55 @@ const Login = (props: any) => {
             closeAlert={context.closeAlert}
           />
         )}
-        <View style={styles.container}>
-          <Text
-            style={styles.headerText}
-          >{`Miło Cię widzieć \nponownie!`}</Text>
+        <ScrollView keyboardShouldPersistTaps={"always"}>
+          <View style={styles.container}>
+            <Text
+              style={styles.headerText}
+            >{`Miło Cię widzieć \nponownie!`}</Text>
 
-          <InputComponent
-            placeholder="E-mail"
-            inputOnChange={(email: string) => setEmail(email)}
-            value={email}
-            secureTextEntry={false}
-            maxLength={100}
-          />
+            <InputComponent
+              placeholder="E-mail"
+              inputOnChange={(email: string) => setEmail(email)}
+              value={email}
+              secureTextEntry={false}
+              maxLength={100}
+            />
 
-          <InputComponent
-            placeholder="Hasło"
-            inputOnChange={(password: string) => setPassword(password)}
-            value={password}
-            secureTextEntry={true}
-            maxLength={100}
-          />
+            <InputComponent
+              placeholder="Hasło"
+              inputOnChange={(password: string) => setPassword(password)}
+              value={password}
+              secureTextEntry={true}
+              maxLength={100}
+            />
 
-          <ButtonComponent
-            pressButtonComponent={loginUser}
-            buttonComponentText="Zaloguj"
-            fullWidth={false}
-            underlayColor="#dd904d"
-            whiteBg={false}
-            showBackIcon={false}
-          />
+            <ButtonComponent
+              pressButtonComponent={loginUser}
+              buttonComponentText="Zaloguj"
+              fullWidth={false}
+              underlayColor="#dd904d"
+              whiteBg={false}
+              showBackIcon={false}
+            />
 
-          <View style={styles.subBtnSection}>
-            <Text style={styles.subBtnSectionAsk}>Nie posiadasz konta? </Text>
-            <TouchableHighlight
-              onPress={() => navigation.navigate("Register")}
-              underlayColor={"#fff"}
+            <View style={styles.subBtnSection}>
+              <Text style={styles.subBtnSectionAsk}>Nie posiadasz konta? </Text>
+              <TouchableHighlight
+                onPress={() => navigation.navigate("Register")}
+                underlayColor={"#fff"}
+              >
+                <Text style={styles.registerBtn}>Rejestracja</Text>
+              </TouchableHighlight>
+            </View>
+
+            <Text
+              style={styles.resetPasswordBtn}
+              onPress={() => navigation.navigate("ResetPassword")}
             >
-              <Text style={styles.registerBtn}>Rejestracja</Text>
-            </TouchableHighlight>
+              Resetuj hasło
+            </Text>
           </View>
-
-          <Text
-            style={styles.resetPasswordBtn}
-            onPress={() => navigation.navigate("ResetPassword")}
-          >
-            Resetuj hasło
-          </Text>
-        </View>
+        </ScrollView>
       </SafeAreaView>
     </React.Fragment>
   );
