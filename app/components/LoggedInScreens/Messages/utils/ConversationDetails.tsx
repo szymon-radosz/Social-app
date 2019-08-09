@@ -60,7 +60,7 @@ class ConversationDetails extends Component<
   render() {
     const { messages } = this.state;
     return (
-      <ScrollView style={styles.viewContainer} data-test="ConversationDetails">
+      <View style={styles.viewContainer} data-test="ConversationDetails">
         <PageHeader
           boldText={this.props.receiverName}
           normalText={""}
@@ -90,7 +90,7 @@ class ConversationDetails extends Component<
           </View>
         </View>
         {/* <Text>Sender: {this.props.senderId}</Text>*/}
-        <View>
+        <ScrollView>
           {messages &&
             messages.map((message: any, i: number) => {
               return (
@@ -100,7 +100,7 @@ class ConversationDetails extends Component<
                 />
               );
             })}
-        </View>
+        </ScrollView>
         {messages && messages[0].conversation_id && (
           <SendMessageBox
             receiverId={this.props.receiverId}
@@ -113,7 +113,7 @@ class ConversationDetails extends Component<
             userMessage={this.props.userMessage}
           />
         )}
-      </ScrollView>
+      </View>
     );
   }
 }

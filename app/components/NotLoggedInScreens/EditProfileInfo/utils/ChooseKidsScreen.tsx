@@ -32,7 +32,7 @@ const ChooseKidsScreen = (props: {
 }): any => {
   return (
     <View style={styles.sectionContainer}>
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps={"always"}>
         <ImageBackground source={fillInfoBg} style={{ width: "100%" }}>
           <Text style={styles.headerText}>
             Dodaj swoje dzieci{"\n"}do profilu

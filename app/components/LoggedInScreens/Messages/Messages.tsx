@@ -251,7 +251,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
       userMessage
     } = this.state;
     return (
-      <ScrollView data-test="Messages">
+      <View data-test="Messages">
         {!openConversationDetails && (
           <ImageBackground
             source={messagesBgMin}
@@ -345,7 +345,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
             />
           </Suspense>
         )}
-      </ScrollView>
+      </View>
     );
   }
 }

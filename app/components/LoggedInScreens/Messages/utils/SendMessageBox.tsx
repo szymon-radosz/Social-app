@@ -28,27 +28,29 @@ const SendMessageBox = (props: {
           maxLength={400}
         />
       </View>
-      <ButtonComponent
-        pressButtonComponent={async () => {
-          await props.sendMessage(
-            //@ts-ignore
-            context.userData.id,
-            props.receiverId,
-            props.receiverName,
-            props.receiverEmail,
-            props.receiverPhotoPath,
-            props.userMessage,
-            props.conversationId,
-            0
-          );
-          await props.setUserMessage("");
-        }}
-        buttonComponentText="Wyślij"
-        fullWidth={true}
-        underlayColor="#dd904d"
-        whiteBg={false}
-        showBackIcon={false}
-      />
+      <View style={{ marginBottom: 15 }}>
+        <ButtonComponent
+          pressButtonComponent={async () => {
+            await props.sendMessage(
+              //@ts-ignore
+              context.userData.id,
+              props.receiverId,
+              props.receiverName,
+              props.receiverEmail,
+              props.receiverPhotoPath,
+              props.userMessage,
+              props.conversationId,
+              0
+            );
+            await props.setUserMessage("");
+          }}
+          buttonComponentText="Wyślij"
+          fullWidth={true}
+          underlayColor="#dd904d"
+          whiteBg={false}
+          showBackIcon={false}
+        />
+      </View>
     </React.Fragment>
   );
 };

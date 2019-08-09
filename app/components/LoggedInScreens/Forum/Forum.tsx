@@ -233,7 +233,6 @@ class Forum extends Component<ForumProps, ForumState> {
       categoryName
     } = this.state;
     return (
-      <React.Fragment>
         <View style={styles.container} data-test="Forum">
           {!showPostDetails && !showPosts && !showSavePost && (
             <ImageBackground
@@ -347,7 +346,6 @@ class Forum extends Component<ForumProps, ForumState> {
             )}
           </View>
         </View>
-      </React.Fragment>
     );
   }
 }
