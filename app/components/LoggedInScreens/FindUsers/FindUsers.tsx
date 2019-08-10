@@ -1,5 +1,11 @@
 import React, { Component, Suspense } from "react";
-import { ImageBackground, Text, View, TouchableHighlight } from "react-native";
+import {
+  ImageBackground,
+  Text,
+  View,
+  TouchableHighlight,
+  SafeAreaView
+} from "react-native";
 import axios from "axios";
 //@ts-ignore
 import Carousel from "react-native-snap-carousel";
@@ -8,6 +14,8 @@ import styles from "./style";
 const findUsersBg: any = require("./../../../assets/images/findUsersBgMin.jpg");
 import { GlobalContext } from "./../../Context/GlobalContext";
 import UserList from "./utils/UserList";
+import BottomPanel from "./../SharedComponents/BottomPanel";
+import Alert from "./../../../Alert/Alert";
 
 const UserDetails = React.lazy(() => import("./utils/UserDetails"));
 const UserMessageBox = React.lazy(() => import("./utils/UserMessageBox"));
@@ -48,6 +56,7 @@ interface FindUsersProps {
   openMessages: any;
   openFindUserId: number;
   setOpenProfile: any;
+  navigation: any;
 }
 
 class FindUsers extends Component<FindUsersProps, FindUsersState> {
@@ -90,7 +99,9 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
       usersAreInTheSameConversation: false,
       usersFriendshipStatus: "",
       userDetailsData: [],
-      userDetailsId: 0,
+      userDetailsId: this.props.navigation.state.params.userDetailsId
+        ? this.props.navigation.state.params.userDetailsId
+        : 0,
       filterOptions: [
         {
           title: "Odległość",
@@ -112,21 +123,12 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
     };
 
     this.loadUsersNearCoords = this.loadUsersNearCoords.bind(this);
-    this.setShowUserDetails = this.setShowUserDetails.bind(this);
-    this.hideShowUserDetails = this.hideShowUserDetails.bind(this);
-    this.setShowUserMessageBox = this.setShowUserMessageBox.bind(this);
-    this.hideShowUserMessageBox = this.hideShowUserMessageBox.bind(this);
-    this.sendMessage = this.sendMessage.bind(this);
-    this.setUserDetailsId = this.setUserDetailsId.bind(this);
     this.setShowFilterModal = this.setShowFilterModal.bind(this);
     this.renderItem = this.renderItem.bind(this);
     this.getHobbiesList = this.getHobbiesList.bind(this);
     this.getFilteredUserList = this.getFilteredUserList.bind(this);
     this.filterResults = this.filterResults.bind(this);
     this.removeFilter = this.removeFilter.bind(this);
-    this.inviteFriend = this.inviteFriend.bind(this);
-    this.confirmFriend = this.confirmFriend.bind(this);
-    this.setUserMessage = this.setUserMessage.bind(this);
   }
 
   filterResults = (filterName: string, filterValue: string): void => {
@@ -383,196 +385,6 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
     );
   }
 
-  setUserDetailsId = (id: number) => {
-    this.setState({ userDetailsId: id });
-  };
-
-  sendMessage = (message: string): void => {
-    let API_URL = this.context.API_URL;
-    let senderId = this.context.userData.id;
-    let receiverId = this.state.userDetailsId;
-
-    let that = this;
-
-    axios
-      .post(API_URL + "/api/saveConversation", {
-        senderId: senderId,
-        receiverId: receiverId,
-        message: message
-      })
-      .then(function(response2) {
-        if (response2.data.status === "OK") {
-          that.context.setAlert(
-            true,
-            "success",
-            "Poprawnie wysłano nową wiadomość."
-          );
-
-          that.setShowUserDetails(that.state.userDetailsId);
-        } else if (response2.data.status === "ERR") {
-          that.context.setAlert(
-            true,
-            "danger",
-            "Problem z wysłaniem wiadomości."
-          );
-        }
-      })
-      .catch(function(error) {
-        that.context.setAlert(
-          true,
-          "danger",
-          "Problem z wysłaniem wiadomości."
-        );
-      });
-
-    axios.post(API_URL + "/api/addNotification", {
-      type: "started_conversation_user",
-      message: `Użytkowniczka ${
-        this.context.userData.name
-      } odezwała się do Ciebie w wiadomości prywatnej`,
-      userId: receiverId
-    });
-  };
-
-  setShowUserDetails = async (userId: number) => {
-    //check if users are in the same conversation - start messaging
-    let API_URL = this.context.API_URL;
-    /*let searchedUser = userId;*/
-    let loggedInUser = this.context.userData.id;
-
-    let that = this;
-
-    await this.setState({ userDetailsId: 0, userDetailsData: [] });
-
-    axios
-      .post(API_URL + "/api/loadUserById", {
-        userId: userId,
-        loggedInUser: loggedInUser
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-          console.log(["setShowUserDetails", response.data.result.user]);
-          that.setState({
-            userDetailsId: userId,
-            userDetailsData: response.data.result.user,
-            usersAreInTheSameConversation:
-              response.data.result.checkIfUsersAreInNormalConversation
-          });
-        }
-      })
-      .catch(function(error) {
-        that.context.setAlert(
-          true,
-          "danger",
-          "Nie udało się pobrać danych o uzytkowniku."
-        );
-      });
-
-    //check friendship status
-    axios
-      .post(API_URL + "/api/checkFriend", {
-        senderId: loggedInUser,
-        receiverId: userId
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-          that.setState({
-            usersFriendshipStatus: response.data.result.friendship
-          });
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-
-    this.setState({ showUserDetails: true, showUserMessageBox: false });
-  };
-
-  hideShowUserDetails = (): void => {
-    this.setState({ showUserDetails: false, showUserMessageBox: false });
-  };
-
-  setShowUserMessageBox = (): void => {
-    this.setState({ showUserMessageBox: true, showUserDetails: false });
-  };
-
-  hideShowUserMessageBox = (): void => {
-    this.setState({ showUserMessageBox: false, showUserDetails: true });
-  };
-
-  confirmFriend = (senderId: number, receiverId: number): void => {
-    let API_URL = this.context.API_URL;
-    let that = this;
-
-    axios.post(API_URL + "/api/addNotification", {
-      type: "friendship_confirmation",
-      message: `Użytkowniczka ${
-        this.context.userData.name
-      } zaakceptowała Twoje zaproszenie do grona znajomych.`,
-      userId: receiverId
-    });
-
-    axios
-      .post(API_URL + "/api/confirmFriend", {
-        senderId: senderId,
-        receiverId: receiverId
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-          that.context.setAlert(
-            true,
-            "success",
-            "Dodano nową użytkowniczkę do grona znajomych."
-          );
-          that.setShowUserDetails(that.state.userDetailsId);
-        }
-      })
-      .catch(function(error) {
-        that.context.setAlert(
-          true,
-          "danger",
-          "Problem z potwierdzeniem znajomości."
-        );
-      });
-  };
-
-  inviteFriend = (senderId: number, receiverId: number): void => {
-    let API_URL = this.context.API_URL;
-
-    let that = this;
-
-    axios.post(API_URL + "/api/addNotification", {
-      type: "friendship_invitation",
-      message: `Użytkowniczka ${
-        this.context.userData.name
-      } zaprosiła Cię do grona znajomych`,
-      userId: receiverId
-    });
-
-    axios
-      .post(API_URL + "/api/inviteFriend", {
-        senderId: senderId,
-        receiverId: receiverId
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-          that.context.setAlert(
-            true,
-            "success",
-            "Wysłano zaproszenie do grona znajomych."
-          );
-          that.setShowUserDetails(that.state.userDetailsId);
-        }
-      })
-      .catch(function(error) {
-        that.context.setAlert(
-          true,
-          "danger",
-          "Problem z wysłaniem zaproszenia do grona znajomych."
-        );
-      });
-  };
-
   loadUsersNearCoords = (): void => {
     try {
       let API_URL = this.context.API_URL;
@@ -610,18 +422,10 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
     }
   };
 
-  setUserMessage = (message: string): void => {
-    this.setState({ userMessage: message });
-  };
-
   componentDidMount = (): void => {
     let user = this.context.userData;
     if (user && user.lattitude && user.longitude) {
       this.loadUsersNearCoords();
-    }
-
-    if (this.props.openFindUserId && this.props.openFindUserId > 0) {
-      this.setShowUserDetails(this.props.openFindUserId);
     }
   };
 
@@ -647,36 +451,57 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
     } = this.state;
     return (
       <React.Fragment>
-        <View data-test="FindUsers">
-          {!showFilterModal && !showUserDetails && !showUserMessageBox && (
-            <ImageBackground
-              source={findUsersBg}
-              style={{ width: "100%" }}
-              data-test="ImageBackground"
-            >
-              <Text style={styles.pageTitle}>
-                Poznaj mamy
-                {"\n"}w okolicy.
-              </Text>
-            </ImageBackground>
+        <SafeAreaView
+          style={{
+            flex: 1,
+            backgroundColor: "#fff"
+          }}
+        >
+          {this.context.showAlert && (
+            <Alert
+              alertType={this.context.alertType}
+              alertMessage={this.context.alertMessage}
+              closeAlert={this.context.closeAlert}
+            />
           )}
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "column",
+              justifyContent: "space-between"
+            }}
+            data-test="FindUsers"
+          >
+            <View>
+              {!showFilterModal && !showUserDetails && !showUserMessageBox && (
+                <ImageBackground
+                  source={findUsersBg}
+                  style={{ width: "100%" }}
+                  data-test="ImageBackground"
+                >
+                  <Text style={styles.pageTitle}>
+                    Poznaj mamy
+                    {"\n"}w okolicy.
+                  </Text>
+                </ImageBackground>
+              )}
 
-          {!showUserMessageBox &&
-            !showUserDetails &&
-            userList &&
-            showFilterModal && (
-              <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                <FilterModal
-                  filterOptions={filterData}
-                  closeFilter={this.setShowFilterModal}
-                  filterModalName={filterModalName}
-                  filterResults={this.filterResults}
-                  data-test="FilterModal"
-                />
-              </Suspense>
-            )}
+              {!showUserMessageBox &&
+                !showUserDetails &&
+                userList &&
+                showFilterModal && (
+                  <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                    <FilterModal
+                      filterOptions={filterData}
+                      closeFilter={this.setShowFilterModal}
+                      filterModalName={filterModalName}
+                      filterResults={this.filterResults}
+                      data-test="FilterModal"
+                    />
+                  </Suspense>
+                )}
 
-          {showUserDetails && !showUserMessageBox && userDetailsData && (
+              {/*showUserDetails && !showUserMessageBox && userDetailsData && (
             <Suspense fallback={<Text>Wczytywanie...</Text>}>
               <UserDetails
                 hideShowUserDetails={this.hideShowUserDetails}
@@ -694,10 +519,9 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
                 data-test="UserDetails"
               />
             </Suspense>
-          )}
+          )*/}
 
-          <View style={styles.container}>
-            {showUserMessageBox && !showUserDetails && userDetailsData && (
+              {/*showUserMessageBox && !showUserDetails && userDetailsData && (
               <Suspense fallback={<Text>Wczytywanie...</Text>}>
                 <UserMessageBox
                   hideShowUserMessageBox={this.hideShowUserMessageBox}
@@ -707,71 +531,72 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
                   data-test="UserMessageBox"
                 />
               </Suspense>
-            )}
+            )*/}
 
-            {!showUserMessageBox &&
-              !showUserDetails &&
-              userList &&
-              !showFilterModal && (
-                <View data-test="Carousel">
-                  <Text style={styles.filterResultsHeaderText}>
-                    Filtruj wyniki
-                  </Text>
-                  <View style={styles.filterResultsCarousel}>
-                    <Carousel
-                      layout={"default"}
-                      activeSlideAlignment={"start"}
-                      data={filterOptions}
-                      renderItem={this.renderItem}
-                      itemWidth={100}
-                      sliderWidth={styles.fullWidth}
-                      removeClippedSubviews={false}
-                    />
+              {!showUserMessageBox &&
+                !showUserDetails &&
+                userList &&
+                !showFilterModal && (
+                  <View data-test="Carousel">
+                    <Text style={styles.filterResultsHeaderText}>
+                      Filtruj wyniki
+                    </Text>
+                    <View style={styles.filterResultsCarousel}>
+                      <Carousel
+                        layout={"default"}
+                        activeSlideAlignment={"start"}
+                        data={filterOptions}
+                        renderItem={this.renderItem}
+                        itemWidth={100}
+                        sliderWidth={styles.fullWidth}
+                        removeClippedSubviews={false}
+                      />
+                    </View>
                   </View>
-                </View>
+                )}
+
+              {!showUserDetails && (
+                <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                  <ActiveFilters
+                    filterDistance={filterDistance}
+                    filterChildAge={filterChildAge}
+                    filterChildGender={filterChildGender}
+                    filterHobbyName={filterHobbyName}
+                    showFilterModal={showFilterModal}
+                    removeFilter={this.removeFilter}
+                    data-test="ActiveFilters"
+                  />
+                </Suspense>
               )}
 
-            {!showUserDetails && (
-              <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                <ActiveFilters
-                  filterDistance={filterDistance}
-                  filterChildAge={filterChildAge}
-                  filterChildGender={filterChildGender}
-                  filterHobbyName={filterHobbyName}
-                  showFilterModal={showFilterModal}
-                  removeFilter={this.removeFilter}
-                  data-test="ActiveFilters"
-                />
-              </Suspense>
-            )}
+              {!showUserMessageBox &&
+                !showUserDetails &&
+                userList &&
+                !showFilterModal &&
+                userList.length > 1 && (
+                  <UserList
+                    API_URL={this.context.API_URL}
+                    loggedInUserId={this.context.userData.id}
+                    userList={userList}
+                    data-test="UserListContainer"
+                  />
+                )}
 
-            {!showUserMessageBox &&
+              {!showUserMessageBox &&
               !showUserDetails &&
               userList &&
               !showFilterModal &&
-              userList.length > 1 && (
-                <UserList
-                  API_URL={this.context.API_URL}
-                  loggedInUserId={this.context.userData.id}
-                  userList={userList}
-                  setUserDetailsId={this.setUserDetailsId}
-                  setShowUserDetails={this.setShowUserDetails}
-                  data-test="UserListContainer"
-                />
-              )}
+              userList.length < 2 ? (
+                <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
+                  Brak mam w Twojej okolicy. Zaproś znajome do skorzystania z
+                  aplikacji E-mamy i zbudujcie razem lokalną społeczność mam.
+                </Text>
+              ) : null}
+            </View>
 
-            {!showUserMessageBox &&
-            !showUserDetails &&
-            userList &&
-            !showFilterModal &&
-            userList.length < 2 ? (
-              <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
-                Brak mam w Twojej okolicy. Zaproś znajome do skorzystania z
-                aplikacji E-mamy i zbudujcie razem lokalną społeczność mam.
-              </Text>
-            ) : null}
+            <BottomPanel data-test="BottomPanel" />
           </View>
-        </View>
+        </SafeAreaView>
       </React.Fragment>
     );
   }

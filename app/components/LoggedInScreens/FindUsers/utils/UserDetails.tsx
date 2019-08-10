@@ -1,155 +1,409 @@
-import React from "react";
+import React, { Component } from "react";
 import { Text, View, ScrollView } from "react-native";
+import axios from "axios";
 import styles from "./../style";
 import ProfileHeader from "./../../SharedComponents/ProfileHeader";
 import UserPreview from "./../../SharedComponents/UserPreview";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import ButtonComponent from "./../../../Utils/ButtonComponent";
+import { GlobalContext } from "./../../../Context/GlobalContext";
+import NavigationService from "../../../../routes/NavigationService";
 
-const UserDetails = (props: {
-  hideShowUserDetails: any;
-  API_URL: string;
-  user: {
-    id: number;
-    photo_path: string;
-    name: string;
-    age: number;
-    kids: any;
-    hobbies: any;
-    description: string;
-    location_string: string;
-  };
-  usersFriendshipStatus: string;
+interface FindUsersState {
+  userList: any;
+  showUserDetails: boolean;
+  showUserMessageBox: boolean;
+  message: string;
   usersAreInTheSameConversation: boolean;
-  openMessages: any;
-  setShowUserMessageBox: any;
-  inviteFriend: any;
-  loggedInUserId: number;
-  confirmFriend: any;
-  setOpenProfile: any;
+  usersFriendshipStatus: string;
+  userDetailsData: any;
+  userDetailsId: number;
+  filterOptions: any;
+  filterDistance: string;
+  filterChildAge: string;
+  filterChildGender: string;
+  filterHobbyName: string;
+  showFilterModal: boolean;
+  filterData: {
+    distance: any;
+    childAge: any;
+    childGender: any;
+    hobby: any;
+  };
+  filterModalName: string;
+  userMessage: string;
   locationDetails: any;
-}): any => {
-  return (
-    <View style={{ position: "relative" }}>
-      <PageHeader
-        boldText={props.user.name}
-        normalText={""}
-        closeMethod={props.hideShowUserDetails}
-        closeMethodParameter={""}
-      />
-      <ScrollView>
-        <ProfileHeader
-          API_URL={props.API_URL}
-          avatar={props.user.photo_path}
-          name={props.user.name}
-          cityDistrict={props.locationDetails.cityDistrict}
-          city={props.locationDetails.city}
-          age={props.user.age}
-          countFriends={2}
-          countKids={
-            props.user.kids && props.user.kids.length > 0
-              ? props.user.kids.length
-              : 0
-          }
-          locationString={props.user.location_string}
-        />
+}
 
-        <UserPreview
-          hobbies={
-            props.user.hobbies && props.user.hobbies.length > 0
-              ? props.user.hobbies
-              : null
-          }
-          kids={
-            props.user.kids && props.user.kids.length > 0
-              ? props.user.kids
-              : null
-          }
-          description={props.user.description}
-        />
+interface FindUsersProps {}
 
-        {props.usersAreInTheSameConversation && (
-          <Text style={styles.userDetailsContentHobbyContainer}>
-            Jesteś już w trakcie rozmowy z {props.user.name}
-          </Text>
-        )}
-        <View style={styles.userDetailsRedirectMessageBtnContainer}>
-          {props.usersAreInTheSameConversation ? (
-            <ButtonComponent
-              pressButtonComponent={props.openMessages}
-              buttonComponentText="Przejdź do wiadomości"
-              fullWidth={true}
-              underlayColor="#dd904d"
-              whiteBg={false}
-              showBackIcon={false}
+class UserDetails extends Component<FindUsersProps, FindUsersState> {
+  constructor(props: FindUsersProps) {
+    super(props);
+    this.state = {
+      userMessage: "",
+
+      showUserDetails: false,
+      showUserMessageBox: false,
+      message: "",
+      locationDetails: [],
+      usersAreInTheSameConversation: false,
+      usersFriendshipStatus: "",
+      userDetailsData: [],
+      userDetailsId: 0
+    };
+  }
+  setUserDetailsId = (id: number) => {
+    this.setState({ userDetailsId: id });
+  };
+
+  sendMessage = (message: string): void => {
+    let API_URL = this.context.API_URL;
+    let senderId = this.context.userData.id;
+    let receiverId = this.state.userDetailsId;
+
+    let that = this;
+
+    axios
+      .post(API_URL + "/api/saveConversation", {
+        senderId: senderId,
+        receiverId: receiverId,
+        message: message
+      })
+      .then(function(response2) {
+        if (response2.data.status === "OK") {
+          that.context.setAlert(
+            true,
+            "success",
+            "Poprawnie wysłano nową wiadomość."
+          );
+
+          that.setShowUserDetails(that.state.userDetailsId);
+        } else if (response2.data.status === "ERR") {
+          that.context.setAlert(
+            true,
+            "danger",
+            "Problem z wysłaniem wiadomości."
+          );
+        }
+      })
+      .catch(function(error) {
+        that.context.setAlert(
+          true,
+          "danger",
+          "Problem z wysłaniem wiadomości."
+        );
+      });
+
+    axios.post(API_URL + "/api/addNotification", {
+      type: "started_conversation_user",
+      message: `Użytkowniczka ${
+        this.context.userData.name
+      } odezwała się do Ciebie w wiadomości prywatnej`,
+      userId: receiverId
+    });
+  };
+
+  setShowUserDetails = async (userId: number) => {
+    //check if users are in the same conversation - start messaging
+    let API_URL = this.context.API_URL;
+    /*let searchedUser = userId;*/
+    let loggedInUser = this.context.userData.id;
+
+    let that = this;
+
+    await this.setState({ userDetailsId: 0, userDetailsData: [] });
+
+    axios
+      .post(API_URL + "/api/loadUserById", {
+        userId: userId,
+        loggedInUser: loggedInUser
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          console.log(["setShowUserDetails", response.data.result.user]);
+          that.setState({
+            userDetailsId: userId,
+            userDetailsData: response.data.result.user,
+            usersAreInTheSameConversation:
+              response.data.result.checkIfUsersAreInNormalConversation
+          });
+        }
+      })
+      .catch(function(error) {
+        that.context.setAlert(
+          true,
+          "danger",
+          "Nie udało się pobrać danych o uzytkowniku."
+        );
+      });
+
+    //check friendship status
+    axios
+      .post(API_URL + "/api/checkFriend", {
+        senderId: loggedInUser,
+        receiverId: userId
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          that.setState({
+            usersFriendshipStatus: response.data.result.friendship
+          });
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+    this.setState({ showUserDetails: true, showUserMessageBox: false });
+  };
+
+  hideShowUserDetails = (): void => {
+    this.setState({ showUserDetails: false, showUserMessageBox: false });
+  };
+
+  setShowUserMessageBox = (): void => {
+    this.setState({ showUserMessageBox: true, showUserDetails: false });
+  };
+
+  hideShowUserMessageBox = (): void => {
+    this.setState({ showUserMessageBox: false, showUserDetails: true });
+  };
+
+  confirmFriend = (senderId: number, receiverId: number): void => {
+    let API_URL = this.context.API_URL;
+    let that = this;
+
+    axios.post(API_URL + "/api/addNotification", {
+      type: "friendship_confirmation",
+      message: `Użytkowniczka ${
+        this.context.userData.name
+      } zaakceptowała Twoje zaproszenie do grona znajomych.`,
+      userId: receiverId
+    });
+
+    axios
+      .post(API_URL + "/api/confirmFriend", {
+        senderId: senderId,
+        receiverId: receiverId
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          that.context.setAlert(
+            true,
+            "success",
+            "Dodano nową użytkowniczkę do grona znajomych."
+          );
+          that.setShowUserDetails(that.state.userDetailsId);
+        }
+      })
+      .catch(function(error) {
+        that.context.setAlert(
+          true,
+          "danger",
+          "Problem z potwierdzeniem znajomości."
+        );
+      });
+  };
+
+  inviteFriend = (senderId: number, receiverId: number): void => {
+    let API_URL = this.context.API_URL;
+
+    let that = this;
+
+    axios.post(API_URL + "/api/addNotification", {
+      type: "friendship_invitation",
+      message: `Użytkowniczka ${
+        this.context.userData.name
+      } zaprosiła Cię do grona znajomych`,
+      userId: receiverId
+    });
+
+    axios
+      .post(API_URL + "/api/inviteFriend", {
+        senderId: senderId,
+        receiverId: receiverId
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          that.context.setAlert(
+            true,
+            "success",
+            "Wysłano zaproszenie do grona znajomych."
+          );
+          that.setShowUserDetails(that.state.userDetailsId);
+        }
+      })
+      .catch(function(error) {
+        that.context.setAlert(
+          true,
+          "danger",
+          "Problem z wysłaniem zaproszenia do grona znajomych."
+        );
+      });
+  };
+
+  setUserMessage = (message: string): void => {
+    this.setState({ userMessage: message });
+  };
+
+  render() {
+    const {
+      userList,
+      showUserDetails,
+
+      showUserMessageBox,
+      usersAreInTheSameConversation,
+      userDetailsData,
+      usersFriendshipStatus,
+      userMessage,
+      showFilterModal,
+      filterOptions,
+      filterDistance,
+      filterChildAge,
+      filterChildGender,
+      filterHobbyName,
+      filterData,
+      filterModalName,
+      locationDetails
+    } = this.state;
+    return (
+      <React.Fragment>
+        {!showUserMessageBox && userDetailsData && (
+          <View style={{ position: "relative" }}>
+            <PageHeader
+              boldText={userDetailsData.name}
+              normalText={""}
+              closeMethod={this.hideShowUserDetails}
+              closeMethodParameter={""}
             />
-          ) : (
-            <ButtonComponent
-              pressButtonComponent={props.setShowUserMessageBox}
-              buttonComponentText="Pomachaj"
-              fullWidth={true}
-              underlayColor="#dd904d"
-              whiteBg={false}
-              showBackIcon={false}
-            />
-          )}
-        </View>
-        <View style={styles.userDetailsRedirectMessageBtnContainer}>
-          <View style={{ marginBottom: 20, width: "100%" }}>
-            {props.usersFriendshipStatus === "friendship doesnt exist" && (
-              <ButtonComponent
-                pressButtonComponent={() =>
-                  props.inviteFriend(props.loggedInUserId, props.user.id)
+            <ScrollView>
+              <ProfileHeader
+                API_URL={this.context.API_URL}
+                avatar={userDetailsData.photo_path}
+                name={userDetailsData.name}
+                cityDistrict={locationDetails.cityDistrict}
+                city={locationDetails.city}
+                age={userDetailsData.age}
+                countFriends={2}
+                countKids={
+                  userDetailsData.kids && userDetailsData.kids.length > 0
+                    ? userDetailsData.kids.length
+                    : 0
                 }
-                buttonComponentText="Zaproś do znajomych"
-                fullWidth={true}
-                underlayColor="#dd904d"
-                whiteBg={false}
-                showBackIcon={false}
+                locationString={userDetailsData.location_string}
               />
-            )}
 
-            {props.usersFriendshipStatus ===
-              "not confirmed by first person" && (
-              <ButtonComponent
-                pressButtonComponent={() =>
-                  props.confirmFriend(props.loggedInUserId, props.user.id)
+              <UserPreview
+                hobbies={
+                  userDetailsData.hobbies && userDetailsData.hobbies.length > 0
+                    ? userDetailsData.hobbies
+                    : null
                 }
-                buttonComponentText="Zaakceptuj zaproszenie do znajomych"
-                fullWidth={true}
-                underlayColor="#dd904d"
-                whiteBg={false}
-                showBackIcon={false}
+                kids={
+                  userDetailsData.kids && userDetailsData.kids.length > 0
+                    ? userDetailsData.kids
+                    : null
+                }
+                description={userDetailsData.description}
               />
-            )}
 
-            {props.usersFriendshipStatus ===
-              "not confirmed by second person" && (
-              <ButtonComponent
-                pressButtonComponent={() => {
-                  console.log("Wysłano zaproszenie do znajomych");
-                }}
-                buttonComponentText="Wysłano zaproszenie do znajomych"
-                fullWidth={true}
-                underlayColor="#dd904d"
-                whiteBg={false}
-                showBackIcon={false}
-              />
-            )}
-            {props.usersFriendshipStatus === "confirmed" && (
-              <ButtonComponent
-                pressButtonComponent={props.setOpenProfile}
-                buttonComponentText="Jesteście znajomymi"
-                fullWidth={true}
-                underlayColor="#dd904d"
-                whiteBg={false}
-                showBackIcon={false}
-              />
-            )}
+              {usersAreInTheSameConversation && (
+                <Text style={styles.userDetailsContentHobbyContainer}>
+                  Jesteś już w trakcie rozmowy z {userDetailsData.name}
+                </Text>
+              )}
+              <View style={styles.userDetailsRedirectMessageBtnContainer}>
+                {usersAreInTheSameConversation ? (
+                  <ButtonComponent
+                    pressButtonComponent={() =>
+                      this.context.NavigationService.navigate("Messages", {})
+                    }
+                    buttonComponentText="Przejdź do wiadomości"
+                    fullWidth={true}
+                    underlayColor="#dd904d"
+                    whiteBg={false}
+                    showBackIcon={false}
+                  />
+                ) : (
+                  <ButtonComponent
+                    pressButtonComponent={this.setShowUserMessageBox}
+                    buttonComponentText="Pomachaj"
+                    fullWidth={true}
+                    underlayColor="#dd904d"
+                    whiteBg={false}
+                    showBackIcon={false}
+                  />
+                )}
+              </View>
+              <View style={styles.userDetailsRedirectMessageBtnContainer}>
+                <View style={{ marginBottom: 20, width: "100%" }}>
+                  {usersFriendshipStatus === "friendship doesnt exist" && (
+                    <ButtonComponent
+                      pressButtonComponent={() =>
+                        this.inviteFriend(
+                          this.context.userData.id,
+                          userDetailsData.id
+                        )
+                      }
+                      buttonComponentText="Zaproś do znajomych"
+                      fullWidth={true}
+                      underlayColor="#dd904d"
+                      whiteBg={false}
+                      showBackIcon={false}
+                    />
+                  )}
+
+                  {usersFriendshipStatus ===
+                    "not confirmed by first person" && (
+                    <ButtonComponent
+                      pressButtonComponent={() =>
+                        this.confirmFriend(
+                          this.context.userData.id,
+                          userDetailsData.id
+                        )
+                      }
+                      buttonComponentText="Zaakceptuj zaproszenie do znajomych"
+                      fullWidth={true}
+                      underlayColor="#dd904d"
+                      whiteBg={false}
+                      showBackIcon={false}
+                    />
+                  )}
+
+                  {usersFriendshipStatus ===
+                    "not confirmed by second person" && (
+                    <ButtonComponent
+                      pressButtonComponent={() => {
+                        console.log("Wysłano zaproszenie do znajomych");
+                      }}
+                      buttonComponentText="Wysłano zaproszenie do znajomych"
+                      fullWidth={true}
+                      underlayColor="#dd904d"
+                      whiteBg={false}
+                      showBackIcon={false}
+                    />
+                  )}
+                  {usersFriendshipStatus === "confirmed" && (
+                    <ButtonComponent
+                      pressButtonComponent={() =>
+                        this.context.NavigationService.navigate("Profile", {})
+                      }
+                      buttonComponentText="Jesteście znajomymi"
+                      fullWidth={true}
+                      underlayColor="#dd904d"
+                      whiteBg={false}
+                      showBackIcon={false}
+                    />
+                  )}
+                </View>
+              </View>
+            </ScrollView>
           </View>
-        </View>
-      </ScrollView>
-    </View>
-  );
-};
+        )}
+      </React.Fragment>
+    );
+  }
+}
+UserDetails.contextType = GlobalContext;
 export default UserDetails;

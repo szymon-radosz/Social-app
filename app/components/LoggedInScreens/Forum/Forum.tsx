@@ -1,5 +1,7 @@
 import React, { Component, Suspense } from "react";
-import { Text, ImageBackground, View } from "react-native";
+import { Text, ImageBackground, View, SafeAreaView } from "react-native";
+import Alert from "./../../../Alert/Alert";
+import BottomPanel from "./../SharedComponents/BottomPanel";
 import axios from "axios";
 import CategoryDetailsSinglePostOnList from "./utils/CategoryDetailsSinglePostOnList";
 import styles from "./style";
@@ -233,119 +235,145 @@ class Forum extends Component<ForumProps, ForumState> {
       categoryName
     } = this.state;
     return (
-        <View style={styles.container} data-test="Forum">
-          {!showPostDetails && !showPosts && !showSavePost && (
-            <ImageBackground
-              source={forumBg}
-              style={{ width: "100%" }}
-              data-test="ImageBackground"
-            >
-              <Text style={styles.pageTitle}>
-                Podziel się swoją
-                {"\n"}wiedzą.
-              </Text>
-            </ImageBackground>
+      <React.Fragment>
+        <SafeAreaView
+          style={{
+            flex: 1,
+            backgroundColor: "#fff"
+          }}
+        >
+          {this.context.showAlert && (
+            <Alert
+              alertType={this.context.alertType}
+              alertMessage={this.context.alertMessage}
+              closeAlert={this.context.closeAlert}
+            />
           )}
-
-          <View style={{ width: "100%", marginBottom: 20 }}>
-            {showPostDetails &&
-              showPostDetailsId &&
-              !showSavePost &&
-              !showSortByCategory && (
-                <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                  <PostDetails
-                    postDetailsId={showPostDetailsId}
-                    setShowPostDetails={this.setShowPostDetails}
-                    data-test="PostDetails"
-                  />
-                </Suspense>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "column",
+              justifyContent: "space-between"
+            }}
+            data-test="Forum"
+          >
+            <View>
+              {!showPostDetails && !showPosts && !showSavePost && (
+                <ImageBackground
+                  source={forumBg}
+                  style={{ width: "100%" }}
+                  data-test="ImageBackground"
+                >
+                  <Text style={styles.pageTitle}>
+                    Podziel się swoją
+                    {"\n"}wiedzą.
+                  </Text>
+                </ImageBackground>
               )}
 
-            {!showPostDetails && showSavePost && (
-              <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                <SavePost
-                  API_URL={this.context.API_URL}
-                  user={this.context.userData}
-                  savePost={this.savePost}
-                  setShowSavePost={this.setShowSavePost}
-                  data-test="SavePost"
-                />
-              </Suspense>
-            )}
-
-            {!showPostDetails && !showSavePost && showSortByCategory && (
-              <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                <CategoriesList
-                  API_URL={this.context.API_URL}
-                  user={this.context.userData}
-                  getPostByCategoryId={this.getPostByCategoryId}
-                  data-test="CategoriesList"
-                />
-              </Suspense>
-            )}
-
-            {postList && showPosts && !showPostDetails && (
-              <PageHeader
-                boldText={"Kategoria: "}
-                normalText={categoryName}
-                closeMethod={this.setShowSortByCategory}
-                closeMethodParameter={true}
-                data-test="PageHeader"
-              />
-            )}
-
-            <View style={{ paddingTop: 10 }}>
-              {postList &&
-                showPosts &&
-                !showPostDetails &&
-                postList.map(
-                  (
-                    post: {
-                      title: string;
-                      comments: any;
-                      created_at: string;
-                      votes: any;
-                      id: number;
-                    },
-                    i: number
-                  ) => {
-                    return (
-                      <CategoryDetailsSinglePostOnList
-                        getPostDetails={this.getPostDetails}
-                        showPosts={showPosts}
-                        key={`CategoryDetailsSinglePostOnList-${i}`}
-                        post={post}
-                        data-test="CategoryDetailsSinglePostOnList"
+              <View style={{ width: "100%", marginBottom: 20 }}>
+                {showPostDetails &&
+                  showPostDetailsId &&
+                  !showSavePost &&
+                  !showSortByCategory && (
+                    <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                      <PostDetails
+                        postDetailsId={showPostDetailsId}
+                        setShowPostDetails={this.setShowPostDetails}
+                        data-test="PostDetails"
                       />
-                    );
-                  }
+                    </Suspense>
+                  )}
+
+                {!showPostDetails && showSavePost && (
+                  <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                    <SavePost
+                      API_URL={this.context.API_URL}
+                      user={this.context.userData}
+                      savePost={this.savePost}
+                      setShowSavePost={this.setShowSavePost}
+                      data-test="SavePost"
+                    />
+                  </Suspense>
                 )}
+
+                {!showPostDetails && !showSavePost && showSortByCategory && (
+                  <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                    <CategoriesList
+                      API_URL={this.context.API_URL}
+                      user={this.context.userData}
+                      getPostByCategoryId={this.getPostByCategoryId}
+                      data-test="CategoriesList"
+                    />
+                  </Suspense>
+                )}
+
+                {postList && showPosts && !showPostDetails && (
+                  <PageHeader
+                    boldText={"Kategoria: "}
+                    normalText={categoryName}
+                    closeMethod={this.setShowSortByCategory}
+                    closeMethodParameter={true}
+                    data-test="PageHeader"
+                  />
+                )}
+
+                <View style={{ paddingTop: 10 }}>
+                  {postList &&
+                    showPosts &&
+                    !showPostDetails &&
+                    postList.map(
+                      (
+                        post: {
+                          title: string;
+                          comments: any;
+                          created_at: string;
+                          votes: any;
+                          id: number;
+                        },
+                        i: number
+                      ) => {
+                        return (
+                          <CategoryDetailsSinglePostOnList
+                            getPostDetails={this.getPostDetails}
+                            showPosts={showPosts}
+                            key={`CategoryDetailsSinglePostOnList-${i}`}
+                            post={post}
+                            data-test="CategoryDetailsSinglePostOnList"
+                          />
+                        );
+                      }
+                    )}
+                </View>
+
+                {!showPostDetails && !showSavePost && showSortByCategory && (
+                  <Text
+                    style={{ paddingLeft: 10, paddingRight: 10 }}
+                    onPress={this.props.setShowFeedbackModal}
+                    data-test="ask"
+                  >
+                    Masz pomysł na nową kategorię?{" "}
+                    <Text style={{ fontWeight: "600" }}>Napisz do nas!</Text>
+                  </Text>
+                )}
+
+                {!showPostDetails && !showSavePost && showSortByCategory && (
+                  <ButtonComponent
+                    pressButtonComponent={this.setShowSavePost}
+                    buttonComponentText="Dodaj post"
+                    fullWidth={true}
+                    underlayColor="#dd904d"
+                    data-test="ButtonComponent"
+                    whiteBg={false}
+                    showBackIcon={false}
+                  />
+                )}
+              </View>
             </View>
-
-            {!showPostDetails && !showSavePost && showSortByCategory && (
-              <Text
-                style={{ paddingLeft: 10, paddingRight: 10 }}
-                onPress={this.props.setShowFeedbackModal}
-                data-test="ask"
-              >
-                Masz pomysł na nową kategorię?{" "}
-                <Text style={{ fontWeight: "600" }}>Napisz do nas!</Text>
-              </Text>
-            )}
-
-            {!showPostDetails && !showSavePost && showSortByCategory && (
-              <ButtonComponent
-                pressButtonComponent={this.setShowSavePost}
-                buttonComponentText="Dodaj post"
-                fullWidth={true}
-                underlayColor="#dd904d"
-                data-test="ButtonComponent"
-                whiteBg={false}
-                showBackIcon={false}
-              />
-            )}
+            <BottomPanel data-test="BottomPanel" />
           </View>
-        </View>
+        </SafeAreaView>
+      </React.Fragment>
     );
   }
 }

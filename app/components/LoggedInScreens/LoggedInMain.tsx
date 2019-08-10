@@ -161,14 +161,16 @@ class LoggedInMain extends Component<
   };
 
   setOpenMessages = (): void => {
-    this.setState({
+    /*this.setState({
       openFindUsers: false,
       openAuctions: false,
       openMessages: true,
       openForum: false,
       openProfile: false,
       showFeedbackModal: false
-    });
+    });*/
+
+    this.props.navigation.navigate("Messages", {});
   };
 
   setOpenForum = (): void => {
@@ -262,20 +264,6 @@ class LoggedInMain extends Component<
                 <Image source={feedback} style={{ width: 50, height: 50 }} />
               </TouchableHighlight>
             )}
-
-            <BottomPanel
-              openFindUsers={this.setOpenFindUsers}
-              openAuctions={this.setOpenAuctions}
-              openMessages={this.setOpenMessages}
-              openProfile={this.setOpenProfile}
-              openForum={this.setOpenForum}
-              openFindUsersStatus={openFindUsers}
-              openAuctionsStatus={openAuctions}
-              openMessagesStatus={openMessages}
-              openProfileStatus={openProfile}
-              openForumStatus={openForum}
-              data-test="BottomPanel"
-            />
           </View>
         </SafeAreaView>
       </React.Fragment>

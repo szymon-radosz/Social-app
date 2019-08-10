@@ -8,6 +8,19 @@ import ResetPassword from "./../components/NotLoggedInScreens/Auth/ResetPassword
 import ConfirmAccount from "./../components/NotLoggedInScreens/Auth/ConfirmAccount";
 import FillNecessaryInfo from "./../components/NotLoggedInScreens/EditProfileInfo/EditProfileInfo";
 import LoggedInMain from "./../components/LoggedInScreens/LoggedInMain";
+//Users
+import FindUsers from "./../components/LoggedInScreens/FindUsers/FindUsers";
+import UserDetails from "./../components/LoggedInScreens/FindUsers/utils/UserDetails";
+//Auctions
+import Auctions from "./../components/LoggedInScreens/Auctions/Auctions";
+import ProductDetails from "./../components/LoggedInScreens/Auctions/utils/ProductDetails";
+//Messages
+import Messages from "./../components/LoggedInScreens/Messages/Messages";
+import ConversationDetails from "./../components/LoggedInScreens/Messages/utils/ConversationDetails";
+//Forum
+import Forum from "./../components/LoggedInScreens/Forum/Forum";
+//Profile
+import Profile from "./../components/LoggedInScreens/Profile/Profile";
 //@ts-ignore
 import { fadeIn } from "react-navigation-transitions";
 import { GlobalContext } from "./../components/Context/GlobalContext";
@@ -64,6 +77,54 @@ const MainStack = createStackNavigator(
       navigationOptions: {
         header: null
       }
+    },
+    UserList: {
+      screen: FindUsers,
+      navigationOptions: {
+        header: null
+      }
+    },
+    UserDetails: {
+      screen: UserDetails,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Auctions: {
+      screen: Auctions,
+      navigationOptions: {
+        header: null
+      }
+    },
+    ProductDetails: {
+      screen: ProductDetails,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Messages: {
+      screen: Messages,
+      navigationOptions: {
+        header: null
+      }
+    },
+    ConversationDetails: {
+      screen: ConversationDetails,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Forum: {
+      screen: Forum,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Profile: {
+      screen: Profile,
+      navigationOptions: {
+        header: null
+      }
     }
   },
   {
@@ -92,6 +153,8 @@ interface AppState {
   //editProfileData: boolean;
   API_URL: string;
   showLoader: boolean;
+  showUserProfileId: number;
+  showUserProfile: boolean;
 }
 interface NavigationScreenInterface {
   navigation: {
@@ -116,7 +179,9 @@ export default class App extends Component<
       userLoggedIn: false,
       API_URL: "http://127.0.0.1:8000/",
       //API_URL: "https://e-mamy.pl/",
-      showLoader: false
+      showLoader: false,
+      showUserProfileId: 0,
+      showUserProfile: false
     };
     this.setAlert = this.setAlert.bind(this);
     this.closeAlert = this.closeAlert.bind(this);
@@ -225,7 +290,7 @@ export default class App extends Component<
     console.log(["checkUserStatus"]);
 
     if (userData.verified === 1 && userData.user_filled_info === 1) {
-      NavigationService.navigate("LoggedInMain", {});
+      NavigationService.navigate("UserList", {});
     } else if (userData.verified === 0) {
       NavigationService.navigate("ConfirmAccount", {});
     } else if (userData.verified === 1 && userData.user_filled_info === 0) {
@@ -292,6 +357,13 @@ export default class App extends Component<
     this.setState({ userData: [] });
   };
 
+  setShowUserProfile = (userId: number) => {
+    return new Promise(async resolve => {
+      await this.setState({ showUserProfile: true, showUserProfileId: userId });
+      resolve(true);
+    });
+  };
+
   componentDidMount = (): void => {
     NavigationService.navigate("Welcome", {});
   };
@@ -303,7 +375,9 @@ export default class App extends Component<
       alertMessage,
       userData,
       API_URL,
-      showLoader
+      showLoader,
+      showUserProfile,
+      showUserProfileId
     } = this.state;
 
     return (
@@ -322,7 +396,12 @@ export default class App extends Component<
           clearUserNotificationsStatus: this.clearUserNotificationsStatus,
           showLoader: showLoader,
           setShowLoader: this.setShowLoader,
-          closeAlert: this.closeAlert
+          closeAlert: this.closeAlert,
+          setShowUserProfile: this.setShowUserProfile,
+          showUserProfile: showUserProfile,
+          showUserProfileId: showUserProfileId,
+          //@ts-ignore
+          NavigationService: NavigationService
         }}
       >
         <AppContainer

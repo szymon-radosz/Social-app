@@ -1,16 +1,32 @@
 import React, { Component } from "react";
-import { Text, View, TouchableOpacity, Image, ScrollView } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  TouchableHighlight
+} from "react-native";
 import SendMessageBox from "./SendMessageBox";
 import SingleConversationMessage from "./SingleConversationMessage";
 import styles from "./../style";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import { GlobalContext } from "./../../../Context/GlobalContext";
 
+interface NavigationScreenInterface {
+  navigation: {
+    navigate: any;
+    getParam: any;
+    state: any;
+  };
+}
+
 interface ConversationDetailsState {
   messages: any;
 }
 
 interface ConversationDetailsProps {
+  navigation: any;
   messages: any;
   receiverPhotoPath: string;
   receiverName: string;
@@ -25,7 +41,8 @@ interface ConversationDetailsProps {
 
 class ConversationDetails extends Component<
   ConversationDetailsProps,
-  ConversationDetailsState
+  ConversationDetailsState,
+  NavigationScreenInterface
 > {
   constructor(props: ConversationDetailsProps) {
     super(props);
@@ -58,6 +75,7 @@ class ConversationDetails extends Component<
   };
 
   render() {
+    const navigation = this.props.navigation;
     const { messages } = this.state;
     return (
       <View style={styles.viewContainer} data-test="ConversationDetails">
@@ -83,9 +101,22 @@ class ConversationDetails extends Component<
               Rozmowa z {this.props.receiverName}
             </Text>
             {this.props.displayPrivateMessages ? (
-              <Text>Zobacz produkt</Text>
+              <Text style={styles.conversationDetailsSeeMore}>
+                Zobacz produkt
+              </Text>
             ) : (
-              <Text>Zobacz profil</Text>
+              <TouchableHighlight
+                onPress={async () => {
+                  await this.context.setShowUserProfile(this.props.receiverId);
+                  navigation.navigate("UserList", {
+                    userDetailsId: this.props.receiverId
+                  });
+                }}
+              >
+                <Text style={styles.conversationDetailsSeeMore}>
+                  Zobacz profil
+                </Text>
+              </TouchableHighlight>
             )}
           </View>
         </View>

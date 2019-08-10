@@ -4,8 +4,11 @@ import {
   Text,
   ImageBackground,
   View,
-  ScrollView
+  ScrollView,
+  SafeAreaView
 } from "react-native";
+import Alert from "./../../../Alert/Alert";
+import BottomPanel from "./../SharedComponents/BottomPanel";
 import axios from "axios";
 import styles from "./style";
 const messagesBgMin: any = require("./../../../assets/images/messagesBgMin.jpg");
@@ -30,7 +33,9 @@ interface MessagesState {
   userMessage: string;
 }
 
-interface MessagesProps {}
+interface MessagesProps {
+  navigation: any;
+}
 
 class Messages extends Component<MessagesProps, MessagesState> {
   constructor(props: MessagesProps) {
@@ -251,101 +256,130 @@ class Messages extends Component<MessagesProps, MessagesState> {
       userMessage
     } = this.state;
     return (
-      <View data-test="Messages">
-        {!openConversationDetails && (
-          <ImageBackground
-            source={messagesBgMin}
-            style={{ width: "100%" }}
-            data-test="ImageBackground"
+      <React.Fragment>
+        <SafeAreaView
+          style={{
+            flex: 1,
+            backgroundColor: "#fff"
+          }}
+        >
+          {this.context.showAlert && (
+            <Alert
+              alertType={this.context.alertType}
+              alertMessage={this.context.alertMessage}
+              closeAlert={this.context.closeAlert}
+            />
+          )}
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "column",
+              justifyContent: "space-between"
+            }}
+            data-test="Messages"
           >
-            <Text style={styles.pageTitle}>Twoje{"\n"}Wiadomości</Text>
-          </ImageBackground>
-        )}
+            <View>
+              {!openConversationDetails && (
+                <ImageBackground
+                  source={messagesBgMin}
+                  style={{ width: "100%" }}
+                  data-test="ImageBackground"
+                >
+                  <Text style={styles.pageTitle}>Twoje{"\n"}Wiadomości</Text>
+                </ImageBackground>
+              )}
 
-        {showFilterPanel && (
-          <View data-test="showFilterPanel">
-            <View style={styles.filterBtnContainer}>
-              <View style={styles.singleButtonCol2Container}>
-                <TouchableOpacity
-                  onPress={this.getMessages}
-                  style={
-                    displayPrivateMessages
-                      ? styles.filterBtnActive
-                      : styles.filterBtn
-                  }
-                >
-                  <Text
-                    style={
-                      displayPrivateMessages
-                        ? styles.filterBtnTextActive
-                        : styles.filterBtnText
-                    }
-                  >
-                    Prywatne
+              {showFilterPanel && (
+                <View data-test="showFilterPanel">
+                  <View style={styles.filterBtnContainer}>
+                    <View style={styles.singleButtonCol2Container}>
+                      <TouchableOpacity
+                        onPress={this.getMessages}
+                        style={
+                          displayPrivateMessages
+                            ? styles.filterBtnActive
+                            : styles.filterBtn
+                        }
+                      >
+                        <Text
+                          style={
+                            displayPrivateMessages
+                              ? styles.filterBtnTextActive
+                              : styles.filterBtnText
+                          }
+                        >
+                          Prywatne
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={styles.singleButtonCol2Container}>
+                      <TouchableOpacity
+                        onPress={this.getAuctionMessages}
+                        style={
+                          !displayPrivateMessages
+                            ? styles.filterBtnActive
+                            : styles.filterBtn
+                        }
+                      >
+                        <Text
+                          style={
+                            !displayPrivateMessages
+                              ? styles.filterBtnTextActive
+                              : styles.filterBtnText
+                          }
+                        >
+                          Targ
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              )}
+
+              {messagesList && !openConversationDetails ? (
+                messagesList.length > 0 ? (
+                  <MessageList
+                    messagesList={messagesList}
+                    openConversationDetails={this.openConversationDetails}
+                    data-test="MessageList"
+                  />
+                ) : displayPrivateMessages ? (
+                  <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
+                    Brak wyników. Zaproś inne mamy z Twojej okolicy do
+                    znajomych.
                   </Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.singleButtonCol2Container}>
-                <TouchableOpacity
-                  onPress={this.getAuctionMessages}
-                  style={
-                    !displayPrivateMessages
-                      ? styles.filterBtnActive
-                      : styles.filterBtn
-                  }
-                >
-                  <Text
-                    style={
-                      !displayPrivateMessages
-                        ? styles.filterBtnTextActive
-                        : styles.filterBtnText
-                    }
-                  >
-                    Targ
+                ) : (
+                  <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
+                    Brak wyników. Dodaj nieużywane przedmioty w zakładce 'Targ'
+                    i uzgodnij szczegóły z innymi użytkowniczkami w
+                    wiadomościach.
                   </Text>
-                </TouchableOpacity>
-              </View>
+                )
+              ) : null}
+
+              {openConversationDetails && (
+                <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                  <ConversationDetails
+                    messages={openConversationMessages}
+                    receiverId={receiverId}
+                    receiverName={receiverName}
+                    receiverEmail={receiverEmail}
+                    receiverPhotoPath={receiverPhotoPath}
+                    sendMessage={this.sendMessage}
+                    setUserMessage={this.setUserMessage}
+                    userMessage={userMessage}
+                    closeConversationDetails={this.closeConversationDetails}
+                    displayPrivateMessages={displayPrivateMessages}
+                    data-test="ConversationDetails"
+                    navigation={this.props.navigation}
+                  />
+                </Suspense>
+              )}
             </View>
+            <BottomPanel data-test="BottomPanel" />
           </View>
-        )}
-
-        {messagesList && !openConversationDetails ? (
-          messagesList.length > 0 ? (
-            <MessageList
-              messagesList={messagesList}
-              openConversationDetails={this.openConversationDetails}
-              data-test="MessageList"
-            />
-          ) : displayPrivateMessages ? (
-            <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
-              Brak wyników. Zaproś inne mamy z Twojej okolicy do znajomych.
-            </Text>
-          ) : (
-            <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
-              Brak wyników. Dodaj nieużywane przedmioty w zakładce 'Targ' i
-              uzgodnij szczegóły z innymi użytkowniczkami w wiadomościach.
-            </Text>
-          )
-        ) : null}
-
-        {openConversationDetails && (
-          <Suspense fallback={<Text>Wczytywanie...</Text>}>
-            <ConversationDetails
-              messages={openConversationMessages}
-              receiverId={receiverId}
-              receiverName={receiverName}
-              receiverEmail={receiverEmail}
-              receiverPhotoPath={receiverPhotoPath}
-              sendMessage={this.sendMessage}
-              setUserMessage={this.setUserMessage}
-              userMessage={userMessage}
-              closeConversationDetails={this.closeConversationDetails}
-              displayPrivateMessages={displayPrivateMessages}
-              data-test="ConversationDetails"
-            />
-          </Suspense>
-        )}
-      </View>
+        </SafeAreaView>
+      </React.Fragment>
     );
   }
 }

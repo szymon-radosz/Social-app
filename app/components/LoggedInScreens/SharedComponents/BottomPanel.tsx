@@ -10,23 +10,13 @@ const forum: any = require("./../../../assets/images/forum.png");
 const profile: any = require("./../../../assets/images/profile.png");
 const dot: any = require("./../../../assets/images/dot.png");
 
-const BottomPanel = (props: {
-  openFindUsers: any;
-  openAuctions: any;
-  openMessages: any;
-
-  openForum: any;
-  openProfile: any;
-  openFindUsersStatus: boolean;
-  openAuctionsStatus: boolean;
-  openMessagesStatus: boolean;
-  openForumStatus: boolean;
-  openProfileStatus: boolean;
-}): any => {
+const BottomPanel = (props: any) => {
   const context = useContext(GlobalContext);
   return (
     <View style={styles.bottomPanel}>
-      <TouchableOpacity onPress={props.openFindUsers}>
+      <TouchableOpacity
+        onPress={() => context.NavigationService.navigate("UserList", {})}
+      >
         <View
           style={
             props.openFindUsersStatus
@@ -50,7 +40,9 @@ const BottomPanel = (props: {
           POZNAJ
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={props.openAuctions}>
+      <TouchableOpacity
+        onPress={() => context.NavigationService.navigate("Auctions", {})}
+      >
         <View
           style={
             props.openAuctionsStatus
@@ -74,7 +66,9 @@ const BottomPanel = (props: {
           TARG
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={props.openMessages}>
+      <TouchableOpacity
+        onPress={() => context.NavigationService.navigate("Messages", {})}
+      >
         <View
           style={
             props.openMessagesStatus
@@ -128,7 +122,9 @@ const BottomPanel = (props: {
           WIADOMOŚCI
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={props.openForum}>
+      <TouchableOpacity
+        onPress={() => context.NavigationService.navigate("Forum", {})}
+      >
         <View
           style={
             props.openForumStatus
@@ -150,7 +146,9 @@ const BottomPanel = (props: {
           FORUM
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={props.openProfile}>
+      <TouchableOpacity
+        onPress={() => context.NavigationService.navigate("Profile", {})}
+      >
         <View
           style={
             props.openProfileStatus

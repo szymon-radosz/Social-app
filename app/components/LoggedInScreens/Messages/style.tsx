@@ -49,6 +49,7 @@ interface Style {
   conversationDetailsReceiverName: ViewStyle;
   peachBtnText: any;
   messageBoxContainer: ViewStyle;
+  conversationDetailsSeeMore: TextStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -226,5 +227,10 @@ export default StyleSheet.create<Style>({
     borderRadius: 25
   },
   conversationDetailsReceiverName: { marginTop: 15 },
-  messageBoxContainer: { paddingLeft: 10, paddingRight: 10, marginBottom: 0 }
+  messageBoxContainer: { paddingLeft: 10, paddingRight: 10, marginBottom: 0 },
+  conversationDetailsSeeMore: {
+    fontWeight: "600",
+    color: peachColor,
+    fontFamily: "Open Sans"
+  }
 });

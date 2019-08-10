@@ -22,5 +22,9 @@ export const GlobalContext = React.createContext({
     userId: number,
     conversationId: number
   ): any => {},
-  clearUserNotificationsStatus: (userId: number): any => {}
+  clearUserNotificationsStatus: (userId: number): any => {},
+  setShowUserProfile: (userId: number): any => {},
+  showUserProfile: false,
+  showUserProfileId: 0,
+  NavigationService: (): any => {}
 });

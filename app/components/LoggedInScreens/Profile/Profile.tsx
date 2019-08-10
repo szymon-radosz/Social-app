@@ -1,5 +1,11 @@
 import React, { Component, Suspense } from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  SafeAreaView,
+  ScrollView
+} from "react-native";
 import ProfileHeader from "./../SharedComponents/ProfileHeader";
 import ProfileOptions from "./utils/ProfileOptions";
 import UserFriendsList from "./utils/UserFriendsList";
@@ -9,6 +15,8 @@ import axios from "axios";
 import PageHeader from "./../SharedComponents/PageHeader";
 import UserNotificationList from "./utils/UserNotificationList";
 import styles from "./style";
+import BottomPanel from "./../SharedComponents/BottomPanel";
+import Alert from "./../../../Alert/Alert";
 import { GlobalContext } from "./../../Context/GlobalContext";
 
 const UserPreview = React.lazy(() =>
@@ -275,302 +283,333 @@ class Profile extends Component<
       displayFriendList
     } = this.state;
     return (
-      <View data-test="ProfileContainer">
-        {/* user preview page header */}
-        {showProfilePreview &&
-          !showEditUserData &&
-          !showUserFriendsList &&
-          !showPendingUserFriendsList &&
-          !showAuctionHistory &&
-          !showUserNotificationList &&
-          !showAbout && (
-            <PageHeader
-              boldText={this.context.userData.name}
-              normalText={""}
-              closeMethod={this.setShowProfilePreview}
-              closeMethodParameter={""}
-              data-test="PageHeader"
+      <React.Fragment>
+        <SafeAreaView
+          style={{
+            flex: 1,
+            backgroundColor: "#fff"
+          }}
+        >
+          {this.context.showAlert && (
+            <Alert
+              alertType={this.context.alertType}
+              alertMessage={this.context.alertMessage}
+              closeAlert={this.context.closeAlert}
             />
           )}
-        {/* user friends list page header */}
-        {!showProfilePreview &&
-          !showEditUserData &&
-          (showUserFriendsList || showPendingUserFriendsList) &&
-          !showAuctionHistory &&
-          (userFriendsList || userPendingFriendsList) &&
-          !showUserNotificationList &&
-          !showAbout && (
-            <PageHeader
-              boldText={"Moje znajome"}
-              normalText={""}
-              closeMethod={this.changeShowUserFriendsList}
-              closeMethodParameter={""}
-            />
-          )}
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "column",
+              justifyContent: "space-between"
+            }}
+            data-test="ProfileContainer"
+          >
+            <ScrollView>
+              {/* user preview page header */}
+              {showProfilePreview &&
+                !showEditUserData &&
+                !showUserFriendsList &&
+                !showPendingUserFriendsList &&
+                !showAuctionHistory &&
+                !showUserNotificationList &&
+                !showAbout && (
+                  <PageHeader
+                    boldText={this.context.userData.name}
+                    normalText={""}
+                    closeMethod={this.setShowProfilePreview}
+                    closeMethodParameter={""}
+                    data-test="PageHeader"
+                  />
+                )}
+              {/* user friends list page header */}
+              {!showProfilePreview &&
+                !showEditUserData &&
+                (showUserFriendsList || showPendingUserFriendsList) &&
+                !showAuctionHistory &&
+                (userFriendsList || userPendingFriendsList) &&
+                !showUserNotificationList &&
+                !showAbout && (
+                  <PageHeader
+                    boldText={"Moje znajome"}
+                    normalText={""}
+                    closeMethod={this.changeShowUserFriendsList}
+                    closeMethodParameter={""}
+                  />
+                )}
 
-        {/* user auction list page header */}
-        {!showProfilePreview &&
-          !showEditUserData &&
-          !showUserFriendsList &&
-          !showPendingUserFriendsList &&
-          showAuctionHistory &&
-          userAuctionList &&
-          !showUserNotificationList &&
-          !showAbout && (
-            <PageHeader
-              boldText={"Wystawione przedmioty"}
-              normalText={""}
-              closeMethod={this.changeShowUserAuctionList}
-              closeMethodParameter={""}
-            />
-          )}
-        {/* user notification list page header */}
-        {!showProfilePreview &&
-          !showEditUserData &&
-          !showUserFriendsList &&
-          !showPendingUserFriendsList &&
-          !showAuctionHistory &&
-          showUserNotificationList &&
-          !showAbout && (
-            <PageHeader
-              boldText={"Powiadomienia"}
-              normalText={""}
-              closeMethod={this.changeShowUserNotificationList}
-              closeMethodParameter={""}
-            />
-          )}
-        {!showProfilePreview &&
-          !showEditUserData &&
-          !showUserFriendsList &&
-          !showPendingUserFriendsList &&
-          !showAuctionHistory &&
-          !showUserNotificationList &&
-          showAbout && (
-            <PageHeader
-              boldText={"O aplikacji"}
-              normalText={""}
-              closeMethod={this.setShowAbout}
-              closeMethodParameter={""}
-            />
-          )}
-        {!showEditUserData &&
-          !showUserFriendsList &&
-          !showPendingUserFriendsList &&
-          !showAuctionHistory &&
-          !showUserNotificationList &&
-          !showAbout && (
-            <ProfileHeader
-              API_URL={this.context.API_URL}
-              avatar={this.context.userData.photo_path}
-              name={this.context.userData.name}
-              cityDistrict={locationDetails.cityDistrict}
-              city={locationDetails.city}
-              age={this.context.userData.age}
-              countFriends={countFriends}
-              countKids={this.context.userData.kids.length}
-              locationString={this.context.userData.location_string}
-              showLogout={true}
-              navigation={this.props.navigation}
-              notificationPress={() => {
-                this.getUserNotificationList();
-              }}
-            />
-          )}
-        {!showProfilePreview &&
-          !showEditUserData &&
-          !showUserFriendsList &&
-          !showPendingUserFriendsList &&
-          !showAuctionHistory &&
-          !showUserNotificationList &&
-          !showAbout && (
-            <ProfileOptions
-              setShowProfilePreview={this.setShowProfilePreview}
-              loadUserFriendsList={this.loadUserFriendsList}
-              getUserAuctionList={this.getUserAuctionList}
-              getUserNotificationList={this.getUserNotificationList}
-              setShowAbout={this.setShowAbout}
-              navigation={this.props.navigation}
-              user={this.context.userData}
-              API_URL={this.context.API_URL}
-            />
-          )}
-        {showProfilePreview &&
-          !showEditUserData &&
-          !showUserFriendsList &&
-          !showPendingUserFriendsList &&
-          !showAuctionHistory &&
-          !showUserNotificationList &&
-          !showAbout && (
-            <Suspense fallback={<Text>Wczytywanie...</Text>}>
-              <UserPreview
-                description={this.context.userData.description}
-                hobbies={this.context.userData.hobbies}
-                kids={this.context.userData.kids}
-              />
-            </Suspense>
-          )}
+              {/* user auction list page header */}
+              {!showProfilePreview &&
+                !showEditUserData &&
+                !showUserFriendsList &&
+                !showPendingUserFriendsList &&
+                showAuctionHistory &&
+                userAuctionList &&
+                !showUserNotificationList &&
+                !showAbout && (
+                  <PageHeader
+                    boldText={"Wystawione przedmioty"}
+                    normalText={""}
+                    closeMethod={this.changeShowUserAuctionList}
+                    closeMethodParameter={""}
+                  />
+                )}
+              {/* user notification list page header */}
+              {!showProfilePreview &&
+                !showEditUserData &&
+                !showUserFriendsList &&
+                !showPendingUserFriendsList &&
+                !showAuctionHistory &&
+                showUserNotificationList &&
+                !showAbout && (
+                  <PageHeader
+                    boldText={"Powiadomienia"}
+                    normalText={""}
+                    closeMethod={this.changeShowUserNotificationList}
+                    closeMethodParameter={""}
+                  />
+                )}
+              {!showProfilePreview &&
+                !showEditUserData &&
+                !showUserFriendsList &&
+                !showPendingUserFriendsList &&
+                !showAuctionHistory &&
+                !showUserNotificationList &&
+                showAbout && (
+                  <PageHeader
+                    boldText={"O aplikacji"}
+                    normalText={""}
+                    closeMethod={this.setShowAbout}
+                    closeMethodParameter={""}
+                  />
+                )}
+              {!showEditUserData &&
+                !showUserFriendsList &&
+                !showPendingUserFriendsList &&
+                !showAuctionHistory &&
+                !showUserNotificationList &&
+                !showAbout && (
+                  <ProfileHeader
+                    API_URL={this.context.API_URL}
+                    avatar={this.context.userData.photo_path}
+                    name={this.context.userData.name}
+                    cityDistrict={locationDetails.cityDistrict}
+                    city={locationDetails.city}
+                    age={this.context.userData.age}
+                    countFriends={countFriends}
+                    countKids={this.context.userData.kids.length}
+                    locationString={this.context.userData.location_string}
+                    showLogout={true}
+                    navigation={this.props.navigation}
+                    notificationPress={() => {
+                      this.getUserNotificationList();
+                    }}
+                  />
+                )}
+              {!showProfilePreview &&
+                !showEditUserData &&
+                !showUserFriendsList &&
+                !showPendingUserFriendsList &&
+                !showAuctionHistory &&
+                !showUserNotificationList &&
+                !showAbout && (
+                  <ProfileOptions
+                    setShowProfilePreview={this.setShowProfilePreview}
+                    loadUserFriendsList={this.loadUserFriendsList}
+                    getUserAuctionList={this.getUserAuctionList}
+                    getUserNotificationList={this.getUserNotificationList}
+                    setShowAbout={this.setShowAbout}
+                    navigation={this.props.navigation}
+                    user={this.context.userData}
+                    API_URL={this.context.API_URL}
+                  />
+                )}
+              {showProfilePreview &&
+                !showEditUserData &&
+                !showUserFriendsList &&
+                !showPendingUserFriendsList &&
+                !showAuctionHistory &&
+                !showUserNotificationList &&
+                !showAbout && (
+                  <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                    <UserPreview
+                      description={this.context.userData.description}
+                      hobbies={this.context.userData.hobbies}
+                      kids={this.context.userData.kids}
+                    />
+                  </Suspense>
+                )}
 
-        {!showProfilePreview &&
-          !showEditUserData &&
-          !showAuctionHistory &&
-          (showUserFriendsList || showPendingUserFriendsList) &&
-          !showUserNotificationList &&
-          !showAbout && (
-            <View>
-              <View style={styles.filterBtnContainer}>
-                <View style={styles.singleButtonCol2Container}>
-                  <TouchableOpacity
-                    onPress={this.loadUserFriendsList}
-                    style={
-                      displayFriendList
-                        ? styles.filterBtnActive
-                        : styles.filterBtn
-                    }
-                  >
-                    <Text
-                      style={
-                        displayFriendList
-                          ? styles.filterBtnTextActive
-                          : styles.filterBtnText
-                      }
-                    >
-                      Znajome
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.singleButtonCol2Container}>
-                  <TouchableOpacity
-                    onPress={this.loadPendingUserFriendsList}
-                    style={
-                      !displayFriendList
-                        ? styles.filterBtnActive
-                        : styles.filterBtn
-                    }
-                  >
-                    <Text
-                      style={
-                        !displayFriendList
-                          ? styles.filterBtnTextActive
-                          : styles.filterBtnText
-                      }
-                    >
-                      Oczekujące
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-          )}
+              {!showProfilePreview &&
+                !showEditUserData &&
+                !showAuctionHistory &&
+                (showUserFriendsList || showPendingUserFriendsList) &&
+                !showUserNotificationList &&
+                !showAbout && (
+                  <View>
+                    <View style={styles.filterBtnContainer}>
+                      <View style={styles.singleButtonCol2Container}>
+                        <TouchableOpacity
+                          onPress={this.loadUserFriendsList}
+                          style={
+                            displayFriendList
+                              ? styles.filterBtnActive
+                              : styles.filterBtn
+                          }
+                        >
+                          <Text
+                            style={
+                              displayFriendList
+                                ? styles.filterBtnTextActive
+                                : styles.filterBtnText
+                            }
+                          >
+                            Znajome
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                      <View style={styles.singleButtonCol2Container}>
+                        <TouchableOpacity
+                          onPress={this.loadPendingUserFriendsList}
+                          style={
+                            !displayFriendList
+                              ? styles.filterBtnActive
+                              : styles.filterBtn
+                          }
+                        >
+                          <Text
+                            style={
+                              !displayFriendList
+                                ? styles.filterBtnTextActive
+                                : styles.filterBtnText
+                            }
+                          >
+                            Oczekujące
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                )}
 
-        {!showProfilePreview &&
-          !showEditUserData &&
-          showUserFriendsList &&
-          !showPendingUserFriendsList &&
-          !showAuctionHistory &&
-          !showUserNotificationList &&
-          !showAbout &&
-          userFriendsList && (
-            <View style={{ paddingTop: 10, paddingBottom: 10 }}>
-              {userFriendsList.length > 0 ? (
-                <UserFriendsList
-                  userFriendsList={userFriendsList}
-                  loggedInUser={this.context.userData.id}
-                  API_URL={this.context.API_URL}
-                  setOpenFindUsers={this.props.setOpenFindUsers}
-                />
-              ) : (
-                <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
-                  Brak wyników. Zaproś inne mamy z Twojej okolicy do znajomych.
-                </Text>
-              )}
-            </View>
-          )}
+              {!showProfilePreview &&
+                !showEditUserData &&
+                showUserFriendsList &&
+                !showPendingUserFriendsList &&
+                !showAuctionHistory &&
+                !showUserNotificationList &&
+                !showAbout &&
+                userFriendsList && (
+                  <View style={{ paddingTop: 10, paddingBottom: 10 }}>
+                    {userFriendsList.length > 0 ? (
+                      <UserFriendsList
+                        userFriendsList={userFriendsList}
+                        loggedInUser={this.context.userData.id}
+                        API_URL={this.context.API_URL}
+                        setOpenFindUsers={this.props.setOpenFindUsers}
+                      />
+                    ) : (
+                      <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
+                        Brak wyników. Zaproś inne mamy z Twojej okolicy do
+                        znajomych.
+                      </Text>
+                    )}
+                  </View>
+                )}
 
-        {!showProfilePreview &&
-          !showEditUserData &&
-          !showUserFriendsList &&
-          showPendingUserFriendsList &&
-          !showAuctionHistory &&
-          !showUserNotificationList &&
-          !showAbout &&
-          userPendingFriendsList && (
-            <View style={{ paddingTop: 10, paddingBottom: 10 }}>
-              {userPendingFriendsList.length > 0 ? (
-                <UserFriendsList
-                  userFriendsList={userPendingFriendsList}
-                  loggedInUser={this.context.userData.id}
-                  API_URL={this.context.API_URL}
-                  setOpenFindUsers={this.props.setOpenFindUsers}
-                />
-              ) : (
-                <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
-                  Brak wyników. Zaproś inne mamy z Twojej okolicy do znajomych.
-                </Text>
-              )}
-            </View>
-          )}
+              {!showProfilePreview &&
+                !showEditUserData &&
+                !showUserFriendsList &&
+                showPendingUserFriendsList &&
+                !showAuctionHistory &&
+                !showUserNotificationList &&
+                !showAbout &&
+                userPendingFriendsList && (
+                  <View style={{ paddingTop: 10, paddingBottom: 10 }}>
+                    {userPendingFriendsList.length > 0 ? (
+                      <UserFriendsList
+                        userFriendsList={userPendingFriendsList}
+                        loggedInUser={this.context.userData.id}
+                        API_URL={this.context.API_URL}
+                        setOpenFindUsers={this.props.setOpenFindUsers}
+                      />
+                    ) : (
+                      <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
+                        Brak wyników. Zaproś inne mamy z Twojej okolicy do
+                        znajomych.
+                      </Text>
+                    )}
+                  </View>
+                )}
 
-        {!showProfilePreview &&
-          !showEditUserData &&
-          !showUserFriendsList &&
-          showAuctionHistory &&
-          !showUserNotificationList &&
-          !showAbout &&
-          userAuctionList && (
-            <React.Fragment>
-              <View style={{ paddingTop: 10 }} />
-              {userAuctionList.length > 0 ? (
-                <UserAuctionsList
-                  userAuctionList={userAuctionList}
-                  loggedInUser={this.context.userData.id}
-                  API_URL={this.context.API_URL}
-                  setOpenAuctions={this.props.setOpenAuctions}
-                />
-              ) : (
-                <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
-                  Brak wyników. Dodaj nieużywane przedmioty w zakładce 'Targ' i
-                  uzgodnij szczegóły z innymi użytkowniczkami w wiadomościach.
-                </Text>
-              )}
-            </React.Fragment>
-          )}
+              {!showProfilePreview &&
+                !showEditUserData &&
+                !showUserFriendsList &&
+                showAuctionHistory &&
+                !showUserNotificationList &&
+                !showAbout &&
+                userAuctionList && (
+                  <React.Fragment>
+                    <View style={{ paddingTop: 10 }} />
+                    {userAuctionList.length > 0 ? (
+                      <UserAuctionsList
+                        userAuctionList={userAuctionList}
+                        loggedInUser={this.context.userData.id}
+                        API_URL={this.context.API_URL}
+                        setOpenAuctions={this.props.setOpenAuctions}
+                      />
+                    ) : (
+                      <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
+                        Brak wyników. Dodaj nieużywane przedmioty w zakładce
+                        'Targ' i uzgodnij szczegóły z innymi użytkowniczkami w
+                        wiadomościach.
+                      </Text>
+                    )}
+                  </React.Fragment>
+                )}
 
-        {!showProfilePreview &&
-          !showEditUserData &&
-          !showUserFriendsList &&
-          !showPendingUserFriendsList &&
-          !showAuctionHistory &&
-          showUserNotificationList &&
-          userNotificationList &&
-          !showAbout && (
-            <View style={{ padding: 10 }}>
-              {userNotificationList.length > 0 ? (
-                <UserNotificationList
-                  openMessages={this.props.openMessages}
-                  userNotificationList={userNotificationList}
-                  loadUserFriendsList={this.loadUserFriendsList}
-                  openForum={this.props.openForum}
-                />
-              ) : (
-                <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
-                  Brak wyników.
-                </Text>
-              )}
-            </View>
-          )}
+              {!showProfilePreview &&
+                !showEditUserData &&
+                !showUserFriendsList &&
+                !showPendingUserFriendsList &&
+                !showAuctionHistory &&
+                showUserNotificationList &&
+                userNotificationList &&
+                !showAbout && (
+                  <View style={{ padding: 10 }}>
+                    {userNotificationList.length > 0 ? (
+                      <UserNotificationList
+                        openMessages={this.props.openMessages}
+                        userNotificationList={userNotificationList}
+                        loadUserFriendsList={this.loadUserFriendsList}
+                        openForum={this.props.openForum}
+                      />
+                    ) : (
+                      <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
+                        Brak wyników.
+                      </Text>
+                    )}
+                  </View>
+                )}
 
-        {!showProfilePreview &&
-          !showEditUserData &&
-          !showUserFriendsList &&
-          !showPendingUserFriendsList &&
-          !showAuctionHistory &&
-          !showUserNotificationList &&
-          showAbout && (
-            <Suspense fallback={<Text>Wczytywanie...</Text>}>
-              <About setShowFeedbackModal={this.props.setShowFeedbackModal} />
-            </Suspense>
-          )}
-      </View>
+              {!showProfilePreview &&
+                !showEditUserData &&
+                !showUserFriendsList &&
+                !showPendingUserFriendsList &&
+                !showAuctionHistory &&
+                !showUserNotificationList &&
+                showAbout && (
+                  <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                    <About
+                      setShowFeedbackModal={this.props.setShowFeedbackModal}
+                    />
+                  </Suspense>
+                )}
+            </ScrollView>
+            <BottomPanel data-test="BottomPanel" />
+          </View>
+        </SafeAreaView>
+      </React.Fragment>
     );
   }
 }
