@@ -1,16 +1,17 @@
-import React, { Component } from "react";
-import { Text, View, ScrollView } from "react-native";
+import React, { Component, Suspense } from "react";
+import { Text, View, ScrollView, SafeAreaView } from "react-native";
 import axios from "axios";
 import styles from "./../style";
+import BottomPanel from "./../../SharedComponents/BottomPanel";
+import Alert from "./../../../../Alert/Alert";
 import ProfileHeader from "./../../SharedComponents/ProfileHeader";
 import UserPreview from "./../../SharedComponents/UserPreview";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import ButtonComponent from "./../../../Utils/ButtonComponent";
 import { GlobalContext } from "./../../../Context/GlobalContext";
-import NavigationService from "../../../../routes/NavigationService";
+const UserMessageBox = React.lazy(() => import("./UserMessageBox"));
 
 interface FindUsersState {
-  userList: any;
   showUserDetails: boolean;
   showUserMessageBox: boolean;
   message: string;
@@ -18,31 +19,19 @@ interface FindUsersState {
   usersFriendshipStatus: string;
   userDetailsData: any;
   userDetailsId: number;
-  filterOptions: any;
-  filterDistance: string;
-  filterChildAge: string;
-  filterChildGender: string;
-  filterHobbyName: string;
-  showFilterModal: boolean;
-  filterData: {
-    distance: any;
-    childAge: any;
-    childGender: any;
-    hobby: any;
-  };
-  filterModalName: string;
   userMessage: string;
   locationDetails: any;
 }
 
-interface FindUsersProps {}
+interface FindUsersProps {
+  navigation: any;
+}
 
 class UserDetails extends Component<FindUsersProps, FindUsersState> {
   constructor(props: FindUsersProps) {
     super(props);
     this.state = {
       userMessage: "",
-
       showUserDetails: false,
       showUserMessageBox: false,
       message: "",
@@ -53,6 +42,15 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
       userDetailsId: 0
     };
   }
+
+  componentDidMount = () => {
+    console.log(["UserDetails", this.props.navigation.state.params.userId]);
+
+    let userDetailsId = this.props.navigation.state.params.userId;
+
+    this.setShowUserDetails(userDetailsId);
+  };
+
   setUserDetailsId = (id: number) => {
     this.setState({ userDetailsId: id });
   };
@@ -249,7 +247,6 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
 
   render() {
     const {
-      userList,
       showUserDetails,
 
       showUserMessageBox,
@@ -257,150 +254,189 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
       userDetailsData,
       usersFriendshipStatus,
       userMessage,
-      showFilterModal,
-      filterOptions,
-      filterDistance,
-      filterChildAge,
-      filterChildGender,
-      filterHobbyName,
-      filterData,
-      filterModalName,
+
       locationDetails
     } = this.state;
     return (
       <React.Fragment>
-        {!showUserMessageBox && userDetailsData && (
-          <View style={{ position: "relative" }}>
-            <PageHeader
-              boldText={userDetailsData.name}
-              normalText={""}
-              closeMethod={this.hideShowUserDetails}
-              closeMethodParameter={""}
+        <SafeAreaView
+          style={{
+            flex: 1,
+            backgroundColor: "#fff"
+          }}
+        >
+          {this.context.showAlert && (
+            <Alert
+              alertType={this.context.alertType}
+              alertMessage={this.context.alertMessage}
+              closeAlert={this.context.closeAlert}
             />
-            <ScrollView>
-              <ProfileHeader
-                API_URL={this.context.API_URL}
-                avatar={userDetailsData.photo_path}
-                name={userDetailsData.name}
-                cityDistrict={locationDetails.cityDistrict}
-                city={locationDetails.city}
-                age={userDetailsData.age}
-                countFriends={2}
-                countKids={
-                  userDetailsData.kids && userDetailsData.kids.length > 0
-                    ? userDetailsData.kids.length
-                    : 0
-                }
-                locationString={userDetailsData.location_string}
-              />
-
-              <UserPreview
-                hobbies={
-                  userDetailsData.hobbies && userDetailsData.hobbies.length > 0
-                    ? userDetailsData.hobbies
-                    : null
-                }
-                kids={
-                  userDetailsData.kids && userDetailsData.kids.length > 0
-                    ? userDetailsData.kids
-                    : null
-                }
-                description={userDetailsData.description}
-              />
-
-              {usersAreInTheSameConversation && (
-                <Text style={styles.userDetailsContentHobbyContainer}>
-                  Jesteś już w trakcie rozmowy z {userDetailsData.name}
-                </Text>
-              )}
-              <View style={styles.userDetailsRedirectMessageBtnContainer}>
-                {usersAreInTheSameConversation ? (
-                  <ButtonComponent
-                    pressButtonComponent={() =>
-                      this.context.NavigationService.navigate("Messages", {})
+          )}
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "column",
+              justifyContent: "space-between"
+            }}
+            data-test="FindUsers"
+          >
+            {!showUserMessageBox && userDetailsData && (
+              <ScrollView>
+                <PageHeader
+                  boldText={userDetailsData.name}
+                  normalText={""}
+                  closeMethod={() => {
+                    this.props.navigation.goBack(null);
+                  }}
+                  closeMethodParameter={""}
+                />
+                <React.Fragment>
+                  <ProfileHeader
+                    API_URL={this.context.API_URL}
+                    avatar={userDetailsData.photo_path}
+                    name={userDetailsData.name}
+                    cityDistrict={locationDetails.cityDistrict}
+                    city={locationDetails.city}
+                    age={userDetailsData.age}
+                    countFriends={2}
+                    countKids={
+                      userDetailsData.kids && userDetailsData.kids.length > 0
+                        ? userDetailsData.kids.length
+                        : 0
                     }
-                    buttonComponentText="Przejdź do wiadomości"
-                    fullWidth={true}
-                    underlayColor="#dd904d"
-                    whiteBg={false}
-                    showBackIcon={false}
+                    locationString={userDetailsData.location_string}
                   />
-                ) : (
-                  <ButtonComponent
-                    pressButtonComponent={this.setShowUserMessageBox}
-                    buttonComponentText="Pomachaj"
-                    fullWidth={true}
-                    underlayColor="#dd904d"
-                    whiteBg={false}
-                    showBackIcon={false}
+
+                  <UserPreview
+                    hobbies={
+                      userDetailsData.hobbies &&
+                      userDetailsData.hobbies.length > 0
+                        ? userDetailsData.hobbies
+                        : null
+                    }
+                    kids={
+                      userDetailsData.kids && userDetailsData.kids.length > 0
+                        ? userDetailsData.kids
+                        : null
+                    }
+                    description={userDetailsData.description}
                   />
-                )}
-              </View>
-              <View style={styles.userDetailsRedirectMessageBtnContainer}>
-                <View style={{ marginBottom: 20, width: "100%" }}>
-                  {usersFriendshipStatus === "friendship doesnt exist" && (
-                    <ButtonComponent
-                      pressButtonComponent={() =>
-                        this.inviteFriend(
-                          this.context.userData.id,
-                          userDetailsData.id
-                        )
-                      }
-                      buttonComponentText="Zaproś do znajomych"
-                      fullWidth={true}
-                      underlayColor="#dd904d"
-                      whiteBg={false}
-                      showBackIcon={false}
-                    />
-                  )}
 
-                  {usersFriendshipStatus ===
-                    "not confirmed by first person" && (
-                    <ButtonComponent
-                      pressButtonComponent={() =>
-                        this.confirmFriend(
-                          this.context.userData.id,
-                          userDetailsData.id
-                        )
-                      }
-                      buttonComponentText="Zaakceptuj zaproszenie do znajomych"
-                      fullWidth={true}
-                      underlayColor="#dd904d"
-                      whiteBg={false}
-                      showBackIcon={false}
-                    />
+                  {usersAreInTheSameConversation && (
+                    <Text style={styles.userDetailsContentHobbyContainer}>
+                      Jesteś już w trakcie rozmowy z {userDetailsData.name}
+                    </Text>
                   )}
+                  <View style={styles.userDetailsRedirectMessageBtnContainer}>
+                    {usersAreInTheSameConversation ? (
+                      <ButtonComponent
+                        pressButtonComponent={() =>
+                          this.context.NavigationService.navigate(
+                            "Messages",
+                            {}
+                          )
+                        }
+                        buttonComponentText="Przejdź do wiadomości"
+                        fullWidth={true}
+                        underlayColor="#dd904d"
+                        whiteBg={false}
+                        showBackIcon={false}
+                      />
+                    ) : (
+                      <ButtonComponent
+                        pressButtonComponent={this.setShowUserMessageBox}
+                        buttonComponentText="Pomachaj"
+                        fullWidth={true}
+                        underlayColor="#dd904d"
+                        whiteBg={false}
+                        showBackIcon={false}
+                      />
+                    )}
+                  </View>
+                  <View style={styles.userDetailsRedirectMessageBtnContainer}>
+                    <View style={{ marginBottom: 20, width: "100%" }}>
+                      {usersFriendshipStatus === "friendship doesnt exist" && (
+                        <ButtonComponent
+                          pressButtonComponent={() =>
+                            this.inviteFriend(
+                              this.context.userData.id,
+                              userDetailsData.id
+                            )
+                          }
+                          buttonComponentText="Zaproś do znajomych"
+                          fullWidth={true}
+                          underlayColor="#dd904d"
+                          whiteBg={false}
+                          showBackIcon={false}
+                        />
+                      )}
 
-                  {usersFriendshipStatus ===
-                    "not confirmed by second person" && (
-                    <ButtonComponent
-                      pressButtonComponent={() => {
-                        console.log("Wysłano zaproszenie do znajomych");
-                      }}
-                      buttonComponentText="Wysłano zaproszenie do znajomych"
-                      fullWidth={true}
-                      underlayColor="#dd904d"
-                      whiteBg={false}
-                      showBackIcon={false}
-                    />
-                  )}
-                  {usersFriendshipStatus === "confirmed" && (
-                    <ButtonComponent
-                      pressButtonComponent={() =>
-                        this.context.NavigationService.navigate("Profile", {})
-                      }
-                      buttonComponentText="Jesteście znajomymi"
-                      fullWidth={true}
-                      underlayColor="#dd904d"
-                      whiteBg={false}
-                      showBackIcon={false}
-                    />
-                  )}
-                </View>
-              </View>
-            </ScrollView>
+                      {usersFriendshipStatus ===
+                        "not confirmed by first person" && (
+                        <ButtonComponent
+                          pressButtonComponent={() =>
+                            this.confirmFriend(
+                              this.context.userData.id,
+                              userDetailsData.id
+                            )
+                          }
+                          buttonComponentText="Zaakceptuj zaproszenie do znajomych"
+                          fullWidth={true}
+                          underlayColor="#dd904d"
+                          whiteBg={false}
+                          showBackIcon={false}
+                        />
+                      )}
+
+                      {usersFriendshipStatus ===
+                        "not confirmed by second person" && (
+                        <ButtonComponent
+                          pressButtonComponent={() => {
+                            console.log("Wysłano zaproszenie do znajomych");
+                          }}
+                          buttonComponentText="Wysłano zaproszenie do znajomych"
+                          fullWidth={true}
+                          underlayColor="#dd904d"
+                          whiteBg={false}
+                          showBackIcon={false}
+                        />
+                      )}
+                      {usersFriendshipStatus === "confirmed" && (
+                        <ButtonComponent
+                          pressButtonComponent={() =>
+                            this.context.NavigationService.navigate(
+                              "Profile",
+                              {}
+                            )
+                          }
+                          buttonComponentText="Jesteście znajomymi"
+                          fullWidth={true}
+                          underlayColor="#dd904d"
+                          whiteBg={false}
+                          showBackIcon={false}
+                        />
+                      )}
+                    </View>
+                  </View>
+                </React.Fragment>
+              </ScrollView>
+            )}
+
+            {showUserMessageBox && userDetailsData && (
+              <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                <UserMessageBox
+                  hideShowUserMessageBox={this.hideShowUserMessageBox}
+                  sendMessage={this.sendMessage}
+                  setUserMessage={this.setUserMessage}
+                  userMessage={userMessage}
+                  data-test="UserMessageBox"
+                />
+              </Suspense>
+            )}
+
+            <BottomPanel data-test="BottomPanel" />
           </View>
-        )}
+        </SafeAreaView>
       </React.Fragment>
     );
   }

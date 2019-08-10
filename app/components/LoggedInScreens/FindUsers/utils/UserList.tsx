@@ -6,8 +6,7 @@ import { GlobalContext } from "./../../../Context/GlobalContext";
 const UserList = (props: {
   userList: any;
   API_URL: string;
-  setShowUserDetails: any;
-  setUserDetailsId: any;
+  navigation: any;
   loggedInUserId: number;
 }): any => {
   const context = useContext(GlobalContext);
@@ -30,8 +29,7 @@ const UserList = (props: {
                   : ""
               }`}
               onPress={() => {
-                props.setShowUserDetails(user.id);
-                props.setUserDetailsId(user.id);
+                props.navigation.navigate("UserDetails", { userId: user.id });
               }}
               userHadUnreadedMessages={false}
             />

@@ -99,9 +99,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
       usersAreInTheSameConversation: false,
       usersFriendshipStatus: "",
       userDetailsData: [],
-      userDetailsId: this.props.navigation.state.params.userDetailsId
-        ? this.props.navigation.state.params.userDetailsId
-        : 0,
+      userDetailsId: 0,
       filterOptions: [
         {
           title: "Odległość",
@@ -473,7 +471,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
             data-test="FindUsers"
           >
             <View>
-              {!showFilterModal && !showUserDetails && !showUserMessageBox && (
+              {!showFilterModal && (
                 <ImageBackground
                   source={findUsersBg}
                   style={{ width: "100%" }}
@@ -486,20 +484,17 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
                 </ImageBackground>
               )}
 
-              {!showUserMessageBox &&
-                !showUserDetails &&
-                userList &&
-                showFilterModal && (
-                  <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                    <FilterModal
-                      filterOptions={filterData}
-                      closeFilter={this.setShowFilterModal}
-                      filterModalName={filterModalName}
-                      filterResults={this.filterResults}
-                      data-test="FilterModal"
-                    />
-                  </Suspense>
-                )}
+              {userList && showFilterModal && (
+                <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                  <FilterModal
+                    filterOptions={filterData}
+                    closeFilter={this.setShowFilterModal}
+                    filterModalName={filterModalName}
+                    filterResults={this.filterResults}
+                    data-test="FilterModal"
+                  />
+                </Suspense>
+              )}
 
               {/*showUserDetails && !showUserMessageBox && userDetailsData && (
             <Suspense fallback={<Text>Wczytywanie...</Text>}>
@@ -533,60 +528,48 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
               </Suspense>
             )*/}
 
-              {!showUserMessageBox &&
-                !showUserDetails &&
-                userList &&
-                !showFilterModal && (
-                  <View data-test="Carousel">
-                    <Text style={styles.filterResultsHeaderText}>
-                      Filtruj wyniki
-                    </Text>
-                    <View style={styles.filterResultsCarousel}>
-                      <Carousel
-                        layout={"default"}
-                        activeSlideAlignment={"start"}
-                        data={filterOptions}
-                        renderItem={this.renderItem}
-                        itemWidth={100}
-                        sliderWidth={styles.fullWidth}
-                        removeClippedSubviews={false}
-                      />
-                    </View>
+              {userList && !showFilterModal && (
+                <View data-test="Carousel">
+                  <Text style={styles.filterResultsHeaderText}>
+                    Filtruj wyniki
+                  </Text>
+                  <View style={styles.filterResultsCarousel}>
+                    <Carousel
+                      layout={"default"}
+                      activeSlideAlignment={"start"}
+                      data={filterOptions}
+                      renderItem={this.renderItem}
+                      itemWidth={100}
+                      sliderWidth={styles.fullWidth}
+                      removeClippedSubviews={false}
+                    />
                   </View>
-                )}
-
-              {!showUserDetails && (
-                <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                  <ActiveFilters
-                    filterDistance={filterDistance}
-                    filterChildAge={filterChildAge}
-                    filterChildGender={filterChildGender}
-                    filterHobbyName={filterHobbyName}
-                    showFilterModal={showFilterModal}
-                    removeFilter={this.removeFilter}
-                    data-test="ActiveFilters"
-                  />
-                </Suspense>
+                </View>
               )}
 
-              {!showUserMessageBox &&
-                !showUserDetails &&
-                userList &&
-                !showFilterModal &&
-                userList.length > 1 && (
-                  <UserList
-                    API_URL={this.context.API_URL}
-                    loggedInUserId={this.context.userData.id}
-                    userList={userList}
-                    data-test="UserListContainer"
-                  />
-                )}
+              <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                <ActiveFilters
+                  filterDistance={filterDistance}
+                  filterChildAge={filterChildAge}
+                  filterChildGender={filterChildGender}
+                  filterHobbyName={filterHobbyName}
+                  showFilterModal={showFilterModal}
+                  removeFilter={this.removeFilter}
+                  data-test="ActiveFilters"
+                />
+              </Suspense>
 
-              {!showUserMessageBox &&
-              !showUserDetails &&
-              userList &&
-              !showFilterModal &&
-              userList.length < 2 ? (
+              {userList && !showFilterModal && userList.length > 1 && (
+                <UserList
+                  API_URL={this.context.API_URL}
+                  loggedInUserId={this.context.userData.id}
+                  navigation={this.props.navigation}
+                  userList={userList}
+                  data-test="UserListContainer"
+                />
+              )}
+
+              {userList && !showFilterModal && userList.length < 2 ? (
                 <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
                   Brak mam w Twojej okolicy. Zaproś znajome do skorzystania z
                   aplikacji E-mamy i zbudujcie razem lokalną społeczność mam.
