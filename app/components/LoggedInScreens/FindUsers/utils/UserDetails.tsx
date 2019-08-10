@@ -9,17 +9,13 @@ import UserPreview from "./../../SharedComponents/UserPreview";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import ButtonComponent from "./../../../Utils/ButtonComponent";
 import { GlobalContext } from "./../../../Context/GlobalContext";
-const UserMessageBox = React.lazy(() => import("./UserMessageBox"));
 
 interface FindUsersState {
-  showUserDetails: boolean;
   showUserMessageBox: boolean;
-  message: string;
   usersAreInTheSameConversation: boolean;
   usersFriendshipStatus: string;
   userDetailsData: any;
   userDetailsId: number;
-  userMessage: string;
   locationDetails: any;
 }
 
@@ -31,10 +27,7 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
   constructor(props: FindUsersProps) {
     super(props);
     this.state = {
-      userMessage: "",
-      showUserDetails: false,
       showUserMessageBox: false,
-      message: "",
       locationDetails: [],
       usersAreInTheSameConversation: false,
       usersFriendshipStatus: "",
@@ -51,55 +44,14 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
     this.setShowUserDetails(userDetailsId);
   };
 
-  setUserDetailsId = (id: number) => {
-    this.setState({ userDetailsId: id });
+  componentWillUnmount = () => {
+    console.log(["componentWillUnmount"]);
+
+    this.setState({ userDetailsData: [] });
   };
 
-  sendMessage = (message: string): void => {
-    let API_URL = this.context.API_URL;
-    let senderId = this.context.userData.id;
-    let receiverId = this.state.userDetailsId;
-
-    let that = this;
-
-    axios
-      .post(API_URL + "/api/saveConversation", {
-        senderId: senderId,
-        receiverId: receiverId,
-        message: message
-      })
-      .then(function(response2) {
-        if (response2.data.status === "OK") {
-          that.context.setAlert(
-            true,
-            "success",
-            "Poprawnie wysłano nową wiadomość."
-          );
-
-          that.setShowUserDetails(that.state.userDetailsId);
-        } else if (response2.data.status === "ERR") {
-          that.context.setAlert(
-            true,
-            "danger",
-            "Problem z wysłaniem wiadomości."
-          );
-        }
-      })
-      .catch(function(error) {
-        that.context.setAlert(
-          true,
-          "danger",
-          "Problem z wysłaniem wiadomości."
-        );
-      });
-
-    axios.post(API_URL + "/api/addNotification", {
-      type: "started_conversation_user",
-      message: `Użytkowniczka ${
-        this.context.userData.name
-      } odezwała się do Ciebie w wiadomości prywatnej`,
-      userId: receiverId
-    });
+  setUserDetailsId = (id: number) => {
+    this.setState({ userDetailsId: id });
   };
 
   setShowUserDetails = async (userId: number) => {
@@ -152,20 +104,6 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
       .catch(function(error) {
         console.log(error);
       });
-
-    this.setState({ showUserDetails: true, showUserMessageBox: false });
-  };
-
-  hideShowUserDetails = (): void => {
-    this.setState({ showUserDetails: false, showUserMessageBox: false });
-  };
-
-  setShowUserMessageBox = (): void => {
-    this.setState({ showUserMessageBox: true, showUserDetails: false });
-  };
-
-  hideShowUserMessageBox = (): void => {
-    this.setState({ showUserMessageBox: false, showUserDetails: true });
   };
 
   confirmFriend = (senderId: number, receiverId: number): void => {
@@ -241,20 +179,11 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
       });
   };
 
-  setUserMessage = (message: string): void => {
-    this.setState({ userMessage: message });
-  };
-
   render() {
     const {
-      showUserDetails,
-
-      showUserMessageBox,
       usersAreInTheSameConversation,
       userDetailsData,
       usersFriendshipStatus,
-      userMessage,
-
       locationDetails
     } = this.state;
     return (
@@ -280,7 +209,7 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
             }}
             data-test="FindUsers"
           >
-            {!showUserMessageBox && userDetailsData && (
+            {userDetailsData && (
               <ScrollView>
                 <PageHeader
                   boldText={userDetailsData.name}
@@ -344,7 +273,12 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
                       />
                     ) : (
                       <ButtonComponent
-                        pressButtonComponent={this.setShowUserMessageBox}
+                        pressButtonComponent={() =>
+                          this.context.NavigationService.navigate(
+                            "UserMessageBox",
+                            { userId: userDetailsData.id }
+                          )
+                        }
                         buttonComponentText="Pomachaj"
                         fullWidth={true}
                         underlayColor="#dd904d"
@@ -420,18 +354,6 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
                   </View>
                 </React.Fragment>
               </ScrollView>
-            )}
-
-            {showUserMessageBox && userDetailsData && (
-              <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                <UserMessageBox
-                  hideShowUserMessageBox={this.hideShowUserMessageBox}
-                  sendMessage={this.sendMessage}
-                  setUserMessage={this.setUserMessage}
-                  userMessage={userMessage}
-                  data-test="UserMessageBox"
-                />
-              </Suspense>
             )}
 
             <BottomPanel data-test="BottomPanel" />

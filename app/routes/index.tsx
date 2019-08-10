@@ -11,6 +11,7 @@ import LoggedInMain from "./../components/LoggedInScreens/LoggedInMain";
 //Users
 import FindUsers from "./../components/LoggedInScreens/FindUsers/FindUsers";
 import UserDetails from "./../components/LoggedInScreens/FindUsers/utils/UserDetails";
+import UserMessageBox from "./../components/LoggedInScreens/FindUsers/utils/UserMessageBox";
 //Auctions
 import Auctions from "./../components/LoggedInScreens/Auctions/Auctions";
 import ProductDetails from "./../components/LoggedInScreens/Auctions/utils/ProductDetails";
@@ -86,6 +87,12 @@ const MainStack = createStackNavigator(
     },
     UserDetails: {
       screen: UserDetails,
+      navigationOptions: {
+        header: null
+      }
+    },
+    UserMessageBox: {
+      screen: UserMessageBox,
       navigationOptions: {
         header: null
       }
