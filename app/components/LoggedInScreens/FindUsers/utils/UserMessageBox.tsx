@@ -121,7 +121,7 @@ class UserMessageBox extends Component<
                 boldText={"Rozpocznij rozmowę"}
                 normalText={""}
                 closeMethod={() => {
-                  this.context.NavigationService.navigate("UserDetails", {});
+                  this.props.navigation.navigate("UserDetails", {});
                 }}
                 closeMethodParameter={""}
               />
@@ -150,7 +150,10 @@ class UserMessageBox extends Component<
                 showBackIcon={false}
               />
             </View>
-            <BottomPanel data-test="BottomPanel" />
+            <BottomPanel
+              data-test="BottomPanel"
+              navigation={this.props.navigation}
+            />
           </View>
         </SafeAreaView>
       </React.Fragment>

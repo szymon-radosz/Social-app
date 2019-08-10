@@ -7,7 +7,6 @@ import Register from "./../components/NotLoggedInScreens/Auth/Register";
 import ResetPassword from "./../components/NotLoggedInScreens/Auth/ResetPassword";
 import ConfirmAccount from "./../components/NotLoggedInScreens/Auth/ConfirmAccount";
 import FillNecessaryInfo from "./../components/NotLoggedInScreens/EditProfileInfo/EditProfileInfo";
-import LoggedInMain from "./../components/LoggedInScreens/LoggedInMain";
 //Users
 import FindUsers from "./../components/LoggedInScreens/FindUsers/FindUsers";
 import UserDetails from "./../components/LoggedInScreens/FindUsers/utils/UserDetails";
@@ -22,6 +21,8 @@ import ConversationDetails from "./../components/LoggedInScreens/Messages/utils/
 import Forum from "./../components/LoggedInScreens/Forum/Forum";
 //Profile
 import Profile from "./../components/LoggedInScreens/Profile/Profile";
+//Feedback
+import FeedbackModal from "./../components/LoggedInScreens/FeedbackModal/FeedbackModal";
 //@ts-ignore
 import { fadeIn } from "react-navigation-transitions";
 import { GlobalContext } from "./../components/Context/GlobalContext";
@@ -69,12 +70,6 @@ const MainStack = createStackNavigator(
     },
     FillNecessaryInfo: {
       screen: FillNecessaryInfo,
-      navigationOptions: {
-        header: null
-      }
-    },
-    LoggedInMain: {
-      screen: LoggedInMain,
       navigationOptions: {
         header: null
       }
@@ -129,6 +124,12 @@ const MainStack = createStackNavigator(
     },
     Profile: {
       screen: Profile,
+      navigationOptions: {
+        header: null
+      }
+    },
+    FeedbackModal: {
+      screen: FeedbackModal,
       navigationOptions: {
         header: null
       }

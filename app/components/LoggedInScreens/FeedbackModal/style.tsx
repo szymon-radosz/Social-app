@@ -4,7 +4,7 @@ import {
   lightBorderRadius,
   btnFullWidth,
   peachBtnText
-} from "./../../assets/global/globalStyles";
+} from "./../../../assets/global/globalStyles";
 
 interface Style {
   container: ViewStyle;

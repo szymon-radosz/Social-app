@@ -17,6 +17,7 @@ const CategoriesList = React.lazy(() => import("./utils/CategoriesList"));
 
 interface ForumProps {
   setShowFeedbackModal: any;
+  navigation: any;
 }
 
 interface ForumState {
@@ -370,7 +371,10 @@ class Forum extends Component<ForumProps, ForumState> {
                 )}
               </View>
             </View>
-            <BottomPanel data-test="BottomPanel" />
+            <BottomPanel
+              data-test="BottomPanel"
+              navigation={this.props.navigation}
+            />
           </View>
         </SafeAreaView>
       </React.Fragment>

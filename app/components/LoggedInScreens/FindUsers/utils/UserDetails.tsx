@@ -356,7 +356,10 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
               </ScrollView>
             )}
 
-            <BottomPanel data-test="BottomPanel" />
+            <BottomPanel
+              data-test="BottomPanel"
+              navigation={this.props.navigation}
+            />
           </View>
         </SafeAreaView>
       </React.Fragment>

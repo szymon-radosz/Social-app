@@ -1,5 +1,11 @@
 import React, { useContext } from "react";
-import { TouchableOpacity, View, Text, Image } from "react-native";
+import {
+  TouchableOpacity,
+  View,
+  Text,
+  Image,
+  TouchableHighlight
+} from "react-native";
 import styles from "./style";
 import { GlobalContext } from "./../../Context/GlobalContext";
 
@@ -9,11 +15,21 @@ const message: any = require("./../../../assets/images/message.png");
 const forum: any = require("./../../../assets/images/forum.png");
 const profile: any = require("./../../../assets/images/profile.png");
 const dot: any = require("./../../../assets/images/dot.png");
+const feedback: any = require("./../../../assets/images/feedback.png");
 
 const BottomPanel = (props: any) => {
   const context = useContext(GlobalContext);
   return (
     <View style={styles.bottomPanel}>
+      <TouchableHighlight
+        style={{ position: "absolute", right: 10, top: -60 }}
+        onPress={() => context.NavigationService.navigate("FeedbackModal", {})}
+        underlayColor={"#fff"}
+        data-test="feedbackIcon"
+      >
+        <Image source={feedback} style={{ width: 50, height: 50 }} />
+      </TouchableHighlight>
+
       <TouchableOpacity
         onPress={() => context.NavigationService.navigate("UserList", {})}
       >

@@ -184,6 +184,9 @@ export default StyleSheet.create<Style>({
     color: "#fff",
     fontFamily: "Open Sans"
   },
+  container: {
+    position: "relative"
+  },
   userListImage: {
     width: 50,
     height: 50,

@@ -376,7 +376,10 @@ class Messages extends Component<MessagesProps, MessagesState> {
                 </Suspense>
               )}
             </View>
-            <BottomPanel data-test="BottomPanel" />
+            <BottomPanel
+              data-test="BottomPanel"
+              navigation={this.props.navigation}
+            />
           </View>
         </SafeAreaView>
       </React.Fragment>

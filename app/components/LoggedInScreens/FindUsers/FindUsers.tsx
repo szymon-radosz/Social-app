@@ -4,21 +4,22 @@ import {
   Text,
   View,
   TouchableHighlight,
-  SafeAreaView
+  SafeAreaView,
+  Image
 } from "react-native";
 import axios from "axios";
 //@ts-ignore
 import Carousel from "react-native-snap-carousel";
 import { btnFullWidthFilledContainer } from "./../../../assets/global/globalStyles";
 import styles from "./style";
+
 const findUsersBg: any = require("./../../../assets/images/findUsersBgMin.jpg");
+
 import { GlobalContext } from "./../../Context/GlobalContext";
 import UserList from "./utils/UserList";
 import BottomPanel from "./../SharedComponents/BottomPanel";
 import Alert from "./../../../Alert/Alert";
 
-const UserDetails = React.lazy(() => import("./utils/UserDetails"));
-const UserMessageBox = React.lazy(() => import("./utils/UserMessageBox"));
 const FilterModal = React.lazy(() =>
   import("./../SharedComponents/FilterModal")
 );
@@ -496,38 +497,6 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
                 </Suspense>
               )}
 
-              {/*showUserDetails && !showUserMessageBox && userDetailsData && (
-            <Suspense fallback={<Text>Wczytywanie...</Text>}>
-              <UserDetails
-                hideShowUserDetails={this.hideShowUserDetails}
-                API_URL={this.context.API_URL}
-                user={userDetailsData}
-                usersAreInTheSameConversation={usersAreInTheSameConversation}
-                usersFriendshipStatus={usersFriendshipStatus}
-                openMessages={this.props.openMessages}
-                setOpenProfile={this.props.setOpenProfile}
-                setShowUserMessageBox={this.setShowUserMessageBox}
-                inviteFriend={this.inviteFriend}
-                confirmFriend={this.confirmFriend}
-                loggedInUserId={this.context.userData.id}
-                locationDetails={locationDetails}
-                data-test="UserDetails"
-              />
-            </Suspense>
-          )*/}
-
-              {/*showUserMessageBox && !showUserDetails && userDetailsData && (
-              <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                <UserMessageBox
-                  hideShowUserMessageBox={this.hideShowUserMessageBox}
-                  sendMessage={this.sendMessage}
-                  setUserMessage={this.setUserMessage}
-                  userMessage={userMessage}
-                  data-test="UserMessageBox"
-                />
-              </Suspense>
-            )*/}
-
               {userList && !showFilterModal && (
                 <View data-test="Carousel">
                   <Text style={styles.filterResultsHeaderText}>
@@ -577,7 +546,10 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
               ) : null}
             </View>
 
-            <BottomPanel data-test="BottomPanel" />
+            <BottomPanel
+              data-test="BottomPanel"
+              navigation={this.props.navigation}
+            />
           </View>
         </SafeAreaView>
       </React.Fragment>
