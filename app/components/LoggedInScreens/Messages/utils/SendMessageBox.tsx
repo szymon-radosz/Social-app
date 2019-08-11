@@ -15,8 +15,19 @@ const SendMessageBox = (props: {
   setUserMessage: any;
   conversationId: number;
 }): any => {
-  const context = useContext(GlobalContext);
+  console.log(["SendMessageBox", props]);
 
+  const context = useContext(GlobalContext);
+  console.log([
+    "SendMessageBox sendMessage",
+    props.receiverId,
+    props.receiverName,
+    props.receiverEmail,
+    props.receiverPhotoPath,
+    props.userMessage,
+    props.conversationId,
+    0
+  ]);
   return (
     <React.Fragment>
       <View style={styles.messageBoxContainer}>
@@ -33,11 +44,7 @@ const SendMessageBox = (props: {
           pressButtonComponent={async () => {
             await props.sendMessage(
               //@ts-ignore
-              context.userData.id,
               props.receiverId,
-              props.receiverName,
-              props.receiverEmail,
-              props.receiverPhotoPath,
               props.userMessage,
               props.conversationId,
               0

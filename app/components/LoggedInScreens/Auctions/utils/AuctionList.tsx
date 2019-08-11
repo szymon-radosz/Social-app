@@ -21,7 +21,7 @@ const AuctionList = (props: {
             onPress={() => {
               props.navigation.navigate("ProductDetails", {
                 productId: product.id,
-                authorId: product.categoryName[0].user_id
+                authorId: product.user_id
               });
             }}
             userHadUnreadedMessages={false}

@@ -287,7 +287,7 @@ export default class App extends Component<
               response.data.result.userUnreadedMessagesCount;
             await that.setState({ userData: newUserState });
 
-            that.checkUserStatus();
+            //that.checkUserStatus();
           }
         })
         .catch(function(error) {

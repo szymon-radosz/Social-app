@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Suspense } from "react";
 import {
   Text,
   Dimensions,
@@ -190,6 +190,13 @@ class ProductDetails extends Component<
 
       let that = this;
 
+      console.log([
+        "sendNewConversationProduct",
+        this.context.userData.id,
+        this.props.navigation.state.params.authorId,
+        this.props.navigation.state.params.productId
+      ]);
+
       axios
         .post(API_URL + "/api/saveConversationProduct", {
           senderId: senderId,
@@ -380,10 +387,14 @@ class ProductDetails extends Component<
           >
             <View>
               {showProductMessageBox && !showVoteBox ? (
-                <ProductMessageBox
-                  changeShowProductMessageBox={this.changeShowProductMessageBox}
-                  sendNewConversationProduct={this.sendNewConversationProduct}
-                />
+                <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                  <ProductMessageBox
+                    changeShowProductMessageBox={
+                      this.changeShowProductMessageBox
+                    }
+                    sendNewConversationProduct={this.sendNewConversationProduct}
+                  />
+                </Suspense>
               ) : !showProductMessageBox && showVoteBox ? (
                 <SellerVoteBox
                   currentUser={this.context.userData}

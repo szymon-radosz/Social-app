@@ -21,16 +21,14 @@ const ConversationDetails = React.lazy(() =>
 
 interface MessagesState {
   messagesList: any;
-  openConversationDetails: boolean;
-  openConversationDetailsId: number;
-  openConversationMessages: any;
-  receiverId: number;
-  receiverEmail: string;
-  receiverName: string;
+  //openConversationMessages: any;
+  //receiverId: number;
+  //receiverEmail: string;
+  //receiverName: string;
   showFilterPanel: boolean;
-  receiverPhotoPath: string;
+  //receiverPhotoPath: string;
   displayPrivateMessages: boolean;
-  userMessage: string;
+  //userMessage: string;
 }
 
 interface MessagesProps {
@@ -42,37 +40,34 @@ class Messages extends Component<MessagesProps, MessagesState> {
     super(props);
     this.state = {
       messagesList: [],
-      openConversationDetails: false,
-      openConversationDetailsId: 0,
-      openConversationMessages: [],
-      receiverId: 0,
+      //openConversationMessages: [],
+      /*receiverId: 0,
       receiverEmail: "",
-      receiverName: "",
+      receiverName: "",*/
       showFilterPanel: false,
-      receiverPhotoPath: "",
-      displayPrivateMessages: false,
-      userMessage: ""
+      //receiverPhotoPath: "",
+      displayPrivateMessages: false
+      //userMessage: ""
     };
 
     this.getMessages = this.getMessages.bind(this);
-    this.openConversationDetails = this.openConversationDetails.bind(this);
-    this.sendMessage = this.sendMessage.bind(this);
+    //this.sendMessage = this.sendMessage.bind(this);
     this.getAuctionMessages = this.getAuctionMessages.bind(this);
-    this.setUserMessage = this.setUserMessage.bind(this);
+    //this.setUserMessage = this.setUserMessage.bind(this);
     this.closeConversationDetails = this.closeConversationDetails.bind(this);
   }
 
-  setUserMessage = (message: string): void => {
+  /*setUserMessage = (message: string): void => {
     this.setState({ userMessage: message });
-  };
+  };*/
 
   closeConversationDetails = (): void => {
     this.getMessages();
-    this.setState({ openConversationDetails: false, showFilterPanel: true });
+    this.setState({ showFilterPanel: true });
   };
 
   //open conversation details from list of conversations
-  openConversationDetails = (
+  /*openConversationDetails = (
     id: number,
     receiverId: number,
     receiverName: string,
@@ -105,8 +100,6 @@ class Messages extends Component<MessagesProps, MessagesState> {
           }
 
           that.setState({
-            openConversationDetailsId: id,
-            openConversationDetails: true,
             openConversationMessages: response.data.result[0].messages,
             receiverId: receiverId,
             receiverName: receiverName,
@@ -124,10 +117,10 @@ class Messages extends Component<MessagesProps, MessagesState> {
           "Wystąpił błąd z wyświetleniem szczegółów konwersacji."
         );
       });
-  };
+  };*/
 
   //send new message inside conversation details
-  sendMessage = (
+  /*sendMessage = (
     sender_id: number,
     receiver_id: number,
     receiverName: string,
@@ -175,7 +168,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
           "Wystąpił błąd z wyświetleniem zapisem wiadomości."
         );
       });
-  };
+  };*/
 
   //load all conversation with messages for them
   getMessages = (): void => {
@@ -246,14 +239,12 @@ class Messages extends Component<MessagesProps, MessagesState> {
     const {
       displayPrivateMessages,
       showFilterPanel,
-      messagesList,
-      openConversationDetails,
-      openConversationMessages,
-      receiverId,
+      messagesList
+      /*receiverId,
       receiverName,
       receiverEmail,
       receiverPhotoPath,
-      userMessage
+      userMessage*/
     } = this.state;
     return (
       <React.Fragment>
@@ -279,15 +270,13 @@ class Messages extends Component<MessagesProps, MessagesState> {
             data-test="Messages"
           >
             <View>
-              {!openConversationDetails && (
-                <ImageBackground
-                  source={messagesBgMin}
-                  style={{ width: "100%" }}
-                  data-test="ImageBackground"
-                >
-                  <Text style={styles.pageTitle}>Twoje{"\n"}Wiadomości</Text>
-                </ImageBackground>
-              )}
+              <ImageBackground
+                source={messagesBgMin}
+                style={{ width: "100%" }}
+                data-test="ImageBackground"
+              >
+                <Text style={styles.pageTitle}>Twoje{"\n"}Wiadomości</Text>
+              </ImageBackground>
 
               {showFilterPanel && (
                 <View data-test="showFilterPanel">
@@ -336,11 +325,11 @@ class Messages extends Component<MessagesProps, MessagesState> {
                 </View>
               )}
 
-              {messagesList && !openConversationDetails ? (
+              {messagesList ? (
                 messagesList.length > 0 ? (
                   <MessageList
                     messagesList={messagesList}
-                    openConversationDetails={this.openConversationDetails}
+                    navigation={this.props.navigation}
                     data-test="MessageList"
                   />
                 ) : displayPrivateMessages ? (
@@ -357,7 +346,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
                 )
               ) : null}
 
-              {openConversationDetails && (
+              {/*openConversationDetails && (
                 <Suspense fallback={<Text>Wczytywanie...</Text>}>
                   <ConversationDetails
                     messages={openConversationMessages}
@@ -374,7 +363,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
                     navigation={this.props.navigation}
                   />
                 </Suspense>
-              )}
+              )*/}
             </View>
             <BottomPanel
               data-test="BottomPanel"

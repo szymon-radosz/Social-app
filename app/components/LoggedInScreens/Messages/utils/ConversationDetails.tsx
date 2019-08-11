@@ -5,8 +5,12 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
-  TouchableHighlight
+  TouchableHighlight,
+  SafeAreaView
 } from "react-native";
+import axios from "axios";
+import Alert from "./../../../../Alert/Alert";
+import BottomPanel from "./../../SharedComponents/BottomPanel";
 import SendMessageBox from "./SendMessageBox";
 import SingleConversationMessage from "./SingleConversationMessage";
 import styles from "./../style";
@@ -22,21 +26,19 @@ interface NavigationScreenInterface {
 }
 
 interface ConversationDetailsState {
-  messages: any;
+  openConversationMessages: any;
+  receiverId: number;
+  receiverEmail: string;
+  receiverName: string;
+  receiverPhotoPath: string;
+  userMessage: string;
+  privateConversation: boolean;
+  productConversationId: number;
+  productConversationAuthorId: number;
 }
 
 interface ConversationDetailsProps {
   navigation: any;
-  messages: any;
-  receiverPhotoPath: string;
-  receiverName: string;
-  receiverEmail: string;
-  receiverId: number;
-  sendMessage: any;
-  setUserMessage: any;
-  userMessage: string;
-  closeConversationDetails: any;
-  displayPrivateMessages: boolean;
 }
 
 class ConversationDetails extends Component<
@@ -47,104 +49,286 @@ class ConversationDetails extends Component<
   constructor(props: ConversationDetailsProps) {
     super(props);
     this.state = {
-      messages: this.props.messages
+      //messages: this.props.messages,
+      openConversationMessages: [],
+      receiverId: 0,
+      receiverEmail: "",
+      receiverName: "",
+      receiverPhotoPath: "",
+      userMessage: "",
+      privateConversation: true,
+      productConversationId: 0,
+      productConversationAuthorId: 0
     };
+
+    this.openConversationDetails = this.openConversationDetails.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
   }
 
-  static getDerivedStateFromProps = (props: any, state: any) => {
-    // Any time the current user changes,
-    // Reset any parts of state that are tied to that user.
-    // In this simple example, that's just the email.
+  sendMessage = (
+    receiver_id: number,
+    message: string,
+    conversation_id: number,
+    status: number
+  ): void => {
+    let API_URL = this.context.API_URL;
+    console.log([
+      "sendMessage",
+      this.context.userData.id,
+      receiver_id,
+      message,
+      conversation_id,
+      status
+    ]);
+    let that = this;
 
-    if (props.messages !== state.messages) {
-      return {
-        messages: props.messages
-      };
+    if (!message) {
+      that.context.setAlert(true, "danger", "Pusta wiadomość.");
+    } else {
+      axios.post(API_URL + "/api/addNotification", {
+        type: "sended_message",
+        message: `Masz nową wiadomość od użytkowniczki ${
+          this.context.userData.name
+        }`,
+        userId: receiver_id
+      });
+
+      axios
+        .post(API_URL + "/api/saveMessage", {
+          sender_id: this.context.userData.id,
+          receiver_id: receiver_id,
+          message: message,
+          conversation_id: conversation_id,
+          status: status
+        })
+        .then(function(response) {
+          console.log(["saveMessage", response.data]);
+          if (response.data.status === "OK") {
+            that.openConversationDetails(conversation_id);
+          }
+        })
+        .catch(function(error) {
+          that.context.setAlert(
+            true,
+            "danger",
+            "Wystąpił błąd z wyświetleniem zapisem wiadomości."
+          );
+        });
     }
-    return null;
   };
 
-  componentDidMount = (): void => {
+  //open conversation details from list of conversations
+  openConversationDetails = (id: number) => {
+    console.log(["openConversationDetails", id]);
+    return new Promise((resolve, reject) => {
+      let API_URL = this.context.API_URL;
+      let conversation_id = id;
+
+      let that = this;
+
+      axios
+        .post(API_URL + "/api/showConversationDetails", {
+          conversation_id: conversation_id
+        })
+        .then(function(response) {
+          if (response.data.status === "OK") {
+            console.log("details conv", response.data);
+
+            let privateMessage = true;
+            if (
+              response.data.result[0].product_id &&
+              response.data.result[0].product_id !== 0
+            ) {
+              console.log([
+                "response.data.product_id",
+                response.data.result[0].product_id
+              ]);
+              privateMessage = false;
+            }
+
+            that.setState({
+              openConversationMessages: response.data.result[0].messages,
+              receiverId: that.props.navigation.state.params.receiverId,
+              receiverName: that.props.navigation.state.params.receiverName,
+              receiverEmail: that.props.navigation.state.params.receiverEmail,
+              receiverPhotoPath:
+                that.props.navigation.state.params.receiverPhotoPath,
+              privateConversation: privateMessage,
+              productConversationId: response.data.result[0].product_id,
+              productConversationAuthorId: response.data.result[0].user_id
+            });
+
+            console.log(["privateMessage", privateMessage]);
+
+            resolve(true);
+          }
+        })
+        .catch(function(error) {
+          that.context.setAlert(
+            true,
+            "danger",
+            "Wystąpił błąd z wyświetleniem szczegółów konwersacji."
+          );
+          reject(true);
+        });
+    });
+  };
+
+  setUserMessage = (message: string): void => {
+    this.setState({ userMessage: message });
+  };
+
+  componentDidMount = async () => {
+    console.log([
+      "conversationDetails Did mount",
+      this.props.navigation.state.params.conversationId,
+      this.props.navigation.state.params.receiverId,
+      this.props.navigation.state.params.receiverName,
+      this.props.navigation.state.params.receiverEmail,
+      this.props.navigation.state.params.receiverPhotoPath
+    ]);
+    await this.openConversationDetails(
+      this.props.navigation.state.params.conversationId
+    );
+
     if (this.context.userData.id)
       this.context.clearUserUnreadedMessages(
         this.context.userData.id,
-        this.state.messages[0].conversation_id
+        this.props.navigation.state.params.conversationId
       );
 
-    console.log(["mess", this.props]);
+    console.log([
+      "openConversationMessages",
+      this.state.openConversationMessages
+    ]);
   };
 
   render() {
-    const navigation = this.props.navigation;
-    const { messages } = this.state;
+    const {
+      receiverId,
+      receiverName,
+      receiverEmail,
+      receiverPhotoPath,
+      userMessage,
+      openConversationMessages,
+      privateConversation,
+      productConversationId,
+      productConversationAuthorId
+    } = this.state;
     return (
-      <View style={styles.viewContainer} data-test="ConversationDetails">
-        <PageHeader
-          boldText={this.props.receiverName}
-          normalText={""}
-          closeMethod={this.props.closeConversationDetails}
-          closeMethodParameter={""}
-          data-test="PageHeader"
-        />
-
-        <View style={styles.messageDetailsContainer}>
-          <TouchableOpacity>
-            <Image
-              style={styles.conversationDetailsReceiverImage}
-              source={{
-                uri: `${this.props.receiverPhotoPath}`
-              }}
+      <React.Fragment>
+        <SafeAreaView
+          style={{
+            flex: 1,
+            backgroundColor: "#fff"
+          }}
+        >
+          {this.context.showAlert && (
+            <Alert
+              alertType={this.context.alertType}
+              alertMessage={this.context.alertMessage}
+              closeAlert={this.context.closeAlert}
             />
-          </TouchableOpacity>
-          <View>
-            <Text style={styles.conversationDetailsReceiverName}>
-              Rozmowa z {this.props.receiverName}
-            </Text>
-            {this.props.displayPrivateMessages ? (
-              <Text style={styles.conversationDetailsSeeMore}>
-                Zobacz produkt
-              </Text>
-            ) : (
-              <TouchableHighlight
-                onPress={async () => {
-                  await this.context.setShowUserProfile(this.props.receiverId);
-                  navigation.navigate("UserList", {
-                    userDetailsId: this.props.receiverId
-                  });
-                }}
-              >
-                <Text style={styles.conversationDetailsSeeMore}>
-                  Zobacz profil
-                </Text>
-              </TouchableHighlight>
-            )}
+          )}
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "column",
+              justifyContent: "space-between"
+            }}
+            data-test="Messages"
+          >
+            <View style={styles.viewContainer} data-test="ConversationDetails">
+              <PageHeader
+                boldText={receiverName}
+                normalText={""}
+                closeMethod={() => this.props.navigation.goBack(null)}
+                closeMethodParameter={""}
+                data-test="PageHeader"
+              />
+
+              <View style={styles.messageDetailsContainer}>
+                <TouchableOpacity>
+                  <Image
+                    style={styles.conversationDetailsReceiverImage}
+                    source={{
+                      uri: `${
+                        this.props.navigation.state.params.receiverPhotoPath
+                      }`
+                    }}
+                  />
+                </TouchableOpacity>
+                <View>
+                  <Text style={styles.conversationDetailsReceiverName}>
+                    Rozmowa z {this.props.navigation.state.params.receiverName}
+                  </Text>
+                  {privateConversation && (
+                    <TouchableHighlight
+                      onPress={async () => {
+                        this.props.navigation.navigate("UserDetails", {
+                          userId: this.props.navigation.state.params.receiverId
+                        });
+                      }}
+                      underlayColor={"#fff"}
+                    >
+                      <Text style={styles.conversationDetailsSeeMore}>
+                        Zobacz profil
+                      </Text>
+                    </TouchableHighlight>
+                  )}
+
+                  {!privateConversation &&
+                    productConversationId !== 0 &&
+                    productConversationAuthorId !== 0 && (
+                      <TouchableHighlight
+                        onPress={async () => {
+                          this.props.navigation.navigate("ProductDetails", {
+                            productId: productConversationId,
+                            authorId: productConversationAuthorId
+                          });
+                        }}
+                        underlayColor={"#fff"}
+                      >
+                        <Text style={styles.conversationDetailsSeeMore}>
+                          Zobacz szczegóły produktu
+                        </Text>
+                      </TouchableHighlight>
+                    )}
+                </View>
+              </View>
+              {/* <Text>Sender: {this.props.senderId}</Text>*/}
+              <ScrollView>
+                {openConversationMessages &&
+                  openConversationMessages.map((message: any, i: number) => {
+                    return (
+                      <SingleConversationMessage
+                        message={message}
+                        key={`SingleConversationMessage-${i}`}
+                      />
+                    );
+                  })}
+              </ScrollView>
+
+              <SendMessageBox
+                receiverId={receiverId}
+                conversationId={
+                  this.props.navigation.state.params.conversationId
+                }
+                sendMessage={this.sendMessage}
+                receiverName={receiverName}
+                receiverEmail={receiverEmail}
+                receiverPhotoPath={receiverPhotoPath}
+                setUserMessage={this.setUserMessage}
+                userMessage={userMessage}
+              />
+            </View>
+            <BottomPanel
+              data-test="BottomPanel"
+              navigation={this.props.navigation}
+            />
           </View>
-        </View>
-        {/* <Text>Sender: {this.props.senderId}</Text>*/}
-        <ScrollView>
-          {messages &&
-            messages.map((message: any, i: number) => {
-              return (
-                <SingleConversationMessage
-                  message={message}
-                  key={`SingleConversationMessage-${i}`}
-                />
-              );
-            })}
-        </ScrollView>
-        {messages && messages[0].conversation_id && (
-          <SendMessageBox
-            receiverId={this.props.receiverId}
-            conversationId={messages[0].conversation_id}
-            sendMessage={this.props.sendMessage}
-            receiverName={this.props.receiverName}
-            receiverEmail={this.props.receiverEmail}
-            receiverPhotoPath={this.props.receiverPhotoPath}
-            setUserMessage={this.props.setUserMessage}
-            userMessage={this.props.userMessage}
-          />
-        )}
-      </View>
+        </SafeAreaView>
+      </React.Fragment>
     );
   }
 }

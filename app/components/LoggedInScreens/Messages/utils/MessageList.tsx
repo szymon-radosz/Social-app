@@ -5,21 +5,18 @@ import moment from "moment";
 import "moment/locale/pl";
 import { GlobalContext } from "./../../../Context/GlobalContext";
 
-const MessageList = (props: {
-  messagesList: any;
-  openConversationDetails: any;
-}): any => {
+const MessageList = (props: { messagesList: any; navigation: any }): any => {
   const context = useContext(GlobalContext);
   if (props.messagesList) {
     //console.log(["MessageList", props]);
     return props.messagesList && props.messagesList.length > 0 ? (
       props.messagesList.map((conversation: any, i: number) => {
-        /*console.log([
+        console.log([
           "conversation",
           conversation,
           i,
           props.messagesList[i][0]
-        ]);*/
+        ]);
 
         return (
           <ListItem
@@ -36,13 +33,30 @@ const MessageList = (props: {
               ].updated_at
             ).format("LLL")}
             onPress={(): void => {
-              props.openConversationDetails(
+              /*props.openConversationDetails(
                 props.messagesList[i][0].id,
                 props.messagesList[i][0].receiverId,
                 props.messagesList[i][0].receiverName,
                 props.messagesList[i][0].receiverEmail,
                 props.messagesList[i][0].receiverPhotoPath
-              );
+              );*/
+
+              console.log([
+                "ConversationDetails",
+                props.messagesList[i][0].id,
+                props.messagesList[i][0].receiverId,
+                props.messagesList[i][0].receiverName,
+                props.messagesList[i][0].receiverEmail,
+                props.messagesList[i][0].receiverPhotoPath
+              ]);
+
+              props.navigation.navigate("ConversationDetails", {
+                conversationId: props.messagesList[i][0].id,
+                receiverId: props.messagesList[i][0].receiverId,
+                receiverName: props.messagesList[i][0].receiverName,
+                receiverEmail: props.messagesList[i][0].receiverEmail,
+                receiverPhotoPath: props.messagesList[i][0].receiverPhotoPath
+              });
             }}
             userHadUnreadedMessages={
               props.messagesList[i][0].userHadUnreadedMessages
