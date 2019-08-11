@@ -350,7 +350,7 @@ class Forum extends Component<ForumProps, ForumState> {
                 {!showPostDetails && !showSavePost && showSortByCategory && (
                   <Text
                     style={{ paddingLeft: 10, paddingRight: 10 }}
-                    onPress={this.props.setShowFeedbackModal}
+                    onPress={() => this.props.navigation.navigate("FeedbackModal", {})}
                     data-test="ask"
                   >
                     Masz pomysł na nową kategorię?{" "}

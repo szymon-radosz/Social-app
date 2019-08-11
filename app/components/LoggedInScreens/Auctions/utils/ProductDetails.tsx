@@ -1,7 +1,16 @@
 import React, { Component } from "react";
-import { Text, Dimensions, Image, View, TouchableOpacity } from "react-native";
+import {
+  Text,
+  Dimensions,
+  Image,
+  View,
+  TouchableOpacity,
+  SafeAreaView
+} from "react-native";
 import axios from "axios";
 import styles from "./../style";
+import Alert from "./../../../../Alert/Alert";
+import BottomPanel from "./../../SharedComponents/BottomPanel";
 //@ts-ignore
 import Lightbox from "react-native-lightbox";
 //@ts-ignore
@@ -38,8 +47,7 @@ interface ProductDetailsProps {
   currentUser: {
     id: number;
   };
-  setDisplayProductDetails: any;
-  openMessages: any;
+  navigation: any;
 }
 
 interface ProductDetailsState {
@@ -86,7 +94,7 @@ class ProductDetails extends Component<
   }
 
   searchUsersByEmail = (email: string) => {
-    let API_URL = this.props.API_URL;
+    let API_URL = this.context.API_URL;
 
     if (email) {
       let that = this;
@@ -120,9 +128,9 @@ class ProductDetails extends Component<
     this.setState({ showVoteBox: !this.state.showVoteBox });
   };
 
-  getProductDetails = () => {
-    let API_URL = this.props.API_URL;
-    let productId = this.props.productId;
+  getProductDetails = (id: number) => {
+    let API_URL = this.context.API_URL;
+    let productId = id;
 
     let that = this;
 
@@ -144,10 +152,10 @@ class ProductDetails extends Component<
 
   checkIfUsersBelongToConversationProduct = () => {
     //check if users are in the same conversation - start messaging
-    let API_URL = this.props.API_URL;
-    let searchedUser = this.props.productUserId;
-    let loggedInUser = this.props.currentUser.id;
-    let productId = this.props.productId;
+    let API_URL = this.context.API_URL;
+    let searchedUser = this.props.navigation.state.params.authorId;
+    let loggedInUser = this.context.userData.id;
+    let productId = this.props.navigation.state.params.productId;
 
     let that = this;
 
@@ -175,10 +183,10 @@ class ProductDetails extends Component<
 
   sendNewConversationProduct = (message: string) => {
     if (message) {
-      let API_URL = this.props.API_URL;
-      let senderId = this.props.currentUser.id;
-      let receiverId = this.state.productDetails[0].user_id;
-      let productId = this.state.productDetails[0].id;
+      let API_URL = this.context.API_URL;
+      let senderId = this.context.userData.id;
+      let receiverId = this.props.navigation.state.params.authorId;
+      let productId = this.props.navigation.state.params.productId;
 
       let that = this;
 
@@ -223,9 +231,21 @@ class ProductDetails extends Component<
   };
 
   componentDidMount = () => {
-    //load all products based on user coords
-    this.getProductDetails();
+    console.log([
+      "ProductDetails",
+      this.props.navigation.state.params.productId
+    ]);
+
+    let productId = this.props.navigation.state.params.productId;
+
+    this.getProductDetails(productId);
     this.checkIfUsersBelongToConversationProduct();
+  };
+
+  componentWillUnmount = () => {
+    console.log(["ProductDetails componentWillUnmount"]);
+
+    this.setState({ productDetails: [] });
   };
 
   sendVote = (
@@ -234,11 +254,11 @@ class ProductDetails extends Component<
     voteComment: string,
     product: any
   ) => {
-    let API_URL = this.props.API_URL;
+    let API_URL = this.context.API_URL;
     let userId = selectedUserData.id;
     let vote = userVote;
     let message = voteComment;
-    let authorId = this.props.currentUser.id;
+    let authorId = this.context.userData.id;
     let productId = product.id;
 
     let that = this;
@@ -284,7 +304,7 @@ class ProductDetails extends Component<
   };
 
   closeProduct = (productId: number) => {
-    let API_URL = this.props.API_URL;
+    let API_URL = this.context.API_URL;
 
     let that = this;
 
@@ -297,7 +317,7 @@ class ProductDetails extends Component<
       .then(function(response) {
         if (response.data.status === "OK") {
           //that.changeVoteBox();
-          that.getProductDetails();
+          that.getProductDetails(productId);
         }
       })
       .catch(function(error) {
@@ -306,7 +326,7 @@ class ProductDetails extends Component<
   };
 
   reactivateProduct = (productId: number) => {
-    let API_URL = this.props.API_URL;
+    let API_URL = this.context.API_URL;
 
     let that = this;
 
@@ -319,7 +339,7 @@ class ProductDetails extends Component<
       .then(function(response) {
         if (response.data.status === "OK") {
           //that.changeVoteBox();
-          that.getProductDetails();
+          that.getProductDetails(productId);
         }
       })
       .catch(function(error) {
@@ -337,219 +357,253 @@ class ProductDetails extends Component<
     } = this.state;
     return (
       <React.Fragment>
-        <View>
-          {showProductMessageBox && !showVoteBox ? (
-            <ProductMessageBox
-              changeShowProductMessageBox={this.changeShowProductMessageBox}
-              sendNewConversationProduct={this.sendNewConversationProduct}
+        <SafeAreaView
+          style={{
+            flex: 1,
+            backgroundColor: "#fff"
+          }}
+        >
+          {this.context.showAlert && (
+            <Alert
+              alertType={this.context.alertType}
+              alertMessage={this.context.alertMessage}
+              closeAlert={this.context.closeAlert}
             />
-          ) : !showProductMessageBox && showVoteBox ? (
-            <SellerVoteBox
-              currentUser={this.props.currentUser}
-              product={productDetails[0]}
-              API_URL={this.props.API_URL}
-              changeVoteBox={this.changeVoteBox}
-              searchUsersByEmail={this.searchUsersByEmail}
-              foundVoteUserList={foundVoteUserList}
-              getProductDetails={this.getProductDetails}
-              sendVote={this.sendVote}
-            />
-          ) : productDetails[0] ? (
+          )}
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "column",
+              justifyContent: "space-between"
+            }}
+            data-test="Auctions"
+          >
             <View>
-              <PageHeader
-                boldText={productDetails[0].name}
-                normalText={""}
-                closeMethod={() =>
-                  this.props.setDisplayProductDetails(false, true)
-                }
-                closeMethodParameter={""}
-              />
+              {showProductMessageBox && !showVoteBox ? (
+                <ProductMessageBox
+                  changeShowProductMessageBox={this.changeShowProductMessageBox}
+                  sendNewConversationProduct={this.sendNewConversationProduct}
+                />
+              ) : !showProductMessageBox && showVoteBox ? (
+                <SellerVoteBox
+                  currentUser={this.context.userData}
+                  product={productDetails[0]}
+                  API_URL={this.context.API_URL}
+                  changeVoteBox={this.changeVoteBox}
+                  searchUsersByEmail={this.searchUsersByEmail}
+                  foundVoteUserList={foundVoteUserList}
+                  getProductDetails={this.getProductDetails}
+                  sendVote={this.sendVote}
+                />
+              ) : productDetails[0] ? (
+                <View>
+                  <PageHeader
+                    boldText={productDetails[0].name}
+                    normalText={""}
+                    closeMethod={() =>
+                      this.props.navigation.navigate("Auctions", {})
+                    }
+                    closeMethodParameter={""}
+                  />
 
-              <View style={styles.productDetailsHeader}>
-                <Lightbox
-                  springConfig={{ overshootClamping: true }}
-                  swipeToDismiss={false}
-                  backgroundColor="rgba(0,0,0,0.7)"
-                  renderContent={() =>
-                    renderCarousel(
-                      this.props.API_URL,
-                      productDetails[0].product_photos
-                    )
-                  }
-                  renderHeader={(close: any) => (
-                    <TouchableOpacity onPress={close}>
-                      <Text
-                        style={{
-                          color: "white",
-                          padding: 8,
-                          textAlign: "center",
-                          margin: 10,
-                          alignSelf: "flex-end"
+                  <View style={styles.productDetailsHeader}>
+                    <Lightbox
+                      springConfig={{ overshootClamping: true }}
+                      swipeToDismiss={false}
+                      backgroundColor="rgba(0,0,0,0.7)"
+                      renderContent={() =>
+                        renderCarousel(
+                          this.context.API_URL,
+                          productDetails[0].product_photos
+                        )
+                      }
+                      renderHeader={(close: any) => (
+                        <TouchableOpacity onPress={close}>
+                          <Text
+                            style={{
+                              color: "white",
+                              padding: 8,
+                              textAlign: "center",
+                              margin: 10,
+                              alignSelf: "flex-end"
+                            }}
+                          >
+                            Close
+                          </Text>
+                        </TouchableOpacity>
+                      )}
+                      underlayColor={"#fff"}
+                    >
+                      <Image
+                        style={styles.productDetailsImage}
+                        source={{
+                          uri: `${productDetails[0].product_photos[0].path}`
                         }}
-                      >
-                        Close
+                      />
+                    </Lightbox>
+
+                    {productDetails[0] &&
+                      productDetails[0].product_photos.length > 1 && (
+                        <Text style={{ fontSize: 10 }}>
+                          Kliknij na zdjęcie, aby zobaczyć galerię.
+                        </Text>
+                      )}
+
+                    {productDetails[0] && productDetails[0].description ? (
+                      <Text style={styles.productHeaderText}>
+                        {productDetails[0].description}
                       </Text>
-                    </TouchableOpacity>
-                  )}
-                  underlayColor={"#fff"}
-                >
-                  <Image
-                    style={styles.productDetailsImage}
-                    source={{
-                      uri: `${productDetails[0].product_photos[0].path}`
-                    }}
-                  />
-                </Lightbox>
-
-                {productDetails[0] &&
-                  productDetails[0].product_photos.length > 1 && (
-                    <Text style={{ fontSize: 10 }}>
-                      Kliknij na zdjęcie, aby zobaczyć galerię.
-                    </Text>
-                  )}
-
-                {productDetails[0] && productDetails[0].description ? (
-                  <Text style={styles.productHeaderText}>
-                    {productDetails[0].description}
-                  </Text>
-                ) : null}
-              </View>
-              <View style={styles.productContent}>
-                {productDetails[0] && productDetails[0].categoryName[0].name && (
-                  <Text style={styles.productContentText}>
-                    <Text style={styles.bold}>Kategoria:</Text>{" "}
-                    {productDetails[0].categoryName[0].name}
-                  </Text>
-                )}
-
-                {productDetails[0] &&
-                  productDetails[0].child_gender === "girl" && (
-                    <Text style={styles.productContentText}>
-                      <Text style={styles.bold}>Płeć dziecka:</Text> Dziewczynka
-                    </Text>
-                  )}
-
-                {productDetails[0] && productDetails[0].child_gender === "boy" && (
-                  <Text style={styles.productContentText}>
-                    <Text style={styles.bold}>Płeć dziecka:</Text> Chłopiec
-                  </Text>
-                )}
-
-                {productDetails[0] && productDetails[0].state === 0 && (
-                  <Text style={styles.productContentText}>
-                    <Text style={styles.bold}>Stan produktu:</Text> Nowe
-                  </Text>
-                )}
-
-                {productDetails[0] && productDetails[0].state === 1 && (
-                  <Text style={styles.productContentText}>
-                    <Text style={styles.bold}>Stan produktu:</Text> Używane
-                  </Text>
-                )}
-
-                {productDetails[0] && productDetails[0].users && (
-                  <Text style={styles.productContentText}>
-                    <Text style={styles.bold}>Dodane przez: </Text>
-                    {productDetails[0].users.name}
-                  </Text>
-                )}
-
-                {productDetails[0] && productDetails[0].users.location_string && (
-                  <Text style={styles.productContentText}>
-                    <Text style={styles.bold}>W poblizu: </Text>
-                    {productDetails[0].users.location_string}
-                  </Text>
-                )}
-
-                {productDetails[0] && productDetails[0].price && (
-                  <Text style={styles.productContentText}>
-                    <Text style={styles.bold}>Cena: </Text>
-                    {productDetails[0].price} zł
-                  </Text>
-                )}
-              </View>
-              {/* user is not the author, they are not in the same conversation and product is not sold*/}
-              {productDetails[0].user_id != this.props.currentUser.id &&
-                !usersAreInTheSameConversation &&
-                productDetails[0].status != 1 && (
-                  <ButtonComponent
-                    pressButtonComponent={this.changeShowProductMessageBox}
-                    buttonComponentText="Wyślij wiadomość"
-                    fullWidth={true}
-                    underlayColor="#dd904d"
-                    whiteBg={false}
-                    showBackIcon={false}
-                  />
-                )}
-              {/* user is not the author and product is sold*/}
-              {productDetails[0].user_id != this.props.currentUser.id &&
-                productDetails[0].status == 1 && (
-                  <View style={styles.productContent}>
-                    <Text style={styles.productContentText}>
-                      <Text style={styles.productClosed}>
-                        Sprzedaż produktu zakończona
-                      </Text>
-                    </Text>
+                    ) : null}
                   </View>
-                )}
-              {/* user is not the author, they are in the same conversation and product is sold*/}
-              {productDetails[0].user_id != this.props.currentUser.id &&
-                usersAreInTheSameConversation &&
-                productDetails[0].status == 1 && (
-                  <ButtonComponent
-                    pressButtonComponent={this.props.openMessages}
-                    buttonComponentText="Produkt sprzedany, jesteście w konwersacji"
-                    fullWidth={true}
-                    underlayColor="#dd904d"
-                    whiteBg={false}
-                    showBackIcon={false}
-                  />
-                )}
-              {/* user is not the author, they are in the same conversation and product is not sold*/}
-              {productDetails[0].user_id != this.props.currentUser.id &&
-                usersAreInTheSameConversation &&
-                productDetails[0].status != 1 && (
-                  <ButtonComponent
-                    pressButtonComponent={this.props.openMessages}
-                    buttonComponentText="Jestescie już w konwersacji"
-                    fullWidth={true}
-                    underlayColor="#dd904d"
-                    whiteBg={false}
-                    showBackIcon={false}
-                  />
-                )}
-              {/* user is the author, and product is not sold*/}
-              {productDetails[0].user_id == this.props.currentUser.id &&
-                productDetails[0].status != 1 && (
-                  <ButtonComponent
-                    pressButtonComponent={() => {
-                      this.closeProduct(productDetails[0].id);
-                    }}
-                    buttonComponentText="Zamknij Sprzedaż"
-                    fullWidth={true}
-                    underlayColor="#dd904d"
-                    whiteBg={false}
-                    showBackIcon={false}
-                  />
-                )}
+                  <View style={styles.productContent}>
+                    {productDetails[0] &&
+                      productDetails[0].categoryName[0].name && (
+                        <Text style={styles.productContentText}>
+                          <Text style={styles.bold}>Kategoria:</Text>{" "}
+                          {productDetails[0].categoryName[0].name}
+                        </Text>
+                      )}
 
-              {/* user is the author, and product is sold*/}
-              {productDetails[0].user_id == this.props.currentUser.id &&
-                productDetails[0].status != 0 && (
-                  <ButtonComponent
-                    pressButtonComponent={() => {
-                      this.reactivateProduct(productDetails[0].id);
-                    }}
-                    buttonComponentText="Wznów Sprzedaż"
-                    fullWidth={true}
-                    underlayColor="#dd904d"
-                    whiteBg={false}
-                    showBackIcon={false}
-                  />
-                )}
+                    {productDetails[0] &&
+                      productDetails[0].child_gender === "girl" && (
+                        <Text style={styles.productContentText}>
+                          <Text style={styles.bold}>Płeć dziecka:</Text>{" "}
+                          Dziewczynka
+                        </Text>
+                      )}
+
+                    {productDetails[0] &&
+                      productDetails[0].child_gender === "boy" && (
+                        <Text style={styles.productContentText}>
+                          <Text style={styles.bold}>Płeć dziecka:</Text>{" "}
+                          Chłopiec
+                        </Text>
+                      )}
+
+                    {productDetails[0] && productDetails[0].state === 0 && (
+                      <Text style={styles.productContentText}>
+                        <Text style={styles.bold}>Stan produktu:</Text> Nowe
+                      </Text>
+                    )}
+
+                    {productDetails[0] && productDetails[0].state === 1 && (
+                      <Text style={styles.productContentText}>
+                        <Text style={styles.bold}>Stan produktu:</Text> Używane
+                      </Text>
+                    )}
+
+                    {productDetails[0] && productDetails[0].users && (
+                      <Text style={styles.productContentText}>
+                        <Text style={styles.bold}>Dodane przez: </Text>
+                        {productDetails[0].users.name}
+                      </Text>
+                    )}
+
+                    {productDetails[0] &&
+                      productDetails[0].users.location_string && (
+                        <Text style={styles.productContentText}>
+                          <Text style={styles.bold}>W poblizu: </Text>
+                          {productDetails[0].users.location_string}
+                        </Text>
+                      )}
+
+                    {productDetails[0] && productDetails[0].price && (
+                      <Text style={styles.productContentText}>
+                        <Text style={styles.bold}>Cena: </Text>
+                        {productDetails[0].price} zł
+                      </Text>
+                    )}
+                  </View>
+                  {/* user is not the author, they are not in the same conversation and product is not sold*/}
+                  {productDetails[0].user_id != this.context.userData.id &&
+                    !usersAreInTheSameConversation &&
+                    productDetails[0].status != 1 && (
+                      <ButtonComponent
+                        pressButtonComponent={this.changeShowProductMessageBox}
+                        buttonComponentText="Wyślij wiadomość"
+                        fullWidth={true}
+                        underlayColor="#dd904d"
+                        whiteBg={false}
+                        showBackIcon={false}
+                      />
+                    )}
+                  {/* user is not the author and product is sold*/}
+                  {productDetails[0].user_id != this.context.userData.id &&
+                    productDetails[0].status == 1 && (
+                      <View style={styles.productContent}>
+                        <Text style={styles.productContentText}>
+                          <Text style={styles.productClosed}>
+                            Sprzedaż produktu zakończona
+                          </Text>
+                        </Text>
+                      </View>
+                    )}
+                  {/* user is not the author, they are in the same conversation and product is sold*/}
+                  {productDetails[0].user_id != this.context.userData.id &&
+                    usersAreInTheSameConversation &&
+                    productDetails[0].status == 1 && (
+                      <ButtonComponent
+                        pressButtonComponent={() =>
+                          this.props.navigation.navigate("Messages", {})
+                        }
+                        buttonComponentText="Produkt sprzedany, jesteście w konwersacji"
+                        fullWidth={true}
+                        underlayColor="#dd904d"
+                        whiteBg={false}
+                        showBackIcon={false}
+                      />
+                    )}
+                  {/* user is not the author, they are in the same conversation and product is not sold*/}
+                  {productDetails[0].user_id != this.context.userData.id &&
+                    usersAreInTheSameConversation &&
+                    productDetails[0].status != 1 && (
+                      <ButtonComponent
+                        pressButtonComponent={() =>
+                          this.props.navigation.navigate("Messages", {})
+                        }
+                        buttonComponentText="Jestescie już w konwersacji"
+                        fullWidth={true}
+                        underlayColor="#dd904d"
+                        whiteBg={false}
+                        showBackIcon={false}
+                      />
+                    )}
+                  {/* user is the author, and product is not sold*/}
+                  {productDetails[0].user_id == this.context.userData.id &&
+                    productDetails[0].status != 1 && (
+                      <ButtonComponent
+                        pressButtonComponent={() => {
+                          this.closeProduct(productDetails[0].id);
+                        }}
+                        buttonComponentText="Zamknij Sprzedaż"
+                        fullWidth={true}
+                        underlayColor="#dd904d"
+                        whiteBg={false}
+                        showBackIcon={false}
+                      />
+                    )}
+
+                  {/* user is the author, and product is sold*/}
+                  {productDetails[0].user_id == this.context.userData.id &&
+                    productDetails[0].status != 0 && (
+                      <ButtonComponent
+                        pressButtonComponent={() => {
+                          this.reactivateProduct(productDetails[0].id);
+                        }}
+                        buttonComponentText="Wznów Sprzedaż"
+                        fullWidth={true}
+                        underlayColor="#dd904d"
+                        whiteBg={false}
+                        showBackIcon={false}
+                      />
+                    )}
+                </View>
+              ) : null}
             </View>
-          ) : null}
-        </View>
+
+            <BottomPanel data-test="BottomPanel" />
+          </View>
+        </SafeAreaView>
       </React.Fragment>
     );
   }

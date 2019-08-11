@@ -32,9 +32,9 @@ const ActiveFilters = React.lazy(() =>
 );
 
 interface AuctionsProps {
-  openMessages: any;
   openAuctionId: number;
   openAuctionUserId: number;
+  navigation: any;
 }
 
 interface AuctionsState {
@@ -42,7 +42,6 @@ interface AuctionsState {
   showFilterAuctionActivityPanel: boolean;
   displayActiveAuction: boolean;
   displayProductDetails: boolean;
-  displayNewProductBox: boolean;
   selectedProductId: number;
   selectedProductUserId: number;
   filterDistance: string;
@@ -62,7 +61,6 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
       showFilterAuctionActivityPanel: false,
       displayActiveAuction: false,
       displayProductDetails: false,
-      displayNewProductBox: false,
       selectedProductId: 0,
       selectedProductUserId: 0,
       filterDistance: "",
@@ -105,144 +103,13 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
     };
 
     this.getActiveProducts = this.getActiveProducts.bind(this);
-    this.setSelectedProduct = this.setSelectedProduct.bind(this);
-    this.changeDisplayNewProductBox = this.changeDisplayNewProductBox.bind(
-      this
-    );
-    this.setDisplayProductDetails = this.setDisplayProductDetails.bind(this);
+    /*this.setSelectedProduct = this.setSelectedProduct.bind(this);
+    
+    this.setDisplayProductDetails = this.setDisplayProductDetails.bind(this);*/
     this.renderItem = this.renderItem.bind(this);
     this.filterResults = this.filterResults.bind(this);
     this.removeFilter = this.removeFilter.bind(this);
-    this.addNewProduct = this.addNewProduct.bind(this);
   }
-
-  addNewProduct = async (
-    photos: any,
-    maleGender: boolean,
-    femaleGender: boolean,
-    newProduct: boolean,
-    secondHandProduct: boolean,
-    currentUser: any,
-    name: string,
-    description: string,
-    selectedCategoryId: any,
-    price: number
-  ) => {
-    console.log([
-      photos,
-      maleGender,
-      femaleGender,
-      newProduct,
-      secondHandProduct,
-      currentUser,
-      name,
-      description,
-      selectedCategoryId,
-      price
-    ]);
-    let childGender;
-    let productState;
-    let API_URL = this.context.API_URL;
-
-    let photosArray = "[" + '"' + photos.join('","') + '"' + "]";
-
-    if (maleGender) {
-      childGender = "boy";
-    } else if (femaleGender) {
-      childGender = "girl";
-    }
-
-    if (newProduct) {
-      productState = 0;
-    } else if (secondHandProduct) {
-      productState = 1;
-    }
-
-    if (
-      !photos ||
-      photos.length === 0 ||
-      !currentUser ||
-      !name ||
-      !description ||
-      !selectedCategoryId ||
-      !price
-    ) {
-      /*console.log([
-        "add product",
-        photos,
-        maleGender,
-        femaleGender,
-        newProduct,
-        secondHandProduct,
-        currentUser,
-        name,
-        description,
-        selectedCategoryId,
-        price
-      ]);*/
-      this.context.setAlert(
-        true,
-        "danger",
-        "Upewnij się, że wprowadziłaś wszystkie dane i dodałaś co najmniej 1 zdjęcie."
-      );
-    } else if (
-      currentUser.id &&
-      name &&
-      description &&
-      selectedCategoryId &&
-      price &&
-      currentUser.lattitude &&
-      currentUser.longitude &&
-      photosArray
-    ) {
-      let that = this;
-
-      console.log(["photosArray", photosArray]);
-
-      that.context.setShowLoader(true);
-
-      let json = await axios
-        .post(API_URL + "/api/saveProduct", {
-          userId: currentUser.id,
-          name: name,
-          description: description,
-          categoryId: selectedCategoryId,
-          childGender: childGender,
-          price: price,
-          lat: currentUser.lattitude,
-          lng: currentUser.longitude,
-          status: 0,
-          state: productState,
-          photos: photosArray
-        })
-        .then(function(response) {
-          if (response.data.status === "OK") {
-            that.changeDisplayNewProductBox();
-
-            that.context.setAlert(
-              true,
-              "success",
-              "Dziękujemy za dodanie nowego produktu."
-            );
-
-            that.context.setShowLoader(false);
-          }
-        })
-        .catch(function(error) {
-          console.log(error);
-
-          that.context.setAlert(
-            true,
-            "danger",
-            "Problem z dodaniem nowego produktu."
-          );
-
-          that.context.setShowLoader(false);
-        });
-
-      return json;
-    }
-  };
 
   removeFilter = (filterName: string): void => {
     const { filterDistance, filterPrice, filterStatus } = this.state;
@@ -391,11 +258,6 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
     }
   };
 
-  changeDisplayNewProductBox = (): void => {
-    this.setState({ displayNewProductBox: !this.state.displayNewProductBox });
-    this.getActiveProducts();
-  };
-
   getActiveProducts = (): void => {
     let API_URL = this.context.API_URL;
     let userLat = this.context.userData.lattitude;
@@ -424,58 +286,17 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
       });
   };
 
-  setDisplayProductDetails = (
-    displayProductDetailsParam: boolean,
-    showFilterAuctionActivityPanelParam: boolean
-  ): void => {
-    this.setState({
-      displayProductDetails: displayProductDetailsParam,
-      showFilterAuctionActivityPanel: showFilterAuctionActivityPanelParam
-    });
-  };
-
-  setSelectedProduct = (id: number, productUserId: number) => {
-    this.setState({
-      selectedProductId: id,
-      displayProductDetails: true,
-      showFilterAuctionActivityPanel: false,
-      selectedProductUserId: productUserId
-    });
-  };
-
   componentDidMount = (): void => {
     if (this.context.userData) {
       //load all products based on user coords
       this.getActiveProducts();
-
-      this.setState({
-        showFilterAuctionActivityPanel: true,
-        displayActiveAuction: true
-      });
-
-      if (
-        this.props.openAuctionId &&
-        this.props.openAuctionId !== 0 &&
-        this.props.openAuctionUserId &&
-        this.props.openAuctionUserId !== 0
-      ) {
-        this.setSelectedProduct(
-          this.props.openAuctionId,
-          this.props.openAuctionUserId
-        );
-      }
     }
   };
 
   render() {
     const {
       displayProductDetails,
-      displayActiveAuction,
-      selectedProductUserId,
-      displayNewProductBox,
       productList,
-      showFilterAuctionActivityPanel,
-      selectedProductId,
       showFilterModal,
       filterOptions,
       filterData,
@@ -505,7 +326,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
               flexDirection: "column",
               justifyContent: "space-between"
             }}
-            data-test="FindUsers"
+            data-test="Auctions"
           >
             <View>
               {this.context.showLoader ? (
@@ -517,57 +338,49 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
                 </View>
               ) : (
                 <View data-test="Auctions">
-                  {!displayProductDetails &&
-                    !displayNewProductBox &&
-                    !showFilterModal && (
-                      <ImageBackground
-                        source={auctionsBg}
-                        style={{ width: "100%" }}
-                      >
-                        <Text style={styles.pageTitle}>
-                          Sprzedawaj i{"\n"}kupuj
-                        </Text>
-                      </ImageBackground>
-                    )}
+                  {!displayProductDetails && !showFilterModal && (
+                    <ImageBackground
+                      source={auctionsBg}
+                      style={{ width: "100%" }}
+                    >
+                      <Text style={styles.pageTitle}>
+                        Sprzedawaj i{"\n"}kupuj
+                      </Text>
+                    </ImageBackground>
+                  )}
 
-                  {!displayProductDetails &&
-                    !displayNewProductBox &&
-                    productList &&
-                    showFilterModal && (
-                      <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                        <FilterModal
-                          filterOptions={filterData}
-                          closeFilter={this.setShowFilterModal}
-                          filterModalName={filterModalName}
-                          filterResults={this.filterResults}
-                          data-test="FilterModal"
+                  {!displayProductDetails && productList && showFilterModal && (
+                    <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                      <FilterModal
+                        filterOptions={filterData}
+                        closeFilter={this.setShowFilterModal}
+                        filterModalName={filterModalName}
+                        filterResults={this.filterResults}
+                        data-test="FilterModal"
+                      />
+                    </Suspense>
+                  )}
+
+                  {!displayProductDetails && productList && !showFilterModal && (
+                    <View data-test="Carousel">
+                      <Text style={styles.filterResultsHeaderText}>
+                        Filtruj wyniki
+                      </Text>
+                      <View style={styles.filterResultsCarousel}>
+                        <Carousel
+                          layout={"default"}
+                          activeSlideAlignment={"start"}
+                          data={filterOptions}
+                          renderItem={this.renderItem}
+                          itemWidth={100}
+                          sliderWidth={styles.fullWidth}
+                          removeClippedSubviews={false}
                         />
-                      </Suspense>
-                    )}
-
-                  {!displayProductDetails &&
-                    !displayNewProductBox &&
-                    productList &&
-                    !showFilterModal && (
-                      <View data-test="Carousel">
-                        <Text style={styles.filterResultsHeaderText}>
-                          Filtruj wyniki
-                        </Text>
-                        <View style={styles.filterResultsCarousel}>
-                          <Carousel
-                            layout={"default"}
-                            activeSlideAlignment={"start"}
-                            data={filterOptions}
-                            renderItem={this.renderItem}
-                            itemWidth={100}
-                            sliderWidth={styles.fullWidth}
-                            removeClippedSubviews={false}
-                          />
-                        </View>
                       </View>
-                    )}
+                    </View>
+                  )}
 
-                  {!displayProductDetails && !displayNewProductBox && (
+                  {!displayProductDetails && (
                     <Suspense fallback={<Text>Wczytywanie...</Text>}>
                       <ActiveFilters
                         filterDistance={filterDistance}
@@ -580,59 +393,29 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
                     </Suspense>
                   )}
 
-                  {!displayProductDetails &&
-                    !displayNewProductBox &&
-                    !showFilterModal && (
-                      <View>
-                        <AuctionList
-                          API_URL={this.context.API_URL}
-                          productList={productList}
-                          setSelectedProduct={this.setSelectedProduct}
-                          data-test="AuctionList"
+                  {!displayProductDetails && !showFilterModal && (
+                    <View>
+                      <AuctionList
+                        API_URL={this.context.API_URL}
+                        productList={productList}
+                        navigation={this.props.navigation}
+                        data-test="AuctionList"
+                      />
+
+                      <View style={{ marginBottom: 10 }}>
+                        <ButtonComponent
+                          pressButtonComponent={() =>
+                            this.props.navigation.navigate("AddNewProduct", {})
+                          }
+                          buttonComponentText="Dodaj produkt"
+                          fullWidth={true}
+                          underlayColor="#dd904d"
+                          data-test="ButtonComponent"
+                          whiteBg={false}
+                          showBackIcon={false}
                         />
-
-                        <View style={{ marginBottom: 10 }}>
-                          <ButtonComponent
-                            pressButtonComponent={
-                              this.changeDisplayNewProductBox
-                            }
-                            buttonComponentText="Dodaj produkt"
-                            fullWidth={true}
-                            underlayColor="#dd904d"
-                            data-test="ButtonComponent"
-                            whiteBg={false}
-                            showBackIcon={false}
-                          />
-                        </View>
                       </View>
-                    )}
-
-                  {displayProductDetails && !showFilterModal && (
-                    <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                      <ProductDetails
-                        currentUser={this.context.userData}
-                        API_URL={this.context.API_URL}
-                        openMessages={this.props.openMessages}
-                        productId={selectedProductId}
-                        productUserId={selectedProductUserId}
-                        setDisplayProductDetails={this.setDisplayProductDetails}
-                        data-test="ProductDetails"
-                      />
-                    </Suspense>
-                  )}
-
-                  {displayNewProductBox && !showFilterModal && (
-                    <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                      <AddNewProductBox
-                        currentUser={this.context.userData}
-                        API_URL={this.context.API_URL}
-                        changeDisplayNewProductBox={
-                          this.changeDisplayNewProductBox
-                        }
-                        addNewProduct={this.addNewProduct}
-                        data-test="AddNewProductBox"
-                      />
-                    </Suspense>
+                    </View>
                   )}
                 </View>
               )}

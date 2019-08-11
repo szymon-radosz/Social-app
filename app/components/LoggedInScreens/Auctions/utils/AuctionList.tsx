@@ -5,7 +5,7 @@ import ListItem from "./../../../Utils/ListItem";
 const AuctionList = (props: {
   productList: any;
   API_URL: string;
-  setSelectedProduct: any;
+  navigation: any;
 }): any => {
   if (props.productList) {
     return props.productList.length > 0 ? (
@@ -19,7 +19,10 @@ const AuctionList = (props: {
             subText={`Kategoria: ${product.categoryName[0].name}`}
             subSubText={`Cena: ${product.price} zł`}
             onPress={() => {
-              props.setSelectedProduct(product.id, product.user_id);
+              props.navigation.navigate("ProductDetails", {
+                productId: product.id,
+                authorId: product.categoryName[0].user_id
+              });
             }}
             userHadUnreadedMessages={false}
           />
