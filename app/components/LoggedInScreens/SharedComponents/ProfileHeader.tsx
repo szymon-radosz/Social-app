@@ -21,7 +21,9 @@ const ProfileHeader = (props: any) => {
         {props.showLogout ? (
           <TouchableOpacity
             style={styles.logoutContainer}
-            onPress={props.notificationPress}
+            onPress={() =>
+              props.navigation.navigate("UserNotificationList", {})
+            }
           >
             <View
               style={{

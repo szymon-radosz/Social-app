@@ -40,135 +40,19 @@ class Messages extends Component<MessagesProps, MessagesState> {
     super(props);
     this.state = {
       messagesList: [],
-      //openConversationMessages: [],
-      /*receiverId: 0,
-      receiverEmail: "",
-      receiverName: "",*/
       showFilterPanel: false,
-      //receiverPhotoPath: "",
       displayPrivateMessages: false
-      //userMessage: ""
     };
 
     this.getMessages = this.getMessages.bind(this);
-    //this.sendMessage = this.sendMessage.bind(this);
     this.getAuctionMessages = this.getAuctionMessages.bind(this);
-    //this.setUserMessage = this.setUserMessage.bind(this);
     this.closeConversationDetails = this.closeConversationDetails.bind(this);
   }
-
-  /*setUserMessage = (message: string): void => {
-    this.setState({ userMessage: message });
-  };*/
 
   closeConversationDetails = (): void => {
     this.getMessages();
     this.setState({ showFilterPanel: true });
   };
-
-  //open conversation details from list of conversations
-  /*openConversationDetails = (
-    id: number,
-    receiverId: number,
-    receiverName: string,
-    receiverEmail: string,
-    receiverPhotoPath: string
-  ): void => {
-    let API_URL = this.context.API_URL;
-    let conversation_id = id;
-
-    let that = this;
-
-    axios
-      .post(API_URL + "/api/showConversationDetails", {
-        conversation_id: conversation_id
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-          console.log("details conv", response.data);
-
-          let privateMessage = false;
-          if (
-            response.data.result[0].product_id &&
-            response.data.result[0].product_id !== 0
-          ) {
-            console.log([
-              "response.data.product_id",
-              response.data.result[0].product_id
-            ]);
-            privateMessage = true;
-          }
-
-          that.setState({
-            openConversationMessages: response.data.result[0].messages,
-            receiverId: receiverId,
-            receiverName: receiverName,
-            receiverEmail: receiverEmail,
-            receiverPhotoPath: receiverPhotoPath,
-            showFilterPanel: false,
-            displayPrivateMessages: privateMessage
-          });
-        }
-      })
-      .catch(function(error) {
-        that.context.setAlert(
-          true,
-          "danger",
-          "Wystąpił błąd z wyświetleniem szczegółów konwersacji."
-        );
-      });
-  };*/
-
-  //send new message inside conversation details
-  /*sendMessage = (
-    sender_id: number,
-    receiver_id: number,
-    receiverName: string,
-    receiverEmail: string,
-    receiverPhotoPath: string,
-    message: string,
-    conversation_id: number,
-    status: number
-  ): void => {
-    let API_URL = this.context.API_URL;
-
-    let that = this;
-
-    axios.post(API_URL + "/api/addNotification", {
-      type: "sended_message",
-      message: `Masz nową wiadomość od użytkowniczki ${
-        this.context.userData.name
-      }`,
-      userId: receiver_id
-    });
-
-    axios
-      .post(API_URL + "/api/saveMessage", {
-        sender_id: sender_id,
-        receiver_id: receiver_id,
-        message: message,
-        conversation_id: conversation_id,
-        status: status
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-          that.openConversationDetails(
-            conversation_id,
-            receiver_id,
-            receiverName,
-            receiverEmail,
-            receiverPhotoPath
-          );
-        }
-      })
-      .catch(function(error) {
-        that.context.setAlert(
-          true,
-          "danger",
-          "Wystąpił błąd z wyświetleniem zapisem wiadomości."
-        );
-      });
-  };*/
 
   //load all conversation with messages for them
   getMessages = (): void => {
@@ -240,11 +124,6 @@ class Messages extends Component<MessagesProps, MessagesState> {
       displayPrivateMessages,
       showFilterPanel,
       messagesList
-      /*receiverId,
-      receiverName,
-      receiverEmail,
-      receiverPhotoPath,
-      userMessage*/
     } = this.state;
     return (
       <React.Fragment>
@@ -345,25 +224,6 @@ class Messages extends Component<MessagesProps, MessagesState> {
                   </Text>
                 )
               ) : null}
-
-              {/*openConversationDetails && (
-                <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                  <ConversationDetails
-                    messages={openConversationMessages}
-                    receiverId={receiverId}
-                    receiverName={receiverName}
-                    receiverEmail={receiverEmail}
-                    receiverPhotoPath={receiverPhotoPath}
-                    sendMessage={this.sendMessage}
-                    setUserMessage={this.setUserMessage}
-                    userMessage={userMessage}
-                    closeConversationDetails={this.closeConversationDetails}
-                    displayPrivateMessages={displayPrivateMessages}
-                    data-test="ConversationDetails"
-                    navigation={this.props.navigation}
-                  />
-                </Suspense>
-              )*/}
             </View>
             <BottomPanel
               data-test="BottomPanel"

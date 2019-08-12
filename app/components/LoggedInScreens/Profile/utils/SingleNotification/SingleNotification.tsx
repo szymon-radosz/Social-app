@@ -1,24 +1,36 @@
 import React from "react";
 import { Text, View, Image, TouchableHighlight } from "react-native";
-import styles from "./../style";
-const friendship: any = require("./../../../../assets/images/friendship.png");
-const messageNotification: any = require("./../../../../assets/images/messageNotification.png");
-const startConversation: any = require("./../../../../assets/images/startConversation.png");
-const forumNotification: any = require("./../../../../assets/images/forumNotification.png");
+import styles from "../../style";
+const friendship: any = require("./../../../../../assets/images/friendship.png");
+const messageNotification: any = require("./../../../../../assets/images/messageNotification.png");
+const startConversation: any = require("./../../../../../assets/images/startConversation.png");
+const forumNotification: any = require("./../../../../../assets/images/forumNotification.png");
 
 const SingleNotification = (props: any) => (
   <TouchableHighlight
     onPress={() =>
       props.notification.type === "sended_message"
-        ? props.openMessages()
+        ? props.navigation.navigate("ConversationDetails", {
+            conversationId: props.notification.open_details_id,
+            receiverId: props.notification.sender_id
+          })
         : props.notification.type === "started_conversation_user"
-        ? props.openMessages()
+        ? props.navigation.navigate("ConversationDetails", {
+            conversationId: props.notification.open_details_id,
+            receiverId: props.notification.sender_id
+          })
         : props.notification.type === "friendship_invitation"
-        ? props.loadUserFriendsList()
+        ? props.navigation.navigate("UserDetails", {
+            userId: props.notification.sender_id
+          })
         : props.notification.type === "friendship_confirmation"
-        ? props.loadUserFriendsList()
+        ? props.navigation.navigate("UserDetails", {
+            userId: props.notification.sender_id
+          })
         : props.notification.type === "comment_for_your_forum_post"
-        ? props.openForum()
+        ? props.navigation.navigate("PostDetails", {
+            postId: props.notification.open_details_id
+          })
         : null
     }
     underlayColor={"#fff"}

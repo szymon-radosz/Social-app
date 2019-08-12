@@ -109,14 +109,7 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
   confirmFriend = (senderId: number, receiverId: number): void => {
     let API_URL = this.context.API_URL;
     let that = this;
-
-    axios.post(API_URL + "/api/addNotification", {
-      type: "friendship_confirmation",
-      message: `Użytkowniczka ${
-        this.context.userData.name
-      } zaakceptowała Twoje zaproszenie do grona znajomych.`,
-      userId: receiverId
-    });
+    let openDetailsId = 0;
 
     axios
       .post(API_URL + "/api/confirmFriend", {
@@ -125,6 +118,8 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
       })
       .then(function(response) {
         if (response.data.status === "OK") {
+          openDetailsId = senderId;
+
           that.context.setAlert(
             true,
             "success",
@@ -133,6 +128,17 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
           that.setShowUserDetails(that.state.userDetailsId);
         }
       })
+      .then(response =>
+        axios.post(API_URL + "/api/addNotification", {
+          type: "friendship_confirmation",
+          message: `Użytkowniczka ${
+            this.context.userData.name
+          } zaakceptowała Twoje zaproszenie do grona znajomych.`,
+          userId: receiverId,
+          senderId: this.context.userData.id,
+          openDetailsId: openDetailsId
+        })
+      )
       .catch(function(error) {
         that.context.setAlert(
           true,
@@ -144,16 +150,8 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
 
   inviteFriend = (senderId: number, receiverId: number): void => {
     let API_URL = this.context.API_URL;
-
     let that = this;
-
-    axios.post(API_URL + "/api/addNotification", {
-      type: "friendship_invitation",
-      message: `Użytkowniczka ${
-        this.context.userData.name
-      } zaprosiła Cię do grona znajomych`,
-      userId: receiverId
-    });
+    let openDetailsId = 0;
 
     axios
       .post(API_URL + "/api/inviteFriend", {
@@ -162,6 +160,8 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
       })
       .then(function(response) {
         if (response.data.status === "OK") {
+          openDetailsId = senderId;
+
           that.context.setAlert(
             true,
             "success",
@@ -170,6 +170,17 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
           that.setShowUserDetails(that.state.userDetailsId);
         }
       })
+      .then(response =>
+        axios.post(API_URL + "/api/addNotification", {
+          type: "friendship_invitation",
+          message: `Użytkowniczka ${
+            this.context.userData.name
+          } zaprosiła Cię do grona znajomych`,
+          userId: receiverId,
+          senderId: this.context.userData.id,
+          openDetailsId: openDetailsId
+        })
+      )
       .catch(function(error) {
         that.context.setAlert(
           true,
@@ -326,7 +337,10 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
                         "not confirmed by second person" && (
                         <ButtonComponent
                           pressButtonComponent={() => {
-                            console.log("Wysłano zaproszenie do znajomych");
+                            this.context.NavigationService.navigate(
+                              "UserFriendsList",
+                              {}
+                            );
                           }}
                           buttonComponentText="Wysłano zaproszenie do znajomych"
                           fullWidth={true}
@@ -339,7 +353,7 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
                         <ButtonComponent
                           pressButtonComponent={() =>
                             this.context.NavigationService.navigate(
-                              "Profile",
+                              "UserFriendsList",
                               {}
                             )
                           }

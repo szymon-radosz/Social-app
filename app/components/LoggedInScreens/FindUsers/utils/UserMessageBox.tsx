@@ -41,9 +41,7 @@ class UserMessageBox extends Component<
     let API_URL = this.context.API_URL;
     let senderId = this.context.userData.id;
     let receiverId = this.props.navigation.state.params.userId;
-
-    console.log(["sendMessage", senderId, receiverId]);
-
+    let openDetailsId = 0;
     let that = this;
 
     axios
@@ -52,8 +50,9 @@ class UserMessageBox extends Component<
         receiverId: receiverId,
         message: message
       })
-      .then(function(response2) {
+      .then(response2 => {
         if (response2.data.status === "OK") {
+          openDetailsId = response2.data.result.id;
           that.context.setAlert(
             true,
             "success",
@@ -70,21 +69,24 @@ class UserMessageBox extends Component<
           );
         }
       })
-      .catch(function(error) {
+      .then(response =>
+        axios.post(API_URL + "/api/addNotification", {
+          type: "started_conversation_user",
+          message: `Użytkowniczka ${
+            this.context.userData.name
+          } odezwała się do Ciebie w wiadomości prywatnej`,
+          userId: receiverId,
+          senderId: this.context.userData.id,
+          openDetailsId: openDetailsId
+        })
+      )
+      .catch(error => {
         that.context.setAlert(
           true,
           "danger",
           "Problem z wysłaniem wiadomości."
         );
       });
-
-    axios.post(API_URL + "/api/addNotification", {
-      type: "started_conversation_user",
-      message: `Użytkowniczka ${
-        this.context.userData.name
-      } odezwała się do Ciebie w wiadomości prywatnej`,
-      userId: receiverId
-    });
   };
 
   setUserMessage = (message: string): void => {

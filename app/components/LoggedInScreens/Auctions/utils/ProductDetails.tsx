@@ -187,6 +187,7 @@ class ProductDetails extends Component<
       let senderId = this.context.userData.id;
       let receiverId = this.props.navigation.state.params.authorId;
       let productId = this.props.navigation.state.params.productId;
+      let openDetailsId = 0;
 
       let that = this;
 
@@ -206,6 +207,8 @@ class ProductDetails extends Component<
         })
         .then(function(response) {
           if (response.data.status === "OK") {
+            openDetailsId = response.data.result.id;
+
             that.setState({
               usersAreInTheSameConversation: true,
               showProductMessageBox: false,
@@ -219,6 +222,17 @@ class ProductDetails extends Component<
             );
           }
         })
+        .then(response =>
+          axios.post(API_URL + "/api/addNotification", {
+            type: "started_conversation_user",
+            message: `Użytkowniczka ${
+              this.context.userData.name
+            } odezwała się do Ciebie w wiadomości prywatnej dotyczącej produktu`,
+            userId: receiverId,
+            senderId: this.context.userData.id,
+            openDetailsId: openDetailsId
+          })
+        )
         .catch(function(error) {
           that.context.setAlert(
             true,
@@ -226,14 +240,6 @@ class ProductDetails extends Component<
             "Problem z wysłaniem wiadomości."
           );
         });
-
-      axios.post(API_URL + "/api/addNotification", {
-        type: "started_conversation_user",
-        message: `Użytkowniczka ${
-          this.context.userData.name
-        } odezwała się do Ciebie w wiadomości prywatnej dotyczącej produktu`,
-        userId: receiverId
-      });
     }
   };
 

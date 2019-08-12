@@ -243,18 +243,11 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
   saveComment = (postId: number, userId: number, body: string): void => {
     let API_URL = this.context.API_URL;
     let that = this;
+    let openDetailsId = 0;
 
     if (!body || postId === 0 || userId === 0) {
       that.context.setAlert(true, "danger", "Prosimy o uzupełnienie treści.");
     } else {
-      axios.post(API_URL + "/api/addNotification", {
-        type: "comment_for_your_forum_post",
-        message: `Użytkowniczka ${
-          this.context.userData.name
-        } dodała komentarz do Twojego posta na forum.`,
-        userId: this.state.authorId
-      });
-
       axios
         .post(API_URL + "/api/savePostComment", {
           body: body,
@@ -263,6 +256,8 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
         })
         .then(function(response) {
           if (response.data.status === "OK") {
+            openDetailsId = response.data.result.post_id;
+
             that.getPostComments();
 
             that.context.setAlert(
@@ -272,6 +267,15 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
             );
           }
         })
+        .then(response =>
+          axios.post(API_URL + "/api/addNotification", {
+            type: "comment_for_your_forum_post",
+            message: `Dodano komentarz do Twojego posta na forum.`,
+            userId: this.state.authorId,
+            senderId: this.context.userData.id,
+            openDetailsId: openDetailsId
+          })
+        )
         .catch(function(error) {
           that.context.setAlert(
             true,

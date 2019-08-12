@@ -63,6 +63,7 @@ class ConversationDetails extends Component<
 
     this.openConversationDetails = this.openConversationDetails.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
+    this.loadUserDataById = this.loadUserDataById.bind(this);
   }
 
   sendMessage = (
@@ -72,27 +73,12 @@ class ConversationDetails extends Component<
     status: number
   ): void => {
     let API_URL = this.context.API_URL;
-    console.log([
-      "sendMessage",
-      this.context.userData.id,
-      receiver_id,
-      message,
-      conversation_id,
-      status
-    ]);
+    let openDetailsId = 0;
     let that = this;
 
     if (!message) {
       that.context.setAlert(true, "danger", "Pusta wiadomość.");
     } else {
-      axios.post(API_URL + "/api/addNotification", {
-        type: "sended_message",
-        message: `Masz nową wiadomość od użytkowniczki ${
-          this.context.userData.name
-        }`,
-        userId: receiver_id
-      });
-
       axios
         .post(API_URL + "/api/saveMessage", {
           sender_id: this.context.userData.id,
@@ -101,12 +87,31 @@ class ConversationDetails extends Component<
           conversation_id: conversation_id,
           status: status
         })
-        .then(function(response) {
+        .then(response => {
           console.log(["saveMessage", response.data]);
           if (response.data.status === "OK") {
+            //save conversation_id as openDetailsId in notification,
+            //openDetailsId is parameter for route
+            openDetailsId = response.data.result.conversation_id;
+
             that.openConversationDetails(conversation_id);
           }
         })
+        .then(response =>
+          axios
+            .post(API_URL + "/api/addNotification", {
+              type: "sended_message",
+              message: `Masz nową wiadomość od użytkowniczki ${
+                this.context.userData.name
+              }`,
+              userId: receiver_id,
+              senderId: this.context.userData.id,
+              openDetailsId: openDetailsId
+            })
+            .then(response =>
+              console.log(["saveMessage not", response.data, openDetailsId])
+            )
+        )
         .catch(function(error) {
           that.context.setAlert(
             true,
@@ -149,10 +154,6 @@ class ConversationDetails extends Component<
             that.setState({
               openConversationMessages: response.data.result[0].messages,
               receiverId: that.props.navigation.state.params.receiverId,
-              receiverName: that.props.navigation.state.params.receiverName,
-              receiverEmail: that.props.navigation.state.params.receiverEmail,
-              receiverPhotoPath:
-                that.props.navigation.state.params.receiverPhotoPath,
               privateConversation: privateMessage,
               productConversationId: response.data.result[0].product_id,
               productConversationAuthorId: response.data.result[0].user_id
@@ -174,6 +175,49 @@ class ConversationDetails extends Component<
     });
   };
 
+  loadUserDataById = (userId: number) => {
+    //let userId = this.props.navigation.state.params.receiverId;
+
+    return new Promise((resolve, reject) => {
+      let API_URL = this.context.API_URL;
+
+      let that = this;
+
+      axios
+        .post(API_URL + "/api/loadUserDataById", {
+          id: userId
+        })
+        .then(response => {
+          if (response.data.status === "OK") {
+            /*console.log(
+              "loadUserDataById",
+              response.data,
+              response.data.result[0].name
+            );*/
+
+            let results = response.data.result[0];
+
+            console.log(
+              "loadUserDataById",
+              response.data,
+              response.data.result[0].name
+            );
+
+            that.setState({
+              receiverName: results.name,
+              receiverEmail: results.email,
+              receiverPhotoPath: results.photo_path
+            });
+
+            resolve(true);
+          }
+        })
+        .catch(function(error) {
+          reject(true);
+        });
+    });
+  };
+
   setUserMessage = (message: string): void => {
     this.setState({ userMessage: message });
   };
@@ -182,11 +226,10 @@ class ConversationDetails extends Component<
     console.log([
       "conversationDetails Did mount",
       this.props.navigation.state.params.conversationId,
-      this.props.navigation.state.params.receiverId,
-      this.props.navigation.state.params.receiverName,
-      this.props.navigation.state.params.receiverEmail,
-      this.props.navigation.state.params.receiverPhotoPath
+      this.props.navigation.state.params.receiverId
     ]);
+    await this.loadUserDataById(this.props.navigation.state.params.receiverId);
+
     await this.openConversationDetails(
       this.props.navigation.state.params.conversationId
     );
@@ -252,15 +295,13 @@ class ConversationDetails extends Component<
                   <Image
                     style={styles.conversationDetailsReceiverImage}
                     source={{
-                      uri: `${
-                        this.props.navigation.state.params.receiverPhotoPath
-                      }`
+                      uri: `${receiverPhotoPath && receiverPhotoPath}`
                     }}
                   />
                 </TouchableOpacity>
                 <View>
                   <Text style={styles.conversationDetailsReceiverName}>
-                    Rozmowa z {this.props.navigation.state.params.receiverName}
+                    Rozmowa z {receiverName}
                   </Text>
                   {privateConversation && (
                     <TouchableHighlight

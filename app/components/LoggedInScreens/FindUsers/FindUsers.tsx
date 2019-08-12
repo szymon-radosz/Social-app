@@ -12,13 +12,12 @@ import axios from "axios";
 import Carousel from "react-native-snap-carousel";
 import { btnFullWidthFilledContainer } from "./../../../assets/global/globalStyles";
 import styles from "./style";
-
-const findUsersBg: any = require("./../../../assets/images/findUsersBgMin.jpg");
-
 import { GlobalContext } from "./../../Context/GlobalContext";
 import UserList from "./utils/UserList";
 import BottomPanel from "./../SharedComponents/BottomPanel";
 import Alert from "./../../../Alert/Alert";
+
+const findUsersBg: any = require("./../../../assets/images/findUsersBgMin.jpg");
 
 const FilterModal = React.lazy(() =>
   import("./../SharedComponents/FilterModal")

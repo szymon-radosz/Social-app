@@ -8,12 +8,10 @@ import {
 } from "react-native";
 import ProfileHeader from "./../SharedComponents/ProfileHeader";
 import ProfileOptions from "./utils/ProfileOptions";
-import UserFriendsList from "./utils/UserFriendsList";
 import UserAuctionsList from "./utils/UserAuctionsList";
 import About from "./utils/About";
 import axios from "axios";
 import PageHeader from "./../SharedComponents/PageHeader";
-import UserNotificationList from "./utils/UserNotificationList";
 import styles from "./style";
 import BottomPanel from "./../SharedComponents/BottomPanel";
 import Alert from "./../../../Alert/Alert";
@@ -37,16 +35,9 @@ interface ProfileState {
   showProfilePreview: boolean;
   showEditUserData: boolean;
   showAuctionHistory: boolean;
-  showUserFriendsList: boolean;
-  showPendingUserFriendsList: boolean;
-  showUserNotificationList: boolean;
   showAbout: boolean;
   showUserFriendId: number;
-  userFriendsList: any;
   userAuctionList: any;
-  userNotificationList: any;
-  displayFriendList: boolean;
-  userPendingFriendsList: any;
   userHobbies: any;
 }
 
@@ -73,31 +64,17 @@ class Profile extends Component<
       showProfilePreview: false,
       showEditUserData: false,
       showAuctionHistory: false,
-      showUserFriendsList: false,
-      showPendingUserFriendsList: false,
-      showUserNotificationList: false,
       showAbout: false,
       showUserFriendId: 0,
-      userNotificationList: [],
-      userFriendsList: [],
-      userPendingFriendsList: [],
       userAuctionList: [],
-      userHobbies: [],
-      displayFriendList: true
+      userHobbies: []
     };
     this.getAmountOfFriends = this.getAmountOfFriends.bind(this);
     this.setShowProfilePreview = this.setShowProfilePreview.bind(this);
-    this.loadUserFriendsList = this.loadUserFriendsList.bind(this);
-    this.loadPendingUserFriendsList = this.loadPendingUserFriendsList.bind(
-      this
-    );
-    this.changeShowUserFriendsList = this.changeShowUserFriendsList.bind(this);
+
     this.getUserAuctionList = this.getUserAuctionList.bind(this);
     this.changeShowUserAuctionList = this.changeShowUserAuctionList.bind(this);
-    this.getUserNotificationList = this.getUserNotificationList.bind(this);
-    this.changeShowUserNotificationList = this.changeShowUserNotificationList.bind(
-      this
-    );
+
     this.setShowAbout = this.setShowAbout.bind(this);
 
     console.log(["profile", this.props]);
@@ -110,81 +87,8 @@ class Profile extends Component<
     }
   }
 
-  changeShowUserNotificationList = (): void => {
-    this.setState({
-      showUserNotificationList: !this.state.showUserNotificationList
-    });
-  };
-
   changeShowUserAuctionList = (): void => {
     this.setState({ showAuctionHistory: !this.state.showAuctionHistory });
-  };
-
-  changeShowUserFriendsList = (): void => {
-    this.setState({
-      showUserFriendsList: false,
-      showPendingUserFriendsList: false
-    });
-  };
-
-  loadPendingUserFriendsList = (): void => {
-    let userId = this.context.userData.id;
-    let that = this;
-
-    if (userId) {
-      axios
-        .post(this.context.API_URL + "/api/pendingFriendsList", {
-          userId: userId
-        })
-        .then(async function(response) {
-          if (response.data.status === "OK") {
-            await that.setState({
-              userPendingFriendsList: response.data.result.friendsList,
-              showPendingUserFriendsList: true,
-              showUserFriendsList: false,
-              showUserNotificationList: false,
-              displayFriendList: false
-            });
-          }
-        })
-        .catch(function(error) {
-          that.context.setAlert(
-            true,
-            "danger",
-            "Wystąpił błąd z wyświetleniem listy znajomych."
-          );
-        });
-    }
-  };
-
-  loadUserFriendsList = (): void => {
-    let userId = this.context.userData.id;
-    let that = this;
-
-    if (userId) {
-      axios
-        .post(this.context.API_URL + "/api/friendsList", {
-          userId: userId
-        })
-        .then(async function(response) {
-          if (response.data.status === "OK") {
-            await that.setState({
-              userFriendsList: response.data.result.friendsList,
-              showUserFriendsList: true,
-              showPendingUserFriendsList: false,
-              showUserNotificationList: false,
-              displayFriendList: true
-            });
-          }
-        })
-        .catch(function(error) {
-          that.context.setAlert(
-            true,
-            "danger",
-            "Wystąpił błąd z wyświetleniem listy znajomych."
-          );
-        });
-    }
   };
 
   setShowAbout = (): void => {
@@ -234,53 +138,15 @@ class Profile extends Component<
       .catch(function(error) {});
   };
 
-  getUserNotificationList = (): void => {
-    let id = this.context.userData.id;
-    let that = this;
-
-    if (id) {
-      axios
-        .post(this.context.API_URL + "/api/loadNotificationByUserId", {
-          userId: id
-        })
-        .then(function(response) {
-          if (response.data.status === "OK") {
-            that.setState({
-              userNotificationList: response.data.result,
-              showUserNotificationList: true
-            });
-          }
-        })
-        .catch(function(error) {
-          that.context.setAlert(
-            true,
-            "danger",
-            "Wystąpił błąd z wyświetleniem listy powiadomień."
-          );
-        });
-
-      axios.post(this.context.API_URL + "/api/clearNotificationByUserId", {
-        userId: id
-      });
-    }
-  };
-
   render() {
     const {
       locationDetails,
       countFriends,
       showProfilePreview,
       showEditUserData,
-      showUserFriendsList,
-      showPendingUserFriendsList,
-      userFriendsList,
-      userPendingFriendsList,
       showAuctionHistory,
       userAuctionList,
-      showUserNotificationList,
-      userNotificationList,
-      showAbout,
-      displayFriendList
+      showAbout
     } = this.state;
     return (
       <React.Fragment>
@@ -309,10 +175,7 @@ class Profile extends Component<
               {/* user preview page header */}
               {showProfilePreview &&
                 !showEditUserData &&
-                !showUserFriendsList &&
-                !showPendingUserFriendsList &&
                 !showAuctionHistory &&
-                !showUserNotificationList &&
                 !showAbout && (
                   <PageHeader
                     boldText={this.context.userData.name}
@@ -322,30 +185,12 @@ class Profile extends Component<
                     data-test="PageHeader"
                   />
                 )}
-              {/* user friends list page header */}
-              {!showProfilePreview &&
-                !showEditUserData &&
-                (showUserFriendsList || showPendingUserFriendsList) &&
-                !showAuctionHistory &&
-                (userFriendsList || userPendingFriendsList) &&
-                !showUserNotificationList &&
-                !showAbout && (
-                  <PageHeader
-                    boldText={"Moje znajome"}
-                    normalText={""}
-                    closeMethod={this.changeShowUserFriendsList}
-                    closeMethodParameter={""}
-                  />
-                )}
 
               {/* user auction list page header */}
               {!showProfilePreview &&
                 !showEditUserData &&
-                !showUserFriendsList &&
-                !showPendingUserFriendsList &&
                 showAuctionHistory &&
                 userAuctionList &&
-                !showUserNotificationList &&
                 !showAbout && (
                   <PageHeader
                     boldText={"Wystawione przedmioty"}
@@ -354,27 +199,10 @@ class Profile extends Component<
                     closeMethodParameter={""}
                   />
                 )}
-              {/* user notification list page header */}
+
               {!showProfilePreview &&
                 !showEditUserData &&
-                !showUserFriendsList &&
-                !showPendingUserFriendsList &&
                 !showAuctionHistory &&
-                showUserNotificationList &&
-                !showAbout && (
-                  <PageHeader
-                    boldText={"Powiadomienia"}
-                    normalText={""}
-                    closeMethod={this.changeShowUserNotificationList}
-                    closeMethodParameter={""}
-                  />
-                )}
-              {!showProfilePreview &&
-                !showEditUserData &&
-                !showUserFriendsList &&
-                !showPendingUserFriendsList &&
-                !showAuctionHistory &&
-                !showUserNotificationList &&
                 showAbout && (
                   <PageHeader
                     boldText={"O aplikacji"}
@@ -383,41 +211,28 @@ class Profile extends Component<
                     closeMethodParameter={""}
                   />
                 )}
-              {!showEditUserData &&
-                !showUserFriendsList &&
-                !showPendingUserFriendsList &&
-                !showAuctionHistory &&
-                !showUserNotificationList &&
-                !showAbout && (
-                  <ProfileHeader
-                    API_URL={this.context.API_URL}
-                    avatar={this.context.userData.photo_path}
-                    name={this.context.userData.name}
-                    cityDistrict={locationDetails.cityDistrict}
-                    city={locationDetails.city}
-                    age={this.context.userData.age}
-                    countFriends={countFriends}
-                    countKids={this.context.userData.kids.length}
-                    locationString={this.context.userData.location_string}
-                    showLogout={true}
-                    navigation={this.props.navigation}
-                    notificationPress={() => {
-                      this.getUserNotificationList();
-                    }}
-                  />
-                )}
+              {!showEditUserData && !showAuctionHistory && !showAbout && (
+                <ProfileHeader
+                  API_URL={this.context.API_URL}
+                  avatar={this.context.userData.photo_path}
+                  name={this.context.userData.name}
+                  cityDistrict={locationDetails.cityDistrict}
+                  city={locationDetails.city}
+                  age={this.context.userData.age}
+                  countFriends={countFriends}
+                  countKids={this.context.userData.kids.length}
+                  locationString={this.context.userData.location_string}
+                  showLogout={true}
+                  navigation={this.props.navigation}
+                />
+              )}
               {!showProfilePreview &&
                 !showEditUserData &&
-                !showUserFriendsList &&
-                !showPendingUserFriendsList &&
                 !showAuctionHistory &&
-                !showUserNotificationList &&
                 !showAbout && (
                   <ProfileOptions
                     setShowProfilePreview={this.setShowProfilePreview}
-                    loadUserFriendsList={this.loadUserFriendsList}
                     getUserAuctionList={this.getUserAuctionList}
-                    getUserNotificationList={this.getUserNotificationList}
                     setShowAbout={this.setShowAbout}
                     navigation={this.props.navigation}
                     user={this.context.userData}
@@ -426,10 +241,7 @@ class Profile extends Component<
                 )}
               {showProfilePreview &&
                 !showEditUserData &&
-                !showUserFriendsList &&
-                !showPendingUserFriendsList &&
                 !showAuctionHistory &&
-                !showUserNotificationList &&
                 !showAbout && (
                   <Suspense fallback={<Text>Wczytywanie...</Text>}>
                     <UserPreview
@@ -442,111 +254,7 @@ class Profile extends Component<
 
               {!showProfilePreview &&
                 !showEditUserData &&
-                !showAuctionHistory &&
-                (showUserFriendsList || showPendingUserFriendsList) &&
-                !showUserNotificationList &&
-                !showAbout && (
-                  <View>
-                    <View style={styles.filterBtnContainer}>
-                      <View style={styles.singleButtonCol2Container}>
-                        <TouchableOpacity
-                          onPress={this.loadUserFriendsList}
-                          style={
-                            displayFriendList
-                              ? styles.filterBtnActive
-                              : styles.filterBtn
-                          }
-                        >
-                          <Text
-                            style={
-                              displayFriendList
-                                ? styles.filterBtnTextActive
-                                : styles.filterBtnText
-                            }
-                          >
-                            Znajome
-                          </Text>
-                        </TouchableOpacity>
-                      </View>
-                      <View style={styles.singleButtonCol2Container}>
-                        <TouchableOpacity
-                          onPress={this.loadPendingUserFriendsList}
-                          style={
-                            !displayFriendList
-                              ? styles.filterBtnActive
-                              : styles.filterBtn
-                          }
-                        >
-                          <Text
-                            style={
-                              !displayFriendList
-                                ? styles.filterBtnTextActive
-                                : styles.filterBtnText
-                            }
-                          >
-                            Oczekujące
-                          </Text>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  </View>
-                )}
-
-              {!showProfilePreview &&
-                !showEditUserData &&
-                showUserFriendsList &&
-                !showPendingUserFriendsList &&
-                !showAuctionHistory &&
-                !showUserNotificationList &&
-                !showAbout &&
-                userFriendsList && (
-                  <View style={{ paddingTop: 10, paddingBottom: 10 }}>
-                    {userFriendsList.length > 0 ? (
-                      <UserFriendsList
-                        userFriendsList={userFriendsList}
-                        loggedInUser={this.context.userData.id}
-                        API_URL={this.context.API_URL}
-                        setOpenFindUsers={this.props.setOpenFindUsers}
-                      />
-                    ) : (
-                      <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
-                        Brak wyników. Zaproś inne mamy z Twojej okolicy do
-                        znajomych.
-                      </Text>
-                    )}
-                  </View>
-                )}
-
-              {!showProfilePreview &&
-                !showEditUserData &&
-                !showUserFriendsList &&
-                showPendingUserFriendsList &&
-                !showAuctionHistory &&
-                !showUserNotificationList &&
-                !showAbout &&
-                userPendingFriendsList && (
-                  <View style={{ paddingTop: 10, paddingBottom: 10 }}>
-                    {userPendingFriendsList.length > 0 ? (
-                      <UserFriendsList
-                        userFriendsList={userPendingFriendsList}
-                        loggedInUser={this.context.userData.id}
-                        API_URL={this.context.API_URL}
-                        setOpenFindUsers={this.props.setOpenFindUsers}
-                      />
-                    ) : (
-                      <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
-                        Brak wyników. Zaproś inne mamy z Twojej okolicy do
-                        znajomych.
-                      </Text>
-                    )}
-                  </View>
-                )}
-
-              {!showProfilePreview &&
-                !showEditUserData &&
-                !showUserFriendsList &&
                 showAuctionHistory &&
-                !showUserNotificationList &&
                 !showAbout &&
                 userAuctionList && (
                   <React.Fragment>
@@ -570,34 +278,7 @@ class Profile extends Component<
 
               {!showProfilePreview &&
                 !showEditUserData &&
-                !showUserFriendsList &&
-                !showPendingUserFriendsList &&
                 !showAuctionHistory &&
-                showUserNotificationList &&
-                userNotificationList &&
-                !showAbout && (
-                  <View style={{ padding: 10 }}>
-                    {userNotificationList.length > 0 ? (
-                      <UserNotificationList
-                        openMessages={this.props.openMessages}
-                        userNotificationList={userNotificationList}
-                        loadUserFriendsList={this.loadUserFriendsList}
-                        openForum={this.props.openForum}
-                      />
-                    ) : (
-                      <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
-                        Brak wyników.
-                      </Text>
-                    )}
-                  </View>
-                )}
-
-              {!showProfilePreview &&
-                !showEditUserData &&
-                !showUserFriendsList &&
-                !showPendingUserFriendsList &&
-                !showAuctionHistory &&
-                !showUserNotificationList &&
                 showAbout && (
                   <Suspense fallback={<Text>Wczytywanie...</Text>}>
                     <About

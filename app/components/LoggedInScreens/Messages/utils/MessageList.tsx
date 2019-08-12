@@ -33,14 +33,6 @@ const MessageList = (props: { messagesList: any; navigation: any }): any => {
               ].updated_at
             ).format("LLL")}
             onPress={(): void => {
-              /*props.openConversationDetails(
-                props.messagesList[i][0].id,
-                props.messagesList[i][0].receiverId,
-                props.messagesList[i][0].receiverName,
-                props.messagesList[i][0].receiverEmail,
-                props.messagesList[i][0].receiverPhotoPath
-              );*/
-
               console.log([
                 "ConversationDetails",
                 props.messagesList[i][0].id,
@@ -52,10 +44,7 @@ const MessageList = (props: { messagesList: any; navigation: any }): any => {
 
               props.navigation.navigate("ConversationDetails", {
                 conversationId: props.messagesList[i][0].id,
-                receiverId: props.messagesList[i][0].receiverId,
-                receiverName: props.messagesList[i][0].receiverName,
-                receiverEmail: props.messagesList[i][0].receiverEmail,
-                receiverPhotoPath: props.messagesList[i][0].receiverPhotoPath
+                receiverId: props.messagesList[i][0].receiverId
               });
             }}
             userHadUnreadedMessages={

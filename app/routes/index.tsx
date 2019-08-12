@@ -24,6 +24,8 @@ import SavePost from "./../components/LoggedInScreens/Forum/utils/SavePost";
 import PostDetails from "./../components/LoggedInScreens/Forum/utils/PostDetails";
 //Profile
 import Profile from "./../components/LoggedInScreens/Profile/Profile";
+import UserFriendsList from "./../components/LoggedInScreens/Profile/utils/UserFriendsList";
+import UserNotificationList from "./../components/LoggedInScreens/Profile/utils/UserNotificationList";
 //Feedback
 import FeedbackModal from "./../components/LoggedInScreens/FeedbackModal/FeedbackModal";
 //@ts-ignore
@@ -149,6 +151,18 @@ const MainStack = createStackNavigator(
         header: null
       }
     },
+    UserFriendsList: {
+      screen: UserFriendsList,
+      navigationOptions: {
+        header: null
+      }
+    },
+    UserNotificationList: {
+      screen: UserNotificationList,
+      navigationOptions: {
+        header: null
+      }
+    },
     FeedbackModal: {
       screen: FeedbackModal,
       navigationOptions: {
@@ -182,8 +196,6 @@ interface AppState {
   //editProfileData: boolean;
   API_URL: string;
   showLoader: boolean;
-  showUserProfileId: number;
-  showUserProfile: boolean;
 }
 interface NavigationScreenInterface {
   navigation: {
@@ -208,9 +220,7 @@ export default class App extends Component<
       userLoggedIn: false,
       API_URL: "http://127.0.0.1:8000/",
       //API_URL: "https://e-mamy.pl/",
-      showLoader: false,
-      showUserProfileId: 0,
-      showUserProfile: false
+      showLoader: false
     };
     this.setAlert = this.setAlert.bind(this);
     this.closeAlert = this.closeAlert.bind(this);
@@ -386,13 +396,6 @@ export default class App extends Component<
     this.setState({ userData: [] });
   };
 
-  setShowUserProfile = (userId: number) => {
-    return new Promise(async resolve => {
-      await this.setState({ showUserProfile: true, showUserProfileId: userId });
-      resolve(true);
-    });
-  };
-
   componentDidMount = (): void => {
     NavigationService.navigate("Welcome", {});
   };
@@ -404,9 +407,7 @@ export default class App extends Component<
       alertMessage,
       userData,
       API_URL,
-      showLoader,
-      showUserProfile,
-      showUserProfileId
+      showLoader
     } = this.state;
 
     return (
@@ -426,9 +427,6 @@ export default class App extends Component<
           showLoader: showLoader,
           setShowLoader: this.setShowLoader,
           closeAlert: this.closeAlert,
-          setShowUserProfile: this.setShowUserProfile,
-          showUserProfile: showUserProfile,
-          showUserProfileId: showUserProfileId,
           //@ts-ignore
           NavigationService: NavigationService
         }}
