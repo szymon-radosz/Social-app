@@ -65,6 +65,7 @@ interface Style {
   optionTextActive: TextStyle;
   savePostInputContainer: ViewStyle;
   savePostCommentInputContainer: ViewStyle;
+  conversationDetailsSeeMore: TextStyle;
 }
 
 const fullWidth = Dimensions.get("window").width;
@@ -312,5 +313,10 @@ export default StyleSheet.create<Style>({
   savePostCommentInputContainer: {
     paddingLeft: 10,
     paddingRight: 10
+  },
+  conversationDetailsSeeMore: {
+    fontWeight: "600",
+    color: peachColor,
+    fontFamily: "Open Sans"
   }
 });

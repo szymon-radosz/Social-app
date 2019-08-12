@@ -1,5 +1,15 @@
 import React, { Component } from "react";
-import { Image, Text, View, TouchableOpacity, ScrollView } from "react-native";
+import {
+  Image,
+  Text,
+  View,
+  TouchableOpacity,
+  TouchableHighlight,
+  ScrollView,
+  SafeAreaView
+} from "react-native";
+import Alert from "./../../../../Alert/Alert";
+import BottomPanel from "./../../SharedComponents/BottomPanel";
 import SinglePostDetailsComment from "./SinglePostDetailsComment";
 import styles from "./../style";
 import axios from "axios";
@@ -26,8 +36,7 @@ interface PostDetailsState {
 }
 
 interface PostDetailsProps {
-  postDetailsId: number;
-  setShowPostDetails: any;
+  navigation: any;
 }
 
 class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
@@ -62,10 +71,10 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
     this.setState({ commentMessage: "" });
   };
 
-  getPostById = (): void => {
+  getPostById = (id: number): void => {
     try {
       let API_URL = this.context.API_URL;
-      let postId = this.props.postDetailsId;
+      let postId = id;
 
       let that = this;
 
@@ -108,7 +117,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
   savePostVote = (): void => {
     let API_URL = this.context.API_URL;
     let userId = this.context.userData.id;
-    let postId = this.props.postDetailsId;
+    let postId = this.props.navigation.state.params.postId;
 
     let that = this;
 
@@ -125,7 +134,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
               "success",
               "Dziękujemy za oddanie głosu."
             );
-            that.getPostById();
+            that.getPostById(that.props.navigation.state.params.postId);
           } else {
             that.context.setAlert(
               true,
@@ -144,7 +153,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
 
   getPostComments = (): void => {
     let API_URL = this.context.API_URL;
-    let postId = this.props.postDetailsId;
+    let postId = this.props.navigation.state.params.postId;
 
     let that = this;
 
@@ -274,7 +283,9 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
   };
 
   componentDidMount = (): void => {
-    this.getPostById();
+    console.log(["PostDetails", this.props.navigation.state.params.postId]);
+
+    this.getPostById(this.props.navigation.state.params.postId);
   };
 
   render() {
@@ -283,6 +294,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
       postDesc,
       postVotes,
       postDate,
+      authorId,
       authorName,
       authorEmail,
       authorPhotoPath,
@@ -292,89 +304,128 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
     const postDateConverted = moment(postDate).format("LLL");
     return (
       <React.Fragment>
-        <View style={{ position: "relative" }}>
-          <PageHeader
-            boldText={postTitle}
-            normalText={""}
-            closeMethod={this.props.setShowPostDetails}
-            closeMethodParameter={""}
-          />
-
-          <ScrollView>
-            <View style={styles.postDetailsContainerPadding}>
-              <View style={styles.postDetailsContainer}>
-                <TouchableOpacity>
-                  <Image
-                    style={styles.image}
-                    source={{
-                      uri: authorPhotoPath
-                    }}
-                  />
-                </TouchableOpacity>
-                <View style={styles.postDetailsAuthorContainer}>
-                  <Text style={styles.postDetailsAuthorContainerName}>
-                    {authorName}
-                  </Text>
-                </View>
-              </View>
-              <Text style={styles.postDetailsDesc}>{postDesc}</Text>
-              <Text style={styles.postDetailsPostDate}>
-                Utworzono: {postDateConverted}
-              </Text>
-              <View style={styles.postDetailsPostVoteContainer}>
-                <View style={styles.postDetailsPostVoteWrapper}>
-                  <Text style={styles.postDetailsPostVoteCount}>
-                    {postVotes}
-                  </Text>
-                  <TouchableOpacity onPress={this.savePostVote}>
-                    <Image
-                      style={styles.postDetailsPostVoteImage}
-                      resizeMode="contain"
-                      source={like}
-                    />
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.postDetailsPostCommentCountWrapper}>
-                  <Text style={styles.postDetailsPostCommentCountText}>
-                    {comments.length}
-                  </Text>
-                  <TouchableOpacity>
-                    <Image
-                      style={styles.postDetailsPostVoteImage}
-                      resizeMode="contain"
-                      source={comment}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-              {comments.length > 0 ? (
-                <Text style={styles.postDetailsPostCommentListHeader}>
-                  Komentarze:
-                </Text>
-              ) : null}
-
-              {comments.map((comment: any, i: number) => {
-                return (
-                  <SinglePostDetailsComment
-                    API_URL={this.context.API_URL}
-                    key={`SinglePostDetailsComment-${i}`}
-                    comment={comment}
-                    saveCommentVote={this.saveCommentVote}
-                  />
-                );
-              })}
-            </View>
-            <SavePostComment
-              saveComment={this.saveComment}
-              postId={this.props.postDetailsId}
-              user={this.context.userData}
-              setCommentMessage={this.setCommentMessage}
-              commentMessage={commentMessage}
-              clearCommentMessage={this.clearCommentMessage}
+        <SafeAreaView
+          style={{
+            flex: 1,
+            backgroundColor: "#fff"
+          }}
+        >
+          {this.context.showAlert && (
+            <Alert
+              alertType={this.context.alertType}
+              alertMessage={this.context.alertMessage}
+              closeAlert={this.context.closeAlert}
             />
-          </ScrollView>
-        </View>
+          )}
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "column",
+              justifyContent: "space-between"
+            }}
+            data-test="Forum"
+          >
+            <View style={{ position: "relative" }}>
+              <PageHeader
+                boldText={postTitle}
+                normalText={""}
+                closeMethod={() => this.props.navigation.goBack(null)}
+                closeMethodParameter={""}
+              />
+
+              <ScrollView>
+                <View style={styles.postDetailsContainerPadding}>
+                  <View style={styles.postDetailsContainer}>
+                    <TouchableOpacity>
+                      <Image
+                        style={styles.image}
+                        source={{
+                          uri: authorPhotoPath
+                        }}
+                      />
+                    </TouchableOpacity>
+                    <View style={styles.postDetailsAuthorContainer}>
+                      <Text style={styles.postDetailsAuthorContainerName}>
+                        {authorName}
+                      </Text>
+                      <TouchableHighlight
+                        onPress={async () => {
+                          this.props.navigation.navigate("UserDetails", {
+                            userId: authorId
+                          });
+                        }}
+                        underlayColor={"#fff"}
+                      >
+                        <Text style={styles.conversationDetailsSeeMore}>
+                          Zobacz profil
+                        </Text>
+                      </TouchableHighlight>
+                    </View>
+                  </View>
+                  <Text style={styles.postDetailsDesc}>{postDesc}</Text>
+                  <Text style={styles.postDetailsPostDate}>
+                    Utworzono: {postDateConverted}
+                  </Text>
+                  <View style={styles.postDetailsPostVoteContainer}>
+                    <View style={styles.postDetailsPostVoteWrapper}>
+                      <Text style={styles.postDetailsPostVoteCount}>
+                        {postVotes}
+                      </Text>
+                      <TouchableOpacity onPress={this.savePostVote}>
+                        <Image
+                          style={styles.postDetailsPostVoteImage}
+                          resizeMode="contain"
+                          source={like}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    <View style={styles.postDetailsPostCommentCountWrapper}>
+                      <Text style={styles.postDetailsPostCommentCountText}>
+                        {comments.length}
+                      </Text>
+                      <TouchableOpacity>
+                        <Image
+                          style={styles.postDetailsPostVoteImage}
+                          resizeMode="contain"
+                          source={comment}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+
+                  {comments.length > 0 ? (
+                    <Text style={styles.postDetailsPostCommentListHeader}>
+                      Komentarze:
+                    </Text>
+                  ) : null}
+
+                  {comments.map((comment: any, i: number) => {
+                    return (
+                      <SinglePostDetailsComment
+                        API_URL={this.context.API_URL}
+                        key={`SinglePostDetailsComment-${i}`}
+                        comment={comment}
+                        saveCommentVote={this.saveCommentVote}
+                      />
+                    );
+                  })}
+                </View>
+                <SavePostComment
+                  saveComment={this.saveComment}
+                  postId={this.props.navigation.state.params.postId}
+                  user={this.context.userData}
+                  setCommentMessage={this.setCommentMessage}
+                  commentMessage={commentMessage}
+                  clearCommentMessage={this.clearCommentMessage}
+                />
+              </ScrollView>
+            </View>
+            <BottomPanel
+              data-test="BottomPanel"
+              navigation={this.props.navigation}
+            />
+          </View>
+        </SafeAreaView>
       </React.Fragment>
     );
   }

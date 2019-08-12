@@ -12,7 +12,7 @@ import ButtonComponent from "./../../Utils/ButtonComponent";
 const forumBg: any = require("./../../../assets/images/forumBgMin.jpg");
 
 const PostDetails = React.lazy(() => import("./utils/PostDetails"));
-const SavePost = React.lazy(() => import("./utils/SavePost"));
+//const SavePost = React.lazy(() => import("./utils/SavePost"));
 const CategoriesList = React.lazy(() => import("./utils/CategoriesList"));
 
 interface ForumProps {
@@ -23,7 +23,7 @@ interface ForumProps {
 interface ForumState {
   showPostDetails: boolean;
   showSortByCategory: boolean;
-  showSavePost: boolean;
+  //showSavePost: boolean;
   showPostDetailsId: number;
   postList: any;
   showSortByCategoryId: number;
@@ -35,7 +35,7 @@ class Forum extends Component<ForumProps, ForumState> {
     super(props);
     this.state = {
       showPostDetails: false,
-      showSavePost: false,
+      //showSavePost: false,
       showSortByCategory: false,
       showPostDetailsId: 0,
       showSortByCategoryId: 0,
@@ -46,8 +46,8 @@ class Forum extends Component<ForumProps, ForumState> {
 
     this.getPosts = this.getPosts.bind(this);
     this.setShowPostDetails = this.setShowPostDetails.bind(this);
-    this.savePost = this.savePost.bind(this);
-    this.setShowSavePost = this.setShowSavePost.bind(this);
+    //this.savePost = this.savePost.bind(this);
+    //this.setShowSavePost = this.setShowSavePost.bind(this);
     this.setShowSortByCategory = this.setShowSortByCategory.bind(this);
     this.getPostByCategoryId = this.getPostByCategoryId.bind(this);
   }
@@ -67,11 +67,11 @@ class Forum extends Component<ForumProps, ForumState> {
     }
   };
 
-  setShowSavePost = (): void => {
+  /*setShowSavePost = (): void => {
     this.setState(prevState => ({
       showSavePost: !prevState.showSavePost
     }));
-  };
+  };*/
 
   setShowSortByCategory = (hidePost: boolean): void => {
     if (hidePost) {
@@ -153,74 +153,6 @@ class Forum extends Component<ForumProps, ForumState> {
     this.setShowPostDetails();
   };
 
-  savePost = (
-    title: string,
-    description: string,
-    userId: number,
-    categoryId: number
-  ): void => {
-    let API_URL = this.context.API_URL;
-
-    if (!title || !description || categoryId === 0) {
-      this.context.setAlert(
-        true,
-        "danger",
-        "Prosimy o uzupełnienie wszystkich danych."
-      );
-    }
-
-    if (
-      title !== "" &&
-      description !== "" &&
-      userId !== 0 &&
-      categoryId !== 0
-    ) {
-      let that = this;
-
-      axios
-        .post(API_URL + "/api/savePost", {
-          title: title,
-          description: description,
-          userId: userId,
-          categoryId: categoryId
-        })
-        .then(function(response) {
-          if (response.data.status === "OK") {
-            that.setState({
-              showSavePost: false,
-              showSortByCategoryId: 0
-            });
-            that.getPosts();
-
-            that.context.setAlert(
-              true,
-              "success",
-              "Dziękujemy za dodanie nowego posta."
-            );
-          } else {
-            that.context.setAlert(
-              true,
-              "danger",
-              "Problem z dodaniem nowego posta."
-            );
-          }
-        })
-        .catch(function(error) {
-          that.context.setAlert(
-            true,
-            "danger",
-            "Problem z dodaniem nowego posta."
-          );
-        });
-    } else {
-      this.context.setAlert(
-        true,
-        "danger",
-        "Prosimy o uzupełnienie wszystkich danych."
-      );
-    }
-  };
-
   componentDidMount = (): void => {
     this.setState({ showSortByCategory: true });
   };
@@ -229,7 +161,7 @@ class Forum extends Component<ForumProps, ForumState> {
     const {
       showPostDetails,
       showPostDetailsId,
-      showSavePost,
+      //showSavePost,
       showSortByCategory,
       showPosts,
       postList,
@@ -259,7 +191,7 @@ class Forum extends Component<ForumProps, ForumState> {
             data-test="Forum"
           >
             <View>
-              {!showPostDetails && !showPosts && !showSavePost && (
+              {!showPostDetails && !showPosts && (
                 <ImageBackground
                   source={forumBg}
                   style={{ width: "100%" }}
@@ -273,32 +205,28 @@ class Forum extends Component<ForumProps, ForumState> {
               )}
 
               <View style={{ width: "100%", marginBottom: 20 }}>
-                {showPostDetails &&
-                  showPostDetailsId &&
-                  !showSavePost &&
-                  !showSortByCategory && (
-                    <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                      <PostDetails
-                        postDetailsId={showPostDetailsId}
-                        setShowPostDetails={this.setShowPostDetails}
-                        data-test="PostDetails"
-                      />
-                    </Suspense>
-                  )}
+                {/*showPostDetails && showPostDetailsId && !showSortByCategory && (
+                  <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                    <PostDetails
+                      postDetailsId={showPostDetailsId}
+                      setShowPostDetails={this.setShowPostDetails}
+                      data-test="PostDetails"
+                    />
+                  </Suspense>
+                )*/}
 
-                {!showPostDetails && showSavePost && (
+                {/*!showPostDetails && (
                   <Suspense fallback={<Text>Wczytywanie...</Text>}>
                     <SavePost
                       API_URL={this.context.API_URL}
                       user={this.context.userData}
                       savePost={this.savePost}
-                      setShowSavePost={this.setShowSavePost}
                       data-test="SavePost"
                     />
                   </Suspense>
-                )}
+                )*/}
 
-                {!showPostDetails && !showSavePost && showSortByCategory && (
+                {!showPostDetails && showSortByCategory && (
                   <Suspense fallback={<Text>Wczytywanie...</Text>}>
                     <CategoriesList
                       API_URL={this.context.API_URL}
@@ -341,16 +269,19 @@ class Forum extends Component<ForumProps, ForumState> {
                             key={`CategoryDetailsSinglePostOnList-${i}`}
                             post={post}
                             data-test="CategoryDetailsSinglePostOnList"
+                            navigation={this.props.navigation}
                           />
                         );
                       }
                     )}
                 </View>
 
-                {!showPostDetails && !showSavePost && showSortByCategory && (
+                {!showPostDetails && showSortByCategory && (
                   <Text
                     style={{ paddingLeft: 10, paddingRight: 10 }}
-                    onPress={() => this.props.navigation.navigate("FeedbackModal", {})}
+                    onPress={() =>
+                      this.props.navigation.navigate("FeedbackModal", {})
+                    }
                     data-test="ask"
                   >
                     Masz pomysł na nową kategorię?{" "}
@@ -358,9 +289,11 @@ class Forum extends Component<ForumProps, ForumState> {
                   </Text>
                 )}
 
-                {!showPostDetails && !showSavePost && showSortByCategory && (
+                {!showPostDetails && showSortByCategory && (
                   <ButtonComponent
-                    pressButtonComponent={this.setShowSavePost}
+                    pressButtonComponent={() =>
+                      this.props.navigation.navigate("AddNewPost", {})
+                    }
                     buttonComponentText="Dodaj post"
                     fullWidth={true}
                     underlayColor="#dd904d"

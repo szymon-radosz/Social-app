@@ -15,11 +15,14 @@ const CategoryDetailsSinglePostOnList = (props: {
   post: any;
   getPostDetails: any;
   showPosts: boolean;
+  navigation: any;
 }): any => {
   const postDate = moment(props.post.created_at).format("LLL");
   return (
     <TouchableHighlight
-      onPress={() => props.getPostDetails(props.post.id)}
+      onPress={() =>
+        props.navigation.navigate("PostDetails", { postId: props.post.id })
+      }
       underlayColor={"#fff"}
     >
       <View style={styles.singlePostContainer}>

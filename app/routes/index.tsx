@@ -20,6 +20,8 @@ import Messages from "./../components/LoggedInScreens/Messages/Messages";
 import ConversationDetails from "./../components/LoggedInScreens/Messages/utils/ConversationDetails";
 //Forum
 import Forum from "./../components/LoggedInScreens/Forum/Forum";
+import SavePost from "./../components/LoggedInScreens/Forum/utils/SavePost";
+import PostDetails from "./../components/LoggedInScreens/Forum/utils/PostDetails";
 //Profile
 import Profile from "./../components/LoggedInScreens/Profile/Profile";
 //Feedback
@@ -125,6 +127,18 @@ const MainStack = createStackNavigator(
     },
     Forum: {
       screen: Forum,
+      navigationOptions: {
+        header: null
+      }
+    },
+    AddNewPost: {
+      screen: SavePost,
+      navigationOptions: {
+        header: null
+      }
+    },
+    PostDetails: {
+      screen: PostDetails,
       navigationOptions: {
         header: null
       }
