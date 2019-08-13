@@ -329,7 +329,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
             }}
             data-test="Forum"
           >
-            <View style={{ position: "relative" }}>
+            <ScrollView>
               <PageHeader
                 boldText={postTitle}
                 normalText={""}
@@ -337,93 +337,93 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
                 closeMethodParameter={""}
               />
 
-              <ScrollView>
-                <View style={styles.postDetailsContainerPadding}>
-                  <View style={styles.postDetailsContainer}>
-                    <TouchableOpacity>
+              <View style={styles.postDetailsContainerPadding}>
+                <View style={styles.postDetailsContainer}>
+                  <TouchableOpacity>
+                    <Image
+                      style={styles.image}
+                      source={{
+                        uri: authorPhotoPath
+                      }}
+                    />
+                  </TouchableOpacity>
+                  <View style={styles.postDetailsAuthorContainer}>
+                    <Text style={styles.postDetailsAuthorContainerName}>
+                      {authorName}
+                    </Text>
+                    <TouchableHighlight
+                      onPress={async () => {
+                        this.props.navigation.navigate("UserDetails", {
+                          userId: authorId
+                        });
+                      }}
+                      underlayColor={"#fff"}
+                    >
+                      <Text style={styles.conversationDetailsSeeMore}>
+                        Zobacz profil
+                      </Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+                <Text style={styles.postDetailsDesc}>{postDesc}</Text>
+                <Text style={styles.postDetailsPostDate}>
+                  Utworzono: {postDateConverted}
+                </Text>
+                <View style={styles.postDetailsPostVoteContainer}>
+                  <View style={styles.postDetailsPostVoteWrapper}>
+                    <Text style={styles.postDetailsPostVoteCount}>
+                      {postVotes}
+                    </Text>
+                    <TouchableOpacity onPress={this.savePostVote}>
                       <Image
-                        style={styles.image}
-                        source={{
-                          uri: authorPhotoPath
-                        }}
+                        style={styles.postDetailsPostVoteImage}
+                        resizeMode="contain"
+                        source={like}
                       />
                     </TouchableOpacity>
-                    <View style={styles.postDetailsAuthorContainer}>
-                      <Text style={styles.postDetailsAuthorContainerName}>
-                        {authorName}
-                      </Text>
-                      <TouchableHighlight
-                        onPress={async () => {
-                          this.props.navigation.navigate("UserDetails", {
-                            userId: authorId
-                          });
-                        }}
-                        underlayColor={"#fff"}
-                      >
-                        <Text style={styles.conversationDetailsSeeMore}>
-                          Zobacz profil
-                        </Text>
-                      </TouchableHighlight>
-                    </View>
                   </View>
-                  <Text style={styles.postDetailsDesc}>{postDesc}</Text>
-                  <Text style={styles.postDetailsPostDate}>
-                    Utworzono: {postDateConverted}
-                  </Text>
-                  <View style={styles.postDetailsPostVoteContainer}>
-                    <View style={styles.postDetailsPostVoteWrapper}>
-                      <Text style={styles.postDetailsPostVoteCount}>
-                        {postVotes}
-                      </Text>
-                      <TouchableOpacity onPress={this.savePostVote}>
-                        <Image
-                          style={styles.postDetailsPostVoteImage}
-                          resizeMode="contain"
-                          source={like}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                    <View style={styles.postDetailsPostCommentCountWrapper}>
-                      <Text style={styles.postDetailsPostCommentCountText}>
-                        {comments.length}
-                      </Text>
-                      <TouchableOpacity>
-                        <Image
-                          style={styles.postDetailsPostVoteImage}
-                          resizeMode="contain"
-                          source={comment}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-
-                  {comments.length > 0 ? (
-                    <Text style={styles.postDetailsPostCommentListHeader}>
-                      Komentarze:
+                  <View style={styles.postDetailsPostCommentCountWrapper}>
+                    <Text style={styles.postDetailsPostCommentCountText}>
+                      {comments.length}
                     </Text>
-                  ) : null}
-
-                  {comments.map((comment: any, i: number) => {
-                    return (
-                      <SinglePostDetailsComment
-                        API_URL={this.context.API_URL}
-                        key={`SinglePostDetailsComment-${i}`}
-                        comment={comment}
-                        saveCommentVote={this.saveCommentVote}
+                    <TouchableOpacity>
+                      <Image
+                        style={styles.postDetailsPostVoteImage}
+                        resizeMode="contain"
+                        source={comment}
                       />
-                    );
-                  })}
+                    </TouchableOpacity>
+                  </View>
                 </View>
-                <SavePostComment
-                  saveComment={this.saveComment}
-                  postId={this.props.navigation.state.params.postId}
-                  user={this.context.userData}
-                  setCommentMessage={this.setCommentMessage}
-                  commentMessage={commentMessage}
-                  clearCommentMessage={this.clearCommentMessage}
-                />
-              </ScrollView>
-            </View>
+
+                {comments.length > 0 ? (
+                  <Text style={styles.postDetailsPostCommentListHeader}>
+                    Komentarze:
+                  </Text>
+                ) : null}
+
+                {comments.map((comment: any, i: number) => {
+                  return (
+                    <SinglePostDetailsComment
+                      API_URL={this.context.API_URL}
+                      key={`SinglePostDetailsComment-${i}`}
+                      comment={comment}
+                      saveCommentVote={this.saveCommentVote}
+                      navigation={this.props.navigation}
+                    />
+                  );
+                })}
+              </View>
+              <SavePostComment
+                saveComment={this.saveComment}
+                postId={this.props.navigation.state.params.postId}
+                user={this.context.userData}
+                setCommentMessage={this.setCommentMessage}
+                commentMessage={commentMessage}
+                clearCommentMessage={this.clearCommentMessage}
+              />
+            </ScrollView>
+
             <BottomPanel
               data-test="BottomPanel"
               navigation={this.props.navigation}

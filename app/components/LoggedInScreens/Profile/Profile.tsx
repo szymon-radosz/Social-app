@@ -34,10 +34,6 @@ interface ProfileState {
   countFriends: number;
   showProfilePreview: boolean;
   showEditUserData: boolean;
-  showAuctionHistory: boolean;
-  showAbout: boolean;
-  showUserFriendId: number;
-  userAuctionList: any;
   userHobbies: any;
 }
 
@@ -63,19 +59,11 @@ class Profile extends Component<
       countFriends: 0,
       showProfilePreview: false,
       showEditUserData: false,
-      showAuctionHistory: false,
-      showAbout: false,
-      showUserFriendId: 0,
-      userAuctionList: [],
+
       userHobbies: []
     };
     this.getAmountOfFriends = this.getAmountOfFriends.bind(this);
     this.setShowProfilePreview = this.setShowProfilePreview.bind(this);
-
-    this.getUserAuctionList = this.getUserAuctionList.bind(this);
-    this.changeShowUserAuctionList = this.changeShowUserAuctionList.bind(this);
-
-    this.setShowAbout = this.setShowAbout.bind(this);
 
     console.log(["profile", this.props]);
   }
@@ -87,40 +75,8 @@ class Profile extends Component<
     }
   }
 
-  changeShowUserAuctionList = (): void => {
-    this.setState({ showAuctionHistory: !this.state.showAuctionHistory });
-  };
-
-  setShowAbout = (): void => {
-    this.setState({ showAbout: !this.state.showAbout });
-  };
-
   setShowProfilePreview = (): void => {
     this.setState({ showProfilePreview: !this.state.showProfilePreview });
-  };
-
-  getUserAuctionList = (): void => {
-    let that = this;
-
-    axios
-      .post(this.context.API_URL + "/api/loadUserProductList", {
-        userId: this.context.userData.id
-      })
-      .then(function(response) {
-        if (response.data.status === "OK") {
-          that.setState({
-            userAuctionList: response.data.result,
-            showAuctionHistory: true
-          });
-        }
-      })
-      .catch(function(error) {
-        that.context.setAlert(
-          true,
-          "danger",
-          "Wystąpił błąd z wyświetleniem listy przedmiotów."
-        );
-      });
   };
 
   getAmountOfFriends = (id: number): void => {
@@ -143,10 +99,7 @@ class Profile extends Component<
       locationDetails,
       countFriends,
       showProfilePreview,
-      showEditUserData,
-      showAuctionHistory,
-      userAuctionList,
-      showAbout
+      showEditUserData
     } = this.state;
     return (
       <React.Fragment>
@@ -173,45 +126,17 @@ class Profile extends Component<
           >
             <ScrollView>
               {/* user preview page header */}
-              {showProfilePreview &&
-                !showEditUserData &&
-                !showAuctionHistory &&
-                !showAbout && (
-                  <PageHeader
-                    boldText={this.context.userData.name}
-                    normalText={""}
-                    closeMethod={this.setShowProfilePreview}
-                    closeMethodParameter={""}
-                    data-test="PageHeader"
-                  />
-                )}
+              {showProfilePreview && !showEditUserData && (
+                <PageHeader
+                  boldText={this.context.userData.name}
+                  normalText={""}
+                  closeMethod={this.setShowProfilePreview}
+                  closeMethodParameter={""}
+                  data-test="PageHeader"
+                />
+              )}
 
-              {/* user auction list page header */}
-              {!showProfilePreview &&
-                !showEditUserData &&
-                showAuctionHistory &&
-                userAuctionList &&
-                !showAbout && (
-                  <PageHeader
-                    boldText={"Wystawione przedmioty"}
-                    normalText={""}
-                    closeMethod={this.changeShowUserAuctionList}
-                    closeMethodParameter={""}
-                  />
-                )}
-
-              {!showProfilePreview &&
-                !showEditUserData &&
-                !showAuctionHistory &&
-                showAbout && (
-                  <PageHeader
-                    boldText={"O aplikacji"}
-                    normalText={""}
-                    closeMethod={this.setShowAbout}
-                    closeMethodParameter={""}
-                  />
-                )}
-              {!showEditUserData && !showAuctionHistory && !showAbout && (
+              {!showEditUserData && (
                 <ProfileHeader
                   API_URL={this.context.API_URL}
                   avatar={this.context.userData.photo_path}
@@ -226,66 +151,23 @@ class Profile extends Component<
                   navigation={this.props.navigation}
                 />
               )}
-              {!showProfilePreview &&
-                !showEditUserData &&
-                !showAuctionHistory &&
-                !showAbout && (
-                  <ProfileOptions
-                    setShowProfilePreview={this.setShowProfilePreview}
-                    getUserAuctionList={this.getUserAuctionList}
-                    setShowAbout={this.setShowAbout}
-                    navigation={this.props.navigation}
-                    user={this.context.userData}
-                    API_URL={this.context.API_URL}
+              {!showProfilePreview && !showEditUserData && (
+                <ProfileOptions
+                  setShowProfilePreview={this.setShowProfilePreview}
+                  navigation={this.props.navigation}
+                  user={this.context.userData}
+                  API_URL={this.context.API_URL}
+                />
+              )}
+              {showProfilePreview && !showEditUserData && (
+                <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                  <UserPreview
+                    description={this.context.userData.description}
+                    hobbies={this.context.userData.hobbies}
+                    kids={this.context.userData.kids}
                   />
-                )}
-              {showProfilePreview &&
-                !showEditUserData &&
-                !showAuctionHistory &&
-                !showAbout && (
-                  <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                    <UserPreview
-                      description={this.context.userData.description}
-                      hobbies={this.context.userData.hobbies}
-                      kids={this.context.userData.kids}
-                    />
-                  </Suspense>
-                )}
-
-              {!showProfilePreview &&
-                !showEditUserData &&
-                showAuctionHistory &&
-                !showAbout &&
-                userAuctionList && (
-                  <React.Fragment>
-                    <View style={{ paddingTop: 10 }} />
-                    {userAuctionList.length > 0 ? (
-                      <UserAuctionsList
-                        userAuctionList={userAuctionList}
-                        loggedInUser={this.context.userData.id}
-                        API_URL={this.context.API_URL}
-                        setOpenAuctions={this.props.setOpenAuctions}
-                      />
-                    ) : (
-                      <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
-                        Brak wyników. Dodaj nieużywane przedmioty w zakładce
-                        'Targ' i uzgodnij szczegóły z innymi użytkowniczkami w
-                        wiadomościach.
-                      </Text>
-                    )}
-                  </React.Fragment>
-                )}
-
-              {!showProfilePreview &&
-                !showEditUserData &&
-                !showAuctionHistory &&
-                showAbout && (
-                  <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                    <About
-                      setShowFeedbackModal={this.props.setShowFeedbackModal}
-                    />
-                  </Suspense>
-                )}
+                </Suspense>
+              )}
             </ScrollView>
             <BottomPanel
               data-test="BottomPanel"

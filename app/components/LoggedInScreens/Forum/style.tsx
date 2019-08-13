@@ -203,7 +203,7 @@ export default StyleSheet.create<Style>({
     fontFamily: "Open Sans"
   },
   postDetailsPostDate: {
-    marginBottom: 5,
+    marginBottom: 0,
     fontSize: 12,
     fontFamily: "Open Sans"
   },
@@ -269,7 +269,8 @@ export default StyleSheet.create<Style>({
     alignItems: "center",
     flexDirection: "row",
     borderBottomWidth: 1,
-    borderBottomColor: "#E5E5E5"
+    borderBottomColor: "#E5E5E5",
+    paddingBottom: 10
   },
   singlePostDetailsCommentBody: {
     marginTop: 10,
@@ -294,7 +295,8 @@ export default StyleSheet.create<Style>({
   savePostCommentContainer: {
     borderTopWidth: 1,
     borderTopColor: "#E5E5E5",
-    marginTop: 10
+    marginTop: 10,
+    marginBottom: 15
   },
   savePostCategoryHeaderText: {
     fontWeight: "600",

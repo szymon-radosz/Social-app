@@ -25,7 +25,9 @@ import PostDetails from "./../components/LoggedInScreens/Forum/utils/PostDetails
 //Profile
 import Profile from "./../components/LoggedInScreens/Profile/Profile";
 import UserFriendsList from "./../components/LoggedInScreens/Profile/utils/UserFriendsList";
+import UserAuctionsList from "./../components/LoggedInScreens/Profile/utils/UserAuctionsList";
 import UserNotificationList from "./../components/LoggedInScreens/Profile/utils/UserNotificationList";
+import About from "./../components/LoggedInScreens/Profile/utils/About";
 //Feedback
 import FeedbackModal from "./../components/LoggedInScreens/FeedbackModal/FeedbackModal";
 //@ts-ignore
@@ -157,6 +159,12 @@ const MainStack = createStackNavigator(
         header: null
       }
     },
+    UserAuctionsList: {
+      screen: UserAuctionsList,
+      navigationOptions: {
+        header: null
+      }
+    },
     UserNotificationList: {
       screen: UserNotificationList,
       navigationOptions: {
@@ -165,6 +173,12 @@ const MainStack = createStackNavigator(
     },
     FeedbackModal: {
       screen: FeedbackModal,
+      navigationOptions: {
+        header: null
+      }
+    },
+    About: {
+      screen: About,
       navigationOptions: {
         header: null
       }

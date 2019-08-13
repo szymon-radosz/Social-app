@@ -1,5 +1,11 @@
 import React from "react";
-import { Image, Text, View, TouchableOpacity } from "react-native";
+import {
+  Image,
+  Text,
+  View,
+  TouchableOpacity,
+  TouchableHighlight
+} from "react-native";
 import styles from "./../style";
 import moment from "moment";
 import "moment/locale/pl";
@@ -15,11 +21,13 @@ const SinglePostDetailsComment = (props: {
     votes: any;
     user_id: number;
     users: {
+      id: number;
       name: string;
       photo_path: string;
       email: string;
     };
   };
+  navigation: any;
   saveCommentVote: any;
 }): any => {
   const commentDate = moment(props.comment.created_at).format("LLL");
@@ -43,6 +51,16 @@ const SinglePostDetailsComment = (props: {
             {props.comment.users.name}
           </Text>
           <Text style={styles.postDetailsPostDate}>{commentDate}</Text>
+          <TouchableHighlight
+            onPress={async () => {
+              props.navigation.navigate("UserDetails", {
+                userId: props.comment.users.id
+              });
+            }}
+            underlayColor={"#fff"}
+          >
+            <Text style={styles.conversationDetailsSeeMore}>Zobacz profil</Text>
+          </TouchableHighlight>
         </View>
       </View>
       <Text style={styles.singlePostDetailsCommentBody}>

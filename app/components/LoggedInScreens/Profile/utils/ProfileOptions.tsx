@@ -22,7 +22,7 @@ const ProfileOptions = (props: any) => {
         justifyContent: "space-between",
         paddingLeft: 10,
         paddingRight: 10,
-        paddingBottom: 30
+        paddingBottom: 15
       }}
     >
       <TouchableHighlight
@@ -96,7 +96,7 @@ const ProfileOptions = (props: any) => {
 
       <TouchableHighlight
         style={styles.buttonOption}
-        onPress={props.getUserAuctionList}
+        onPress={() => props.navigation.navigate("UserAuctionsList", {})}
         underlayColor={"#fff"}
       >
         <View>
@@ -136,7 +136,7 @@ const ProfileOptions = (props: any) => {
 
       <TouchableHighlight
         style={styles.buttonOption}
-        onPress={props.setShowAbout}
+        onPress={() => props.navigation.navigate("About", {})}
         underlayColor={"#fff"}
       >
         <View>
