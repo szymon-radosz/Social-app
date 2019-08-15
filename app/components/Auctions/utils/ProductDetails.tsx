@@ -19,6 +19,8 @@ import PageHeader from "./../../SharedComponents/PageHeader";
 import { GlobalContext } from "./../../../Context/GlobalContext";
 import ButtonComponent from "./../../Utils/ButtonComponent";
 
+const loaderImage: any = require("./../../../assets/images/loader.gif");
+
 const ProductMessageBox = React.lazy(() => import("./ProductMessageBox"));
 const SellerVoteBox = React.lazy(() => import("./SellerVoteBox"));
 const WINDOW_WIDTH = Dimensions.get("window").width;
@@ -420,234 +422,248 @@ class ProductDetails extends Component<
             }}
             data-test="Auctions"
           >
-            <View>
-              {showProductMessageBox && !showVoteBox ? (
-                <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                  <ProductMessageBox
-                    changeShowProductMessageBox={
-                      this.changeShowProductMessageBox
-                    }
-                    sendNewConversationProduct={this.sendNewConversationProduct}
-                  />
-                </Suspense>
-              ) : !showProductMessageBox && showVoteBox ? (
-                <SellerVoteBox
-                  currentUser={this.context.userData}
-                  product={productDetails[0]}
-                  API_URL={this.context.API_URL}
-                  changeVoteBox={this.changeVoteBox}
-                  searchUsersByEmail={this.searchUsersByEmail}
-                  foundVoteUserList={foundVoteUserList}
-                  getProductDetails={this.getProductDetails}
-                  sendVote={this.sendVote}
+            {this.context.showLoader ? (
+              <View style={styles.loaderContainer} data-test="loader">
+                <Image
+                  style={{ width: 100, height: 100 }}
+                  source={loaderImage}
                 />
-              ) : productDetails[0] ? (
+              </View>
+            ) : (
+              <React.Fragment>
                 <View>
-                  <PageHeader
-                    boldText={productDetails[0].name}
-                    normalText={""}
-                    closeMethod={() =>
-                      this.props.navigation.navigate("Auctions", {})
-                    }
-                    closeMethodParameter={""}
-                  />
+                  {showProductMessageBox && !showVoteBox ? (
+                    <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                      <ProductMessageBox
+                        changeShowProductMessageBox={
+                          this.changeShowProductMessageBox
+                        }
+                        sendNewConversationProduct={
+                          this.sendNewConversationProduct
+                        }
+                      />
+                    </Suspense>
+                  ) : !showProductMessageBox && showVoteBox ? (
+                    <SellerVoteBox
+                      currentUser={this.context.userData}
+                      product={productDetails[0]}
+                      API_URL={this.context.API_URL}
+                      changeVoteBox={this.changeVoteBox}
+                      searchUsersByEmail={this.searchUsersByEmail}
+                      foundVoteUserList={foundVoteUserList}
+                      getProductDetails={this.getProductDetails}
+                      sendVote={this.sendVote}
+                    />
+                  ) : productDetails[0] ? (
+                    <View>
+                      <PageHeader
+                        boldText={productDetails[0].name}
+                        normalText={""}
+                        closeMethod={() => this.props.navigation.goBack(null)}
+                        closeMethodParameter={""}
+                      />
 
-                  <View style={styles.productDetailsHeader}>
-                    <Lightbox
-                      springConfig={{ overshootClamping: true }}
-                      swipeToDismiss={false}
-                      backgroundColor="rgba(0,0,0,0.7)"
-                      renderContent={() =>
-                        renderCarousel(
-                          this.context.API_URL,
-                          productDetails[0].product_photos
-                        )
-                      }
-                      renderHeader={(close: any) => (
-                        <TouchableOpacity onPress={close}>
-                          <Text
-                            style={{
-                              color: "white",
-                              padding: 8,
-                              textAlign: "center",
-                              margin: 10,
-                              alignSelf: "flex-end"
+                      <View style={styles.productDetailsHeader}>
+                        <Lightbox
+                          springConfig={{ overshootClamping: true }}
+                          swipeToDismiss={false}
+                          backgroundColor="rgba(0,0,0,0.7)"
+                          renderContent={() =>
+                            renderCarousel(
+                              this.context.API_URL,
+                              productDetails[0].product_photos
+                            )
+                          }
+                          renderHeader={(close: any) => (
+                            <TouchableOpacity onPress={close}>
+                              <Text
+                                style={{
+                                  color: "white",
+                                  padding: 8,
+                                  textAlign: "center",
+                                  margin: 10,
+                                  alignSelf: "flex-end"
+                                }}
+                              >
+                                Zamknij
+                              </Text>
+                            </TouchableOpacity>
+                          )}
+                          underlayColor={"#fff"}
+                        >
+                          <Image
+                            style={styles.productDetailsImage}
+                            source={{
+                              uri: `${productDetails[0].product_photos[0].path}`
                             }}
-                          >
-                            Zamknij
+                          />
+                        </Lightbox>
+
+                        {productDetails[0] &&
+                          productDetails[0].product_photos.length > 1 && (
+                            <Text style={{ fontSize: 10 }}>
+                              Kliknij na zdjęcie, aby zobaczyć galerię.
+                            </Text>
+                          )}
+
+                        {productDetails[0] && productDetails[0].description ? (
+                          <Text style={styles.productHeaderText}>
+                            {productDetails[0].description}
                           </Text>
-                        </TouchableOpacity>
-                      )}
-                      underlayColor={"#fff"}
-                    >
-                      <Image
-                        style={styles.productDetailsImage}
-                        source={{
-                          uri: `${productDetails[0].product_photos[0].path}`
-                        }}
-                      />
-                    </Lightbox>
-
-                    {productDetails[0] &&
-                      productDetails[0].product_photos.length > 1 && (
-                        <Text style={{ fontSize: 10 }}>
-                          Kliknij na zdjęcie, aby zobaczyć galerię.
-                        </Text>
-                      )}
-
-                    {productDetails[0] && productDetails[0].description ? (
-                      <Text style={styles.productHeaderText}>
-                        {productDetails[0].description}
-                      </Text>
-                    ) : null}
-                  </View>
-                  <View style={styles.productContent}>
-                    {productDetails[0] &&
-                      productDetails[0].categoryName[0].name && (
-                        <Text style={styles.productContentText}>
-                          <Text style={styles.bold}>Kategoria:</Text>{" "}
-                          {productDetails[0].categoryName[0].name}
-                        </Text>
-                      )}
-
-                    {productDetails[0] &&
-                      productDetails[0].child_gender === "girl" && (
-                        <Text style={styles.productContentText}>
-                          <Text style={styles.bold}>Płeć dziecka:</Text>{" "}
-                          Dziewczynka
-                        </Text>
-                      )}
-
-                    {productDetails[0] &&
-                      productDetails[0].child_gender === "boy" && (
-                        <Text style={styles.productContentText}>
-                          <Text style={styles.bold}>Płeć dziecka:</Text>{" "}
-                          Chłopiec
-                        </Text>
-                      )}
-
-                    {productDetails[0] && productDetails[0].state === 0 && (
-                      <Text style={styles.productContentText}>
-                        <Text style={styles.bold}>Stan produktu:</Text> Nowe
-                      </Text>
-                    )}
-
-                    {productDetails[0] && productDetails[0].state === 1 && (
-                      <Text style={styles.productContentText}>
-                        <Text style={styles.bold}>Stan produktu:</Text> Używane
-                      </Text>
-                    )}
-
-                    {productDetails[0] && productDetails[0].users && (
-                      <Text style={styles.productContentText}>
-                        <Text style={styles.bold}>Dodane przez: </Text>
-                        {productDetails[0].users.name}
-                      </Text>
-                    )}
-
-                    {productDetails[0] &&
-                      productDetails[0].users.location_string && (
-                        <Text style={styles.productContentText}>
-                          <Text style={styles.bold}>W poblizu: </Text>
-                          {productDetails[0].users.location_string}
-                        </Text>
-                      )}
-
-                    {productDetails[0] && productDetails[0].price && (
-                      <Text style={styles.productContentText}>
-                        <Text style={styles.bold}>Cena: </Text>
-                        {productDetails[0].price} zł
-                      </Text>
-                    )}
-                  </View>
-                  {/* user is not the author, they are not in the same conversation and product is not sold*/}
-                  {productDetails[0].user_id != this.context.userData.id &&
-                    !usersAreInTheSameConversation &&
-                    productDetails[0].status != 1 && (
-                      <ButtonComponent
-                        pressButtonComponent={this.changeShowProductMessageBox}
-                        buttonComponentText="Wyślij wiadomość"
-                        fullWidth={true}
-                        underlayColor="#dd904d"
-                        whiteBg={false}
-                        showBackIcon={false}
-                      />
-                    )}
-                  {/* user is not the author and product is sold*/}
-                  {productDetails[0].user_id != this.context.userData.id &&
-                    productDetails[0].status == 1 && (
-                      <View style={styles.productContent}>
-                        <Text style={styles.productContentText}>
-                          <Text style={styles.productClosed}>
-                            Sprzedaż produktu zakończona
-                          </Text>
-                        </Text>
+                        ) : null}
                       </View>
-                    )}
-                  {/* user is not the author, they are in the same conversation and product is sold*/}
-                  {productDetails[0].user_id != this.context.userData.id &&
-                    usersAreInTheSameConversation &&
-                    productDetails[0].status == 1 && (
-                      <ButtonComponent
-                        pressButtonComponent={() =>
-                          this.props.navigation.navigate("Messages", {})
-                        }
-                        buttonComponentText="Produkt sprzedany, jesteście w konwersacji"
-                        fullWidth={true}
-                        underlayColor="#dd904d"
-                        whiteBg={false}
-                        showBackIcon={false}
-                      />
-                    )}
-                  {/* user is not the author, they are in the same conversation and product is not sold*/}
-                  {productDetails[0].user_id != this.context.userData.id &&
-                    usersAreInTheSameConversation &&
-                    productDetails[0].status != 1 && (
-                      <ButtonComponent
-                        pressButtonComponent={() =>
-                          this.props.navigation.navigate("Messages", {})
-                        }
-                        buttonComponentText="Jestescie już w konwersacji"
-                        fullWidth={true}
-                        underlayColor="#dd904d"
-                        whiteBg={false}
-                        showBackIcon={false}
-                      />
-                    )}
-                  {/* user is the author, and product is not sold*/}
-                  {productDetails[0].user_id == this.context.userData.id &&
-                    productDetails[0].status != 1 && (
-                      <ButtonComponent
-                        pressButtonComponent={() => {
-                          this.closeProduct(productDetails[0].id);
-                        }}
-                        buttonComponentText="Zamknij Sprzedaż"
-                        fullWidth={true}
-                        underlayColor="#dd904d"
-                        whiteBg={false}
-                        showBackIcon={false}
-                      />
-                    )}
+                      <View style={styles.productContent}>
+                        {productDetails[0] &&
+                          productDetails[0].categoryName[0].name && (
+                            <Text style={styles.productContentText}>
+                              <Text style={styles.bold}>Kategoria:</Text>{" "}
+                              {productDetails[0].categoryName[0].name}
+                            </Text>
+                          )}
 
-                  {/* user is the author, and product is sold*/}
-                  {productDetails[0].user_id == this.context.userData.id &&
-                    productDetails[0].status != 0 && (
-                      <ButtonComponent
-                        pressButtonComponent={() => {
-                          this.reactivateProduct(productDetails[0].id);
-                        }}
-                        buttonComponentText="Wznów Sprzedaż"
-                        fullWidth={true}
-                        underlayColor="#dd904d"
-                        whiteBg={false}
-                        showBackIcon={false}
-                      />
-                    )}
+                        {productDetails[0] &&
+                          productDetails[0].child_gender === "girl" && (
+                            <Text style={styles.productContentText}>
+                              <Text style={styles.bold}>Płeć dziecka:</Text>{" "}
+                              Dziewczynka
+                            </Text>
+                          )}
+
+                        {productDetails[0] &&
+                          productDetails[0].child_gender === "boy" && (
+                            <Text style={styles.productContentText}>
+                              <Text style={styles.bold}>Płeć dziecka:</Text>{" "}
+                              Chłopiec
+                            </Text>
+                          )}
+
+                        {productDetails[0] && productDetails[0].state === 0 && (
+                          <Text style={styles.productContentText}>
+                            <Text style={styles.bold}>Stan produktu:</Text> Nowe
+                          </Text>
+                        )}
+
+                        {productDetails[0] && productDetails[0].state === 1 && (
+                          <Text style={styles.productContentText}>
+                            <Text style={styles.bold}>Stan produktu:</Text>{" "}
+                            Używane
+                          </Text>
+                        )}
+
+                        {productDetails[0] && productDetails[0].users && (
+                          <Text style={styles.productContentText}>
+                            <Text style={styles.bold}>Dodane przez: </Text>
+                            {productDetails[0].users.name}
+                          </Text>
+                        )}
+
+                        {productDetails[0] &&
+                          productDetails[0].users.location_string && (
+                            <Text style={styles.productContentText}>
+                              <Text style={styles.bold}>W poblizu: </Text>
+                              {productDetails[0].users.location_string}
+                            </Text>
+                          )}
+
+                        {productDetails[0] && productDetails[0].price && (
+                          <Text style={styles.productContentText}>
+                            <Text style={styles.bold}>Cena: </Text>
+                            {productDetails[0].price} zł
+                          </Text>
+                        )}
+                      </View>
+                      {/* user is not the author, they are not in the same conversation and product is not sold*/}
+                      {productDetails[0].user_id != this.context.userData.id &&
+                        !usersAreInTheSameConversation &&
+                        productDetails[0].status != 1 && (
+                          <ButtonComponent
+                            pressButtonComponent={
+                              this.changeShowProductMessageBox
+                            }
+                            buttonComponentText="Wyślij wiadomość"
+                            fullWidth={true}
+                            underlayColor="#dd904d"
+                            whiteBg={false}
+                            showBackIcon={false}
+                          />
+                        )}
+                      {/* user is not the author and product is sold*/}
+                      {productDetails[0].user_id != this.context.userData.id &&
+                        productDetails[0].status == 1 && (
+                          <View style={styles.productContent}>
+                            <Text style={styles.productContentText}>
+                              <Text style={styles.productClosed}>
+                                Sprzedaż produktu zakończona
+                              </Text>
+                            </Text>
+                          </View>
+                        )}
+                      {/* user is not the author, they are in the same conversation and product is sold*/}
+                      {productDetails[0].user_id != this.context.userData.id &&
+                        usersAreInTheSameConversation &&
+                        productDetails[0].status == 1 && (
+                          <ButtonComponent
+                            pressButtonComponent={() =>
+                              this.props.navigation.navigate("Messages", {})
+                            }
+                            buttonComponentText="Produkt sprzedany, jesteście w konwersacji"
+                            fullWidth={true}
+                            underlayColor="#dd904d"
+                            whiteBg={false}
+                            showBackIcon={false}
+                          />
+                        )}
+                      {/* user is not the author, they are in the same conversation and product is not sold*/}
+                      {productDetails[0].user_id != this.context.userData.id &&
+                        usersAreInTheSameConversation &&
+                        productDetails[0].status != 1 && (
+                          <ButtonComponent
+                            pressButtonComponent={() =>
+                              this.props.navigation.navigate("Messages", {})
+                            }
+                            buttonComponentText="Jestescie już w konwersacji"
+                            fullWidth={true}
+                            underlayColor="#dd904d"
+                            whiteBg={false}
+                            showBackIcon={false}
+                          />
+                        )}
+                      {/* user is the author, and product is not sold*/}
+                      {productDetails[0].user_id == this.context.userData.id &&
+                        productDetails[0].status != 1 && (
+                          <ButtonComponent
+                            pressButtonComponent={() => {
+                              this.closeProduct(productDetails[0].id);
+                            }}
+                            buttonComponentText="Zamknij Sprzedaż"
+                            fullWidth={true}
+                            underlayColor="#dd904d"
+                            whiteBg={false}
+                            showBackIcon={false}
+                          />
+                        )}
+
+                      {/* user is the author, and product is sold*/}
+                      {productDetails[0].user_id == this.context.userData.id &&
+                        productDetails[0].status != 0 && (
+                          <ButtonComponent
+                            pressButtonComponent={() => {
+                              this.reactivateProduct(productDetails[0].id);
+                            }}
+                            buttonComponentText="Wznów Sprzedaż"
+                            fullWidth={true}
+                            underlayColor="#dd904d"
+                            whiteBg={false}
+                            showBackIcon={false}
+                          />
+                        )}
+                    </View>
+                  ) : null}
                 </View>
-              ) : null}
-            </View>
 
-            <BottomPanel data-test="BottomPanel" />
+                <BottomPanel data-test="BottomPanel" />
+              </React.Fragment>
+            )}
           </View>
         </SafeAreaView>
       </React.Fragment>

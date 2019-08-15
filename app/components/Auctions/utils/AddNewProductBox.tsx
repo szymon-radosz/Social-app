@@ -4,7 +4,6 @@ import {
   Text,
   View,
   TouchableHighlight,
-  ScrollView,
   NativeModules,
   TouchableOpacity,
   SafeAreaView
@@ -21,6 +20,7 @@ import { GlobalContext } from "./../../../Context/GlobalContext";
 
 const trash: any = require("./../../../assets/images/trash.png");
 const upload: any = require("./../../../assets/images/upload.png");
+const loaderImage: any = require("./../../../assets/images/loader.gif");
 
 var ImagePicker = NativeModules.ImageCropPicker;
 
@@ -93,7 +93,7 @@ class AddNewProductBox extends Component<
     selectedCategoryId: any,
     price: string
   ) => {
-    console.log([
+    /*console.log([
       photos,
       maleGender,
       femaleGender,
@@ -104,7 +104,7 @@ class AddNewProductBox extends Component<
       description,
       selectedCategoryId,
       price
-    ]);
+    ]);*/
     let childGender;
     let productState;
     let API_URL = this.context.API_URL;
@@ -162,9 +162,9 @@ class AddNewProductBox extends Component<
     ) {
       let that = this;
 
-      console.log(["photosArray", photosArray]);
+      this.context.setShowLoader(true);
 
-      that.context.setShowLoader(true);
+      //console.log(["photosArray", photosArray]);
 
       let json = await axios
         .post(API_URL + "/api/saveProduct", {
@@ -180,35 +180,35 @@ class AddNewProductBox extends Component<
           state: productState,
           photos: photosArray
         })
-        .then(function(response) {
+        .then(async response => {
           if (response.data.status === "OK") {
-            console.log(["Add new product success", response.data]);
-            that.context.setAlert(
+            //console.log(["Add new product success", response.data]);
+            await that.context.setAlert(
               true,
               "success",
               "Dziękujemy za dodanie nowego produktu."
             );
 
-            that.props.navigation.navigate("ProductDetails", {
+            await that.context.setShowLoader(false);
+
+            await that.props.navigation.navigate("ProductDetails", {
               productId: response.data.result.product.id,
               authorId: response.data.result.product.user_id
             });
-
-            that.context.setShowLoader(false);
           }
         })
-        .catch(function(error) {
+        .catch(async error => {
           console.log(error);
 
-          that.context.setAlert(
+          await that.context.setAlert(
             true,
             "danger",
             "Problem z dodaniem nowego produktu."
           );
 
-          that.props.navigation.navigate("Auctions", {});
+          await that.context.setShowLoader(false);
 
-          that.context.setShowLoader(false);
+          await that.props.navigation.navigate("Auctions", {});
         });
 
       return json;
@@ -326,51 +326,108 @@ class AddNewProductBox extends Component<
             }}
             data-test="FindUsers"
           >
-            <View style={styles.relative}>
-              <PageHeader
-                boldText={"Dodaj nowy produkt"}
-                normalText={""}
-                closeMethod={() => this.props.navigation.goBack(null)}
-                closeMethodParameter={""}
-              />
-              <View style={styles.addNewProductInputContainer}>
-                <InputComponent
-                  placeholder="Podaj nazwę produktu"
-                  inputOnChange={(name: string) => this.setState({ name })}
-                  value={name}
-                  secureTextEntry={false}
-                  maxLength={100}
+            {this.context.showLoader ? (
+              <View style={styles.loaderContainer} data-test="loader">
+                <Image
+                  style={{ width: 100, height: 100 }}
+                  source={loaderImage}
                 />
               </View>
+            ) : (
+              <React.Fragment>
+                <View style={styles.relative}>
+                  <PageHeader
+                    boldText={"Dodaj nowy produkt"}
+                    normalText={""}
+                    closeMethod={() => this.props.navigation.goBack(null)}
+                    closeMethodParameter={""}
+                  />
+                  <View style={styles.addNewProductInputContainer}>
+                    <InputComponent
+                      placeholder="Podaj nazwę produktu"
+                      inputOnChange={(name: string) => this.setState({ name })}
+                      value={name}
+                      secureTextEntry={false}
+                      maxLength={100}
+                    />
+                  </View>
 
-              <View style={styles.addNewProductDescInput}>
-                <TextAreaComponent
-                  placeholder="Podaj opis produktu, w przypadku odzieży podaj wymiary itp."
-                  inputOnChange={(description: string) =>
-                    this.setState({ description })
-                  }
-                  value={description}
-                  maxLength={1000}
-                  multiline={true}
-                  numberOfLines={20}
-                />
-              </View>
+                  <View style={styles.addNewProductDescInput}>
+                    <TextAreaComponent
+                      placeholder="Podaj opis produktu, w przypadku odzieży podaj wymiary itp."
+                      inputOnChange={(description: string) =>
+                        this.setState({ description })
+                      }
+                      value={description}
+                      maxLength={1000}
+                      multiline={true}
+                      numberOfLines={20}
+                    />
+                  </View>
 
-              <View style={styles.addNewProductOptionContainer}>
-                <Text style={styles.addNewProductOptionHeaderText}>
-                  Kategoria
-                </Text>
-                <View style={styles.addNewProductOptionWrapper}>
-                  {categories.map((category: any, i: number) => {
-                    return (
-                      <View
-                        style={{ flexDirection: "row" }}
-                        key={`addNewProductOption-${i}`}
-                      >
+                  <View style={styles.addNewProductOptionContainer}>
+                    <Text style={styles.addNewProductOptionHeaderText}>
+                      Kategoria
+                    </Text>
+                    <View style={styles.addNewProductOptionWrapper}>
+                      {categories.map((category: any, i: number) => {
+                        return (
+                          <View
+                            style={{ flexDirection: "row" }}
+                            key={`addNewProductOption-${i}`}
+                          >
+                            <TouchableOpacity
+                              onPress={() => this.setCategoryId(category.id)}
+                              style={
+                                selectedCategoryId == category.id
+                                  ? {
+                                      width: 20,
+                                      height: 20,
+                                      borderWidth: 1,
+                                      backgroundColor: "#f7b67e",
+                                      borderColor: "#f7b67e",
+                                      borderRadius: 20,
+                                      marginRight: 5,
+                                      marginBottom: 10
+                                    }
+                                  : {
+                                      width: 20,
+                                      height: 20,
+                                      borderWidth: 1,
+                                      backgroundColor: "white",
+                                      borderRadius: 20,
+                                      marginRight: 5,
+                                      marginBottom: 10
+                                    }
+                              }
+                            />
+
+                            <Text
+                              style={
+                                selectedCategoryId == category.id
+                                  ? styles.addNewProductOptionTextActive
+                                  : styles.addNewProductOptionText
+                              }
+                              onPress={() => this.setCategoryId(category.id)}
+                            >
+                              {category.name}
+                            </Text>
+                          </View>
+                        );
+                      })}
+                    </View>
+                  </View>
+
+                  <View style={styles.addNewProductOptionContainer}>
+                    <Text style={styles.addNewProductOptionHeaderText}>
+                      Płeć dziecka
+                    </Text>
+                    <View style={styles.addNewProductOptionWrapper}>
+                      <View style={{ flexDirection: "row" }}>
                         <TouchableOpacity
-                          onPress={() => this.setCategoryId(category.id)}
+                          onPress={() => this.setGender("boy")}
                           style={
-                            selectedCategoryId == category.id
+                            maleGender
                               ? {
                                   width: 20,
                                   height: 20,
@@ -395,298 +452,264 @@ class AddNewProductBox extends Component<
 
                         <Text
                           style={
-                            selectedCategoryId == category.id
+                            maleGender
                               ? styles.addNewProductOptionTextActive
                               : styles.addNewProductOptionText
                           }
-                          onPress={() => this.setCategoryId(category.id)}
+                          onPress={() => this.setGender("boy")}
                         >
-                          {category.name}
+                          Chłopiec
                         </Text>
                       </View>
-                    );
-                  })}
-                </View>
-              </View>
+                      <View style={{ flexDirection: "row" }}>
+                        <TouchableOpacity
+                          onPress={() => this.setGender("girl")}
+                          style={
+                            femaleGender
+                              ? {
+                                  width: 20,
+                                  height: 20,
+                                  borderWidth: 1,
+                                  backgroundColor: "#f7b67e",
+                                  borderColor: "#f7b67e",
+                                  borderRadius: 20,
+                                  marginRight: 5,
+                                  marginBottom: 10
+                                }
+                              : {
+                                  width: 20,
+                                  height: 20,
+                                  borderWidth: 1,
+                                  backgroundColor: "white",
+                                  borderRadius: 20,
+                                  marginRight: 5,
+                                  marginBottom: 10
+                                }
+                          }
+                        />
 
-              <View style={styles.addNewProductOptionContainer}>
-                <Text style={styles.addNewProductOptionHeaderText}>
-                  Płeć dziecka
-                </Text>
-                <View style={styles.addNewProductOptionWrapper}>
-                  <View style={{ flexDirection: "row" }}>
-                    <TouchableOpacity
-                      onPress={() => this.setGender("boy")}
-                      style={
-                        maleGender
-                          ? {
-                              width: 20,
-                              height: 20,
-                              borderWidth: 1,
-                              backgroundColor: "#f7b67e",
-                              borderColor: "#f7b67e",
-                              borderRadius: 20,
-                              marginRight: 5,
-                              marginBottom: 10
-                            }
-                          : {
-                              width: 20,
-                              height: 20,
-                              borderWidth: 1,
-                              backgroundColor: "white",
-                              borderRadius: 20,
-                              marginRight: 5,
-                              marginBottom: 10
-                            }
-                      }
-                    />
-
-                    <Text
-                      style={
-                        maleGender
-                          ? styles.addNewProductOptionTextActive
-                          : styles.addNewProductOptionText
-                      }
-                      onPress={() => this.setGender("boy")}
-                    >
-                      Chłopiec
-                    </Text>
+                        <Text
+                          onPress={() => this.setGender("girl")}
+                          style={
+                            femaleGender
+                              ? styles.addNewProductOptionTextActive
+                              : styles.addNewProductOptionText
+                          }
+                        >
+                          Dziewczynka
+                        </Text>
+                      </View>
+                    </View>
                   </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <TouchableOpacity
-                      onPress={() => this.setGender("girl")}
-                      style={
-                        femaleGender
-                          ? {
-                              width: 20,
-                              height: 20,
-                              borderWidth: 1,
-                              backgroundColor: "#f7b67e",
-                              borderColor: "#f7b67e",
-                              borderRadius: 20,
-                              marginRight: 5,
-                              marginBottom: 10
-                            }
-                          : {
-                              width: 20,
-                              height: 20,
-                              borderWidth: 1,
-                              backgroundColor: "white",
-                              borderRadius: 20,
-                              marginRight: 5,
-                              marginBottom: 10
-                            }
-                      }
-                    />
 
-                    <Text
-                      onPress={() => this.setGender("girl")}
-                      style={
-                        femaleGender
-                          ? styles.addNewProductOptionTextActive
-                          : styles.addNewProductOptionText
-                      }
-                    >
-                      Dziewczynka
-                    </Text>
-                  </View>
-                </View>
-              </View>
-
-              <View
-                style={{ paddingLeft: 10, paddingRight: 10, paddingBottom: 20 }}
-              >
-                <Text style={{ fontWeight: "600" }}>Cena (zł)</Text>
-
-                <InputComponent
-                  placeholder="Cena w zł"
-                  inputOnChange={(price: string) => this.setState({ price })}
-                  value={price}
-                  secureTextEntry={false}
-                  maxLength={5}
-                />
-              </View>
-
-              <View style={styles.addNewProductOptionContainer}>
-                <Text style={styles.addNewProductOptionHeaderText}>
-                  Stan produktu
-                </Text>
-                <View style={styles.addNewProductOptionWrapper}>
-                  <View style={{ flexDirection: "row" }}>
-                    <TouchableOpacity
-                      onPress={() => this.setProductState("new")}
-                      style={
-                        newProduct
-                          ? {
-                              width: 20,
-                              height: 20,
-                              borderWidth: 1,
-                              backgroundColor: "#f7b67e",
-                              borderColor: "#f7b67e",
-                              borderRadius: 20,
-                              marginRight: 5,
-                              marginBottom: 10
-                            }
-                          : {
-                              width: 20,
-                              height: 20,
-                              borderWidth: 1,
-                              backgroundColor: "white",
-                              borderRadius: 20,
-                              marginRight: 5,
-                              marginBottom: 10
-                            }
-                      }
-                    />
-
-                    <Text
-                      style={
-                        newProduct
-                          ? styles.addNewProductOptionTextActive
-                          : styles.addNewProductOptionText
-                      }
-                      onPress={() => this.setProductState("new")}
-                    >
-                      Nowe
-                    </Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <TouchableOpacity
-                      onPress={() => this.setProductState("secondHand")}
-                      style={
-                        secondHandProduct
-                          ? {
-                              width: 20,
-                              height: 20,
-                              borderWidth: 1,
-                              backgroundColor: "#f7b67e",
-                              borderColor: "#f7b67e",
-                              borderRadius: 20,
-                              marginRight: 5,
-                              marginBottom: 10
-                            }
-                          : {
-                              width: 20,
-                              height: 20,
-                              borderWidth: 1,
-                              backgroundColor: "white",
-                              borderRadius: 20,
-                              marginRight: 5,
-                              marginBottom: 10
-                            }
-                      }
-                    />
-
-                    <Text
-                      onPress={() => this.setProductState("secondHand")}
-                      style={
-                        secondHandProduct
-                          ? styles.addNewProductOptionTextActive
-                          : styles.addNewProductOptionText
-                      }
-                    >
-                      Używane
-                    </Text>
-                  </View>
-                </View>
-              </View>
-
-              {photos && photos.length === 0 && (
-                <View
-                  style={{
-                    paddingLeft: 10,
-                    paddingRight: 10,
-                    marginBottom: 10
-                  }}
-                >
-                  <Text style={{ paddingBottom: 5, fontWeight: "600" }}>
-                    Dodaj zdjęcia
-                  </Text>
-                  <TouchableHighlight
+                  <View
                     style={{
-                      width: 50,
-                      height: 50,
-                      borderRadius: 6,
-                      backgroundColor: "#f7b67e",
-                      alignItems: "center",
-                      justifyContent: "center"
+                      paddingLeft: 10,
+                      paddingRight: 10,
+                      paddingBottom: 20
                     }}
-                    underlayColor={"#dd904d"}
-                    onPress={this.handleChoosePhoto}
                   >
-                    <Image source={upload} style={{ width: 20, height: 20 }} />
-                  </TouchableHighlight>
-                </View>
-              )}
+                    <Text style={{ fontWeight: "600" }}>Cena (zł)</Text>
 
-              <View
-                style={{
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                  paddingLeft: 10,
-                  paddingRight: 10,
-                  marginBottom: 10
-                }}
-              >
-                {showPhotoArr &&
-                  showPhotoArr.map((photo: any, i: number) => {
-                    return (
-                      <Image
-                        key={`AddNewProductBox-${i}`}
+                    <InputComponent
+                      placeholder="Cena w zł"
+                      inputOnChange={(price: string) =>
+                        this.setState({ price })
+                      }
+                      value={price}
+                      secureTextEntry={false}
+                      maxLength={5}
+                    />
+                  </View>
+
+                  <View style={styles.addNewProductOptionContainer}>
+                    <Text style={styles.addNewProductOptionHeaderText}>
+                      Stan produktu
+                    </Text>
+                    <View style={styles.addNewProductOptionWrapper}>
+                      <View style={{ flexDirection: "row" }}>
+                        <TouchableOpacity
+                          onPress={() => this.setProductState("new")}
+                          style={
+                            newProduct
+                              ? {
+                                  width: 20,
+                                  height: 20,
+                                  borderWidth: 1,
+                                  backgroundColor: "#f7b67e",
+                                  borderColor: "#f7b67e",
+                                  borderRadius: 20,
+                                  marginRight: 5,
+                                  marginBottom: 10
+                                }
+                              : {
+                                  width: 20,
+                                  height: 20,
+                                  borderWidth: 1,
+                                  backgroundColor: "white",
+                                  borderRadius: 20,
+                                  marginRight: 5,
+                                  marginBottom: 10
+                                }
+                          }
+                        />
+
+                        <Text
+                          style={
+                            newProduct
+                              ? styles.addNewProductOptionTextActive
+                              : styles.addNewProductOptionText
+                          }
+                          onPress={() => this.setProductState("new")}
+                        >
+                          Nowe
+                        </Text>
+                      </View>
+                      <View style={{ flexDirection: "row" }}>
+                        <TouchableOpacity
+                          onPress={() => this.setProductState("secondHand")}
+                          style={
+                            secondHandProduct
+                              ? {
+                                  width: 20,
+                                  height: 20,
+                                  borderWidth: 1,
+                                  backgroundColor: "#f7b67e",
+                                  borderColor: "#f7b67e",
+                                  borderRadius: 20,
+                                  marginRight: 5,
+                                  marginBottom: 10
+                                }
+                              : {
+                                  width: 20,
+                                  height: 20,
+                                  borderWidth: 1,
+                                  backgroundColor: "white",
+                                  borderRadius: 20,
+                                  marginRight: 5,
+                                  marginBottom: 10
+                                }
+                          }
+                        />
+
+                        <Text
+                          onPress={() => this.setProductState("secondHand")}
+                          style={
+                            secondHandProduct
+                              ? styles.addNewProductOptionTextActive
+                              : styles.addNewProductOptionText
+                          }
+                        >
+                          Używane
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+
+                  {photos && photos.length === 0 && (
+                    <View
+                      style={{
+                        paddingLeft: 10,
+                        paddingRight: 10,
+                        marginBottom: 10
+                      }}
+                    >
+                      <Text style={{ paddingBottom: 5, fontWeight: "600" }}>
+                        Dodaj zdjęcia
+                      </Text>
+                      <TouchableHighlight
                         style={{
                           width: 50,
                           height: 50,
                           borderRadius: 6,
-                          marginRight: 10
+                          backgroundColor: "#f7b67e",
+                          alignItems: "center",
+                          justifyContent: "center"
                         }}
-                        source={{ uri: photo }}
-                      />
-                    );
-                  })}
+                        underlayColor={"#dd904d"}
+                        onPress={this.handleChoosePhoto}
+                      >
+                        <Image
+                          source={upload}
+                          style={{ width: 20, height: 20 }}
+                        />
+                      </TouchableHighlight>
+                    </View>
+                  )}
 
-                {showPhotoArr && showPhotoArr.length > 0 && (
-                  <TouchableOpacity
+                  <View
                     style={{
-                      width: 50,
-                      height: 50,
-                      borderRadius: 6,
-                      backgroundColor: "#f7b67e",
-                      alignItems: "center",
-                      justifyContent: "center"
+                      flexDirection: "row",
+                      flexWrap: "wrap",
+                      paddingLeft: 10,
+                      paddingRight: 10,
+                      marginBottom: 10
                     }}
-                    onPress={this.clearPhotos}
                   >
-                    <Image source={trash} style={{ width: 20, height: 20 }} />
-                  </TouchableOpacity>
-                )}
-              </View>
+                    {showPhotoArr &&
+                      showPhotoArr.map((photo: any, i: number) => {
+                        return (
+                          <Image
+                            key={`AddNewProductBox-${i}`}
+                            style={{
+                              width: 50,
+                              height: 50,
+                              borderRadius: 6,
+                              marginRight: 10
+                            }}
+                            source={{ uri: photo }}
+                          />
+                        );
+                      })}
 
-              <ButtonComponent
-                pressButtonComponent={() => {
-                  this.addNewProduct(
-                    photos,
-                    maleGender,
-                    femaleGender,
-                    newProduct,
-                    secondHandProduct,
-                    this.context.userData,
-                    name,
-                    description,
-                    selectedCategoryId,
-                    price
-                  );
-                }}
-                buttonComponentText="Dodaj Produkt"
-                fullWidth={true}
-                underlayColor="#dd904d"
-                whiteBg={false}
-                showBackIcon={false}
-              />
+                    {showPhotoArr && showPhotoArr.length > 0 && (
+                      <TouchableOpacity
+                        style={{
+                          width: 50,
+                          height: 50,
+                          borderRadius: 6,
+                          backgroundColor: "#f7b67e",
+                          alignItems: "center",
+                          justifyContent: "center"
+                        }}
+                        onPress={this.clearPhotos}
+                      >
+                        <Image
+                          source={trash}
+                          style={{ width: 20, height: 20 }}
+                        />
+                      </TouchableOpacity>
+                    )}
+                  </View>
 
-              <View style={{ marginBottom: 20 }} />
-            </View>
+                  <ButtonComponent
+                    pressButtonComponent={() => {
+                      this.addNewProduct(
+                        photos,
+                        maleGender,
+                        femaleGender,
+                        newProduct,
+                        secondHandProduct,
+                        this.context.userData,
+                        name,
+                        description,
+                        selectedCategoryId,
+                        price
+                      );
+                    }}
+                    buttonComponentText="Dodaj Produkt"
+                    fullWidth={true}
+                    underlayColor="#dd904d"
+                    whiteBg={false}
+                    showBackIcon={false}
+                  />
 
-            <BottomPanel data-test="BottomPanel" />
+                  <View style={{ marginBottom: 20 }} />
+                </View>
+
+                <BottomPanel data-test="BottomPanel" />
+              </React.Fragment>
+            )}
           </View>
         </SafeAreaView>
       </React.Fragment>

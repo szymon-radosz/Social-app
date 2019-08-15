@@ -100,9 +100,6 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
     };
 
     this.getActiveProducts = this.getActiveProducts.bind(this);
-    /*this.setSelectedProduct = this.setSelectedProduct.bind(this);
-    
-    this.setDisplayProductDetails = this.setDisplayProductDetails.bind(this);*/
     this.renderItem = this.renderItem.bind(this);
     this.filterResults = this.filterResults.bind(this);
     this.removeFilter = this.removeFilter.bind(this);

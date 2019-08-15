@@ -93,7 +93,7 @@ class Forum extends Component<ForumProps, ForumState> {
       })
       .then(async response => {
         if (response.data.status === "OK") {
-          await that.setState({ postList: [] });
+          //await that.setState({ postList: [] });
           await that.setState({
             categoryName: categoryName,
             showSortByCategoryId: categoryId,
