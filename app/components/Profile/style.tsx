@@ -20,7 +20,8 @@ import {
   filterBtnActive,
   filterBtn,
   filterBtnTextActive,
-  filterBtnText
+  filterBtnText,
+  loaderContainer
 } from "./../../assets/global/globalStyles";
 
 interface Style {
@@ -49,6 +50,7 @@ interface Style {
   filterBtn: any;
   filterBtnTextActive: any;
   filterBtnText: any;
+  loaderContainer: any;
 }
 
 export default StyleSheet.create<Style>({
@@ -124,5 +126,6 @@ export default StyleSheet.create<Style>({
     borderRadius: lightBorderRadius,
     marginBottom: 10,
     backgroundColor: "#ffeee0"
-  }
+  },
+  loaderContainer: loaderContainer
 });

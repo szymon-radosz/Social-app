@@ -5,7 +5,6 @@ import {
   Image,
   Text,
   View,
-  TouchableOpacity,
   SafeAreaView
 } from "react-native";
 //@ts-ignore
@@ -192,6 +191,8 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
 
     let that = this;
 
+    this.context.setShowLoader(true);
+
     if (distance || price || status) {
       axios
         .post(API_URL + "/api/loadProductsFilter", {
@@ -202,7 +203,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
           currentUserLng: userLng,
           active: this.state.displayActiveAuction
         })
-        .then(function(response) {
+        .then(async response => {
           if (response.data.status === "OK") {
             let newDistance = "";
             let newPrice = "";
@@ -231,25 +232,30 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
             );
 
             if (showFilterModal) {
-              that.setState({
+              await that.setState({
                 productList: response.data.result,
                 filterDistance: newDistance,
                 filterPrice: newPrice,
                 filterStatus: newStatus,
                 showFilterModal: !that.state.showFilterModal
               });
+
+              await that.context.setShowLoader(false);
             } else {
-              that.setState({
+              await that.setState({
                 productList: response.data.result,
                 filterDistance: newDistance,
                 filterPrice: newPrice,
                 filterStatus: newStatus
               });
+
+              await that.context.setShowLoader(false);
             }
           }
         })
-        .catch(function(error) {
+        .catch(async error => {
           console.log(error);
+          await that.context.setShowLoader(false);
         });
     } else {
       this.getActiveProducts();
@@ -263,24 +269,30 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
 
     let that = this;
 
+    this.context.setShowLoader(true);
+
     axios
       .post(API_URL + "/api/loadActiveProductBasedOnCoords", {
         lat: userLat,
         lng: userLng
       })
-      .then(function(response) {
+      .then(async response => {
         if (response.data.status === "OK") {
-          that.setState({
+          await that.setState({
             productList: response.data.result,
             displayActiveAuction: true,
             filterDistance: "",
             filterPrice: "",
             filterStatus: ""
           });
+
+          await this.context.setShowLoader(false);
         }
       })
-      .catch(function(error) {
+      .catch(async error => {
         console.log(error);
+
+        await this.context.setShowLoader(false);
       });
   };
 
@@ -326,100 +338,118 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
             }}
             data-test="Auctions"
           >
-            <View>
-              {this.context.showLoader ? (
-                <View style={styles.loaderContainer} data-test="loader">
-                  <Image
-                    style={{ width: 100, height: 100 }}
-                    source={loaderImage}
-                  />
-                </View>
-              ) : (
-                <View data-test="Auctions">
-                  {!displayProductDetails && !showFilterModal && (
-                    <ImageBackground
-                      source={auctionsBg}
-                      style={{ width: "100%" }}
-                    >
-                      <Text style={styles.pageTitle}>
-                        Sprzedawaj i{"\n"}kupuj
-                      </Text>
-                    </ImageBackground>
-                  )}
-
-                  {!displayProductDetails && productList && showFilterModal && (
-                    <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                      <FilterModal
-                        filterOptions={filterData}
-                        closeFilter={this.setShowFilterModal}
-                        filterModalName={filterModalName}
-                        filterResults={this.filterResults}
-                        data-test="FilterModal"
+            {this.context.showLoader ? (
+              <View style={styles.loaderContainer} data-test="loader">
+                <Image
+                  style={{ width: 100, height: 100 }}
+                  source={loaderImage}
+                />
+              </View>
+            ) : (
+              <React.Fragment>
+                <View>
+                  {this.context.showLoader ? (
+                    <View style={styles.loaderContainer} data-test="loader">
+                      <Image
+                        style={{ width: 100, height: 100 }}
+                        source={loaderImage}
                       />
-                    </Suspense>
-                  )}
+                    </View>
+                  ) : (
+                    <View data-test="Auctions">
+                      {!displayProductDetails && !showFilterModal && (
+                        <ImageBackground
+                          source={auctionsBg}
+                          style={{ width: "100%" }}
+                        >
+                          <Text style={styles.pageTitle}>
+                            Sprzedawaj i{"\n"}kupuj
+                          </Text>
+                        </ImageBackground>
+                      )}
 
-                  {!displayProductDetails && productList && !showFilterModal && (
-                    <View data-test="Carousel">
-                      <Text style={styles.filterResultsHeaderText}>
-                        Filtruj wyniki
-                      </Text>
-                      <View style={styles.filterResultsCarousel}>
-                        <Carousel
-                          layout={"default"}
-                          activeSlideAlignment={"start"}
-                          data={filterOptions}
-                          renderItem={this.renderItem}
-                          itemWidth={100}
-                          sliderWidth={styles.fullWidth}
-                          removeClippedSubviews={false}
-                        />
-                      </View>
+                      {!displayProductDetails &&
+                        productList &&
+                        showFilterModal && (
+                          <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                            <FilterModal
+                              filterOptions={filterData}
+                              closeFilter={this.setShowFilterModal}
+                              filterModalName={filterModalName}
+                              filterResults={this.filterResults}
+                              data-test="FilterModal"
+                            />
+                          </Suspense>
+                        )}
+
+                      {!displayProductDetails &&
+                        productList &&
+                        !showFilterModal && (
+                          <View data-test="Carousel">
+                            <Text style={styles.filterResultsHeaderText}>
+                              Filtruj wyniki
+                            </Text>
+                            <View style={styles.filterResultsCarousel}>
+                              <Carousel
+                                layout={"default"}
+                                activeSlideAlignment={"start"}
+                                data={filterOptions}
+                                renderItem={this.renderItem}
+                                itemWidth={100}
+                                sliderWidth={styles.fullWidth}
+                                removeClippedSubviews={false}
+                              />
+                            </View>
+                          </View>
+                        )}
+
+                      {!displayProductDetails && (
+                        <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                          <ActiveFilters
+                            filterDistance={filterDistance}
+                            filterPrice={filterPrice}
+                            filterStatus={filterStatus}
+                            showFilterModal={showFilterModal}
+                            removeFilter={this.removeFilter}
+                            data-test="ActiveFilters"
+                          />
+                        </Suspense>
+                      )}
+
+                      {!displayProductDetails && !showFilterModal && (
+                        <View>
+                          <AuctionList
+                            API_URL={this.context.API_URL}
+                            productList={productList}
+                            navigation={this.props.navigation}
+                            data-test="AuctionList"
+                          />
+
+                          <View style={{ marginBottom: 10 }}>
+                            <ButtonComponent
+                              pressButtonComponent={() =>
+                                this.props.navigation.navigate(
+                                  "AddNewProduct",
+                                  {}
+                                )
+                              }
+                              buttonComponentText="Dodaj produkt"
+                              fullWidth={true}
+                              underlayColor="#dd904d"
+                              data-test="ButtonComponent"
+                              whiteBg={false}
+                              showBackIcon={false}
+                            />
+                          </View>
+                        </View>
+                      )}
                     </View>
                   )}
-
-                  {!displayProductDetails && (
-                    <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                      <ActiveFilters
-                        filterDistance={filterDistance}
-                        filterPrice={filterPrice}
-                        filterStatus={filterStatus}
-                        showFilterModal={showFilterModal}
-                        removeFilter={this.removeFilter}
-                        data-test="ActiveFilters"
-                      />
-                    </Suspense>
-                  )}
-
-                  {!displayProductDetails && !showFilterModal && (
-                    <View>
-                      <AuctionList
-                        API_URL={this.context.API_URL}
-                        productList={productList}
-                        navigation={this.props.navigation}
-                        data-test="AuctionList"
-                      />
-
-                      <View style={{ marginBottom: 10 }}>
-                        <ButtonComponent
-                          pressButtonComponent={() =>
-                            this.props.navigation.navigate("AddNewProduct", {})
-                          }
-                          buttonComponentText="Dodaj produkt"
-                          fullWidth={true}
-                          underlayColor="#dd904d"
-                          data-test="ButtonComponent"
-                          whiteBg={false}
-                          showBackIcon={false}
-                        />
-                      </View>
-                    </View>
-                  )}
                 </View>
-              )}
-            </View>
 
-            <BottomPanel data-test="BottomPanel" />
+                <BottomPanel data-test="BottomPanel" />
+              </React.Fragment>
+            )}
           </View>
         </SafeAreaView>
       </React.Fragment>

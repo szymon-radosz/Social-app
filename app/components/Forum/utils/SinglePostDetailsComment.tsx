@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Image,
   Text,
@@ -9,6 +9,7 @@ import {
 import styles from "./../style";
 import moment from "moment";
 import "moment/locale/pl";
+import { GlobalContext } from "./../../../Context/GlobalContext";
 
 const like: any = require("./../../../assets/images/like.png");
 
@@ -30,6 +31,7 @@ const SinglePostDetailsComment = (props: {
   navigation: any;
   saveCommentVote: any;
 }): any => {
+  const context = useContext(GlobalContext);
   const commentDate = moment(props.comment.created_at).format("LLL");
   return (
     <View style={styles.postDetailsComment}>
@@ -51,17 +53,21 @@ const SinglePostDetailsComment = (props: {
             {props.comment.users.name}
           </Text>
           <Text style={styles.postDetailsPostDate}>{commentDate}</Text>
-          <TouchableHighlight
-            onPress={async () => {
-              props.navigation.navigate("UserDetails", {
-                userId: props.comment.users.id,
-                showBtns: true
-              });
-            }}
-            underlayColor={"#fff"}
-          >
-            <Text style={styles.conversationDetailsSeeMore}>Zobacz profil</Text>
-          </TouchableHighlight>
+          {props.comment.users.id !== context.userData.id && (
+            <TouchableHighlight
+              onPress={async () => {
+                props.navigation.navigate("UserDetails", {
+                  userId: props.comment.users.id,
+                  showBtns: true
+                });
+              }}
+              underlayColor={"#fff"}
+            >
+              <Text style={styles.conversationDetailsSeeMore}>
+                Zobacz profil
+              </Text>
+            </TouchableHighlight>
+          )}
         </View>
       </View>
       <Text style={styles.singlePostDetailsCommentBody}>

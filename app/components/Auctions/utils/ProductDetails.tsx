@@ -134,19 +134,24 @@ class ProductDetails extends Component<
 
     let that = this;
 
+    this.context.setShowLoader(true);
+
     axios
       .post(API_URL + "/api/loadProductBasedOnId", {
         productId: productId
       })
-      .then(function(response) {
+      .then(async response => {
         if (response.data.status === "OK") {
-          that.setState({
+          await that.setState({
             productDetails: response.data.result
           });
+
+          await that.context.setShowLoader(false);
         }
       })
-      .catch(function(error) {
+      .catch(async error => {
         console.log(error);
+        await that.context.setShowLoader(false);
       });
   };
 
@@ -159,25 +164,31 @@ class ProductDetails extends Component<
 
     let that = this;
 
+    this.context.setShowLoader(true);
+
     axios
       .post(API_URL + "/api/checkIfUsersBelongsToProductConversation", {
         searchedUser: searchedUser,
         loggedInUser: loggedInUser,
         productId: productId
       })
-      .then(function(response) {
+      .then(async response => {
         if (response.data.status === "OK") {
-          that.setState({
+          await that.setState({
             usersAreInTheSameConversation: response.data.result
           });
+
+          await that.context.setShowLoader(false);
         }
       })
-      .catch(function(error) {
-        that.context.setAlert(
+      .catch(async error => {
+        await that.context.setAlert(
           true,
           "danger",
           "Nie udało się pobrać danych o użytkowniku."
         );
+
+        await that.context.setShowLoader(false);
       });
   };
 
@@ -190,6 +201,8 @@ class ProductDetails extends Component<
       let openDetailsId = 0;
 
       let that = this;
+
+      this.context.setShowLoader(true);
 
       console.log([
         "sendNewConversationProduct",
@@ -205,18 +218,18 @@ class ProductDetails extends Component<
           message: message,
           productId: productId
         })
-        .then(function(response) {
+        .then(async response => {
           if (response.data.status === "OK") {
             openDetailsId = response.data.result.id;
 
-            that.setState({
+            await that.setState({
               usersAreInTheSameConversation: true,
               //showProductMessageBox: false,
               showVoteBox: false
             });
           }
         })
-        .then(response =>
+        .then(async response => {
           axios.post(API_URL + "/api/addNotification", {
             type: "started_conversation_user",
             message: `Użytkowniczka ${
@@ -225,9 +238,11 @@ class ProductDetails extends Component<
             userId: receiverId,
             senderId: this.context.userData.id,
             openDetailsId: openDetailsId
-          })
-        )
-        .then(res => {
+          });
+
+          await that.context.setShowLoader(false);
+        })
+        .then(async res => {
           console.log([
             "ProductDetails navigate",
             openDetailsId,
@@ -245,12 +260,14 @@ class ProductDetails extends Component<
             receiverId: receiverId
           });
         })
-        .catch(function(error) {
-          that.context.setAlert(
+        .catch(async error => {
+          await that.context.setAlert(
             true,
             "danger",
             "Problem z wysłaniem wiadomości."
           );
+
+          await that.context.setShowLoader(false);
         });
     }
   };

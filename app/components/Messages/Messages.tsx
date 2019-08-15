@@ -4,16 +4,18 @@ import {
   Text,
   ImageBackground,
   View,
-  ScrollView,
+  Image,
   SafeAreaView
 } from "react-native";
 import Alert from "./../Alert/Alert";
 import BottomPanel from "./../SharedComponents/BottomPanel";
 import axios from "axios";
 import styles from "./style";
-const messagesBgMin: any = require("./../../assets/images/messagesBgMin.jpg");
 import { GlobalContext } from "./../../Context/GlobalContext";
 import MessageList from "./utils/MessageList";
+
+const messagesBgMin: any = require("./../../assets/images/messagesBgMin.jpg");
+const loaderImage: any = require("./../../assets/images/loader.gif");
 
 interface MessagesState {
   messagesList: any;
@@ -51,25 +53,31 @@ class Messages extends Component<MessagesProps, MessagesState> {
 
     let that = this;
 
+    this.context.setShowLoader(true);
+
     axios
       .post(API_URL + "/api/showUserConversations", {
         user_id: user_id
       })
-      .then(function(response) {
+      .then(async response => {
         if (response.data.status === "OK") {
-          console.log(["messagesList", response.data.result.conversationData]);
-          that.setState({
+          //console.log(["messagesList", response.data.result.conversationData]);
+          await that.setState({
             messagesList: response.data.result.conversationData,
             displayPrivateMessages: true
           });
+
+          await that.context.setShowLoader(false);
         }
       })
-      .catch(function(error) {
-        that.context.setAlert(
+      .catch(async error => {
+        await that.context.setAlert(
           true,
           "danger",
           "Wystąpił błąd z wyświetleniem szczegółów konwersacji."
         );
+
+        await that.context.setShowLoader(false);
       });
   };
 
@@ -79,26 +87,32 @@ class Messages extends Component<MessagesProps, MessagesState> {
 
     let that = this;
 
+    this.context.setShowLoader(true);
+
     axios
       .post(API_URL + "/api/showUserConversations", {
         user_id: user_id,
         showProductsConversations: true
       })
-      .then(function(response) {
+      .then(async response => {
         if (response.data.status === "OK") {
-          console.log(response.data.result.conversationData);
-          that.setState({
+          //console.log(response.data.result.conversationData);
+          await that.setState({
             messagesList: response.data.result.conversationData,
             displayPrivateMessages: false
           });
+
+          await that.context.setShowLoader(false);
         }
       })
-      .catch(function(error) {
-        that.context.setAlert(
+      .catch(async error => {
+        await that.context.setAlert(
           true,
           "danger",
           "Wystąpił błąd z wyświetleniem szczegółów konwersacji."
         );
+
+        await that.context.setShowLoader(false);
       });
   };
 
@@ -138,87 +152,98 @@ class Messages extends Component<MessagesProps, MessagesState> {
             }}
             data-test="Messages"
           >
-            <View>
-              <ImageBackground
-                source={messagesBgMin}
-                style={{ width: "100%" }}
-                data-test="ImageBackground"
-              >
-                <Text style={styles.pageTitle}>Twoje{"\n"}Wiadomości</Text>
-              </ImageBackground>
+            {this.context.showLoader ? (
+              <View style={styles.loaderContainer} data-test="loader">
+                <Image
+                  style={{ width: 100, height: 100 }}
+                  source={loaderImage}
+                />
+              </View>
+            ) : (
+              <React.Fragment>
+                <View>
+                  <ImageBackground
+                    source={messagesBgMin}
+                    style={{ width: "100%" }}
+                    data-test="ImageBackground"
+                  >
+                    <Text style={styles.pageTitle}>Twoje{"\n"}Wiadomości</Text>
+                  </ImageBackground>
 
-              {showFilterPanel && (
-                <View data-test="showFilterPanel">
-                  <View style={styles.filterBtnContainer}>
-                    <View style={styles.singleButtonCol2Container}>
-                      <TouchableOpacity
-                        onPress={this.getMessages}
-                        style={
-                          displayPrivateMessages
-                            ? styles.filterBtnActive
-                            : styles.filterBtn
-                        }
-                      >
-                        <Text
-                          style={
-                            displayPrivateMessages
-                              ? styles.filterBtnTextActive
-                              : styles.filterBtnText
-                          }
-                        >
-                          Prywatne
-                        </Text>
-                      </TouchableOpacity>
+                  {showFilterPanel && (
+                    <View data-test="showFilterPanel">
+                      <View style={styles.filterBtnContainer}>
+                        <View style={styles.singleButtonCol2Container}>
+                          <TouchableOpacity
+                            onPress={this.getMessages}
+                            style={
+                              displayPrivateMessages
+                                ? styles.filterBtnActive
+                                : styles.filterBtn
+                            }
+                          >
+                            <Text
+                              style={
+                                displayPrivateMessages
+                                  ? styles.filterBtnTextActive
+                                  : styles.filterBtnText
+                              }
+                            >
+                              Prywatne
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                        <View style={styles.singleButtonCol2Container}>
+                          <TouchableOpacity
+                            onPress={this.getAuctionMessages}
+                            style={
+                              !displayPrivateMessages
+                                ? styles.filterBtnActive
+                                : styles.filterBtn
+                            }
+                          >
+                            <Text
+                              style={
+                                !displayPrivateMessages
+                                  ? styles.filterBtnTextActive
+                                  : styles.filterBtnText
+                              }
+                            >
+                              Targ
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
                     </View>
-                    <View style={styles.singleButtonCol2Container}>
-                      <TouchableOpacity
-                        onPress={this.getAuctionMessages}
-                        style={
-                          !displayPrivateMessages
-                            ? styles.filterBtnActive
-                            : styles.filterBtn
-                        }
-                      >
-                        <Text
-                          style={
-                            !displayPrivateMessages
-                              ? styles.filterBtnTextActive
-                              : styles.filterBtnText
-                          }
-                        >
-                          Targ
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
+                  )}
+
+                  {messagesList ? (
+                    messagesList.length > 0 ? (
+                      <MessageList
+                        messagesList={messagesList}
+                        navigation={this.props.navigation}
+                        data-test="MessageList"
+                      />
+                    ) : displayPrivateMessages ? (
+                      <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
+                        Brak wyników. Zaproś inne mamy z Twojej okolicy do
+                        znajomych.
+                      </Text>
+                    ) : (
+                      <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
+                        Brak wyników. Dodaj nieużywane przedmioty w zakładce
+                        'Targ' i uzgodnij szczegóły z innymi użytkowniczkami w
+                        wiadomościach.
+                      </Text>
+                    )
+                  ) : null}
                 </View>
-              )}
-
-              {messagesList ? (
-                messagesList.length > 0 ? (
-                  <MessageList
-                    messagesList={messagesList}
-                    navigation={this.props.navigation}
-                    data-test="MessageList"
-                  />
-                ) : displayPrivateMessages ? (
-                  <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
-                    Brak wyników. Zaproś inne mamy z Twojej okolicy do
-                    znajomych.
-                  </Text>
-                ) : (
-                  <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
-                    Brak wyników. Dodaj nieużywane przedmioty w zakładce 'Targ'
-                    i uzgodnij szczegóły z innymi użytkowniczkami w
-                    wiadomościach.
-                  </Text>
-                )
-              ) : null}
-            </View>
-            <BottomPanel
-              data-test="BottomPanel"
-              navigation={this.props.navigation}
-            />
+                <BottomPanel
+                  data-test="BottomPanel"
+                  navigation={this.props.navigation}
+                />
+              </React.Fragment>
+            )}
           </View>
         </SafeAreaView>
       </React.Fragment>

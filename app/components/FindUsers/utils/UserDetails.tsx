@@ -1,5 +1,5 @@
 import React, { Component, Suspense } from "react";
-import { Text, View, ScrollView, SafeAreaView } from "react-native";
+import { Text, View, ScrollView, SafeAreaView, Image } from "react-native";
 import axios from "axios";
 import styles from "./../style";
 import BottomPanel from "./../../SharedComponents/BottomPanel";
@@ -9,6 +9,8 @@ import UserPreview from "./../../SharedComponents/UserPreview";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import ButtonComponent from "./../../Utils/ButtonComponent";
 import { GlobalContext } from "./../../../Context/GlobalContext";
+
+const loaderImage: any = require("./../../../assets/images/loader.gif");
 
 interface FindUsersState {
   showUserMessageBox: boolean;
@@ -64,15 +66,17 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
 
     await this.setState({ userDetailsId: 0, userDetailsData: [] });
 
+    this.context.setShowLoader(true);
+
     axios
       .post(API_URL + "/api/loadUserById", {
         userId: userId,
         loggedInUser: loggedInUser
       })
-      .then(function(response) {
+      .then(async response => {
         if (response.data.status === "OK") {
           console.log(["setShowUserDetails", response.data.result.user]);
-          that.setState({
+          await that.setState({
             userDetailsId: userId,
             userDetailsData: response.data.result.user,
             usersAreInTheSameConversation:
@@ -80,8 +84,8 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
           });
         }
       })
-      .catch(function(error) {
-        that.context.setAlert(
+      .catch(async error => {
+        await that.context.setAlert(
           true,
           "danger",
           "Nie udało się pobrać danych o uzytkowniku."
@@ -94,15 +98,19 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
         senderId: loggedInUser,
         receiverId: userId
       })
-      .then(function(response) {
+      .then(async response => {
         if (response.data.status === "OK") {
-          that.setState({
+          await that.setState({
             usersFriendshipStatus: response.data.result.friendship
           });
+
+          await that.context.setShowLoader(false);
         }
       })
-      .catch(function(error) {
+      .catch(async error => {
         console.log(error);
+
+        await that.context.setShowLoader(false);
       });
   };
 
@@ -220,173 +228,192 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
             }}
             data-test="FindUsers"
           >
-            {userDetailsData && (
-              <ScrollView>
-                <PageHeader
-                  boldText={userDetailsData.name}
-                  normalText={""}
-                  closeMethod={() => {
-                    this.props.navigation.goBack(null);
-                  }}
-                  closeMethodParameter={""}
+            {this.context.showLoader ? (
+              <View style={styles.loaderContainer} data-test="loader">
+                <Image
+                  style={{ width: 100, height: 100 }}
+                  source={loaderImage}
                 />
-                <React.Fragment>
-                  <ProfileHeader
-                    API_URL={this.context.API_URL}
-                    avatar={userDetailsData.photo_path}
-                    name={userDetailsData.name}
-                    cityDistrict={locationDetails.cityDistrict}
-                    city={locationDetails.city}
-                    age={userDetailsData.age}
-                    countFriends={2}
-                    countKids={
-                      userDetailsData.kids && userDetailsData.kids.length > 0
-                        ? userDetailsData.kids.length
-                        : 0
-                    }
-                    locationString={userDetailsData.location_string}
-                  />
-
-                  <UserPreview
-                    hobbies={
-                      userDetailsData.hobbies &&
-                      userDetailsData.hobbies.length > 0
-                        ? userDetailsData.hobbies
-                        : null
-                    }
-                    kids={
-                      userDetailsData.kids && userDetailsData.kids.length > 0
-                        ? userDetailsData.kids
-                        : null
-                    }
-                    description={userDetailsData.description}
-                  />
-
-                  {usersAreInTheSameConversation &&
-                    this.props.navigation.state.params.showBtns && (
-                      <Text style={styles.userDetailsContentHobbyContainer}>
-                        Jesteś już w trakcie rozmowy z {userDetailsData.name}
-                      </Text>
-                    )}
-                  <View style={styles.userDetailsRedirectMessageBtnContainer}>
-                    {usersAreInTheSameConversation &&
-                    this.props.navigation.state.params.showBtns ? (
-                      <ButtonComponent
-                        pressButtonComponent={() =>
-                          this.context.NavigationService.navigate(
-                            "Messages",
-                            {}
-                          )
+              </View>
+            ) : (
+              <React.Fragment>
+                {userDetailsData && (
+                  <ScrollView>
+                    <PageHeader
+                      boldText={userDetailsData.name}
+                      normalText={""}
+                      closeMethod={() => {
+                        this.props.navigation.goBack(null);
+                      }}
+                      closeMethodParameter={""}
+                    />
+                    <React.Fragment>
+                      <ProfileHeader
+                        API_URL={this.context.API_URL}
+                        avatar={userDetailsData.photo_path}
+                        name={userDetailsData.name}
+                        cityDistrict={locationDetails.cityDistrict}
+                        city={locationDetails.city}
+                        age={userDetailsData.age}
+                        countFriends={2}
+                        countKids={
+                          userDetailsData.kids &&
+                          userDetailsData.kids.length > 0
+                            ? userDetailsData.kids.length
+                            : 0
                         }
-                        buttonComponentText="Przejdź do wiadomości"
-                        fullWidth={true}
-                        underlayColor="#dd904d"
-                        whiteBg={false}
-                        showBackIcon={false}
+                        locationString={userDetailsData.location_string}
                       />
-                    ) : (
-                      this.props.navigation.state.params.showBtns && (
-                        <ButtonComponent
-                          pressButtonComponent={() =>
-                            this.context.NavigationService.navigate(
-                              "UserMessageBox",
-                              { userId: userDetailsData.id }
-                            )
+
+                      <UserPreview
+                        hobbies={
+                          userDetailsData.hobbies &&
+                          userDetailsData.hobbies.length > 0
+                            ? userDetailsData.hobbies
+                            : null
+                        }
+                        kids={
+                          userDetailsData.kids &&
+                          userDetailsData.kids.length > 0
+                            ? userDetailsData.kids
+                            : null
+                        }
+                        description={userDetailsData.description}
+                      />
+
+                      {usersAreInTheSameConversation &&
+                        this.props.navigation.state.params.showBtns && (
+                          <Text style={styles.userDetailsContentHobbyContainer}>
+                            Jesteś już w trakcie rozmowy z{" "}
+                            {userDetailsData.name}
+                          </Text>
+                        )}
+                      <View
+                        style={styles.userDetailsRedirectMessageBtnContainer}
+                      >
+                        {usersAreInTheSameConversation &&
+                        this.props.navigation.state.params.showBtns ? (
+                          <ButtonComponent
+                            pressButtonComponent={() =>
+                              this.context.NavigationService.navigate(
+                                "Messages",
+                                {}
+                              )
+                            }
+                            buttonComponentText="Przejdź do wiadomości"
+                            fullWidth={true}
+                            underlayColor="#dd904d"
+                            whiteBg={false}
+                            showBackIcon={false}
+                          />
+                        ) : (
+                          this.props.navigation.state.params.showBtns && (
+                            <ButtonComponent
+                              pressButtonComponent={() =>
+                                this.context.NavigationService.navigate(
+                                  "UserMessageBox",
+                                  { userId: userDetailsData.id }
+                                )
+                              }
+                              buttonComponentText="Pomachaj"
+                              fullWidth={true}
+                              underlayColor="#dd904d"
+                              whiteBg={false}
+                              showBackIcon={false}
+                            />
+                          )
+                        )}
+                      </View>
+                      <View
+                        style={styles.userDetailsRedirectMessageBtnContainer}
+                      >
+                        <View
+                          style={
+                            this.props.navigation.state.params.showBtns &&
+                            styles.btnContainerMarginBottom
                           }
-                          buttonComponentText="Pomachaj"
-                          fullWidth={true}
-                          underlayColor="#dd904d"
-                          whiteBg={false}
-                          showBackIcon={false}
-                        />
-                      )
-                    )}
-                  </View>
-                  <View style={styles.userDetailsRedirectMessageBtnContainer}>
-                    <View
-                      style={
-                        this.props.navigation.state.params.showBtns &&
-                        styles.btnContainerMarginBottom
-                      }
-                    >
-                      {usersFriendshipStatus === "friendship doesnt exist" &&
-                        this.props.navigation.state.params.showBtns && (
-                          <ButtonComponent
-                            pressButtonComponent={() =>
-                              this.inviteFriend(
-                                this.context.userData.id,
-                                userDetailsData.id
-                              )
-                            }
-                            buttonComponentText="Zaproś do znajomych"
-                            fullWidth={true}
-                            underlayColor="#dd904d"
-                            whiteBg={false}
-                            showBackIcon={false}
-                          />
-                        )}
+                        >
+                          {usersFriendshipStatus ===
+                            "friendship doesnt exist" &&
+                            this.props.navigation.state.params.showBtns && (
+                              <ButtonComponent
+                                pressButtonComponent={() =>
+                                  this.inviteFriend(
+                                    this.context.userData.id,
+                                    userDetailsData.id
+                                  )
+                                }
+                                buttonComponentText="Zaproś do znajomych"
+                                fullWidth={true}
+                                underlayColor="#dd904d"
+                                whiteBg={false}
+                                showBackIcon={false}
+                              />
+                            )}
 
-                      {usersFriendshipStatus ===
-                        "not confirmed by first person" &&
-                        this.props.navigation.state.params.showBtns && (
-                          <ButtonComponent
-                            pressButtonComponent={() =>
-                              this.confirmFriend(
-                                this.context.userData.id,
-                                userDetailsData.id
-                              )
-                            }
-                            buttonComponentText="Zaakceptuj zaproszenie do znajomych"
-                            fullWidth={true}
-                            underlayColor="#dd904d"
-                            whiteBg={false}
-                            showBackIcon={false}
-                          />
-                        )}
+                          {usersFriendshipStatus ===
+                            "not confirmed by first person" &&
+                            this.props.navigation.state.params.showBtns && (
+                              <ButtonComponent
+                                pressButtonComponent={() =>
+                                  this.confirmFriend(
+                                    this.context.userData.id,
+                                    userDetailsData.id
+                                  )
+                                }
+                                buttonComponentText="Zaakceptuj zaproszenie do znajomych"
+                                fullWidth={true}
+                                underlayColor="#dd904d"
+                                whiteBg={false}
+                                showBackIcon={false}
+                              />
+                            )}
 
-                      {usersFriendshipStatus ===
-                        "not confirmed by second person" &&
-                        this.props.navigation.state.params.showBtns && (
-                          <ButtonComponent
-                            pressButtonComponent={() => {
-                              this.context.NavigationService.navigate(
-                                "UserFriendsList",
-                                {}
-                              );
-                            }}
-                            buttonComponentText="Wysłano zaproszenie do znajomych"
-                            fullWidth={true}
-                            underlayColor="#dd904d"
-                            whiteBg={false}
-                            showBackIcon={false}
-                          />
-                        )}
-                      {usersFriendshipStatus === "confirmed" &&
-                        this.props.navigation.state.params.showBtns && (
-                          <ButtonComponent
-                            pressButtonComponent={() =>
-                              this.context.NavigationService.navigate(
-                                "UserFriendsList",
-                                {}
-                              )
-                            }
-                            buttonComponentText="Jesteście znajomymi"
-                            fullWidth={true}
-                            underlayColor="#dd904d"
-                            whiteBg={false}
-                            showBackIcon={false}
-                          />
-                        )}
-                    </View>
-                  </View>
-                </React.Fragment>
-              </ScrollView>
+                          {usersFriendshipStatus ===
+                            "not confirmed by second person" &&
+                            this.props.navigation.state.params.showBtns && (
+                              <ButtonComponent
+                                pressButtonComponent={() => {
+                                  this.context.NavigationService.navigate(
+                                    "UserFriendsList",
+                                    {}
+                                  );
+                                }}
+                                buttonComponentText="Wysłano zaproszenie do znajomych"
+                                fullWidth={true}
+                                underlayColor="#dd904d"
+                                whiteBg={false}
+                                showBackIcon={false}
+                              />
+                            )}
+                          {usersFriendshipStatus === "confirmed" &&
+                            this.props.navigation.state.params.showBtns && (
+                              <ButtonComponent
+                                pressButtonComponent={() =>
+                                  this.context.NavigationService.navigate(
+                                    "UserFriendsList",
+                                    {}
+                                  )
+                                }
+                                buttonComponentText="Jesteście znajomymi"
+                                fullWidth={true}
+                                underlayColor="#dd904d"
+                                whiteBg={false}
+                                showBackIcon={false}
+                              />
+                            )}
+                        </View>
+                      </View>
+                    </React.Fragment>
+                  </ScrollView>
+                )}
+
+                <BottomPanel
+                  data-test="BottomPanel"
+                  navigation={this.props.navigation}
+                />
+              </React.Fragment>
             )}
-
-            <BottomPanel
-              data-test="BottomPanel"
-              navigation={this.props.navigation}
-            />
           </View>
         </SafeAreaView>
       </React.Fragment>

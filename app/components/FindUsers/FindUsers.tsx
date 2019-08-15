@@ -18,6 +18,7 @@ import BottomPanel from "./../SharedComponents/BottomPanel";
 import Alert from "./../Alert/Alert";
 
 const findUsersBg: any = require("./../../assets/images/findUsersBgMin.jpg");
+const loaderImage: any = require("./../../assets/images/loader.gif");
 
 const FilterModal = React.lazy(() =>
   import("./../SharedComponents/FilterModal")
@@ -251,6 +252,8 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
     ]);
 
     if (distance || childAge || childGender || hobbyName) {
+      this.context.setShowLoader(true);
+
       axios
         .post(API_URL + "/api/loadUsersFilter", {
           distance: distance,
@@ -260,7 +263,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
           currentUserLat: userLat,
           currentUserLng: userLng
         })
-        .then(function(response) {
+        .then(async response => {
           if (response.data.status === "OK") {
             //console.log(["getAuctionProducts", response]);
             let newDistance = "";
@@ -296,7 +299,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
             );
 
             if (showFilterModal) {
-              that.setState({
+              await that.setState({
                 userList: response.data.result,
                 filterDistance: newDistance,
                 filterChildAge: newChildAge,
@@ -304,14 +307,18 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
                 filterHobbyName: newHobby,
                 showFilterModal: !that.state.showFilterModal
               });
+
+              await that.context.setShowLoader(false);
             } else {
-              that.setState({
+              await that.setState({
                 userList: response.data.result,
                 filterDistance: newDistance,
                 filterChildAge: newChildAge,
                 filterChildGender: newChildGender,
                 filterHobbyName: newHobby
               });
+
+              await that.context.setShowLoader(false);
             }
           }
         })
@@ -321,6 +328,8 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
             "danger",
             "Wystąpił błąd z wyświetleniem filtrów."
           );
+
+          that.context.setShowLoader(false);
         });
     } else {
       this.loadUsersNearCoords();
@@ -391,21 +400,25 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
 
       let that = this;
 
+      this.context.setShowLoader(true);
+
       axios
         .post(API_URL + "/api/loadUsersNearCoords", {
           lat: lat,
           lng: lng
         })
-        .then(function(response) {
+        .then(async response => {
           console.log(["loadUsersNearCoords", response.data.result]);
           if (response.data.status === "OK") {
-            that.setState({
+            await that.setState({
               userList: response.data.result,
               filterDistance: "",
               filterChildAge: "",
               filterChildGender: "",
               filterHobbyName: ""
             });
+
+            await that.context.setShowLoader(false);
           }
         })
         .catch(function(error) {
@@ -414,6 +427,8 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
             "danger",
             "Problem z wys∑ietleniem listy użytkowniczek."
           );
+
+          that.context.setShowLoader(false);
         });
     } catch (e) {
       console.log(e);
@@ -430,13 +445,6 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
   render() {
     const {
       userList,
-      showUserDetails,
-
-      showUserMessageBox,
-      usersAreInTheSameConversation,
-      userDetailsData,
-      usersFriendshipStatus,
-      userMessage,
       showFilterModal,
       filterOptions,
       filterDistance,
@@ -444,8 +452,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
       filterChildGender,
       filterHobbyName,
       filterData,
-      filterModalName,
-      locationDetails
+      filterModalName
     } = this.state;
     return (
       <React.Fragment>
@@ -470,85 +477,97 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
             }}
             data-test="FindUsers"
           >
-            <View>
-              {!showFilterModal && (
-                <ImageBackground
-                  source={findUsersBg}
-                  style={{ width: "100%" }}
-                  data-test="ImageBackground"
-                >
-                  <Text style={styles.pageTitle}>
-                    Poznaj mamy
-                    {"\n"}w okolicy.
-                  </Text>
-                </ImageBackground>
-              )}
+            {this.context.showLoader ? (
+              <View style={styles.loaderContainer} data-test="loader">
+                <Image
+                  style={{ width: 100, height: 100 }}
+                  source={loaderImage}
+                />
+              </View>
+            ) : (
+              <React.Fragment>
+                <View>
+                  {!showFilterModal && (
+                    <ImageBackground
+                      source={findUsersBg}
+                      style={{ width: "100%" }}
+                      data-test="ImageBackground"
+                    >
+                      <Text style={styles.pageTitle}>
+                        Poznaj mamy
+                        {"\n"}w okolicy.
+                      </Text>
+                    </ImageBackground>
+                  )}
 
-              {userList && showFilterModal && (
-                <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                  <FilterModal
-                    filterOptions={filterData}
-                    closeFilter={this.setShowFilterModal}
-                    filterModalName={filterModalName}
-                    filterResults={this.filterResults}
-                    data-test="FilterModal"
-                  />
-                </Suspense>
-              )}
+                  {userList && showFilterModal && (
+                    <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                      <FilterModal
+                        filterOptions={filterData}
+                        closeFilter={this.setShowFilterModal}
+                        filterModalName={filterModalName}
+                        filterResults={this.filterResults}
+                        data-test="FilterModal"
+                      />
+                    </Suspense>
+                  )}
 
-              {userList && !showFilterModal && (
-                <View data-test="Carousel">
-                  <Text style={styles.filterResultsHeaderText}>
-                    Filtruj wyniki
-                  </Text>
-                  <View style={styles.filterResultsCarousel}>
-                    <Carousel
-                      layout={"default"}
-                      activeSlideAlignment={"start"}
-                      data={filterOptions}
-                      renderItem={this.renderItem}
-                      itemWidth={100}
-                      sliderWidth={styles.fullWidth}
-                      removeClippedSubviews={false}
+                  {userList && !showFilterModal && (
+                    <View data-test="Carousel">
+                      <Text style={styles.filterResultsHeaderText}>
+                        Filtruj wyniki
+                      </Text>
+                      <View style={styles.filterResultsCarousel}>
+                        <Carousel
+                          layout={"default"}
+                          activeSlideAlignment={"start"}
+                          data={filterOptions}
+                          renderItem={this.renderItem}
+                          itemWidth={100}
+                          sliderWidth={styles.fullWidth}
+                          removeClippedSubviews={false}
+                        />
+                      </View>
+                    </View>
+                  )}
+
+                  <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                    <ActiveFilters
+                      filterDistance={filterDistance}
+                      filterChildAge={filterChildAge}
+                      filterChildGender={filterChildGender}
+                      filterHobbyName={filterHobbyName}
+                      showFilterModal={showFilterModal}
+                      removeFilter={this.removeFilter}
+                      data-test="ActiveFilters"
                     />
-                  </View>
+                  </Suspense>
+
+                  {userList && !showFilterModal && userList.length > 1 && (
+                    <UserList
+                      API_URL={this.context.API_URL}
+                      loggedInUserId={this.context.userData.id}
+                      navigation={this.props.navigation}
+                      userList={userList}
+                      data-test="UserListContainer"
+                    />
+                  )}
+
+                  {userList && !showFilterModal && userList.length < 2 ? (
+                    <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
+                      Brak mam w Twojej okolicy. Zaproś znajome do skorzystania
+                      z aplikacji E-mamy i zbudujcie razem lokalną społeczność
+                      mam.
+                    </Text>
+                  ) : null}
                 </View>
-              )}
 
-              <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                <ActiveFilters
-                  filterDistance={filterDistance}
-                  filterChildAge={filterChildAge}
-                  filterChildGender={filterChildGender}
-                  filterHobbyName={filterHobbyName}
-                  showFilterModal={showFilterModal}
-                  removeFilter={this.removeFilter}
-                  data-test="ActiveFilters"
-                />
-              </Suspense>
-
-              {userList && !showFilterModal && userList.length > 1 && (
-                <UserList
-                  API_URL={this.context.API_URL}
-                  loggedInUserId={this.context.userData.id}
+                <BottomPanel
+                  data-test="BottomPanel"
                   navigation={this.props.navigation}
-                  userList={userList}
-                  data-test="UserListContainer"
                 />
-              )}
-
-              {userList && !showFilterModal && userList.length < 2 ? (
-                <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
-                  Brak mam w Twojej okolicy. Zaproś znajome do skorzystania z
-                  aplikacji E-mamy i zbudujcie razem lokalną społeczność mam.
-                </Text>
-              ) : null}
-            </View>
-
-            <BottomPanel
-              data-test="BottomPanel"
-              navigation={this.props.navigation}
-            />
+              </React.Fragment>
+            )}
           </View>
         </SafeAreaView>
       </React.Fragment>

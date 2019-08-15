@@ -1,5 +1,5 @@
 import React, { Component, Suspense } from "react";
-import { Text, ImageBackground, View, SafeAreaView } from "react-native";
+import { Text, ImageBackground, View, SafeAreaView, Image } from "react-native";
 import Alert from "./../Alert/Alert";
 import BottomPanel from "./../SharedComponents/BottomPanel";
 import axios from "axios";
@@ -10,7 +10,8 @@ import { GlobalContext } from "./../../Context/GlobalContext";
 import ButtonComponent from "./../Utils/ButtonComponent";
 
 const forumBg: any = require("./../../assets/images/forumBgMin.jpg");
-//const SavePost = React.lazy(() => import("./utils/SavePost"));
+const loaderImage: any = require("./../../assets/images/loader.gif");
+
 const CategoriesList = React.lazy(() => import("./utils/CategoriesList"));
 
 interface ForumProps {
@@ -21,7 +22,6 @@ interface ForumProps {
 interface ForumState {
   showPostDetails: boolean;
   showSortByCategory: boolean;
-  //showSavePost: boolean;
   showPostDetailsId: number;
   postList: any;
   showSortByCategoryId: number;
@@ -33,7 +33,6 @@ class Forum extends Component<ForumProps, ForumState> {
     super(props);
     this.state = {
       showPostDetails: false,
-      //showSavePost: false,
       showSortByCategory: false,
       showPostDetailsId: 0,
       showSortByCategoryId: 0,
@@ -44,8 +43,6 @@ class Forum extends Component<ForumProps, ForumState> {
 
     this.getPosts = this.getPosts.bind(this);
     this.setShowPostDetails = this.setShowPostDetails.bind(this);
-    //this.savePost = this.savePost.bind(this);
-    //this.setShowSavePost = this.setShowSavePost.bind(this);
     this.setShowSortByCategory = this.setShowSortByCategory.bind(this);
     this.getPostByCategoryId = this.getPostByCategoryId.bind(this);
   }
@@ -64,12 +61,6 @@ class Forum extends Component<ForumProps, ForumState> {
       );
     }
   };
-
-  /*setShowSavePost = (): void => {
-    this.setState(prevState => ({
-      showSavePost: !prevState.showSavePost
-    }));
-  };*/
 
   setShowSortByCategory = (hidePost: boolean): void => {
     if (hidePost) {
@@ -94,31 +85,37 @@ class Forum extends Component<ForumProps, ForumState> {
 
     let that = this;
 
+    this.context.setShowLoader(true);
+
     axios
       .post(API_URL + "/api/getPostByCategoryId", {
         categoryId: categoryId
       })
-      .then(function(response) {
+      .then(async response => {
         if (response.data.status === "OK") {
-          that.setState({ postList: [] });
-          that.setState({
+          await that.setState({ postList: [] });
+          await that.setState({
             categoryName: categoryName,
             showSortByCategoryId: categoryId,
             postList: response.data.result,
             showPosts: true
           });
 
+          await that.context.setShowLoader(false);
+
           if (closeModal) {
             that.setShowSortByCategory(false);
           }
         }
       })
-      .catch(function(error) {
-        that.context.setAlert(
+      .catch(async error => {
+        await that.context.setAlert(
           true,
           "danger",
           "Wystąpił błąd z wyświetleniem szczegółów kategorii."
         );
+
+        await that.context.setShowLoader(false);
       });
   };
 
@@ -127,22 +124,28 @@ class Forum extends Component<ForumProps, ForumState> {
 
     let that = this;
 
+    this.context.setShowLoader(true);
+
     axios
       .get(API_URL + "/api/posts")
-      .then(function(response) {
+      .then(async response => {
         if (response.data.status === "OK") {
-          console.log(["posts", response.data.result]);
-          that.setState({
+          //console.log(["posts", response.data.result]);
+          await that.setState({
             postList: response.data.result
           });
+
+          await that.context.setShowLoader(false);
         }
       })
-      .catch(function(error) {
-        that.context.setAlert(
+      .catch(async error => {
+        await that.context.setAlert(
           true,
           "danger",
           "Wystąpił błąd z wyświetleniem listy postów."
         );
+
+        await that.context.setShowLoader(false);
       });
   };
 
@@ -158,8 +161,6 @@ class Forum extends Component<ForumProps, ForumState> {
   render() {
     const {
       showPostDetails,
-      showPostDetailsId,
-      //showSavePost,
       showSortByCategory,
       showPosts,
       postList,
@@ -188,124 +189,116 @@ class Forum extends Component<ForumProps, ForumState> {
             }}
             data-test="Forum"
           >
-            <View>
-              {!showPostDetails && !showPosts && (
-                <ImageBackground
-                  source={forumBg}
-                  style={{ width: "100%" }}
-                  data-test="ImageBackground"
-                >
-                  <Text style={styles.pageTitle}>
-                    Podziel się swoją
-                    {"\n"}wiedzą.
-                  </Text>
-                </ImageBackground>
-              )}
-
-              <View style={{ width: "100%", marginBottom: 20 }}>
-                {/*showPostDetails && showPostDetailsId && !showSortByCategory && (
-                  <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                    <PostDetails
-                      postDetailsId={showPostDetailsId}
-                      setShowPostDetails={this.setShowPostDetails}
-                      data-test="PostDetails"
-                    />
-                  </Suspense>
-                )*/}
-
-                {/*!showPostDetails && (
-                  <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                    <SavePost
-                      API_URL={this.context.API_URL}
-                      user={this.context.userData}
-                      savePost={this.savePost}
-                      data-test="SavePost"
-                    />
-                  </Suspense>
-                )*/}
-
-                {!showPostDetails && showSortByCategory && (
-                  <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                    <CategoriesList
-                      API_URL={this.context.API_URL}
-                      user={this.context.userData}
-                      getPostByCategoryId={this.getPostByCategoryId}
-                      data-test="CategoriesList"
-                    />
-                  </Suspense>
-                )}
-
-                {postList && showPosts && !showPostDetails && (
-                  <PageHeader
-                    boldText={"Kategoria: "}
-                    normalText={categoryName}
-                    closeMethod={this.setShowSortByCategory}
-                    closeMethodParameter={true}
-                    data-test="PageHeader"
-                  />
-                )}
-
-                <View style={{ paddingTop: 10 }}>
-                  {postList &&
-                    showPosts &&
-                    !showPostDetails &&
-                    postList.map(
-                      (
-                        post: {
-                          title: string;
-                          comments: any;
-                          created_at: string;
-                          votes: any;
-                          id: number;
-                        },
-                        i: number
-                      ) => {
-                        return (
-                          <CategoryDetailsSinglePostOnList
-                            getPostDetails={this.getPostDetails}
-                            showPosts={showPosts}
-                            key={`CategoryDetailsSinglePostOnList-${i}`}
-                            post={post}
-                            data-test="CategoryDetailsSinglePostOnList"
-                            navigation={this.props.navigation}
-                          />
-                        );
-                      }
-                    )}
-                </View>
-
-                {!showPostDetails && showSortByCategory && (
-                  <Text
-                    style={{ paddingLeft: 10, paddingRight: 10 }}
-                    onPress={() =>
-                      this.props.navigation.navigate("FeedbackModal", {})
-                    }
-                    data-test="ask"
-                  >
-                    Masz pomysł na nową kategorię?{" "}
-                    <Text style={{ fontWeight: "600" }}>Napisz do nas!</Text>
-                  </Text>
-                )}
-
-                {!showPostDetails && showSortByCategory && (
-                  <ButtonComponent
-                    pressButtonComponent={() =>
-                      this.props.navigation.navigate("AddNewPost", {})
-                    }
-                    buttonComponentText="Dodaj post"
-                    fullWidth={true}
-                    underlayColor="#dd904d"
-                    data-test="ButtonComponent"
-                    whiteBg={false}
-                    showBackIcon={false}
-                  />
-                )}
+            {this.context.showLoader ? (
+              <View style={styles.loaderContainer} data-test="loader">
+                <Image
+                  style={{ width: 100, height: 100 }}
+                  source={loaderImage}
+                />
               </View>
-            </View>
-            <BottomPanel
-              data-test="BottomPanel"
-              navigation={this.props.navigation}
-            />
+            ) : (
+              <React.Fragment>
+                <View>
+                  {!showPostDetails && !showPosts && (
+                    <ImageBackground
+                      source={forumBg}
+                      style={{ width: "100%" }}
+                      data-test="ImageBackground"
+                    >
+                      <Text style={styles.pageTitle}>
+                        Podziel się swoją
+                        {"\n"}wiedzą.
+                      </Text>
+                    </ImageBackground>
+                  )}
+
+                  <View style={{ width: "100%", marginBottom: 20 }}>
+                    {!showPostDetails && showSortByCategory && (
+                      <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                        <CategoriesList
+                          API_URL={this.context.API_URL}
+                          user={this.context.userData}
+                          getPostByCategoryId={this.getPostByCategoryId}
+                          data-test="CategoriesList"
+                        />
+                      </Suspense>
+                    )}
+
+                    {postList && showPosts && !showPostDetails && (
+                      <PageHeader
+                        boldText={"Kategoria: "}
+                        normalText={categoryName}
+                        closeMethod={this.setShowSortByCategory}
+                        closeMethodParameter={true}
+                        data-test="PageHeader"
+                      />
+                    )}
+
+                    <View style={{ paddingTop: 10 }}>
+                      {postList &&
+                        showPosts &&
+                        !showPostDetails &&
+                        postList.map(
+                          (
+                            post: {
+                              title: string;
+                              comments: any;
+                              created_at: string;
+                              votes: any;
+                              id: number;
+                            },
+                            i: number
+                          ) => {
+                            return (
+                              <CategoryDetailsSinglePostOnList
+                                getPostDetails={this.getPostDetails}
+                                showPosts={showPosts}
+                                key={`CategoryDetailsSinglePostOnList-${i}`}
+                                post={post}
+                                data-test="CategoryDetailsSinglePostOnList"
+                                navigation={this.props.navigation}
+                              />
+                            );
+                          }
+                        )}
+                    </View>
+
+                    {!showPostDetails && showSortByCategory && (
+                      <Text
+                        style={{ paddingLeft: 10, paddingRight: 10 }}
+                        onPress={() =>
+                          this.props.navigation.navigate("FeedbackModal", {})
+                        }
+                        data-test="ask"
+                      >
+                        Masz pomysł na nową kategorię?{" "}
+                        <Text style={{ fontWeight: "600" }}>
+                          Napisz do nas!
+                        </Text>
+                      </Text>
+                    )}
+
+                    {!showPostDetails && showSortByCategory && (
+                      <ButtonComponent
+                        pressButtonComponent={() =>
+                          this.props.navigation.navigate("AddNewPost", {})
+                        }
+                        buttonComponentText="Dodaj post"
+                        fullWidth={true}
+                        underlayColor="#dd904d"
+                        data-test="ButtonComponent"
+                        whiteBg={false}
+                        showBackIcon={false}
+                      />
+                    )}
+                  </View>
+                </View>
+                <BottomPanel
+                  data-test="BottomPanel"
+                  navigation={this.props.navigation}
+                />
+              </React.Fragment>
+            )}
           </View>
         </SafeAreaView>
       </React.Fragment>

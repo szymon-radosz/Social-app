@@ -13,7 +13,8 @@ import {
   lightBorderRadius,
   fontSizeBig,
   peachBtnText,
-  fontSizeMedium
+  fontSizeMedium,
+  loaderContainer
 } from "./../../assets/global/globalStyles";
 const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;
@@ -49,6 +50,7 @@ interface Style {
   filterResultsHeaderText: TextStyle;
   filterResultsCarousel: ViewStyle;
   peachBtnText: any;
+  loaderContainer: any;
 }
 
 export default StyleSheet.create<Style>({
@@ -223,5 +225,6 @@ export default StyleSheet.create<Style>({
   filterResultsCarousel: {
     paddingLeft: 10,
     paddingRight: 10
-  }
+  },
+  loaderContainer: loaderContainer
 });

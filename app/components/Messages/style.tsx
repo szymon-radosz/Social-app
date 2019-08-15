@@ -10,7 +10,8 @@ import {
   filterBtn,
   filterBtnTextActive,
   filterBtnText,
-  peachBtnText
+  peachBtnText,
+  loaderContainer
 } from "./../../assets/global/globalStyles";
 
 interface Style {
@@ -50,6 +51,7 @@ interface Style {
   peachBtnText: any;
   messageBoxContainer: ViewStyle;
   conversationDetailsSeeMore: TextStyle;
+  loaderContainer: any;
 }
 
 export default StyleSheet.create<Style>({
@@ -232,5 +234,6 @@ export default StyleSheet.create<Style>({
     fontWeight: "600",
     color: peachColor,
     fontFamily: "Open Sans"
-  }
+  },
+  loaderContainer: loaderContainer
 });

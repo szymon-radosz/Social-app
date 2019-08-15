@@ -17,6 +17,8 @@ import styles from "./../style";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import { GlobalContext } from "./../../../Context/GlobalContext";
 
+const loaderImage: any = require("./../../../assets/images/loader.gif");
+
 interface NavigationScreenInterface {
   navigation: {
     navigate: any;
@@ -124,34 +126,36 @@ class ConversationDetails extends Component<
 
   //open conversation details from list of conversations
   openConversationDetails = (id: number) => {
-    console.log(["openConversationDetails", id]);
+    //console.log(["openConversationDetails", id]);
     return new Promise((resolve, reject) => {
       let API_URL = this.context.API_URL;
       let conversation_id = id;
 
       let that = this;
 
+      this.context.setShowLoader(true);
+
       axios
         .post(API_URL + "/api/showConversationDetails", {
           conversation_id: conversation_id
         })
-        .then(function(response) {
+        .then(async response => {
           if (response.data.status === "OK") {
-            console.log("details conv", response.data);
+            //console.log("details conv", response.data);
 
             let privateMessage = true;
             if (
               response.data.result[0].product_id &&
               response.data.result[0].product_id !== 0
             ) {
-              console.log([
+              /*console.log([
                 "response.data.product_id",
                 response.data.result[0].product_id
-              ]);
+              ]);*/
               privateMessage = false;
             }
 
-            that.setState({
+            await that.setState({
               openConversationMessages: response.data.result[0].messages,
               receiverId: that.props.navigation.state.params.receiverId,
               privateConversation: privateMessage,
@@ -159,17 +163,22 @@ class ConversationDetails extends Component<
               productConversationAuthorId: response.data.result[0].user_id
             });
 
-            console.log(["privateMessage", privateMessage]);
+            await that.context.setShowLoader(false);
+
+            //console.log(["privateMessage", privateMessage]);
 
             resolve(true);
           }
         })
-        .catch(function(error) {
-          that.context.setAlert(
+        .catch(async error => {
+          await that.context.setAlert(
             true,
             "danger",
             "Wystąpił błąd z wyświetleniem szczegółów konwersacji."
           );
+
+          await that.context.setShowLoader(false);
+
           reject(true);
         });
     });
@@ -228,11 +237,12 @@ class ConversationDetails extends Component<
       this.props.navigation.state.params.conversationId,
       this.props.navigation.state.params.receiverId
     ]);
-    await this.loadUserDataById(this.props.navigation.state.params.receiverId);
 
     await this.openConversationDetails(
       this.props.navigation.state.params.conversationId
     );
+
+    await this.loadUserDataById(this.props.navigation.state.params.receiverId);
 
     if (this.context.userData.id)
       this.context.clearUserUnreadedMessages(
@@ -281,93 +291,110 @@ class ConversationDetails extends Component<
             }}
             data-test="Messages"
           >
-            <View style={styles.viewContainer} data-test="ConversationDetails">
-              <PageHeader
-                boldText={receiverName}
-                normalText={""}
-                closeMethod={() => this.props.navigation.goBack(null)}
-                closeMethodParameter={""}
-                data-test="PageHeader"
-              />
-
-              <View style={styles.messageDetailsContainer}>
-                <TouchableOpacity>
-                  <Image
-                    style={styles.conversationDetailsReceiverImage}
-                    source={{
-                      uri: `${receiverPhotoPath && receiverPhotoPath}`
-                    }}
-                  />
-                </TouchableOpacity>
-                <View>
-                  <Text style={styles.conversationDetailsReceiverName}>
-                    Rozmowa z {receiverName}
-                  </Text>
-                  {privateConversation && (
-                    <TouchableHighlight
-                      onPress={async () => {
-                        this.props.navigation.navigate("UserDetails", {
-                          userId: this.props.navigation.state.params.receiverId,
-                          showBtns: true
-                        });
-                      }}
-                      underlayColor={"#fff"}
-                    >
-                      <Text style={styles.conversationDetailsSeeMore}>
-                        Zobacz profil
-                      </Text>
-                    </TouchableHighlight>
-                  )}
-
-                  {!privateConversation &&
-                    productConversationId !== 0 &&
-                    productConversationAuthorId !== 0 && (
-                      <TouchableHighlight
-                        onPress={async () => {
-                          this.props.navigation.navigate("ProductDetails", {
-                            productId: productConversationId,
-                            authorId: productConversationAuthorId
-                          });
-                        }}
-                        underlayColor={"#fff"}
-                      >
-                        <Text style={styles.conversationDetailsSeeMore}>
-                          Zobacz szczegóły produktu
-                        </Text>
-                      </TouchableHighlight>
-                    )}
-                </View>
+            {this.context.showLoader ? (
+              <View style={styles.loaderContainer} data-test="loader">
+                <Image
+                  style={{ width: 100, height: 100 }}
+                  source={loaderImage}
+                />
               </View>
-              {/* <Text>Sender: {this.props.senderId}</Text>*/}
-              <ScrollView>
-                {openConversationMessages &&
-                  openConversationMessages.map((message: any, i: number) => {
-                    return (
-                      <SingleConversationMessage
-                        message={message}
-                        key={`SingleConversationMessage-${i}`}
-                      />
-                    );
-                  })}
-              </ScrollView>
+            ) : (
+              <React.Fragment>
+                <View
+                  style={styles.viewContainer}
+                  data-test="ConversationDetails"
+                >
+                  <PageHeader
+                    boldText={receiverName}
+                    normalText={""}
+                    closeMethod={() => this.props.navigation.goBack(null)}
+                    closeMethodParameter={""}
+                    data-test="PageHeader"
+                  />
 
-              <SendMessageBox
-                receiverId={receiverId}
-                conversationId={
-                  this.props.navigation.state.params.conversationId
-                }
-                sendMessage={this.sendMessage}
-                receiverName={receiverName}
-                receiverEmail={receiverEmail}
-                receiverPhotoPath={receiverPhotoPath}
-                setUserMessage={this.setUserMessage}
-                userMessage={userMessage}
-              />
-            </View>
-            <BottomPanel
-              data-test="BottomPanel"
-              navigation={this.props.navigation}
-            />
+                  <View style={styles.messageDetailsContainer}>
+                    <TouchableOpacity>
+                      <Image
+                        style={styles.conversationDetailsReceiverImage}
+                        source={{
+                          uri: `${receiverPhotoPath && receiverPhotoPath}`
+                        }}
+                      />
+                    </TouchableOpacity>
+                    <View>
+                      <Text style={styles.conversationDetailsReceiverName}>
+                        Rozmowa z {receiverName}
+                      </Text>
+                      {privateConversation && (
+                        <TouchableHighlight
+                          onPress={async () => {
+                            this.props.navigation.navigate("UserDetails", {
+                              userId: this.props.navigation.state.params
+                                .receiverId,
+                              showBtns: true
+                            });
+                          }}
+                          underlayColor={"#fff"}
+                        >
+                          <Text style={styles.conversationDetailsSeeMore}>
+                            Zobacz profil
+                          </Text>
+                        </TouchableHighlight>
+                      )}
+
+                      {!privateConversation &&
+                        productConversationId !== 0 &&
+                        productConversationAuthorId !== 0 && (
+                          <TouchableHighlight
+                            onPress={async () => {
+                              this.props.navigation.navigate("ProductDetails", {
+                                productId: productConversationId,
+                                authorId: productConversationAuthorId
+                              });
+                            }}
+                            underlayColor={"#fff"}
+                          >
+                            <Text style={styles.conversationDetailsSeeMore}>
+                              Zobacz szczegóły produktu
+                            </Text>
+                          </TouchableHighlight>
+                        )}
+                    </View>
+                  </View>
+                  {/* <Text>Sender: {this.props.senderId}</Text>*/}
+                  <ScrollView>
+                    {openConversationMessages &&
+                      openConversationMessages.map(
+                        (message: any, i: number) => {
+                          return (
+                            <SingleConversationMessage
+                              message={message}
+                              key={`SingleConversationMessage-${i}`}
+                            />
+                          );
+                        }
+                      )}
+                  </ScrollView>
+
+                  <SendMessageBox
+                    receiverId={receiverId}
+                    conversationId={
+                      this.props.navigation.state.params.conversationId
+                    }
+                    sendMessage={this.sendMessage}
+                    receiverName={receiverName}
+                    receiverEmail={receiverEmail}
+                    receiverPhotoPath={receiverPhotoPath}
+                    setUserMessage={this.setUserMessage}
+                    userMessage={userMessage}
+                  />
+                </View>
+                <BottomPanel
+                  data-test="BottomPanel"
+                  navigation={this.props.navigation}
+                />
+              </React.Fragment>
+            )}
           </View>
         </SafeAreaView>
       </React.Fragment>

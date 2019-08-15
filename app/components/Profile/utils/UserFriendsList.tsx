@@ -6,13 +6,16 @@ import {
   View,
   TouchableOpacity,
   SafeAreaView,
-  ScrollView
+  ScrollView,
+  Image
 } from "react-native";
 import Alert from "./../../Alert/Alert";
 import BottomPanel from "./../../SharedComponents/BottomPanel";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import UserFriendsListRenderList from "./UserFriendsListRenderList/UserFriendsListRenderList";
 import styles from "./../style";
+
+const loaderImage: any = require("./../../../assets/images/loader.gif");
 
 interface NavigationScreenInterface {
   navigation: {
@@ -60,12 +63,14 @@ class UserFriendsList extends Component<
     let userId = this.context.userData.id;
     let that = this;
 
+    this.context.setShowLoader(true);
+
     if (userId) {
       axios
         .post(this.context.API_URL + "/api/friendsList", {
           userId: userId
         })
-        .then(async function(response) {
+        .then(async response => {
           if (response.data.status === "OK") {
             await that.setState({
               userFriendsList: response.data.result.friendsList,
@@ -74,14 +79,18 @@ class UserFriendsList extends Component<
               showUserNotificationList: false,
               displayFriendList: true
             });
+
+            await that.context.setShowLoader(false);
           }
         })
-        .catch(function(error) {
-          that.context.setAlert(
+        .catch(async error => {
+          await that.context.setAlert(
             true,
             "danger",
             "Wystąpił błąd z wyświetleniem listy znajomych."
           );
+
+          await that.context.setShowLoader(false);
         });
     }
   };
@@ -90,12 +99,14 @@ class UserFriendsList extends Component<
     let userId = this.context.userData.id;
     let that = this;
 
+    this.context.setShowLoader(true);
+
     if (userId) {
       axios
         .post(this.context.API_URL + "/api/pendingFriendsList", {
           userId: userId
         })
-        .then(async function(response) {
+        .then(async response => {
           if (response.data.status === "OK") {
             await that.setState({
               userPendingFriendsList: response.data.result.friendsList,
@@ -104,14 +115,18 @@ class UserFriendsList extends Component<
               showUserNotificationList: false,
               displayFriendList: false
             });
+
+            await that.context.setShowLoader(false);
           }
         })
-        .catch(function(error) {
-          that.context.setAlert(
+        .catch(async error => {
+          await that.context.setAlert(
             true,
             "danger",
             "Wystąpił błąd z wyświetleniem listy znajomych."
           );
+
+          await that.context.setShowLoader(false);
         });
     }
   };
@@ -151,78 +166,89 @@ class UserFriendsList extends Component<
             }}
             data-test="ProfileContainer"
           >
-            <ScrollView>
-              <PageHeader
-                boldText={"Moje znajome"}
-                normalText={""}
-                closeMethod={() => this.props.navigation.goBack(null)}
-                closeMethodParameter={""}
-              />
-
-              <View>
-                <View style={styles.filterBtnContainer}>
-                  <View style={styles.singleButtonCol2Container}>
-                    <TouchableOpacity
-                      onPress={this.loadUserFriendsList}
-                      style={
-                        displayFriendList
-                          ? styles.filterBtnActive
-                          : styles.filterBtn
-                      }
-                    >
-                      <Text
-                        style={
-                          displayFriendList
-                            ? styles.filterBtnTextActive
-                            : styles.filterBtnText
-                        }
-                      >
-                        Znajome
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={styles.singleButtonCol2Container}>
-                    <TouchableOpacity
-                      onPress={this.loadPendingUserFriendsList}
-                      style={
-                        !displayFriendList
-                          ? styles.filterBtnActive
-                          : styles.filterBtn
-                      }
-                    >
-                      <Text
-                        style={
-                          !displayFriendList
-                            ? styles.filterBtnTextActive
-                            : styles.filterBtnText
-                        }
-                      >
-                        Oczekujące
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
+            {this.context.showLoader ? (
+              <View style={styles.loaderContainer} data-test="loader">
+                <Image
+                  style={{ width: 100, height: 100 }}
+                  source={loaderImage}
+                />
               </View>
+            ) : (
+              <React.Fragment>
+                <ScrollView>
+                  <PageHeader
+                    boldText={"Moje znajome"}
+                    normalText={""}
+                    closeMethod={() => this.props.navigation.goBack(null)}
+                    closeMethodParameter={""}
+                  />
 
-              <View style={{ paddingTop: 10, paddingBottom: 10 }}>
-                {showUserFriendsList && !showPendingUserFriendsList && (
-                  <UserFriendsListRenderList
-                    navigation={this.props.navigation}
-                    userFriendsList={userFriendsList}
-                  />
-                )}
-                {!showUserFriendsList && showPendingUserFriendsList && (
-                  <UserFriendsListRenderList
-                    navigation={this.props.navigation}
-                    userFriendsList={userPendingFriendsList}
-                  />
-                )}
-              </View>
-            </ScrollView>
-            <BottomPanel
-              data-test="BottomPanel"
-              navigation={this.props.navigation}
-            />
+                  <View>
+                    <View style={styles.filterBtnContainer}>
+                      <View style={styles.singleButtonCol2Container}>
+                        <TouchableOpacity
+                          onPress={this.loadUserFriendsList}
+                          style={
+                            displayFriendList
+                              ? styles.filterBtnActive
+                              : styles.filterBtn
+                          }
+                        >
+                          <Text
+                            style={
+                              displayFriendList
+                                ? styles.filterBtnTextActive
+                                : styles.filterBtnText
+                            }
+                          >
+                            Znajome
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                      <View style={styles.singleButtonCol2Container}>
+                        <TouchableOpacity
+                          onPress={this.loadPendingUserFriendsList}
+                          style={
+                            !displayFriendList
+                              ? styles.filterBtnActive
+                              : styles.filterBtn
+                          }
+                        >
+                          <Text
+                            style={
+                              !displayFriendList
+                                ? styles.filterBtnTextActive
+                                : styles.filterBtnText
+                            }
+                          >
+                            Oczekujące
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+
+                  <View style={{ paddingTop: 10, paddingBottom: 10 }}>
+                    {showUserFriendsList && !showPendingUserFriendsList && (
+                      <UserFriendsListRenderList
+                        navigation={this.props.navigation}
+                        userFriendsList={userFriendsList}
+                      />
+                    )}
+                    {!showUserFriendsList && showPendingUserFriendsList && (
+                      <UserFriendsListRenderList
+                        navigation={this.props.navigation}
+                        userFriendsList={userPendingFriendsList}
+                      />
+                    )}
+                  </View>
+                </ScrollView>
+                <BottomPanel
+                  data-test="BottomPanel"
+                  navigation={this.props.navigation}
+                />
+              </React.Fragment>
+            )}
           </View>
         </SafeAreaView>
       </React.Fragment>

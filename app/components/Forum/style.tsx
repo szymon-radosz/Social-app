@@ -10,7 +10,8 @@ import {
   peachColor,
   btnFullWidth,
   lightBorderRadius,
-  peachBtnText
+  peachBtnText,
+  loaderContainer
 } from "./../../assets/global/globalStyles";
 
 interface Style {
@@ -66,6 +67,7 @@ interface Style {
   savePostInputContainer: ViewStyle;
   savePostCommentInputContainer: ViewStyle;
   conversationDetailsSeeMore: TextStyle;
+  loaderContainer: any;
 }
 
 const fullWidth = Dimensions.get("window").width;
@@ -320,5 +322,6 @@ export default StyleSheet.create<Style>({
     fontWeight: "600",
     color: peachColor,
     fontFamily: "Open Sans"
-  }
+  },
+  loaderContainer: loaderContainer
 });
