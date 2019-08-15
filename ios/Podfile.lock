@@ -1,30 +1,34 @@
 PODS:
   - QBImagePickerController (3.4.0)
-  - React/Core (0.59.3):
-    - yoga (= 0.59.3.React)
-  - React/fishhook (0.59.3)
-  - React/RCTActionSheet (0.59.3):
+  - React (0.59.10):
+    - React/Core (= 0.59.10)
+  - react-native-splash-screen (3.0.6):
+    - React
+  - React/Core (0.59.10):
+    - yoga (= 0.59.10.React)
+  - React/fishhook (0.59.10)
+  - React/RCTActionSheet (0.59.10):
     - React/Core
-  - React/RCTAnimation (0.59.3):
+  - React/RCTAnimation (0.59.10):
     - React/Core
-  - React/RCTBlob (0.59.3):
+  - React/RCTBlob (0.59.10):
     - React/Core
-  - React/RCTGeolocation (0.59.3):
+  - React/RCTGeolocation (0.59.10):
     - React/Core
-  - React/RCTImage (0.59.3):
+  - React/RCTImage (0.59.10):
     - React/Core
     - React/RCTNetwork
-  - React/RCTLinkingIOS (0.59.3):
+  - React/RCTLinkingIOS (0.59.10):
     - React/Core
-  - React/RCTNetwork (0.59.3):
+  - React/RCTNetwork (0.59.10):
     - React/Core
-  - React/RCTSettings (0.59.3):
+  - React/RCTSettings (0.59.10):
     - React/Core
-  - React/RCTText (0.59.3):
+  - React/RCTText (0.59.10):
     - React/Core
-  - React/RCTVibration (0.59.3):
+  - React/RCTVibration (0.59.10):
     - React/Core
-  - React/RCTWebSocket (0.59.3):
+  - React/RCTWebSocket (0.59.10):
     - React/Core
     - React/fishhook
     - React/RCTBlob
@@ -33,9 +37,10 @@ PODS:
     - React/Core
     - RSKImageCropper
   - RSKImageCropper (2.2.1)
-  - yoga (0.59.3.React)
+  - yoga (0.59.10.React)
 
 DEPENDENCIES:
+  - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - React/Core (from `../node_modules/react-native`)
   - React/RCTActionSheet (from `../node_modules/react-native`)
   - React/RCTAnimation (from `../node_modules/react-native`)
@@ -58,6 +63,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   React:
     :path: "../node_modules/react-native"
+  react-native-splash-screen:
+    :path: "../node_modules/react-native-splash-screen"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
   yoga:
@@ -65,11 +72,12 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
-  React: b52fdb80565505b7e4592b313a38868f5df51641
+  React: 36d0768f9e93be2473b37e7fa64f92c1d5341eef
+  react-native-splash-screen: d712b25c25f6671a15227f9b8579f87b2dbb0340
   RNImageCropPicker: 6134b66a3d5bc13e2895a97c630a4254006902b4
   RSKImageCropper: 98296ad26b41753f796b6898d015509598f13d97
-  yoga: 1a492113f66a35e9e583bb0434f4b8cc668dd839
+  yoga: 684513b14b03201579ba3cee20218c9d1298b0cc
 
-PODFILE CHECKSUM: 31b88af313937a0b529846ed48c2dbdf89c02ca4
+PODFILE CHECKSUM: a414db5b95dcfdb4c9ca626cd500ced396a5c831
 
 COCOAPODS: 1.6.1

@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, TouchableHighlight, Image } from "react-native";
 import styles from "./style";
-const backArrow: any = require("./../../../app/assets/images/backArrow.png");
+const backArrow: any = require("./../../assets/images/backArrow.png");
 
 const ButtonComponent = (props: {
   pressButtonComponent: any;

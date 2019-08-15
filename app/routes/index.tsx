@@ -1,38 +1,38 @@
 import { createAppContainer, createStackNavigator } from "react-navigation";
 import React, { Component } from "react";
-import NotLoggedInMain from "./../components/NotLoggedInScreens/NotLoggedInMain";
-import Welcome from "./../components/NotLoggedInScreens/WelcomeScreen/Welcome";
-import Login from "./../components/NotLoggedInScreens/Auth/Login";
-import Register from "./../components/NotLoggedInScreens/Auth/Register";
-import ResetPassword from "./../components/NotLoggedInScreens/Auth/ResetPassword";
-import ConfirmAccount from "./../components/NotLoggedInScreens/Auth/ConfirmAccount";
-import FillNecessaryInfo from "./../components/NotLoggedInScreens/EditProfileInfo/EditProfileInfo";
+//import NotLoggedInMain from "./../components/NotLoggedInScreens/NotLoggedInMain";
+import Welcome from "./../components/WelcomeScreen/Welcome";
+import Login from "./../components/Auth/Login";
+import Register from "./../components/Auth/Register";
+import ResetPassword from "./../components/Auth/ResetPassword";
+import ConfirmAccount from "./../components/Auth/ConfirmAccount";
+import FillNecessaryInfo from "./../components/EditProfileInfo/EditProfileInfo";
 //Users
-import FindUsers from "./../components/LoggedInScreens/FindUsers/FindUsers";
-import UserDetails from "./../components/LoggedInScreens/FindUsers/utils/UserDetails";
-import UserMessageBox from "./../components/LoggedInScreens/FindUsers/utils/UserMessageBox";
+import FindUsers from "./../components/FindUsers/FindUsers";
+import UserDetails from "./../components/FindUsers/utils/UserDetails";
+import UserMessageBox from "./../components/FindUsers/utils/UserMessageBox";
 //Auctions
-import Auctions from "./../components/LoggedInScreens/Auctions/Auctions";
-import ProductDetails from "./../components/LoggedInScreens/Auctions/utils/ProductDetails";
-import AddNewProductBox from "./../components/LoggedInScreens/Auctions/utils/AddNewProductBox";
+import Auctions from "./../components/Auctions/Auctions";
+import ProductDetails from "./../components/Auctions/utils/ProductDetails";
+import AddNewProductBox from "./../components/Auctions/utils/AddNewProductBox";
 //Messages
-import Messages from "./../components/LoggedInScreens/Messages/Messages";
-import ConversationDetails from "./../components/LoggedInScreens/Messages/utils/ConversationDetails";
+import Messages from "./../components/Messages/Messages";
+import ConversationDetails from "./../components/Messages/utils/ConversationDetails";
 //Forum
-import Forum from "./../components/LoggedInScreens/Forum/Forum";
-import SavePost from "./../components/LoggedInScreens/Forum/utils/SavePost";
-import PostDetails from "./../components/LoggedInScreens/Forum/utils/PostDetails";
+import Forum from "./../components/Forum/Forum";
+import SavePost from "./../components/Forum/utils/SavePost";
+import PostDetails from "./../components/Forum/utils/PostDetails";
 //Profile
-import Profile from "./../components/LoggedInScreens/Profile/Profile";
-import UserFriendsList from "./../components/LoggedInScreens/Profile/utils/UserFriendsList";
-import UserAuctionsList from "./../components/LoggedInScreens/Profile/utils/UserAuctionsList";
-import UserNotificationList from "./../components/LoggedInScreens/Profile/utils/UserNotificationList";
-import About from "./../components/LoggedInScreens/Profile/utils/About";
+import Profile from "./../components/Profile/Profile";
+import UserFriendsList from "./../components/Profile/utils/UserFriendsList";
+import UserAuctionsList from "./../components/Profile/utils/UserAuctionsList";
+import UserNotificationList from "./../components/Profile/utils/UserNotificationList";
+import About from "./../components/Profile/utils/About";
 //Feedback
-import FeedbackModal from "./../components/LoggedInScreens/FeedbackModal/FeedbackModal";
+import FeedbackModal from "./../components/FeedbackModal/FeedbackModal";
 //@ts-ignore
 import { fadeIn } from "react-navigation-transitions";
-import { GlobalContext } from "./../components/Context/GlobalContext";
+import { GlobalContext } from "./../Context/GlobalContext";
 import axios from "axios";
 import NavigationService from "./NavigationService";
 
@@ -63,12 +63,12 @@ const MainStack = createStackNavigator(
         header: null
       }
     },
-    NotLoggedInMain: {
+    /*NotLoggedInMain: {
       screen: NotLoggedInMain,
       navigationOptions: {
         header: null
       }
-    },
+    },*/
     ConfirmAccount: {
       screen: ConfirmAccount,
       navigationOptions: {
@@ -185,7 +185,7 @@ const MainStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "NotLoggedInMain",
+    initialRouteName: "Welcome",
     transitionConfig: () => fadeIn()
   }
 );
