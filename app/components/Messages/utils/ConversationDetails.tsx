@@ -300,7 +300,8 @@ class ConversationDetails extends Component<
               </View>
             ) : (
               <React.Fragment>
-                <View
+                <ScrollView
+                  keyboardShouldPersistTaps={"always"}
                   style={styles.viewContainer}
                   data-test="ConversationDetails"
                 >
@@ -388,7 +389,7 @@ class ConversationDetails extends Component<
                     setUserMessage={this.setUserMessage}
                     userMessage={userMessage}
                   />
-                </View>
+                </ScrollView>
                 <BottomPanel
                   data-test="BottomPanel"
                   navigation={this.props.navigation}

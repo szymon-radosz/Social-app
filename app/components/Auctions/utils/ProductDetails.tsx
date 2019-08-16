@@ -4,6 +4,7 @@ import {
   Dimensions,
   Image,
   View,
+  ScrollView,
   TouchableOpacity,
   SafeAreaView
 } from "react-native";
@@ -431,7 +432,7 @@ class ProductDetails extends Component<
               </View>
             ) : (
               <React.Fragment>
-                <View>
+                <ScrollView>
                   {showProductMessageBox && !showVoteBox ? (
                     <Suspense fallback={<Text>Wczytywanie...</Text>}>
                       <ProductMessageBox
@@ -459,7 +460,9 @@ class ProductDetails extends Component<
                       <PageHeader
                         boldText={productDetails[0].name}
                         normalText={""}
-                        closeMethod={() => this.props.navigation.goBack(null)}
+                        closeMethod={() =>
+                          this.props.navigation.navigate("Auctions", {})
+                        }
                         closeMethodParameter={""}
                       />
 
@@ -659,7 +662,7 @@ class ProductDetails extends Component<
                         )}
                     </View>
                   ) : null}
-                </View>
+                </ScrollView>
 
                 <BottomPanel data-test="BottomPanel" />
               </React.Fragment>

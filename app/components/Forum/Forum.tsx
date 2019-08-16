@@ -1,5 +1,12 @@
 import React, { Component, Suspense } from "react";
-import { Text, ImageBackground, View, SafeAreaView, Image } from "react-native";
+import {
+  Text,
+  ImageBackground,
+  View,
+  SafeAreaView,
+  Image,
+  ScrollView
+} from "react-native";
 import Alert from "./../Alert/Alert";
 import BottomPanel from "./../SharedComponents/BottomPanel";
 import axios from "axios";
@@ -198,7 +205,7 @@ class Forum extends Component<ForumProps, ForumState> {
               </View>
             ) : (
               <React.Fragment>
-                <View>
+                <ScrollView>
                   {!showPostDetails && !showPosts && (
                     <ImageBackground
                       source={forumBg}
@@ -292,7 +299,7 @@ class Forum extends Component<ForumProps, ForumState> {
                       />
                     )}
                   </View>
-                </View>
+                </ScrollView>
                 <BottomPanel
                   data-test="BottomPanel"
                   navigation={this.props.navigation}

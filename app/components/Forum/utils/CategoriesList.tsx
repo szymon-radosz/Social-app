@@ -56,7 +56,7 @@ export default class CategoriesList extends Component<
 
     return (
       <View style={styles.relative}>
-        <ScrollView style={styles.categoriesListContainer}>
+        <View style={styles.categoriesListContainer}>
           <Text style={styles.categoriesListTextHeader}>Kategorie</Text>
           <View style={styles.categoriesListContainer}>
             {categories.map((category: any, i: number) => {
@@ -69,7 +69,7 @@ export default class CategoriesList extends Component<
               );
             })}
           </View>
-        </ScrollView>
+        </View>
       </View>
     );
   }

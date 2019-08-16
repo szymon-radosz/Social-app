@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { TouchableOpacity, View, Text, SafeAreaView } from "react-native";
+import {
+  TouchableOpacity,
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView
+} from "react-native";
 import Alert from "./../Alert/Alert";
 import BottomPanel from "./../SharedComponents/BottomPanel";
 import styles from "./style";
@@ -117,7 +123,7 @@ class FeedbackModal extends Component<FeedbackModalProps, FeedbackModalState> {
             }}
             data-test="FindUsers"
           >
-            <View>
+            <ScrollView>
               <Text style={styles.feedbackHeaderText}>Napisz do nas!</Text>
               <Text style={styles.feedbackSubHeaderText}>
                 Podziel się z nami swoją opinią co możemy poprawić lub zgłoś
@@ -175,7 +181,7 @@ class FeedbackModal extends Component<FeedbackModalProps, FeedbackModalState> {
                 whiteBg={false}
                 showBackIcon={false}
               />
-            </View>
+            </ScrollView>
             <BottomPanel
               data-test="BottomPanel"
               navigation={this.props.navigation}

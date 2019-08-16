@@ -5,7 +5,8 @@ import {
   ImageBackground,
   View,
   Image,
-  SafeAreaView
+  SafeAreaView,
+  ScrollView
 } from "react-native";
 import Alert from "./../Alert/Alert";
 import BottomPanel from "./../SharedComponents/BottomPanel";
@@ -13,6 +14,7 @@ import axios from "axios";
 import styles from "./style";
 import { GlobalContext } from "./../../Context/GlobalContext";
 import MessageList from "./utils/MessageList";
+import { withNavigation } from "react-navigation";
 
 const messagesBgMin: any = require("./../../assets/images/messagesBgMin.jpg");
 const loaderImage: any = require("./../../assets/images/loader.gif");
@@ -117,11 +119,24 @@ class Messages extends Component<MessagesProps, MessagesState> {
   };
 
   componentDidMount = (): void => {
-    if (this.context.userData) {
+    /*if (this.context.userData) {
       this.getMessages();
       this.setState({ displayPrivateMessages: true, showFilterPanel: true });
-    }
+    }*/
+
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("willFocus", () => {
+      console.log("Focus listener mount messages");
+
+      this.getMessages();
+      this.setState({ displayPrivateMessages: true, showFilterPanel: true });
+    });
   };
+
+  componentWillUnmount() {
+    // Remove the event listener
+    this.focusListener.remove();
+  }
 
   render() {
     const {
@@ -161,7 +176,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
               </View>
             ) : (
               <React.Fragment>
-                <View>
+                <ScrollView>
                   <ImageBackground
                     source={messagesBgMin}
                     style={{ width: "100%" }}
@@ -237,7 +252,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
                       </Text>
                     )
                   ) : null}
-                </View>
+                </ScrollView>
                 <BottomPanel
                   data-test="BottomPanel"
                   navigation={this.props.navigation}
@@ -251,4 +266,4 @@ class Messages extends Component<MessagesProps, MessagesState> {
   }
 }
 Messages.contextType = GlobalContext;
-export default Messages;
+export default withNavigation(Messages);

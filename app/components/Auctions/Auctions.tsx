@@ -17,6 +17,8 @@ import { GlobalContext } from "./../../Context/GlobalContext";
 import ButtonComponent from "./../Utils/ButtonComponent";
 import Alert from "./../Alert/Alert";
 import BottomPanel from "./../SharedComponents/BottomPanel";
+import { withNavigation } from "react-navigation";
+import { ScrollView } from "react-native-gesture-handler";
 
 const loaderImage: any = require("./../../assets/images/loader.gif");
 const auctionsBg: any = require("./../../assets/images/auctionsBgMin.jpg");
@@ -294,11 +296,23 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
   };
 
   componentDidMount = (): void => {
-    if (this.context.userData) {
+    /*if (this.context.userData) {
       //load all products based on user coords
       this.getActiveProducts();
-    }
+    }*/
+
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("willFocus", () => {
+      console.log("Focus listener mount auctions");
+
+      this.getActiveProducts();
+    });
   };
+
+  componentWillUnmount() {
+    // Remove the event listener
+    this.focusListener.remove();
+  }
 
   render() {
     const {
@@ -344,7 +358,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
               </View>
             ) : (
               <React.Fragment>
-                <View>
+                <ScrollView>
                   {this.context.showLoader ? (
                     <View style={styles.loaderContainer} data-test="loader">
                       <Image
@@ -442,7 +456,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
                       )}
                     </View>
                   )}
-                </View>
+                </ScrollView>
 
                 <BottomPanel data-test="BottomPanel" />
               </React.Fragment>
@@ -454,4 +468,4 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
   }
 }
 Auctions.contextType = GlobalContext;
-export default Auctions;
+export default withNavigation(Auctions);

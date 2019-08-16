@@ -6,6 +6,7 @@ import {
   TouchableHighlight,
   NativeModules,
   TouchableOpacity,
+  ScrollView,
   SafeAreaView
 } from "react-native";
 import axios from "axios";
@@ -15,6 +16,7 @@ import styles from "./../style";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import ButtonComponent from "./../../Utils/ButtonComponent";
 import InputComponent from "./../../Utils/InputComponent";
+import InputNumberComponent from "./../../Utils/InputNumberComponent";
 import TextAreaComponent from "./../../Utils/TextAreaComponent";
 import { GlobalContext } from "./../../../Context/GlobalContext";
 
@@ -216,7 +218,7 @@ class AddNewProductBox extends Component<
   };
 
   clearPhotos = (): void => {
-    this.setState({ photos: [] });
+    this.setState({ photos: [], showPhotoArr: [] });
   };
 
   setGender = (gender: string): void => {
@@ -335,7 +337,10 @@ class AddNewProductBox extends Component<
               </View>
             ) : (
               <React.Fragment>
-                <View style={styles.relative}>
+                <ScrollView
+                  keyboardShouldPersistTaps={"always"}
+                  style={styles.relative}
+                >
                   <PageHeader
                     boldText={"Dodaj nowy produkt"}
                     normalText={""}
@@ -511,11 +516,20 @@ class AddNewProductBox extends Component<
                   >
                     <Text style={{ fontWeight: "600" }}>Cena (zł)</Text>
 
-                    <InputComponent
+                    <InputNumberComponent
                       placeholder="Cena w zł"
-                      inputOnChange={(price: string) =>
-                        this.setState({ price })
-                      }
+                      inputOnChange={(price: string) => {
+                        let numreg = /^[0-9]+$/;
+                        if (numreg.test(price) || price.length === 0) {
+                          this.setState({ price });
+                        } else {
+                          this.context.setAlert(
+                            true,
+                            "danger",
+                            "Cena musi być liczbą."
+                          );
+                        }
+                      }}
                       value={price}
                       secureTextEntry={false}
                       maxLength={5}
@@ -642,8 +656,7 @@ class AddNewProductBox extends Component<
                       flexDirection: "row",
                       flexWrap: "wrap",
                       paddingLeft: 10,
-                      paddingRight: 10,
-                      marginBottom: 10
+                      paddingRight: 10
                     }}
                   >
                     {showPhotoArr &&
@@ -704,8 +717,8 @@ class AddNewProductBox extends Component<
                     showBackIcon={false}
                   />
 
-                  <View style={{ marginBottom: 20 }} />
-                </View>
+                  <View style={{ marginBottom: 10 }} />
+                </ScrollView>
 
                 <BottomPanel data-test="BottomPanel" />
               </React.Fragment>

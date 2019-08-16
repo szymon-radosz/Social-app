@@ -5,6 +5,7 @@ import {
   View,
   TouchableHighlight,
   SafeAreaView,
+  ScrollView,
   Image
 } from "react-native";
 import axios from "axios";
@@ -16,6 +17,7 @@ import { GlobalContext } from "./../../Context/GlobalContext";
 import UserList from "./utils/UserList";
 import BottomPanel from "./../SharedComponents/BottomPanel";
 import Alert from "./../Alert/Alert";
+import { withNavigation } from "react-navigation";
 
 const findUsersBg: any = require("./../../assets/images/findUsersBgMin.jpg");
 const loaderImage: any = require("./../../assets/images/loader.gif");
@@ -436,11 +438,24 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
   };
 
   componentDidMount = (): void => {
-    let user = this.context.userData;
+    console.log("FindUsers did mount");
+    /*let user = this.context.userData;
     if (user && user.lattitude && user.longitude) {
       this.loadUsersNearCoords();
-    }
+    }*/
+
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("willFocus", () => {
+      console.log("Focus listener mount");
+
+      this.loadUsersNearCoords();
+    });
   };
+
+  componentWillUnmount() {
+    // Remove the event listener
+    this.focusListener.remove();
+  }
 
   render() {
     const {
@@ -454,6 +469,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
       filterData,
       filterModalName
     } = this.state;
+
     return (
       <React.Fragment>
         <SafeAreaView
@@ -486,7 +502,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
               </View>
             ) : (
               <React.Fragment>
-                <View>
+                <ScrollView>
                   {!showFilterModal && (
                     <ImageBackground
                       source={findUsersBg}
@@ -560,7 +576,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
                       mam.
                     </Text>
                   ) : null}
-                </View>
+                </ScrollView>
 
                 <BottomPanel
                   data-test="BottomPanel"
@@ -575,4 +591,4 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
   }
 }
 FindUsers.contextType = GlobalContext;
-export default FindUsers;
+export default withNavigation(FindUsers);
