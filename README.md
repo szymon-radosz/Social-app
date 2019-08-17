@@ -33,6 +33,8 @@ Tworzenie wersji do google play - release/app.aab
 2. Delete files inside directory android/app/src/main/assets.
 3. W głównym folderze cd android && ./gradlew bundleRelease
 
+lub cd android && ./gradlew app:assembleRelease
+
 =========================
 
 Reset cache:

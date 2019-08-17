@@ -232,8 +232,9 @@ export default class App extends Component<
       alertType: "",
       userData: [],
       userLoggedIn: false,
-      API_URL: "http://127.0.0.1:8000/",
-      //API_URL: "https://e-mamy.pl/",
+      //API_URL: "http://127.0.0.1:8000/",
+      //API_URL: "http://10.0.2.2:8000/",
+      API_URL: "https://e-mamy.pl/",
       showLoader: false
     };
     this.setAlert = this.setAlert.bind(this);
