@@ -232,9 +232,9 @@ export default class App extends Component<
       alertType: "",
       userData: [],
       userLoggedIn: false,
-      //API_URL: "http://127.0.0.1:8000/",
+      API_URL: "http://127.0.0.1:8000/",
       //API_URL: "http://10.0.2.2:8000/",
-      API_URL: "https://e-mamy.pl/",
+      //API_URL: "https://e-mamy.pl/",
       showLoader: false
     };
     this.setAlert = this.setAlert.bind(this);
@@ -275,7 +275,7 @@ export default class App extends Component<
         }
       })
       .catch(function(error) {
-        console.log(["setUserFilledInfoErr1", error]);
+        //console.log(["setUserFilledInfoErr1", error]);
       });
 
     return json;
@@ -299,7 +299,7 @@ export default class App extends Component<
         }
       })
       .catch(function(error) {
-        console.log(error);
+        //console.log(error);
       });
   };
 
@@ -330,10 +330,10 @@ export default class App extends Component<
           }
         })
         .catch(function(error) {
-          console.log(error);
+          //console.log(error);
         });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
 
     //console.log(this.state.userData);
@@ -341,7 +341,7 @@ export default class App extends Component<
 
   checkUserStatus = (): void => {
     const { userData } = this.state;
-    console.log(["checkUserStatus"]);
+    //console.log(["checkUserStatus"]);
 
     if (userData.verified === 1 && userData.user_filled_info === 1) {
       NavigationService.navigate("UserList", {});

@@ -223,7 +223,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
             userId: userId
           })
           .then(function(response) {
-            console.log(response.data);
+            //console.log(response.data);
             if (response.data.status === "OK") {
               that.context.setAlert(
                 true,
@@ -299,7 +299,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
   };
 
   componentDidMount = (): void => {
-    console.log(["PostDetails", this.props.navigation.state.params.postId]);
+    //console.log(["PostDetails", this.props.navigation.state.params.postId]);
 
     this.getPostById(this.props.navigation.state.params.postId);
   };

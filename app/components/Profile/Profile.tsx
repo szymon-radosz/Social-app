@@ -62,11 +62,11 @@ class Profile extends Component<
     this.getAmountOfFriends = this.getAmountOfFriends.bind(this);
     this.setShowProfilePreview = this.setShowProfilePreview.bind(this);
 
-    console.log(["profile", this.props]);
+    //console.log(["profile", this.props]);
   }
 
   componentDidMount() {
-    console.log(this.context);
+    //console.log(this.context);
     if (this.context.userData) {
       this.getAmountOfFriends(this.context.userData.id);
     }

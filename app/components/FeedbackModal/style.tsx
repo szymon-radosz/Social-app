@@ -3,7 +3,8 @@ import {
   fontSizeBig,
   lightBorderRadius,
   btnFullWidth,
-  peachBtnText
+  peachBtnText,
+  loaderContainer
 } from "./../../assets/global/globalStyles";
 
 interface Style {
@@ -19,6 +20,7 @@ interface Style {
   feedbackTopic: TextStyle;
   peachBtnText: any;
   checkboxTextActive: TextStyle;
+  loaderContainer: any;
 }
 
 export default StyleSheet.create<Style>({
@@ -98,5 +100,6 @@ export default StyleSheet.create<Style>({
     paddingBottom: 10,
     fontWeight: "600",
     color: "#424242"
-  }
+  },
+  loaderContainer: loaderContainer
 });

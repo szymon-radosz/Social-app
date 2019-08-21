@@ -20,7 +20,7 @@ const FilterModal = (props: {
   useEffect(() => {
     let filterModalName = props.filterModalName;
 
-    console.log(props.filterOptions);
+    //console.log(props.filterOptions);
 
     if (filterModalName === "Odległość") {
       setSelectedData(props.filterOptions.distance);

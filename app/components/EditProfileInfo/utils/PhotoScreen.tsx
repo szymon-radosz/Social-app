@@ -20,7 +20,7 @@ const PhotoScreen = (props: {
   userSavedPhoto: string;
   API_URL: string;
 }): any => {
-  console.log(["PhotoScreen", props]);
+  //console.log(["PhotoScreen", props]);
   return (
     <View style={styles.sectionContainer}>
       <ScrollView>

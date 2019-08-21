@@ -118,7 +118,7 @@ class ProductDetails extends Component<
           }
         })
         .catch(function(error) {
-          console.log(error);
+          //console.log(error);
         });
     }
   };
@@ -153,7 +153,7 @@ class ProductDetails extends Component<
         }
       })
       .catch(async error => {
-        console.log(error);
+        //console.log(error);
         await that.context.setShowLoader(false);
       });
   };
@@ -207,12 +207,12 @@ class ProductDetails extends Component<
 
       this.context.setShowLoader(true);
 
-      console.log([
+      /*console.log([
         "sendNewConversationProduct",
         this.context.userData.id,
         this.props.navigation.state.params.authorId,
         this.props.navigation.state.params.productId
-      ]);
+      ]);*/
 
       axios
         .post(API_URL + "/api/saveConversationProduct", {
@@ -246,11 +246,11 @@ class ProductDetails extends Component<
           await that.context.setShowLoader(false);
         })
         .then(async res => {
-          console.log([
+          /*console.log([
             "ProductDetails navigate",
             openDetailsId,
             this.context.userData.id
-          ]);
+          ]);*/
 
           that.context.setAlert(
             true,
@@ -276,10 +276,10 @@ class ProductDetails extends Component<
   };
 
   componentDidMount = () => {
-    console.log([
+    /*console.log([
       "ProductDetails",
       this.props.navigation.state.params.productId
-    ]);
+    ]);*/
 
     let productId = this.props.navigation.state.params.productId;
 
@@ -288,7 +288,7 @@ class ProductDetails extends Component<
   };
 
   componentWillUnmount = () => {
-    console.log(["ProductDetails componentWillUnmount"]);
+    //console.log(["ProductDetails componentWillUnmount"]);
 
     this.setState({ productDetails: [] });
   };
@@ -316,9 +316,9 @@ class ProductDetails extends Component<
         authorId: authorId
       })
       .then(function(response) {
-        console.log(response);
+        //console.log(response);
         if (response.data.status === "OK") {
-          console.log([
+          /*console.log([
             "sendVoteAPI",
             API_URL,
             userId,
@@ -326,7 +326,7 @@ class ProductDetails extends Component<
             message,
             authorId,
             productId
-          ]);
+          ]);*/
           that.closeProduct(productId);
 
           that.context.setAlert(
@@ -337,7 +337,7 @@ class ProductDetails extends Component<
         }
       })
       .catch(function(error) {
-        console.log(error);
+        //console.log(error);
         that.context.setAlert(
           true,
           "danger",
@@ -345,7 +345,7 @@ class ProductDetails extends Component<
         );
       });
 
-    console.log("next");
+    //console.log("next");
   };
 
   closeProduct = (productId: number) => {
@@ -353,7 +353,7 @@ class ProductDetails extends Component<
 
     let that = this;
 
-    console.log(["closeProduct", productId]);
+    //console.log(["closeProduct", productId]);
 
     axios
       .post(API_URL + "/api/closeProduct", {
@@ -366,7 +366,7 @@ class ProductDetails extends Component<
         }
       })
       .catch(function(error) {
-        console.log(error);
+        //console.log(error);
       });
   };
 
@@ -375,7 +375,7 @@ class ProductDetails extends Component<
 
     let that = this;
 
-    console.log(["reactivateProduct", productId]);
+    //console.log(["reactivateProduct", productId]);
 
     axios
       .post(API_URL + "/api/reactivateProduct", {
@@ -388,7 +388,7 @@ class ProductDetails extends Component<
         }
       })
       .catch(function(error) {
-        console.log(error);
+        //console.log(error);
       });
   };
 

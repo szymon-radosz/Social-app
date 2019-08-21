@@ -11,12 +11,12 @@ const MessageList = (props: { messagesList: any; navigation: any }): any => {
     //console.log(["MessageList", props]);
     return props.messagesList && props.messagesList.length > 0 ? (
       props.messagesList.map((conversation: any, i: number) => {
-        console.log([
+        /*console.log([
           "conversation",
           conversation,
           i,
           props.messagesList[i][0]
-        ]);
+        ]);*/
 
         return (
           <ListItem
@@ -33,14 +33,14 @@ const MessageList = (props: { messagesList: any; navigation: any }): any => {
               ].updated_at
             ).format("LLL")}
             onPress={(): void => {
-              console.log([
+              /*console.log([
                 "ConversationDetails",
                 props.messagesList[i][0].id,
                 props.messagesList[i][0].receiverId,
                 props.messagesList[i][0].receiverName,
                 props.messagesList[i][0].receiverEmail,
                 props.messagesList[i][0].receiverPhotoPath
-              ]);
+              ]);*/
 
               props.navigation.navigate("ConversationDetails", {
                 conversationId: props.messagesList[i][0].id,

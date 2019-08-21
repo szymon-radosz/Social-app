@@ -183,7 +183,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
     status: string,
     showFilterModal: boolean
   ): void => {
-    console.log(["getFilteredAuctionsList", this.state.displayActiveAuction]);
+    //console.log(["getFilteredAuctionsList", this.state.displayActiveAuction]);
     let API_URL = this.context.API_URL;
     let userLat = this.context.userData.lattitude;
     let userLng = this.context.userData.longitude;
@@ -253,7 +253,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
           }
         })
         .catch(async error => {
-          console.log(error);
+          //console.log(error);
           await that.context.setShowLoader(false);
         });
     } else {
@@ -289,7 +289,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
         }
       })
       .catch(async error => {
-        console.log(error);
+        //console.log(error);
 
         await this.context.setShowLoader(false);
       });
@@ -303,7 +303,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
 
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("willFocus", () => {
-      console.log("Focus listener mount auctions");
+      //console.log("Focus listener mount auctions");
 
       this.getActiveProducts();
     });

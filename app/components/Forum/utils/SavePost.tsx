@@ -4,7 +4,8 @@ import {
   View,
   TouchableOpacity,
   SafeAreaView,
-  Image
+  Image,
+  ScrollView
 } from "react-native";
 import BottomPanel from "./../../SharedComponents/BottomPanel";
 import Alert from "./../../Alert/Alert";
@@ -80,6 +81,8 @@ class SavePost extends Component<SavePostProps, SavePostState> {
         })
         .then(function(response) {
           if (response.data.status === "OK") {
+            that.setState({ title: "", description: "", categoryId: 0 });
+
             that.props.navigation.navigate("PostDetails", {
               postId: response.data.result.id
             });
@@ -132,18 +135,18 @@ class SavePost extends Component<SavePostProps, SavePostState> {
           }
         })
         .catch(async error => {
-          console.log(error);
+          //console.log(error);
 
           this.context.setShowLoader(false);
         });
     } catch (e) {
-      console.log(e);
+      //console.log(e);
     }
   };
 
   selectCategoryId = (categoryId: number): void => {
     this.setState({ categoryId: categoryId });
-    console.log(categoryId);
+    //console.log(categoryId);
   };
 
   componentDidMount = (): void => {
@@ -185,7 +188,10 @@ class SavePost extends Component<SavePostProps, SavePostState> {
               </View>
             ) : (
               <React.Fragment>
-                <View style={styles.relative}>
+                <ScrollView
+                  keyboardShouldPersistTaps={"always"}
+                  style={styles.relative}
+                >
                   <PageHeader
                     boldText={"Dodaj nowy post"}
                     normalText={""}
@@ -286,7 +292,7 @@ class SavePost extends Component<SavePostProps, SavePostState> {
                       showBackIcon={false}
                     />
                   </View>
-                </View>
+                </ScrollView>
                 <BottomPanel
                   data-test="BottomPanel"
                   navigation={this.props.navigation}

@@ -30,12 +30,12 @@ class UserMessageBox extends Component<
     };
   }
 
-  componentDidMount = () => {
+  /*componentDidMount = () => {
     console.log([
       "this.props.navigation.state.params.userId",
       this.props.navigation.state.params.userId
     ]);
-  };
+  };*/
 
   sendMessage = (message: string): void => {
     let API_URL = this.context.API_URL;

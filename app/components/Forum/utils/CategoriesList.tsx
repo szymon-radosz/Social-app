@@ -40,10 +40,10 @@ export default class CategoriesList extends Component<
           }
         })
         .catch(function(error) {
-          console.log(error);
+          //console.log(error);
         });
     } catch (e) {
-      console.log(e);
+      //console.log(e);
     }
   };
 

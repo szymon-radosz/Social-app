@@ -200,7 +200,7 @@ class AddNewProductBox extends Component<
           }
         })
         .catch(async error => {
-          console.log(error);
+          //console.log(error);
 
           await that.context.setAlert(
             true,
@@ -249,7 +249,7 @@ class AddNewProductBox extends Component<
     axios
       .get(API_URL + "/api/getCategories")
       .then(function(response) {
-        console.log(["getCategories", response]);
+        //console.log(["getCategories", response]);
         if (response.data.status === "OK") {
           that.setState({
             categories: response.data.result
@@ -257,7 +257,7 @@ class AddNewProductBox extends Component<
         }
       })
       .catch(function(error) {
-        console.log(error);
+        //console.log(error);
       });
   };
 
@@ -268,7 +268,7 @@ class AddNewProductBox extends Component<
       multiple: true,
       forceJpg: true,
       maxFiles: 4,
-      compressImageMaxHeight: 300,
+      compressImageMaxHeight: 1000,
       cropperCircleOverlay: false,
       freeStyleCropEnabled: true,
       compressImageQuality: 1,
@@ -276,15 +276,23 @@ class AddNewProductBox extends Component<
       includeBase64: true
     })
       .then((images: any) => {
-        images.map((photo: any, i: number) => {
-          this.setState(prevState => ({
-            photos: [...prevState.photos, photo.data],
-            showPhotoArr: [...prevState.showPhotoArr, photo.path]
-          }));
-        });
+        if (images.length <= 4) {
+          images.map((photo: any, i: number) => {
+            this.setState(prevState => ({
+              photos: [...prevState.photos, photo.data],
+              showPhotoArr: [...prevState.showPhotoArr, photo.path]
+            }));
+          });
+        } else {
+          this.context.setAlert(
+            true,
+            "danger",
+            "Możesz dodać maksymalnie 4 zdjęcia."
+          );
+        }
       })
       .catch((e: any) => {
-        console.log(e);
+        //console.log(e);
       });
   };
 
@@ -629,7 +637,7 @@ class AddNewProductBox extends Component<
                       }}
                     >
                       <Text style={{ paddingBottom: 5, fontWeight: "600" }}>
-                        Dodaj zdjęcia
+                        Dodaj zdjęcia (maksymalnie 4)
                       </Text>
                       <TouchableHighlight
                         style={{

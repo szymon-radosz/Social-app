@@ -19,7 +19,7 @@ const Login = (props: any) => {
   const context = useContext(GlobalContext);
 
   const loginUser = (): void => {
-    console.log([email, password]);
+    //console.log([email, password]);
     if (email && !password) {
       context.setAlert(true, "danger", "Podaj swoje hasło.");
     } else if (!email && password) {
@@ -30,16 +30,16 @@ const Login = (props: any) => {
       try {
         let API_URL = context.API_URL;
         //let navProps = navigation.state.params;
-        console.log([API_URL]);
+        //console.log([API_URL]);
         axios
           .post(API_URL + "/api/login", {
             email: email,
             password: password
           })
           .then(function(response) {
-            console.log(response);
+            //console.log(response);
             if (response.data.status === "OK") {
-              console.log(["response.data.user", response.data]);
+              //console.log(["response.data.user", response.data]);
               let token = response.data.user.token;
 
               const config = {
@@ -65,11 +65,11 @@ const Login = (props: any) => {
                   );
                 });
             } else {
-              console.log("Nie ma tokena");
+              //console.log("Nie ma tokena");
             }
           })
           .catch(function(error) {
-            console.log(error);
+            //console.log(error);
             context.setAlert(
               true,
               "danger",
@@ -77,7 +77,7 @@ const Login = (props: any) => {
             );
           });
       } catch (e) {
-        console.log(e);
+        //console.log(e);
       }
     }
   };

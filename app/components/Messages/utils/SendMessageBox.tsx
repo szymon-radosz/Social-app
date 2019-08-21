@@ -15,10 +15,10 @@ const SendMessageBox = (props: {
   setUserMessage: any;
   conversationId: number;
 }): any => {
-  console.log(["SendMessageBox", props]);
+  //console.log(["SendMessageBox", props]);
 
   const context = useContext(GlobalContext);
-  console.log([
+  /*console.log([
     "SendMessageBox sendMessage",
     props.receiverId,
     props.receiverName,
@@ -27,7 +27,7 @@ const SendMessageBox = (props: {
     props.userMessage,
     props.conversationId,
     0
-  ]);
+  ]);*/
   return (
     <React.Fragment>
       <View style={styles.messageBoxContainer}>

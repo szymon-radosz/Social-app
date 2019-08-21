@@ -126,7 +126,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
 
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("willFocus", () => {
-      console.log("Focus listener mount messages");
+      //console.log("Focus listener mount messages");
 
       this.getMessages();
       this.setState({ displayPrivateMessages: true, showFilterPanel: true });

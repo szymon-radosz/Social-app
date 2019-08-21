@@ -36,7 +36,7 @@ const ChooseHobbiesScreen = (props: {
   submitData: any;
   prevStep: any;
 }): any => {
-  console.log(["props.hobbies", props.hobbies]);
+  //console.log(["props.hobbies", props.hobbies]);
   return (
     <View style={styles.sectionContainer}>
       <ScrollView>

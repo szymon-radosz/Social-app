@@ -39,7 +39,7 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
   }
 
   componentDidMount = () => {
-    console.log(["UserDetails", this.props.navigation.state.params.userId]);
+    //console.log(["UserDetails", this.props.navigation.state.params.userId]);
 
     let userDetailsId = this.props.navigation.state.params.userId;
 
@@ -47,7 +47,7 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
   };
 
   componentWillUnmount = () => {
-    console.log(["componentWillUnmount"]);
+    //console.log(["componentWillUnmount"]);
 
     this.setState({ userDetailsData: [] });
   };
@@ -75,7 +75,7 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
       })
       .then(async response => {
         if (response.data.status === "OK") {
-          console.log(["setShowUserDetails", response.data.result.user]);
+          //console.log(["setShowUserDetails", response.data.result.user]);
           await that.setState({
             userDetailsId: userId,
             userDetailsData: response.data.result.user,
@@ -108,7 +108,7 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
         }
       })
       .catch(async error => {
-        console.log(error);
+        //console.log(error);
 
         await that.context.setShowLoader(false);
       });

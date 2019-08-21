@@ -61,7 +61,7 @@ const Register = (props: { navigation: any }) => {
             platform: platform
           })
           .then(function(response) {
-            console.log(response.data);
+            //console.log(response.data);
             if (response.data.status === "OK") {
               context.setShowLoader(false);
 

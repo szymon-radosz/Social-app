@@ -245,13 +245,13 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
 
     let that = this;
 
-    console.log([
+    /*console.log([
       "getFilteredUserList",
       distance,
       childAge,
       childGender,
       hobbyName
-    ]);
+    ]);*/
 
     if (distance || childAge || childGender || hobbyName) {
       this.context.setShowLoader(true);
@@ -410,7 +410,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
           lng: lng
         })
         .then(async response => {
-          console.log(["loadUsersNearCoords", response.data.result]);
+          //console.log(["loadUsersNearCoords", response.data.result]);
           if (response.data.status === "OK") {
             await that.setState({
               userList: response.data.result,
@@ -433,12 +433,12 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
           that.context.setShowLoader(false);
         });
     } catch (e) {
-      console.log(e);
+      //console.log(e);
     }
   };
 
   componentDidMount = (): void => {
-    console.log("FindUsers did mount");
+    //console.log("FindUsers did mount");
     /*let user = this.context.userData;
     if (user && user.lattitude && user.longitude) {
       this.loadUsersNearCoords();
@@ -446,7 +446,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
 
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("willFocus", () => {
-      console.log("Focus listener mount");
+      //console.log("Focus listener mount");
 
       this.loadUsersNearCoords();
     });

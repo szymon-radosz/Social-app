@@ -15,7 +15,7 @@ const SingleConversationBox = (props: {
   openConversationDetails: any;
   API_URL: string;
 }): any => {
-  console.log(["SingleConversationBox", props]);
+  //console.log(["SingleConversationBox", props]);
   const lastMessageDate = moment(
     props.conversation.messages[props.conversation.messages.length - 1]
       .updated_at

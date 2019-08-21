@@ -50,7 +50,7 @@ const Welcome = (props: any) => {
   const context = useContext(GlobalContext);
 
   useEffect(() => {
-    console.log(["welcome render", context]);
+    //console.log(["welcome render", context]);
     context.setUserData("");
   }, []);
 

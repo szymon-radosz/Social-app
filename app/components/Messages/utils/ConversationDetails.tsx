@@ -90,7 +90,7 @@ class ConversationDetails extends Component<
           status: status
         })
         .then(response => {
-          console.log(["saveMessage", response.data]);
+          //console.log(["saveMessage", response.data]);
           if (response.data.status === "OK") {
             //save conversation_id as openDetailsId in notification,
             //openDetailsId is parameter for route
@@ -100,19 +100,15 @@ class ConversationDetails extends Component<
           }
         })
         .then(response =>
-          axios
-            .post(API_URL + "/api/addNotification", {
-              type: "sended_message",
-              message: `Masz nową wiadomość od użytkowniczki ${
-                this.context.userData.name
-              }`,
-              userId: receiver_id,
-              senderId: this.context.userData.id,
-              openDetailsId: openDetailsId
-            })
-            .then(response =>
-              console.log(["saveMessage not", response.data, openDetailsId])
-            )
+          axios.post(API_URL + "/api/addNotification", {
+            type: "sended_message",
+            message: `Masz nową wiadomość od użytkowniczki ${
+              this.context.userData.name
+            }`,
+            userId: receiver_id,
+            senderId: this.context.userData.id,
+            openDetailsId: openDetailsId
+          })
         )
         .catch(function(error) {
           that.context.setAlert(
@@ -206,11 +202,11 @@ class ConversationDetails extends Component<
 
             let results = response.data.result[0];
 
-            console.log(
+            /*console.log(
               "loadUserDataById",
               response.data,
               response.data.result[0].name
-            );
+            );*/
 
             that.setState({
               receiverName: results.name,
@@ -232,11 +228,11 @@ class ConversationDetails extends Component<
   };
 
   componentDidMount = async () => {
-    console.log([
+    /*console.log([
       "conversationDetails Did mount",
       this.props.navigation.state.params.conversationId,
       this.props.navigation.state.params.receiverId
-    ]);
+    ]);*/
 
     await this.openConversationDetails(
       this.props.navigation.state.params.conversationId
@@ -250,10 +246,10 @@ class ConversationDetails extends Component<
         this.props.navigation.state.params.conversationId
       );
 
-    console.log([
+    /*console.log([
       "openConversationMessages",
       this.state.openConversationMessages
-    ]);
+    ]);*/
   };
 
   render() {

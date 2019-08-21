@@ -155,12 +155,12 @@ class EditProfileInfo extends Component<
           userId: userId
         })
         .catch(function(error) {
-          console.log(error.message);
+          //console.log(error.message);
         });
 
       return json;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -174,11 +174,11 @@ class EditProfileInfo extends Component<
           userId: userId
         })
         .catch(function(error) {
-          console.log(error.message);
+          //console.log(error.message);
         });
       return json;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -203,14 +203,14 @@ class EditProfileInfo extends Component<
               hobby_id: hobby.id
             })
             .catch(function(error) {
-              console.log(error.message);
+              //console.log(error.message);
             });
 
           return json;
         }
       });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -253,7 +253,7 @@ class EditProfileInfo extends Component<
       .get(API_URL + "/api/hobbiesList")
       .then(response => {
         if (response.data.status === "OK") {
-          console.log(["response.data.result", response.data.result]);
+          //console.log(["response.data.result", response.data.result]);
           //loop through existing state list of all hobbies and check if name is element of activeHobbies
           response.data.result.map(
             (hobby: { name: string; id: number }, i: number) => {
@@ -287,7 +287,7 @@ class EditProfileInfo extends Component<
         }
       })
       .catch(function(error) {
-        console.log(error.message);
+        //console.log(error.message);
       });
   };
 
@@ -329,20 +329,18 @@ class EditProfileInfo extends Component<
       height: 500,
       cropping: true,
       forceJpg: true,
-      compressImageMaxWidth: 500,
-      compressImageMaxHeight: 500,
       cropperCircleOverlay: false,
       freeStyleCropEnabled: true,
-      compressImageQuality: 1,
+      compressImageQuality: 0.8,
       compressVideoPreset: "MediumQuality",
       includeBase64: true
     })
       .then((image: any) => {
-        console.log(image);
+        //console.log(image);
         this.setState({ photo: image });
       })
       .catch((e: any) => {
-        console.log(e);
+        //console.log(e);
       });
   };
 
@@ -360,12 +358,12 @@ class EditProfileInfo extends Component<
         let json = await axios
           .post(API_URL + "api/uploadUserPhoto", formData)
           .catch(function(error) {
-            console.log(error);
+            //console.log(error);
           });
 
         return json;
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     }
   };
@@ -416,12 +414,12 @@ class EditProfileInfo extends Component<
           locationString: locationString
         })
         .catch(function(error) {
-          console.log(error);
+          //console.log(error);
         });
 
       return json;
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -439,13 +437,13 @@ class EditProfileInfo extends Component<
             childGender: kid.childGender
           })
           .catch(function(error) {
-            console.log(error.message);
+            //console.log(error.message);
           });
 
         return json;
       });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 

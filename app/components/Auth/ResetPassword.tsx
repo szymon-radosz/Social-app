@@ -26,8 +26,10 @@ const ResetPassword = (props: any) => {
         })
         .then(function(response) {
           if (response.data.status === "OK") {
+            setEmail("");
             context.setAlert(true, "success", "Sprawdź swoją skrzynkę.");
           } else {
+            setEmail("");
             context.setAlert(true, "danger", "Problem ze zresetowaniem hasła.");
           }
         })

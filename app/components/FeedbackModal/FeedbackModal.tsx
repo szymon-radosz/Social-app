@@ -4,7 +4,8 @@ import {
   View,
   Text,
   SafeAreaView,
-  ScrollView
+  ScrollView,
+  Image
 } from "react-native";
 import Alert from "./../Alert/Alert";
 import BottomPanel from "./../SharedComponents/BottomPanel";
@@ -13,6 +14,8 @@ import ButtonComponent from "./../Utils/ButtonComponent";
 import TextAreaComponent from "./../Utils/TextAreaComponent";
 import { GlobalContext } from "./../../Context/GlobalContext";
 import axios from "axios";
+
+const loaderImage: any = require("./../../assets/images/loader.gif");
 
 interface FeedbackModalState {
   feedbackMessage: string;
@@ -51,7 +54,7 @@ class FeedbackModal extends Component<FeedbackModalProps, FeedbackModalState> {
     this.setState({ feedbackMessage: message });
   };
 
-  sendFeedback = (): void => {
+  sendFeedback = async () => {
     let topic = this.state.activeTopic;
     let message = this.state.feedbackMessage;
     let userId = this.context.userData.id;
@@ -68,6 +71,8 @@ class FeedbackModal extends Component<FeedbackModalProps, FeedbackModalState> {
     }
 
     if (topic && message && userId && API_URL) {
+      await this.context.setShowLoader(true);
+
       axios
         .post(API_URL + "/api/saveUserFeedback", {
           topic: topic,
@@ -83,15 +88,20 @@ class FeedbackModal extends Component<FeedbackModalProps, FeedbackModalState> {
 
             that.context.setAlert(true, "success", "Dziękujemy za wiadomość.");
 
+            that.context.setShowLoader(false);
+
             that.props.navigation.goBack(null);
           }
         })
         .catch(function(error) {
+          console.log(error);
           that.context.setAlert(
             true,
             "danger",
             "Problem z wysłaniem wiadomości."
           );
+
+          that.context.setShowLoader(false);
 
           that.props.navigation.goBack(null);
         });
@@ -123,69 +133,81 @@ class FeedbackModal extends Component<FeedbackModalProps, FeedbackModalState> {
             }}
             data-test="FindUsers"
           >
-            <ScrollView>
-              <Text style={styles.feedbackHeaderText}>Napisz do nas!</Text>
-              <Text style={styles.feedbackSubHeaderText}>
-                Podziel się z nami swoją opinią co możemy poprawić lub zgłoś
-                błąd działania aplikacji.
-              </Text>
-
-              <Text style={styles.feedbackTopic}>Temat wiadomości</Text>
-
-              {feedbackTopic.map((topic: any, index: number) => {
-                return (
-                  <View
-                    style={styles.checkboxWrapper}
-                    key={`FeedbackModal-${index}`}
-                  >
-                    <TouchableOpacity
-                      onPress={() => this.setFeedbackTopic(index)}
-                      style={
-                        activeTopic == topic.text
-                          ? styles.activeCheckbox
-                          : styles.inActiveCheckbox
-                      }
-                    />
-                    <Text
-                      onPress={() => this.setFeedbackTopic(index)}
-                      style={
-                        activeTopic == topic.text
-                          ? styles.checkboxTextActive
-                          : styles.checkboxText
-                      }
-                    >
-                      {topic.text}
-                    </Text>
-                  </View>
-                );
-              })}
-
-              <View style={{ paddingLeft: 10, paddingRight: 10 }}>
-                <TextAreaComponent
-                  placeholder="Napisz wiadomość..."
-                  inputOnChange={(feedbackMessage: string) =>
-                    this.setFeedbackMessage(feedbackMessage)
-                  }
-                  value={feedbackMessage}
-                  maxLength={800}
-                  multiline={true}
-                  numberOfLines={10}
+            {this.context.showLoader ? (
+              <View style={styles.loaderContainer} data-test="loader">
+                <Image
+                  style={{ width: 100, height: 100 }}
+                  source={loaderImage}
                 />
               </View>
+            ) : (
+              <React.Fragment>
+                <ScrollView keyboardShouldPersistTaps={"always"}>
+                  <Text style={styles.feedbackHeaderText}>Napisz do nas!</Text>
+                  <Text style={styles.feedbackSubHeaderText}>
+                    Podziel się z nami swoją opinią co możemy poprawić lub zgłoś
+                    błąd działania aplikacji.
+                  </Text>
 
-              <ButtonComponent
-                pressButtonComponent={this.sendFeedback}
-                buttonComponentText="Wyślij"
-                fullWidth={true}
-                underlayColor="#dd904d"
-                whiteBg={false}
-                showBackIcon={false}
-              />
-            </ScrollView>
-            <BottomPanel
-              data-test="BottomPanel"
-              navigation={this.props.navigation}
-            />
+                  <Text style={styles.feedbackTopic}>Temat wiadomości</Text>
+
+                  {feedbackTopic.map((topic: any, index: number) => {
+                    return (
+                      <View
+                        style={styles.checkboxWrapper}
+                        key={`FeedbackModal-${index}`}
+                      >
+                        <TouchableOpacity
+                          onPress={() => this.setFeedbackTopic(index)}
+                          style={
+                            activeTopic == topic.text
+                              ? styles.activeCheckbox
+                              : styles.inActiveCheckbox
+                          }
+                        />
+                        <Text
+                          onPress={() => this.setFeedbackTopic(index)}
+                          style={
+                            activeTopic == topic.text
+                              ? styles.checkboxTextActive
+                              : styles.checkboxText
+                          }
+                        >
+                          {topic.text}
+                        </Text>
+                      </View>
+                    );
+                  })}
+
+                  <View style={{ paddingLeft: 10, paddingRight: 10 }}>
+                    <TextAreaComponent
+                      placeholder="Napisz wiadomość..."
+                      inputOnChange={(feedbackMessage: string) =>
+                        this.setFeedbackMessage(feedbackMessage)
+                      }
+                      value={feedbackMessage}
+                      maxLength={800}
+                      multiline={true}
+                      numberOfLines={10}
+                    />
+                  </View>
+
+                  <ButtonComponent
+                    pressButtonComponent={this.sendFeedback}
+                    buttonComponentText="Wyślij"
+                    fullWidth={true}
+                    underlayColor="#dd904d"
+                    whiteBg={false}
+                    showBackIcon={false}
+                  />
+                </ScrollView>
+
+                <BottomPanel
+                  data-test="BottomPanel"
+                  navigation={this.props.navigation}
+                />
+              </React.Fragment>
+            )}
           </View>
         </SafeAreaView>
       </React.Fragment>
