@@ -19,6 +19,7 @@ interface FindUsersState {
   userDetailsData: any;
   userDetailsId: number;
   locationDetails: any;
+  countFriends: number;
 }
 
 interface FindUsersProps {
@@ -34,22 +35,42 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
       usersAreInTheSameConversation: false,
       usersFriendshipStatus: "",
       userDetailsData: [],
-      userDetailsId: 0
+      userDetailsId: 0,
+      countFriends: 0
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     //console.log(["UserDetails", this.props.navigation.state.params.userId]);
 
     let userDetailsId = this.props.navigation.state.params.userId;
 
-    this.setShowUserDetails(userDetailsId);
+    if (this.context.userData) {
+      await this.getAmountOfFriends(this.context.userData.id);
+    }
+
+    await this.setShowUserDetails(userDetailsId);
   };
 
   componentWillUnmount = () => {
     //console.log(["componentWillUnmount"]);
 
     this.setState({ userDetailsData: [] });
+  };
+
+  getAmountOfFriends = (id: number): void => {
+    let that = this;
+
+    axios
+      .post(this.context.API_URL + "/api/countFriends", {
+        userId: id
+      })
+      .then(function(response) {
+        if (response.data.status === "OK") {
+          that.setState({ countFriends: response.data.result.countFriends });
+        }
+      })
+      .catch(function(error) {});
   };
 
   setUserDetailsId = (id: number) => {
@@ -203,7 +224,8 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
       usersAreInTheSameConversation,
       userDetailsData,
       usersFriendshipStatus,
-      locationDetails
+      locationDetails,
+      countFriends
     } = this.state;
     return (
       <React.Fragment>
@@ -255,7 +277,7 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
                         cityDistrict={locationDetails.cityDistrict}
                         city={locationDetails.city}
                         age={userDetailsData.age}
-                        countFriends={2}
+                        countFriends={countFriends}
                         countKids={
                           userDetailsData.kids &&
                           userDetailsData.kids.length > 0

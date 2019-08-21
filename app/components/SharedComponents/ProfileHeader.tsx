@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import { Text, View, Image, TouchableOpacity } from "react-native";
 import styles from "./style";
 
@@ -6,15 +6,6 @@ const logout: any = require("./../../assets/images/logout.png");
 const bellWhite: any = require("./../../assets/images/bellWhite.png");
 
 const ProfileHeader = (props: any) => {
-  //console.log(props);
-
-  const [profileInfo, setProfileInfo] = useState({});
-
-  useEffect(() => {
-    setProfileInfo(props);
-    //console.log(["ProfileHeader", profileInfo]);
-  }, [props]);
-
   return (
     <React.Fragment>
       <View style={styles.topBtnContainer}>
