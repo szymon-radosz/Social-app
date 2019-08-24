@@ -126,7 +126,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
 
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("willFocus", () => {
-      console.log("Focus listener mount messages");
+      //console.log("Focus listener mount messages");
 
       this.getMessages();
       this.setState({ displayPrivateMessages: true, showFilterPanel: true });
@@ -134,7 +134,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
   };
 
   componentWillUnmount() {
-    console.log("Focus listener unmount messages");
+    //console.log("Focus listener unmount messages");
 
     // Remove the event listener
     this.focusListener.remove();

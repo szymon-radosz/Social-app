@@ -44,7 +44,7 @@ class ProductMessageBox extends Component<
       let searchedUser = navigation.state.params.receiverId;
       let productId = navigation.state.params.productId;
 
-      console.log(["ProductMessageBox", loggedInUser, searchedUser, productId]);
+      //console.log(["ProductMessageBox", loggedInUser, searchedUser, productId]);
 
       axios
         .post(API_URL + "/api/checkIfUsersBelongsToProductConversation", {

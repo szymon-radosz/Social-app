@@ -189,11 +189,11 @@ class ProductDetails extends Component<
   componentDidMount = () => {
     const { navigation } = this.props;
 
-    console.log([
+    /*console.log([
       "ProductDetails",
       navigation.state.params.productId,
       navigation.state.params.authorId
-    ]);
+    ]);*/
 
     let productId = navigation.state.params.productId;
 

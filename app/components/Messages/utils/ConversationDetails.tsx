@@ -137,12 +137,12 @@ class ConversationDetails extends Component<
         })
         .then(async response => {
           if (response.data.status === "OK") {
-            console.log(
+            /*console.log(
               "details conv",
               response.data.result,
               response.data.result.conversation.product_id,
               response.data.result.productOwnerId
-            );
+            );*/
 
             let privateMessage = true;
             if (

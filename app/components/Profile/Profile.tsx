@@ -66,7 +66,7 @@ class Profile extends Component<
   }
 
   componentDidMount() {
-    console.log(["PRofile", this.context.NavigationService]);
+    //console.log(["PRofile", this.context.NavigationService]);
     if (this.context.userData) {
       this.getAmountOfFriends(this.context.userData.id);
     }

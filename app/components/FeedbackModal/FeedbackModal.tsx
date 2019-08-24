@@ -94,7 +94,7 @@ class FeedbackModal extends Component<FeedbackModalProps, FeedbackModalState> {
           }
         })
         .catch(function(error) {
-          console.log(error);
+          //console.log(error);
           that.context.setAlert(
             true,
             "danger",
