@@ -467,6 +467,8 @@ class EditProfileInfo extends Component<
     await this.fileUpload();
 
     await this.context.setUserFilledInfo();
+
+    await this.setState({ actualStep: 1 });
     this.context.setShowLoader(false);
   };
 
