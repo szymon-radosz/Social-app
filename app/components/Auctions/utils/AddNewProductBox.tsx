@@ -728,7 +728,10 @@ class AddNewProductBox extends Component<
                   <View style={{ marginBottom: 10 }} />
                 </ScrollView>
 
-                <BottomPanel data-test="BottomPanel" />
+                <BottomPanel
+                  data-test="BottomPanel"
+                  navigation={this.props.navigation}
+                />
               </React.Fragment>
             )}
           </View>

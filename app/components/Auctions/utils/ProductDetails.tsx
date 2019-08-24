@@ -664,7 +664,10 @@ class ProductDetails extends Component<
                   ) : null}
                 </ScrollView>
 
-                <BottomPanel data-test="BottomPanel" />
+                <BottomPanel
+                  data-test="BottomPanel"
+                  navigation={this.props.navigation}
+                />
               </React.Fragment>
             )}
           </View>

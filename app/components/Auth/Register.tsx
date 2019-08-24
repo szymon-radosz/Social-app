@@ -24,6 +24,7 @@ const Register = (props: { navigation: any }) => {
   const [password, setPassword] = useState("");
   const [passwordConf, setPasswordConf] = useState("");
   const [platform, setPlatform] = useState("");
+  const [emailExists, setEmailExists] = useState(false);
   const context = useContext(GlobalContext);
 
   const navigation = props.navigation;
@@ -36,7 +37,12 @@ const Register = (props: { navigation: any }) => {
     }
   }, []);
 
-  const registerUser = (): void => {
+  const validateEmail = (email: string) => {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  };
+
+  const registerUser = async () => {
     if (!name || !email || !password || !passwordConf) {
       context.setAlert(true, "danger", "Wszystkie pola są wymagane.");
     } else if (password !== passwordConf) {
@@ -47,36 +53,70 @@ const Register = (props: { navigation: any }) => {
       );
     } else if (password == passwordConf && password.length < 6) {
       context.setAlert(true, "danger", "Hasło musi mieć conajmniej 6 znaków.");
-    } else if (password === passwordConf) {
+    } else if (!validateEmail(email)) {
+      context.setAlert(true, "danger", "Nieprawidłowy adres email.");
+    } else if (
+      password === passwordConf &&
+      name &&
+      email &&
+      password &&
+      passwordConf &&
+      validateEmail(email)
+    ) {
       try {
         let API_URL = context.API_URL;
 
         context.setShowLoader(true);
 
         axios
-          .post(API_URL + "/api/register", {
-            name: name,
-            email: email,
-            password: password,
-            platform: platform
+          .post(API_URL + "/api/checkIfEmailExists", {
+            email: email
           })
-          .then(function(response) {
-            //console.log(response.data);
-            if (response.data.status === "OK") {
-              context.setShowLoader(false);
+          .then(async response => {
+            if (response.data.status === "OK" && response.data.result === 1) {
+              //console.log(["checkIfEmailExists", response.data.result]);
 
               context.setAlert(
                 true,
-                "success",
-                "Sprawdź swoją skrzynkę mailową i potwierdź swoje konto przez otrzymaną od nas wiadomość."
+                "danger",
+                "Konto dla podanego adresu email już istnieje."
               );
 
-              context.setUserData(response.data.user);
-              //navProps.setUserData(response.data.user);
+              setEmail("");
+
+              context.setShowLoader(false);
+            } else {
+              axios
+                .post(API_URL + "/api/register", {
+                  name: name,
+                  email: email,
+                  password: password,
+                  platform: platform
+                })
+                .then(function(response) {
+                  //console.log(response.data);
+                  if (response.data.status === "OK") {
+                    context.setShowLoader(false);
+
+                    context.setAlert(
+                      true,
+                      "success",
+                      "Sprawdź swoją skrzynkę mailową i potwierdź swoje konto przez otrzymaną od nas wiadomość."
+                    );
+
+                    setName("");
+                    setEmail("");
+                    setPassword("");
+                    setPasswordConf("");
+
+                    context.setUserData(response.data.user);
+                    //navProps.setUserData(response.data.user);
+                  }
+                })
+                .catch(function(error) {
+                  context.setShowLoader(false);
+                });
             }
-          })
-          .catch(function(error) {
-            context.setShowLoader(false);
           });
       } catch (e) {}
     } else {

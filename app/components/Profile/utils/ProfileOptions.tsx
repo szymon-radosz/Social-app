@@ -13,6 +13,8 @@ const info: any = require("./../../../assets/images/info.png");
 const ProfileOptions = (props: any) => {
   const context = useContext(GlobalContext);
 
+  console.log(["profile context", context]);
+
   return (
     <View
       style={{
@@ -29,10 +31,7 @@ const ProfileOptions = (props: any) => {
         style={styles.buttonOption}
         onPress={() =>
           props.navigation &&
-          props.navigation.navigate("UserDetails", {
-            userId: context.userData.id,
-            showBtns: false
-          })
+          props.navigation.navigate("LoggedInUserDetails", {})
         }
         underlayColor={"#fff"}
       >

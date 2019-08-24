@@ -9,6 +9,7 @@ import UserPreview from "./../../SharedComponents/UserPreview";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import ButtonComponent from "./../../Utils/ButtonComponent";
 import { GlobalContext } from "./../../../Context/GlobalContext";
+import { withNavigation } from "react-navigation";
 
 const loaderImage: any = require("./../../../assets/images/loader.gif");
 
@@ -42,21 +43,48 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
 
   componentDidMount = async () => {
     //console.log(["UserDetails", this.props.navigation.state.params.userId]);
+    const { navigation } = this.props;
 
-    let userDetailsId = this.props.navigation.state.params.userId;
+    console.log(["componentDidMount UserDeatils", navigation.state.params]);
 
-    if (this.context.userData) {
+    /*this.focusListener = navigation.addListener("willFocus", async () => {
+      let userDetailsId = navigation.state.params.userId;
+
+      //show profile of current loggedin user
+      if (!navigation.state.params.showBtns) {
+        await this.getAmountOfFriends(this.context.userData.id);
+      }
+      //show profile for not the current loggedin user - from list etc.
+      else {
+        await this.getAmountOfFriends(navigation.state.params.userId);
+      }
+
+      await this.setShowUserDetails(userDetailsId);
+    });*/
+
+    let userDetailsId = navigation.state.params.userId;
+
+    //show profile of current loggedin user
+    /*if (!navigation.state.params.showBtns) {
       await this.getAmountOfFriends(this.context.userData.id);
     }
+    //show profile for not the current loggedin user - from list etc.
+    else {
+      await this.getAmountOfFriends(navigation.state.params.userId);
+    }*/
+
+    await this.getAmountOfFriends(navigation.state.params.userId);
 
     await this.setShowUserDetails(userDetailsId);
   };
 
-  componentWillUnmount = () => {
-    //console.log(["componentWillUnmount"]);
+  /*componentWillUnmount() {
+    console.log(["componentWillUnmount UserDeatils"]);
+    //this.setState({ userDetailsData: [] });
 
-    this.setState({ userDetailsData: [] });
-  };
+    // Remove the event listener
+    this.focusListener.remove();
+  }*/
 
   getAmountOfFriends = (id: number): void => {
     let that = this;

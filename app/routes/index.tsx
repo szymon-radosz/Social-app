@@ -28,6 +28,7 @@ import UserFriendsList from "./../components/Profile/utils/UserFriendsList";
 import UserAuctionsList from "./../components/Profile/utils/UserAuctionsList";
 import UserNotificationList from "./../components/Profile/utils/UserNotificationList";
 import About from "./../components/Profile/utils/About";
+import LoggedInUserDetails from "./../components/Profile/utils/LoggedInUserDetails";
 //Feedback
 import FeedbackModal from "./../components/FeedbackModal/FeedbackModal";
 //@ts-ignore
@@ -182,11 +183,18 @@ const MainStack = createStackNavigator(
       navigationOptions: {
         header: null
       }
+    },
+    LoggedInUserDetails: {
+      screen: LoggedInUserDetails,
+      navigationOptions: {
+        header: null
+      }
     }
   },
   {
     initialRouteName: "Welcome",
-    transitionConfig: () => fadeIn()
+    transitionConfig: () => fadeIn(),
+    headerMode: "none"
   }
 );
 

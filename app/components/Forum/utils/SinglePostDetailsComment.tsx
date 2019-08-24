@@ -55,7 +55,7 @@ const SinglePostDetailsComment = (props: {
           <Text style={styles.postDetailsPostDate}>{commentDate}</Text>
           {props.comment.users.id !== context.userData.id && (
             <TouchableHighlight
-              onPress={async () => {
+              onPress={() => {
                 props.navigation.navigate("UserDetails", {
                   userId: props.comment.users.id,
                   showBtns: true
