@@ -7,6 +7,7 @@ import PageHeader from "./../../SharedComponents/PageHeader";
 import ButtonComponent from "./../../Utils/ButtonComponent";
 import TextAreaComponent from "./../../Utils/TextAreaComponent";
 import { GlobalContext } from "./../../../Context/GlobalContext";
+import { withNavigation } from "react-navigation";
 import axios from "axios";
 
 interface UserMessageBoxState {
@@ -30,12 +31,41 @@ class UserMessageBox extends Component<
     };
   }
 
-  /*componentDidMount = () => {
-    console.log([
-      "this.props.navigation.state.params.userId",
-      this.props.navigation.state.params.userId
-    ]);
-  };*/
+  componentDidMount = () => {
+    const { navigation } = this.props;
+
+    this.focusListener = navigation.addListener("willFocus", () => {
+      /*console.log([
+        "this.props.navigation.state.params.userId",
+        navigation.state.params.userId
+      ]);*/
+
+      let API_URL = this.context.API_URL;
+      let loggedInUser = this.context.userData.id;
+      let searchedUser = navigation.state.params.userId;
+
+      axios
+        .post(API_URL + "/api/checkIfUsersBelongsToConversation", {
+          loggedInUser: loggedInUser,
+          searchedUser: searchedUser
+        })
+        .then(response => {
+          if (response.data.status === "OK" && response.data.result === true) {
+            /*console.log([
+              "checkIfUsersBelongsToConversation",
+              response.data.result
+            ]);*/
+
+            navigation.navigate("UserList", {});
+          }
+        });
+    });
+  };
+
+  componentWillUnmount() {
+    // Remove the event listener
+    this.focusListener.remove();
+  }
 
   sendMessage = (message: string): void => {
     let API_URL = this.context.API_URL;
@@ -60,7 +90,12 @@ class UserMessageBox extends Component<
           );
 
           //if message send sucessfully then redirect back to user details
-          that.props.navigation.navigate("Messages", {});
+          //that.props.navigation.navigate("Messages", {});
+
+          that.props.navigation.navigate("ConversationDetails", {
+            conversationId: openDetailsId,
+            receiverId: receiverId
+          });
         } else if (response2.data.status === "ERR") {
           that.context.setAlert(
             true,
@@ -164,4 +199,4 @@ class UserMessageBox extends Component<
 }
 
 UserMessageBox.contextType = GlobalContext;
-export default UserMessageBox;
+export default withNavigation(UserMessageBox);
