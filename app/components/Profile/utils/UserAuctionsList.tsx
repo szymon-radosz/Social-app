@@ -114,26 +114,27 @@ class UserFriendsList extends Component<
                     closeMethod={() => this.props.navigation.goBack(null)}
                     closeMethodParameter={""}
                   />
-
-                  {userAuctionList.map((product: any, i: number) => {
-                    return (
-                      <ListItem
-                        API_URL={this.context.API_URL}
-                        key={`UserAuctionsList-${i}`}
-                        image={`${product.product_photos[0].path}`}
-                        mainText={product.name}
-                        subText={`Kategoria: ${product.categoryName[0].name}`}
-                        subSubText={`Cena: ${product.price} zł`}
-                        onPress={() => {
-                          this.props.navigation.push("ProductDetails", {
-                            productId: product.id,
-                            authorId: product.user_id
-                          });
-                        }}
-                        userHadUnreadedMessages={false}
-                      />
-                    );
-                  })}
+                  <View style={{ marginTop: 15, marginBottom: 15 }}>
+                    {userAuctionList.map((product: any, i: number) => {
+                      return (
+                        <ListItem
+                          API_URL={this.context.API_URL}
+                          key={`UserAuctionsList-${i}`}
+                          image={`${product.product_photos[0].path}`}
+                          mainText={product.name}
+                          subText={`Kategoria: ${product.categoryName[0].name}`}
+                          subSubText={`Cena: ${product.price} zł`}
+                          onPress={() => {
+                            this.props.navigation.push("ProductDetails", {
+                              productId: product.id,
+                              authorId: product.user_id
+                            });
+                          }}
+                          userHadUnreadedMessages={false}
+                        />
+                      );
+                    })}
+                  </View>
                 </ScrollView>
                 <BottomPanel
                   data-test="BottomPanel"
