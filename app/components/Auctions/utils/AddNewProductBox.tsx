@@ -193,7 +193,7 @@ class AddNewProductBox extends Component<
 
             await that.context.setShowLoader(false);
 
-            await that.props.navigation.navigate("ProductDetails", {
+            await that.props.navigation.push("ProductDetails", {
               productId: response.data.result.product.id,
               authorId: response.data.result.product.user_id
             });

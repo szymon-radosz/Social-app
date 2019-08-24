@@ -125,7 +125,7 @@ class UserFriendsList extends Component<
                         subText={`Kategoria: ${product.categoryName[0].name}`}
                         subSubText={`Cena: ${product.price} zł`}
                         onPress={() => {
-                          this.props.navigation.navigate("ProductDetails", {
+                          this.props.navigation.push("ProductDetails", {
                             productId: product.id,
                             authorId: product.user_id
                           });

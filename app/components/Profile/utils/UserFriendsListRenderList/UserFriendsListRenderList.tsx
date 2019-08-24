@@ -32,7 +32,7 @@ const UserFriendsListRenderList = (props: any) => {
                     : ""
                 }`}
                 onPress={() => {
-                  props.navigation.navigate("UserDetails", {
+                  props.navigation.push("UserDetails", {
                     userId: friendsPair.users_invited_me.id,
                     showBtns: true
                   });
@@ -65,7 +65,7 @@ const UserFriendsListRenderList = (props: any) => {
                     : ""
                 }`}
                 onPress={() => {
-                  props.navigation.navigate("UserDetails", {
+                  props.navigation.push("UserDetails", {
                     userId: friendsPair.users_invited_by_me.id,
                     showBtns: true
                   });

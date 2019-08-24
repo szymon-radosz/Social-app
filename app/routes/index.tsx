@@ -15,6 +15,7 @@ import UserMessageBox from "./../components/FindUsers/utils/UserMessageBox";
 import Auctions from "./../components/Auctions/Auctions";
 import ProductDetails from "./../components/Auctions/utils/ProductDetails";
 import AddNewProductBox from "./../components/Auctions/utils/AddNewProductBox";
+import ProductMessageBox from "./../components/Auctions/utils/ProductMessageBox";
 //Messages
 import Messages from "./../components/Messages/Messages";
 import ConversationDetails from "./../components/Messages/utils/ConversationDetails";
@@ -114,6 +115,12 @@ const MainStack = createStackNavigator(
     },
     AddNewProduct: {
       screen: AddNewProductBox,
+      navigationOptions: {
+        header: null
+      }
+    },
+    ProductMessageBox: {
+      screen: ProductMessageBox,
       navigationOptions: {
         header: null
       }

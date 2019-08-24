@@ -137,12 +137,17 @@ class ConversationDetails extends Component<
         })
         .then(async response => {
           if (response.data.status === "OK") {
-            //console.log("details conv", response.data);
+            console.log(
+              "details conv",
+              response.data.result,
+              response.data.result.conversation.product_id,
+              response.data.result.productOwnerId
+            );
 
             let privateMessage = true;
             if (
-              response.data.result[0].product_id &&
-              response.data.result[0].product_id !== 0
+              response.data.result.conversation.product_id &&
+              response.data.result.conversation.product_id !== 0
             ) {
               /*console.log([
                 "response.data.product_id",
@@ -151,12 +156,16 @@ class ConversationDetails extends Component<
               privateMessage = false;
             }
 
+            console.log(["ConversationDetails", response.data.result]);
+
             await that.setState({
-              openConversationMessages: response.data.result[0].messages,
+              openConversationMessages:
+                response.data.result.conversation.messages,
               receiverId: that.props.navigation.state.params.receiverId,
               privateConversation: privateMessage,
-              productConversationId: response.data.result[0].product_id,
-              productConversationAuthorId: response.data.result[0].user_id
+              productConversationId:
+                response.data.result.conversation.product_id,
+              productConversationAuthorId: response.data.result.productOwnerId
             });
 
             await that.context.setShowLoader(false);
@@ -167,6 +176,7 @@ class ConversationDetails extends Component<
           }
         })
         .catch(async error => {
+          console.log(error);
           await that.context.setAlert(
             true,
             "danger",
@@ -228,12 +238,6 @@ class ConversationDetails extends Component<
   };
 
   componentDidMount = async () => {
-    /*console.log([
-      "conversationDetails Did mount",
-      this.props.navigation.state.params.conversationId,
-      this.props.navigation.state.params.receiverId
-    ]);*/
-
     await this.openConversationDetails(
       this.props.navigation.state.params.conversationId
     );
@@ -245,11 +249,6 @@ class ConversationDetails extends Component<
         this.context.userData.id,
         this.props.navigation.state.params.conversationId
       );
-
-    /*console.log([
-      "openConversationMessages",
-      this.state.openConversationMessages
-    ]);*/
   };
 
   render() {
@@ -325,7 +324,7 @@ class ConversationDetails extends Component<
                       {privateConversation && (
                         <TouchableHighlight
                           onPress={async () => {
-                            this.props.navigation.navigate("UserDetails", {
+                            this.props.navigation.push("UserDetails", {
                               userId: this.props.navigation.state.params
                                 .receiverId,
                               showBtns: true
@@ -344,7 +343,7 @@ class ConversationDetails extends Component<
                         productConversationAuthorId !== 0 && (
                           <TouchableHighlight
                             onPress={async () => {
-                              this.props.navigation.navigate("ProductDetails", {
+                              this.props.navigation.push("ProductDetails", {
                                 productId: productConversationId,
                                 authorId: productConversationAuthorId
                               });

@@ -19,10 +19,10 @@ import Carousel from "react-native-looped-carousel";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import { GlobalContext } from "./../../../Context/GlobalContext";
 import ButtonComponent from "./../../Utils/ButtonComponent";
+import { withNavigation } from "react-navigation";
 
 const loaderImage: any = require("./../../../assets/images/loader.gif");
 
-const ProductMessageBox = React.lazy(() => import("./ProductMessageBox"));
 const SellerVoteBox = React.lazy(() => import("./SellerVoteBox"));
 const WINDOW_WIDTH = Dimensions.get("window").width;
 
@@ -84,12 +84,7 @@ class ProductDetails extends Component<
     this.checkIfUsersBelongToConversationProduct = this.checkIfUsersBelongToConversationProduct.bind(
       this
     );
-    this.sendNewConversationProduct = this.sendNewConversationProduct.bind(
-      this
-    );
-    this.changeShowProductMessageBox = this.changeShowProductMessageBox.bind(
-      this
-    );
+
     this.changeVoteBox = this.changeVoteBox.bind(this);
     this.searchUsersByEmail = this.searchUsersByEmail.bind(this);
     this.sendVote = this.sendVote.bind(this);
@@ -121,10 +116,6 @@ class ProductDetails extends Component<
           //console.log(error);
         });
     }
-  };
-
-  changeShowProductMessageBox = () => {
-    this.setState({ showProductMessageBox: !this.state.showProductMessageBox });
   };
 
   changeVoteBox = () => {
@@ -195,103 +186,31 @@ class ProductDetails extends Component<
       });
   };
 
-  sendNewConversationProduct = (message: string) => {
-    if (message) {
-      let API_URL = this.context.API_URL;
-      let senderId = this.context.userData.id;
-      let receiverId = this.props.navigation.state.params.authorId;
-      let productId = this.props.navigation.state.params.productId;
-      let openDetailsId = 0;
-
-      let that = this;
-
-      this.context.setShowLoader(true);
-
-      /*console.log([
-        "sendNewConversationProduct",
-        this.context.userData.id,
-        this.props.navigation.state.params.authorId,
-        this.props.navigation.state.params.productId
-      ]);*/
-
-      axios
-        .post(API_URL + "/api/saveConversationProduct", {
-          senderId: senderId,
-          receiverId: receiverId,
-          message: message,
-          productId: productId
-        })
-        .then(async response => {
-          if (response.data.status === "OK") {
-            openDetailsId = response.data.result.id;
-
-            await that.setState({
-              usersAreInTheSameConversation: true,
-              //showProductMessageBox: false,
-              showVoteBox: false
-            });
-          }
-        })
-        .then(async response => {
-          axios.post(API_URL + "/api/addNotification", {
-            type: "started_conversation_user",
-            message: `Użytkowniczka ${
-              this.context.userData.name
-            } odezwała się do Ciebie w wiadomości prywatnej dotyczącej produktu`,
-            userId: receiverId,
-            senderId: this.context.userData.id,
-            openDetailsId: openDetailsId
-          });
-
-          await that.context.setShowLoader(false);
-        })
-        .then(async res => {
-          /*console.log([
-            "ProductDetails navigate",
-            openDetailsId,
-            this.context.userData.id
-          ]);*/
-
-          that.context.setAlert(
-            true,
-            "success",
-            "Poprawnie wysłano wiadomość."
-          );
-
-          that.props.navigation.navigate("ConversationDetails", {
-            conversationId: openDetailsId,
-            receiverId: receiverId
-          });
-        })
-        .catch(async error => {
-          await that.context.setAlert(
-            true,
-            "danger",
-            "Problem z wysłaniem wiadomości."
-          );
-
-          await that.context.setShowLoader(false);
-        });
-    }
-  };
-
   componentDidMount = () => {
-    /*console.log([
-      "ProductDetails",
-      this.props.navigation.state.params.productId
-    ]);*/
+    const { navigation } = this.props;
 
-    let productId = this.props.navigation.state.params.productId;
+    console.log([
+      "ProductDetails",
+      navigation.state.params.productId,
+      navigation.state.params.authorId
+    ]);
+
+    let productId = navigation.state.params.productId;
 
     this.getProductDetails(productId);
     this.checkIfUsersBelongToConversationProduct();
+
+    /*this.focusListener = navigation.addListener("willFocus", () => {
+      
+    });*/
   };
 
-  componentWillUnmount = () => {
-    //console.log(["ProductDetails componentWillUnmount"]);
+  /*componentWillUnmount() {
+    console.log(["ProductDetails will unmount "]);
 
-    this.setState({ productDetails: [] });
-  };
+    // Remove the event listener
+    this.focusListener.remove();
+  }*/
 
   sendVote = (
     selectedUserData: any,
@@ -433,18 +352,7 @@ class ProductDetails extends Component<
             ) : (
               <React.Fragment>
                 <ScrollView>
-                  {showProductMessageBox && !showVoteBox ? (
-                    <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                      <ProductMessageBox
-                        changeShowProductMessageBox={
-                          this.changeShowProductMessageBox
-                        }
-                        sendNewConversationProduct={
-                          this.sendNewConversationProduct
-                        }
-                      />
-                    </Suspense>
-                  ) : !showProductMessageBox && showVoteBox ? (
+                  {!showProductMessageBox && showVoteBox ? (
                     <SellerVoteBox
                       currentUser={this.context.userData}
                       product={productDetails[0]}
@@ -580,8 +488,13 @@ class ProductDetails extends Component<
                         !usersAreInTheSameConversation &&
                         productDetails[0].status != 1 && (
                           <ButtonComponent
-                            pressButtonComponent={
-                              this.changeShowProductMessageBox
+                            pressButtonComponent={() =>
+                              this.props.navigation.push("ProductMessageBox", {
+                                receiverId: this.props.navigation.state.params
+                                  .authorId,
+                                productId: this.props.navigation.state.params
+                                  .productId
+                              })
                             }
                             buttonComponentText="Wyślij wiadomość"
                             fullWidth={true}
@@ -677,4 +590,4 @@ class ProductDetails extends Component<
   }
 }
 ProductDetails.contextType = GlobalContext;
-export default ProductDetails;
+export default withNavigation(ProductDetails);

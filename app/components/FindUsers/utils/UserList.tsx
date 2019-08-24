@@ -29,7 +29,7 @@ const UserList = (props: {
                   : ""
               }`}
               onPress={() => {
-                props.navigation.navigate("UserDetails", {
+                props.navigation.push("UserDetails", {
                   userId: user.id,
                   showBtns: true
                 });

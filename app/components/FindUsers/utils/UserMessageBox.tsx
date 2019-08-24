@@ -91,11 +91,6 @@ class UserMessageBox extends Component<
 
           //if message send sucessfully then redirect back to user details
           //that.props.navigation.navigate("Messages", {});
-
-          that.props.navigation.navigate("ConversationDetails", {
-            conversationId: openDetailsId,
-            receiverId: receiverId
-          });
         } else if (response2.data.status === "ERR") {
           that.context.setAlert(
             true,
@@ -115,6 +110,12 @@ class UserMessageBox extends Component<
           openDetailsId: openDetailsId
         })
       )
+      .then(response => {
+        that.props.navigation.push("ConversationDetails", {
+          conversationId: openDetailsId,
+          receiverId: receiverId
+        });
+      })
       .catch(error => {
         that.context.setAlert(
           true,
