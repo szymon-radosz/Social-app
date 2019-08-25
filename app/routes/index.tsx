@@ -1,5 +1,7 @@
 import { createAppContainer, createStackNavigator } from "react-navigation";
 import React, { Component } from "react";
+import { View } from "react-native";
+import StatusBar from "./../StatusBar/StatusBar";
 //import NotLoggedInMain from "./../components/NotLoggedInScreens/NotLoggedInMain";
 import Welcome from "./../components/WelcomeScreen/Welcome";
 import Login from "./../components/Auth/Login";
@@ -455,6 +457,7 @@ export default class App extends Component<
           NavigationService: NavigationService
         }}
       >
+        <StatusBar backgroundColor="#f4a157" barStyle="light-content" />
         <AppContainer
           ref={navigatorRef => {
             NavigationService.setTopLevelNavigator(navigatorRef);
