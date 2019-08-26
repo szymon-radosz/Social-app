@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StatusBar, Platform } from "react-native";
+import styles from "./style"
 
 // here, we add the spacing for iOS
 // and pass the rest of the props to React Native's StatusBar
@@ -9,8 +10,10 @@ export default function(props: any) {
   const { backgroundColor } = props;
 
   return (
+   
     <View style={{ height, backgroundColor }}>
-      <StatusBar {...props} />
+     <View style={styles.iphoneXContainer}>
+      <StatusBar {...props} /></View>
     </View>
   );
 }

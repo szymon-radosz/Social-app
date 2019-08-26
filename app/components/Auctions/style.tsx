@@ -109,6 +109,7 @@ interface Style {
   addNewProductOptionTextActive: TextStyle;
   sellerVoteBoxText: ViewStyle;
   loaderContainer: any;
+  productBtnContainer: ViewStyle;
 }
 
 export default StyleSheet.create<Style>({
@@ -493,5 +494,6 @@ export default StyleSheet.create<Style>({
   sellerVoteBoxText: {
     paddingTop: 10
   },
-  loaderContainer: loaderContainer
+  loaderContainer: loaderContainer,
+  productBtnContainer: { marginBottom: 10 }
 });

@@ -514,65 +514,71 @@ class ProductDetails extends Component<
                             </Text>
                           </View>
                         )}
-                      {/* user is not the author, they are in the same conversation and product is sold*/}
-                      {productDetails[0].user_id != this.context.userData.id &&
-                        usersAreInTheSameConversation &&
-                        productDetails[0].status == 1 && (
-                          <ButtonComponent
-                            pressButtonComponent={() =>
-                              this.props.navigation.navigate("Messages", {})
-                            }
-                            buttonComponentText="Produkt sprzedany, jesteście w konwersacji"
-                            fullWidth={true}
-                            underlayColor="#dd904d"
-                            whiteBg={false}
-                            showBackIcon={false}
-                          />
-                        )}
-                      {/* user is not the author, they are in the same conversation and product is not sold*/}
-                      {productDetails[0].user_id != this.context.userData.id &&
-                        usersAreInTheSameConversation &&
-                        productDetails[0].status != 1 && (
-                          <ButtonComponent
-                            pressButtonComponent={() =>
-                              this.props.navigation.navigate("Messages", {})
-                            }
-                            buttonComponentText="Jestescie już w konwersacji"
-                            fullWidth={true}
-                            underlayColor="#dd904d"
-                            whiteBg={false}
-                            showBackIcon={false}
-                          />
-                        )}
-                      {/* user is the author, and product is not sold*/}
-                      {productDetails[0].user_id == this.context.userData.id &&
-                        productDetails[0].status != 1 && (
-                          <ButtonComponent
-                            pressButtonComponent={() => {
-                              this.closeProduct(productDetails[0].id);
-                            }}
-                            buttonComponentText="Zamknij Sprzedaż"
-                            fullWidth={true}
-                            underlayColor="#dd904d"
-                            whiteBg={false}
-                            showBackIcon={false}
-                          />
-                        )}
+                      <View style={styles.productBtnContainer}>
+                        {/* user is not the author, they are in the same conversation and product is sold*/}
+                        {productDetails[0].user_id !=
+                          this.context.userData.id &&
+                          usersAreInTheSameConversation &&
+                          productDetails[0].status == 1 && (
+                            <ButtonComponent
+                              pressButtonComponent={() =>
+                                this.props.navigation.navigate("Messages", {})
+                              }
+                              buttonComponentText="Produkt sprzedany, jesteście w konwersacji"
+                              fullWidth={true}
+                              underlayColor="#dd904d"
+                              whiteBg={false}
+                              showBackIcon={false}
+                            />
+                          )}
+                        {/* user is not the author, they are in the same conversation and product is not sold*/}
+                        {productDetails[0].user_id !=
+                          this.context.userData.id &&
+                          usersAreInTheSameConversation &&
+                          productDetails[0].status != 1 && (
+                            <ButtonComponent
+                              pressButtonComponent={() =>
+                                this.props.navigation.navigate("Messages", {})
+                              }
+                              buttonComponentText="Jestescie już w konwersacji"
+                              fullWidth={true}
+                              underlayColor="#dd904d"
+                              whiteBg={false}
+                              showBackIcon={false}
+                            />
+                          )}
+                        {/* user is the author, and product is not sold*/}
+                        {productDetails[0].user_id ==
+                          this.context.userData.id &&
+                          productDetails[0].status != 1 && (
+                            <ButtonComponent
+                              pressButtonComponent={() => {
+                                this.closeProduct(productDetails[0].id);
+                              }}
+                              buttonComponentText="Zamknij Sprzedaż"
+                              fullWidth={true}
+                              underlayColor="#dd904d"
+                              whiteBg={false}
+                              showBackIcon={false}
+                            />
+                          )}
 
-                      {/* user is the author, and product is sold*/}
-                      {productDetails[0].user_id == this.context.userData.id &&
-                        productDetails[0].status != 0 && (
-                          <ButtonComponent
-                            pressButtonComponent={() => {
-                              this.reactivateProduct(productDetails[0].id);
-                            }}
-                            buttonComponentText="Wznów Sprzedaż"
-                            fullWidth={true}
-                            underlayColor="#dd904d"
-                            whiteBg={false}
-                            showBackIcon={false}
-                          />
-                        )}
+                        {/* user is the author, and product is sold*/}
+                        {productDetails[0].user_id ==
+                          this.context.userData.id &&
+                          productDetails[0].status != 0 && (
+                            <ButtonComponent
+                              pressButtonComponent={() => {
+                                this.reactivateProduct(productDetails[0].id);
+                              }}
+                              buttonComponentText="Wznów Sprzedaż"
+                              fullWidth={true}
+                              underlayColor="#dd904d"
+                              whiteBg={false}
+                              showBackIcon={false}
+                            />
+                          )}
+                      </View>
                     </View>
                   ) : null}
                 </ScrollView>

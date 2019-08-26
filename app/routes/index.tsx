@@ -1,6 +1,6 @@
 import { createAppContainer, createStackNavigator } from "react-navigation";
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, SafeAreaView } from "react-native";
 import StatusBar from "./../StatusBar/StatusBar";
 //import NotLoggedInMain from "./../components/NotLoggedInScreens/NotLoggedInMain";
 import Welcome from "./../components/WelcomeScreen/Welcome";
@@ -39,6 +39,7 @@ import { fadeIn } from "react-navigation-transitions";
 import { GlobalContext } from "./../Context/GlobalContext";
 import axios from "axios";
 import NavigationService from "./NavigationService";
+import { ifIphoneX } from "react-native-iphone-x-helper";
 
 const MainStack = createStackNavigator(
   {
@@ -457,16 +458,23 @@ export default class App extends Component<
           NavigationService: NavigationService
         }}
       >
-        <StatusBar backgroundColor="#f4a157" barStyle="light-content" />
-        <AppContainer
-          ref={navigatorRef => {
-            NavigationService.setTopLevelNavigator(navigatorRef);
+        <SafeAreaView
+          style={{
+            flex: 1,
+            backgroundColor: "#f4a157"
           }}
-          alertType={alertType}
-          alertMessage={alertMessage}
-          closeAlert={this.closeAlert}
-          showAlert={showAlert}
-        />
+        >
+          {/*<StatusBar backgroundColor="#f4a157" barStyle="light-content" />*/}
+          <AppContainer
+            ref={navigatorRef => {
+              NavigationService.setTopLevelNavigator(navigatorRef);
+            }}
+            alertType={alertType}
+            alertMessage={alertMessage}
+            closeAlert={this.closeAlert}
+            showAlert={showAlert}
+          />
+        </SafeAreaView>
       </GlobalContext.Provider>
     );
   }
