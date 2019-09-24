@@ -1,7 +1,6 @@
 import { createAppContainer, createStackNavigator } from "react-navigation";
 import React, { Component } from "react";
-import { View, SafeAreaView } from "react-native";
-import StatusBar from "./../StatusBar/StatusBar";
+import { SafeAreaView } from "react-native";
 //import NotLoggedInMain from "./../components/NotLoggedInScreens/NotLoggedInMain";
 import Welcome from "./../components/WelcomeScreen/Welcome";
 import Login from "./../components/Auth/Login";
@@ -222,6 +221,7 @@ interface AppState {
   //editProfileData: boolean;
   API_URL: string;
   showLoader: boolean;
+  currentNavName: string;
 }
 interface NavigationScreenInterface {
   navigation: {
@@ -244,10 +244,11 @@ export default class App extends Component<
       alertType: "",
       userData: [],
       userLoggedIn: false,
-      //API_URL: "http://127.0.0.1:8000/",
+      API_URL: "http://127.0.0.1:8000/",
       //API_URL: "http://10.0.2.2:8000/",
-      API_URL: "https://e-mamy.pl/",
-      showLoader: false
+      //API_URL: "https://e-mamy.pl/",
+      showLoader: false,
+      currentNavName: "POZNAJ"
     };
     this.setAlert = this.setAlert.bind(this);
     this.closeAlert = this.closeAlert.bind(this);
@@ -260,6 +261,7 @@ export default class App extends Component<
     this.clearUserData = this.clearUserData.bind(this);
     this.setUserFilledInfo = this.setUserFilledInfo.bind(this);
     this.setShowLoader = this.setShowLoader.bind(this);
+    this.setCurrentNavName = this.setCurrentNavName.bind(this);
   }
 
   setShowLoader = (param: boolean): any => {
@@ -365,8 +367,6 @@ export default class App extends Component<
   };
 
   setUserData = (data: any) => {
-    //console.log("setUserData", data);
-
     if (data) {
       const userData = {
         age: data.age,
@@ -389,7 +389,9 @@ export default class App extends Component<
         unreadedNotificationsAmount: data.unreadedNotificationsAmount,
         user_filled_info: data.user_filled_info,
         verified: data.verified,
-        votes: data.votes
+        votes: data.votes,
+        platform: data.platform,
+        nickname: data.nickname
       };
       this.setState({ userData: userData });
 
@@ -427,6 +429,10 @@ export default class App extends Component<
     NavigationService.navigate("Welcome", {});
   };
 
+  setCurrentNavName = (name: string) => {
+    this.setState({ currentNavName: name });
+  };
+
   render() {
     const {
       showAlert,
@@ -434,7 +440,8 @@ export default class App extends Component<
       alertMessage,
       userData,
       API_URL,
-      showLoader
+      showLoader,
+      currentNavName
     } = this.state;
 
     return (
@@ -455,7 +462,9 @@ export default class App extends Component<
           setShowLoader: this.setShowLoader,
           closeAlert: this.closeAlert,
           //@ts-ignore
-          NavigationService: NavigationService
+          NavigationService: NavigationService,
+          currentNavName: currentNavName,
+          setCurrentNavName: this.setCurrentNavName
         }}
       >
         <SafeAreaView

@@ -54,6 +54,8 @@ const Login = (props: any) => {
                   if (response2.data.status === "OK") {
                     //navProps.setUserData(response2.data.result);
 
+                    //console.log(["userData", response2.data.result]);
+
                     context.setUserData(response2.data.result);
                   }
                 })

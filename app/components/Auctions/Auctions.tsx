@@ -305,6 +305,8 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
     this.focusListener = navigation.addListener("willFocus", () => {
       //console.log("Focus listener mount auctions");
 
+      this.context.setCurrentNavName("TARG");
+
       this.getActiveProducts();
     });
   };

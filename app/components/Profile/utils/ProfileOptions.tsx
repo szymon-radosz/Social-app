@@ -13,8 +13,6 @@ const info: any = require("./../../../assets/images/info.png");
 const ProfileOptions = (props: any) => {
   const context = useContext(GlobalContext);
 
-  console.log(["profile context", context]);
-
   return (
     <View
       style={{

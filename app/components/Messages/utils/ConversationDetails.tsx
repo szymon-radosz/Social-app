@@ -156,7 +156,7 @@ class ConversationDetails extends Component<
               privateMessage = false;
             }
 
-            console.log(["ConversationDetails", response.data.result]);
+            //console.log(["ConversationDetails", response.data.result]);
 
             await that.setState({
               openConversationMessages:
@@ -176,7 +176,7 @@ class ConversationDetails extends Component<
           }
         })
         .catch(async error => {
-          console.log(error);
+          //console.log(error);
           await that.context.setAlert(
             true,
             "danger",

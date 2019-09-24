@@ -29,6 +29,7 @@ interface NavigationScreenInterface {
 }
 
 interface FillNecessaryInfoState {
+  nickname: string;
   age: number;
   desc: string;
   kids: any;
@@ -50,6 +51,7 @@ class EditProfileInfo extends Component<
   constructor(props: NavigationScreenInterface) {
     super(props);
     this.state = {
+      nickname: "",
       age: 0,
       desc: "",
       kids: [],
@@ -89,12 +91,15 @@ class EditProfileInfo extends Component<
     this.cleanUserHobbies = this.cleanUserHobbies.bind(this);
     this.removeKidFromState = this.removeKidFromState.bind(this);
     this.userLocationString = this.userLocationString.bind(this);
+    this.checkAvailableNickname = this.checkAvailableNickname.bind(this);
+    this.saveData = this.saveData.bind(this);
   }
 
   componentDidMount = async () => {
     if (this.context.userData) {
       //console.log(["this.context.userData", this.context.userData]);
       this.setState({
+        nickname: this.context.userData.nickname,
         age: this.context.userData.age,
         desc: this.context.userData.description
           ? this.context.userData.description
@@ -398,7 +403,7 @@ class EditProfileInfo extends Component<
   };
 
   saveUserData = async () => {
-    const { age, desc, region, locationString } = this.state;
+    const { age, nickname, desc, region, locationString } = this.state;
 
     try {
       let API_URL = this.context.API_URL;
@@ -407,6 +412,7 @@ class EditProfileInfo extends Component<
       let json = await axios
         .post(API_URL + "/api/updateUserInfo", {
           userEmail: userEmailName,
+          nickname: nickname,
           age: age,
           desc: desc,
           lat: region.latitude,
@@ -420,6 +426,46 @@ class EditProfileInfo extends Component<
       return json;
     } catch (error) {
       //console.log(error);
+    }
+  };
+
+  checkAvailableNickname = async () => {
+    const { nickname } = this.state;
+
+    try {
+      let API_URL = this.context.API_URL;
+      let userEmailName = this.context.userData.email;
+
+      let json = await axios
+        .post(API_URL + "/api/checkAvailableNickname", {
+          userEmail: userEmailName,
+          nickname: nickname
+        })
+        .then(async response => {
+          this.context.setShowLoader(true);
+          if (response.data.status === "OK") {
+            await this.saveData();
+
+            this.context.setShowLoader(false);
+
+            return true;
+          } else {
+            await this.setState({ actualStep: 1 });
+
+            this.context.setAlert(true, "danger", "Podany nick już istnieje.");
+
+            this.context.setShowLoader(false);
+
+            return false;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+
+      return json;
+    } catch (error) {
+      return false;
     }
   };
 
@@ -455,8 +501,7 @@ class EditProfileInfo extends Component<
     this.setState({ actualStep: this.state.actualStep - 1 });
   };
 
-  submitData = async () => {
-    this.context.setShowLoader(true);
+  saveData = async () => {
     //first remove user kids and hobbies and save new data
     await this.userLocationString();
     await this.cleanUserKids();
@@ -467,13 +512,16 @@ class EditProfileInfo extends Component<
     await this.fileUpload();
 
     await this.context.setUserFilledInfo();
-
     await this.setState({ actualStep: 1 });
-    this.context.setShowLoader(false);
+  };
+
+  submitData = () => {
+    this.checkAvailableNickname();
   };
 
   render() {
     const {
+      nickname,
       age,
       desc,
       photo,
@@ -526,6 +574,7 @@ class EditProfileInfo extends Component<
                     <Suspense fallback={<Text>Wczytywanie...</Text>}>
                       <AgeDescScreen
                         handleChange={this.handleChange}
+                        nickname={nickname}
                         age={age}
                         desc={desc}
                         nextStep={this.nextStep}

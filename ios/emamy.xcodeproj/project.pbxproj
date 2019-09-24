@@ -34,6 +34,8 @@
 		2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D16E6891FA4F8E400B85C8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* emamyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* emamyTests.m */; };
 		2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
+		621E3BFA232188EB0000F595 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
+		621E3C612321974D0000F595 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		62852E0423056D2C001D12A7 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B222F30C66B44EEB8342703 /* OpenSans-Bold.ttf */; };
 		62852E0523056D2C001D12A7 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CD697D7D00CD47578BCA7691 /* OpenSans-Light.ttf */; };
 		62852E0623056D2C001D12A7 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D4EB63265EFC453B84B311AE /* OpenSans-Regular.ttf */; };
@@ -868,6 +870,9 @@
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = PK55A73XS7;
+					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
@@ -1283,8 +1288,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				62852E0423056D2C001D12A7 /* OpenSans-Bold.ttf in Resources */,
+				621E3C612321974D0000F595 /* Images.xcassets in Resources */,
 				62852E0523056D2C001D12A7 /* OpenSans-Light.ttf in Resources */,
 				62852E0623056D2C001D12A7 /* OpenSans-Regular.ttf in Resources */,
+				621E3BFA232188EB0000F595 /* main.jsbundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1383,16 +1390,12 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-emamy/Pods-emamy-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/QBImagePickerController/QBImagePicker.bundle",
 				"${PODS_ROOT}/RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/QBImagePicker.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RSKImageCropperStrings.bundle",
@@ -1553,6 +1556,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = PK55A73XS7;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
@@ -1567,7 +1571,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.emamy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.radoszszymon.emamy;
 				PRODUCT_NAME = emamy;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1579,6 +1583,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = PK55A73XS7;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
@@ -1593,7 +1598,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.emamy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.radoszszymon.emamy;
 				PRODUCT_NAME = emamy;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

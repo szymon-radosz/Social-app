@@ -15,6 +15,7 @@ import styles from "./style";
 import PageHeader from "./../SharedComponents/PageHeader";
 import { GlobalContext } from "./../../Context/GlobalContext";
 import ButtonComponent from "./../Utils/ButtonComponent";
+import { withNavigation } from "react-navigation";
 
 const forumBg: any = require("./../../assets/images/forumBgMin.jpg");
 const loaderImage: any = require("./../../assets/images/loader.gif");
@@ -162,8 +163,25 @@ class Forum extends Component<ForumProps, ForumState> {
   };
 
   componentDidMount = (): void => {
-    this.setState({ showSortByCategory: true });
+    /*if (this.context.userData) {
+      this.getMessages();
+      this.setState({ displayPrivateMessages: true, showFilterPanel: true });
+    }*/
+
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("willFocus", () => {
+      this.setState({ showSortByCategory: true });
+
+      this.context.setCurrentNavName("FORUM");
+    });
   };
+
+  componentWillUnmount() {
+    //console.log("Focus listener unmount messages");
+
+    // Remove the event listener
+    this.focusListener.remove();
+  }
 
   render() {
     const {
@@ -313,4 +331,4 @@ class Forum extends Component<ForumProps, ForumState> {
   }
 }
 Forum.contextType = GlobalContext;
-export default Forum;
+export default withNavigation(Forum);

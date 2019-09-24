@@ -16,6 +16,7 @@ const fillInfoBg: any = require("./../../../assets/images/fillInfoBgMin.jpg");
 const AgeDescScreen = (props: {
   handleChange: any;
   age: any;
+  nickname: string;
   desc: string;
   nextStep: any;
 }): any => {
@@ -28,6 +29,21 @@ const AgeDescScreen = (props: {
 
         <View style={styles.infoContainer}>
           <Text style={styles.fillInfoHeader}>Uzupełnij ogólne informacje</Text>
+
+          <Text style={styles.subText}>
+            Twoja nazwa ({props.nickname.length}/20 znaków) *
+          </Text>
+
+          <InputComponent
+            placeholder="Podaj swój nick"
+            inputOnChange={(nickname: string) =>
+              props.handleChange("nickname", nickname)
+            }
+            value={props.nickname}
+            secureTextEntry={false}
+            maxLength={20}
+          />
+
           <Text style={styles.subText}>Wiek *</Text>
 
           <InputComponent
@@ -54,7 +70,7 @@ const AgeDescScreen = (props: {
       </ScrollView>
 
       <View style={styles.sectionBtnContainer}>
-        {props.age > 0 && (
+        {props.age > 0 && props.nickname !== "" && (
           <ButtonComponent
             pressButtonComponent={props.nextStep}
             buttonComponentText="Dalej"

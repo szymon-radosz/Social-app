@@ -27,7 +27,7 @@ const BottomPanel = (props: any) => {
         >
           <View
             style={
-              props.openFindUsersStatus
+              context.currentNavName === "POZNAJ"
                 ? styles.bottomPanelImageActive
                 : styles.bottomPanelImage
             }
@@ -40,7 +40,7 @@ const BottomPanel = (props: any) => {
           </View>
           <Text
             style={
-              props.openFindUsersStatus
+              context.currentNavName === "POZNAJ"
                 ? styles.buttonTextActive
                 : styles.buttonText
             }
@@ -53,7 +53,7 @@ const BottomPanel = (props: any) => {
         >
           <View
             style={
-              props.openAuctionsStatus
+              context.currentNavName === "TARG"
                 ? styles.bottomPanelImageActive
                 : styles.bottomPanelImage
             }
@@ -66,7 +66,7 @@ const BottomPanel = (props: any) => {
           </View>
           <Text
             style={
-              props.openAuctionsStatus
+              context.currentNavName === "TARG"
                 ? styles.buttonTextActive
                 : styles.buttonText
             }
@@ -79,7 +79,7 @@ const BottomPanel = (props: any) => {
         >
           <View
             style={
-              props.openMessagesStatus
+              context.currentNavName === "WIADOMOŚCI"
                 ? styles.bottomPanelImageActive
                 : styles.bottomPanelImage
             }
@@ -122,7 +122,7 @@ const BottomPanel = (props: any) => {
             )}
           <Text
             style={
-              props.openMessagesStatus
+              context.currentNavName === "WIADOMOŚCI"
                 ? styles.buttonTextActive
                 : styles.buttonText
             }
@@ -135,7 +135,7 @@ const BottomPanel = (props: any) => {
         >
           <View
             style={
-              props.openForumStatus
+              context.currentNavName === "FORUM"
                 ? styles.bottomPanelImageActive
                 : styles.bottomPanelImage
             }
@@ -148,7 +148,7 @@ const BottomPanel = (props: any) => {
           </View>
           <Text
             style={
-              props.openForumStatus
+              context.currentNavName === "FORUM"
                 ? styles.buttonTextActive
                 : styles.buttonText
             }
@@ -161,7 +161,7 @@ const BottomPanel = (props: any) => {
         >
           <View
             style={
-              props.openProfileStatus
+              context.currentNavName === "PROFIL"
                 ? styles.bottomPanelImageActive
                 : styles.bottomPanelImage
             }
@@ -203,7 +203,7 @@ const BottomPanel = (props: any) => {
             )}
           <Text
             style={
-              props.openProfileStatus
+              context.currentNavName === "PROFIL"
                 ? styles.buttonTextActive
                 : styles.buttonText
             }

@@ -128,6 +128,8 @@ class Messages extends Component<MessagesProps, MessagesState> {
     this.focusListener = navigation.addListener("willFocus", () => {
       //console.log("Focus listener mount messages");
 
+      this.context.setCurrentNavName("WIADOMOŚCI");
+
       this.getMessages();
       this.setState({ displayPrivateMessages: true, showFilterPanel: true });
     });

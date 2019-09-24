@@ -447,6 +447,7 @@ class FindUsers extends Component<FindUsersProps, FindUsersState> {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("willFocus", () => {
       //console.log("Focus listener mount");
+      this.context.setCurrentNavName("POZNAJ");
 
       this.loadUsersNearCoords();
     });

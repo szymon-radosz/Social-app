@@ -14,6 +14,7 @@ import ButtonComponent from "./../Utils/ButtonComponent";
 import TextAreaComponent from "./../Utils/TextAreaComponent";
 import { GlobalContext } from "./../../Context/GlobalContext";
 import axios from "axios";
+import { withNavigation } from "react-navigation";
 
 const loaderImage: any = require("./../../assets/images/loader.gif");
 
@@ -107,6 +108,24 @@ class FeedbackModal extends Component<FeedbackModalProps, FeedbackModalState> {
         });
     }
   };
+
+  componentDidMount = (): void => {
+    //console.log("FindUsers did mount");
+    /*let user = this.context.userData;
+    if (user && user.lattitude && user.longitude) {
+      this.loadUsersNearCoords();
+    }*/
+
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("willFocus", () => {
+      this.context.setCurrentNavName("");
+    });
+  };
+
+  componentWillUnmount() {
+    // Remove the event listener
+    this.focusListener.remove();
+  }
 
   render() {
     const { feedbackTopic, activeTopic, feedbackMessage } = this.state;
@@ -215,4 +234,4 @@ class FeedbackModal extends Component<FeedbackModalProps, FeedbackModalState> {
   }
 }
 FeedbackModal.contextType = GlobalContext;
-export default FeedbackModal;
+export default withNavigation(FeedbackModal);

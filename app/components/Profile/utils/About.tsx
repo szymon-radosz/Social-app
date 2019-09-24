@@ -18,6 +18,9 @@ const ig: any = require("./../../../assets/images/ig.png");
 
 const About = (props: any) => {
   const context = useContext(GlobalContext);
+
+  //console.log(["about", context.userData]);
+
   return (
     <React.Fragment>
       <SafeAreaView
@@ -128,9 +131,16 @@ const About = (props: any) => {
               <View>
                 <TouchableHighlight
                   onPress={() => {
-                    Linking.openURL(
-                      "https://play.google.com/store/apps/details?id=com.emamy"
-                    );
+                    context.userData.platform &&
+                    context.userData.platform === "android"
+                      ? Linking.openURL(
+                          "https://play.google.com/store/apps/details?id=com.emamy"
+                        )
+                      : context.userData.platform &&
+                        context.userData.platform === "ios" &&
+                        Linking.openURL(
+                          "https://apps.apple.com/il/app/e-mamy/id1477994168"
+                        );
                   }}
                   underlayColor={"#fff"}
                 >
@@ -144,7 +154,7 @@ const About = (props: any) => {
                       color: "#f4a157"
                     }}
                   >
-                    Oceń naszą aplikację na Google Play
+                    Oceń naszą aplikację
                   </Text>
                 </TouchableHighlight>
               </View>

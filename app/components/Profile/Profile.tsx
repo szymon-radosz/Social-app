@@ -1,11 +1,5 @@
 import React, { Component, Suspense } from "react";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  SafeAreaView,
-  ScrollView
-} from "react-native";
+import { Text, View, SafeAreaView, ScrollView } from "react-native";
 import ProfileHeader from "./../SharedComponents/ProfileHeader";
 import ProfileOptions from "./utils/ProfileOptions";
 import axios from "axios";
@@ -13,6 +7,7 @@ import PageHeader from "./../SharedComponents/PageHeader";
 import BottomPanel from "./../SharedComponents/BottomPanel";
 import Alert from "./../../components/Alert/Alert";
 import { GlobalContext } from "./../../Context/GlobalContext";
+import { withNavigation } from "react-navigation";
 
 const UserPreview = React.lazy(() =>
   import("./../SharedComponents/UserPreview")
@@ -65,11 +60,27 @@ class Profile extends Component<
     //console.log(["profile", this.props]);
   }
 
-  componentDidMount() {
-    //console.log(["PRofile", this.context.NavigationService]);
-    if (this.context.userData) {
-      this.getAmountOfFriends(this.context.userData.id);
-    }
+  componentDidMount = (): void => {
+    /*if (this.context.userData) {
+      this.getMessages();
+      this.setState({ displayPrivateMessages: true, showFilterPanel: true });
+    }*/
+
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("willFocus", () => {
+      this.context.setCurrentNavName("PROFIL");
+
+      if (this.context.userData) {
+        this.getAmountOfFriends(this.context.userData.id);
+      }
+    });
+  };
+
+  componentWillUnmount() {
+    //console.log("Focus listener unmount messages");
+
+    // Remove the event listener
+    this.focusListener.remove();
   }
 
   setShowProfilePreview = (): void => {
@@ -177,4 +188,4 @@ class Profile extends Component<
   }
 }
 Profile.contextType = GlobalContext;
-export default Profile;
+export default withNavigation(Profile);
