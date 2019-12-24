@@ -13,7 +13,7 @@ import { withNavigation } from "react-navigation";
 
 const loaderImage: any = require("./../../../assets/images/loader.gif");
 
-interface FindUsersState {
+interface UserDetailsState {
   showUserMessageBox: boolean;
   usersAreInTheSameConversation: boolean;
   usersFriendshipStatus: string;
@@ -23,12 +23,12 @@ interface FindUsersState {
   countFriends: number;
 }
 
-interface FindUsersProps {
+interface UserDetailsProps {
   navigation: any;
 }
 
-class UserDetails extends Component<FindUsersProps, FindUsersState> {
-  constructor(props: FindUsersProps) {
+class UserDetails extends Component<UserDetailsProps, UserDetailsState> {
+  constructor(props: UserDetailsProps) {
     super(props);
     this.state = {
       showUserMessageBox: false,
@@ -43,27 +43,23 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
 
   componentDidMount = async () => {
     const { navigation } = this.props;
-
     let userDetailsId = navigation.state.params.userId;
 
     await this.getAmountOfFriends(navigation.state.params.userId);
-
     await this.setShowUserDetails(userDetailsId);
   };
 
   getAmountOfFriends = (id: number): void => {
-    let that = this;
-
     axios
       .post(this.context.API_URL + "/api/countFriends", {
         userId: id
       })
-      .then(function(response) {
+      .then(response => {
         if (response.data.status === "OK") {
-          that.setState({ countFriends: response.data.result.countFriends });
+          this.setState({ countFriends: response.data.result.countFriends });
         }
       })
-      .catch(function(error) {});
+      .catch(error => {});
   };
 
   setUserDetailsId = (id: number) => {
@@ -75,8 +71,6 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
     let API_URL = this.context.API_URL;
     /*let searchedUser = userId;*/
     let loggedInUser = this.context.userData.id;
-
-    let that = this;
 
     await this.setState({ userDetailsId: 0, userDetailsData: [] });
 
@@ -90,7 +84,7 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
       .then(async response => {
         if (response.data.status === "OK") {
           //console.log(["setShowUserDetails", response.data.result.user]);
-          await that.setState({
+          await this.setState({
             userDetailsId: userId,
             userDetailsData: response.data.result.user,
             usersAreInTheSameConversation:
@@ -99,7 +93,7 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
         }
       })
       .catch(async error => {
-        await that.context.setAlert(
+        await this.context.setAlert(
           true,
           "danger",
           "Nie udało się pobrać danych o uzytkowniku."
@@ -114,23 +108,22 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
       })
       .then(async response => {
         if (response.data.status === "OK") {
-          await that.setState({
+          await this.setState({
             usersFriendshipStatus: response.data.result.friendship
           });
 
-          await that.context.setShowLoader(false);
+          await this.context.setShowLoader(false);
         }
       })
       .catch(async error => {
         //console.log(error);
 
-        await that.context.setShowLoader(false);
+        await this.context.setShowLoader(false);
       });
   };
 
   confirmFriend = (senderId: number, receiverId: number): void => {
     let API_URL = this.context.API_URL;
-    let that = this;
     let openDetailsId = 0;
 
     axios
@@ -138,31 +131,29 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
         senderId: senderId,
         receiverId: receiverId
       })
-      .then(function(response) {
+      .then(response => {
         if (response.data.status === "OK") {
           openDetailsId = senderId;
 
-          that.context.setAlert(
+          this.context.setAlert(
             true,
             "success",
             "Dodano nową użytkowniczkę do grona znajomych."
           );
-          that.setShowUserDetails(that.state.userDetailsId);
+          this.setShowUserDetails(this.state.userDetailsId);
         }
       })
       .then(response =>
         axios.post(API_URL + "/api/addNotification", {
           type: "friendship_confirmation",
-          message: `Użytkowniczka ${
-            this.context.userData.name
-          } zaakceptowała Twoje zaproszenie do grona znajomych.`,
+          message: `Użytkowniczka ${this.context.userData.name} zaakceptowała Twoje zaproszenie do grona znajomych.`,
           userId: receiverId,
           senderId: this.context.userData.id,
           openDetailsId: openDetailsId
         })
       )
-      .catch(function(error) {
-        that.context.setAlert(
+      .catch(error => {
+        this.context.setAlert(
           true,
           "danger",
           "Problem z potwierdzeniem znajomości."
@@ -172,7 +163,6 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
 
   inviteFriend = (senderId: number, receiverId: number): void => {
     let API_URL = this.context.API_URL;
-    let that = this;
     let openDetailsId = 0;
 
     axios
@@ -180,31 +170,29 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
         senderId: senderId,
         receiverId: receiverId
       })
-      .then(function(response) {
+      .then(response => {
         if (response.data.status === "OK") {
           openDetailsId = senderId;
 
-          that.context.setAlert(
+          this.context.setAlert(
             true,
             "success",
             "Wysłano zaproszenie do grona znajomych."
           );
-          that.setShowUserDetails(that.state.userDetailsId);
+          this.setShowUserDetails(this.state.userDetailsId);
         }
       })
       .then(response =>
         axios.post(API_URL + "/api/addNotification", {
           type: "friendship_invitation",
-          message: `Użytkowniczka ${
-            this.context.userData.name
-          } zaprosiła Cię do grona znajomych`,
+          message: `Użytkowniczka ${this.context.userData.name} zaprosiła Cię do grona znajomych`,
           userId: receiverId,
           senderId: this.context.userData.id,
           openDetailsId: openDetailsId
         })
       )
-      .catch(function(error) {
-        that.context.setAlert(
+      .catch(error => {
+        this.context.setAlert(
           true,
           "danger",
           "Problem z wysłaniem zaproszenia do grona znajomych."
@@ -271,12 +259,6 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
                         city={locationDetails.city}
                         age={userDetailsData.age}
                         countFriends={countFriends}
-                        countKids={
-                          userDetailsData.kids &&
-                          userDetailsData.kids.length > 0
-                            ? userDetailsData.kids.length
-                            : 0
-                        }
                         locationString={userDetailsData.location_string}
                       />
 
@@ -285,12 +267,6 @@ class UserDetails extends Component<FindUsersProps, FindUsersState> {
                           userDetailsData.hobbies &&
                           userDetailsData.hobbies.length > 0
                             ? userDetailsData.hobbies
-                            : null
-                        }
-                        kids={
-                          userDetailsData.kids &&
-                          userDetailsData.kids.length > 0
-                            ? userDetailsData.kids
                             : null
                         }
                         description={userDetailsData.description}

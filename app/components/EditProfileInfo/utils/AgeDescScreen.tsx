@@ -1,15 +1,10 @@
 import React from "react";
-import {
-  Text,
-  View,
-  TextInput,
-  ImageBackground,
-  ScrollView
-} from "react-native";
+import { Text, View, ImageBackground, ScrollView } from "react-native";
 import styles from "./../style";
 import ButtonComponent from "./../../Utils/ButtonComponent";
 import InputComponent from "./../../Utils/InputComponent";
 import TextAreaComponent from "./../../Utils/TextAreaComponent";
+import lang from "./../../../assets/lang/EditProfileInfo/utils/AgeDescScreen";
 
 const fillInfoBg: any = require("./../../../assets/images/fillInfoBgMin.jpg");
 
@@ -24,18 +19,18 @@ const AgeDescScreen = (props: {
     <View style={styles.sectionContainer}>
       <ScrollView>
         <ImageBackground source={fillInfoBg} style={{ width: "100%" }}>
-          <Text style={styles.headerText}>Opowiedz nam o{"\n"}sobie</Text>
+          <Text style={styles.headerText}>{lang.header["en"]}</Text>
         </ImageBackground>
 
         <View style={styles.infoContainer}>
-          <Text style={styles.fillInfoHeader}>Uzupełnij ogólne informacje</Text>
+          <Text style={styles.fillInfoHeader}>{lang.fillBasicInfo["en"]}</Text>
 
           <Text style={styles.subText}>
-            Twoja nazwa ({props.nickname.length}/20 znaków) *
+            {lang.nick["en"]} ({props.nickname.length}/20 {lang.chars["en"]}) *
           </Text>
 
           <InputComponent
-            placeholder="Podaj swój nick"
+            placeholder={lang.nick["en"]}
             inputOnChange={(nickname: string) =>
               props.handleChange("nickname", nickname)
             }
@@ -44,10 +39,10 @@ const AgeDescScreen = (props: {
             maxLength={20}
           />
 
-          <Text style={styles.subText}>Wiek *</Text>
+          <Text style={styles.subText}>{lang.age["en"]} *</Text>
 
           <InputComponent
-            placeholder="Podaj swój wiek"
+            placeholder={lang.age["en"]}
             inputOnChange={(age: string) => props.handleChange("age", age)}
             value={props.age !== 0 ? String(props.age) : ""}
             secureTextEntry={false}
@@ -55,11 +50,12 @@ const AgeDescScreen = (props: {
           />
 
           <Text style={styles.subText}>
-            Opis ({props.desc.length}/250 znaków)
+            {lang.description["en"]} ({props.desc.length}/250 {lang.chars["en"]}
+            )
           </Text>
 
           <TextAreaComponent
-            placeholder="Napisz kilka słów o sobie..."
+            placeholder={lang.description["en"]}
             inputOnChange={(desc: string) => props.handleChange("desc", desc)}
             value={props.desc}
             maxLength={250}
@@ -73,7 +69,7 @@ const AgeDescScreen = (props: {
         {props.age > 0 && props.nickname !== "" && (
           <ButtonComponent
             pressButtonComponent={props.nextStep}
-            buttonComponentText="Dalej"
+            buttonComponentText={lang.next["en"]}
             fullWidth={true}
             underlayColor="#dd904d"
             whiteBg={false}

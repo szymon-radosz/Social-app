@@ -28,8 +28,6 @@ class SingleConversationMessage extends Component<
       isCurrentUserTheSender: false,
       showMessageDate: false
     };
-
-    this.setMessageDate = this.setMessageDate.bind(this);
   }
 
   setMessageDate = (): void => {

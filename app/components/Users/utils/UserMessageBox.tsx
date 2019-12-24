@@ -72,7 +72,6 @@ class UserMessageBox extends Component<
     let senderId = this.context.userData.id;
     let receiverId = this.props.navigation.state.params.userId;
     let openDetailsId = 0;
-    let that = this;
 
     axios
       .post(API_URL + "/api/saveConversation", {
@@ -80,10 +79,10 @@ class UserMessageBox extends Component<
         receiverId: receiverId,
         message: message
       })
-      .then(response2 => {
-        if (response2.data.status === "OK") {
-          openDetailsId = response2.data.result.id;
-          that.context.setAlert(
+      .then(Response => {
+        if (response.data.status === "OK") {
+          openDetailsId = response.data.result.id;
+          this.context.setAlert(
             true,
             "success",
             "Poprawnie wysłano nową wiadomość."
@@ -91,8 +90,8 @@ class UserMessageBox extends Component<
 
           //if message send sucessfully then redirect back to user details
           //that.props.navigation.navigate("Messages", {});
-        } else if (response2.data.status === "ERR") {
-          that.context.setAlert(
+        } else if (response.data.status === "ERR") {
+          this.context.setAlert(
             true,
             "danger",
             "Problem z wysłaniem wiadomości."
@@ -102,22 +101,20 @@ class UserMessageBox extends Component<
       .then(response =>
         axios.post(API_URL + "/api/addNotification", {
           type: "started_conversation_user",
-          message: `Użytkowniczka ${
-            this.context.userData.name
-          } odezwała się do Ciebie w wiadomości prywatnej`,
+          message: `Użytkowniczka ${this.context.userData.name} odezwała się do Ciebie w wiadomości prywatnej`,
           userId: receiverId,
           senderId: this.context.userData.id,
           openDetailsId: openDetailsId
         })
       )
       .then(response => {
-        that.props.navigation.push("ConversationDetails", {
+        this.props.navigation.push("ConversationDetails", {
           conversationId: openDetailsId,
           receiverId: receiverId
         });
       })
       .catch(error => {
-        that.context.setAlert(
+        this.context.setAlert(
           true,
           "danger",
           "Problem z wysłaniem wiadomości."

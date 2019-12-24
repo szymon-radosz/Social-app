@@ -8,17 +8,17 @@ const loaderImage: any = require("./../../assets/images/loader.gif");
 var ImagePicker = NativeModules.ImageCropPicker;
 import { GlobalContext } from "./../../Context/GlobalContext";
 import Alert from "./../Alert/Alert";
+import lang from "./../../assets/lang/EditProfileInfo/EditProfileInfo";
 
 const AgeDescScreen = React.lazy(() => import("./utils/AgeDescScreen"));
 const PhotoScreen = React.lazy(() => import("./utils/PhotoScreen"));
 const CoordsScreen = React.lazy(() => import("./utils/CoordsScreen"));
-const ChooseKidsScreen = React.lazy(() => import("./utils/ChooseKidsScreen"));
 const ChooseHobbiesScreen = React.lazy(() =>
   import("./utils/ChooseHobbiesScreen")
 );
 
 // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
-Geocode.setApiKey("AIzaSyDk3FIFmkVy87I4hq2fdJ1x6H_mDa96I30");
+Geocode.setApiKey("AIzaSyDfVowJ0BKBbPW_-eCzkUA-Zk55VFE16AI");
 
 interface NavigationScreenInterface {
   navigation: {
@@ -32,13 +32,9 @@ interface FillNecessaryInfoState {
   nickname: string;
   age: number;
   desc: string;
-  kids: any;
   hobbies: any;
   actualStep: number;
   photo: any;
-  actualKidName: string;
-  actualKidDate: string;
-  actualKidGender: string;
   region: any;
   userSavedPhoto: string;
   locationString: string;
@@ -54,15 +50,11 @@ class EditProfileInfo extends Component<
       nickname: "",
       age: 0,
       desc: "",
-      kids: [],
       hobbies: [],
       actualStep: 1,
       photo: null,
       locationString: "",
       userSavedPhoto: "",
-      actualKidName: "",
-      actualKidDate: "2016-05-15",
-      actualKidGender: "female",
       region: {
         latitude: 52.237049,
         longitude: 21.017532,
@@ -70,29 +62,6 @@ class EditProfileInfo extends Component<
         longitudeDelta: 0.0421
       }
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.nextStep = this.nextStep.bind(this);
-    this.prevStep = this.prevStep.bind(this);
-    this.handleChoosePhoto = this.handleChoosePhoto.bind(this);
-    this.fileUpload = this.fileUpload.bind(this);
-    this.submitData = this.submitData.bind(this);
-    this.setActualKidName = this.setActualKidName.bind(this);
-    this.addKid = this.addKid.bind(this);
-    this.onRegionChange = this.onRegionChange.bind(this);
-    this.setActualKidDate = this.setActualKidDate.bind(this);
-    this.saveUserData = this.saveUserData.bind(this);
-    this.saveUserKids = this.saveUserKids.bind(this);
-    this.getAllHobbies = this.getAllHobbies.bind(this);
-    this.changeHobbyStatus = this.changeHobbyStatus.bind(this);
-    this.saveHobbies = this.saveHobbies.bind(this);
-    this.setGender = this.setGender.bind(this);
-    this.cleanUserKids = this.cleanUserKids.bind(this);
-    this.cleanUserHobbies = this.cleanUserHobbies.bind(this);
-    this.removeKidFromState = this.removeKidFromState.bind(this);
-    this.userLocationString = this.userLocationString.bind(this);
-    this.checkAvailableNickname = this.checkAvailableNickname.bind(this);
-    this.saveData = this.saveData.bind(this);
   }
 
   componentDidMount = async () => {
@@ -122,32 +91,11 @@ class EditProfileInfo extends Component<
       }
 
       await this.getAllHobbies();
-
-      //if user want to edit profile and have some kids, then we format that kids array and assign it to state
-      if (this.context.userData.kids && this.context.userData.kids.length > 0) {
-        this.context.userData.kids.map(async (kid: any, i: number) => {
-          let kidObj = {
-            name: kid.name,
-            dateOfBirth: kid.date_of_birth,
-            childGender: kid.child_gender
-          };
-
-          await this.setState(prevState => ({
-            kids: [...prevState.kids, kidObj]
-          }));
-        });
-      }
     }
     //user logged in first time
     else {
       await this.getAllHobbies();
     }
-  };
-
-  removeKidFromState = (kidName: string): void => {
-    this.setState(prevState => ({
-      kids: prevState.kids.filter((kid: any) => kid.name !== kidName)
-    }));
   };
 
   cleanUserHobbies = async () => {
@@ -159,39 +107,13 @@ class EditProfileInfo extends Component<
         .post(API_URL + "/api/cleanUserHobbies", {
           userId: userId
         })
-        .catch(function(error) {
+        .catch(error => {
           //console.log(error.message);
         });
 
       return json;
     } catch (error) {
       //console.log(error);
-    }
-  };
-
-  cleanUserKids = async () => {
-    try {
-      let API_URL = this.context.API_URL;
-      let userId = this.context.userData.id;
-
-      let json = axios
-        .post(API_URL + "/api/cleanUserKids", {
-          userId: userId
-        })
-        .catch(function(error) {
-          //console.log(error.message);
-        });
-      return json;
-    } catch (error) {
-      //console.log(error);
-    }
-  };
-
-  setGender = (gender: string): void => {
-    if (gender === "female") {
-      this.setState({ actualKidGender: "female" });
-    } else if (gender === "male") {
-      this.setState({ actualKidGender: "male" });
     }
   };
 
@@ -207,7 +129,7 @@ class EditProfileInfo extends Component<
               userEmail: userEmailName,
               hobby_id: hobby.id
             })
-            .catch(function(error) {
+            .catch(error => {
               //console.log(error.message);
             });
 
@@ -291,36 +213,9 @@ class EditProfileInfo extends Component<
           );
         }
       })
-      .catch(function(error) {
+      .catch(error => {
         //console.log(error.message);
       });
-  };
-
-  setActualKidDate = (date: string): void => {
-    this.setState({ actualKidDate: date });
-  };
-
-  setActualKidName = (name: string): void => {
-    this.setState({ actualKidName: name });
-  };
-
-  addKid = async () => {
-    if (this.state.actualKidName) {
-      let kidObj = {
-        name: this.state.actualKidName,
-        dateOfBirth: this.state.actualKidDate,
-        childGender: this.state.actualKidGender
-      };
-
-      await this.setState(prevState => ({
-        kids: [...prevState.kids, kidObj]
-      }));
-      this.setState({
-        actualKidName: "",
-        actualKidDate: "2016-05-15",
-        actualKidGender: "female"
-      });
-    }
   };
 
   handleChange = (name: string, value: string) => {
@@ -362,7 +257,7 @@ class EditProfileInfo extends Component<
 
         let json = await axios
           .post(API_URL + "api/uploadUserPhoto", formData)
-          .catch(function(error) {
+          .catch(error => {
             //console.log(error);
           });
 
@@ -419,7 +314,7 @@ class EditProfileInfo extends Component<
           lng: region.longitude,
           locationString: locationString
         })
-        .catch(function(error) {
+        .catch(error => {
           //console.log(error);
         });
 
@@ -452,7 +347,7 @@ class EditProfileInfo extends Component<
           } else {
             await this.setState({ actualStep: 1 });
 
-            this.context.setAlert(true, "danger", "Podany nick już istnieje.");
+            this.context.setAlert(true, "danger", lang.nickExistsError["en"]);
 
             this.context.setShowLoader(false);
 
@@ -469,30 +364,6 @@ class EditProfileInfo extends Component<
     }
   };
 
-  saveUserKids = (): void => {
-    try {
-      let API_URL = this.context.API_URL;
-      let userEmailName = this.context.userData.email;
-
-      this.state.kids.map(async (kid: any) => {
-        let json = await axios
-          .post(API_URL + "/api/saveKid", {
-            userEmail: userEmailName,
-            name: kid.name,
-            dateOfBirth: kid.dateOfBirth,
-            childGender: kid.childGender
-          })
-          .catch(function(error) {
-            //console.log(error.message);
-          });
-
-        return json;
-      });
-    } catch (error) {
-      //console.log(error);
-    }
-  };
-
   nextStep = (): void => {
     this.setState({ actualStep: this.state.actualStep + 1 });
   };
@@ -504,9 +375,7 @@ class EditProfileInfo extends Component<
   saveData = async () => {
     //first remove user kids and hobbies and save new data
     await this.userLocationString();
-    await this.cleanUserKids();
     await this.cleanUserHobbies();
-    await this.saveUserKids();
     await this.saveHobbies();
     await this.saveUserData();
     await this.fileUpload();
@@ -526,12 +395,8 @@ class EditProfileInfo extends Component<
       desc,
       photo,
       region,
-      kids,
-      actualKidDate,
-      actualKidName,
       hobbies,
       actualStep,
-      actualKidGender,
       userSavedPhoto
     } = this.state;
     return (
@@ -571,7 +436,7 @@ class EditProfileInfo extends Component<
               ) : (
                 <React.Fragment>
                   {actualStep === 1 && (
-                    <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                    <Suspense fallback={<Text>{lang.loading["en"]}</Text>}>
                       <AgeDescScreen
                         handleChange={this.handleChange}
                         nickname={nickname}
@@ -583,7 +448,7 @@ class EditProfileInfo extends Component<
                     </Suspense>
                   )}
                   {actualStep === 2 && (
-                    <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                    <Suspense fallback={<Text>{lang.loading["en"]}</Text>}>
                       <PhotoScreen
                         nextStep={this.nextStep}
                         prevStep={this.prevStep}
@@ -596,7 +461,7 @@ class EditProfileInfo extends Component<
                     </Suspense>
                   )}
                   {actualStep === 3 && (
-                    <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                    <Suspense fallback={<Text>{lang.loading["en"]}</Text>}>
                       <CoordsScreen
                         nextStep={this.nextStep}
                         prevStep={this.prevStep}
@@ -607,25 +472,7 @@ class EditProfileInfo extends Component<
                     </Suspense>
                   )}
                   {actualStep === 4 && (
-                    <Suspense fallback={<Text>Wczytywanie...</Text>}>
-                      <ChooseKidsScreen
-                        nextStep={this.nextStep}
-                        prevStep={this.prevStep}
-                        setActualKidName={this.setActualKidName}
-                        addKid={this.addKid}
-                        kids={kids}
-                        actualKidDate={actualKidDate}
-                        actualKidName={actualKidName}
-                        setActualKidDate={this.setActualKidDate}
-                        setGender={this.setGender}
-                        actualKidGender={actualKidGender}
-                        removeKidFromState={this.removeKidFromState}
-                        data-test="chooseKidsScreenContainer"
-                      />
-                    </Suspense>
-                  )}
-                  {actualStep === 5 && (
-                    <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                    <Suspense fallback={<Text>{lang.loading["en"]}</Text>}>
                       <ChooseHobbiesScreen
                         prevStep={this.prevStep}
                         submitData={this.submitData}

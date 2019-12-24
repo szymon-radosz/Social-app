@@ -53,16 +53,10 @@ class UserFriendsList extends Component<
       showUserNotificationList: false,
       displayFriendList: true
     };
-    this.loadUserFriendsList = this.loadUserFriendsList.bind(this);
-    this.loadPendingUserFriendsList = this.loadPendingUserFriendsList.bind(
-      this
-    );
   }
 
   loadUserFriendsList = (): void => {
     let userId = this.context.userData.id;
-    let that = this;
-
     this.context.setShowLoader(true);
 
     if (userId) {
@@ -72,7 +66,7 @@ class UserFriendsList extends Component<
         })
         .then(async response => {
           if (response.data.status === "OK") {
-            await that.setState({
+            await this.setState({
               userFriendsList: response.data.result.friendsList,
               showUserFriendsList: true,
               showPendingUserFriendsList: false,
@@ -80,25 +74,23 @@ class UserFriendsList extends Component<
               displayFriendList: true
             });
 
-            await that.context.setShowLoader(false);
+            await this.context.setShowLoader(false);
           }
         })
         .catch(async error => {
-          await that.context.setAlert(
+          await this.context.setAlert(
             true,
             "danger",
             "Wystąpił błąd z wyświetleniem listy znajomych."
           );
 
-          await that.context.setShowLoader(false);
+          await this.context.setShowLoader(false);
         });
     }
   };
 
   loadPendingUserFriendsList = (): void => {
     let userId = this.context.userData.id;
-    let that = this;
-
     this.context.setShowLoader(true);
 
     if (userId) {
@@ -108,7 +100,7 @@ class UserFriendsList extends Component<
         })
         .then(async response => {
           if (response.data.status === "OK") {
-            await that.setState({
+            await this.setState({
               userPendingFriendsList: response.data.result.friendsList,
               showPendingUserFriendsList: true,
               showUserFriendsList: false,
@@ -116,17 +108,17 @@ class UserFriendsList extends Component<
               displayFriendList: false
             });
 
-            await that.context.setShowLoader(false);
+            await this.context.setShowLoader(false);
           }
         })
         .catch(async error => {
-          await that.context.setAlert(
+          await this.context.setAlert(
             true,
             "danger",
             "Wystąpił błąd z wyświetleniem listy znajomych."
           );
 
-          await that.context.setShowLoader(false);
+          await this.context.setShowLoader(false);
         });
     }
   };

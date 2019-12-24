@@ -8,6 +8,7 @@ import { GlobalContext } from "./../../../Context/GlobalContext";
 import BottomPanel from "./../../SharedComponents/BottomPanel";
 import { withNavigation } from "react-navigation";
 import Alert from "./../../Alert/Alert";
+import lang from "./../../../assets/lang/Auctions/utils/ProductMessageBox";
 import axios from "axios";
 
 const loaderImage: any = require("./../../../assets/images/loader.gif");
@@ -31,8 +32,6 @@ class ProductMessageBox extends Component<
     this.state = {
       message: ""
     };
-
-    this.setMessage = this.setMessage.bind(this);
   }
 
   componentDidMount = () => {
@@ -77,8 +76,6 @@ class ProductMessageBox extends Component<
       let productId = this.props.navigation.state.params.productId;
       let openDetailsId = 0;
 
-      let that = this;
-
       this.context.setShowLoader(true);
 
       axios
@@ -96,36 +93,30 @@ class ProductMessageBox extends Component<
         .then(async response => {
           axios.post(API_URL + "/api/addNotification", {
             type: "started_conversation_user",
-            message: `Użytkowniczka ${
-              this.context.userData.name
-            } odezwała się do Ciebie w wiadomości prywatnej dotyczącej produktu`,
+            message: `User ${this.context.userData.name} send you product message`,
             userId: receiverId,
             senderId: this.context.userData.id,
             openDetailsId: openDetailsId
           });
 
-          await that.context.setShowLoader(false);
+          await this.context.setShowLoader(false);
         })
         .then(async res => {
-          that.context.setAlert(
-            true,
-            "success",
-            "Poprawnie wysłano wiadomość."
-          );
+          this.context.setAlert(true, "success", lang.sendMessageSuccess["en"]);
 
-          that.props.navigation.push("ConversationDetails", {
+          this.props.navigation.push("ConversationDetails", {
             conversationId: openDetailsId,
             receiverId: receiverId
           });
         })
         .catch(async error => {
-          await that.context.setAlert(
+          await this.context.setAlert(
             true,
             "danger",
-            "Problem z wysłaniem wiadomości."
+            lang.sendMessageError["en"]
           );
 
-          await that.context.setShowLoader(false);
+          await this.context.setShowLoader(false);
         });
     }
   };
@@ -167,7 +158,7 @@ class ProductMessageBox extends Component<
               <React.Fragment>
                 <View style={styles.relative}>
                   <PageHeader
-                    boldText={"Pytanie do sprzedającego"}
+                    boldText={lang.header["en"]}
                     normalText={""}
                     closeMethod={() => {
                       this.props.navigation.goBack(null);
@@ -177,7 +168,7 @@ class ProductMessageBox extends Component<
 
                   <View style={styles.sellerVoteBoxContainer}>
                     <TextAreaComponent
-                      placeholder="Napisz wiadomość..."
+                      placeholder={lang.addMessage["en"]}
                       inputOnChange={(message: string) =>
                         this.setMessage(message)
                       }
@@ -191,7 +182,7 @@ class ProductMessageBox extends Component<
                     pressButtonComponent={() =>
                       this.sendNewConversationProduct(message)
                     }
-                    buttonComponentText="Wyślij"
+                    buttonComponentText={lang.send["en"]}
                     fullWidth={true}
                     underlayColor="#dd904d"
                     whiteBg={false}

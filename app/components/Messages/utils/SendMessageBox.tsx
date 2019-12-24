@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { View, ScrollView } from "react-native";
 import ButtonComponent from "./../../Utils/ButtonComponent";
 import styles from "./../style";
 import InputComponent from "./../../Utils/InputComponent";
-import { GlobalContext } from "./../../../Context/GlobalContext";
 
 const SendMessageBox = (props: {
   sendMessage: any;
@@ -16,8 +15,6 @@ const SendMessageBox = (props: {
   conversationId: number;
 }): any => {
   //console.log(["SendMessageBox", props]);
-
-  const context = useContext(GlobalContext);
   /*console.log([
     "SendMessageBox sendMessage",
     props.receiverId,

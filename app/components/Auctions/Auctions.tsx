@@ -19,6 +19,7 @@ import Alert from "./../Alert/Alert";
 import BottomPanel from "./../SharedComponents/BottomPanel";
 import { withNavigation } from "react-navigation";
 import { ScrollView } from "react-native-gesture-handler";
+import lang from "./../../assets/lang/Auctions/Auctions";
 
 const loaderImage: any = require("./../../assets/images/loader.gif");
 const auctionsBg: any = require("./../../assets/images/auctionsBgMin.jpg");
@@ -44,7 +45,6 @@ interface AuctionsState {
   selectedProductId: number;
   selectedProductUserId: number;
   filterDistance: string;
-  filterPrice: string;
   filterStatus: string;
   showFilterModal: boolean;
   filterOptions: any;
@@ -63,7 +63,6 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
       selectedProductId: 0,
       selectedProductUserId: 0,
       filterDistance: "",
-      filterPrice: "",
       filterStatus: "",
       showFilterModal: false,
       filterModalName: "",
@@ -76,13 +75,6 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
           { text: "50km" },
           { text: "100km" }
         ],
-        price: [
-          { text: "0-20zł" },
-          { text: "21zł-50zł" },
-          { text: "51zł-100zł" },
-          { text: "100zł-200zł" },
-          { text: "201zł +" }
-        ],
         status: [{ text: "Nowe" }, { text: "Używane" }]
       },
       filterOptions: [
@@ -91,57 +83,31 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
           index: 0
         },
         {
-          title: "Cena",
-          index: 1
-        },
-        {
           title: "Status",
           index: 2
         }
       ]
     };
-
-    this.getActiveProducts = this.getActiveProducts.bind(this);
-    this.renderItem = this.renderItem.bind(this);
-    this.filterResults = this.filterResults.bind(this);
-    this.removeFilter = this.removeFilter.bind(this);
   }
 
   removeFilter = (filterName: string): void => {
-    const { filterDistance, filterPrice, filterStatus } = this.state;
+    const { filterDistance, filterStatus } = this.state;
 
     if (filterName === "Odległość") {
-      this.getFilteredAuctionsList("", filterPrice, filterStatus, false);
+      this.getFilteredAuctionsList("", filterStatus, false);
     } else if (filterName === "Cena") {
-      this.getFilteredAuctionsList(filterDistance, "", filterStatus, false);
+      this.getFilteredAuctionsList(filterDistance, filterStatus, false);
     } else if (filterName === "Status") {
-      this.getFilteredAuctionsList(filterDistance, filterPrice, "", false);
+      this.getFilteredAuctionsList(filterDistance, "", false);
     }
   };
 
   filterResults = (filterName: string, filterValue: string): void => {
-    const { filterDistance, filterPrice, filterStatus } = this.state;
+    const { filterDistance, filterStatus } = this.state;
     if (filterName === "Odległość") {
-      this.getFilteredAuctionsList(
-        filterValue,
-        filterPrice,
-        filterStatus,
-        true
-      );
-    } else if (filterName === "Cena") {
-      this.getFilteredAuctionsList(
-        filterDistance,
-        filterValue,
-        filterStatus,
-        true
-      );
+      this.getFilteredAuctionsList(filterValue, filterStatus, true);
     } else if (filterName === "Status") {
-      this.getFilteredAuctionsList(
-        filterDistance,
-        filterPrice,
-        filterValue,
-        true
-      );
+      this.getFilteredAuctionsList(filterDistance, filterValue, true);
     }
   };
 
@@ -179,7 +145,6 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
 
   getFilteredAuctionsList = (
     distance: string,
-    price: string,
     status: string,
     showFilterModal: boolean
   ): void => {
@@ -188,15 +153,12 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
     let userLat = this.context.userData.lattitude;
     let userLng = this.context.userData.longitude;
 
-    let that = this;
-
     this.context.setShowLoader(true);
 
-    if (distance || price || status) {
+    if (distance || status) {
       axios
         .post(API_URL + "/api/loadProductsFilter", {
           distance: distance,
-          price: price,
           status: status,
           currentUserLat: userLat,
           currentUserLng: userLng,
@@ -205,7 +167,6 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
         .then(async response => {
           if (response.data.status === "OK") {
             let newDistance = "";
-            let newPrice = "";
             let newStatus = "";
 
             response.data.resultParameters.map(
@@ -217,11 +178,6 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
                 ) {
                   newDistance = resultParameter.value;
                 } else if (
-                  resultParameter.name === "price" &&
-                  resultParameter.default === false
-                ) {
-                  newPrice = resultParameter.value;
-                } else if (
                   resultParameter.name === "status" &&
                   resultParameter.default === false
                 ) {
@@ -231,30 +187,28 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
             );
 
             if (showFilterModal) {
-              await that.setState({
+              await this.setState({
                 productList: response.data.result,
                 filterDistance: newDistance,
-                filterPrice: newPrice,
                 filterStatus: newStatus,
-                showFilterModal: !that.state.showFilterModal
+                showFilterModal: !this.state.showFilterModal
               });
 
-              await that.context.setShowLoader(false);
+              await this.context.setShowLoader(false);
             } else {
-              await that.setState({
+              await this.setState({
                 productList: response.data.result,
                 filterDistance: newDistance,
-                filterPrice: newPrice,
                 filterStatus: newStatus
               });
 
-              await that.context.setShowLoader(false);
+              await this.context.setShowLoader(false);
             }
           }
         })
         .catch(async error => {
           //console.log(error);
-          await that.context.setShowLoader(false);
+          await this.context.setShowLoader(false);
         });
     } else {
       this.getActiveProducts();
@@ -266,8 +220,6 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
     let userLat = this.context.userData.lattitude;
     let userLng = this.context.userData.longitude;
 
-    let that = this;
-
     this.context.setShowLoader(true);
 
     axios
@@ -277,11 +229,10 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
       })
       .then(async response => {
         if (response.data.status === "OK") {
-          await that.setState({
+          await this.setState({
             productList: response.data.result,
             displayActiveAuction: true,
             filterDistance: "",
-            filterPrice: "",
             filterStatus: ""
           });
 
@@ -325,7 +276,6 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
       filterData,
       filterModalName,
       filterDistance,
-      filterPrice,
       filterStatus
     } = this.state;
     return (
@@ -376,7 +326,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
                           style={{ width: "100%" }}
                         >
                           <Text style={styles.pageTitle}>
-                            Sprzedawaj i{"\n"}kupuj
+                            {lang.header["en"]}
                           </Text>
                         </ImageBackground>
                       )}
@@ -384,7 +334,9 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
                       {!displayProductDetails &&
                         productList &&
                         showFilterModal && (
-                          <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                          <Suspense
+                            fallback={<Text>{lang.loading["en"]}</Text>}
+                          >
                             <FilterModal
                               filterOptions={filterData}
                               closeFilter={this.setShowFilterModal}
@@ -400,7 +352,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
                         !showFilterModal && (
                           <View data-test="Carousel">
                             <Text style={styles.filterResultsHeaderText}>
-                              Filtruj wyniki
+                              {lang.filterHeader["en"]}
                             </Text>
                             <View style={styles.filterResultsCarousel}>
                               <Carousel
@@ -417,10 +369,9 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
                         )}
 
                       {!displayProductDetails && (
-                        <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                        <Suspense fallback={<Text>{lang.loading["en"]}</Text>}>
                           <ActiveFilters
                             filterDistance={filterDistance}
-                            filterPrice={filterPrice}
                             filterStatus={filterStatus}
                             showFilterModal={showFilterModal}
                             removeFilter={this.removeFilter}
@@ -446,7 +397,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
                                   {}
                                 )
                               }
-                              buttonComponentText="Dodaj produkt"
+                              buttonComponentText={lang.addNewProduct["en"]}
                               fullWidth={true}
                               underlayColor="#dd904d"
                               data-test="ButtonComponent"

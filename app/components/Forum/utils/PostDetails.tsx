@@ -55,13 +55,6 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
       comments: [],
       commentMessage: ""
     };
-
-    this.getPostById = this.getPostById.bind(this);
-    this.savePostVote = this.savePostVote.bind(this);
-    this.getPostComments = this.getPostComments.bind(this);
-    this.saveComment = this.saveComment.bind(this);
-    this.setCommentMessage = this.setCommentMessage.bind(this);
-    this.clearCommentMessage = this.clearCommentMessage.bind(this);
   }
 
   setCommentMessage = (message: string): void => {
@@ -77,8 +70,6 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
       let API_URL = this.context.API_URL;
       let postId = id;
 
-      let that = this;
-
       this.context.setShowLoader(true);
 
       axios
@@ -93,7 +84,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
               response.data.result[0].users.id,
               that.context.userData.id
             ]);*/
-            await that.setState({
+            await this.setState({
               postTitle: response.data.result[0].title,
               postDesc: response.data.result[0].description,
               postVotes: response.data.result[0].votes.length,
@@ -105,17 +96,17 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
               comments: response.data.result[0].comments
             });
 
-            await that.context.setShowLoader(false);
+            await this.context.setShowLoader(false);
           }
         })
         .catch(async error => {
-          await that.context.setAlert(
+          await this.context.setAlert(
             true,
             "danger",
             "Wystąpił błąd z wyświetleniem szczegółów posta."
           );
 
-          await that.context.setShowLoader(false);
+          await this.context.setShowLoader(false);
         });
     } catch (e) {
       this.context.setAlert(
@@ -131,35 +122,33 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
     let userId = this.context.userData.id;
     let postId = this.props.navigation.state.params.postId;
 
-    let that = this;
-
     if (userId != this.state.authorId) {
       axios
         .post(API_URL + "/api/savePostVote", {
           postId: postId,
           userId: userId
         })
-        .then(function(response) {
+        .then(response => {
           if (response.data.status === "OK") {
-            that.context.setAlert(
+            this.context.setAlert(
               true,
               "success",
               "Dziękujemy za oddanie głosu."
             );
-            that.getPostById(that.props.navigation.state.params.postId);
+            this.getPostById(this.props.navigation.state.params.postId);
           } else {
-            that.context.setAlert(
+            this.context.setAlert(
               true,
               "danger",
               "Oddałaś już głos na ten post."
             );
           }
         })
-        .catch(function(error) {
-          that.context.setAlert(true, "danger", "Problem z oddaniem głosu.");
+        .catch(error => {
+          this.context.setAlert(true, "danger", "Problem z oddaniem głosu.");
         });
     } else {
-      that.context.setAlert(true, "danger", "Problem z oddaniem głosu.");
+      this.context.setAlert(true, "danger", "Problem z oddaniem głosu.");
     }
   };
 
@@ -167,20 +156,18 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
     let API_URL = this.context.API_URL;
     let postId = this.props.navigation.state.params.postId;
 
-    let that = this;
-
     axios
       .post(API_URL + "/api/getPostCommentsByPostId", {
         postId: postId
       })
-      .then(function(response) {
+      .then(response => {
         if (response.data.status === "OK") {
-          that.setState({ comments: [] });
-          that.setState({ comments: response.data.result });
+          this.setState({ comments: [] });
+          this.setState({ comments: response.data.result });
         }
       })
-      .catch(function(error) {
-        that.context.setAlert(
+      .catch(error => {
+        this.context.setAlert(
           true,
           "danger",
           "Problem z wyświetleniem listy komentarzy."
@@ -211,8 +198,6 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
     let API_URL = this.context.API_URL;
     let userId = this.context.userData.id;
 
-    let that = this;
-
     if (commentAuthorId && commentAuthorId !== userId) {
       let allowUserVote = await this.checkIfUserAddedVote(votes, userId);
 
@@ -222,29 +207,29 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
             commentId: commentId,
             userId: userId
           })
-          .then(function(response) {
+          .then(response => {
             //console.log(response.data);
             if (response.data.status === "OK") {
-              that.context.setAlert(
+              this.context.setAlert(
                 true,
                 "success",
                 "Dziękujemy za oddanie głosu."
               );
-              that.getPostComments();
+              this.getPostComments();
             }
           })
-          .catch(function(error) {
-            that.context.setAlert(true, "danger", "Problem z zapisem głosu.");
+          .catch(error => {
+            this.context.setAlert(true, "danger", "Problem z zapisem głosu.");
           });
       } else {
-        that.context.setAlert(
+        this.context.setAlert(
           true,
           "danger",
           "Oddałaś już głos na ten komentarz."
         );
       }
     } else {
-      that.context.setAlert(
+      this.context.setAlert(
         true,
         "danger",
         "Nie możesz oddać głosu na swój komentarz."
@@ -254,11 +239,10 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
 
   saveComment = (postId: number, userId: number, body: string): void => {
     let API_URL = this.context.API_URL;
-    let that = this;
     let openDetailsId = 0;
 
     if (!body || postId === 0 || userId === 0) {
-      that.context.setAlert(true, "danger", "Prosimy o uzupełnienie treści.");
+      this.context.setAlert(true, "danger", "Prosimy o uzupełnienie treści.");
     } else {
       axios
         .post(API_URL + "/api/savePostComment", {
@@ -266,13 +250,13 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
           userId: userId,
           postId: postId
         })
-        .then(function(response) {
+        .then(response => {
           if (response.data.status === "OK") {
             openDetailsId = response.data.result.post_id;
 
-            that.getPostComments();
+            this.getPostComments();
 
-            that.context.setAlert(
+            this.context.setAlert(
               true,
               "success",
               "Twój komentarz został dodany."
@@ -288,8 +272,8 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
             openDetailsId: openDetailsId
           })
         )
-        .catch(function(error) {
-          that.context.setAlert(
+        .catch(error => {
+          this.context.setAlert(
             true,
             "danger",
             "Problem z dodaniem komentarza."

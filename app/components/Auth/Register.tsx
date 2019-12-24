@@ -15,6 +15,7 @@ import { GlobalContext } from "./../../Context/GlobalContext";
 import ButtonComponent from "./../Utils/ButtonComponent";
 import InputComponent from "./../Utils/InputComponent";
 import Alert from "./../Alert/Alert";
+import lang from "./../../assets/lang/Auth/Register";
 
 const loaderImage: any = require("./../../assets/images/loader.gif");
 
@@ -44,17 +45,17 @@ const Register = (props: { navigation: any }) => {
 
   const registerUser = async () => {
     if (!name || !email || !password || !passwordConf) {
-      context.setAlert(true, "danger", "Wszystkie pola są wymagane.");
+      context.setAlert(true, "danger", lang.allFieldsError["en"]);
     } else if (password !== passwordConf) {
       context.setAlert(
         true,
         "danger",
-        "Hasło i potwierdzenie hasła muszą być identyczne."
+        lang.passwordAndConfirmationNotMatchedError["en"]
       );
     } else if (password == passwordConf && password.length < 6) {
-      context.setAlert(true, "danger", "Hasło musi mieć conajmniej 6 znaków.");
+      context.setAlert(true, "danger", lang.passwordLengthError["en"]);
     } else if (!validateEmail(email)) {
-      context.setAlert(true, "danger", "Nieprawidłowy adres email.");
+      context.setAlert(true, "danger", lang.emailError["en"]);
     } else if (
       password === passwordConf &&
       name &&
@@ -76,11 +77,7 @@ const Register = (props: { navigation: any }) => {
             if (response.data.status === "OK" && response.data.result === 1) {
               //console.log(["checkIfEmailExists", response.data.result]);
 
-              context.setAlert(
-                true,
-                "danger",
-                "Konto dla podanego adresu email już istnieje."
-              );
+              context.setAlert(true, "danger", lang.accountExistsError["en"]);
 
               setEmail("");
 
@@ -93,7 +90,7 @@ const Register = (props: { navigation: any }) => {
                   password: password,
                   platform: platform
                 })
-                .then(function(response) {
+                .then(response => {
                   //console.log(response.data);
                   if (response.data.status === "OK") {
                     context.setShowLoader(false);
@@ -101,7 +98,7 @@ const Register = (props: { navigation: any }) => {
                     context.setAlert(
                       true,
                       "success",
-                      "Sprawdź swoją skrzynkę mailową i potwierdź swoje konto przez otrzymaną od nas wiadomość."
+                      lang.confirmAccountSuccess["en"]
                     );
 
                     setName("");
@@ -113,7 +110,7 @@ const Register = (props: { navigation: any }) => {
                     //navProps.setUserData(response.data.user);
                   }
                 })
-                .catch(function(error) {
+                .catch(error => {
                   context.setShowLoader(false);
                 });
             }
@@ -123,7 +120,7 @@ const Register = (props: { navigation: any }) => {
       context.setAlert(
         true,
         "danger",
-        "Hasło i potwierdzenie musi być identyczne."
+        lang.passwordAndConfirmationNotMatchedError["en"]
       );
     }
   };
@@ -150,33 +147,31 @@ const Register = (props: { navigation: any }) => {
           )}
           <ScrollView keyboardShouldPersistTaps={"always"}>
             <View style={styles.container}>
-              <Text
-                style={styles.headerText}
-              >{`Dołącz do naszej \nspołeczności!`}</Text>
+              <Text style={styles.headerText}>{lang.header["en"]}</Text>
 
               <InputComponent
-                placeholder="Imię"
+                placeholder={lang.name["en"]}
                 inputOnChange={(name: string) => setName(name)}
                 value={name}
                 secureTextEntry={false}
                 maxLength={100}
               />
               <InputComponent
-                placeholder="E-mail"
+                placeholder={lang.email["en"]}
                 inputOnChange={(email: string) => setEmail(email)}
                 value={email}
                 secureTextEntry={false}
                 maxLength={100}
               />
               <InputComponent
-                placeholder="Hasło"
+                placeholder={lang.password["en"]}
                 inputOnChange={(password: string) => setPassword(password)}
                 value={password}
                 secureTextEntry={true}
                 maxLength={100}
               />
               <InputComponent
-                placeholder="Potwierdź hasło"
+                placeholder={lang.passwordConfirmation["en"]}
                 inputOnChange={(passwordConf: string) =>
                   setPasswordConf(passwordConf)
                 }
@@ -186,18 +181,18 @@ const Register = (props: { navigation: any }) => {
               />
               <TouchableHighlight
                 onPress={() => {
-                  Linking.openURL("https://e-mamy.pl/regulamin");
+                  Linking.openURL("");
                 }}
                 underlayColor={"#fff"}
               >
                 <Text style={styles.termsBtn}>
-                  Rejestrując się akceptujesz regulamin E-mamy
+                  {lang.registerAcceptTerms["en"]}
                 </Text>
               </TouchableHighlight>
 
               <ButtonComponent
                 pressButtonComponent={registerUser}
-                buttonComponentText="Zarejestruj"
+                buttonComponentText={lang.register["en"]}
                 fullWidth={false}
                 underlayColor="#dd904d"
                 whiteBg={false}
@@ -206,13 +201,13 @@ const Register = (props: { navigation: any }) => {
 
               <View style={styles.subBtnSection}>
                 <Text style={styles.subBtnSectionAsk}>
-                  Posiadasz juz konto?{" "}
+                  {lang.haveAccount["en"]}
                 </Text>
                 <TouchableHighlight
                   onPress={() => navigation.navigate("Login")}
                   underlayColor={"#fff"}
                 >
-                  <Text style={styles.registerBtn}>Logowanie</Text>
+                  <Text style={styles.registerBtn}>{lang.login["en"]}</Text>
                 </TouchableHighlight>
               </View>
             </View>

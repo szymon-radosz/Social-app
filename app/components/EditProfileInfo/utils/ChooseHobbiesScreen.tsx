@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import styles from "./../style";
 import ButtonComponent from "./../../Utils/ButtonComponent";
+import lang from "./../../../assets/lang/EditProfileInfo/utils/ChooseHobbiesScreen";
 
 const fillInfoBg: any = require("./../../../assets/images/fillInfoBgMin.jpg");
 const gymOrange: any = require("./../../../assets/images/editProfile/gymOrange.png");
@@ -41,12 +42,9 @@ const ChooseHobbiesScreen = (props: {
     <View style={styles.sectionContainer}>
       <ScrollView>
         <ImageBackground source={fillInfoBg} style={{ width: "100%" }}>
-          <Text style={styles.headerText}>Wybierz swoje{"\n"}hobby</Text>
+          <Text style={styles.headerText}>{lang.header["en"]}</Text>
         </ImageBackground>
-        <Text style={styles.fillInfoHeader}>
-          Zaznacz swoje hobby, aby nawiązywać znajomości z kobietami o podobnych
-          zainteresowaniach.{" "}
-        </Text>
+        <Text style={styles.fillInfoHeader}>{lang.hobbyText["en"]}</Text>
         <View style={styles.hobbiesContainer}>
           {props.hobbies &&
             props.hobbies.map(
@@ -242,7 +240,7 @@ const ChooseHobbiesScreen = (props: {
         <View style={{ width: "30%" }}>
           <ButtonComponent
             pressButtonComponent={props.prevStep}
-            buttonComponentText="Wróć"
+            buttonComponentText={lang.back["en"]}
             fullWidth={false}
             underlayColor="#dd904d"
             whiteBg={true}
@@ -252,7 +250,7 @@ const ChooseHobbiesScreen = (props: {
         <View style={{ width: "71%" }}>
           <ButtonComponent
             pressButtonComponent={props.submitData}
-            buttonComponentText="Zapisz profil"
+            buttonComponentText={lang.save["en"]}
             fullWidth={true}
             underlayColor="#dd904d"
             whiteBg={false}

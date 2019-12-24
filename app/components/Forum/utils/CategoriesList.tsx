@@ -23,23 +23,20 @@ export default class CategoriesList extends Component<
     this.state = {
       categories: []
     };
-
-    this.getCategories = this.getCategories.bind(this);
   }
 
   getCategories = (): void => {
     try {
       let API_URL = this.props.API_URL;
-      let that = this;
 
       axios
         .get(API_URL + "/api/getPostsCategories")
-        .then(function(response) {
+        .then(response => {
           if (response.data.status === "OK") {
-            that.setState({ categories: response.data.result });
+            this.setState({ categories: response.data.result });
           }
         })
-        .catch(function(error) {
+        .catch(error => {
           //console.log(error);
         });
     } catch (e) {

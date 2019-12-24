@@ -54,10 +54,6 @@ class Profile extends Component<
 
       userHobbies: []
     };
-    this.getAmountOfFriends = this.getAmountOfFriends.bind(this);
-    this.setShowProfilePreview = this.setShowProfilePreview.bind(this);
-
-    //console.log(["profile", this.props]);
   }
 
   componentDidMount = (): void => {
@@ -88,18 +84,16 @@ class Profile extends Component<
   };
 
   getAmountOfFriends = (id: number): void => {
-    let that = this;
-
     axios
       .post(this.context.API_URL + "/api/countFriends", {
         userId: id
       })
-      .then(function(response) {
+      .then(response => {
         if (response.data.status === "OK") {
-          that.setState({ countFriends: response.data.result.countFriends });
+          this.setState({ countFriends: response.data.result.countFriends });
         }
       })
-      .catch(function(error) {});
+      .catch(error => {});
   };
 
   render() {

@@ -3,6 +3,7 @@ import { Text, View, ImageBackground, ScrollView } from "react-native";
 import styles from "./../style";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import ButtonComponent from "./../../Utils/ButtonComponent";
+import lang from "./../../../assets/lang/EditProfileInfo/utils/CoordsScreen";
 
 const fillInfoBg: any = require("./../../../assets/images/fillInfoBgMin.jpg");
 
@@ -64,12 +65,10 @@ export default class CoordsScreen extends Component<
       <View style={styles.sectionContainer}>
         <ScrollView>
           <ImageBackground source={fillInfoBg} style={{ width: "100%" }}>
-            <Text style={styles.headerText}>Wybierz swoją{"\n"}okolicę</Text>
+            <Text style={styles.headerText}>{lang.header["en"]}</Text>
           </ImageBackground>
 
-          <Text style={styles.fillInfoHeader}>
-            Wybierz w jakiej okolicy szukasz znajomych
-          </Text>
+          <Text style={styles.fillInfoHeader}>{lang.cordsText["en"]}</Text>
 
           <MapView
             customMapStyle={mapStyle}
@@ -87,7 +86,7 @@ export default class CoordsScreen extends Component<
           <View style={{ width: "30%" }}>
             <ButtonComponent
               pressButtonComponent={this.props.prevStep}
-              buttonComponentText="Wróć"
+              buttonComponentText={lang.back["en"]}
               fullWidth={false}
               underlayColor="#dd904d"
               whiteBg={true}
@@ -97,7 +96,7 @@ export default class CoordsScreen extends Component<
           <View style={{ width: "71%" }}>
             <ButtonComponent
               pressButtonComponent={this.props.nextStep}
-              buttonComponentText="Dalej"
+              buttonComponentText={lang.next["en"]}
               fullWidth={true}
               underlayColor="#dd904d"
               whiteBg={false}

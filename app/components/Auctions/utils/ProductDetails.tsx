@@ -20,10 +20,10 @@ import PageHeader from "./../../SharedComponents/PageHeader";
 import { GlobalContext } from "./../../../Context/GlobalContext";
 import ButtonComponent from "./../../Utils/ButtonComponent";
 import { withNavigation } from "react-navigation";
+import lang from "./../../../assets/lang/Auctions/utils/ProductDetails";
 
 const loaderImage: any = require("./../../../assets/images/loader.gif");
 
-const SellerVoteBox = React.lazy(() => import("./SellerVoteBox"));
 const WINDOW_WIDTH = Dimensions.get("window").width;
 
 const renderCarousel = (API_URL: string, imageArray: any): any => (
@@ -55,12 +55,9 @@ interface ProductDetailsProps {
 
 interface ProductDetailsState {
   productDetails: any;
-  showProductMessageBox: boolean;
-  showVoteBox: boolean;
   foundVoteUserList: any;
   usersAreInTheSameConversation: boolean;
   productClosed: boolean;
-
   productLocation: any;
 }
 
@@ -72,61 +69,16 @@ class ProductDetails extends Component<
     super(props);
     this.state = {
       productDetails: [],
-      showProductMessageBox: false,
-      showVoteBox: false,
       foundVoteUserList: [],
       usersAreInTheSameConversation: false,
       productClosed: false,
       productLocation: []
     };
-
-    this.getProductDetails = this.getProductDetails.bind(this);
-    this.checkIfUsersBelongToConversationProduct = this.checkIfUsersBelongToConversationProduct.bind(
-      this
-    );
-
-    this.changeVoteBox = this.changeVoteBox.bind(this);
-    this.searchUsersByEmail = this.searchUsersByEmail.bind(this);
-    this.sendVote = this.sendVote.bind(this);
-    this.closeProduct = this.closeProduct.bind(this);
   }
-
-  searchUsersByEmail = (email: string) => {
-    let API_URL = this.context.API_URL;
-
-    if (email) {
-      let that = this;
-
-      axios
-        .post(API_URL + "/api/loadUserByEmail", {
-          email: email
-        })
-        .then(function(response) {
-          if (response.data.status === "OK") {
-            that.setState({
-              foundVoteUserList: []
-            });
-
-            that.setState({
-              foundVoteUserList: response.data.result
-            });
-          }
-        })
-        .catch(function(error) {
-          //console.log(error);
-        });
-    }
-  };
-
-  changeVoteBox = () => {
-    this.setState({ showVoteBox: !this.state.showVoteBox });
-  };
 
   getProductDetails = (id: number) => {
     let API_URL = this.context.API_URL;
     let productId = id;
-
-    let that = this;
 
     this.context.setShowLoader(true);
 
@@ -136,16 +88,16 @@ class ProductDetails extends Component<
       })
       .then(async response => {
         if (response.data.status === "OK") {
-          await that.setState({
+          await this.setState({
             productDetails: response.data.result
           });
 
-          await that.context.setShowLoader(false);
+          await this.context.setShowLoader(false);
         }
       })
       .catch(async error => {
         //console.log(error);
-        await that.context.setShowLoader(false);
+        await this.context.setShowLoader(false);
       });
   };
 
@@ -155,8 +107,6 @@ class ProductDetails extends Component<
     let searchedUser = this.props.navigation.state.params.authorId;
     let loggedInUser = this.context.userData.id;
     let productId = this.props.navigation.state.params.productId;
-
-    let that = this;
 
     this.context.setShowLoader(true);
 
@@ -168,21 +118,17 @@ class ProductDetails extends Component<
       })
       .then(async response => {
         if (response.data.status === "OK") {
-          await that.setState({
+          await this.setState({
             usersAreInTheSameConversation: response.data.result
           });
 
-          await that.context.setShowLoader(false);
+          await this.context.setShowLoader(false);
         }
       })
       .catch(async error => {
-        await that.context.setAlert(
-          true,
-          "danger",
-          "Nie udało się pobrać danych o użytkowniku."
-        );
+        await this.context.setAlert(true, "danger", lang.userDataError["en"]);
 
-        await that.context.setShowLoader(false);
+        await this.context.setShowLoader(false);
       });
   };
 
@@ -205,72 +151,8 @@ class ProductDetails extends Component<
     });*/
   };
 
-  /*componentWillUnmount() {
-    console.log(["ProductDetails will unmount "]);
-
-    // Remove the event listener
-    this.focusListener.remove();
-  }*/
-
-  sendVote = (
-    selectedUserData: any,
-    userVote: number,
-    voteComment: string,
-    product: any
-  ) => {
-    let API_URL = this.context.API_URL;
-    let userId = selectedUserData.id;
-    let vote = userVote;
-    let message = voteComment;
-    let authorId = this.context.userData.id;
-    let productId = product.id;
-
-    let that = this;
-
-    axios
-      .post(API_URL + "/api/saveVote", {
-        userId: userId,
-        vote: vote,
-        message: message,
-        authorId: authorId
-      })
-      .then(function(response) {
-        //console.log(response);
-        if (response.data.status === "OK") {
-          /*console.log([
-            "sendVoteAPI",
-            API_URL,
-            userId,
-            vote,
-            message,
-            authorId,
-            productId
-          ]);*/
-          that.closeProduct(productId);
-
-          that.context.setAlert(
-            true,
-            "success",
-            "Dziękujemy za dodanie opinii."
-          );
-        }
-      })
-      .catch(function(error) {
-        //console.log(error);
-        that.context.setAlert(
-          true,
-          "danger",
-          "Problem z dodaniem opinii. Możesz dodać tylko jedną opinię dla poszczególnej użytkowniczki."
-        );
-      });
-
-    //console.log("next");
-  };
-
   closeProduct = (productId: number) => {
     let API_URL = this.context.API_URL;
-
-    let that = this;
 
     //console.log(["closeProduct", productId]);
 
@@ -278,13 +160,13 @@ class ProductDetails extends Component<
       .post(API_URL + "/api/closeProduct", {
         productId: productId
       })
-      .then(function(response) {
+      .then(response => {
         if (response.data.status === "OK") {
           //that.changeVoteBox();
-          that.getProductDetails(productId);
+          this.getProductDetails(productId);
         }
       })
-      .catch(function(error) {
+      .catch(ferror => {
         //console.log(error);
       });
   };
@@ -292,29 +174,25 @@ class ProductDetails extends Component<
   reactivateProduct = (productId: number) => {
     let API_URL = this.context.API_URL;
 
-    let that = this;
-
     //console.log(["reactivateProduct", productId]);
 
     axios
       .post(API_URL + "/api/reactivateProduct", {
         productId: productId
       })
-      .then(function(response) {
+      .then(response => {
         if (response.data.status === "OK") {
           //that.changeVoteBox();
-          that.getProductDetails(productId);
+          this.getProductDetails(productId);
         }
       })
-      .catch(function(error) {
+      .catch(error => {
         //console.log(error);
       });
   };
 
   render() {
     const {
-      showProductMessageBox,
-      showVoteBox,
       productDetails,
       foundVoteUserList,
       usersAreInTheSameConversation
@@ -352,18 +230,7 @@ class ProductDetails extends Component<
             ) : (
               <React.Fragment>
                 <ScrollView>
-                  {!showProductMessageBox && showVoteBox ? (
-                    <SellerVoteBox
-                      currentUser={this.context.userData}
-                      product={productDetails[0]}
-                      API_URL={this.context.API_URL}
-                      changeVoteBox={this.changeVoteBox}
-                      searchUsersByEmail={this.searchUsersByEmail}
-                      foundVoteUserList={foundVoteUserList}
-                      getProductDetails={this.getProductDetails}
-                      sendVote={this.sendVote}
-                    />
-                  ) : productDetails[0] ? (
+                  {productDetails[0] ? (
                     <View>
                       <PageHeader
                         boldText={productDetails[0].name}
@@ -396,7 +263,7 @@ class ProductDetails extends Component<
                                   alignSelf: "flex-end"
                                 }}
                               >
-                                Zamknij
+                                {lang.closeOffer["en"]}
                               </Text>
                             </TouchableOpacity>
                           )}
@@ -413,7 +280,7 @@ class ProductDetails extends Component<
                         {productDetails[0] &&
                           productDetails[0].product_photos.length > 1 && (
                             <Text style={{ fontSize: 10 }}>
-                              Kliknij na zdjęcie, aby zobaczyć galerię.
+                              {lang.showGallery["en"]}
                             </Text>
                           )}
 
@@ -427,43 +294,36 @@ class ProductDetails extends Component<
                         {productDetails[0] &&
                           productDetails[0].categoryName[0].name && (
                             <Text style={styles.productContentText}>
-                              <Text style={styles.bold}>Kategoria:</Text>{" "}
+                              <Text style={styles.bold}>
+                                {lang.category["en"]}:
+                              </Text>{" "}
                               {productDetails[0].categoryName[0].name}
-                            </Text>
-                          )}
-
-                        {productDetails[0] &&
-                          productDetails[0].child_gender === "girl" && (
-                            <Text style={styles.productContentText}>
-                              <Text style={styles.bold}>Płeć dziecka:</Text>{" "}
-                              Dziewczynka
-                            </Text>
-                          )}
-
-                        {productDetails[0] &&
-                          productDetails[0].child_gender === "boy" && (
-                            <Text style={styles.productContentText}>
-                              <Text style={styles.bold}>Płeć dziecka:</Text>{" "}
-                              Chłopiec
                             </Text>
                           )}
 
                         {productDetails[0] && productDetails[0].state === 0 && (
                           <Text style={styles.productContentText}>
-                            <Text style={styles.bold}>Stan produktu:</Text> Nowe
+                            <Text style={styles.bold}>
+                              {lang.condition["en"]}:
+                            </Text>{" "}
+                            {lang.new["en"]}
                           </Text>
                         )}
 
                         {productDetails[0] && productDetails[0].state === 1 && (
                           <Text style={styles.productContentText}>
-                            <Text style={styles.bold}>Stan produktu:</Text>{" "}
-                            Używane
+                            <Text style={styles.bold}>
+                              {lang.condition["en"]}:
+                            </Text>{" "}
+                            {lang.used["en"]}
                           </Text>
                         )}
 
                         {productDetails[0] && productDetails[0].users && (
                           <Text style={styles.productContentText}>
-                            <Text style={styles.bold}>Dodane przez: </Text>
+                            <Text style={styles.bold}>
+                              {lang.addedBy["en"]}:{" "}
+                            </Text>
                             {productDetails[0].users.name}
                           </Text>
                         )}
@@ -471,17 +331,12 @@ class ProductDetails extends Component<
                         {productDetails[0] &&
                           productDetails[0].users.location_string && (
                             <Text style={styles.productContentText}>
-                              <Text style={styles.bold}>W poblizu: </Text>
+                              <Text style={styles.bold}>
+                                {lang.near["en"]}:{" "}
+                              </Text>
                               {productDetails[0].users.location_string}
                             </Text>
                           )}
-
-                        {productDetails[0] && productDetails[0].price && (
-                          <Text style={styles.productContentText}>
-                            <Text style={styles.bold}>Cena: </Text>
-                            {productDetails[0].price} zł
-                          </Text>
-                        )}
                       </View>
                       {/* user is not the author, they are not in the same conversation and product is not sold*/}
                       {productDetails[0].user_id != this.context.userData.id &&
@@ -496,7 +351,7 @@ class ProductDetails extends Component<
                                   .productId
                               })
                             }
-                            buttonComponentText="Wyślij wiadomość"
+                            buttonComponentText={lang.sendMessage["en"]}
                             fullWidth={true}
                             underlayColor="#dd904d"
                             whiteBg={false}
@@ -509,7 +364,7 @@ class ProductDetails extends Component<
                           <View style={styles.productContent}>
                             <Text style={styles.productContentText}>
                               <Text style={styles.productClosed}>
-                                Sprzedaż produktu zakończona
+                                {lang.offerClosed["en"]}
                               </Text>
                             </Text>
                           </View>
@@ -524,7 +379,9 @@ class ProductDetails extends Component<
                               pressButtonComponent={() =>
                                 this.props.navigation.navigate("Messages", {})
                               }
-                              buttonComponentText="Produkt sprzedany, jesteście w konwersacji"
+                              buttonComponentText={
+                                lang.offerClosedConversationTogether["en"]
+                              }
                               fullWidth={true}
                               underlayColor="#dd904d"
                               whiteBg={false}
@@ -540,7 +397,9 @@ class ProductDetails extends Component<
                               pressButtonComponent={() =>
                                 this.props.navigation.navigate("Messages", {})
                               }
-                              buttonComponentText="Jestescie już w konwersacji"
+                              buttonComponentText={
+                                lang.conversationTogether["en"]
+                              }
                               fullWidth={true}
                               underlayColor="#dd904d"
                               whiteBg={false}
@@ -555,7 +414,7 @@ class ProductDetails extends Component<
                               pressButtonComponent={() => {
                                 this.closeProduct(productDetails[0].id);
                               }}
-                              buttonComponentText="Zamknij Sprzedaż"
+                              buttonComponentText={lang.closeOffer["en"]}
                               fullWidth={true}
                               underlayColor="#dd904d"
                               whiteBg={false}
@@ -571,7 +430,7 @@ class ProductDetails extends Component<
                               pressButtonComponent={() => {
                                 this.reactivateProduct(productDetails[0].id);
                               }}
-                              buttonComponentText="Wznów Sprzedaż"
+                              buttonComponentText={lang.reactivateOffer["en"]}
                               fullWidth={true}
                               underlayColor="#dd904d"
                               whiteBg={false}

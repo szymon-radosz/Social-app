@@ -68,7 +68,7 @@ const ProfileHeader = (props: any) => {
         <Text style={styles.profileHeaderName}>{props.name}</Text>
         <Text style={styles.profileHeaderLocation}>{props.locationString}</Text>
         <View style={styles.profileHeaderInfoContainer}>
-          <View style={{ width: "33.3%" }}>
+          <View style={{ width: "50%" }}>
             <Text style={styles.profileHeaderSingleInfoContainerMainText}>
               {props.age}
             </Text>
@@ -76,20 +76,12 @@ const ProfileHeader = (props: any) => {
               lat
             </Text>
           </View>
-          <View style={{ width: "33.3%" }}>
+          <View style={{ width: "50%" }}>
             <Text style={styles.profileHeaderSingleInfoContainerMainText}>
               {props.countFriends}
             </Text>
             <Text style={styles.profileHeaderSingleInfoContainerSubText}>
               znajomych
-            </Text>
-          </View>
-          <View style={{ width: "33.3%" }}>
-            <Text style={styles.profileHeaderSingleInfoContainerMainText}>
-              {props.countKids}
-            </Text>
-            <Text style={styles.profileHeaderSingleInfoContainerSubText}>
-              dzieci
             </Text>
           </View>
         </View>

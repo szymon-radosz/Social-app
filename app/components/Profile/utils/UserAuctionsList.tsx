@@ -36,8 +36,6 @@ class UserFriendsList extends Component<
     this.state = {
       userAuctionList: []
     };
-
-    this.getUserAuctionList = this.getUserAuctionList.bind(this);
   }
 
   componentDidMount = () => {
@@ -45,8 +43,6 @@ class UserFriendsList extends Component<
   };
 
   getUserAuctionList = (): void => {
-    let that = this;
-
     this.context.setShowLoader(true);
 
     axios
@@ -55,21 +51,21 @@ class UserFriendsList extends Component<
       })
       .then(async response => {
         if (response.data.status === "OK") {
-          await that.setState({
+          await this.setState({
             userAuctionList: response.data.result
           });
 
-          await that.context.setShowLoader(false);
+          await this.context.setShowLoader(false);
         }
       })
       .catch(async error => {
-        await that.context.setAlert(
+        await this.context.setAlert(
           true,
           "danger",
           "Wystąpił błąd z wyświetleniem listy przedmiotów."
         );
 
-        await that.context.setShowLoader(false);
+        await this.context.setShowLoader(false);
       });
   };
 

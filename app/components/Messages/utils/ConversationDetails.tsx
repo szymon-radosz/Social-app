@@ -62,10 +62,6 @@ class ConversationDetails extends Component<
       productConversationId: 0,
       productConversationAuthorId: 0
     };
-
-    this.openConversationDetails = this.openConversationDetails.bind(this);
-    this.sendMessage = this.sendMessage.bind(this);
-    this.loadUserDataById = this.loadUserDataById.bind(this);
   }
 
   sendMessage = (
@@ -76,10 +72,9 @@ class ConversationDetails extends Component<
   ): void => {
     let API_URL = this.context.API_URL;
     let openDetailsId = 0;
-    let that = this;
 
     if (!message) {
-      that.context.setAlert(true, "danger", "Pusta wiadomość.");
+      this.context.setAlert(true, "danger", "Pusta wiadomość.");
     } else {
       axios
         .post(API_URL + "/api/saveMessage", {
@@ -96,22 +91,20 @@ class ConversationDetails extends Component<
             //openDetailsId is parameter for route
             openDetailsId = response.data.result.conversation_id;
 
-            that.openConversationDetails(conversation_id);
+            this.openConversationDetails(conversation_id);
           }
         })
         .then(response =>
           axios.post(API_URL + "/api/addNotification", {
             type: "sended_message",
-            message: `Masz nową wiadomość od użytkowniczki ${
-              this.context.userData.name
-            }`,
+            message: `Masz nową wiadomość od użytkowniczki ${this.context.userData.name}`,
             userId: receiver_id,
             senderId: this.context.userData.id,
             openDetailsId: openDetailsId
           })
         )
-        .catch(function(error) {
-          that.context.setAlert(
+        .catch(error => {
+          this.context.setAlert(
             true,
             "danger",
             "Wystąpił błąd z wyświetleniem zapisem wiadomości."
@@ -126,8 +119,6 @@ class ConversationDetails extends Component<
     return new Promise((resolve, reject) => {
       let API_URL = this.context.API_URL;
       let conversation_id = id;
-
-      let that = this;
 
       this.context.setShowLoader(true);
 
@@ -158,17 +149,17 @@ class ConversationDetails extends Component<
 
             //console.log(["ConversationDetails", response.data.result]);
 
-            await that.setState({
+            await this.setState({
               openConversationMessages:
                 response.data.result.conversation.messages,
-              receiverId: that.props.navigation.state.params.receiverId,
+              receiverId: this.props.navigation.state.params.receiverId,
               privateConversation: privateMessage,
               productConversationId:
                 response.data.result.conversation.product_id,
               productConversationAuthorId: response.data.result.productOwnerId
             });
 
-            await that.context.setShowLoader(false);
+            await this.context.setShowLoader(false);
 
             //console.log(["privateMessage", privateMessage]);
 
@@ -177,13 +168,13 @@ class ConversationDetails extends Component<
         })
         .catch(async error => {
           //console.log(error);
-          await that.context.setAlert(
+          await this.context.setAlert(
             true,
             "danger",
             "Wystąpił błąd z wyświetleniem szczegółów konwersacji."
           );
 
-          await that.context.setShowLoader(false);
+          await this.context.setShowLoader(false);
 
           reject(true);
         });
@@ -195,8 +186,6 @@ class ConversationDetails extends Component<
 
     return new Promise((resolve, reject) => {
       let API_URL = this.context.API_URL;
-
-      let that = this;
 
       axios
         .post(API_URL + "/api/loadUserDataById", {
@@ -218,7 +207,7 @@ class ConversationDetails extends Component<
               response.data.result[0].name
             );*/
 
-            that.setState({
+            this.setState({
               receiverName: results.name,
               receiverEmail: results.email,
               receiverPhotoPath: results.photo_path
@@ -227,7 +216,7 @@ class ConversationDetails extends Component<
             resolve(true);
           }
         })
-        .catch(function(error) {
+        .catch(error => {
           reject(true);
         });
     });

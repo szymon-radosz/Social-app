@@ -1,7 +1,7 @@
 import React, { Component, Suspense } from "react";
 import { View, ScrollView, SafeAreaView, Image } from "react-native";
 import axios from "axios";
-import styles from "./../../FindUsers/style";
+import styles from "./../../Users/style";
 import BottomPanel from "./../../SharedComponents/BottomPanel";
 import Alert from "./../../Alert/Alert";
 import ProfileHeader from "./../../SharedComponents/ProfileHeader";
@@ -45,19 +45,17 @@ class LoggedInUserDetails extends Component<
   };
 
   getAmountOfFriends = (id: number): void => {
-    let that = this;
-
     axios
       .post(this.context.API_URL + "/api/countFriends", {
         userId: id
       })
-      .then(function(response) {
+      .then(response => {
         if (response.data.status === "OK") {
           //console.log(["getAmountOfFriends", response.data.result]);
-          that.setState({ countFriends: response.data.result.countFriends });
+          this.setState({ countFriends: response.data.result.countFriends });
         }
       })
-      .catch(function(error) {});
+      .catch(error => {});
   };
 
   setUserDetailsId = (id: number) => {
@@ -69,8 +67,6 @@ class LoggedInUserDetails extends Component<
     let API_URL = this.context.API_URL;
     /*let searchedUser = userId;*/
     let loggedInUser = this.context.userData.id;
-
-    let that = this;
 
     await this.setState({ userDetailsId: 0, userDetailsData: [] });
 
@@ -84,7 +80,7 @@ class LoggedInUserDetails extends Component<
       .then(async response => {
         if (response.data.status === "OK") {
           //console.log(["setShowUserDetails", response.data.result.user]);
-          await that.setState({
+          await this.setState({
             userDetailsId: userId,
             userDetailsData: response.data.result.user,
             usersAreInTheSameConversation:
@@ -95,7 +91,7 @@ class LoggedInUserDetails extends Component<
         }
       })
       .catch(async error => {
-        await that.context.setAlert(
+        await this.context.setAlert(
           true,
           "danger",
           "Nie udało się pobrać danych o uzytkowniku."
@@ -158,12 +154,6 @@ class LoggedInUserDetails extends Component<
                         city={locationDetails.city}
                         age={userDetailsData.age}
                         countFriends={countFriends}
-                        countKids={
-                          userDetailsData.kids &&
-                          userDetailsData.kids.length > 0
-                            ? userDetailsData.kids.length
-                            : 0
-                        }
                         locationString={userDetailsData.location_string}
                       />
 
@@ -172,12 +162,6 @@ class LoggedInUserDetails extends Component<
                           userDetailsData.hobbies &&
                           userDetailsData.hobbies.length > 0
                             ? userDetailsData.hobbies
-                            : null
-                        }
-                        kids={
-                          userDetailsData.kids &&
-                          userDetailsData.kids.length > 0
-                            ? userDetailsData.kids
                             : null
                         }
                         description={userDetailsData.description}

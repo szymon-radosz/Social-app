@@ -9,9 +9,9 @@ import ResetPassword from "./../components/Auth/ResetPassword";
 import ConfirmAccount from "./../components/Auth/ConfirmAccount";
 import FillNecessaryInfo from "./../components/EditProfileInfo/EditProfileInfo";
 //Users
-import FindUsers from "./../components/FindUsers/FindUsers";
-import UserDetails from "./../components/FindUsers/utils/UserDetails";
-import UserMessageBox from "./../components/FindUsers/utils/UserMessageBox";
+import Users from "./../components/Users/Users";
+import UserDetails from "./../components/Users/utils/UserDetails";
+import UserMessageBox from "./../components/Users/utils/UserMessageBox";
 //Auctions
 import Auctions from "./../components/Auctions/Auctions";
 import ProductDetails from "./../components/Auctions/utils/ProductDetails";
@@ -80,7 +80,7 @@ const MainStack = createStackNavigator(
       }
     },
     UserList: {
-      screen: FindUsers,
+      screen: Users,
       navigationOptions: {
         header: null
       }
@@ -244,24 +244,12 @@ export default class App extends Component<
       alertType: "",
       userData: [],
       userLoggedIn: false,
-      //API_URL: "http://127.0.0.1:8000/",
+      API_URL: "http://127.0.0.1:8080/",
       //API_URL: "http://10.0.2.2:8000/",
-      API_URL: "https://e-mamy.pl/",
+      //API_URL: "https://e-mamy.pl/",
       showLoader: false,
       currentNavName: "POZNAJ"
     };
-    this.setAlert = this.setAlert.bind(this);
-    this.closeAlert = this.closeAlert.bind(this);
-    this.setUserData = this.setUserData.bind(this);
-    this.setUserFilledInfo = this.setUserFilledInfo.bind(this);
-    this.clearUserUnreadedMessages = this.clearUserUnreadedMessages.bind(this);
-    this.clearUserNotificationsStatus = this.clearUserNotificationsStatus.bind(
-      this
-    );
-    this.clearUserData = this.clearUserData.bind(this);
-    this.setUserFilledInfo = this.setUserFilledInfo.bind(this);
-    this.setShowLoader = this.setShowLoader.bind(this);
-    this.setCurrentNavName = this.setCurrentNavName.bind(this);
   }
 
   setShowLoader = (param: boolean): any => {
@@ -273,7 +261,6 @@ export default class App extends Component<
   setUserFilledInfo = async () => {
     let userEmailName = this.state.userData.email;
     let API_URL = this.state.API_URL;
-    let that = this;
 
     let json = await axios
       .post(API_URL + "/api/setUserFilledInfo", {
@@ -281,14 +268,14 @@ export default class App extends Component<
       })
       .then(async response => {
         if (response.data.status === "OK") {
-          await that.setState({
+          await this.setState({
             userData: response.data.result[0]
             //editProfileData: false
           });
-          that.checkUserStatus();
+          this.checkUserStatus();
         }
       })
-      .catch(function(error) {
+      .catch(error => {
         //console.log(["setUserFilledInfoErr1", error]);
       });
 
@@ -298,7 +285,6 @@ export default class App extends Component<
   clearUserNotificationsStatus = async (userId: number) => {
     const { userData } = this.state;
     let API_URL = this.state.API_URL;
-    let that = this;
 
     axios
       .post(API_URL + "/api/clearUserNotificationsStatus", {
@@ -309,10 +295,10 @@ export default class App extends Component<
           let newUserState = userData;
           newUserState.unreadedNotifications = false;
           newUserState.unreadedNotificationsAmount = 0;
-          await that.setState({ userData: newUserState });
+          await this.setState({ userData: newUserState });
         }
       })
-      .catch(function(error) {
+      .catch(error => {
         //console.log(error);
       });
   };
@@ -324,7 +310,6 @@ export default class App extends Component<
     try {
       const { userData } = this.state;
       let API_URL = this.state.API_URL;
-      let that = this;
 
       axios
         .post(API_URL + "/api/setUserMessagesStatus", {
@@ -338,12 +323,12 @@ export default class App extends Component<
               response.data.result.userUnreadedMessages;
             newUserState.unreadedConversationMessageAmount =
               response.data.result.userUnreadedMessagesCount;
-            await that.setState({ userData: newUserState });
+            await this.setState({ userData: newUserState });
 
             //that.checkUserStatus();
           }
         })
-        .catch(function(error) {
+        .catch(error => {
           //console.log(error);
         });
     } catch (error) {

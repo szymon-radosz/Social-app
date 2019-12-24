@@ -15,6 +15,7 @@ import TextAreaComponent from "./../Utils/TextAreaComponent";
 import { GlobalContext } from "./../../Context/GlobalContext";
 import axios from "axios";
 import { withNavigation } from "react-navigation";
+import lang from "./../../assets/lang/FeedbackModal/FeedbackModal";
 
 const loaderImage: any = require("./../../assets/images/loader.gif");
 
@@ -34,10 +35,10 @@ class FeedbackModal extends Component<FeedbackModalProps, FeedbackModalState> {
     this.state = {
       feedbackMessage: "",
       feedbackTopic: [
-        { index: 0, text: "Zgłoszenie błędu w aplikacji" },
-        { index: 1, text: "Rozbudowanie funkcjonalności" },
-        { index: 2, text: "Dodanie nowej funkcjonalności" },
-        { index: 3, text: "Inne" }
+        { index: 0, text: "App troubles" },
+        { index: 1, text: "Rebuild a feature" },
+        { index: 2, text: "New feature" },
+        { index: 3, text: "Other" }
       ],
       activeTopic: ""
     };
@@ -61,14 +62,8 @@ class FeedbackModal extends Component<FeedbackModalProps, FeedbackModalState> {
     let userId = this.context.userData.id;
     let API_URL = this.context.API_URL;
 
-    let that = this;
-
     if (!topic || !message) {
-      this.context.setAlert(
-        true,
-        "danger",
-        "Prosimy o uzupełnienie wszystkich danych."
-      );
+      this.context.setAlert(true, "danger", lang.allDataError["en"]);
     }
 
     if (topic && message && userId && API_URL) {
@@ -80,31 +75,27 @@ class FeedbackModal extends Component<FeedbackModalProps, FeedbackModalState> {
           message: message,
           userId: userId
         })
-        .then(function(response) {
+        .then(response => {
           if (response.data.status === "OK") {
-            that.setState({
+            this.setState({
               activeTopic: "",
               feedbackMessage: ""
             });
 
-            that.context.setAlert(true, "success", "Dziękujemy za wiadomość.");
+            this.context.setAlert(true, "success", lang.messageSuccess["en"]);
 
-            that.context.setShowLoader(false);
+            this.context.setShowLoader(false);
 
-            that.props.navigation.goBack(null);
+            this.props.navigation.goBack(null);
           }
         })
-        .catch(function(error) {
+        .catch(error => {
           //console.log(error);
-          that.context.setAlert(
-            true,
-            "danger",
-            "Problem z wysłaniem wiadomości."
-          );
+          this.context.setAlert(true, "danger", lang.messageError["en"]);
 
-          that.context.setShowLoader(false);
+          this.context.setShowLoader(false);
 
-          that.props.navigation.goBack(null);
+          this.props.navigation.goBack(null);
         });
     }
   };
@@ -162,13 +153,16 @@ class FeedbackModal extends Component<FeedbackModalProps, FeedbackModalState> {
             ) : (
               <React.Fragment>
                 <ScrollView keyboardShouldPersistTaps={"always"}>
-                  <Text style={styles.feedbackHeaderText}>Napisz do nas!</Text>
+                  <Text style={styles.feedbackHeaderText}>
+                    {lang.header["en"]}
+                  </Text>
                   <Text style={styles.feedbackSubHeaderText}>
-                    Podziel się z nami swoją opinią co możemy poprawić lub zgłoś
-                    błąd działania aplikacji.
+                    {lang.feedbackText["en"]}
                   </Text>
 
-                  <Text style={styles.feedbackTopic}>Temat wiadomości</Text>
+                  <Text style={styles.feedbackTopic}>
+                    {lang.messageSubject["en"]}
+                  </Text>
 
                   {feedbackTopic.map((topic: any, index: number) => {
                     return (
@@ -200,7 +194,7 @@ class FeedbackModal extends Component<FeedbackModalProps, FeedbackModalState> {
 
                   <View style={{ paddingLeft: 10, paddingRight: 10 }}>
                     <TextAreaComponent
-                      placeholder="Napisz wiadomość..."
+                      placeholder={lang.writeMessage["en"]}
                       inputOnChange={(feedbackMessage: string) =>
                         this.setFeedbackMessage(feedbackMessage)
                       }
@@ -213,7 +207,7 @@ class FeedbackModal extends Component<FeedbackModalProps, FeedbackModalState> {
 
                   <ButtonComponent
                     pressButtonComponent={this.sendFeedback}
-                    buttonComponentText="Wyślij"
+                    buttonComponentText={lang.send["en"]}
                     fullWidth={true}
                     underlayColor="#dd904d"
                     whiteBg={false}

@@ -19,6 +19,7 @@ import InputComponent from "./../../Utils/InputComponent";
 import InputNumberComponent from "./../../Utils/InputNumberComponent";
 import TextAreaComponent from "./../../Utils/TextAreaComponent";
 import { GlobalContext } from "./../../../Context/GlobalContext";
+import lang from "./../../../assets/lang/Auctions/utils/AddNewProductBox";
 
 const trash: any = require("./../../../assets/images/trash.png");
 const upload: any = require("./../../../assets/images/upload.png");
@@ -74,26 +75,16 @@ class AddNewProductBox extends Component<
       newProduct: true,
       secondHandProduct: false
     };
-
-    this.getCategories = this.getCategories.bind(this);
-    this.handleChoosePhoto = this.handleChoosePhoto.bind(this);
-    this.setGender = this.setGender.bind(this);
-    this.setCategoryId = this.setCategoryId.bind(this);
-    this.setProductState = this.setProductState.bind(this);
-    this.clearPhotos = this.clearPhotos.bind(this);
   }
 
   addNewProduct = async (
     photos: any,
-    maleGender: boolean,
-    femaleGender: boolean,
     newProduct: boolean,
     secondHandProduct: boolean,
     currentUser: any,
     name: string,
     description: string,
-    selectedCategoryId: any,
-    price: string
+    selectedCategoryId: any
   ) => {
     /*console.log([
       photos,
@@ -113,12 +104,6 @@ class AddNewProductBox extends Component<
 
     let photosArray = "[" + '"' + photos.join('","') + '"' + "]";
 
-    if (maleGender) {
-      childGender = "boy";
-    } else if (femaleGender) {
-      childGender = "girl";
-    }
-
     if (newProduct) {
       productState = 0;
     } else if (secondHandProduct) {
@@ -131,8 +116,7 @@ class AddNewProductBox extends Component<
       !currentUser ||
       !name ||
       !description ||
-      !selectedCategoryId ||
-      !price
+      !selectedCategoryId
     ) {
       /*console.log([
         "add product",
@@ -157,13 +141,10 @@ class AddNewProductBox extends Component<
       name &&
       description &&
       selectedCategoryId &&
-      price &&
       currentUser.lattitude &&
       currentUser.longitude &&
       photosArray
     ) {
-      let that = this;
-
       this.context.setShowLoader(true);
 
       //console.log(["photosArray", photosArray]);
@@ -174,8 +155,6 @@ class AddNewProductBox extends Component<
           name: name,
           description: description,
           categoryId: selectedCategoryId,
-          childGender: childGender,
-          price: price,
           lat: currentUser.lattitude,
           lng: currentUser.longitude,
           status: 0,
@@ -185,15 +164,15 @@ class AddNewProductBox extends Component<
         .then(async response => {
           if (response.data.status === "OK") {
             //console.log(["Add new product success", response.data]);
-            await that.context.setAlert(
+            await this.context.setAlert(
               true,
               "success",
               "Dziękujemy za dodanie nowego produktu."
             );
 
-            await that.context.setShowLoader(false);
+            await this.context.setShowLoader(false);
 
-            await that.props.navigation.push("ProductDetails", {
+            await this.props.navigation.push("ProductDetails", {
               productId: response.data.result.product.id,
               authorId: response.data.result.product.user_id
             });
@@ -202,15 +181,15 @@ class AddNewProductBox extends Component<
         .catch(async error => {
           //console.log(error);
 
-          await that.context.setAlert(
+          await this.context.setAlert(
             true,
             "danger",
             "Problem z dodaniem nowego produktu."
           );
 
-          await that.context.setShowLoader(false);
+          await this.context.setShowLoader(false);
 
-          await that.props.navigation.navigate("Auctions", {});
+          await this.props.navigation.navigate("Auctions", {});
         });
 
       return json;
@@ -219,14 +198,6 @@ class AddNewProductBox extends Component<
 
   clearPhotos = (): void => {
     this.setState({ photos: [], showPhotoArr: [] });
-  };
-
-  setGender = (gender: string): void => {
-    if (gender === "girl") {
-      this.setState({ maleGender: false, femaleGender: true });
-    } else if (gender === "boy") {
-      this.setState({ maleGender: true, femaleGender: false });
-    }
   };
 
   setProductState = (productState: string): void => {
@@ -244,19 +215,17 @@ class AddNewProductBox extends Component<
   getCategories = (): void => {
     let API_URL = this.context.API_URL;
 
-    let that = this;
-
     axios
       .get(API_URL + "/api/getCategories")
-      .then(function(response) {
+      .then(response => {
         //console.log(["getCategories", response]);
         if (response.data.status === "OK") {
-          that.setState({
+          this.setState({
             categories: response.data.result
           });
         }
       })
-      .catch(function(error) {
+      .catch(error => {
         //console.log(error);
       });
   };
@@ -305,9 +274,6 @@ class AddNewProductBox extends Component<
       description,
       categories,
       selectedCategoryId,
-      maleGender,
-      femaleGender,
-      price,
       newProduct,
       secondHandProduct,
       photos,
@@ -350,14 +316,14 @@ class AddNewProductBox extends Component<
                   style={styles.relative}
                 >
                   <PageHeader
-                    boldText={"Dodaj nowy produkt"}
+                    boldText={lang.header["en"]}
                     normalText={""}
                     closeMethod={() => this.props.navigation.goBack(null)}
                     closeMethodParameter={""}
                   />
                   <View style={styles.addNewProductInputContainer}>
                     <InputComponent
-                      placeholder="Podaj nazwę produktu"
+                      placeholder={lang.addProductName["en"]}
                       inputOnChange={(name: string) => this.setState({ name })}
                       value={name}
                       secureTextEntry={false}
@@ -367,7 +333,7 @@ class AddNewProductBox extends Component<
 
                   <View style={styles.addNewProductDescInput}>
                     <TextAreaComponent
-                      placeholder="Podaj opis produktu, w przypadku odzieży podaj wymiary itp."
+                      placeholder={lang.addProductDescription["en"]}
                       inputOnChange={(description: string) =>
                         this.setState({ description })
                       }
@@ -380,7 +346,7 @@ class AddNewProductBox extends Component<
 
                   <View style={styles.addNewProductOptionContainer}>
                     <Text style={styles.addNewProductOptionHeaderText}>
-                      Kategoria
+                      {lang.category["en"]}
                     </Text>
                     <View style={styles.addNewProductOptionWrapper}>
                       {categories.map((category: any, i: number) => {
@@ -433,120 +399,7 @@ class AddNewProductBox extends Component<
 
                   <View style={styles.addNewProductOptionContainer}>
                     <Text style={styles.addNewProductOptionHeaderText}>
-                      Płeć dziecka
-                    </Text>
-                    <View style={styles.addNewProductOptionWrapper}>
-                      <View style={{ flexDirection: "row" }}>
-                        <TouchableOpacity
-                          onPress={() => this.setGender("boy")}
-                          style={
-                            maleGender
-                              ? {
-                                  width: 20,
-                                  height: 20,
-                                  borderWidth: 1,
-                                  backgroundColor: "#f7b67e",
-                                  borderColor: "#f7b67e",
-                                  borderRadius: 20,
-                                  marginRight: 5,
-                                  marginBottom: 10
-                                }
-                              : {
-                                  width: 20,
-                                  height: 20,
-                                  borderWidth: 1,
-                                  backgroundColor: "white",
-                                  borderRadius: 20,
-                                  marginRight: 5,
-                                  marginBottom: 10
-                                }
-                          }
-                        />
-
-                        <Text
-                          style={
-                            maleGender
-                              ? styles.addNewProductOptionTextActive
-                              : styles.addNewProductOptionText
-                          }
-                          onPress={() => this.setGender("boy")}
-                        >
-                          Chłopiec
-                        </Text>
-                      </View>
-                      <View style={{ flexDirection: "row" }}>
-                        <TouchableOpacity
-                          onPress={() => this.setGender("girl")}
-                          style={
-                            femaleGender
-                              ? {
-                                  width: 20,
-                                  height: 20,
-                                  borderWidth: 1,
-                                  backgroundColor: "#f7b67e",
-                                  borderColor: "#f7b67e",
-                                  borderRadius: 20,
-                                  marginRight: 5,
-                                  marginBottom: 10
-                                }
-                              : {
-                                  width: 20,
-                                  height: 20,
-                                  borderWidth: 1,
-                                  backgroundColor: "white",
-                                  borderRadius: 20,
-                                  marginRight: 5,
-                                  marginBottom: 10
-                                }
-                          }
-                        />
-
-                        <Text
-                          onPress={() => this.setGender("girl")}
-                          style={
-                            femaleGender
-                              ? styles.addNewProductOptionTextActive
-                              : styles.addNewProductOptionText
-                          }
-                        >
-                          Dziewczynka
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-
-                  <View
-                    style={{
-                      paddingLeft: 10,
-                      paddingRight: 10,
-                      paddingBottom: 20
-                    }}
-                  >
-                    <Text style={{ fontWeight: "600" }}>Cena (zł)</Text>
-
-                    <InputNumberComponent
-                      placeholder="Cena w zł"
-                      inputOnChange={(price: string) => {
-                        let numreg = /^[0-9]+$/;
-                        if (numreg.test(price) || price.length === 0) {
-                          this.setState({ price });
-                        } else {
-                          this.context.setAlert(
-                            true,
-                            "danger",
-                            "Cena musi być liczbą."
-                          );
-                        }
-                      }}
-                      value={price}
-                      secureTextEntry={false}
-                      maxLength={5}
-                    />
-                  </View>
-
-                  <View style={styles.addNewProductOptionContainer}>
-                    <Text style={styles.addNewProductOptionHeaderText}>
-                      Stan produktu
+                      {lang.condition["en"]}
                     </Text>
                     <View style={styles.addNewProductOptionWrapper}>
                       <View style={{ flexDirection: "row" }}>
@@ -584,7 +437,7 @@ class AddNewProductBox extends Component<
                           }
                           onPress={() => this.setProductState("new")}
                         >
-                          Nowe
+                          {lang.new["en"]}
                         </Text>
                       </View>
                       <View style={{ flexDirection: "row" }}>
@@ -622,7 +475,7 @@ class AddNewProductBox extends Component<
                               : styles.addNewProductOptionText
                           }
                         >
-                          Używane
+                          {lang.used["en"]}
                         </Text>
                       </View>
                     </View>
@@ -637,7 +490,7 @@ class AddNewProductBox extends Component<
                       }}
                     >
                       <Text style={{ paddingBottom: 5, fontWeight: "600" }}>
-                        Dodaj zdjęcia (maksymalnie 4)
+                        {lang.photos["en"]}
                       </Text>
                       <TouchableHighlight
                         style={{
@@ -707,18 +560,15 @@ class AddNewProductBox extends Component<
                     pressButtonComponent={() => {
                       this.addNewProduct(
                         photos,
-                        maleGender,
-                        femaleGender,
                         newProduct,
                         secondHandProduct,
                         this.context.userData,
                         name,
                         description,
-                        selectedCategoryId,
-                        price
+                        selectedCategoryId
                       );
                     }}
-                    buttonComponentText="Dodaj Produkt"
+                    buttonComponentText={lang.header["en"]}
                     fullWidth={true}
                     underlayColor="#dd904d"
                     whiteBg={false}

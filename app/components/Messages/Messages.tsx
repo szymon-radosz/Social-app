@@ -37,10 +37,6 @@ class Messages extends Component<MessagesProps, MessagesState> {
       showFilterPanel: false,
       displayPrivateMessages: false
     };
-
-    this.getMessages = this.getMessages.bind(this);
-    this.getAuctionMessages = this.getAuctionMessages.bind(this);
-    this.closeConversationDetails = this.closeConversationDetails.bind(this);
   }
 
   closeConversationDetails = (): void => {
@@ -53,8 +49,6 @@ class Messages extends Component<MessagesProps, MessagesState> {
     let API_URL = this.context.API_URL;
     let user_id = this.context.userData.id;
 
-    let that = this;
-
     this.context.setShowLoader(true);
 
     axios
@@ -64,30 +58,28 @@ class Messages extends Component<MessagesProps, MessagesState> {
       .then(async response => {
         if (response.data.status === "OK") {
           //console.log(["messagesList", response.data.result.conversationData]);
-          await that.setState({
+          await this.setState({
             messagesList: response.data.result.conversationData,
             displayPrivateMessages: true
           });
 
-          await that.context.setShowLoader(false);
+          await this.context.setShowLoader(false);
         }
       })
       .catch(async error => {
-        await that.context.setAlert(
+        await this.context.setAlert(
           true,
           "danger",
           "Wystąpił błąd z wyświetleniem szczegółów konwersacji."
         );
 
-        await that.context.setShowLoader(false);
+        await this.context.setShowLoader(false);
       });
   };
 
   getAuctionMessages = (): void => {
     let API_URL = this.context.API_URL;
     let user_id = this.context.userData.id;
-
-    let that = this;
 
     this.context.setShowLoader(true);
 
@@ -99,22 +91,22 @@ class Messages extends Component<MessagesProps, MessagesState> {
       .then(async response => {
         if (response.data.status === "OK") {
           //console.log(response.data.result.conversationData);
-          await that.setState({
+          await this.setState({
             messagesList: response.data.result.conversationData,
             displayPrivateMessages: false
           });
 
-          await that.context.setShowLoader(false);
+          await this.context.setShowLoader(false);
         }
       })
       .catch(async error => {
-        await that.context.setAlert(
+        await this.context.setAlert(
           true,
           "danger",
           "Wystąpił błąd z wyświetleniem szczegółów konwersacji."
         );
 
-        await that.context.setShowLoader(false);
+        await this.context.setShowLoader(false);
       });
   };
 

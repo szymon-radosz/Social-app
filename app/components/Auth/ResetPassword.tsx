@@ -12,6 +12,7 @@ import { GlobalContext } from "./../../Context/GlobalContext";
 import ButtonComponent from "./../Utils/ButtonComponent";
 import InputComponent from "./../Utils/InputComponent";
 import Alert from "./../Alert/Alert";
+import lang from "./../../assets/lang/Auth/ResetPassword";
 
 const ResetPassword = (props: any) => {
   const [email, setEmail] = useState("");
@@ -24,20 +25,20 @@ const ResetPassword = (props: any) => {
         .post(API_URL + "/api/password-reset", {
           email: email
         })
-        .then(function(response) {
+        .then(response => {
           if (response.data.status === "OK") {
             setEmail("");
-            context.setAlert(true, "success", "Sprawdź swoją skrzynkę.");
+            context.setAlert(true, "success", lang.chackEmailSuccess["en"]);
           } else {
             setEmail("");
-            context.setAlert(true, "danger", "Problem ze zresetowaniem hasła.");
+            context.setAlert(true, "danger", lang.resetError["en"]);
           }
         })
-        .catch(function(error) {
-          context.setAlert(true, "danger", "Sprawdź poprawność swoich danych.");
+        .catch(error => {
+          context.setAlert(true, "danger", lang.checkCredentialsError["en"]);
         });
     } catch (e) {
-      context.setAlert(true, "danger", "Problem ze zresetowaniem hasła.");
+      context.setAlert(true, "danger", lang.resetError["en"]);
     }
   };
 
@@ -60,10 +61,10 @@ const ResetPassword = (props: any) => {
         )}
         <ScrollView keyboardShouldPersistTaps={"always"}>
           <View style={styles.container}>
-            <Text style={styles.headerText}>{`Resetuj swoje \nhasło`}</Text>
+            <Text style={styles.headerText}>{lang.header["en"]}</Text>
 
             <InputComponent
-              placeholder="E-mail"
+              placeholder={lang.email["en"]}
               inputOnChange={(email: string) => setEmail(email)}
               value={email}
               secureTextEntry={false}
@@ -72,7 +73,7 @@ const ResetPassword = (props: any) => {
 
             <ButtonComponent
               pressButtonComponent={resetPassword}
-              buttonComponentText="Resetuj"
+              buttonComponentText={lang.header["en"]}
               fullWidth={false}
               underlayColor="#dd904d"
               whiteBg={false}
@@ -80,12 +81,14 @@ const ResetPassword = (props: any) => {
             />
 
             <View style={styles.subBtnSection}>
-              <Text style={styles.subBtnSectionAsk}>Posiadasz juz konto? </Text>
+              <Text style={styles.subBtnSectionAsk}>
+                {lang.hasAccount["en"]}
+              </Text>
               <TouchableHighlight
                 onPress={() => navigation.navigate("Login")}
                 underlayColor={"#fff"}
               >
-                <Text style={styles.registerBtn}>Logowanie</Text>
+                <Text style={styles.registerBtn}>{lang.login["en"]}</Text>
               </TouchableHighlight>
             </View>
           </View>

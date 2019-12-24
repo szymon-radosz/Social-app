@@ -1,14 +1,8 @@
 import React from "react";
-import {
-  Text,
-  View,
-  Image,
-  TouchableHighlight,
-  ImageBackground,
-  ScrollView
-} from "react-native";
+import { Text, View, Image, ImageBackground, ScrollView } from "react-native";
 import styles from "./../style";
 import ButtonComponent from "./../../Utils/ButtonComponent";
+import lang from "./../../../assets/lang/EditProfileInfo/utils/PhotoScreen";
 
 const fillInfoBg: any = require("./../../../assets/images/fillInfoBgMin.jpg");
 
@@ -25,10 +19,10 @@ const PhotoScreen = (props: {
     <View style={styles.sectionContainer}>
       <ScrollView>
         <ImageBackground source={fillInfoBg} style={{ width: "100%" }}>
-          <Text style={styles.headerText}>Dodaj zdjęcie{"\n"}profilowe</Text>
+          <Text style={styles.headerText}>{lang.header["en"]}</Text>
         </ImageBackground>
 
-        <Text style={styles.fillInfoHeader}>Dodaj swoje zdjęcie profilowe</Text>
+        <Text style={styles.fillInfoHeader}>{lang.photoText["en"]}</Text>
 
         {props.photo ? (
           <Image source={{ uri: props.photo.path }} style={styles.image} />
@@ -44,7 +38,7 @@ const PhotoScreen = (props: {
         <View style={{ marginTop: 10 }}>
           <ButtonComponent
             pressButtonComponent={props.handleChoosePhoto}
-            buttonComponentText="Wybierz zdjęcie"
+            buttonComponentText={lang.choose["en"]}
             fullWidth={true}
             underlayColor="#dd904d"
             whiteBg={false}
@@ -57,7 +51,7 @@ const PhotoScreen = (props: {
         <View style={{ width: "30%" }}>
           <ButtonComponent
             pressButtonComponent={props.prevStep}
-            buttonComponentText="Wróć"
+            buttonComponentText={lang.back["en"]}
             fullWidth={false}
             underlayColor="#dd904d"
             whiteBg={true}
@@ -68,7 +62,7 @@ const PhotoScreen = (props: {
           {props.photo || props.userSavedPhoto ? (
             <ButtonComponent
               pressButtonComponent={props.nextStep}
-              buttonComponentText="Dalej"
+              buttonComponentText={lang.next["en"]}
               fullWidth={true}
               underlayColor="#dd904d"
               whiteBg={false}

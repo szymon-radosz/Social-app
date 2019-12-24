@@ -31,8 +31,6 @@ class UserNotificationList extends Component<
 
   getUserNotificationList = () => {
     let id = this.context.userData.id;
-    let that = this;
-
     this.context.setShowLoader(true);
 
     return new Promise((resolve, reject) => {
@@ -42,22 +40,22 @@ class UserNotificationList extends Component<
         })
         .then(async response => {
           if (response.data.status === "OK") {
-            await that.setState({
+            await this.setState({
               userNotificationList: response.data.result
             });
 
-            await that.context.setShowLoader(false);
+            await this.context.setShowLoader(false);
 
             resolve(true);
           }
         })
         .catch(async error => {
-          await that.context.setAlert(
+          await this.context.setAlert(
             true,
             "danger",
             "Wystąpił błąd z wyświetleniem listy powiadomień."
           );
-          await that.context.setShowLoader(false);
+          await this.context.setShowLoader(false);
 
           reject(true);
         });

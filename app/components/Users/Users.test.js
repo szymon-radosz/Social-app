@@ -1,14 +1,14 @@
 import React from "react";
 import { shallow } from "enzyme";
-import FindUsers from "./FindUsers";
+import Users from "./Users";
 import { findByTestAttr } from "./../../../../testUtils/testUtils";
 
 const setUp = (props = {}) => {
-  const component = shallow(<FindUsers {...props} />);
+  const component = shallow(<Users {...props} />);
   return component;
 };
 
-describe("<FindUsers />", () => {
+describe("<Users />", () => {
   let component;
   beforeEach(() => {
     component = setUp();

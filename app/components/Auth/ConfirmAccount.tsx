@@ -1,6 +1,7 @@
 import React from "react";
 import { SafeAreaView, Text, View, TouchableHighlight } from "react-native";
 import styles from "./style";
+import lang from "./../../assets/lang/Auth/ConfirmAccount";
 
 const ConfirmAccount = (props: { navigation: any }) => {
   return (
@@ -12,18 +13,14 @@ const ConfirmAccount = (props: { navigation: any }) => {
         }}
       >
         <View style={styles.container}>
-          <Text style={styles.headerText}>{`Potwierdź swój adres email`}</Text>
+          <Text style={styles.headerText}>{lang.header["en"]}</Text>
 
-          <Text style={{ marginBottom: 40 }}>
-            Dbamy o wiarygodność naszej społeczności mam. Prosimy sprawdź swoją
-            skrzynkę mailową i potwierdź swoją rejestrację. W razie problemów
-            napisz do nas na kontakt@e-mamy.pl
-          </Text>
+          <Text style={{ marginBottom: 40 }}>{lang.description["en"]}</Text>
           <TouchableHighlight
             onPress={() => props.navigation.navigate("Login")}
             underlayColor={"#fff"}
           >
-            <Text style={styles.registerBtn}>Zaloguj się</Text>
+            <Text style={styles.registerBtn}>{lang.login["en"]}</Text>
           </TouchableHighlight>
         </View>
       </SafeAreaView>

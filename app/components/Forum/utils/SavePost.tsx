@@ -42,10 +42,6 @@ class SavePost extends Component<SavePostProps, SavePostState> {
       categories: [],
       categoryId: 0
     };
-
-    this.getCategories = this.getCategories.bind(this);
-    this.selectCategoryId = this.selectCategoryId.bind(this);
-    this.savePost = this.savePost.bind(this);
   }
 
   savePost = (
@@ -70,8 +66,6 @@ class SavePost extends Component<SavePostProps, SavePostState> {
       userId !== 0 &&
       categoryId !== 0
     ) {
-      let that = this;
-
       axios
         .post(API_URL + "/api/savePost", {
           title: title,
@@ -79,29 +73,29 @@ class SavePost extends Component<SavePostProps, SavePostState> {
           userId: userId,
           categoryId: categoryId
         })
-        .then(function(response) {
+        .then(response => {
           if (response.data.status === "OK") {
-            that.setState({ title: "", description: "", categoryId: 0 });
+            this.setState({ title: "", description: "", categoryId: 0 });
 
-            that.props.navigation.navigate("PostDetails", {
+            this.props.navigation.navigate("PostDetails", {
               postId: response.data.result.id
             });
 
-            that.context.setAlert(
+            this.context.setAlert(
               true,
               "success",
               "Dziękujemy za dodanie nowego posta."
             );
           } else {
-            that.context.setAlert(
+            this.context.setAlert(
               true,
               "danger",
               "Problem z dodaniem nowego posta."
             );
           }
         })
-        .catch(function(error) {
-          that.context.setAlert(
+        .catch(error => {
+          this.context.setAlert(
             true,
             "danger",
             "Problem z dodaniem nowego posta."
@@ -120,8 +114,6 @@ class SavePost extends Component<SavePostProps, SavePostState> {
     try {
       let API_URL = this.context.API_URL;
 
-      let that = this;
-
       this.context.setShowLoader(true);
 
       axios
@@ -129,7 +121,7 @@ class SavePost extends Component<SavePostProps, SavePostState> {
         .then(async response => {
           //console.log(response);
           if (response.data.status === "OK") {
-            await that.setState({ categories: response.data.result });
+            await this.setState({ categories: response.data.result });
 
             this.context.setShowLoader(false);
           }

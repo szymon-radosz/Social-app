@@ -48,11 +48,6 @@ class Forum extends Component<ForumProps, ForumState> {
       categoryName: "",
       postList: []
     };
-
-    this.getPosts = this.getPosts.bind(this);
-    this.setShowPostDetails = this.setShowPostDetails.bind(this);
-    this.setShowSortByCategory = this.setShowSortByCategory.bind(this);
-    this.getPostByCategoryId = this.getPostByCategoryId.bind(this);
   }
 
   setShowPostDetails = (): void => {
@@ -91,8 +86,6 @@ class Forum extends Component<ForumProps, ForumState> {
   ): void => {
     let API_URL = this.context.API_URL;
 
-    let that = this;
-
     this.context.setShowLoader(true);
 
     axios
@@ -102,35 +95,33 @@ class Forum extends Component<ForumProps, ForumState> {
       .then(async response => {
         if (response.data.status === "OK") {
           //await that.setState({ postList: [] });
-          await that.setState({
+          await this.setState({
             categoryName: categoryName,
             showSortByCategoryId: categoryId,
             postList: response.data.result,
             showPosts: true
           });
 
-          await that.context.setShowLoader(false);
+          await this.context.setShowLoader(false);
 
           if (closeModal) {
-            that.setShowSortByCategory(false);
+            this.setShowSortByCategory(false);
           }
         }
       })
       .catch(async error => {
-        await that.context.setAlert(
+        await this.context.setAlert(
           true,
           "danger",
           "Wystąpił błąd z wyświetleniem szczegółów kategorii."
         );
 
-        await that.context.setShowLoader(false);
+        await this.context.setShowLoader(false);
       });
   };
 
   getPosts = (): void => {
     let API_URL = this.context.API_URL;
-
-    let that = this;
 
     this.context.setShowLoader(true);
 
@@ -139,21 +130,21 @@ class Forum extends Component<ForumProps, ForumState> {
       .then(async response => {
         if (response.data.status === "OK") {
           //console.log(["posts", response.data.result]);
-          await that.setState({
+          await this.setState({
             postList: response.data.result
           });
 
-          await that.context.setShowLoader(false);
+          await this.context.setShowLoader(false);
         }
       })
       .catch(async error => {
-        await that.context.setAlert(
+        await this.context.setAlert(
           true,
           "danger",
           "Wystąpił błąd z wyświetleniem listy postów."
         );
 
-        await that.context.setShowLoader(false);
+        await this.context.setShowLoader(false);
       });
   };
 

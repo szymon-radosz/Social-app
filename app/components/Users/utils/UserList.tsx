@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Text } from "react-native";
 import ListItem from "./../../Utils/ListItem";
-import { GlobalContext } from "./../../../Context/GlobalContext";
 
 const UserList = (props: {
   userList: any;
@@ -9,7 +8,6 @@ const UserList = (props: {
   navigation: any;
   loggedInUserId: number;
 }): any => {
-  const context = useContext(GlobalContext);
   if (props.userList) {
     return props.userList && props.userList.length > 0 ? (
       props.userList.map((user: any, i: number) => {
@@ -21,13 +19,7 @@ const UserList = (props: {
               image={`${user.photo_path}`}
               mainText={`${user.name}, ${user.age}`}
               subText={`${user.location_string ? user.location_string : ""}`}
-              subSubText={`${
-                user.kids.length > 0
-                  ? user.kids.length === 1
-                    ? "1 dziecko"
-                    : `${user.kids.length} dzieci`
-                  : ""
-              }`}
+              subSubText="test sub sub text"
               onPress={() => {
                 props.navigation.push("UserDetails", {
                   userId: user.id,

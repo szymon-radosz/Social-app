@@ -12,6 +12,7 @@ import { GlobalContext } from "./../../Context/GlobalContext";
 import ButtonComponent from "./../Utils/ButtonComponent";
 import InputComponent from "./../Utils/InputComponent";
 import Alert from "./../Alert/Alert";
+import lang from "./../../assets/lang/Auth/Login";
 
 const Login = (props: any) => {
   const [email, setEmail] = useState("");
@@ -21,12 +22,13 @@ const Login = (props: any) => {
   const loginUser = (): void => {
     //console.log([email, password]);
     if (email && !password) {
-      context.setAlert(true, "danger", "Podaj swoje hasło.");
+      context.setAlert(true, "danger", lang.passwordError["en"]);
     } else if (!email && password) {
-      context.setAlert(true, "danger", "Podaj swój adres e-mail.");
+      context.setAlert(true, "danger", lang.emailError["en"]);
     } else if (!email && !password) {
-      context.setAlert(true, "danger", "Podaj swój adres e-mail i hasło.");
+      context.setAlert(true, "danger", lang.emailPasswordError["en"]);
     } else if (email && password) {
+      console.log(["API_URL", context.API_URL]);
       try {
         let API_URL = context.API_URL;
         //let navProps = navigation.state.params;
@@ -36,8 +38,8 @@ const Login = (props: any) => {
             email: email,
             password: password
           })
-          .then(function(response) {
-            //console.log(response);
+          .then(response => {
+            console.log(response);
             if (response.data.status === "OK") {
               //console.log(["response.data.user", response.data]);
               let token = response.data.user.token;
@@ -50,33 +52,25 @@ const Login = (props: any) => {
 
               axios
                 .post(context.API_URL + "/api/details", {}, { headers: config })
-                .then(function(response2) {
-                  if (response2.data.status === "OK") {
+                .then(response => {
+                  if (response.data.status === "OK") {
                     //navProps.setUserData(response2.data.result);
 
                     //console.log(["userData", response2.data.result]);
 
-                    context.setUserData(response2.data.result);
+                    context.setUserData(response.data.result);
                   }
                 })
-                .catch(function(error) {
-                  context.setAlert(
-                    true,
-                    "danger",
-                    "Sprawdź poprawność swoich danych."
-                  );
+                .catch(error => {
+                  context.setAlert(true, "danger", lang.loginError["en"]);
                 });
             } else {
               //console.log("Nie ma tokena");
             }
           })
-          .catch(function(error) {
+          .catch(error => {
             //console.log(error);
-            context.setAlert(
-              true,
-              "danger",
-              "Sprawdź poprawność swoich danych."
-            );
+            context.setAlert(true, "danger", lang.loginError["en"]);
           });
       } catch (e) {
         //console.log(e);
@@ -103,12 +97,10 @@ const Login = (props: any) => {
         )}
         <ScrollView keyboardShouldPersistTaps={"always"}>
           <View style={styles.container}>
-            <Text
-              style={styles.headerText}
-            >{`Miło Cię widzieć \nponownie!`}</Text>
+            <Text style={styles.headerText}>{lang.header["en"]}</Text>
 
             <InputComponent
-              placeholder="E-mail"
+              placeholder={lang.email["en"]}
               inputOnChange={(email: string) => setEmail(email)}
               value={email}
               secureTextEntry={false}
@@ -116,7 +108,7 @@ const Login = (props: any) => {
             />
 
             <InputComponent
-              placeholder="Hasło"
+              placeholder={lang.password["en"]}
               inputOnChange={(password: string) => setPassword(password)}
               value={password}
               secureTextEntry={true}
@@ -125,7 +117,7 @@ const Login = (props: any) => {
 
             <ButtonComponent
               pressButtonComponent={loginUser}
-              buttonComponentText="Zaloguj"
+              buttonComponentText={lang.login["en"]}
               fullWidth={false}
               underlayColor="#dd904d"
               whiteBg={false}
@@ -133,12 +125,14 @@ const Login = (props: any) => {
             />
 
             <View style={styles.subBtnSection}>
-              <Text style={styles.subBtnSectionAsk}>Nie posiadasz konta? </Text>
+              <Text style={styles.subBtnSectionAsk}>
+                {lang.notHaveAccount["en"]}
+              </Text>
               <TouchableHighlight
                 onPress={() => navigation.navigate("Register")}
                 underlayColor={"#fff"}
               >
-                <Text style={styles.registerBtn}>Rejestracja</Text>
+                <Text style={styles.registerBtn}>{lang.register["en"]}</Text>
               </TouchableHighlight>
             </View>
 
@@ -146,7 +140,7 @@ const Login = (props: any) => {
               style={styles.resetPasswordBtn}
               onPress={() => navigation.navigate("ResetPassword")}
             >
-              Resetuj hasło
+              {lang.resetPassword["en"]}
             </Text>
           </View>
         </ScrollView>
