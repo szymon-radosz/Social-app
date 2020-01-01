@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Text, View, ScrollView } from "react-native";
+import { Text, View } from "react-native";
 import SingleCategoryOnList from "./SingleCategoryOnList";
 import styles from "../style";
 import axios from "axios";
+import lang from "./../../../assets/lang/Forum/utils/CategoriesList";
 
 interface CategoriesListState {
   categories: [];
@@ -49,12 +50,14 @@ export default class CategoriesList extends Component<
   };
 
   render() {
-    let { categories } = this.state;
+    const { categories } = this.state;
 
     return (
       <View style={styles.relative}>
         <View style={styles.categoriesListContainer}>
-          <Text style={styles.categoriesListTextHeader}>Kategorie</Text>
+          <Text style={styles.categoriesListTextHeader}>
+            {lang.categories["en"]}
+          </Text>
           <View style={styles.categoriesListContainer}>
             {categories.map((category: any, i: number) => {
               return (

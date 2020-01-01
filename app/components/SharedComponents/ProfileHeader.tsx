@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, Image, TouchableOpacity } from "react-native";
+import lang from "./../../assets/lang/SharedComponents/ProfileHeader";
 import styles from "./style";
 
 const logout: any = require("./../../assets/images/logout.png");
@@ -28,7 +29,7 @@ const ProfileHeader = (props: any) => {
                 style={styles.logoutImage}
                 resizeMode="contain"
               />
-              <Text style={styles.logoutText}>Powiadomienia</Text>
+              <Text style={styles.logoutText}>{lang.notifications["en"]}</Text>
             </View>
           </TouchableOpacity>
         ) : null}
@@ -51,7 +52,7 @@ const ProfileHeader = (props: any) => {
                 style={styles.logoutImage}
                 resizeMode="contain"
               />
-              <Text style={styles.logoutText}>Wyloguj się</Text>
+              <Text style={styles.logoutText}>{lang.loggedOut["en"]}</Text>
             </View>
           </TouchableOpacity>
         ) : null}
@@ -73,7 +74,7 @@ const ProfileHeader = (props: any) => {
               {props.age}
             </Text>
             <Text style={styles.profileHeaderSingleInfoContainerSubText}>
-              lat
+              {lang.yearsOld["en"]}
             </Text>
           </View>
           <View style={{ width: "50%" }}>
@@ -81,7 +82,7 @@ const ProfileHeader = (props: any) => {
               {props.countFriends}
             </Text>
             <Text style={styles.profileHeaderSingleInfoContainerSubText}>
-              znajomych
+              {lang.friends["en"]}
             </Text>
           </View>
         </View>

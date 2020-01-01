@@ -12,6 +12,7 @@ import Alert from "./../../Alert/Alert";
 import BottomPanel from "./../../SharedComponents/BottomPanel";
 import { GlobalContext } from "./../../../Context/GlobalContext";
 import PageHeader from "./../../SharedComponents/PageHeader";
+import lang from "./../../../assets/lang/Profile/utils/About";
 
 const fb: any = require("./../../../assets/images/fb.png");
 const ig: any = require("./../../../assets/images/ig.png");
@@ -46,7 +47,7 @@ const About = (props: any) => {
         >
           <ScrollView>
             <PageHeader
-              boldText={"Moje znajome"}
+              boldText={lang.myFriends["en"]}
               normalText={""}
               closeMethod={() => props.navigation.goBack(null)}
               closeMethodParameter={""}
@@ -68,7 +69,7 @@ const About = (props: any) => {
                     marginBottom: 5
                   }}
                 >
-                  E-mamy.pl
+                  {lang.appName["en"]}
                 </Text>
                 <Text
                   style={{
@@ -77,7 +78,7 @@ const About = (props: any) => {
                     marginBottom: 30
                   }}
                 >
-                  Bądź częścią lokalnej społeczności mam
+                  {lang.appDesc["en"]}
                 </Text>
               </View>
               <View>
@@ -89,9 +90,9 @@ const About = (props: any) => {
                   }}
                   onPress={() => props.navigation.navigate("FeedbackModal", {})}
                 >
-                  Masz pytanie?{" "}
+                  {lang.haveQuestion["en"]}{" "}
                   <Text style={{ fontWeight: "600", color: "#f4a157" }}>
-                    Napisz do nas!
+                    {lang.writeToUs["en"]}
                   </Text>
                 </Text>
               </View>
@@ -108,11 +109,11 @@ const About = (props: any) => {
                     fontSize: 14
                   }}
                 >
-                  Odwiedź naszą stronę{" "}
+                  {lang.visitWebsite["en"]}
                 </Text>
                 <TouchableHighlight
                   onPress={() => {
-                    Linking.openURL("https://e-mamy.pl/");
+                    Linking.openURL("https://juff-app.pl/");
                   }}
                   underlayColor={"#fff"}
                 >
@@ -124,7 +125,7 @@ const About = (props: any) => {
                       color: "#f4a157"
                     }}
                   >
-                    e-mamy.pl
+                    {lang.websiteAddress["en"]}
                   </Text>
                 </TouchableHighlight>
               </View>
@@ -133,14 +134,10 @@ const About = (props: any) => {
                   onPress={() => {
                     context.userData.platform &&
                     context.userData.platform === "android"
-                      ? Linking.openURL(
-                          "https://play.google.com/store/apps/details?id=com.emamy"
-                        )
+                      ? Linking.openURL("https://play.google.com/store/apps")
                       : context.userData.platform &&
                         context.userData.platform === "ios" &&
-                        Linking.openURL(
-                          "https://apps.apple.com/il/app/e-mamy/id1477994168"
-                        );
+                        Linking.openURL("https://apps.apple.com/il/app");
                   }}
                   underlayColor={"#fff"}
                 >
@@ -154,12 +151,12 @@ const About = (props: any) => {
                       color: "#f4a157"
                     }}
                   >
-                    Oceń naszą aplikację
+                    {lang.voteApp["en"]}
                   </Text>
                 </TouchableHighlight>
               </View>
               <View>
-                <Text>Bądź na bieżąco z najnowszymi postami</Text>
+                <Text>{lang.socialText["en"]}</Text>
                 <View
                   style={{
                     flexWrap: "wrap",
@@ -170,9 +167,7 @@ const About = (props: any) => {
                 >
                   <TouchableHighlight
                     onPress={() => {
-                      Linking.openURL(
-                        "https://www.facebook.com/E-mamy-678607299320582/"
-                      );
+                      Linking.openURL("https://www.facebook.com");
                     }}
                     underlayColor={"#fff"}
                   >
@@ -183,7 +178,7 @@ const About = (props: any) => {
                   </TouchableHighlight>
                   <TouchableHighlight
                     onPress={() => {
-                      Linking.openURL("https://www.instagram.com/emamy_pl/");
+                      Linking.openURL("https://www.instagram.com");
                     }}
                     underlayColor={"#fff"}
                   >

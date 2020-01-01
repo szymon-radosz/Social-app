@@ -15,6 +15,7 @@ import styles from "./style";
 import { GlobalContext } from "./../../Context/GlobalContext";
 import MessageList from "./utils/MessageList";
 import { withNavigation } from "react-navigation";
+import lang from "./../../assets/lang/Messages/Messages";
 
 const messagesBgMin: any = require("./../../assets/images/messagesBgMin.jpg");
 const loaderImage: any = require("./../../assets/images/loader.gif");
@@ -70,7 +71,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
         await this.context.setAlert(
           true,
           "danger",
-          "Wystąpił błąd z wyświetleniem szczegółów konwersacji."
+          lang.conversationDetailsError["en"]
         );
 
         await this.context.setShowLoader(false);
@@ -103,7 +104,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
         await this.context.setAlert(
           true,
           "danger",
-          "Wystąpił błąd z wyświetleniem szczegółów konwersacji."
+          lang.conversationDetailsError["en"]
         );
 
         await this.context.setShowLoader(false);
@@ -178,7 +179,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
                     style={{ width: "100%" }}
                     data-test="ImageBackground"
                   >
-                    <Text style={styles.pageTitle}>Twoje{"\n"}Wiadomości</Text>
+                    <Text style={styles.pageTitle}>{lang.header["en"]}</Text>
                   </ImageBackground>
 
                   {showFilterPanel && (
@@ -200,7 +201,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
                                   : styles.filterBtnText
                               }
                             >
-                              Prywatne
+                              {lang.privateMessages["en"]}
                             </Text>
                           </TouchableOpacity>
                         </View>
@@ -220,7 +221,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
                                   : styles.filterBtnText
                               }
                             >
-                              Targ
+                              {lang.itemsMessages["en"]}
                             </Text>
                           </TouchableOpacity>
                         </View>
@@ -237,14 +238,11 @@ class Messages extends Component<MessagesProps, MessagesState> {
                       />
                     ) : displayPrivateMessages ? (
                       <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
-                        Brak wyników. Zaproś inne mamy z Twojej okolicy do
-                        znajomych.
+                        {lang.noResultsUsers["en"]}
                       </Text>
                     ) : (
                       <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
-                        Brak wyników. Dodaj nieużywane przedmioty w zakładce
-                        'Targ' i uzgodnij szczegóły z innymi użytkowniczkami w
-                        wiadomościach.
+                        {lang.noResultsItems["en"]}
                       </Text>
                     )
                   ) : null}

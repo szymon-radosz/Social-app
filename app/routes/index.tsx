@@ -1,8 +1,7 @@
 import { createAppContainer, createStackNavigator } from "react-navigation";
 import React, { Component } from "react";
 import { SafeAreaView } from "react-native";
-//import NotLoggedInMain from "./../components/NotLoggedInScreens/NotLoggedInMain";
-import Welcome from "./../components/WelcomeScreen/Welcome";
+import Welcome from "../components/Welcome/Welcome";
 import Login from "./../components/Auth/Login";
 import Register from "./../components/Auth/Register";
 import ResetPassword from "./../components/Auth/ResetPassword";
@@ -203,22 +202,12 @@ const MainStack = createStackNavigator(
 
 const AppContainer = createAppContainer(MainStack);
 
-//ios
-//const API_URL = "http://127.0.0.1:8000/";
-
-//android
-//const API_URL = "http://10.0.2.2:8000/";
-
-//live
-//const API_URL = "https://e-mamy.pl/";
-
 interface AppState {
   showAlert: boolean;
   alertType: string;
   alertMessage: string;
   userData: any;
   userLoggedIn: boolean;
-  //editProfileData: boolean;
   API_URL: string;
   showLoader: boolean;
   currentNavName: string;
@@ -248,7 +237,7 @@ export default class App extends Component<
       //API_URL: "http://10.0.2.2:8000/",
       //API_URL: "https://e-mamy.pl/",
       showLoader: false,
-      currentNavName: "POZNAJ"
+      currentNavName: "USERS"
     };
   }
 

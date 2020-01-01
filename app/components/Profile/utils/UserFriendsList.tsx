@@ -14,6 +14,7 @@ import BottomPanel from "./../../SharedComponents/BottomPanel";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import UserFriendsListRenderList from "./UserFriendsListRenderList/UserFriendsListRenderList";
 import styles from "./../style";
+import lang from "./../../../assets/lang/Profile/utils/UserFriendsList";
 
 const loaderImage: any = require("./../../../assets/images/loader.gif");
 
@@ -81,7 +82,7 @@ class UserFriendsList extends Component<
           await this.context.setAlert(
             true,
             "danger",
-            "Wystąpił błąd z wyświetleniem listy znajomych."
+            lang.friendsListError["en"]
           );
 
           await this.context.setShowLoader(false);
@@ -115,7 +116,7 @@ class UserFriendsList extends Component<
           await this.context.setAlert(
             true,
             "danger",
-            "Wystąpił błąd z wyświetleniem listy znajomych."
+            lang.friendsListError["en"]
           );
 
           await this.context.setShowLoader(false);
@@ -169,7 +170,7 @@ class UserFriendsList extends Component<
               <React.Fragment>
                 <ScrollView>
                   <PageHeader
-                    boldText={"Moje znajome"}
+                    boldText={lang.myFriends["en"]}
                     normalText={""}
                     closeMethod={() => this.props.navigation.goBack(null)}
                     closeMethodParameter={""}
@@ -193,7 +194,7 @@ class UserFriendsList extends Component<
                                 : styles.filterBtnText
                             }
                           >
-                            Znajome
+                            {lang.friends["en"]}
                           </Text>
                         </TouchableOpacity>
                       </View>
@@ -213,7 +214,7 @@ class UserFriendsList extends Component<
                                 : styles.filterBtnText
                             }
                           >
-                            Oczekujące
+                            {lang.waiting["en"]}
                           </Text>
                         </TouchableOpacity>
                       </View>

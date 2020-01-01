@@ -3,6 +3,7 @@ import { View } from "react-native";
 import styles from "./../style";
 import ButtonComponent from "./../../Utils/ButtonComponent";
 import TextAreaComponent from "./../../Utils/TextAreaComponent";
+import lang from "./../../../assets/lang/Forum/utils/SavePostComment";
 
 const SavePostComment = (props: {
   setCommentMessage: any;
@@ -18,7 +19,7 @@ const SavePostComment = (props: {
     <View style={styles.savePostCommentContainer}>
       <View style={styles.savePostCommentInputContainer}>
         <TextAreaComponent
-          placeholder="Czekamy na Twój komentarz..."
+          placeholder={lang.comment["en"]}
           inputOnChange={(message: string) => props.setCommentMessage(message)}
           value={props.commentMessage}
           maxLength={500}
@@ -32,7 +33,7 @@ const SavePostComment = (props: {
           props.saveComment(props.postId, props.user.id, props.commentMessage);
           props.clearCommentMessage();
         }}
-        buttonComponentText="Wyślij"
+        buttonComponentText={lang.addComment["en"]}
         fullWidth={true}
         underlayColor="#dd904d"
         whiteBg={false}

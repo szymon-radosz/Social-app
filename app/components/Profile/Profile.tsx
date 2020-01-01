@@ -8,6 +8,7 @@ import BottomPanel from "./../SharedComponents/BottomPanel";
 import Alert from "./../../components/Alert/Alert";
 import { GlobalContext } from "./../../Context/GlobalContext";
 import { withNavigation } from "react-navigation";
+import lang from "./../../assets/lang/Profile/Profile";
 
 const UserPreview = React.lazy(() =>
   import("./../SharedComponents/UserPreview")
@@ -162,7 +163,7 @@ class Profile extends Component<
                 />
               )}
               {showProfilePreview && !showEditUserData && (
-                <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                <Suspense fallback={<Text>{lang.loading["en"]}</Text>}>
                   <UserPreview
                     description={this.context.userData.description}
                     hobbies={this.context.userData.hobbies}

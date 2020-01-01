@@ -2,11 +2,10 @@ import { StyleSheet, TextStyle, ViewStyle, Dimensions } from "react-native";
 import {
   peachColor,
   darkGrayColor,
-  lightBorderRadius,
   fontSizeBig,
   fontSizeMedium,
   peachBtnText
-} from "./../../assets/global/globalStyles";
+} from "../../assets/global/globalStyles";
 const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;
 

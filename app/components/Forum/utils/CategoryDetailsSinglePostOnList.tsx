@@ -9,6 +9,8 @@ import {
 import styles from "./../style";
 import moment from "moment";
 import "moment/locale/pl";
+import lang from "./../../../assets/lang/Forum/utils/CategoryDetailsSinglePostOnList";
+
 const like: any = require("./../../../assets/images/like.png");
 
 const CategoryDetailsSinglePostOnList = (props: {
@@ -30,7 +32,7 @@ const CategoryDetailsSinglePostOnList = (props: {
           <Text style={styles.singlePostTitle}>{props.post.title}</Text>
           <Text style={styles.singlePostDate}>{postDate}</Text>
           <Text style={styles.singlePostCommentLength}>
-            Komentarze: {props.post.comments.length}
+            {lang.comments["en"]} {props.post.comments.length}
           </Text>
         </View>
 

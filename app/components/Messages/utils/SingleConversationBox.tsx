@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import styles from "./../style";
 import moment from "moment";
-import "moment/locale/pl";
 
 const SingleConversationBox = (props: {
   conversation: any;

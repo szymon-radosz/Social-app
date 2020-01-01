@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Text, View, TouchableHighlight, Image } from "react-native";
 import styles from "./../style";
-import { GlobalContext } from "./../../../Context/GlobalContext";
+import lang from "./../../../assets/lang/Profile/utils/ProfileOptions";
 
 const woman: any = require("./../../../assets/images/woman.png");
 const edit: any = require("./../../../assets/images/edit.png");
@@ -11,8 +11,6 @@ const bell: any = require("./../../../assets/images/bell.png");
 const info: any = require("./../../../assets/images/info.png");
 
 const ProfileOptions = (props: any) => {
-  const context = useContext(GlobalContext);
-
   return (
     <View
       style={{
@@ -44,7 +42,7 @@ const ProfileOptions = (props: any) => {
             }}
             source={woman}
           />
-          <Text style={styles.optionText}>Podgląd</Text>
+          <Text style={styles.optionText}>{lang.preview["en"]}</Text>
         </View>
       </TouchableHighlight>
 
@@ -68,7 +66,7 @@ const ProfileOptions = (props: any) => {
             }}
             source={edit}
           />
-          <Text style={styles.optionText}>Edycja danych</Text>
+          <Text style={styles.optionText}>{lang.editData["en"]}</Text>
         </View>
       </TouchableHighlight>
 
@@ -88,7 +86,7 @@ const ProfileOptions = (props: any) => {
             }}
             source={highFive}
           />
-          <Text style={styles.optionText}>Moje znajome</Text>
+          <Text style={styles.optionText}>{lang.myFriends["en"]}</Text>
         </View>
       </TouchableHighlight>
 
@@ -108,7 +106,7 @@ const ProfileOptions = (props: any) => {
             }}
             source={strollerOrange}
           />
-          <Text style={styles.optionText}>Wystawione przedmioty</Text>
+          <Text style={styles.optionText}>{lang.addedItems["en"]}</Text>
         </View>
       </TouchableHighlight>
 
@@ -128,7 +126,7 @@ const ProfileOptions = (props: any) => {
             }}
             source={bell}
           />
-          <Text style={styles.optionText}>Powiadomienia</Text>
+          <Text style={styles.optionText}>{lang.notifications["en"]}</Text>
         </View>
       </TouchableHighlight>
 
@@ -148,7 +146,7 @@ const ProfileOptions = (props: any) => {
             }}
             source={info}
           />
-          <Text style={styles.optionText}>O aplikacji</Text>
+          <Text style={styles.optionText}>{lang.aboutTheApp["en"]}</Text>
         </View>
       </TouchableHighlight>
     </View>

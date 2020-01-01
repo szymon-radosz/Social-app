@@ -15,20 +15,10 @@ const UserFriendsListRenderList = (props: any) => {
                 API_URL={context.API_URL}
                 key={`users_invited_me-${i}`}
                 image={`${friendsPair.users_invited_me.photo_path}`}
-                mainText={`${friendsPair.users_invited_me.name}, ${
-                  friendsPair.users_invited_me.age
-                }`}
+                mainText={`${friendsPair.users_invited_me.name}, ${friendsPair.users_invited_me.age}`}
                 subText={`${
                   friendsPair.users_invited_me.location_string
                     ? friendsPair.users_invited_me.location_string
-                    : ""
-                }`}
-                subSubText={`${
-                  friendsPair.users_invited_me.kids &&
-                  friendsPair.users_invited_me.kids.length > 0
-                    ? friendsPair.users_invited_me.kids.length === 1
-                      ? "1 dziecko"
-                      : `${friendsPair.users_invited_me.kids.length} dzieci`
                     : ""
                 }`}
                 onPress={() => {
@@ -48,20 +38,10 @@ const UserFriendsListRenderList = (props: any) => {
                 API_URL={context.API_URL}
                 key={`users_invited_by_me-${i}`}
                 image={`${friendsPair.users_invited_by_me.photo_path}`}
-                mainText={`${friendsPair.users_invited_by_me.name}, ${
-                  friendsPair.users_invited_by_me.age
-                }`}
+                mainText={`${friendsPair.users_invited_by_me.name}, ${friendsPair.users_invited_by_me.age}`}
                 subText={`${
                   friendsPair.users_invited_by_me.location_string
                     ? friendsPair.users_invited_by_me.location_string
-                    : ""
-                }`}
-                subSubText={`${
-                  friendsPair.users_invited_by_me.kids &&
-                  friendsPair.users_invited_by_me.kids.length > 0
-                    ? friendsPair.users_invited_by_me.kids.length === 1
-                      ? "1 dziecko"
-                      : `${friendsPair.users_invited_by_me.kids.length} dzieci`
                     : ""
                 }`}
                 onPress={() => {

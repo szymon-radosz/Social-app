@@ -16,8 +16,8 @@ import axios from "axios";
 import SavePostComment from "./SavePostComment";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import { GlobalContext } from "./../../../Context/GlobalContext";
+import lang from "./../../../assets/lang/Forum/utils/PostDetails";
 import moment from "moment";
-import "moment/locale/pl";
 
 const like: any = require("./../../../assets/images/like.png");
 const comment: any = require("./../../../assets/images/comment.png");
@@ -103,17 +103,13 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
           await this.context.setAlert(
             true,
             "danger",
-            "Wystąpił błąd z wyświetleniem szczegółów posta."
+            lang.postDetailsError["en"]
           );
 
           await this.context.setShowLoader(false);
         });
     } catch (e) {
-      this.context.setAlert(
-        true,
-        "danger",
-        "Wystąpił błąd z wyświetleniem szczegółów posta."
-      );
+      this.context.setAlert(true, "danger", lang.postDetailsError["en"]);
     }
   };
 
@@ -130,25 +126,21 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
         })
         .then(response => {
           if (response.data.status === "OK") {
-            this.context.setAlert(
-              true,
-              "success",
-              "Dziękujemy za oddanie głosu."
-            );
+            this.context.setAlert(true, "success", lang.voteSaveSuccess["en"]);
             this.getPostById(this.props.navigation.state.params.postId);
           } else {
             this.context.setAlert(
               true,
               "danger",
-              "Oddałaś już głos na ten post."
+              lang.existsCommentVoteError["en"]
             );
           }
         })
         .catch(error => {
-          this.context.setAlert(true, "danger", "Problem z oddaniem głosu.");
+          this.context.setAlert(true, "danger", lang.voteSaveError["en"]);
         });
     } else {
-      this.context.setAlert(true, "danger", "Problem z oddaniem głosu.");
+      this.context.setAlert(true, "danger", lang.voteSaveError["en"]);
     }
   };
 
@@ -167,11 +159,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
         }
       })
       .catch(error => {
-        this.context.setAlert(
-          true,
-          "danger",
-          "Problem z wyświetleniem listy komentarzy."
-        );
+        this.context.setAlert(true, "danger", lang.commentListError["en"]);
       });
   };
 
@@ -213,27 +201,23 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
               this.context.setAlert(
                 true,
                 "success",
-                "Dziękujemy za oddanie głosu."
+                lang.voteSaveSuccess["en"]
               );
               this.getPostComments();
             }
           })
           .catch(error => {
-            this.context.setAlert(true, "danger", "Problem z zapisem głosu.");
+            this.context.setAlert(true, "danger", lang.voteSaveError["en"]);
           });
       } else {
         this.context.setAlert(
           true,
           "danger",
-          "Oddałaś już głos na ten komentarz."
+          lang.existsCommentVoteError["en"]
         );
       }
     } else {
-      this.context.setAlert(
-        true,
-        "danger",
-        "Nie możesz oddać głosu na swój komentarz."
-      );
+      this.context.setAlert(true, "danger", lang.selfCommentVoteError["en"]);
     }
   };
 
@@ -242,7 +226,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
     let openDetailsId = 0;
 
     if (!body || postId === 0 || userId === 0) {
-      this.context.setAlert(true, "danger", "Prosimy o uzupełnienie treści.");
+      this.context.setAlert(true, "danger", lang.commentContentError["en"]);
     } else {
       axios
         .post(API_URL + "/api/savePostComment", {
@@ -259,25 +243,21 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
             this.context.setAlert(
               true,
               "success",
-              "Twój komentarz został dodany."
+              lang.addingCommentSuccess["en"]
             );
           }
         })
         .then(response =>
           axios.post(API_URL + "/api/addNotification", {
             type: "comment_for_your_forum_post",
-            message: `Dodano komentarz do Twojego posta na forum.`,
+            message: lang.addedCommentToYourPost["en"],
             userId: this.state.authorId,
             senderId: this.context.userData.id,
             openDetailsId: openDetailsId
           })
         )
         .catch(error => {
-          this.context.setAlert(
-            true,
-            "danger",
-            "Problem z dodaniem komentarza."
-          );
+          this.context.setAlert(true, "danger", lang.addingCommentError["en"]);
         });
     }
   };
@@ -367,7 +347,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
                             underlayColor={"#fff"}
                           >
                             <Text style={styles.conversationDetailsSeeMore}>
-                              Zobacz profil
+                              {lang.seeProfile["en"]}
                             </Text>
                           </TouchableHighlight>
                         )}
@@ -375,7 +355,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
                     </View>
                     <Text style={styles.postDetailsDesc}>{postDesc}</Text>
                     <Text style={styles.postDetailsPostDate}>
-                      Utworzono: {postDateConverted}
+                      {lang.createdAt["en"]} {postDateConverted}
                     </Text>
                     <View style={styles.postDetailsPostVoteContainer}>
                       <View style={styles.postDetailsPostVoteWrapper}>
@@ -406,7 +386,7 @@ class PostDetails extends Component<PostDetailsProps, PostDetailsState> {
 
                     {comments.length > 0 ? (
                       <Text style={styles.postDetailsPostCommentListHeader}>
-                        Komentarze:
+                        {lang.comments["en"]}
                       </Text>
                     ) : null}
 

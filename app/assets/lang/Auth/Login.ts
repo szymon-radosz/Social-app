@@ -12,7 +12,7 @@ const lang = {
     en: "Login"
   },
   notHaveAccount: {
-    en: "Not have an account?"
+    en: "Not have an account? "
   },
   register: {
     en: "Register"

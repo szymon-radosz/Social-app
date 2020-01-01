@@ -8,6 +8,7 @@ import ProfileHeader from "./../../SharedComponents/ProfileHeader";
 import UserPreview from "./../../SharedComponents/UserPreview";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import { GlobalContext } from "./../../../Context/GlobalContext";
+import lang from "./../../../assets/lang/Profile/utils/LoggedInUserDetails";
 
 const loaderImage: any = require("./../../../assets/images/loader.gif");
 
@@ -82,9 +83,7 @@ class LoggedInUserDetails extends Component<
           //console.log(["setShowUserDetails", response.data.result.user]);
           await this.setState({
             userDetailsId: userId,
-            userDetailsData: response.data.result.user,
-            usersAreInTheSameConversation:
-              response.data.result.checkIfUsersAreInNormalConversation
+            userDetailsData: response.data.result.user
           });
 
           this.context.setShowLoader(false);
@@ -94,7 +93,7 @@ class LoggedInUserDetails extends Component<
         await this.context.setAlert(
           true,
           "danger",
-          "Nie udało się pobrać danych o uzytkowniku."
+          lang.userDetailsError["en"]
         );
 
         this.context.setShowLoader(false);

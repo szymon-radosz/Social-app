@@ -1,12 +1,7 @@
 import React, { useContext } from "react";
-import {
-  TouchableOpacity,
-  View,
-  Text,
-  Image,
-  TouchableHighlight
-} from "react-native";
+import { TouchableOpacity, View, Text, Image } from "react-native";
 import styles from "./style";
+import lang from "./../../assets/lang/SharedComponents/BottomPanel";
 import { GlobalContext } from "./../../Context/GlobalContext";
 
 const network: any = require("./../../assets/images/network.png");
@@ -27,7 +22,7 @@ const BottomPanel = (props: any) => {
         >
           <View
             style={
-              context.currentNavName === "POZNAJ"
+              context.currentNavName === lang.people["en"]
                 ? styles.bottomPanelImageActive
                 : styles.bottomPanelImage
             }
@@ -40,12 +35,12 @@ const BottomPanel = (props: any) => {
           </View>
           <Text
             style={
-              context.currentNavName === "POZNAJ"
+              context.currentNavName === lang.people["en"]
                 ? styles.buttonTextActive
                 : styles.buttonText
             }
           >
-            POZNAJ
+            {lang.people["en"]}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -53,7 +48,7 @@ const BottomPanel = (props: any) => {
         >
           <View
             style={
-              context.currentNavName === "TARG"
+              context.currentNavName === lang.auctions["en"]
                 ? styles.bottomPanelImageActive
                 : styles.bottomPanelImage
             }
@@ -66,12 +61,12 @@ const BottomPanel = (props: any) => {
           </View>
           <Text
             style={
-              context.currentNavName === "TARG"
+              context.currentNavName === lang.auctions["en"]
                 ? styles.buttonTextActive
                 : styles.buttonText
             }
           >
-            TARG
+            {lang.auctions["en"]}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -79,7 +74,7 @@ const BottomPanel = (props: any) => {
         >
           <View
             style={
-              context.currentNavName === "WIADOMOŚCI"
+              context.currentNavName === lang.messages["en"]
                 ? styles.bottomPanelImageActive
                 : styles.bottomPanelImage
             }
@@ -122,12 +117,12 @@ const BottomPanel = (props: any) => {
             )}
           <Text
             style={
-              context.currentNavName === "WIADOMOŚCI"
+              context.currentNavName === lang.messages["en"]
                 ? styles.buttonTextActive
                 : styles.buttonText
             }
           >
-            WIADOMOŚCI
+            {lang.messages["en"]}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -135,7 +130,7 @@ const BottomPanel = (props: any) => {
         >
           <View
             style={
-              context.currentNavName === "FORUM"
+              context.currentNavName === lang.forum["en"]
                 ? styles.bottomPanelImageActive
                 : styles.bottomPanelImage
             }
@@ -148,12 +143,12 @@ const BottomPanel = (props: any) => {
           </View>
           <Text
             style={
-              context.currentNavName === "FORUM"
+              context.currentNavName === lang.forum["en"]
                 ? styles.buttonTextActive
                 : styles.buttonText
             }
           >
-            FORUM
+            {lang.forum["en"]}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -161,7 +156,7 @@ const BottomPanel = (props: any) => {
         >
           <View
             style={
-              context.currentNavName === "PROFIL"
+              context.currentNavName === lang.profile["en"]
                 ? styles.bottomPanelImageActive
                 : styles.bottomPanelImage
             }
@@ -203,12 +198,12 @@ const BottomPanel = (props: any) => {
             )}
           <Text
             style={
-              context.currentNavName === "PROFIL"
+              context.currentNavName === lang.profile["en"]
                 ? styles.buttonTextActive
                 : styles.buttonText
             }
           >
-            PROFIL
+            {lang.profile["en"]}
           </Text>
         </TouchableOpacity>
       </View>

@@ -3,6 +3,7 @@ import { TouchableOpacity, View, Text, ScrollView } from "react-native";
 import styles from "./style";
 import PageHeader from "./PageHeader";
 import ButtonComponent from "./../Utils/ButtonComponent";
+import lang from "./../../assets/lang/SharedComponents/FilterModal";
 
 const FilterModal = (props: {
   filterModalName: string;
@@ -22,24 +23,15 @@ const FilterModal = (props: {
 
     //console.log(props.filterOptions);
 
-    if (filterModalName === "Odległość") {
+    if (filterModalName === lang.distance["en"]) {
       setSelectedData(props.filterOptions.distance);
-      setSelectedResultName("Odległość");
-    } else if (filterModalName === "Wiek dziecka") {
-      setSelectedData(props.filterOptions.childAge);
-      setSelectedResultName("Wiek dziecka");
-    } else if (filterModalName === "Płeć dziecka") {
-      setSelectedData(props.filterOptions.childGender);
-      setSelectedResultName("Płeć dziecka");
-    } else if (filterModalName === "Hobby") {
+      setSelectedResultName(lang.distance["en"]);
+    } else if (filterModalName === lang.hobby["en"]) {
       setSelectedData(props.filterOptions.hobby);
-      setSelectedResultName("Hobby");
-    } else if (filterModalName === "Cena") {
-      setSelectedData(props.filterOptions.price);
-      setSelectedResultName("Cena");
-    } else if (filterModalName === "Status") {
+      setSelectedResultName(lang.hobby["en"]);
+    } else if (filterModalName === lang.status["en"]) {
       setSelectedData(props.filterOptions.status);
-      setSelectedResultName("Status");
+      setSelectedResultName(lang.status["en"]);
     }
   }, []);
 
@@ -55,7 +47,7 @@ const FilterModal = (props: {
   return (
     <ScrollView>
       <PageHeader
-        boldText={"Filtruj: "}
+        boldText={lang.filterResults["en"]}
         normalText={`${props.filterModalName} - ${selectedResultValue}`}
         closeMethod={props.closeFilter}
         closeMethodParameter={""}
@@ -86,7 +78,7 @@ const FilterModal = (props: {
         pressButtonComponent={() =>
           props.filterResults(selectedResultName, selectedResultValue)
         }
-        buttonComponentText="Filtruj"
+        buttonComponentText={lang.filterResults["en"]}
         fullWidth={true}
         underlayColor="#dd904d"
         whiteBg={false}

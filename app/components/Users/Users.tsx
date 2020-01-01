@@ -18,6 +18,7 @@ import UserList from "./utils/UserList";
 import BottomPanel from "./../SharedComponents/BottomPanel";
 import Alert from "./../Alert/Alert";
 import { withNavigation } from "react-navigation";
+import lang from "./../../assets/lang/Users/Users";
 
 const findUsersBg: any = require("./../../assets/images/findUsersBgMin.jpg");
 const loaderImage: any = require("./../../assets/images/loader.gif");
@@ -205,11 +206,7 @@ class Users extends Component<UsersProps, UsersState> {
           }
         })
         .catch(error => {
-          this.context.setAlert(
-            true,
-            "danger",
-            "Wystąpił błąd z wyświetleniem filtrów."
-          );
+          this.context.setAlert(true, "danger", lang.filtersListError["en"]);
 
           this.context.setShowLoader(false);
         });
@@ -243,11 +240,7 @@ class Users extends Component<UsersProps, UsersState> {
         }
       })
       .catch(error => {
-        this.context.setAlert(
-          true,
-          "danger",
-          "Wystąpił błąd z wyświetleniem listy hobby."
-        );
+        this.context.setAlert(true, "danger", lang.hobbiesListError["en"]);
       });
   };
 
@@ -298,11 +291,7 @@ class Users extends Component<UsersProps, UsersState> {
           }
         })
         .catch(error => {
-          this.context.setAlert(
-            true,
-            "danger",
-            "Problem z wys∑ietleniem listy użytkowniczek."
-          );
+          this.context.setAlert(true, "danger", lang.usersListError["en"]);
 
           this.context.setShowLoader(false);
         });
@@ -382,15 +371,12 @@ class Users extends Component<UsersProps, UsersState> {
                       style={{ width: "100%" }}
                       data-test="ImageBackground"
                     >
-                      <Text style={styles.pageTitle}>
-                        Poznaj mamy
-                        {"\n"}w okolicy.
-                      </Text>
+                      <Text style={styles.pageTitle}>{lang.header["en"]}</Text>
                     </ImageBackground>
                   )}
 
                   {userList && showFilterModal && (
-                    <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                    <Suspense fallback={<Text>{lang.loading["en"]}</Text>}>
                       <FilterModal
                         filterOptions={filterData}
                         closeFilter={this.setShowFilterModal}
@@ -404,7 +390,7 @@ class Users extends Component<UsersProps, UsersState> {
                   {userList && !showFilterModal && (
                     <View data-test="Carousel">
                       <Text style={styles.filterResultsHeaderText}>
-                        Filtruj wyniki
+                        {lang.filterResults["en"]}
                       </Text>
                       <View style={styles.filterResultsCarousel}>
                         <Carousel
@@ -420,7 +406,7 @@ class Users extends Component<UsersProps, UsersState> {
                     </View>
                   )}
 
-                  <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                  <Suspense fallback={<Text>{lang.loading["en"]}</Text>}>
                     <ActiveFilters
                       filterDistance={filterDistance}
                       filterHobbyName={filterHobbyName}
@@ -442,9 +428,7 @@ class Users extends Component<UsersProps, UsersState> {
 
                   {userList && !showFilterModal && userList.length < 2 ? (
                     <Text style={{ paddingLeft: 10, paddingRight: 10 }}>
-                      Brak mam w Twojej okolicy. Zaproś znajome do skorzystania
-                      z aplikacji E-mamy i zbudujcie razem lokalną społeczność
-                      mam.
+                      {lang.usersNotFound["en"]}
                     </Text>
                   ) : null}
                 </ScrollView>

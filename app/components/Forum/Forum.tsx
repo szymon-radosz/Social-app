@@ -16,6 +16,7 @@ import PageHeader from "./../SharedComponents/PageHeader";
 import { GlobalContext } from "./../../Context/GlobalContext";
 import ButtonComponent from "./../Utils/ButtonComponent";
 import { withNavigation } from "react-navigation";
+import lang from "./../../assets/lang/Forum/Forum";
 
 const forumBg: any = require("./../../assets/images/forumBgMin.jpg");
 const loaderImage: any = require("./../../assets/images/loader.gif");
@@ -113,7 +114,7 @@ class Forum extends Component<ForumProps, ForumState> {
         await this.context.setAlert(
           true,
           "danger",
-          "Wystąpił błąd z wyświetleniem szczegółów kategorii."
+          lang.categoryListError["en"]
         );
 
         await this.context.setShowLoader(false);
@@ -141,7 +142,7 @@ class Forum extends Component<ForumProps, ForumState> {
         await this.context.setAlert(
           true,
           "danger",
-          "Wystąpił błąd z wyświetleniem listy postów."
+          lang.categoryListError["en"]
         );
 
         await this.context.setShowLoader(false);
@@ -221,16 +222,13 @@ class Forum extends Component<ForumProps, ForumState> {
                       style={{ width: "100%" }}
                       data-test="ImageBackground"
                     >
-                      <Text style={styles.pageTitle}>
-                        Podziel się swoją
-                        {"\n"}wiedzą.
-                      </Text>
+                      <Text style={styles.pageTitle}>{lang.header["en"]}</Text>
                     </ImageBackground>
                   )}
 
                   <View style={{ width: "100%", marginBottom: 20 }}>
                     {!showPostDetails && showSortByCategory && (
-                      <Suspense fallback={<Text>Wczytywanie...</Text>}>
+                      <Suspense fallback={<Text>{lang.loading["en"]}</Text>}>
                         <CategoriesList
                           API_URL={this.context.API_URL}
                           user={this.context.userData}
@@ -242,7 +240,7 @@ class Forum extends Component<ForumProps, ForumState> {
 
                     {postList && showPosts && !showPostDetails && (
                       <PageHeader
-                        boldText={"Kategoria: "}
+                        boldText={lang.category["en"]}
                         normalText={categoryName}
                         closeMethod={this.setShowSortByCategory}
                         closeMethodParameter={true}
@@ -287,9 +285,9 @@ class Forum extends Component<ForumProps, ForumState> {
                         }
                         data-test="ask"
                       >
-                        Masz pomysł na nową kategorię?{" "}
+                        {lang.suggestNewCategory["en"]}{" "}
                         <Text style={{ fontWeight: "600" }}>
-                          Napisz do nas!
+                          {lang.writeToUs["en"]}
                         </Text>
                       </Text>
                     )}
@@ -299,7 +297,7 @@ class Forum extends Component<ForumProps, ForumState> {
                         pressButtonComponent={() =>
                           this.props.navigation.navigate("AddNewPost", {})
                         }
-                        buttonComponentText="Dodaj post"
+                        buttonComponentText={lang.addNewPost["en"]}
                         fullWidth={true}
                         underlayColor="#dd904d"
                         data-test="ButtonComponent"

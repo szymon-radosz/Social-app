@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { TouchableOpacity, Text, View } from "react-native";
 import styles from "./../style";
 import moment from "moment";
-import "moment/locale/pl";
+import lang from "./../../../assets/lang/Messages/utils/SingleConversationMessage";
 import { GlobalContext } from "./../../../Context/GlobalContext";
 
 interface SingleConversationMessageState {
@@ -68,7 +68,7 @@ class SingleConversationMessage extends Component<
                 : styles.messageDateReceiver
             }
           >
-            Data dodania: {messageDate}
+            {lang.createdAt["en"]} {messageDate}
           </Text>
         )}
       </View>

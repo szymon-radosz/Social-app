@@ -8,6 +8,7 @@ import ButtonComponent from "./../../Utils/ButtonComponent";
 import TextAreaComponent from "./../../Utils/TextAreaComponent";
 import { GlobalContext } from "./../../../Context/GlobalContext";
 import { withNavigation } from "react-navigation";
+import lang from "./../../../assets/lang/Users/utils/UserMessageBox";
 import axios from "axios";
 
 interface UserMessageBoxState {
@@ -82,26 +83,18 @@ class UserMessageBox extends Component<
       .then(Response => {
         if (response.data.status === "OK") {
           openDetailsId = response.data.result.id;
-          this.context.setAlert(
-            true,
-            "success",
-            "Poprawnie wysłano nową wiadomość."
-          );
+          this.context.setAlert(true, "success", lang.sendMessageSuccess["en"]);
 
           //if message send sucessfully then redirect back to user details
           //that.props.navigation.navigate("Messages", {});
         } else if (response.data.status === "ERR") {
-          this.context.setAlert(
-            true,
-            "danger",
-            "Problem z wysłaniem wiadomości."
-          );
+          this.context.setAlert(true, "danger", lang.sendMessageError["en"]);
         }
       })
       .then(response =>
         axios.post(API_URL + "/api/addNotification", {
           type: "started_conversation_user",
-          message: `Użytkowniczka ${this.context.userData.name} odezwała się do Ciebie w wiadomości prywatnej`,
+          message: `${this.context.userData.name} ${lang.sendYouMessage["en"]}`,
           userId: receiverId,
           senderId: this.context.userData.id,
           openDetailsId: openDetailsId
@@ -114,11 +107,7 @@ class UserMessageBox extends Component<
         });
       })
       .catch(error => {
-        this.context.setAlert(
-          true,
-          "danger",
-          "Problem z wysłaniem wiadomości."
-        );
+        this.context.setAlert(true, "danger", lang.sendMessageError["en"]);
       });
   };
 
@@ -128,6 +117,7 @@ class UserMessageBox extends Component<
 
   render() {
     const { userMessage } = this.state;
+
     return (
       <React.Fragment>
         <SafeAreaView
@@ -153,7 +143,7 @@ class UserMessageBox extends Component<
           >
             <View style={styles.relative}>
               <PageHeader
-                boldText={"Rozpocznij rozmowę"}
+                boldText={lang.sendMessage["en"]}
                 normalText={""}
                 closeMethod={() => {
                   this.props.navigation.goBack(null);
@@ -165,7 +155,7 @@ class UserMessageBox extends Component<
                 style={{ paddingTop: 10, paddingLeft: 10, paddingRight: 10 }}
               >
                 <TextAreaComponent
-                  placeholder="Napisz wiadomość..."
+                  placeholder={lang.message["en"]}
                   inputOnChange={(message: string) =>
                     this.setUserMessage(message)
                   }
@@ -178,7 +168,7 @@ class UserMessageBox extends Component<
 
               <ButtonComponent
                 pressButtonComponent={() => this.sendMessage(userMessage)}
-                buttonComponentText="Wyślij"
+                buttonComponentText={lang.sendMessage["en"]}
                 fullWidth={true}
                 underlayColor="#dd904d"
                 whiteBg={false}

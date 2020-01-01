@@ -16,6 +16,7 @@ import ButtonComponent from "./../../Utils/ButtonComponent";
 import InputComponent from "./../../Utils/InputComponent";
 import TextAreaComponent from "./../../Utils/TextAreaComponent";
 import { GlobalContext } from "./../../../Context/GlobalContext";
+import lang from "./../../../assets/lang/Forum/utils/SavePost";
 
 const loaderImage: any = require("./../../../assets/images/loader.gif");
 
@@ -53,11 +54,7 @@ class SavePost extends Component<SavePostProps, SavePostState> {
     let API_URL = this.context.API_URL;
 
     if (!title || !description || categoryId === 0) {
-      this.context.setAlert(
-        true,
-        "danger",
-        "Prosimy o uzupełnienie wszystkich danych."
-      );
+      this.context.setAlert(true, "danger", lang.allFieldsError["en"]);
     }
 
     if (
@@ -81,32 +78,16 @@ class SavePost extends Component<SavePostProps, SavePostState> {
               postId: response.data.result.id
             });
 
-            this.context.setAlert(
-              true,
-              "success",
-              "Dziękujemy za dodanie nowego posta."
-            );
+            this.context.setAlert(true, "success", lang.postAddedSuccess["en"]);
           } else {
-            this.context.setAlert(
-              true,
-              "danger",
-              "Problem z dodaniem nowego posta."
-            );
+            this.context.setAlert(true, "danger", lang.postAddedError["en"]);
           }
         })
         .catch(error => {
-          this.context.setAlert(
-            true,
-            "danger",
-            "Problem z dodaniem nowego posta."
-          );
+          this.context.setAlert(true, "danger", lang.postAddedError["en"]);
         });
     } else {
-      this.context.setAlert(
-        true,
-        "danger",
-        "Prosimy o uzupełnienie wszystkich danych."
-      );
+      this.context.setAlert(true, "danger", lang.allFieldsError["en"]);
     }
   };
 
@@ -146,7 +127,7 @@ class SavePost extends Component<SavePostProps, SavePostState> {
   };
 
   render() {
-    let { categories } = this.state;
+    const { categories } = this.state;
 
     return (
       <React.Fragment>
@@ -185,7 +166,7 @@ class SavePost extends Component<SavePostProps, SavePostState> {
                   style={styles.relative}
                 >
                   <PageHeader
-                    boldText={"Dodaj nowy post"}
+                    boldText={lang.addNewPost["en"]}
                     normalText={""}
                     closeMethod={() => this.props.navigation.goBack(null)}
                     closeMethodParameter={""}
@@ -193,7 +174,7 @@ class SavePost extends Component<SavePostProps, SavePostState> {
                   <View style={{ marginBottom: 10 }}>
                     <View style={styles.savePostInputContainer}>
                       <InputComponent
-                        placeholder="Temat"
+                        placeholder={lang.subject["en"]}
                         inputOnChange={(title: string) =>
                           this.setState({ title })
                         }
@@ -203,7 +184,7 @@ class SavePost extends Component<SavePostProps, SavePostState> {
                       />
 
                       <TextAreaComponent
-                        placeholder="Treść postu..."
+                        placeholder={lang.content["en"]}
                         inputOnChange={(description: string) =>
                           this.setState({ description })
                         }
@@ -215,7 +196,7 @@ class SavePost extends Component<SavePostProps, SavePostState> {
                     </View>
 
                     <Text style={styles.savePostCategoryHeaderText}>
-                      Kategoria:{" "}
+                      {lang.category["en"]}
                     </Text>
 
                     {categories.map((category: any, i: number) => {
@@ -277,7 +258,7 @@ class SavePost extends Component<SavePostProps, SavePostState> {
                           this.state.categoryId
                         )
                       }
-                      buttonComponentText="Dodaj"
+                      buttonComponentText={lang.addNewPost["en"]}
                       fullWidth={true}
                       underlayColor="#dd904d"
                       whiteBg={false}

@@ -11,6 +11,7 @@ import styles from "./style";
 import AppIntroSlider from "react-native-app-intro-slider";
 import ButtonComponent from "./../Utils/ButtonComponent";
 import { GlobalContext } from "./../../Context/GlobalContext";
+import lang from "./../../assets/lang/Welcome/Welcome";
 
 const support: any = require("./../../assets/images/supportOrange.png");
 const conversation: any = require("./../../assets/images/ecoOrange.png");
@@ -22,27 +23,27 @@ const Welcome = (props: any) => {
   const [slides, setSlides] = useState([
     {
       key: "slide1",
-      text: "Bądź częścią lokalnej \nspołeczności mam",
+      text: lang.firstSlide["en"],
       image: emamyLogo
     },
     {
       key: "slide3",
-      text: "Twórz pozytywne relacje \nz innymi kobietami",
+      text: lang.secondSlide["en"],
       image: conversation
     },
     {
       key: "slide2",
-      text: "Wymieniaj się uwagami \nna wspólnym forum",
+      text: lang.thirdSlide["en"],
       image: support
     },
     {
       key: "slide4",
-      text: "Kupuj oraz sprzedawaj \nprzedmioty",
+      text: lang.fourthSlide["en"],
       image: stroller
     },
     {
       key: "slide5",
-      text: "Bądź sobą - bo taką\nCię lubimy!",
+      text: lang.fifthSlide["en"],
       image: makeUp
     }
   ]);
@@ -92,7 +93,7 @@ const Welcome = (props: any) => {
         <View>
           <ButtonComponent
             pressButtonComponent={() => navigation.navigate("Login")}
-            buttonComponentText="Logowanie"
+            buttonComponentText={lang.login["en"]}
             fullWidth={false}
             underlayColor="#dd904d"
             whiteBg={false}
@@ -103,7 +104,7 @@ const Welcome = (props: any) => {
             onPress={() => navigation.navigate("Register")}
             underlayColor={"#fff"}
           >
-            <Text style={styles.subBtn}>Rejestracja</Text>
+            <Text style={styles.subBtn}>{lang.register["en"]}</Text>
           </TouchableHighlight>
         </View>
       </View>

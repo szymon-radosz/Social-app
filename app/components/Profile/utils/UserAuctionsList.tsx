@@ -7,6 +7,7 @@ import Alert from "./../../Alert/Alert";
 import BottomPanel from "./../../SharedComponents/BottomPanel";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import styles from "./../style";
+import lang from "./../../../assets/lang/Profile/utils/UserAuctionsList";
 
 const loaderImage: any = require("./../../../assets/images/loader.gif");
 
@@ -59,11 +60,7 @@ class UserFriendsList extends Component<
         }
       })
       .catch(async error => {
-        await this.context.setAlert(
-          true,
-          "danger",
-          "Wystąpił błąd z wyświetleniem listy przedmiotów."
-        );
+        await this.context.setAlert(true, "danger", lang.itemsListError["en"]);
 
         await this.context.setShowLoader(false);
       });
@@ -71,6 +68,7 @@ class UserFriendsList extends Component<
 
   render() {
     const { userAuctionList } = this.state;
+
     return (
       <React.Fragment>
         <SafeAreaView

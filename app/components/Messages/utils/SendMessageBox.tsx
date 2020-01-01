@@ -1,8 +1,9 @@
 import React from "react";
-import { View, ScrollView } from "react-native";
+import { View } from "react-native";
 import ButtonComponent from "./../../Utils/ButtonComponent";
 import styles from "./../style";
 import InputComponent from "./../../Utils/InputComponent";
+import lang from "./../../../assets/lang/Messages/utils/SendMessageBox";
 
 const SendMessageBox = (props: {
   sendMessage: any;
@@ -29,7 +30,7 @@ const SendMessageBox = (props: {
     <React.Fragment>
       <View style={styles.messageBoxContainer}>
         <InputComponent
-          placeholder="Napisz odpowiedź..."
+          placeholder={lang.message["en"]}
           inputOnChange={(message: string) => props.setUserMessage(message)}
           value={props.userMessage}
           secureTextEntry={false}
@@ -48,7 +49,7 @@ const SendMessageBox = (props: {
             );
             await props.setUserMessage("");
           }}
-          buttonComponentText="Wyślij"
+          buttonComponentText={lang.sendMessage["en"]}
           fullWidth={true}
           underlayColor="#dd904d"
           whiteBg={false}

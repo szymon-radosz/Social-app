@@ -1,4 +1,4 @@
-import React, { Component, Suspense } from "react";
+import React, { Component } from "react";
 import { Text, View, ScrollView, SafeAreaView, Image } from "react-native";
 import axios from "axios";
 import styles from "./../style";
@@ -8,8 +8,8 @@ import ProfileHeader from "./../../SharedComponents/ProfileHeader";
 import UserPreview from "./../../SharedComponents/UserPreview";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import ButtonComponent from "./../../Utils/ButtonComponent";
+import lang from "./../../../assets/lang/Users/utils/UserDetails";
 import { GlobalContext } from "./../../../Context/GlobalContext";
-import { withNavigation } from "react-navigation";
 
 const loaderImage: any = require("./../../../assets/images/loader.gif");
 
@@ -96,7 +96,7 @@ class UserDetails extends Component<UserDetailsProps, UserDetailsState> {
         await this.context.setAlert(
           true,
           "danger",
-          "Nie udało się pobrać danych o uzytkowniku."
+          lang.userDetailsError["en"]
         );
       });
 
@@ -135,29 +135,21 @@ class UserDetails extends Component<UserDetailsProps, UserDetailsState> {
         if (response.data.status === "OK") {
           openDetailsId = senderId;
 
-          this.context.setAlert(
-            true,
-            "success",
-            "Dodano nową użytkowniczkę do grona znajomych."
-          );
+          this.context.setAlert(true, "success", lang.addedFriendSuccess["en"]);
           this.setShowUserDetails(this.state.userDetailsId);
         }
       })
       .then(response =>
         axios.post(API_URL + "/api/addNotification", {
           type: "friendship_confirmation",
-          message: `Użytkowniczka ${this.context.userData.name} zaakceptowała Twoje zaproszenie do grona znajomych.`,
+          message: `${this.context.userData.name} ${lang.acceptYourInvitationSuccess["en"]}`,
           userId: receiverId,
           senderId: this.context.userData.id,
           openDetailsId: openDetailsId
         })
       )
       .catch(error => {
-        this.context.setAlert(
-          true,
-          "danger",
-          "Problem z potwierdzeniem znajomości."
-        );
+        this.context.setAlert(true, "danger", lang.addedFriendError["en"]);
       });
   };
 
@@ -177,7 +169,7 @@ class UserDetails extends Component<UserDetailsProps, UserDetailsState> {
           this.context.setAlert(
             true,
             "success",
-            "Wysłano zaproszenie do grona znajomych."
+            lang.invitationSendedSuccess["en"]
           );
           this.setShowUserDetails(this.state.userDetailsId);
         }
@@ -185,18 +177,14 @@ class UserDetails extends Component<UserDetailsProps, UserDetailsState> {
       .then(response =>
         axios.post(API_URL + "/api/addNotification", {
           type: "friendship_invitation",
-          message: `Użytkowniczka ${this.context.userData.name} zaprosiła Cię do grona znajomych`,
+          message: `${this.context.userData.name} ${lang.inviteToFriends["en"]}`,
           userId: receiverId,
           senderId: this.context.userData.id,
           openDetailsId: openDetailsId
         })
       )
       .catch(error => {
-        this.context.setAlert(
-          true,
-          "danger",
-          "Problem z wysłaniem zaproszenia do grona znajomych."
-        );
+        this.context.setAlert(true, "danger", lang.invitationSendedError["en"]);
       });
   };
 
@@ -208,6 +196,7 @@ class UserDetails extends Component<UserDetailsProps, UserDetailsState> {
       locationDetails,
       countFriends
     } = this.state;
+
     return (
       <React.Fragment>
         <SafeAreaView
@@ -275,7 +264,7 @@ class UserDetails extends Component<UserDetailsProps, UserDetailsState> {
                       {usersAreInTheSameConversation &&
                         this.props.navigation.state.params.showBtns && (
                           <Text style={styles.userDetailsContentHobbyContainer}>
-                            Jesteś już w trakcie rozmowy z{" "}
+                            {lang.conversationExists["en"]}
                             {userDetailsData.name}
                           </Text>
                         )}
@@ -291,7 +280,7 @@ class UserDetails extends Component<UserDetailsProps, UserDetailsState> {
                                 {}
                               )
                             }
-                            buttonComponentText="Przejdź do wiadomości"
+                            buttonComponentText={lang.showConversations["en"]}
                             fullWidth={true}
                             underlayColor="#dd904d"
                             whiteBg={false}
@@ -306,7 +295,7 @@ class UserDetails extends Component<UserDetailsProps, UserDetailsState> {
                                   { userId: userDetailsData.id }
                                 )
                               }
-                              buttonComponentText="Pomachaj"
+                              buttonComponentText={lang.connect["en"]}
                               fullWidth={true}
                               underlayColor="#dd904d"
                               whiteBg={false}
@@ -334,7 +323,7 @@ class UserDetails extends Component<UserDetailsProps, UserDetailsState> {
                                     userDetailsData.id
                                   )
                                 }
-                                buttonComponentText="Zaproś do znajomych"
+                                buttonComponentText={lang.invite["en"]}
                                 fullWidth={true}
                                 underlayColor="#dd904d"
                                 whiteBg={false}
@@ -352,7 +341,9 @@ class UserDetails extends Component<UserDetailsProps, UserDetailsState> {
                                     userDetailsData.id
                                   )
                                 }
-                                buttonComponentText="Zaakceptuj zaproszenie do znajomych"
+                                buttonComponentText={
+                                  lang.acceptInvitation["en"]
+                                }
                                 fullWidth={true}
                                 underlayColor="#dd904d"
                                 whiteBg={false}
@@ -370,7 +361,9 @@ class UserDetails extends Component<UserDetailsProps, UserDetailsState> {
                                     {}
                                   );
                                 }}
-                                buttonComponentText="Wysłano zaproszenie do znajomych"
+                                buttonComponentText={
+                                  lang.sendedInvitation["en"]
+                                }
                                 fullWidth={true}
                                 underlayColor="#dd904d"
                                 whiteBg={false}
@@ -386,7 +379,7 @@ class UserDetails extends Component<UserDetailsProps, UserDetailsState> {
                                     {}
                                   )
                                 }
-                                buttonComponentText="Jesteście znajomymi"
+                                buttonComponentText={lang.friendsTogether["en"]}
                                 fullWidth={true}
                                 underlayColor="#dd904d"
                                 whiteBg={false}

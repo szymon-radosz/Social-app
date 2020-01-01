@@ -7,6 +7,7 @@ import Alert from "./../../Alert/Alert";
 import BottomPanel from "./../../SharedComponents/BottomPanel";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import styles from "./../style";
+import lang from "./../../../assets/lang/Profile/utils/UserNotificationList";
 
 const loaderImage: any = require("./../../../assets/images/loader.gif");
 
@@ -53,7 +54,7 @@ class UserNotificationList extends Component<
           await this.context.setAlert(
             true,
             "danger",
-            "Wystąpił błąd z wyświetleniem listy powiadomień."
+            lang.notificationListError["en"]
           );
           await this.context.setShowLoader(false);
 

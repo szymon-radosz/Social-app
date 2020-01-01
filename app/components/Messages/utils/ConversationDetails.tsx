@@ -16,6 +16,7 @@ import SingleConversationMessage from "./SingleConversationMessage";
 import styles from "./../style";
 import PageHeader from "./../../SharedComponents/PageHeader";
 import { GlobalContext } from "./../../../Context/GlobalContext";
+import lang from "./../../../assets/lang/Messages/utils/ConversationDetails";
 
 const loaderImage: any = require("./../../../assets/images/loader.gif");
 
@@ -97,18 +98,14 @@ class ConversationDetails extends Component<
         .then(response =>
           axios.post(API_URL + "/api/addNotification", {
             type: "sended_message",
-            message: `Masz nową wiadomość od użytkowniczki ${this.context.userData.name}`,
+            message: `${lang.newMessageNotification["en"]} ${this.context.userData.name}`,
             userId: receiver_id,
             senderId: this.context.userData.id,
             openDetailsId: openDetailsId
           })
         )
         .catch(error => {
-          this.context.setAlert(
-            true,
-            "danger",
-            "Wystąpił błąd z wyświetleniem zapisem wiadomości."
-          );
+          this.context.setAlert(true, "danger", lang.messageSavingError["en"]);
         });
     }
   };
@@ -171,7 +168,7 @@ class ConversationDetails extends Component<
           await this.context.setAlert(
             true,
             "danger",
-            "Wystąpił błąd z wyświetleniem szczegółów konwersacji."
+            lang.conversationDetailsError["en"]
           );
 
           await this.context.setShowLoader(false);
@@ -308,7 +305,7 @@ class ConversationDetails extends Component<
                     </TouchableOpacity>
                     <View>
                       <Text style={styles.conversationDetailsReceiverName}>
-                        Rozmowa z {receiverName}
+                        {lang.conversationWith["en"]} {receiverName}
                       </Text>
                       {privateConversation && (
                         <TouchableHighlight
@@ -322,7 +319,7 @@ class ConversationDetails extends Component<
                           underlayColor={"#fff"}
                         >
                           <Text style={styles.conversationDetailsSeeMore}>
-                            Zobacz profil
+                            {lang.seeProfile["en"]}
                           </Text>
                         </TouchableHighlight>
                       )}
@@ -340,7 +337,7 @@ class ConversationDetails extends Component<
                             underlayColor={"#fff"}
                           >
                             <Text style={styles.conversationDetailsSeeMore}>
-                              Zobacz szczegóły produktu
+                              {lang.seeItemDetails["en"]}
                             </Text>
                           </TouchableHighlight>
                         )}

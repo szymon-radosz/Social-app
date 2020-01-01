@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import { Text } from "react-native";
 import ListItem from "./../../Utils/ListItem";
 import moment from "moment";
-import "moment/locale/pl";
 import { GlobalContext } from "./../../../Context/GlobalContext";
+import lang from "./../../../assets/lang/Messages/utils/MessageList";
 
 const MessageList = (props: { messagesList: any; navigation: any }): any => {
   const context = useContext(GlobalContext);
@@ -54,7 +54,7 @@ const MessageList = (props: { messagesList: any; navigation: any }): any => {
         );
       })
     ) : (
-      <Text style={{ paddingLeft: 10 }}>Brak wyników</Text>
+      <Text style={{ paddingLeft: 10 }}>{lang.noResults["en"]}</Text>
     );
   }
 };

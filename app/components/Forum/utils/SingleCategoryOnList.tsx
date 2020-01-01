@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View, TouchableHighlight } from "react-native";
 import styles from "./../style";
+import lang from "./../../../assets/lang/Forum/utils/SingleCategoryOnList";
 
 const SingleCategoryOnList = (props: {
   getPostByCategoryId: any;
@@ -20,7 +21,7 @@ const SingleCategoryOnList = (props: {
       <View style={styles.singleCategoryOnListContainer}>
         <Text>{props.category.name}</Text>
         <Text style={styles.singleCategoryOnListPostsLength}>
-          {props.category.posts.length} Posty
+          {props.category.posts.length} {lang.posts["en"]}
         </Text>
       </View>
     </TouchableHighlight>

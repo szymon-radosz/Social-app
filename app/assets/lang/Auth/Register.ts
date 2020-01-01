@@ -21,7 +21,7 @@ const lang = {
     en: "Register"
   },
   haveAccount: {
-    en: "Have an account?"
+    en: "Have an account? "
   },
   login: {
     en: "Login"

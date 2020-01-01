@@ -10,6 +10,7 @@ import styles from "./../style";
 import moment from "moment";
 import "moment/locale/pl";
 import { GlobalContext } from "./../../../Context/GlobalContext";
+import lang from "./../../../assets/lang/Forum/utils/SinglePostDetailsComment";
 
 const like: any = require("./../../../assets/images/like.png");
 
@@ -64,7 +65,7 @@ const SinglePostDetailsComment = (props: {
               underlayColor={"#fff"}
             >
               <Text style={styles.conversationDetailsSeeMore}>
-                Zobacz profil
+                {lang.seeProfile["en"]}
               </Text>
             </TouchableHighlight>
           )}

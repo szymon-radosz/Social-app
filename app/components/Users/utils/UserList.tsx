@@ -1,6 +1,7 @@
 import React from "react";
 import { Text } from "react-native";
 import ListItem from "./../../Utils/ListItem";
+import lang from "./../../../assets/lang/Users/utils/UserList";
 
 const UserList = (props: {
   userList: any;
@@ -19,7 +20,7 @@ const UserList = (props: {
               image={`${user.photo_path}`}
               mainText={`${user.name}, ${user.age}`}
               subText={`${user.location_string ? user.location_string : ""}`}
-              subSubText="test sub sub text"
+              subSubText=""
               onPress={() => {
                 props.navigation.push("UserDetails", {
                   userId: user.id,
@@ -32,7 +33,7 @@ const UserList = (props: {
         }
       })
     ) : (
-      <Text style={{ paddingLeft: 10 }}>Brak wyników</Text>
+      <Text style={{ paddingLeft: 10 }}>{lang.noResults["en"]}</Text>
     );
   }
 };
