@@ -37,8 +37,9 @@ const Welcome = (props: any) => {
   useEffect(() => {
     //console.log(["welcome render", context]);
     context.setUserData("");
+    let slides: Array<{ key: string; text: string; image: any }>;
 
-    let slides = [
+    slides = [
       {
         key: "slide1",
         text:
@@ -116,7 +117,7 @@ const Welcome = (props: any) => {
               context.translations.login[context.language]
             }
             fullWidth={false}
-            underlayColor="#dd904d"
+            underlayColor="#5e88fc"
             whiteBg={false}
             showBackIcon={false}
           />

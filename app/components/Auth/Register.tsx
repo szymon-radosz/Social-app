@@ -7,15 +7,23 @@ import {
   SafeAreaView,
   Linking,
   Platform,
-  ScrollView
+  ScrollView,
+  StyleSheet,
+  ViewStyle,
+  TextStyle,
+  ImageStyle
 } from "react-native";
 import axios from "axios";
-import styles from "./style";
 import { GlobalContext } from "./../../Context/GlobalContext";
 import ButtonComponent from "./../Utils/ButtonComponent";
 import InputComponent from "./../Utils/InputComponent";
 import Alert from "./../Alert/Alert";
 import lang from "./../../assets/lang/Auth/Register";
+import {
+  customBlueColor,
+  fontSizeBig,
+  loaderContainer
+} from "./../../assets/global/globalStyles";
 
 const loaderImage: any = require("./../../assets/images/loader.gif");
 
@@ -25,7 +33,6 @@ const Register = (props: { navigation: any }) => {
   const [password, setPassword] = useState("");
   const [passwordConf, setPasswordConf] = useState("");
   const [platform, setPlatform] = useState("");
-  const [emailExists, setEmailExists] = useState(false);
   const context = useContext(GlobalContext);
 
   const navigation = props.navigation;
@@ -129,15 +136,10 @@ const Register = (props: { navigation: any }) => {
     <React.Fragment>
       {context.showLoader ? (
         <View style={styles.loaderContainer}>
-          <Image style={{ width: 100, height: 100 }} source={loaderImage} />
+          <Image style={styles.loaderImg} source={loaderImage} />
         </View>
       ) : (
-        <SafeAreaView
-          style={{
-            flex: 1,
-            backgroundColor: "#fff"
-          }}
-        >
+        <SafeAreaView style={styles.areaContainer}>
           {context.showAlert && (
             <Alert
               alertType={context.alertType}
@@ -217,4 +219,63 @@ const Register = (props: { navigation: any }) => {
     </React.Fragment>
   );
 };
+
+interface Style {
+  container: ViewStyle;
+  headerText: TextStyle;
+  subBtnSection: ViewStyle;
+  subBtnSectionAsk: TextStyle;
+  registerBtn: TextStyle;
+  loaderContainer: any;
+  termsBtn: TextStyle;
+  areaContainer: ViewStyle;
+  loaderImg: ImageStyle;
+}
+
+const styles = StyleSheet.create<Style>({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    paddingLeft: 10,
+    paddingRight: 10
+  },
+  areaContainer: {
+    flex: 1,
+    backgroundColor: "#fff"
+  },
+  headerText: {
+    textAlign: "center",
+    color: "#333",
+    fontWeight: "600",
+    fontSize: fontSizeBig,
+    marginTop: 70,
+    paddingBottom: 50,
+    fontFamily: "Open Sans"
+  },
+  subBtnSection: {
+    flexDirection: "row",
+    alignSelf: "center"
+  },
+  subBtnSectionAsk: {
+    color: "#333",
+    fontSize: 16,
+    fontFamily: "Open Sans"
+  },
+  termsBtn: {
+    color: "#a3a3a3",
+    fontWeight: "600",
+    fontSize: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
+    fontFamily: "Open Sans"
+  },
+  registerBtn: {
+    color: customBlueColor,
+    fontSize: 16,
+    fontFamily: "Open Sans"
+  },
+  loaderContainer: loaderContainer,
+  loaderImg: { width: 100, height: 100 }
+});
+
 export default Register;

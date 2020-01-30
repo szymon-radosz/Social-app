@@ -4,7 +4,7 @@ import styles from "./style";
 const backArrow: any = require("./../../assets/images/backArrow.png");
 
 const ButtonComponent = (props: {
-  pressButtonComponent: any;
+  pressButtonComponent: () => void;
   buttonComponentText: string;
   fullWidth: boolean;
   underlayColor: string;

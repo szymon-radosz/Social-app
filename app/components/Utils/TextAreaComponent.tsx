@@ -4,7 +4,7 @@ import styles from "./style";
 
 const TextAreaComponent = (props: {
   placeholder: string;
-  inputOnChange: any;
+  inputOnChange: (text: string) => void;
   value: string;
   maxLength: number;
   multiline: boolean;

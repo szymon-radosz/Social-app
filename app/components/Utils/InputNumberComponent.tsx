@@ -4,7 +4,7 @@ import styles from "./style";
 
 const InputNumberComponent = (props: {
   placeholder: string;
-  inputOnChange: any;
+  inputOnChange: () => void;
   value: string;
   secureTextEntry: boolean;
   maxLength: number;

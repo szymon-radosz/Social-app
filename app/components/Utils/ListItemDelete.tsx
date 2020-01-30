@@ -3,7 +3,11 @@ import { View, Text, TouchableHighlight, Image } from "react-native";
 import styles from "./style";
 const trash: any = require("./../../assets/images/trash.png");
 
-const ListItemDelete = (props: { key: any; text: string; onPress: any }) => {
+const ListItemDelete = (props: {
+  key: string;
+  text: string;
+  onPress: () => void;
+}) => {
   return (
     <View key={props.key} style={styles.removeFilterBtnContainer}>
       <Text style={styles.removeFilterText}>{props.text}</Text>

@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import {
-  Text,
   View,
   Image,
   TouchableHighlight,
-  SafeAreaView
+  StyleSheet,
+  ViewStyle
 } from "react-native";
 //@ts-ignore
 import { GlobalContext } from "./../../../Context/GlobalContext";
@@ -16,7 +16,7 @@ const frFlag: any = require("./../../../assets/images/fr-flag.png");
 const esFlag: any = require("./../../../assets/images/es-flag.png");
 const zhFlag: any = require("./../../../assets/images/zh-flag.png");
 
-const Welcome = (props: any) => {
+const Languages = (props: any) => {
   const context = useContext(GlobalContext);
 
   const [showLanguages, setShowLanguages] = useState(false);
@@ -44,23 +44,16 @@ const Welcome = (props: any) => {
   ];
 
   return (
-    <View style={{ position: "absolute", zIndex: 10, right: 10, top: 10 }}>
+    <View style={styles.activeFlag}>
       {languages.map((language, i) => {
         if (language.text === context.language) {
           return (
             <TouchableHighlight
               onPress={() => setShowLanguages(!showLanguages)}
               underlayColor={"#fff"}
+              key={`active-flag`}
             >
-              <Image
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20,
-                  marginBottom: 10
-                }}
-                source={language.icon}
-              />
+              <Image style={styles.flag} source={language.icon} />
             </TouchableHighlight>
           );
         }
@@ -71,22 +64,14 @@ const Welcome = (props: any) => {
         languages.map((languageFlag, i) => {
           if (languageFlag.text !== context.language) {
             return (
-              <Animatable.View animation="fadeIn">
+              <Animatable.View animation="fadeIn" key={`flag-${i}`}>
                 <TouchableHighlight
                   onPress={() => {
                     context.setLanguage(languageFlag.text);
                     setShowLanguages(false);
                   }}
                 >
-                  <Image
-                    style={{
-                      width: 40,
-                      height: 40,
-                      borderRadius: 20,
-                      marginBottom: 10
-                    }}
-                    source={languageFlag.icon}
-                  />
+                  <Image style={styles.flag} source={languageFlag.icon} />
                 </TouchableHighlight>
               </Animatable.View>
             );
@@ -95,4 +80,25 @@ const Welcome = (props: any) => {
     </View>
   );
 };
-export default Welcome;
+
+interface Style {
+  activeFlag: ViewStyle;
+  flag: ViewStyle;
+}
+
+const styles = StyleSheet.create<Style>({
+  activeFlag: {
+    position: "absolute",
+    zIndex: 10,
+    right: 10,
+    top: 10
+  },
+  flag: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginBottom: 10
+  }
+});
+
+export default Languages;

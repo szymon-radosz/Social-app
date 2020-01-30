@@ -4,15 +4,21 @@ import {
   View,
   SafeAreaView,
   TouchableHighlight,
-  ScrollView
+  ScrollView,
+  StyleSheet,
+  ViewStyle,
+  TextStyle
 } from "react-native";
-import styles from "./style";
 import axios from "axios";
 import { GlobalContext } from "./../../Context/GlobalContext";
 import ButtonComponent from "./../Utils/ButtonComponent";
 import InputComponent from "./../Utils/InputComponent";
 import Alert from "./../Alert/Alert";
 import lang from "./../../assets/lang/Auth/Login";
+import {
+  customBlueColor,
+  fontSizeBig
+} from "./../../assets/global/globalStyles";
 
 const Login = (props: any) => {
   const [email, setEmail] = useState("");
@@ -82,12 +88,7 @@ const Login = (props: any) => {
 
   return (
     <React.Fragment>
-      <SafeAreaView
-        style={{
-          flex: 1,
-          backgroundColor: "#fff"
-        }}
-      >
+      <SafeAreaView style={styles.areaContainer}>
         {context.showAlert && (
           <Alert
             alertType={context.alertType}
@@ -148,4 +149,56 @@ const Login = (props: any) => {
     </React.Fragment>
   );
 };
+interface Style {
+  areaContainer: ViewStyle;
+  container: ViewStyle;
+  headerText: TextStyle;
+  resetPasswordBtn: TextStyle;
+  subBtnSection: ViewStyle;
+  subBtnSectionAsk: TextStyle;
+  registerBtn: TextStyle;
+}
+
+const styles = StyleSheet.create<Style>({
+  areaContainer: {
+    flex: 1,
+    backgroundColor: "#fff"
+  },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    paddingLeft: 10,
+    paddingRight: 10
+  },
+  headerText: {
+    textAlign: "center",
+    color: "#333",
+    fontWeight: "600",
+    fontSize: fontSizeBig,
+    marginTop: 70,
+    paddingBottom: 50,
+    fontFamily: "Open Sans"
+  },
+  resetPasswordBtn: {
+    fontSize: 16,
+    color: "#8c8c8c",
+    paddingTop: 50,
+    fontFamily: "Open Sans"
+  },
+  subBtnSection: {
+    flexDirection: "row",
+    alignSelf: "center"
+  },
+  subBtnSectionAsk: {
+    color: "#333",
+    fontSize: 16,
+    fontFamily: "Open Sans"
+  },
+  registerBtn: {
+    color: customBlueColor,
+    fontSize: 16,
+    fontFamily: "Open Sans"
+  }
+});
+
 export default Login;

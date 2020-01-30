@@ -3,13 +3,13 @@ import { View, Text, TouchableHighlight, Image } from "react-native";
 import styles from "./style";
 
 const ListItem = (props: {
-  onPress: any;
+  onPress: () => void;
   API_URL: string;
   image: string;
   mainText: string;
   subText: string;
   subSubText: string;
-  key: any;
+  key: string;
   userHadUnreadedMessages: boolean;
 }) => {
   return (

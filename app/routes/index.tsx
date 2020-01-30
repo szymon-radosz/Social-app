@@ -212,7 +212,7 @@ interface AppState {
   showLoader: boolean;
   currentNavName: string;
   language: string;
-  translations: any;
+  translations: Array<object>;
 }
 interface NavigationScreenInterface {
   navigation: {
@@ -272,10 +272,6 @@ export default class App extends Component<
             );
 
             this.setState({ translations: translations });
-            // await this.setState({
-            //   translations: response.data.result.translations
-            //   //editProfileData: false
-            // });
           }
 
           resolve(response);
