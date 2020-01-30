@@ -1,4 +1,4 @@
-## Juff app - social app
+## Social app
 
 People like you in your neighborhood.
 Find people with same interests like you.
