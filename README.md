@@ -28,6 +28,7 @@ npm test
 ### Fixed react-native not found issue:
 
 react native:
+source /etc/profile
 export PATH="/Users/radoszszymon/.npm-global/bin/:\$PATH"
 
 android:

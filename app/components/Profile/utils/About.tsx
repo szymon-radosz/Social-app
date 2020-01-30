@@ -91,7 +91,7 @@ const About = (props: any) => {
                   onPress={() => props.navigation.navigate("FeedbackModal", {})}
                 >
                   {lang.haveQuestion["en"]}{" "}
-                  <Text style={{ fontWeight: "600", color: "#f4a157" }}>
+                  <Text style={{ fontWeight: "600", color: "#5e88fc" }}>
                     {lang.writeToUs["en"]}
                   </Text>
                 </Text>
@@ -122,7 +122,7 @@ const About = (props: any) => {
                       fontFamily: "Open Sans",
                       fontSize: 14,
                       fontWeight: "600",
-                      color: "#f4a157"
+                      color: "#5e88fc"
                     }}
                   >
                     {lang.websiteAddress["en"]}
@@ -148,7 +148,7 @@ const About = (props: any) => {
                       fontFamily: "Open Sans",
                       fontSize: 14,
                       fontWeight: "600",
-                      color: "#f4a157"
+                      color: "#5e88fc"
                     }}
                   >
                     {lang.voteApp["en"]}

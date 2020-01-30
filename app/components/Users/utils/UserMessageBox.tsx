@@ -80,7 +80,7 @@ class UserMessageBox extends Component<
         receiverId: receiverId,
         message: message
       })
-      .then(Response => {
+      .then(response => {
         if (response.data.status === "OK") {
           openDetailsId = response.data.result.id;
           this.context.setAlert(true, "success", lang.sendMessageSuccess["en"]);

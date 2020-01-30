@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import {
   pageTitleWhite,
-  peachColor,
+  customBlueColor,
   darkGrayColor,
   btnFullWidth,
   lightBorderRadius,
@@ -153,7 +153,7 @@ export default StyleSheet.create<Style>({
     height: 40,
     zIndex: 11,
     paddingRight: 3,
-    backgroundColor: peachColor,
+    backgroundColor: customBlueColor,
     borderRadius: 50
   },
   userMessageHeader: {
@@ -175,9 +175,9 @@ export default StyleSheet.create<Style>({
     width: 120,
     marginTop: 10,
     borderRadius: lightBorderRadius,
-    borderColor: peachColor,
+    borderColor: customBlueColor,
     borderWidth: 2,
-    backgroundColor: peachColor,
+    backgroundColor: customBlueColor,
     marginBottom: 30,
     alignItems: "center",
     justifyContent: "center",
@@ -201,7 +201,7 @@ export default StyleSheet.create<Style>({
   },
   userContainer: {
     borderRadius: lightBorderRadius,
-    borderColor: peachColor,
+    borderColor: customBlueColor,
     borderWidth: 1,
     padding: 5
   },
@@ -210,9 +210,9 @@ export default StyleSheet.create<Style>({
     width: 100,
     marginTop: 10,
     borderRadius: lightBorderRadius,
-    borderColor: peachColor,
+    borderColor: customBlueColor,
     borderWidth: 2,
-    backgroundColor: peachColor,
+    backgroundColor: customBlueColor,
     marginBottom: 10
   },
   filterResultsHeaderText: {

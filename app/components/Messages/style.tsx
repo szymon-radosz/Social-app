@@ -1,7 +1,7 @@
 import { StyleSheet, ViewStyle, TextStyle, ImageStyle } from "react-native";
 import {
   pageTitleWhite,
-  peachColor,
+  customBlueColor,
   btnFullWidth,
   lightBorderRadius,
   filterBtnContainer,
@@ -126,7 +126,7 @@ export default StyleSheet.create<Style>({
   conversationBoxContainer: { borderWidth: 1, width: "100%" },
   image: { width: 45, height: 45 },
   unreadedConversation: {
-    color: peachColor,
+    color: customBlueColor,
     textAlign: "left",
     fontSize: 12,
     fontFamily: "Open Sans"
@@ -164,7 +164,7 @@ export default StyleSheet.create<Style>({
   singleButtonCol2Container: singleButtonCol2Container,
   receiverBox: {
     width: "80%",
-    backgroundColor: peachColor,
+    backgroundColor: customBlueColor,
     fontSize: 12,
     padding: 5,
     marginLeft: 10,
@@ -232,7 +232,7 @@ export default StyleSheet.create<Style>({
   messageBoxContainer: { paddingLeft: 10, paddingRight: 10, marginBottom: 0 },
   conversationDetailsSeeMore: {
     fontWeight: "600",
-    color: peachColor,
+    color: customBlueColor,
     fontFamily: "Open Sans"
   },
   loaderContainer: loaderContainer

@@ -2,7 +2,7 @@ import { StyleSheet, ViewStyle, TextStyle, ImageStyle } from "react-native";
 import {
   pageTitleWhite,
   btnFullWidth,
-  peachColor,
+  customBlueColor,
   productListSingleProductContainer,
   productListSingleProductImage,
   productListSingleProductTextContainer,

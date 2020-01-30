@@ -1,7 +1,7 @@
 import { Dimensions } from "react-native";
 const fullWidth = Dimensions.get("window").width;
 const fullHeight = Dimensions.get("window").height;
-export const peachColor = "#f4a157";
+export const customBlueColor = "#5e88fc";
 export const darkGrayColor = "#424242";
 export const lightBorderRadius = 6;
 export const fontSizeBig = 24;
@@ -13,9 +13,9 @@ export const btnFullActiveWidthContainer = {
   marginTop: 5,
   marginBottom: 5,
   borderRadius: lightBorderRadius,
-  borderColor: peachColor,
+  borderColor: customBlueColor,
   borderWidth: 2,
-  backgroundColor: peachColor
+  backgroundColor: customBlueColor
 };
 export const btnFullWidth = {
   height: 45,
@@ -25,9 +25,9 @@ export const btnFullWidth = {
   marginLeft: "3%",
   marginRight: "3%",
   borderRadius: lightBorderRadius,
-  borderColor: peachColor,
+  borderColor: customBlueColor,
   borderWidth: 2,
-  backgroundColor: peachColor,
+  backgroundColor: customBlueColor,
   alignItems: "center",
   justifyContent: "center",
   flexDirection: "row",
@@ -42,7 +42,7 @@ export const btnFullWidthWhite = {
   marginLeft: "3%",
   marginRight: "3%",
   borderRadius: lightBorderRadius,
-  borderColor: peachColor,
+  borderColor: customBlueColor,
   borderWidth: 2,
   backgroundColor: "#fff",
   alignItems: "center",
@@ -56,7 +56,7 @@ export const btnFullWidthContainer = {
   marginTop: 5,
   marginBottom: 5,
   borderRadius: lightBorderRadius,
-  borderColor: peachColor,
+  borderColor: customBlueColor,
   borderWidth: 2,
   backgroundColor: "#fff"
 };
@@ -66,9 +66,9 @@ export const btnFullWidthFilledContainer = {
   marginTop: 5,
   marginBottom: 5,
   borderRadius: lightBorderRadius,
-  borderColor: peachColor,
+  borderColor: customBlueColor,
   borderWidth: 2,
-  backgroundColor: peachColor
+  backgroundColor: customBlueColor
 };
 export const pageTitleBlack = {
   textAlign: "left",
@@ -328,7 +328,7 @@ export const singleButtonCol2Container = {
   marginTop: "3%"
 };
 export const filterBtnActive = {
-  borderBottomColor: peachColor,
+  borderBottomColor: customBlueColor,
   borderBottomWidth: 3,
   paddingBottom: 20
 };
@@ -352,7 +352,7 @@ export const peachBtnText = {
   fontFamily: "Open Sans"
 };
 export const whiteBtnText = {
-  color: peachColor,
+  color: customBlueColor,
   textAlign: "center",
   fontSize: 16,
   fontFamily: "Open Sans"

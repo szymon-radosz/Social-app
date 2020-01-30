@@ -211,6 +211,8 @@ interface AppState {
   API_URL: string;
   showLoader: boolean;
   currentNavName: string;
+  language: string;
+  translations: any;
 }
 interface NavigationScreenInterface {
   navigation: {
@@ -237,9 +239,59 @@ export default class App extends Component<
       //API_URL: "http://10.0.2.2:8000/",
       //API_URL: "https://e-mamy.pl/",
       showLoader: false,
-      currentNavName: "USERS"
+      currentNavName: "USERS",
+      translations: [],
+      language: "en"
     };
   }
+
+  getTranslations = () => {
+    return new Promise(resolve => {
+      const { API_URL } = this.state;
+      axios
+        .get(API_URL + "/api/get-translations")
+        .then(async response => {
+          console.log(["response", response.data.result.translations]);
+
+          if (response.data.status === "OK") {
+            let translations = {};
+
+            response.data.result.translations.map(
+              (translation: any, i: number) => {
+                let single = {
+                  [translation.name]: {
+                    en: translation.en,
+                    de: translation.de,
+                    fr: translation.fr,
+                    es: translation.es,
+                    zh: translation.zh
+                  }
+                };
+                translations = Object.assign(translations, single);
+              }
+            );
+
+            this.setState({ translations: translations });
+            // await this.setState({
+            //   translations: response.data.result.translations
+            //   //editProfileData: false
+            // });
+          }
+
+          resolve(response);
+        })
+        .catch(error => {
+          //console.log(["setUserFilledInfoErr1", error]);
+        });
+    });
+  };
+
+  setLanguage = (language: string) => {
+    this.setState({ language });
+    setTimeout(() => {
+      console.log(["language", this.state.language]);
+    }, 2000);
+  };
 
   setShowLoader = (param: boolean): any => {
     this.setState({
@@ -399,7 +451,8 @@ export default class App extends Component<
     this.setState({ userData: [] });
   };
 
-  componentDidMount = (): void => {
+  componentDidMount = async () => {
+    await this.getTranslations();
     NavigationService.navigate("Welcome", {});
   };
 
@@ -415,7 +468,9 @@ export default class App extends Component<
       userData,
       API_URL,
       showLoader,
-      currentNavName
+      currentNavName,
+      translations,
+      language
     } = this.state;
 
     return (
@@ -438,13 +493,16 @@ export default class App extends Component<
           //@ts-ignore
           NavigationService: NavigationService,
           currentNavName: currentNavName,
-          setCurrentNavName: this.setCurrentNavName
+          setCurrentNavName: this.setCurrentNavName,
+          translations: translations,
+          language: language,
+          setLanguage: this.setLanguage
         }}
       >
         <SafeAreaView
           style={{
             flex: 1,
-            backgroundColor: "#f4a157"
+            backgroundColor: "#5e88fc"
           }}
         >
           {/*<StatusBar backgroundColor="#f4a157" barStyle="light-content" />*/}

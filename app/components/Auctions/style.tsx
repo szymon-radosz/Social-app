@@ -11,7 +11,7 @@ import {
   fontSizeMedium,
   lightBorderRadius,
   peachBtnText,
-  peachColor,
+  customBlueColor,
   btnFullWidth,
   productListSingleProductContainer,
   productListSingleProductImage,
@@ -147,9 +147,9 @@ export default StyleSheet.create<Style>({
     width: 120,
     marginTop: 10,
     borderRadius: lightBorderRadius,
-    borderColor: peachColor,
+    borderColor: customBlueColor,
     borderWidth: 2,
-    backgroundColor: peachColor,
+    backgroundColor: customBlueColor,
     marginBottom: 30,
     alignItems: "center",
     justifyContent: "center"
@@ -254,7 +254,7 @@ export default StyleSheet.create<Style>({
     paddingTop: 30
   },
   productClosed: {
-    color: peachColor,
+    color: customBlueColor,
     fontWeight: "600",
     fontFamily: "Open Sans"
   },
@@ -267,7 +267,7 @@ export default StyleSheet.create<Style>({
     left: 0,
     zIndex: 11,
     paddingRight: 3,
-    backgroundColor: peachColor,
+    backgroundColor: customBlueColor,
     borderBottomRightRadius: lightBorderRadius
   },
   userMessageHeader: {
@@ -443,7 +443,7 @@ export default StyleSheet.create<Style>({
     paddingRight: 15,
     marginRight: 7,
     borderWidth: 1,
-    borderColor: peachColor,
+    borderColor: customBlueColor,
     borderRadius: 20
   },
   sellerVoteBoxVotePreview: {

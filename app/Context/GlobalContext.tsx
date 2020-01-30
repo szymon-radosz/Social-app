@@ -26,5 +26,8 @@ export const GlobalContext = React.createContext({
   setShowUserProfile: (userId: number): any => {},
   NavigationService: (): any => {},
   currentNavName: "",
-  setCurrentNavName: (name: string) => {}
+  setCurrentNavName: (name: string) => {},
+  translations: [],
+  language: "",
+  setLanguage: (language: string) => {}
 });

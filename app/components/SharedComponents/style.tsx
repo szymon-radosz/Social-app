@@ -19,7 +19,7 @@ import {
   profileHeaderSingleInfoContainerSubText
 } from "./../../assets/global/globalStyles";
 import {
-  peachColor,
+  customBlueColor,
   peachBtnText,
   btnFullWidth,
   darkGrayColor
@@ -129,9 +129,9 @@ export default StyleSheet.create<Style>({
   removeFilterBtn: {
     height: 40,
     width: 40,
-    borderColor: peachColor,
+    borderColor: customBlueColor,
     borderWidth: 2,
-    backgroundColor: peachColor,
+    backgroundColor: customBlueColor,
     alignItems: "center",
     justifyContent: "center",
     marginLeft: 10,
@@ -147,7 +147,7 @@ export default StyleSheet.create<Style>({
   },
   productDetailsBtn: btnFullWidth,
   buttonBottom: {
-    color: peachColor,
+    color: customBlueColor,
     fontWeight: "600",
     backgroundColor: darkGrayColor,
     fontSize: 8,
@@ -175,7 +175,7 @@ export default StyleSheet.create<Style>({
   buttonTextActive: {
     fontSize: 10,
     textAlign: "center",
-    color: peachColor,
+    color: customBlueColor,
     fontWeight: "600",
     fontFamily: "Open Sans"
   },
