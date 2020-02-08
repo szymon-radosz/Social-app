@@ -104,7 +104,7 @@ class EditProfileInfo extends Component<
       let userId = this.context.userData.id;
 
       let json = await axios
-        .post(API_URL + "/api/cleanUserHobbies", {
+        .post(API_URL + "cleanUserHobbies", {
           userId: userId
         })
         .catch(error => {
@@ -125,7 +125,7 @@ class EditProfileInfo extends Component<
       this.state.hobbies.map(async (hobby: { active: boolean; id: number }) => {
         if (hobby.active) {
           let json = await axios
-            .post(API_URL + "/api/saveHobbyUser", {
+            .post(API_URL + "saveHobbyUser", {
               userEmail: userEmailName,
               hobby_id: hobby.id
             })
@@ -177,7 +177,7 @@ class EditProfileInfo extends Component<
     }
 
     axios
-      .get(API_URL + "/api/hobbiesList")
+      .get(API_URL + "hobbiesList")
       .then(response => {
         if (response.data.status === "OK") {
           //console.log(["response.data.result", response.data.result]);
@@ -305,7 +305,7 @@ class EditProfileInfo extends Component<
       let userEmailName = this.context.userData.email;
 
       let json = await axios
-        .post(API_URL + "/api/updateUserInfo", {
+        .post(API_URL + "updateUserInfo", {
           userEmail: userEmailName,
           nickname: nickname,
           age: age,
@@ -332,7 +332,7 @@ class EditProfileInfo extends Component<
       let userEmailName = this.context.userData.email;
 
       let json = await axios
-        .post(API_URL + "/api/checkAvailableNickname", {
+        .post(API_URL + "checkAvailableNickname", {
           userEmail: userEmailName,
           nickname: nickname
         })

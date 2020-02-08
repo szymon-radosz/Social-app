@@ -848,7 +848,7 @@ class Forum extends Component&lt;ForumProps, ForumState&gt; {
     let that = <span class="cstat-no" title="statement not covered" >this;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .post(API_URL + "/api/getPostByCategoryId", {
+      .post(API_URL + "getPostByCategoryId", {
         categoryId: categoryId
       })
       .then(<span class="fstat-no" title="function not covered" >function(r</span>esponse) {
@@ -881,7 +881,7 @@ class Forum extends Component&lt;ForumProps, ForumState&gt; {
     let that = <span class="cstat-no" title="statement not covered" >this;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .get(API_URL + "/api/posts")
+      .get(API_URL + "posts")
       .then(<span class="fstat-no" title="function not covered" >function(r</span>esponse) {
         if (response.data.status === "OK") {
 <span class="cstat-no" title="statement not covered" >          console.log(["posts", response.data.result]);</span>
@@ -929,7 +929,7 @@ class Forum extends Component&lt;ForumProps, ForumState&gt; {
       let that = <span class="cstat-no" title="statement not covered" >this;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      axios</span>
-        .post(API_URL + "/api/savePost", {
+        .post(API_URL + "savePost", {
           title: title,
           description: description,
           userId: userId,

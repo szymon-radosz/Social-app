@@ -36,7 +36,7 @@ class UserNotificationList extends Component<
 
     return new Promise((resolve, reject) => {
       axios
-        .post(this.context.API_URL + "/api/loadNotificationByUserId", {
+        .post(this.context.API_URL + "loadNotificationByUserId", {
           userId: id
         })
         .then(async response => {
@@ -61,7 +61,7 @@ class UserNotificationList extends Component<
           reject(true);
         });
 
-      axios.post(this.context.API_URL + "/api/clearNotificationByUserId", {
+      axios.post(this.context.API_URL + "clearNotificationByUserId", {
         userId: id
       });
     });

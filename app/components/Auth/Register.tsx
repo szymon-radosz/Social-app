@@ -38,6 +38,7 @@ const Register = (props: { navigation: any }) => {
   const navigation = props.navigation;
 
   useEffect(() => {
+    console.log("test");
     if (Platform.OS === "ios") {
       setPlatform("ios");
     } else {
@@ -77,11 +78,11 @@ const Register = (props: { navigation: any }) => {
         context.setShowLoader(true);
 
         axios
-          .post(API_URL + "/api/checkIfEmailExists", {
+          .post(API_URL + "checkIfEmailExists", {
             email: email
           })
           .then(async response => {
-            if (response.data.status === "OK" && response.data.result === 1) {
+            if (response.data.result === 1) {
               //console.log(["checkIfEmailExists", response.data.result]);
 
               context.setAlert(true, "danger", lang.accountExistsError["en"]);
@@ -91,14 +92,14 @@ const Register = (props: { navigation: any }) => {
               context.setShowLoader(false);
             } else {
               axios
-                .post(API_URL + "/api/register", {
-                  name: name,
+                .post(API_URL + "register", {
+                  nickname: name,
                   email: email,
                   password: password,
                   platform: platform
                 })
                 .then(response => {
-                  //console.log(response.data);
+                  console.log(response.data);
                   if (response.data.status === "OK") {
                     context.setShowLoader(false);
 
@@ -118,6 +119,7 @@ const Register = (props: { navigation: any }) => {
                   }
                 })
                 .catch(error => {
+                  console.log(["err", error]);
                   context.setShowLoader(false);
                 });
             }
@@ -183,7 +185,9 @@ const Register = (props: { navigation: any }) => {
               />
               <TouchableHighlight
                 onPress={() => {
-                  Linking.openURL("");
+                  Linking.openURL(
+                    "https://www.youtube.com/watch?v=bsBbXTyvkeE"
+                  );
                 }}
                 underlayColor={"#fff"}
               >
@@ -196,7 +200,7 @@ const Register = (props: { navigation: any }) => {
                 pressButtonComponent={registerUser}
                 buttonComponentText={lang.register["en"]}
                 fullWidth={false}
-                underlayColor="#dd904d"
+                underlayColor="#5e88fc"
                 whiteBg={false}
                 showBackIcon={false}
               />

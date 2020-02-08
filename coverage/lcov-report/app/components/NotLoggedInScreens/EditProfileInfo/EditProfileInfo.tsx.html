@@ -1326,7 +1326,7 @@ class EditProfileInfo extends Component&lt;
       let userId = <span class="cstat-no" title="statement not covered" >this.context.userData.id;</span>
 &nbsp;
       let json = <span class="cstat-no" title="statement not covered" >await axios</span>
-        .post(API_URL + "/api/cleanUserHobbies", {
+        .post(API_URL + "cleanUserHobbies", {
           userId: userId
         })
         .catch(<span class="fstat-no" title="function not covered" >function(e</span>rror) {
@@ -1345,7 +1345,7 @@ class EditProfileInfo extends Component&lt;
       let userId = <span class="cstat-no" title="statement not covered" >this.context.userData.id;</span>
 &nbsp;
       let json = <span class="cstat-no" title="statement not covered" >axios</span>
-        .post(API_URL + "/api/cleanUserKids", {
+        .post(API_URL + "cleanUserKids", {
           userId: userId
         })
         .catch(<span class="fstat-no" title="function not covered" >function(e</span>rror) {
@@ -1373,7 +1373,7 @@ class EditProfileInfo extends Component&lt;
 <span class="cstat-no" title="statement not covered" >      this.state.hobbies.map(<span class="fstat-no" title="function not covered" >async (h</span>obby: { active: boolean; id: number }) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span></span>
         if (hobby.active) {
           let json = <span class="cstat-no" title="statement not covered" >await axios</span>
-            .post(API_URL + "/api/saveHobbyUser", {
+            .post(API_URL + "saveHobbyUser", {
               userEmail: userEmailName,
               hobby_id: hobby.id
             })
@@ -1425,7 +1425,7 @@ class EditProfileInfo extends Component&lt;
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .get(API_URL + "/api/hobbiesList")
+      .get(API_URL + "hobbiesList")
       .then(<span class="fstat-no" title="function not covered" >response </span>=&gt; {
         if (response.data.status === "OK") {
           //loop through existing state list of all hobbies and check if name is element of activeHobbies
@@ -1581,7 +1581,7 @@ class EditProfileInfo extends Component&lt;
       let userEmailName = <span class="cstat-no" title="statement not covered" >this.context.userData.email;</span>
 &nbsp;
       let json = <span class="cstat-no" title="statement not covered" >await axios</span>
-        .post(API_URL + "/api/updateUserInfo", {
+        .post(API_URL + "updateUserInfo", {
           userEmail: userEmailName,
           age: age,
           desc: desc,
@@ -1606,7 +1606,7 @@ class EditProfileInfo extends Component&lt;
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      this.state.kids.map(<span class="fstat-no" title="function not covered" >async (k</span>id: any) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span></span>
         let json = <span class="cstat-no" title="statement not covered" >await axios</span>
-          .post(API_URL + "/api/saveKid", {
+          .post(API_URL + "saveKid", {
             userEmail: userEmailName,
             name: kid.name,
             dateOfBirth: kid.dateOfBirth,

@@ -781,7 +781,7 @@ class Messages extends Component&lt;MessagesProps, MessagesState&gt; {
     let that = <span class="cstat-no" title="statement not covered" >this;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .post(API_URL + "/api/showConversationDetails", {
+      .post(API_URL + "showConversationDetails", {
         conversation_id: conversation_id
       })
       .then(<span class="fstat-no" title="function not covered" >function(r</span>esponse) {
@@ -822,7 +822,7 @@ class Messages extends Component&lt;MessagesProps, MessagesState&gt; {
 &nbsp;
     let that = <span class="cstat-no" title="statement not covered" >this;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    axios.post(API_URL + "/api/addNotification", {</span>
+<span class="cstat-no" title="statement not covered" >    axios.post(API_URL + "addNotification", {</span>
       type: "sended_message",
       message: `Masz nową wiadomość od użytkowniczki ${
         this.context.userData.name
@@ -831,7 +831,7 @@ class Messages extends Component&lt;MessagesProps, MessagesState&gt; {
     });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .post(API_URL + "/api/saveMessage", {
+      .post(API_URL + "saveMessage", {
         sender_id: sender_id,
         receiver_id: receiver_id,
         message: message,
@@ -866,7 +866,7 @@ class Messages extends Component&lt;MessagesProps, MessagesState&gt; {
     let that = <span class="cstat-no" title="statement not covered" >this;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .post(API_URL + "/api/showUserConversations", {
+      .post(API_URL + "showUserConversations", {
         user_id: user_id
       })
       .then(<span class="fstat-no" title="function not covered" >function(r</span>esponse) {
@@ -894,7 +894,7 @@ class Messages extends Component&lt;MessagesProps, MessagesState&gt; {
     let that = <span class="cstat-no" title="statement not covered" >this;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .post(API_URL + "/api/showUserConversations", {
+      .post(API_URL + "showUserConversations", {
         user_id: user_id,
         showProductsConversations: true
       })

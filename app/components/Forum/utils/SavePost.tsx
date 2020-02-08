@@ -64,7 +64,7 @@ class SavePost extends Component<SavePostProps, SavePostState> {
       categoryId !== 0
     ) {
       axios
-        .post(API_URL + "/api/savePost", {
+        .post(API_URL + "savePost", {
           title: title,
           description: description,
           userId: userId,
@@ -98,7 +98,7 @@ class SavePost extends Component<SavePostProps, SavePostState> {
       this.context.setShowLoader(true);
 
       axios
-        .get(API_URL + "/api/getPostsCategories")
+        .get(API_URL + "getPostsCategories")
         .then(async response => {
           //console.log(response);
           if (response.data.status === "OK") {

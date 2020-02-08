@@ -40,15 +40,21 @@ const Login = (props: any) => {
         //let navProps = navigation.state.params;
         //console.log([API_URL]);
         axios
-          .post(API_URL + "/api/login", {
+          .post(API_URL + "login", {
             email: email,
             password: password
           })
           .then(response => {
-            console.log(response);
-            if (response.data.status === "OK") {
+            console.log(["response", response.data, response.status]);
+            if (response.status === 200) {
               //console.log(["response.data.user", response.data]);
-              let token = response.data.user.token;
+              const { data } = response.data.result;
+
+              let token = response.data.result.token;
+
+              // context.setToken(token);
+
+              // localStorage.setItem("token", token);
 
               const config = {
                 Authorization: `Bearer ${token}`,
@@ -57,19 +63,42 @@ const Login = (props: any) => {
               };
 
               axios
-                .post(context.API_URL + "/api/details", {}, { headers: config })
+                .get(API_URL + "user", {
+                  headers: config
+                })
                 .then(response => {
-                  if (response.data.status === "OK") {
-                    //navProps.setUserData(response2.data.result);
-
-                    //console.log(["userData", response2.data.result]);
-
-                    context.setUserData(response.data.result);
+                  if (response.data.result.user.id) {
+                    context.setUserData(response.data.result.user);
                   }
                 })
                 .catch(error => {
-                  context.setAlert(true, "danger", lang.loginError["en"]);
+                  context.setAlert(true, "danger", "can not login");
                 });
+              // let token = data.token;
+              // console.log(data);
+
+              // const config = {
+              //   Authorization: `Bearer ${token}`,
+              //   "Content-Type": "application/x-www-form-urlencoded",
+              //   Accept: "application/json"
+              // };
+
+              // console.log(["token", token]);
+
+              // axios
+              //   .post(context.API_URL + "details", {}, { headers: config })
+              //   .then(response => {
+              //     if (response.data.status === "OK") {
+              //       //navProps.setUserData(response2.data.result);
+
+              //       //console.log(["userData", response2.data.result]);
+
+              //       context.setUserData(response.data.result);
+              //     }
+              //   })
+              //   .catch(error => {
+              //     context.setAlert(true, "danger", lang.loginError["en"]);
+              //   });
             } else {
               //console.log("Nie ma tokena");
             }
@@ -120,7 +149,7 @@ const Login = (props: any) => {
               pressButtonComponent={loginUser}
               buttonComponentText={lang.login["en"]}
               fullWidth={false}
-              underlayColor="#dd904d"
+              underlayColor="#5e88fc"
               whiteBg={false}
               showBackIcon={false}
             />

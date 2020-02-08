@@ -86,7 +86,7 @@ class Profile extends Component<
 
   getAmountOfFriends = (id: number): void => {
     axios
-      .post(this.context.API_URL + "/api/countFriends", {
+      .post(this.context.API_URL + "countFriends", {
         userId: id
       })
       .then(response => {

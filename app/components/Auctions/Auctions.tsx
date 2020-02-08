@@ -157,7 +157,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
 
     if (distance || status) {
       axios
-        .post(API_URL + "/api/loadProductsFilter", {
+        .post(API_URL + "loadProductsFilter", {
           distance: distance,
           status: status,
           currentUserLat: userLat,
@@ -223,7 +223,7 @@ class Auctions extends Component<AuctionsProps, AuctionsState> {
     this.context.setShowLoader(true);
 
     axios
-      .post(API_URL + "/api/loadActiveProductBasedOnCoords", {
+      .post(API_URL + "loadActiveProductBasedOnCoords", {
         lat: userLat,
         lng: userLng
       })

@@ -90,7 +90,7 @@ class Forum extends Component<ForumProps, ForumState> {
     this.context.setShowLoader(true);
 
     axios
-      .post(API_URL + "/api/getPostByCategoryId", {
+      .post(API_URL + "getPostByCategoryId", {
         categoryId: categoryId
       })
       .then(async response => {
@@ -127,7 +127,7 @@ class Forum extends Component<ForumProps, ForumState> {
     this.context.setShowLoader(true);
 
     axios
-      .get(API_URL + "/api/posts")
+      .get(API_URL + "posts")
       .then(async response => {
         if (response.data.status === "OK") {
           //console.log(["posts", response.data.result]);

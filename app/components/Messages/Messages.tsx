@@ -53,7 +53,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
     this.context.setShowLoader(true);
 
     axios
-      .post(API_URL + "/api/showUserConversations", {
+      .post(API_URL + "showUserConversations", {
         user_id: user_id
       })
       .then(async response => {
@@ -85,7 +85,7 @@ class Messages extends Component<MessagesProps, MessagesState> {
     this.context.setShowLoader(true);
 
     axios
-      .post(API_URL + "/api/showUserConversations", {
+      .post(API_URL + "showUserConversations", {
         user_id: user_id,
         showProductsConversations: true
       })

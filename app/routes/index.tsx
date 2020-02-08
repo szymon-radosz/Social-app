@@ -212,7 +212,7 @@ interface AppState {
   showLoader: boolean;
   currentNavName: string;
   language: string;
-  translations: Array<object>;
+  translations: any;
 }
 interface NavigationScreenInterface {
   navigation: {
@@ -235,7 +235,7 @@ export default class App extends Component<
       alertType: "",
       userData: [],
       userLoggedIn: false,
-      API_URL: "http://127.0.0.1:8080/",
+      API_URL: "http://127.0.0.1:8080/api/",
       //API_URL: "http://10.0.2.2:8000/",
       //API_URL: "https://e-mamy.pl/",
       showLoader: false,
@@ -246,10 +246,11 @@ export default class App extends Component<
   }
 
   getTranslations = () => {
+    console.log("test");
     return new Promise(resolve => {
       const { API_URL } = this.state;
       axios
-        .get(API_URL + "/api/get-translations")
+        .get(API_URL + "get-translations")
         .then(async response => {
           console.log(["response", response.data.result.translations]);
 
@@ -300,7 +301,7 @@ export default class App extends Component<
     let API_URL = this.state.API_URL;
 
     let json = await axios
-      .post(API_URL + "/api/setUserFilledInfo", {
+      .post(API_URL + "setUserFilledInfo", {
         userEmail: userEmailName
       })
       .then(async response => {
@@ -324,7 +325,7 @@ export default class App extends Component<
     let API_URL = this.state.API_URL;
 
     axios
-      .post(API_URL + "/api/clearUserNotificationsStatus", {
+      .post(API_URL + "clearUserNotificationsStatus", {
         userId: userId
       })
       .then(async response => {
@@ -349,7 +350,7 @@ export default class App extends Component<
       let API_URL = this.state.API_URL;
 
       axios
-        .post(API_URL + "/api/setUserMessagesStatus", {
+        .post(API_URL + "setUserMessagesStatus", {
           userId: userId,
           conversationId: conversationId
         })

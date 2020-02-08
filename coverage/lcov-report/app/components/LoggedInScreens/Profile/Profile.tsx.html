@@ -1314,7 +1314,7 @@ class Profile extends Component&lt;
 &nbsp;
     if (userId) {
 <span class="cstat-no" title="statement not covered" >      axios</span>
-        .post(this.context.API_URL + "/api/pendingFriendsList", {
+        .post(this.context.API_URL + "pendingFriendsList", {
           userId: userId
         })
         .then(async function(response) {
@@ -1344,7 +1344,7 @@ class Profile extends Component&lt;
 &nbsp;
     if (userId) {
 <span class="cstat-no" title="statement not covered" >      axios</span>
-        .post(this.context.API_URL + "/api/friendsList", {
+        .post(this.context.API_URL + "friendsList", {
           userId: userId
         })
         .then(async function(response) {
@@ -1380,7 +1380,7 @@ class Profile extends Component&lt;
     let that = <span class="cstat-no" title="statement not covered" >this;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .post(this.context.API_URL + "/api/loadUserProductList", {
+      .post(this.context.API_URL + "loadUserProductList", {
         userId: this.context.userData.id
       })
       .then(<span class="fstat-no" title="function not covered" >function(r</span>esponse) {
@@ -1404,7 +1404,7 @@ class Profile extends Component&lt;
     let that = <span class="cstat-no" title="statement not covered" >this;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .post(this.context.API_URL + "/api/countFriends", {
+      .post(this.context.API_URL + "countFriends", {
         userId: id
       })
       .then(<span class="fstat-no" title="function not covered" >function(r</span>esponse) {
@@ -1421,7 +1421,7 @@ class Profile extends Component&lt;
 &nbsp;
     if (id) {
 <span class="cstat-no" title="statement not covered" >      axios</span>
-        .post(this.context.API_URL + "/api/loadNotificationByUserId", {
+        .post(this.context.API_URL + "loadNotificationByUserId", {
           userId: id
         })
         .then(<span class="fstat-no" title="function not covered" >function(r</span>esponse) {
@@ -1440,7 +1440,7 @@ class Profile extends Component&lt;
           );
         });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      axios.post(this.context.API_URL + "/api/clearNotificationByUserId", {</span>
+<span class="cstat-no" title="statement not covered" >      axios.post(this.context.API_URL + "clearNotificationByUserId", {</span>
         userId: id
       });
     }

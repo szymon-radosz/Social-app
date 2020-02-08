@@ -70,7 +70,7 @@ class FeedbackModal extends Component<FeedbackModalProps, FeedbackModalState> {
       await this.context.setShowLoader(true);
 
       axios
-        .post(API_URL + "/api/saveUserFeedback", {
+        .post(API_URL + "saveUserFeedback", {
           topic: topic,
           message: message,
           userId: userId

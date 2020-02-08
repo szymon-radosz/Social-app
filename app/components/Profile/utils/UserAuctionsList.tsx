@@ -47,7 +47,7 @@ class UserFriendsList extends Component<
     this.context.setShowLoader(true);
 
     axios
-      .post(this.context.API_URL + "/api/loadUserProductList", {
+      .post(this.context.API_URL + "loadUserProductList", {
         userId: this.context.userData.id
       })
       .then(async response => {

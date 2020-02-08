@@ -28,7 +28,7 @@ const ResetPassword = (props: any) => {
     try {
       let API_URL = context.API_URL;
       axios
-        .post(API_URL + "/api/password-reset", {
+        .post(API_URL + "password-reset", {
           email: email
         })
         .then(response => {
@@ -76,7 +76,7 @@ const ResetPassword = (props: any) => {
               pressButtonComponent={resetPassword}
               buttonComponentText={lang.header["en"]}
               fullWidth={false}
-              underlayColor="#dd904d"
+              underlayColor="#5e88fc"
               whiteBg={false}
               showBackIcon={false}
             />

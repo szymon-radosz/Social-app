@@ -46,7 +46,7 @@ class UserMessageBox extends Component<
       let searchedUser = navigation.state.params.userId;
 
       axios
-        .post(API_URL + "/api/checkIfUsersBelongsToConversation", {
+        .post(API_URL + "checkIfUsersBelongsToConversation", {
           loggedInUser: loggedInUser,
           searchedUser: searchedUser
         })
@@ -75,7 +75,7 @@ class UserMessageBox extends Component<
     let openDetailsId = 0;
 
     axios
-      .post(API_URL + "/api/saveConversation", {
+      .post(API_URL + "saveConversation", {
         senderId: senderId,
         receiverId: receiverId,
         message: message
@@ -92,7 +92,7 @@ class UserMessageBox extends Component<
         }
       })
       .then(response =>
-        axios.post(API_URL + "/api/addNotification", {
+        axios.post(API_URL + "addNotification", {
           type: "started_conversation_user",
           message: `${this.context.userData.name} ${lang.sendYouMessage["en"]}`,
           userId: receiverId,

@@ -1411,7 +1411,7 @@ class Auctions extends Component&lt;AuctionsProps, AuctionsState&gt; {
 <span class="cstat-no" title="statement not covered" >      that.setLoader(true);</span>
 &nbsp;
       let json = <span class="cstat-no" title="statement not covered" >await axios</span>
-        .post(API_URL + "/api/saveProduct", {
+        .post(API_URL + "saveProduct", {
           userId: currentUser.id,
           name: name,
           description: description,
@@ -1537,7 +1537,7 @@ class Auctions extends Component&lt;AuctionsProps, AuctionsState&gt; {
 &nbsp;
     if (distance || price || status) {
 <span class="cstat-no" title="statement not covered" >      axios</span>
-        .post(API_URL + "/api/loadProductsFilter", {
+        .post(API_URL + "loadProductsFilter", {
           distance: distance,
           price: price,
           status: status,
@@ -1611,7 +1611,7 @@ class Auctions extends Component&lt;AuctionsProps, AuctionsState&gt; {
     let that = <span class="cstat-no" title="statement not covered" >this;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .post(API_URL + "/api/loadProductBasedOnCoords", {
+      .post(API_URL + "loadProductBasedOnCoords", {
         lat: userLat,
         lng: userLng
       })

@@ -78,7 +78,7 @@ class ConversationDetails extends Component<
       this.context.setAlert(true, "danger", "Pusta wiadomość.");
     } else {
       axios
-        .post(API_URL + "/api/saveMessage", {
+        .post(API_URL + "saveMessage", {
           sender_id: this.context.userData.id,
           receiver_id: receiver_id,
           message: message,
@@ -96,7 +96,7 @@ class ConversationDetails extends Component<
           }
         })
         .then(response =>
-          axios.post(API_URL + "/api/addNotification", {
+          axios.post(API_URL + "addNotification", {
             type: "sended_message",
             message: `${lang.newMessageNotification["en"]} ${this.context.userData.name}`,
             userId: receiver_id,
@@ -120,7 +120,7 @@ class ConversationDetails extends Component<
       this.context.setShowLoader(true);
 
       axios
-        .post(API_URL + "/api/showConversationDetails", {
+        .post(API_URL + "showConversationDetails", {
           conversation_id: conversation_id
         })
         .then(async response => {
@@ -185,7 +185,7 @@ class ConversationDetails extends Component<
       let API_URL = this.context.API_URL;
 
       axios
-        .post(API_URL + "/api/loadUserDataById", {
+        .post(API_URL + "loadUserDataById", {
           id: userId
         })
         .then(response => {

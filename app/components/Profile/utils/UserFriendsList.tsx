@@ -62,7 +62,7 @@ class UserFriendsList extends Component<
 
     if (userId) {
       axios
-        .post(this.context.API_URL + "/api/friendsList", {
+        .post(this.context.API_URL + "friendsList", {
           userId: userId
         })
         .then(async response => {
@@ -96,7 +96,7 @@ class UserFriendsList extends Component<
 
     if (userId) {
       axios
-        .post(this.context.API_URL + "/api/pendingFriendsList", {
+        .post(this.context.API_URL + "pendingFriendsList", {
           userId: userId
         })
         .then(async response => {

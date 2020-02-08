@@ -47,7 +47,7 @@ class LoggedInUserDetails extends Component<
 
   getAmountOfFriends = (id: number): void => {
     axios
-      .post(this.context.API_URL + "/api/countFriends", {
+      .post(this.context.API_URL + "countFriends", {
         userId: id
       })
       .then(response => {
@@ -74,7 +74,7 @@ class LoggedInUserDetails extends Component<
     this.context.setShowLoader(true);
 
     axios
-      .post(API_URL + "/api/loadUserById", {
+      .post(API_URL + "loadUserById", {
         userId: userId,
         loggedInUser: loggedInUser
       })

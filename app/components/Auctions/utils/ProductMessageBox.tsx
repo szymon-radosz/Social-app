@@ -46,7 +46,7 @@ class ProductMessageBox extends Component<
       //console.log(["ProductMessageBox", loggedInUser, searchedUser, productId]);
 
       axios
-        .post(API_URL + "/api/checkIfUsersBelongsToProductConversation", {
+        .post(API_URL + "checkIfUsersBelongsToProductConversation", {
           loggedInUser: loggedInUser,
           searchedUser: searchedUser,
           productId: productId
@@ -79,7 +79,7 @@ class ProductMessageBox extends Component<
       this.context.setShowLoader(true);
 
       axios
-        .post(API_URL + "/api/saveConversationProduct", {
+        .post(API_URL + "saveConversationProduct", {
           senderId: senderId,
           receiverId: receiverId,
           message: message,
@@ -91,7 +91,7 @@ class ProductMessageBox extends Component<
           }
         })
         .then(async response => {
-          axios.post(API_URL + "/api/addNotification", {
+          axios.post(API_URL + "addNotification", {
             type: "started_conversation_user",
             message: `User ${this.context.userData.name} send you product message`,
             userId: receiverId,

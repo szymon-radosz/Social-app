@@ -156,7 +156,7 @@ class Users extends Component<UsersProps, UsersState> {
       this.context.setShowLoader(true);
 
       axios
-        .post(API_URL + "/api/loadUsersFilter", {
+        .post(API_URL + "loadUsersFilter", {
           distance: distance,
           hobbyName: hobbyName,
           currentUserLat: userLat,
@@ -219,7 +219,7 @@ class Users extends Component<UsersProps, UsersState> {
     let API_URL = this.context.API_URL;
 
     axios
-      .get(API_URL + "/api/hobbiesList")
+      .get(API_URL + "hobbiesList")
       .then(response => {
         if (response.data.status === "OK") {
           let hobby: any = [];
@@ -274,7 +274,7 @@ class Users extends Component<UsersProps, UsersState> {
       this.context.setShowLoader(true);
 
       axios
-        .post(API_URL + "/api/loadUsersNearCoords", {
+        .post(API_URL + "loadUsersNearCoords", {
           lat: lat,
           lng: lng
         })

@@ -1832,7 +1832,7 @@ class FindUsers extends Component&lt;FindUsersProps, FindUsersState&gt; {
 &nbsp;
     if (distance || childAge || childGender || hobbyName) {
 <span class="cstat-no" title="statement not covered" >      axios</span>
-        .post(API_URL + "/api/loadUsersFilter", {
+        .post(API_URL + "loadUsersFilter", {
           distance: distance,
           childAge: childAge,
           childGender: childGender,
@@ -1913,7 +1913,7 @@ class FindUsers extends Component&lt;FindUsersProps, FindUsersState&gt; {
     let that = <span class="cstat-no" title="statement not covered" >this;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .get(API_URL + "/api/hobbiesList")
+      .get(API_URL + "hobbiesList")
       .then(<span class="fstat-no" title="function not covered" >function(r</span>esponse) {
         if (response.data.status === "OK") {
           let hobby: any = <span class="cstat-no" title="statement not covered" >[];</span>
@@ -1974,7 +1974,7 @@ class FindUsers extends Component&lt;FindUsersProps, FindUsersState&gt; {
 &nbsp;
     let that = <span class="cstat-no" title="statement not covered" >this;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    axios.post(API_URL + "/api/addNotification", {</span>
+<span class="cstat-no" title="statement not covered" >    axios.post(API_URL + "addNotification", {</span>
       type: "started_conversation_user",
       message: `Użytkowniczka ${this.context.userData.name} (${
         this.context.userData.email
@@ -1983,7 +1983,7 @@ class FindUsers extends Component&lt;FindUsersProps, FindUsersState&gt; {
     });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .post(API_URL + "/api/saveConversation", {
+      .post(API_URL + "saveConversation", {
         senderId: senderId,
         receiverId: receiverId,
         message: message
@@ -2025,7 +2025,7 @@ class FindUsers extends Component&lt;FindUsersProps, FindUsersState&gt; {
 <span class="cstat-no" title="statement not covered" >    await this.setState({ userDetailsId: 0, userDetailsData: [] });</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .post(API_URL + "/api/loadUserById", {
+      .post(API_URL + "loadUserById", {
         userId: userId,
         loggedInUser: loggedInUser
       })
@@ -2050,7 +2050,7 @@ class FindUsers extends Component&lt;FindUsersProps, FindUsersState&gt; {
 &nbsp;
     //check friendship status
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .post(API_URL + "/api/checkFriend", {
+      .post(API_URL + "checkFriend", {
         senderId: loggedInUser,
         receiverId: userId
       })
@@ -2084,7 +2084,7 @@ class FindUsers extends Component&lt;FindUsersProps, FindUsersState&gt; {
     let API_URL = <span class="cstat-no" title="statement not covered" >this.context.API_URL;</span>
     let that = <span class="cstat-no" title="statement not covered" >this;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    axios.post(API_URL + "/api/addNotification", {</span>
+<span class="cstat-no" title="statement not covered" >    axios.post(API_URL + "addNotification", {</span>
       type: "friendship_confirmation",
       message: `Użytkowniczka ${this.context.userData.name} (${
         this.context.userData.email
@@ -2093,7 +2093,7 @@ class FindUsers extends Component&lt;FindUsersProps, FindUsersState&gt; {
     });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .post(API_URL + "/api/confirmFriend", {
+      .post(API_URL + "confirmFriend", {
         senderId: senderId,
         receiverId: receiverId
       })
@@ -2120,7 +2120,7 @@ class FindUsers extends Component&lt;FindUsersProps, FindUsersState&gt; {
 &nbsp;
     let that = <span class="cstat-no" title="statement not covered" >this;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    axios.post(API_URL + "/api/addNotification", {</span>
+<span class="cstat-no" title="statement not covered" >    axios.post(API_URL + "addNotification", {</span>
       type: "friendship_invitation",
       message: `Użytkowniczka ${this.context.userData.name} (${
         this.context.userData.email
@@ -2129,7 +2129,7 @@ class FindUsers extends Component&lt;FindUsersProps, FindUsersState&gt; {
     });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .post(API_URL + "/api/inviteFriend", {
+      .post(API_URL + "inviteFriend", {
         senderId: senderId,
         receiverId: receiverId
       })
@@ -2160,7 +2160,7 @@ class FindUsers extends Component&lt;FindUsersProps, FindUsersState&gt; {
       let that = <span class="cstat-no" title="statement not covered" >this;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      axios</span>
-        .post(API_URL + "/api/loadUsersNearCoords", {
+        .post(API_URL + "loadUsersNearCoords", {
           lat: lat,
           lng: lng
         })

@@ -1212,7 +1212,7 @@ class Profile extends Component&lt;
     let that = <span class="cstat-no" title="statement not covered" >this;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .post(this.props.API_URL + "/api/pendingFriendsList", {
+      .post(this.props.API_URL + "pendingFriendsList", {
         userId: userId
       })
       .then(async function(response) {
@@ -1240,7 +1240,7 @@ class Profile extends Component&lt;
     let that = <span class="cstat-no" title="statement not covered" >this;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .post(this.props.API_URL + "/api/friendsList", {
+      .post(this.props.API_URL + "friendsList", {
         userId: userId
       })
       .then(async function(response) {
@@ -1271,7 +1271,7 @@ class Profile extends Component&lt;
     let that = <span class="cstat-no" title="statement not covered" >this;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .post(this.props.API_URL + "/api/loadUserProductList", {
+      .post(this.props.API_URL + "loadUserProductList", {
         userId: this.props.user.id
       })
       .then(<span class="fstat-no" title="function not covered" >function(r</span>esponse) {
@@ -1295,7 +1295,7 @@ class Profile extends Component&lt;
     let that = <span class="cstat-no" title="statement not covered" >this;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .post(this.props.API_URL + "/api/countFriends", {
+      .post(this.props.API_URL + "countFriends", {
         userId: id
       })
       .then(<span class="fstat-no" title="function not covered" >function(r</span>esponse) {
@@ -1311,7 +1311,7 @@ class Profile extends Component&lt;
     let that = <span class="cstat-no" title="statement not covered" >this;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    axios</span>
-      .post(this.props.API_URL + "/api/loadNotificationByUserId", {
+      .post(this.props.API_URL + "loadNotificationByUserId", {
         userId: id
       })
       .then(<span class="fstat-no" title="function not covered" >function(r</span>esponse) {
@@ -1330,7 +1330,7 @@ class Profile extends Component&lt;
         );
       });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    axios.post(this.props.API_URL + "/api/clearNotificationByUserId", {</span>
+<span class="cstat-no" title="statement not covered" >    axios.post(this.props.API_URL + "clearNotificationByUserId", {</span>
       userId: id
     });
   };
