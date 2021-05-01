@@ -61,7 +61,3 @@ export PATH=${PATH}:${ANDROID_HOME}/platform-tools
 ### Reset cache
 
 react-native start --reset-cache
-
-### Author:
-
-- **Szymon Radosz**, _Warsaw, Poland_, https://tech-bulb.com/
